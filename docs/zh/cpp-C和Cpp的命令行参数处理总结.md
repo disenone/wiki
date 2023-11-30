@@ -1,0 +1,378 @@
+---
+layout: post
+title: C/C++ 的命令行参数处理总结
+categories: c++
+catalog: true
+tags: [dev]
+description: |
+    前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。
+figures: [assets/post_assets/2016-11-19-aparsing/aparsing.png]
+---
+
+![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
+![](https://img.shields.io/badge/gcc-4.9-blue.svg){:style="display: inline-block"}
+![](https://img.shields.io/badge/clang-3.7-birghtgreen.svg){:style="display: inline-block"}
+
+![](assets/img/2016-11-19-aparsing/aparsing.png)
+
+前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。本文所用代码都在这里 [aparsing](https://github.com/disenone/aparsing) 。代码支持在 Windows 、 Linux 、 Mac OS X 下编译运行，详细的编译指南在 README.md 里面。 
+
+## getenv
+
+标准库为我们提供了一个函数 `getenv` ，按照字面意思，这个函数是用来获取环境变量的，那么只要我们预先设置好需要的环境变量，在程序里面拿出来，就间接地把参数传到程序里面啦。我们来看下面这段[代码](https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c)：
+
+``` cpp linenums="1"
+#include <stdlib.h>
+#include <stdio.h>
+
+//char *getenv( const char *name );
+//GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
+
+int main (int argc, char **argv)
+{
+    char *add, *num;
+    if((add = getenv("GETENV_ADD")))
+        printf("GETENV_ADD = %s\n", add);
+    else
+        printf("GETENV_ADD not found\n");
+
+    if((num = getenv("GETENV_NUM")))
+    {
+        int numi = atoi(num);
+        printf("GETENV_NUM = %d\n", numi);
+    }
+    else
+        printf("GETENV_NUM not found\n");
+}
+```
+
+`getenv` 函数声明如第 [4](#__codelineno-0-5) 行，传入想要获取的变量名字，返回该变量的值，如果找不到变量，则返回0。[10](#__codelineno-0-10) 和 [15](#__codelineno-0-15) 行就是分别获取两个环境变量的值，如果变量有效则打印变量值。需要注意的是 `getenv` 返回的都是字符串，需要使用者手动转换数值类型的，所以使用起来不够方便。编译运行:
+
+Windows 下：
+
+``` bat
+set GETENV_ADD=abc & set GETENV_NUM=1 & .\getenv_test.exe
+```
+
+Linux 下：
+
+``` shell
+GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
+```
+
+输出：
+
+```
+GETENV_ADD = abc
+GETENV_NUM = 2
+```
+
+## getopt
+
+Linux 给我们提供了一组函数 `getopt, getopt_long, getopt_long_only` 来处理命令行传递进来的函数，这三个函数的声明分别是：
+
+```cpp linenums="1"
+extern char *optarg;
+extern int optind, opterr, optopt;
+
+int getopt(int argc, char * const argv[],
+                  const char *optstring);
+
+int getopt_long(int argc, char * const argv[],
+            const char *optstring,
+            const struct option *longopts, int *longindex);
+
+int getopt_long_only(int argc, char * const argv[],
+            const char *optstring,
+            const struct option *longopts, int *longindex);
+```
+
+`getopt` 只能处理短参数（即单字符参数），`getopt_long, getopt_long_only` 则可以处理长参数。详细的函数解释可以去翻 Linux 下的手册，下面我们通过例子来说明 `getopt` 和 `getopt_long` 的用法。
+
+需要注意的是， Windows 下是没有提供这一组函数的，所以我找了一份可以在 Windows 下编译的源码，做了小小的改动，代码都在[这里](https://github.com/disenone/aparsing/tree/master/getopt)。
+
+```cpp linenums="1"
+// test getopt
+
+#include <getopt.h>
+#include <stdio.h>
+#include <string.h>
+
+static struct option long_options[] =
+{
+    {"add", required_argument, 0, 'a'},
+    {"append", no_argument, 0, 0},
+    {"delete", required_argument, 0, 0},
+    {"verbose", optional_argument, 0, 0},
+    {"create", no_argument, 0, 0},
+    {"file", required_argument, 0, 0},
+    {"help", no_argument, 0, 0},
+    {0, 0, 0, 0}
+};
+
+static char simple_options[] = "a:bc::d:0123456789";
+
+int main (int argc, char **argv)
+{
+
+    int c;
+    int digit_optind = 0;
+
+    while (1)
+    {
+        int this_option_optind = optind ? optind : 1;
+        int longindex = -1;
+
+        c = getopt_long(argc, argv, simple_options, long_options, &longindex);
+        if (c == -1)
+        break;
+
+        switch (c)
+        {
+            // long option
+            case 0:
+                   printf("option %s", long_options[longindex].name);
+                   if (optarg)
+                       printf(" with arg %s", optarg);
+                   printf("\n");
+                   break;
+
+                break;
+
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                if(digit_optind != 0 && digit_optind != this_option_optind)
+                    printf("digits occur in two different argv-elements.\n");
+
+                digit_optind = this_option_optind;
+                printf("option %c\n", c);
+                break;
+
+            case 'a':
+                printf("option a with value '%s'\n", optarg);
+                break;
+
+            case 'b':
+                printf("option b\n");
+                break;
+
+            case 'c':
+                if(optarg)
+                    printf("option c with value '%s'\n", optarg);
+                else
+                    printf("option c\n");
+                break;
+
+            case '?':
+                break;
+
+            default:
+                printf("?? getopt returned character code 0%o ??\n", c);
+        } // switch
+    } // while
+
+    if (optind < argc)
+    {
+        printf("non-option ARGV-elements: ");
+        while (optind < argc)
+        printf("%s ", argv[optind++]);
+        printf("\n");
+    }
+
+    return 0;
+}
+
+```
+
+我们来着重分析 `getopt_long` 的用法，`getopt_long` 的前三个参数跟 `getopt` 是一样的，分别是：命令行参数个数 `argc` ，命令行参数数组 `argv`，短参数具体形式 `optstring`。`otpstring` 的格式就是一个个的短参数字符，后面加冒号 `:` 表示带参数，两个冒号 `::` 表示可选参数，譬如第 19 行，就是声明短参数的形式，`b` 参数不带额外参数， `a` 参数带额外参数，`c` 带可选参数。
+
+`getopt_long` 后两个参数是用来处理长参数的，其中 `option` 的结构是：
+
+```c
+struct option {
+    const char *name;       // 长参数名字
+    int         has_arg;    // 是否带额外参数
+    int        *flag;       // 设置如何返回函数调用结果
+    int         val;        // 返回的数值
+};
+```
+虽然说是长参数，但 `name` 还是可以设置为单字符长度的。
+
+`has_arg` 可以设置为 `no_argument, required_argument, optional_argument`，分别表示不带参数，带参数，带可选参数。
+
+`flag` 和 `val` 是配合使用的，如果 `flag = NULL`，`getopt_long` 会直接返回 `val` ，否则如果 `flag` 为有效指针，`getopt_long` 会执行类似 `*flag = val` 的操作，把 `flag` 指向的变量设置为 `val` 的数值。
+
+如果 `getopt_long` 找到匹配的短参数，会返回该短参数的字符值，如果找到匹配的长参数，会返回 `val`（ `flag = NULL` ）或者返回 `0` （ `flag != NULL; *flag = val;` ）；如果遇到非参数的字符，会返回 `?`；如果所有参数都处理完毕，则返回 `-1` 。
+
+利用返回值的特性，我们可以做出用长参跟短参含义相同的效果，譬如 `long_options` 的第一个参数 `add`，其 `val` 值设置为短参数的字符 `'a'`，那么判断返回时，`--add` 和 `-a` 会进入相同的处理分支，被当作相同的含义来处理了。
+
+拼图的最后一块就是 `optind` 和 `optarg` 的用法，`optind` 是下一个待处理参数在 `argv` 中的位置， `optarg` 则指向额外参数字符串。
+
+编译运行代码：
+
+```
+$ .\getopt_test -a 1 -b -c4 --add 2 --verbose --verbose=3 -123 -e --e
+option a with value '1'
+option b
+option c with value '4'
+option a with value '2'
+option verbose
+option verbose with arg 3
+option 1
+option 2
+option 3
+.\getopt_test: invalid option -- e
+.\getopt_test: unrecognized option `--e'
+
+```
+
+`-a` 和 `--add` 的含义相同，短参数的可选参数直接跟在后面，譬如 `-c4`，而长参数的可选参数需要有等号，譬如 `--verbose=3`。
+
+## mobuleparam
+
+ok，终于来到最初引发这篇文章的方法，Linux 内核用了一种很取巧的方法来给内核模块传递参数，这个方法就是 `moduleparam` 。我在这里先简单解释 Linux 内核的 `moduleparam` 的做法，更详细的解释可以去看代码。虽然我借鉴了一些 `moduleparam` 的处理方法，但和 Linux 内核的 `moduleparam` 有一些不同，为了区分，我会把我的方法叫做 `small moduleparam` ， Linux 内核的依然叫做 `moduleparam` 。
+
+先来看看 `moduleparam` 的用法，在模块里面声明：
+
+```c
+int enable_debug = 0;
+module_param(enable_debug, int, 0);
+```
+
+然后加载模块时输入参数：
+
+```shell
+$ insmod mod enable_debug=1
+```
+
+变量 `enable_debug` 就被正确地设置为 `1`，使用起来很方便，需要增加的代码也很少，代码可以写得很简短优雅，不用像 `getenv` 和 `getopt` 那样写很多循环判断，而且还自带类型转换，所以我看到就想，要是能把这个方法拿来处理命令行参数，那就更好了。
+
+接着来看看 `moduleparam` 的核心实现：
+
+```cpp linenums="1"
+struct kernel_param {
+	const char *name;           // 变量名字
+	u16 perm;                   // 变量访问权限
+	u16 flags;                  // 变量是否 bool 类型
+	param_set_fn set;           // str -> 变量值
+	param_get_fn get;           // 变量值 -> str
+	union {
+		void *arg;              // 变量指针
+		const struct kparam_string *str;
+		const struct kparam_array *arr;
+	};
+};
+
+#define __module_param_call(prefix, name, set, get, arg, isbool, perm)	\
+	/* Default value instead of permissions? */			\
+	static int __param_perm_check_##name __attribute__((unused)) =	\
+	BUILD_BUG_ON_ZERO((perm) < 0 || (perm) > 0777 || ((perm) & 2))	\
+	+ BUILD_BUG_ON_ZERO(sizeof(""prefix) > MAX_PARAM_PREFIX_LEN);	\
+	static const char __param_str_##name[] = prefix #name;		\
+	static struct kernel_param __moduleparam_const __param_##name	\
+	__used								\
+        __attribute__ ((unused,__section__ ("__param"),aligned(sizeof(void *)))) \
+	= { __param_str_##name, perm, isbool ? KPARAM_ISBOOL : 0,	\
+	    set, get, { arg } }
+
+#define module_param_call(name, set, get, arg, perm)			      \
+	__module_param_call(MODULE_PARAM_PREFIX,			      \
+			    name, set, get, arg,			      \
+			    __same_type(*(arg), bool), perm)
+
+#define module_param_named(name, value, type, perm)			   \
+	param_check_##type(name, &(value));				   \
+	module_param_call(name, param_set_##type, param_get_##type, &value, perm); \
+	__MODULE_PARM_TYPE(name, #type)
+
+#define module_param(name, type, perm)				\
+	module_param_named(name, name, type, perm)
+
+```
+
+`module_param` 是一个宏，它实际做的事情是建立了一个可以反射到传入变量的结构 `kernel_param` ，该结构保存了足够访问和设置变量的信息，即第 20-24 行，并且把结构放在叫做 `__param` 的 `section` 中（ `__section__ ("__param")` ）。结构保存好之后，内核会在加载模块时，找出 elf 文件的 `section __param` 的位置和结构数量，在根据名字和 `param_set_fn` 分别设置每个参数的数值。找出特定名字 `section` 的方法是平台相关的，Linux 内核实现的是对 elf 文件的处理，Linux 提供了指令 `readelf` 来查看 elf 文件的信息，有兴趣的可以查看 `readelf` 的帮助信息。
+
+上面说道 Linux 内核的做法是平台相关的，而我想要的平台无关的处理参数的方法，所以我们就要改一改原始的 `moduleparam` 的做法，把 `__section__ ("__param")` 声明去掉，毕竟我们并不像去很麻烦地读取 elf 文件的 `section` 。先来看看修改后的用法：
+
+```cpp linenums="1"
+#include "moduleparam.h"
+#include <stdio.h>
+
+static int test = 0;
+static bool btest = 0;
+static unsigned int latest_num = 0;
+static long latest[10] = {0};
+static char strtest[20] = "\0";
+
+void usage()
+{
+    char *msg = "usage: moduleparam_test [test=int] [btest[=bool]] [latest=int array] [strtest=string]\n";
+    printf(msg);
+}
+
+int unknown_handler(char *param, char *val)
+{
+    printf("find unknown param: %s\n", param);
+    return 0;
+}
+
+int main (int argc, char **argv)
+{
+    init_module_param(4);
+    module_param(test, int);
+    module_param_bool(btest);
+    module_param_array(latest, long, &latest_num);
+    module_param_string(strtest, strtest, sizeof(strtest));
+
+    int ret = parse_params(argc, argv, unknown_handler);
+
+    if(ret != 0)
+    {
+        usage();
+        return 0;
+    }
+
+    char buf[1024];
+    for(int i=0; i < MODULE_INIT_VARIABLE_NUM; ++i)
+    {
+        MODULE_INIT_VARIABLE[i].get(buf, &MODULE_INIT_VARIABLE[i]);
+        printf("%s = %s\n", MODULE_INIT_VARIABLE[i].name, buf);
+    }
+    return 0;
+}
+
+```
+
+那么为了保存每一个反射的结构，我就增加了一个宏 `init_module_param(num)` ，来声明保存结构的空间， `num` 是参数的个数，如果实际声明的参数个数超出 `num` ，程序会触发断言错误。`module_param` 的声明跟原始的稍有不同，去掉了最后一个表示访问权限的参数，不做权限的控制。另外新增了宏 `module_param_bool` 来处理表示 `bool` 的变量，这在 Linux 的版本是不需要的，因为它用到了 gcc 内建函数 `__builtin_types_compatible_p` 来判断变量的类型，很遗憾，MSVC 是没有这个函数的，所以我只能把这个功能去掉，增加一个宏。 `module_param_array` 和 `module_param_string` 就是对数组和字符串的处理，这两个功能在原始的版本也是有的。
+
+声明参数完毕，就是处理传入的参数了，使用宏 `parse_params` ，传入 `argc, argv`，第 3 个参数是对未知参数的处理回调函数指针，可以传 `NULL` ，则入到位置参数会中断处理参数，返回错误码。
+
+编译运行代码：
+
+```
+.\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
+Parsing ARGS: error=0 test=101 btest=1 latest=1,2,3 strtest="Hello World!"
+find unknown param: error
+test = 101
+btest = Y
+latest = 1,2,3
+strtest = Hello World!
+```
+
+可以看到数值，数组和字符串都能正确读入并转换格式，如果遇到不能转换格式的参数，会返回错误码并打印相关信息。我们可以很简单地添加几行代码，就完成参数的读入和转换处理，用起来很优雅。更详细实现可以直接看代码，[在这里](https://github.com/disenone/aparsing)。
+
+## 总结
+
+这次我们总结了一下 C/C++ 下三种处理命令行参数的方法，分别是 `getenv` ，`getopt` 和 `moduleparam`。三种方法有各自的特点，以后有需要可以根据实际的需求来选择合适的方法：
+
+- `getenv` 是原生多平台就支持的，可以直接使用，但也过于原始，并使用的是环境变量，对环境有一定的污染，每次使用前最好清除不必要的环境变量防止上次的设置存留污染
+- `getopt` 是 Linux 平台原生支持的，Windows 不支持，所以需要包含实现的代码才能跨平台使用。参数的传递符合 Linux 的命令传参标准，支持可选参数，但使用起来略微麻烦，通常需要循环和条件判断来处理不同的参数，并对数值类型的参数不友好。
+- `moduleparam` 是参考 Linux 内核的 `moduleparam` 实现的命令行参数处理工具，支持跨平台使用，使用简单，能对不同类型的参数进行类型转换，缺点就是每个参数都需要一个相应的变量存储。

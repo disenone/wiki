@@ -1,0 +1,170 @@
+---
+layout: post
+title: 使用 Visual Studio 2015 编译 Python 2.7.11
+categories: python
+catalog: true
+tags: [dev]
+description: |
+    Python 2.7 的官方版本支持 Visual Studio 2010 以下版本来编译，如果你想在 Windows 下自己倒腾 Python，譬如编译个 Debug 版本、自己改改源代码等，那么最简单的方法就是装一个 VS2010。但是对我个人来说， 我更想要用 VS2015 来编译 Python，原因主要有...
+figures:
+- https://img.shields.io/badge/python-2.7.11-brightgreen.svg
+- https://img.shields.io/badge/vs-2015-68217A.svg
+nowidth: 1
+---
+
+![](https://img.shields.io/badge/python-2.7.11-brightgreen.svg){:style="display: inline-block"}
+![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
+
+## 原因
+
+Python 2.7 的官方版本支持 Visual Studio 2010 以下版本来编译，参考 `PCbuild\readme.txt`：
+
+
+	1.  Install Microsoft Visual Studio 2008, any edition.
+	2.  Install Microsoft Visual Studio 2010, any edition, or Windows SDK 7.1 and any version of Microsoft Visual Studio newer than 2010.
+
+
+如果你想在 Windows 下自己倒腾 Python，譬如编译个 Debug 版本、自己改改源代码等，那么最简单的方法就是装一个 VS2010。
+但是对我个人来说， 我更想要用 VS2015 来编译 Python，原因主要有：
+
+
+- VS2010 实在有点过时，使用起来功能和体验比 VS2015 要差得多。一直用着 VS2015，要我再装个 VS2010 实在不愿意。
+- 由于一直用 VS2015，你会使用它来写一些自己的程序，如果你想要把 Python 嵌入进去，那你就需要使用相同版本的 VS 来编译你的程序，如果使用不同版本的 VS，那会出现各种无法预料的事情。[这里有更详细的解释](http://siomsystems.com/mixing-visual-studio-versions/)。
+
+所以我开始着手用 VS2015 搞定 Python 2.7.11 版本（当前的 Python 2.7 最新版本）。
+
+要注意，**Python 3.x 已经支持用 VS2015 来编译**。
+
+## 源码下载
+
+Python 的版本当然就是 2.7.11，另外还有一些第三方的模块，具体可以运行 Python 源码目录下 `PCbuild\get_externals.bat` 脚本获取所有编译需要的模块，注意你需要安装 svn ，把 svn.exe 添加到系统 PATH 里面。
+
+下载可能很不稳定，并且整个过程都有可能因为网络问题而终止，所以还是推荐直接在我的github上下载externals目录：[我的 Python 版本](https://github.com/disenone/wpython-2.7.11/tree/e13f43a3b72ae2bdf4d2950c6364750ae668cbf4/externals)
+
+## 编译过程
+
+### 第三方模块
+
+首先要解决的是第三方的模块，主要是 tcl, tk, tcltk。
+
+修改文件 `externals/tcl-8.5.15.0/win/makefile.vc`，把 434 行改成
+
+	- cdebug = -Zi -WX $(DEBUGFLAGS)
+	+ cdebug = -Zi -WX- $(DEBUGFLAGS)
+
+关于选项 `WX`，可以看微软的官方文档：[/WX (Treat Linker Warnings as Errors)](https://msdn.microsoft.com/en-us/library/ms235592.aspx)
+
+再来改`PCbuild/tk.vcxproj`，用文本编辑器打开，修改 63, 64 行
+
+	- <TkOpts>msvcrt</TkOpts>
+	- <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt</TkOpts>
+	+ <TkOpts>msvcrt,noxp</TkOpts>
+	+ <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt,noxp</TkOpts>
+
+改`PCbuild/tcltk.props`，用文本编辑器打开，修改41行
+
+	- <BuildDirTop>$(BuildDirTop)_VC9</BuildDirTop>
+	+ <BuildDirTop>$(BuildDirTop)_VC13</BuildDirTop>
+
+由于 VS2015 取消了 `timezone` 的定义，改为 `_timezone`，所以代码里面用到 `timezone` 的地方都要改成 `_timezone`，第三方模块只需要改文件`externals/tcl-8.5.15.0/win/tclWinTime.c`，在文件的前面加上：
+
+	#if defined _MSC_VER && _MSC_VER >= 1900
+	#define timezone _timezone
+	#endif
+
+### 改 Python 源码
+
+`timezone`的问题在 Python 的模块 `time` 里面也有，修改 767 行
+
+	- #ifdef __CYGWIN__
+	+ #if defined(__CYGWIN__) || defined(_MSC_VER) && _MSC_VER >= 1900
+
+另外由于在 Windows 下 Python 用了一种特殊的方法来检查文件句柄的有效性，而这种方法在 VS2015 中被彻底禁止了，会出现编译错误，所以先改掉。文件 `Include/fileobject.h`，73、80 行：
+
+	73 - #if defined _MSC_VER && _MSC_VER >= 1400
+	73 + #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
+
+	80 - #elif defined _MSC_VER && _MSC_VER >= 1200
+	80 + #elif defined _MSC_VER && _MSC_VER >= 1200 && _MSC_VER < 1400
+
+文件`Modules/posixmodule.c`，532 行：
+
+	- #if defined _MSC_VER && _MSC_VER >= 1400
+	+ #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
+
+至此，Python 就可以编译通过。更具体的修改可以看我 commit 的内容：[modify to build by vs2015](https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf)
+
+
+### 检查无效句柄
+
+虽然编译通过了，但由于是粗暴地忽略无效文件句柄，直接导致的后果是一旦访问无效的句柄（譬如对同一个文件`close`两次），Python 就会直接 assert failed，程序 crash，这样的 Python 根本没法用啊。Python 就是用了一种很特殊的方法来避免这种情况，可惜在 VS2015 里面不能用了，注释是这样解释的：
+
+	Microsoft CRT in VS2005 and higher will verify that a filehandle is valid and raise an assertion if it isn't.
+
+
+幸好已经有了解决方法，我是在 Python 的 issue 里面看到的，地址在这里：[issue23524](http://psf.upfronthosting.co.za/roundup/tracker/issue23524), [issue25759](http://psf.upfronthosting.co.za/roundup/tracker/issue25759)。这种方法也是用在现在 Python 3.x 里面。
+
+
+具体地说就是在使用文件句柄的时候禁止掉 Windows 的 assert crash 机制，改为检查错误码。那要怎么禁止 Windows 的 assert 机制呢？答案就是用自己的错误处理函数替代 Windows 默认的处理函数，关键的代码：
+
+
+新建文件`PC/invalid_parameter_handler.c`，定义我们自己的错误处理函数，可以暂时忽略发生的错误
+
+```c++
+#ifdef _MSC_VER
+
+#include <stdlib.h>
+
+#if _MSC_VER >= 1900
+/* pyconfig.h uses this function in the _Py_BEGIN_SUPPRESS_IPH/_Py_END_SUPPRESS_IPH
+ * macros. It does not need to be defined when building using MSVC
+ * earlier than 14.0 (_MSC_VER == 1900).
+ */
+
+static void __cdecl _silent_invalid_parameter_handler(
+    wchar_t const* expression,
+    wchar_t const* function,
+    wchar_t const* file,
+    unsigned int line,
+	uintptr_t pReserved) 
+{}
+
+_invalid_parameter_handler _Py_silent_invalid_parameter_handler = _silent_invalid_parameter_handler;
+
+#endif
+
+#endif
+```
+
+定义两个宏方便更换错误处理函数，要注意是暂时的更换，之后是需要换回系统默认的
+
+```c++
+#if defined _MSC_VER && _MSC_VER >= 1900
+
+extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
+#define _Py_BEGIN_SUPPRESS_IPH { _invalid_parameter_handler _Py_old_handler = \
+    _set_thread_local_invalid_parameter_handler(_Py_silent_invalid_parameter_handler);
+#define _Py_END_SUPPRESS_IPH _set_thread_local_invalid_parameter_handler(_Py_old_handler); }
+
+#else
+
+#define _Py_BEGIN_SUPPRESS_IPH
+#define _Py_END_SUPPRESS_IPH
+
+#endif /* _MSC_VER >= 1900 */
+```
+
+之后在有可能触发 Windows 文件句柄错误的地方，前后分别加上宏`_Py_BEGIN_SUPPRESS_IPH` 和 `_Py_END_SUPPRESS_IPH`，之后再检查错误码就可以了，需要修改到的地方不少，参考别人的 commit 来修改：
+[在这里](https://github.com/kovidgoyal/cpython/commit/a9ec814d466d3c0139d10b69666f88eed10e4940)
+
+## 结束
+
+至此 Python 2.7.11 就可以在 VS2015 里面正常编译和运行了，不过由于 Python 官方是不推荐这样设置
+
+	***WARNING***
+	Building Python 2.7 for Windows using any toolchain that doesn't link
+	against MSVCRT90.dll is *unsupported* as the resulting python.exe will
+	not be able to use precompiled extension modules that do link against
+	MSVCRT90.dll.
+
+所以使用的时候最好要注意一下。

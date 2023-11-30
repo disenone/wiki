@@ -1,0 +1,12 @@
+
+p {
+    font-size: 16px;
+}
+
+details {
+    font-size: 16px;
+}
+
+details > div {
+    font-size: 16px;
+}

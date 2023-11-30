@@ -1,0 +1,111 @@
+site_name: Disenone's Wiki
+site_url: https://disenone.github.io/wiki
+site_author: Disenone
+site_description: 无止境
+repo_url: https://disenone.github.io/wiki
+
+theme:
+  name: material
+  language: zh
+  font: #false # 国内网络访问 Google 源可能会有问题
+    text: "Noto Sans SC - local"
+    size: 14
+    #code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme: light)" # 检查用户系统配置是否为亮色
+      scheme: default # 亮色模式
+      primary: 4051b5 # 基本颜色
+      accent: blue # 按钮等互动块的颜色
+      toggle:
+        icon: material/eye
+        name: 切换暗色模式
+    - media: "(prefers-color-scheme: dark)" # 检查用户系统配置是否为暗色
+      scheme: slate # 暗色模式
+      primary: black # 基本颜色
+      accent: blue # 按钮等互动块的颜色
+      toggle:
+        icon: material/eye-outline
+        name: 切换亮色模式
+  features:
+    - content.code.copy # 代码块复制按钮
+    - content.action.edit # 文章编辑按钮
+    #- navigation.instant # Instant loading，像个单页应用
+    - navigation.tracking # Anchor tracking
+    - navigation.tabs # 导航栏
+    - navigation.footer # 上一篇 / 下一篇导航按钮
+    #- navigation.tabs.sticky # 导航栏不随页面滚动隐藏
+    - navigation.sections # 侧边栏分组显示
+    #- navigation.expand # 导航栏自动展开
+    - navigation.indexes # 组标题有专属页面
+    - toc.follow # 目录自动跟随
+    - navigation.top # 返回顶部按钮
+    - search.suggest # 搜索推荐
+    #- navigation.prune # 导航修剪，仅渲染可见链接，优化文档数量超过100的站点（实验），会导致页面间跳转速度变慢
+    #- search.highlight
+  icon:
+    repo: material/github
+    #edit: material/pencil
+
+
+plugins:
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      languages:
+        - locale: zh
+          default: true
+          name: 简体中文
+          build: true
+        - locale: en
+          name: English
+          build: true
+  - search
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - mdx_truly_sane_lists
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_css:
+  - assets/css/style.css
+
+#############################################################
+#############################################################
+#############################################################
+
+nav:
+  - Home: index.md
+  - 编程:
+    - C/C++:
+      - cpp-C和Cpp的命令行参数处理总结.md
+      - cpp-C和Cpp宏编程解析.md
+      - cpp-编写Windows下的MemoryLeakDetector.md
+      - cpp-KCP源码剖析.md
+    - Python:
+      - py-使用VisualStudio2015编译Python2.7.11.md
+      - py-Python杂谈1-探究__builtins__.md
+  - 游戏开发:
+    - 基础:
+      - game-游戏AOI算法解析和性能实测.md
+    - Unity:
+      - unity-Unity第三人称相机构建(上).md
+      - unity-Unity第三人称相机构建(下).md
+      - unity-Unity人物控制.md
+      - unity-Unity画深度图和边缘检测.md
+      - unity-Unity实现体积光照散射.md
