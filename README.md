@@ -1,2 +1,2 @@
-# disenone.github.io_MkDocs
+# wiki
 my blog built with MkDocs
