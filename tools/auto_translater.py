@@ -31,6 +31,7 @@ dir_translate_to = {"en": "docs/en", }
 # 不进行翻译的文件列表
 exclude_list = ["index.md", "Contact-and-Subscribe.md", "WeChat.md"]  # 不进行翻译的文件列表
 processed_dict_file = "tools/processed_dict.txt"  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
+only_list = []  # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
 
 # 由 ChatGPT 翻译的提示
 tips_translated_by_chatgpt = {
@@ -77,22 +78,6 @@ replace_rules = [
             "ar": "> يتم حماية هذا المقال بموجب اتفاقية [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh)، يُرجى ذكر المصدر عند إعادة النشر.",
         }
     },
-    #{
-    #    # 文章中的站内链接，跳转为当前相同语言的网页
-    #    "orginal_text": "](https://wiki-power.com/",
-    #    "replaced_text": {
-    #        "en": "](https://wiki-power.com/en/",
-    #        "es": "](https://wiki-power.com/es/",
-    #        "ar": "](https://wiki-power.com/ar/",
-    #    }
-    #}
-    # {
-    #    # 不同语言可使用不同图床
-    #    "orginal_text": "![](https://wiki-media-1253965369.cos.ap-guangzhou.myqcloud.com/",
-    #    "replaced_en": "![](https://f004.backblazeb2.com/file/wiki-media/",
-    #    "replaced_es": "![](https://f004.backblazeb2.com/file/wiki-media/",
-    #    "replaced_ar": "![](https://f004.backblazeb2.com/file/wiki-media/",
-    # },
 ]
 
 # Front Matter 固定字段替换规则。
@@ -167,7 +152,7 @@ def front_matter_replace(value, lang):
     return value
 
 # 定义调用 ChatGPT API 翻译的函数
-def translate_text(text, lang, type):
+def translate_text(text, lang, type):    
     log('translate_text0:', text, level=logging.DEBUG)
     target_lang = {
         "en": "English",
@@ -181,7 +166,7 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else."},
                 {"role": "user", "content": f"Translate these text into {target_lang} language, do not explain them:\n\n{text}\n"},
             ],
         )  
@@ -190,7 +175,7 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field.You must only translate the text content, never interpret it."},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field.You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else."},
                 {"role": "user", "content": f"Translate these text into {target_lang} language, do not explain them:\n\n{text}\n"},
             ],
         )
@@ -246,6 +231,9 @@ def translate_file(working_folder, input_file, lang):
     if lang not in dir_translate_to:
         return
     filename = os.path.basename(input_file)
+    if only_list and filename not in only_list:
+        return
+    
     log(f"Translating into {lang}: {filename}")
     sys.stdout.flush()
 
@@ -303,12 +291,34 @@ def translate_file(working_folder, input_file, lang):
 
     # 拆分文章
     paragraphs = input_text.split("\n\n")
+
+    # 基于 ``` 再拆分一下，chatgpt 处理 ``` 会出错
+    new_paragraphs = []
+    for paragraph in paragraphs:
+        new_paragraph = []
+        lines = paragraph.split('\n')
+        for line in lines:
+            if not line.startswith('```'):
+                new_paragraph.append(line)
+            else:
+                new_paragraphs.append('\n'.join(new_paragraph))
+                new_paragraphs.append(line)
+                new_paragraph = []
+        if new_paragraph:
+            new_paragraphs.append('\n'.join(new_paragraph))
+        
+    paragraphs = new_paragraphs
+
     input_text = ""
     output_paragraphs = []
     current_paragraph = ""
 
     for paragraph in paragraphs:
-        if len(current_paragraph) + len(paragraph) + 2 <= max_length:
+        if paragraph.startswith('```'):
+            output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
+            output_paragraphs.append(paragraph)
+            current_paragraph = ''
+        elif len(current_paragraph) + len(paragraph) + 2 <= max_length:
             # 如果当前段落加上新段落的长度不超过最大长度，就将它们合并
             if current_paragraph:
                 current_paragraph += "\n\n"
@@ -380,6 +390,10 @@ def NeedProcess(precessed_dict, input_file, lang):
         return False
 
     filename = os.path.basename(input_file)
+
+    if only_list:
+        return filename in only_list
+    
     # 读取 Markdown 文件的内容
     with open(input_file, "r", encoding="utf-8") as f:
         md_content = f.read()
