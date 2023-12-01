@@ -2,7 +2,9 @@ site_name: Disenone's Wiki
 site_url: https://disenone.github.io/wiki
 site_author: Disenone
 site_description: 无止境
-repo_url: https://disenone.github.io/wiki
+repo_url: https://github.com/disenone/wiki
+repo_name: GitHub
+copyright: Copyright &copy; 2014 - 2023 by <a href="https://github.com/disenone"> Disenone </a>
 
 theme:
   name: material
@@ -60,6 +62,17 @@ plugins:
           name: English
           build: true
   - search
+  - blog:
+      post_readtime: true
+      post_date_format: full
+      post_date: true
+  - git-revision-date-localized:
+      type: custom
+      timezone: Asia/Shanghai
+      enable_creation_date: true
+      exclude:
+        - index.md
+      custom_format: "%Y-%m-%d"
 
 markdown_extensions:
   - pymdownx.arithmatex:
@@ -103,6 +116,9 @@ nav:
   - 游戏开发:
     - 基础:
       - game-游戏AOI算法解析和性能实测.md
+      - test.md
+    - UE:
+      - ue-使用FASTBuild编译UE4和UE5.md
     - Unity:
       - unity-Unity第三人称相机构建(上).md
       - unity-Unity第三人称相机构建(下).md

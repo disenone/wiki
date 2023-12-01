@@ -7,8 +7,8 @@ tags: [dev, game]
 description: |
     本文讨论九宫格和十字链两种算法，并给出两种算法的实测性能分析，让你用起来心中有数，遇事不慌。
 figures: []
+date: 2021-11-18
 ---
-{% include asset_path %}
 
 ### 引子
 
@@ -408,11 +408,11 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 
 最后给出两者的对比柱状图：
 
-{% include img name='add_player.png'%}
+![](assets/img/2021-11-18-aoi-tesing/add_player.png)
 
-{% include img name='tick.png'%}
+![](assets/img/2021-11-18-aoi-tesing/tick.png)
 
-{% include img name='update_pos.png'%}
+![](assets/img/2021-11-18-aoi-tesing/update_pos.png)
 
 
 ### 总结
