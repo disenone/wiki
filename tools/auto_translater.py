@@ -7,6 +7,7 @@ import yaml  # pip install PyYAML
 import json
 import git
 import logging
+import functools
 try:
     import env
 except:
@@ -29,15 +30,19 @@ dir_to_translate = "docs/zh"
 dir_translate_to = {"en": "docs/en", }
 
 # 不进行翻译的文件列表
-exclude_list = ["index.md", "Contact-and-Subscribe.md", "WeChat.md"]  # 不进行翻译的文件列表
+exclude_list = ["index.md", "contact-and-subscribe.md", "WeChat.md"]  # 不进行翻译的文件列表
 processed_dict_file = "tools/processed_dict.txt"  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
-only_list = []  # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
+only_list = [         # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
+    # 'test2.md',
+    # 'cpp-C和Cpp宏编程解析.md',
+]
+skip_line_startswith = ['```', '<detail>', '</detail>']  # 跳过以这些字符开始的行，简单复制粘贴到结果中
 
 # 由 ChatGPT 翻译的提示
 tips_translated_by_chatgpt = {
-    "en": "\n\n> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.",
-    "es": "\n\n> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki/issues/new) si hay alguna omisión.",
-    "ar": "\n\n> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى [**تزويدنا بتعليقاتكم**](https://github.com/disenone/wiki/issues/new) إذا كانت هناك أي حذف أو إهمال."
+    "en": "\n\n> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.\n",
+    "es": "\n\n> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki/issues/new) si hay alguna omisión.\n",
+    "ar": "\n\n> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى [**تزويدنا بتعليقاتكم**](https://github.com/disenone/wiki/issues/new) إذا كانت هناك أي حذف أو إهمال.\n"
 }
 
 # 文章使用英文撰写的提示，避免本身为英文的文章被重复翻译为英文
@@ -151,9 +156,42 @@ def front_matter_replace(value, lang):
         # log(f"element[{index}] = {element}")
     return value
 
+
+def retry_except(times=3):
+    def _retry(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(times - 1):
+                try:
+                    return func(*args, **kwargs)
+                except:
+                    continue
+            return func(*args, **kwargs)
+        return wrapper
+    return _retry
+        
+
+def is_skip_line(line):
+    if line.isspace():
+        return False
+    if line.isascii():
+        return True
+    for skip in skip_line_startswith:
+        if line.startswith(skip):
+            return True
+    return False
+
+
 # 定义调用 ChatGPT API 翻译的函数
+@retry_except(3)
 def translate_text(text, lang, type):    
-    log('translate_text0:', text, level=logging.DEBUG)
+    if is_skip_line(text):
+        return text
+    
+    if text.isspace():
+        return text
+    
+    log('translate_text0:', repr(text), level=logging.DEBUG)
     target_lang = {
         "en": "English",
         "es": "Spanish",
@@ -175,15 +213,23 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field.You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else."},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field.You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add anyother control character."},
                 {"role": "user", "content": f"Translate these text into {target_lang} language, do not explain them:\n\n{text}\n"},
             ],
         )
 
-    # 获取翻译结果
     log('translate_text1:', completion, level=logging.DEBUG)
-    sys.stdout.flush()
+
+    # 获取翻译结果
     output_text = completion.choices[0].message.content
+    # new_output_text = []
+    # for line in output_text.split('\n'):
+    #     if not is_skip_line(line):
+    #         new_output_text.append(line)
+    # output_text = '\n'.join(new_output_text)
+    log('translate_text2:', repr(output_text), level=logging.DEBUG)
+
+    sys.stdout.flush()
     return output_text
 
 # Front Matter 处理规则
@@ -199,32 +245,6 @@ def translate_front_matter(front_matter, lang):
         # log(key, ":", processed_value)
     return translated_front_matter
 
-# 定义文章拆分函数
-def split_text(text, max_length):
-    # 根据段落拆分文章
-    paragraphs = text.split("\n\n")
-    output_paragraphs = []
-    current_paragraph = ""
-
-    for paragraph in paragraphs:
-        if len(current_paragraph) + len(paragraph) + 2 <= max_length:
-            # 如果当前段落加上新段落的长度不超过最大长度，就将它们合并
-            if current_paragraph:
-                current_paragraph += "\n\n"
-            current_paragraph += paragraph
-        else:
-            # 否则将当前段落添加到输出列表中，并重新开始一个新段落
-            output_paragraphs.append(current_paragraph)
-            current_paragraph = paragraph
-
-    # 将最后一个段落添加到输出列表中
-    if current_paragraph:
-        output_paragraphs.append(current_paragraph)
-
-    # 将输出段落合并为字符串
-    output_text = "\n\n".join(output_paragraphs)
-
-    return output_text
 
 # 定义翻译文件的函数
 def translate_file(working_folder, input_file, lang):
@@ -290,49 +310,41 @@ def translate_file(working_folder, input_file, lang):
     # log(input_text) # debug 用，看看输入的是什么
 
     # 拆分文章
-    paragraphs = input_text.split("\n\n")
+    paragraphs = input_text.split("\n")
 
-    # 基于 ``` 再拆分一下，chatgpt 处理 ``` 会出错
-    new_paragraphs = []
-    for paragraph in paragraphs:
-        new_paragraph = []
-        lines = paragraph.split('\n')
-        for line in lines:
-            if not line.startswith('```'):
-                new_paragraph.append(line)
-            else:
-                new_paragraphs.append('\n'.join(new_paragraph))
-                new_paragraphs.append(line)
-                new_paragraph = []
-        if new_paragraph:
-            new_paragraphs.append('\n'.join(new_paragraph))
-        
-    paragraphs = new_paragraphs
-
+    print(11111, paragraphs)
     input_text = ""
     output_paragraphs = []
     current_paragraph = ""
 
-    for paragraph in paragraphs:
-        if paragraph.startswith('```'):
-            output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
+    translate_idx = 0
+    next_percent = 10
+    for idx, paragraph in enumerate(paragraphs):
+        if is_skip_line(paragraph):
+            translate_idx = idx
+            current_paragraph and output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
             output_paragraphs.append(paragraph)
             current_paragraph = ''
         elif len(current_paragraph) + len(paragraph) + 2 <= max_length:
             # 如果当前段落加上新段落的长度不超过最大长度，就将它们合并
             if current_paragraph:
-                current_paragraph += "\n\n"
+                current_paragraph += "\n"
             current_paragraph += paragraph
         else:
             # 否则翻译当前段落，并将翻译结果添加到输出列表中
+            translate_idx = idx
             output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
             current_paragraph = paragraph
+        percent = float(translate_idx) / len(paragraphs) * 100
+        if percent >= next_percent:
+            log('progress: %.1f%%' % percent)
+            next_percent = int(percent) - int(percent) % 10 + 10
 
     # 处理最后一个段落
     if current_paragraph:
-        if len(current_paragraph) + len(input_text) <= max_length:
+        if input_text and len(current_paragraph) + len(input_text) <= max_length:
             # 如果当前段落加上之前的文本长度不超过最大长度，就将它们合并
-            input_text += "\n\n" + current_paragraph
+            input_text += "\n" + current_paragraph
         else:
             # 否则翻译当前段落，并将翻译结果添加到输出列表中
             output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
@@ -341,8 +353,10 @@ def translate_file(working_folder, input_file, lang):
     if input_text:
         output_paragraphs.append(translate_text(input_text, lang,"main-body"))
 
+    log('progress: 100%%')
+    print(33333, output_paragraphs)
     # 将输出段落合并为字符串
-    output_text = "\n\n".join(output_paragraphs)
+    output_text = "\n".join(output_paragraphs)
 
     if front_matter_match:
         # 加入 Front Matter
@@ -466,7 +480,6 @@ def run(working_folder):
                 processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
-        break
 
     with open(processed_dict_file, 'w', encoding='utf-8') as f:
         f.write(json.dumps(processed_dict, indent=2))

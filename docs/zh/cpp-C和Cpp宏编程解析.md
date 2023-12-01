@@ -264,6 +264,7 @@ MacroInfo 0x562a148f5930 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ```
+
 </details>
 
 第 [12](#__codelineno-11-12) 行开始展开 `IDENTITY`，发现参数 `Token 0` 是 `CONCAT(...)`，也是一个宏，于是先对该参数进行求值。
@@ -380,6 +381,7 @@ MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ```
+
 </details>
 
 * 第 [16](#__codelineno-13-16) 行开始展开 `IDENTITY`，同理预处理器看到 `Token 2` （也即是 `arg0`）是宏，于是先展开 `CONCAT(C, ONCAT(a, b))`。
