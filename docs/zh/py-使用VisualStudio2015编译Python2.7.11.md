@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 使用 Visual Studio 2015 编译 Python 2.7.11
-categories: python
+categories: [python]
 catalog: true
 tags: [dev]
 description: |

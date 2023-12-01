@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 游戏 AOI 算法解析和性能实测
-categories: c++
+categories: [c++]
 catalog: true
 tags: [dev, game]
 description: |

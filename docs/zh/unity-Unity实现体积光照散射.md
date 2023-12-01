@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)
-categories: unity
+categories: [unity]
 catalog: true
 tags: [dev]
 description: |

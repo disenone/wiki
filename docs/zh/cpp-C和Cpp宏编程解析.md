@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C/C++ 宏编程解析
-categories: c++
+categories: [c++]
 catalog: true
 tags: [dev]
 description: |

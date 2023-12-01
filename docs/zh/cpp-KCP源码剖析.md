@@ -1,7 +1,7 @@
 ---
 layout: post
 title: KCP 源码剖析
-categories: c++
+categories: [c++]
 catalog: true
 tags: [dev]
 description: |

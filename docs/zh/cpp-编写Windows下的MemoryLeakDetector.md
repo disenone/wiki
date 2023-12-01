@@ -1,8 +1,7 @@
 ---
 layout: post
 title: 编写 Windows 下的 Memory Leak Detector
-categories: c++
-catalog: true
+categories: [c++]
 tags: [dev]
 description: |
     这一阵子读完了《程序员的自我修养：链接、装载与库》（后面简称《链接》），收获良多，寻思着能不能做些相关的小代码出来。刚好知道 Windows 下有个内存泄露检测工具 [Visual Leak Detector](https://vld.codeplex.com/)，这个工具是通过替换 Windows 下负责内存管理的 dll 接口来实现跟踪内存分配释放。所以决定参考 Visual Leak Detector （后面简称 VLD）来做个简易的内存泄露检测工具，理解 dll 链接。

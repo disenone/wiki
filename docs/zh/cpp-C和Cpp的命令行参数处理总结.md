@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C/C++ 的命令行参数处理总结
-categories: c++
+categories: [c++]
 catalog: true
 tags: [dev]
 description: |

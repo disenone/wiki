@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Unity人物控制
-categories: unity
+categories: [unity]
 catalog: true
 tags: [dev]
 description: |

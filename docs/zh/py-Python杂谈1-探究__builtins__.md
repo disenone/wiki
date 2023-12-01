@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Python 杂谈 1 - 探究 __builtins__
-categories: c++
+categories: [c++, python]
 catalog: true
 tags: [dev, game]
 description: |

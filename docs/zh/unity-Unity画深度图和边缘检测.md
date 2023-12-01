@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Unity画深度图(Depth Map)和边缘检测(Edge Detection)
-categories: unity
+categories: [unity]
 catalog: true
 tags: [dev]
 description: |
