@@ -6,56 +6,64 @@ categories:
 catalog: true
 tags:
 - dev
-description: The purpose of this article is to clarify the rules and implementation
-  methods of C/C++ macro programming, so that you no longer fear encountering macros
-  in code.
+description: The purpose of this text is to explain the rules and implementation methods
+  of C/C++ macro programming, so that you will no longer be afraid of seeing macros
+  inside the code.
 figures: []
 ---
 
-The purpose of this article is to clarify the rules and implementation methods of macro programming in C/C++, so that you no longer fear macros in code. First, I will discuss the rules for macro expansion mentioned in C++ Standard 14, then observe macro expansion by modifying the Clang source code, and finally discuss the implementation of macro programming based on this knowledge.
 
-All the code in this article is available here: [Download](assets/img/2021-3-31-cpp-preprocess/macros.cpp), [Live Demo](https://godbolt.org/z/coWvc5Pse).
+The purpose of this article is to explain the rules and implementation methods of macro programming in C/C++, so that you no longer feel afraid when you see macros in the code. First, I will talk about the rules of macro expansion mentioned in C++ Standard 14, and then observe macro expansion by modifying the source code of Clang. Finally, I will discuss the implementation of macro programming based on this knowledge.
+
+The code for this article is all here: [Download](assets/img/2021-3-31-cpp-preprocess/macros.cpp), [Online demo](https://godbolt.org/z/coWvc5Pse).
 
 ## Introduction
 
-We can use the command `gcc -P -E a.cpp -o a.cpp.i` to let the compiler preprocess the file `a.cpp` and save the result to `a.cpp.i`.
+We can use the command `gcc -P -E a.cpp -o a.cpp.i` to instruct the compiler to only perform preprocessing on the file `a.cpp` and save the result to `a.cpp.i`.
 
-First, let's look at some examples:
+First, let's take a look at some examples:
+
+```
 
 #### Recursive Reentrancy
 
-```cpp
+``` cpp
 #define ITER(arg0, arg1) ITER(arg1, arg0) 
 
 ITER(1, 2)          // -> ITER(2, 1)
 ```
 
-The macro `ITER` swaps the positions of `arg0` and `arg1`. After macro expansion, we get `ITER(2, 1)`.
+Macro `ITER` swaps the positions of `arg0` and `arg1`. After macro expansion, it becomes `ITER(2, 1)`.
 
-As you can see, the positions of `arg0` and `arg1` are successfully swapped. In this case, the macro is expanded once, but not recursively reentrant. In other words, during macro expansion, it is not allowed to recursively reenter itself. If the same macro has been expanded in previous recursion, it will not be expanded again. This is an important rule of macro expansion. The reason for prohibiting recursive reentrancy is simple: to avoid infinite recursion.
+You can see that the positions of `arg0` and `arg1` have been successfully swapped. Here the macro has been expanded once, but only once, without further recursive re-entry.In other words, during the expansion process of the macro, it is not allowed to recursively re-enter itself. If the same macro is found to have been expanded in a previous recursion, it will not be expanded again. This is one of the important rules of macro expansion. The reason for prohibiting recursive re-entry is also simple, which is to avoid infinite recursion.
 
 #### String Concatenation
 
-```cpp
+``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
 
 CONCAT(Hello, World)                // -> HelloWorld
-CONCAT(Hello, CONCAT(World, !))     // -> HelloCONCAT(World, !)
+`CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)`
+
+--------------
+**Translation:**
+
+`CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)`
 ```
 
-The macro `CONCAT` is intended to concatenate `arg0` and `arg1`. After macro expansion, `CONCAT(Hello, World)` obtains the correct result `HelloWorld`. However, `CONCAT(Hello, CONCAT(World, !))` only expands the outer macro. The inner `CONCAT(World, !)` is not expanded and is directly concatenated with `Hello`. This is different from what we expected. The important rule of macro expansion is that macro parameters following the `##` operator are not expanded, but are directly concatenated with the preceding content.
+The macro `CONCAT` is used to concatenate `arg0` and `arg1`. After the macro is expanded, `CONCAT(Hello, World)` will give the correct result `HelloWorld`. However, `CONCAT(Hello, CONCAT(World, !))` only expands the outer macro, and the inner `CONCAT(World, !)` is not expanded, but is directly concatenated with `Hello`. This is different from what we expected. What we really want is `HelloWorld!`. This is another important rule of macro expansion: macro parameters after the `##` operator will not be expanded, but will be directly concatenated with the preceding content.
 
-From the above two examples, we can see that there are some rules of macro expansion that are counterintuitive. If we are not clear about the specific rules, we may write macros that do not achieve the desired effect.
+Through the two examples above, it can be seen that there are some counter-intuitive rules for macro expansion. If we are not clear about the specific rules, it is possible to write macros that do not achieve the desired effect.
 
-## Rules of Macro Expansion
+## Macro Expansion Rules
 
-From the two examples in the introduction, we understand that macro expansion follows a set of standard rules, which are defined in the C/C++ standard with a small amount of content. It is recommended to read them carefully. Here, I will provide a link to section 16.3 of the n4296 version of the standard, which covers macro expansion: [Link](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf). Below, I will highlight a few important rules from the n4296 version, which determine how to correctly write macros (it is still recommended to take some time to carefully read the macro expansion section in the standard).
+Through the two examples in the introduction, we have learned that macro expansion follows a set of standard rules. These rules are defined in the C/C++ standard and are not extensive. I suggest reading them carefully a few times. Here, I also provide a link to the n4296 version of the standard, which covers macro expansion in section 16.3: [link](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf). Next, I will highlight several important rules from the n4296 version, as these rules will determine how macros should be properly written. However, I still recommend taking the time to thoroughly read the macro expansion section in the standard.
 
 #### Parameter Separation
 
-Macro parameters should be separated by commas, and the number of parameters must match the number defined in the macro. Extra content enclosed in parentheses within the passed parameters is considered as one parameter, and parameters are allowed to be empty:
+The requirements for macro parameters are to be separated by commas and the number of parameters needs to be consistent with the number defined in the macro. Additional content enclosed in parentheses when passing parameters to the macro is considered a single parameter, and parameters are allowed to be empty.
 
-```cpp
+``` cpp
 #define ADD_COMMA(arg1, arg2) arg1, arg2
 
 ADD_COMMA(a, b)             // -> a, b
@@ -64,23 +72,21 @@ ADD_COMMA((a, b), c)        // -> (a, b), c
 ADD_COMMA(, b)              // -> , b
 ```
 
-Translate these text into English language, do not explain them:
+In the expression `ADD_COMMA((a, b), c)`, `(a, b)` is considered as the first argument. In `ADD_COMMA(, b)`, since the first argument is empty, it expands to `, b`.
 
-In the expression `ADD_COMMA((a, b), c)`, `(a, b)` is considered the first argument. In `ADD_COMMA(, b)`, the first argument is empty, so it expands to `, b`.
+#### Macro Parameter Expansion
 
-#### Macro Argument Expansion
-
-When expanding a macro, if the macro's argument is also a macro that can be expanded, the argument will be completely expanded before expanding the macro. For example:
+When expanding macros, if the macro's arguments are also expandable macros, the arguments will be fully expanded first, and then the macro will be expanded. For example,
 
 ``` cpp
 ADD_COMMA(ADD_COMMA(1, 2), ADD_COMMA(3, 4))     // -> 1, 2, 3, 4
 ```
 
-In general, macro expansion can be understood as evaluating the arguments first and then evaluating the macro, unless the `#` and `##` operators are encountered.
+In general, the macro expansion can be understood as evaluating the parameters first, and then evaluating the macro, unless encountering `#` and `##` operators.
 
 #### `#` Operator
 
-The macro parameter following the `#` operator is not expanded and will be directly converted into a string. For example:
+`#` The macro parameter following the operator will not be expanded and will be directly converted into a string, for example:
 
 ``` cpp
 #define STRINGIZE(arg0) # arg0
@@ -89,11 +95,11 @@ STRINGIZE(a)                // -> "a"
 STRINGIZE(STRINGIZE(a))     // -> "STRINGIZE(a)"
 ```
 
-According to this rule, `STRINGIZE(STRINGIZE(a))` will expand to `"STRINGIZE(a)"`.
+According to this rule, `STRINGIZE(STRINGIZE(a))` can only be expanded as `"STRINGIZE(a)"`.
 
 #### `##` Operator
 
-The macro parameters before and after the `##` operator are not expanded and will be directly concatenated. For example:
+## Macro parameters before and after the operator `[to_be_replace[x]]` will not be expanded and will be directly concatenated, for example:
 
 ``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
@@ -103,13 +109,13 @@ CONCAT(Hello, CONCAT(World, !))             // -> HelloCONCAT(World, !)
 CONCAT(CONCAT(Hello, World) C, ONCAT(!))    // -> CONCAT(Hello, World) CONCAT(!)
 ```
 
-`CONCAT(CONCAT(Hello, World) C, ONCAT(!))` will only concatenate together and become `CONCAT(Hello, World) CONCAT(!)`.
+`CONCAT(CONCAT(Hello, World) C, ONCAT(!))` can only be concatenated together first, to obtain `CONCAT(Hello, World) CONCAT(!)`.
 
-#### Recursive Scanning
+#### Repeated Scanning
 
-After the preprocessor completes one round of macro expansion, it will rescan the resulting content and continue expanding until there is no more content to expand.
+After the preprocessor completes one round of macro expansion, it will rescan the resulting content and continue expanding it until there is no more content left to expand.
 
-A round of macro expansion can be understood as fully expanding the arguments (unless encountering `#` and `##`), then replacing the macro and fully expanded arguments according to the definition, and finally processing all the `#` and `##` operators in the definition.
+A macro expansion can be understood as fully expanding the parameters (except when encountering `#` and `##`), and then replacing the macro and fully expanded parameters according to the macro definition, and finally processing all `#` and `##` operators in the definition.
 
 ``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
@@ -118,42 +124,46 @@ A round of macro expansion can be understood as fully expanding the arguments (u
 CONCAT(STRING, IZE(Hello))        // -> STRINGIZE(Hello) -> "Hello"
 ```
 
-In `CONCAT(STRING, IZE(Hello))`, it first expands to `STRINGIZE(Hello)` during the first scan, then during the second scan, it finds that `STRINGIZE` can be further expanded, resulting in `"Hello"`.
+The text `CONCAT(STRING, IZE(Hello))` is first scanned and expands to `STRINGIZE(Hello)`, then it goes through a second scan and finds that `STRINGIZE` can be further expanded, resulting in `"Hello"`.
 
-#### Disallowing Recursive Re-entry
+#### Prohibit recursive re-entry
 
-During the process of repetitive scanning, recursive expansion of the same macro is prohibited. Macro expansion can be understood as a tree-like structure, with the root node being the macro to be expanded initially, and each macro-expanded content serving as a child node connected to the tree. Therefore, disallowing recursion means that when expanding the macro of a child node, if the macro is the same as any ancestor node's macro, expansion is prohibited. Let's look at some examples:
+In the process of repeated scanning, it is forbidden to recursively expand the same macros. The expansion of macros can be understood as a tree-like structure, with the root node being the macro to be expanded initially. The content of each macro after expansion is connected to the tree as a child node of that macro. Therefore, to prohibit recursion is to prohibit the expansion of a macro if it is the same as any ancestor macro when expanding the child nodes of that macro. Let's look at some examples:
 
 ``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
 #define CONCAT_SPACE(arg0, arg1) arg0 arg1
 #define IDENTITY(arg0) IDENTITY_IMPL(arg0)
 #define IDENTITY_IMPL(arg0) arg0
+
+CONCAT(CON, CAT(a, b))                  // -> CONCAT(a, b)
+IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))   // -> CONCAT(a, b)
+IDENTITY(CONCAT(CON, CAT(a, b)))        // -> IDENTITY_IMPL(CONCAT(a, b)) -> CONCAT(a, b)
 ```
 
-`CONCAT(CON, CAT(a, b))`: Since `CONCAT` is concatenating two parameters using `##`, according to the rules of `##`, the parameters are not expanded and simply concatenated. So, the first expansion yields `CONCAT(a, b)`. Since `CONCAT` has already been expanded, it will not be recursively expanded again and stops.
+`CONCAT(CON, CAT(a, b))`: Since `CONCAT` concatenates two parameters using `##`, according to the rules of `##`, the parameters are not expanded and are concatenated directly. Therefore, the first expansion results in `CONCAT(a, b)`. Since `CONCAT` has already been expanded, it will not be recursively expanded again, thus stopping the process.
 
-`IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))`: `IDENTITY_IMPL` can be understood as evaluating the parameter `arg0`. In this case, the parameter `arg0` evaluates to `CONCAT(a, b)`. Since recursion is marked as disallowed, `IDENTITY_IMPL` completes the expansion and during the second scan, it encounters a disallowed `CONCAT(a, b)` and stops. Here, `CONCAT(a, b)` is expanded from the parameter `arg0`, but in subsequent expansions, the disallowed flag will be maintained, meaning that the parent node is the parameter `arg0` and it will continue to have the disallowed flag.
+`IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))`: `IDENTITY_IMPL` can be understood as evaluating the parameter `arg0`. In this case, the parameter `arg0` is evaluated to `CONCAT(a, b)`. Since it is marked as non-reentrant due to recursion, `IDENTITY_IMPL` completes its expansion and stops when it encounters the non-reentrant `CONCAT(a, b)` during the second scan. Here, `CONCAT(a, b)` is obtained by expanding the parameter `arg0`, and in subsequent expansions, it will also maintain the non-reentrant flag. You can think of the parent node as the parameter `arg0`, which always keeps the non-reentrant flag.
 
-`IDENTITY(CONCAT(CON, CAT(a, b)))`: This example is mainly to reinforce the understanding of parent-child nodes. When a parameter expands itself, it becomes the parent node, and the expanded content becomes the child node to determine recursion. After the parameter is expanded, it can be regarded as another tree. The expansion result of the parameter is the bottom-most child node of the tree. When this child node is passed to the macro for expansion, it still retains the disallowed recursion feature.
+`IDENTITY(CONCAT(CON, CAT(a, b)))`: This example is mainly for strengthening the understanding of parent and child nodes. When the parameter is expanded, itself acts as the parent node, and the expanded content acts as the child node to determine recursion. After the expanded parameter is passed to the macro definition, the marker for non-reentrancy will continue to be retained (if the macro after the parameter expansion does not change). The expansion process of the parameter can be seen as another tree, and the expansion result of the parameter is the bottom-level child node of the tree. This child node is passed to the macro for execution, while still retaining the non-reentrancy feature.
 
-For example, after the first complete expansion, we have `IDENTITY_IMPL(CONCAT(a, b))`. Although `IDENTITY_IMPL` evaluates the parameter, the parameter has already been disallowed from expansion. Therefore, the parameter is passed to the definition as it is, and we still have `CONCAT(a, b)`.
+For example, here, after fully expanding for the first time, we get `IDENTITY_IMPL(CONCAT(a, b))`, `CONCAT(a, b)` is marked as non-reentrant, even though `IDENTITY_IMPL` evaluates its arguments, the arguments are already prohibited from expanding, so the arguments are passed to the definition as they are, and in the end, we still get `CONCAT(a, b)`.
 
-The above are just some important rules or rules that I think are difficult to understand. For a detailed macro expansion rule, I recommend taking some time to read the standard documentation.
+Above, I have just listed some rules that I consider to be important, or that I find difficult to understand. For the detailed rules of macro expansion, I still recommend taking some time to directly refer to the standard documentation.
 
-## Observing the Expansion Process with Clang
+## Observing the expansion process through Clang
 
-We can add some debug prints to the Clang source code to observe the macro expansion process. I don't intend to dive into the details of the Clang source code, but I will provide a modified diff file. If you are interested, you can compile Clang and study it yourself. I used LLVM version 11.1.0 ([link](https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz)). Here is the modified file ([link](assets/img/2021-3-31-cpp-preprocess/clang-modify.zip)). Below, I will briefly verify the macro expansion rules we previously discussed:
+We can add some print information to the Clang source code to observe the macro expansion process. I don't intend to delve into the Clang source code, but here is a modified file diff. If you are interested, you can compile Clang yourself for further study. I used LLVM version 11.1.0 ([link](https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz)) and the modified files ([link](assets/img/2021-3-31-cpp-preprocess/clang-modify.zip)). Below, we will briefly verify the macro expansion rules we introduced earlier through examples.
 
 #### Example 1
 
-```cpp
+``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
 
 CONCAT(C, ONCAT(a, b))      // CONCAT(a, b)
 ```
 
-Using the modified Clang to preprocess the code: `clang -P -E a.cpp -o a.cpp.i`, we get the following debug prints:
+Use the modified Clang to preprocess the code above: `clang -P -E a.cpp -o a.cpp.i` and obtain the following printed information:
 
 ``` text linenums="1"
 HandleIdentifier: 
@@ -162,7 +172,6 @@ MacroInfo 0x559e57496900
 Macro is ok to expand
 
 EnterMacro: 0
-```
 
 Enter ExpandFunctionArguments: 
 MacroInfo 0x559e57496900 used
@@ -183,8 +192,23 @@ HandleIdentifier:
 MacroInfo 0x559e57496900 disabled used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
+```
 
-Example 2
+In line [1](#__codelineno-9-1), `HandleIdentifier` will print when encountering a macro, and then print the information of the macro (lines [2-4](#__codelineno-9-2)). The macro is not disabled, so it can be expanded according to the definition `Macro is ok to expand`, and then enter the macro `EnterMacro`.
+
+The function that actually performs macro expansion is `ExpandFunctionArguments`. After that, the macro information to be expanded is printed again, noting that the macro has been marked as `used` (line [9](#__codelineno-9-9)). Then, according to the macro definition, the tokens are expanded one by one (a token is a concept in `Clang` preprocessor, not explained in detail here).
+
+The 0th `Token` is the formal parameter `arg0`, and its corresponding actual parameter is `C`. Since there is no need to expand the judgment, it is directly copied to the result (lines [11-13](#__codelineno-9-11)).
+
+The first `[Token]` is `hashhash`, also known as the `##` operator, copy it to the result (line [14-15](#__codelineno-9-14) ).
+
+The second `Token` is the formal parameter `arg1`, and its corresponding actual argument is `ONCAT(a, b)`. The preprocessor will also process the actual argument into individual `Tokens`, so you can see that the printed result is enclosed in square brackets for each `Token` of the actual argument (line 18). Due to the `##` operator, this actual argument still does not need to be expanded, so it is directly copied to the result (lines [16-18](#__codelineno-9-16)).
+
+Finally, `Leave ExpandFunctionArguments` prints the result of the expansion obtained from this scan (line [19](#__codelineno-9-19)). The `Token` of the result is translated as `C ## ONCAT(a, b)`, and then the preprocessor performs the `##` operator to generate new content.
+
+## After execution, we get `CONCAT(a, b)`. When encountering the macro `CONCAT`, the preprocessor first enters `HandleIdentifier`, prints the macro information, and finds that the macro state is `disable used`, indicating that it has already been expanded and it is not allowed to be re-entered. The message "Macro is not ok to expand" is displayed. The preprocessor does not expand further, and the final result is `CONCAT(a, b)`.
+
+#### Example 2
 
 ``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
@@ -194,9 +218,8 @@ IDENTITY(CONCAT(C, ONCAT(a, b)))
 ```
 
 <details>
-<summary> <font> Clang Print Information (click to expand): </font> </summary>
-```
-test linenums="1"
+<summary> <font> Clang print information (click to expand): </font> </summary>
+``` test linenums="1"
 HandleIdentifier: 
 MacroInfo 0x562a148f5a60
     #define <macro>[2853:IDENTITY](arg0) arg0
@@ -246,22 +269,22 @@ ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifie
 Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 
 LeaveMacro: 0
-```
 
 HandleIdentifier: 
 MacroInfo 0x562a148f5930 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ```
+
 </details>
 
-Starting from line [12](#__codelineno-11-12), `IDENTITY` is expanded and it is found that parameter `Token 0` is `CONCAT(...)`, which is also a macro. So, evaluate this parameter first.
+From line [12](#__codelineno-11-12) onward, the `IDENTITY` expansion begins. It is found that the parameter `Token 0` is `CONCAT(...)`, which is also a macro. Therefore, the evaluation of this parameter is performed first.
 
-Starting from line [27](#__codelineno-11-27), the parameter macro `CONCAT(...)` is expanded. Just like example 1, after multiple scans, it becomes `CONCAT(a, b)` (line [46](#__codelineno-11-46)).
+The parameter macro `CONCAT(...)` is expanded starting from line [27](#__codelineno-11-27), similar to example 1. After multiple expansions, `CONCAT(a, b)` is obtained (line [46](#__codelineno-11-46)).
 
-The expansion of `IDENTITY` ends at line [47](#__codelineno-11-47), resulting in `CONCAT(a, b)`.
+End the expansion of `IDENTITY` at line [47](#__codelineno-11-47), and the result obtained is `CONCAT(a, b)`.
 
-On line [51](#__codelineno-11-51), `CONCAT(a, b)` is rescanned. Although it is a macro, it has already been set as `used` during the parameter expansion process, so it won't be recursively expanded and will be directly used as the final result.
+Re-scan line [51](#__codelineno-11-51) and find that although `CONCAT(a, b)` is a macro, it has been set to `used` during the previous parameter expansion process, so it is no longer recursively expanded and is directly used as the final result.
 
 #### Example 3
 
@@ -274,7 +297,7 @@ IDENTITY(CONCAT(C, ONCAT(a, b)))
 ```
 
 <details>
-<summary> <font>Clang Print Information (Click to Expand)：</font> </summary>
+<summary> <font>Clang printing information (click to expand):</font> </summary>
 ``` test linenums="1"
 HandleIdentifier: 
 MacroInfo 0x55e824457a80
@@ -308,9 +331,9 @@ MacroInfo 0x55e824457950
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is ok to expand
 
-**EnterMacro**: 1
+EnterMacro: 1
 
-**Enter ExpandFunctionArguments**: 
+Enter ExpandFunctionArguments: 
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Token: 0
@@ -321,33 +344,33 @@ hashhash:
 Token: 2
 identifier: arg1
 Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-**Leave ExpandFunctionArguments**: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 
-**LeaveMacro**: 1
+LeaveMacro: 1
 
-**HandleIdentifier**: 
+HandleIdentifier: 
 MacroInfo 0x55e824457950 disabled used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 Token: 3
 r_paren: 
-**Leave ExpandFunctionArguments**: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
 
-**LeaveMacro**: 0
+LeaveMacro: 0
 
-**HandleIdentifier**: 
+HandleIdentifier: 
 MacroInfo 0x55e824457a80
     #define <macro>[2853:IDENTITY_IMPL](arg0) arg0
 Macro is ok to expand
 
-**HandleIdentifier**: 
+HandleIdentifier: 
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 
-**EnterMacro**: 2
+EnterMacro: 2
 
-**Enter ExpandFunctionArguments**: 
+Enter ExpandFunctionArguments: 
 MacroInfo 0x55e824457a80 used
     #define <macro>[2853:IDENTITY_IMPL](arg0) arg0
 Token: 0
@@ -355,7 +378,7 @@ identifier: arg0
 Args: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][eof: ]
 
-HandleIdentifier:
+HandleIdentifier: 
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -364,97 +387,119 @@ Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][co
 
 LeaveMacro: 2
 
-HandleIdentifier:
+HandleIdentifier: 
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ```
+
 </details>
 
-* Starting from line [16](#__codelineno-13-16), expand `IDENTITY`. The preprocessor sees that `Token 2` (which is `arg0`) is a macro, so it first expands `CONCAT(C, ONCAT(a, b))`.
-* After expanding `arg0`, we get `CONCAT(a, b)` (lines [23-54](#__codelineno-13-23)).
-* `IDENTITY` is ultimately expanded to `IDENTITY_IMPL(CONCAT(a, b))` (line [57](#__codelineno-13-57)).
-* Rescanning, we continue to expand `IDENTITY_IMPL` (lines [61-72](#__codelineno-13-61)). We find that the `Token 0` is the macro `CONCAT(a, b)`, but it is in a `used` state, so we abort the expansion and return (lines 75-84). The final result is still `CONCAT(a, b)` (line [85](#__codelineno-13-85)).
-* Upon rescanning the result, we find that the macro `CONCAT(a, b)` is in a `used` state, so we stop the expansion and obtain the final result.
+The preprocessing starts expanding `IDENTITY` from line [16](#__codelineno-13-16), Similarly, the preprocessor sees that `Token 2` (which is `arg0`) is a macro, so it first expands `CONCAT(C, ONCAT(a, b))`.
 
-With these three simple examples, we can roughly understand the process of macro expansion by the preprocessor. We will not delve further into the preprocessor here. If you are interested, you can study the modified file I provided.
+Expand `arg0` to obtain `CONCAT(a, b)` (lines [23-54])
+
+* `IDENTITY` is ultimately expanded to `IDENTITY_IMPL(CONCAT(a, b))` (line [57](#__codelineno-13-57))
+
+Rescan, continue expanding `IDENTITY_IMPL` (lines [61-72](#__codelineno-13-61)), and find that `Token 0` at this point is the macro `CONCAT(a, b)`, but it is in the `used` state. Abort the expansion and return (lines 75-84), resulting in `CONCAT(a, b)` as the final result (line [85](#__codelineno-13-85)).
+
+Rescan results and find that the status of macro `CONCAT(a, b)` is `used`. Stop expansion and obtain the final result.
+
+Through the above three simple examples, we can roughly understand the process of macro expansion by the preprocessor. We will not further discuss the preprocessor here. If interested, you can study it by comparing the modified files I have provided.
 
 ## Macro Programming Implementation
 
-Now, let's get to the main topic (the previous section was to better understand the macro expansion rules), the implementation of macro programming.
+Below we will start delving into the topic (the purpose of the previous long paragraph was to better understand macro expansion rules) and the implementation of macro programming.
 
 #### Basic Symbols
 
-First, we can define special symbols for macros, which will be used for evaluation and concatenation:
+First, we can define the special symbols of macros, which will be used for evaluation and concatenation.
 
-```cpp
+``` cpp
 #define PP_LPAREN() (
 #define PP_RPAREN() )
 #define PP_COMMA() ,
-#define PP_EMPTY()
-#define PP_HASHHASH # ## #      // Represents the string ##, but only as a string, will not be treated as the ## operator
+#define PP_EMPTY() 
+```cpp
+#define PP_HASHHASH # ## #      // Represents the string "##", but is only treated as a string and not as the ## operator.
+```
 ```
 
 #### Evaluation
 
-By utilizing the rule of argument pre-expansion, we can write an evaluation macro:
+By utilizing the rule of parameter prioritization expansion, it is possible to write an evaluation macro.
 
-```cpp
+``` cpp
 #define PP_IDENTITY(arg0) arg0
 
 PP_COMMA PP_LPAREN() PP_RPAREN()                // -> PP_COMMA ( )
 PP_IDENTITY(PP_COMMA PP_LPAREN() PP_RPAREN())   // -> PP_COMMA() -> ,
 ```
 
-If we only write `PP_COMMA PP_LPAREN() PP_RPAREN()`, the preprocessor will only process each macro separately and will not further consolidate the results of the expansion. By adding `PP_IDENTITY`, the preprocessor can evaluate the expanded `PP_COMMA()` to `,`.
+If you only write `PP_COMMA PP_LPAREN() PP_RPAREN()`, the preprocessor will handle each macro separately and will not merge the results of expansion. When `PP_IDENTITY` is added, the preprocessor can evaluate the expanded `PP_COMMA()` to get `,`.
 
-#### Concatenation
 
-Since `##` does not expand the left and right parameters during concatenation, in order to allow the parameters to be evaluated and then concatenated, we can write it like this:
+#### Concatenate
+
+Since `##` does not expand the arguments on both sides when concatenating them, to evaluate the arguments before concatenation, you can write it like this:
 
 ``` cpp
-#define PP_IF(cond, true_value, false_value) PP_CONCAT(PP_IF_, PP_BOOL(cond))(true_value, false_value)
-// 定义了一个宏 PP_IF，接受三个参数：条件、真值和假值。根据条件的真假来选择返回真值还是假值。
+#define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)
+#define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1
 
-#define PP_IF_0(true_value, false_value) false_value
-#define PP_IF_1(true_value, false_value) true_value
-
-PP_IF(1, "yes", "no")       // -> PP_IF_1("yes", "no") -> "yes"
-PP_IF(0, "yes", "no")       // -> PP_IF_0("yes", "no") -> "no"
+PP_CONCAT(PP_IDENTITY(1), PP_IDENTITY(2))         // -> 12
+PP_CONCAT_IMPL(PP_IDENTITY(1), PP_IDENTITY(2))    // -> PP_IDENTITY(1)PP_IDENTITY(2) -> Error
 ```
 
-当条件为真时，返回真值；当条件为假时，返回假值。
+Here the method used by `PP_CONCAT` is called delayed concatenation. When expanded to `PP_CONCAT_IMPL`, both `arg0` and `arg1` will be expanded and evaluated first, and then the real concatenation operation will be performed by `PP_CONCAT_IMPL`.
 
-#### 循环展开
+#### Logical Operations
 
-通过循环展开，可以重复执行一段代码若干次。
+With the help of `PP_CONCAT`, logical operations can be implemented. First, define the `BOOL` value:
 
-这里定义一个展开一次的宏 `PP_EXPAND_ONCE`：
-
-``` cpp
-#define PP_EXPAND_ONCE(...) __VA_ARGS__
-```
-
-通过宏展开规则 `__VA_ARGS__`，可以保证在展开时不对传入的参数进行求值。定义一个新的宏 `PP_REPEAT`，它接受两个参数：重复次数和要重复的代码块。
 
 ``` cpp
-#define PP_REPEAT(count, code_block) PP_REPEAT_IMPL(count, code_block)
-#define PP_REPEAT_IMPL(count, code_block) PP_CONCAT(PP_REPEAT_, count)(code_block)
-
-#define PP_REPEAT_0(code_block)
-#define PP_REPEAT_1(code_block) PP_EXPAND_ONCE(code_block)
-#define PP_REPEAT_2(code_block) PP_REPEAT_1(code_block) PP_EXPAND_ONCE(code_block)
-#define PP_REPEAT_3(code_block) PP_REPEAT_2(code_block) PP_EXPAND_ONCE(code_block)
+#define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)
+#define PP_BOOL_0 0
+#define PP_BOOL_1 1
+#define PP_BOOL_2 1
+#define PP_BOOL_3 1
 // ...
+#define PP_BOOL_256 1
 
-// 展开若干次，重复执行 code_block
-PP_REPEAT(3, printf("Hello, world!\n"))  
-// 展开为：printf("Hello, world!\n") printf("Hello, world!\n") printf("Hello, world!\n")
+PP_BOOL(3)              // -> PP_BOOL_3 -> 1
 ```
 
-`PP_REPEAT_IMPL` 宏根据传入的重复次数，展开对应次数的重复代码块。每次展开都是通过重复展开上一次的代码块再加上一个新的代码块来实现的。
+Use `PP_CONCAT` to concatenate `PP_BOOL_` and `arg0` together, then evaluate the concatenated result. Here, `arg0` is required to be a number within the range of `[0, 256]`. By evaluating the concatenation after `PP_BOOL_`, a boolean value can be obtained. The operations include logical AND, logical OR, and logical NOT:
 
-这样就实现了循环展开的效果，可以用来避免手写大量重复的代码。
+``` cpp
+#define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))
+#define PP_NOT_0 1
+#define PP_NOT_1 0
+
+#define PP_AND(arg0, arg1) PP_CONCAT(PP_AND_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))
+#define PP_AND_00 0
+#define PP_AND_01 0
+#define PP_AND_10 0
+#define PP_AND_11 1
+
+#define PP_OR(arg0, arg1) PP_CONCAT(PP_OR_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))
+#define PP_OR_00 0
+#define PP_OR_01 1
+#define PP_OR_10 1
+#define PP_OR_11 1
+
+PP_NOT(PP_BOOL(2))      // -> PP_CONCAT(PP_NOT_, 1) -> PP_NOT_1 -> 0
+PP_AND(2, 3)            // -> PP_CONCAT(PP_AND_, 11) -> PP_AND_11 -> 1
+PP_AND(2, 0)            // -> PP_CONCAT(PP_AND_, 10) -> PP_AND_10 -> 0
+PP_OR(2, 0)             // -> PP_CONCAT(PP_OR_, 10) -> PP_OR_10, -> 1
+```
+
+First, use `PP_BOOL` to evaluate the parameters, and then concatenate the logical operation results based on the combination of `0` and `1`. If `PP_BOOL` is not used to evaluate the parameters, then the parameters can only support the values `0` and `1`, greatly reducing versatility. Similarly, you can also write XOR, OR, NOT, and other operations. If you are interested, you can try it yourself.
+
+#### Conditional Selection
+
+By using `PP_BOOL` and `PP_CONCAT`, you can also write conditional selection statements:
 
 ``` cpp
 #define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)
@@ -465,17 +510,18 @@ PP_IF(1, 2, 3)      // -> PP_IF_1(2, 3) -> 2
 PP_IF(0, 2, 3)      // -> PP_IF_0(2, 3) -> 3
 ```
 
-If the value of `if` is `1`, it is concatenated with `PP_CONCAT` to become `PP_IF_1`, and finally expands to the value of `then`. Likewise, if `if` evaluates to `0`, `PP_IF_0` is obtained.
+`if` evaluates to `1`, concatenates with `PP_CONCAT` to form `PP_IF_1`, and finally expands to the value of `then`. Similarly, if `if` evaluates to `0`, it results in `PP_IF_0`.
 
 #### Increment and Decrement
 
-Integer increment and decrement:
+Integer Increment and Decrement:
 
 ``` cpp
 #define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)
 #define PP_INC_0 1
 #define PP_INC_1 2
 #define PP_INC_2 3
+#define PP_INC_3 4
 // ...
 #define PP_INC_255 256
 #define PP_INC_256 256
@@ -493,50 +539,49 @@ PP_INC(2)                   // -> PP_INC_2 -> 3
 PP_DEC(3)                   // -> PP_DEC_3 -> 2
 ```
 
-Similar to `PP_BOOL`, there are also limits to the range of integer increment and decrement. Here, the range is set to `[0, 256]`. After incrementing to `256`, for safety reasons, `PP_INC_256` will return itself `256` as a boundary, and likewise `PP_DEC_0` will also return `0`.
+Similar to `PP_BOOL`, the increment or decrement of integers also has a limited range. Here, the range is set to `[0, 256]`. After incrementing to `256`, for safety reasons, `PP_INC_256` will return itself, `256`, as the boundary. Similarly, `PP_DEC_0` will also return `0`.
 
-#### Variadic Parameters
+#### Variable-length parameters
 
-Macros can accept variadic parameters, in the format:
+Macros can accept variable-length arguments, the format is:
 
 ```cpp 
 #define LOG(format, ...) printf("log: " format, __VA_ARGS__)
 
 LOG("Hello %s\n", "World")      // -> printf("log: " "Hello %s\n", "World");
-LOG("Hello World")              // -> printf("log: " "Hello World", ); there is an extra comma, compilation error
+LOG("Hello World")              // -> printf("log: " "Hello World", ); A comma is missing, causing a compilation error.
 ```
 
-Since variadic parameters can be empty, an empty scenario can lead to compilation failure. Therefore, C++20 introduced `__VA_OPT__`. If the variadic parameters are empty, it returns nothing; otherwise, it returns the original parameters:
+Due to the possibility of variable-length parameters being empty, which can lead to compilation failure, C++ 20 has introduced `__VA_OPT__`. If the variable-length parameters are empty, it will return empty; otherwise, it will return the original parameters.
 
 ```cpp 
 #define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)
 
 LOG2("Hello %s\n", "World")      // -> printf("log: " "Hello %s\n", "World");
-LOG2("Hello World")              // -> printf("log: " "Hello World" ); no comma, compiles correctly
+LOG2("Hello World")              // -> printf("log: " "Hello World" ); No comma, compiled successfully.
 ```
 
-Unfortunately, `__VA_OPT__` is only available in C++20 and later standards. In the following discussions, we will provide an implementation method for `__VA_OPT__`.
+But unfortunately, only C++ 20 or higher standards have this macro. In the following text, we will provide the implementation method for `__VA_OPT__`.
 
-#### Lazy Evaluation
+#### Lazy evaluation
 
 Consider this situation:
 
 ``` cpp
-PP_IF(1, PP_COMMA(), PP_LPAREN())     // -> PP_IF_1(,,)) -> error: unterminated argument list invoking macro "PP_IF_1"
+PP_IF(1, PP_COMMA(), PP_LPAREN())     // -> PP_IF_1(,,)) -> Error: unterminated argument list invoking macro "PP_IF_1"
 ```
 
-
-We know that when macros are expanded, the first parameter is evaluated. After evaluating `PP_COMMA()` and `PP_LPAREN()`, they are passed to `PP_IF_1`, resulting in `PP_IF_1(,,))`, which causes a preprocessing error. In this case, a method called lazy evaluation can be used:
+We know that during macro expansion, the first parameter is evaluated. After evaluating `PP_COMMA()` and `PP_LPAREN()`, they are passed to `PP_IF_1`, resulting in `PP_IF_1(,,))` and causing a preprocessing error. In this case, we can use a method called lazy evaluation:
 
 ``` cpp
 PP_IF(1, PP_COMMA, PP_LPAREN)()       // -> PP_IF_1(PP_COMMA, PP_LPAREN)() -> PP_COMMA() -> ,
 ```
 
-To modify this syntax, only the macro name is passed, so that `PP_IF` can select the desired macro name and then concatenate it with parentheses `()` to form a complete macro, which is then expanded. Lazy evaluation is also common in macro programming.
+Change it to this writing style, only pass the name of the macro, let `PP_IF` select the required macro name, then concatenate it with parentheses `()` to form a complete macro, and finally expand it. Lazy evaluation is also very common in macro programming.
 
-#### Begin with parentheses
+#### Start with parentheses
 
-Determine if the variable arguments start with parentheses:
+Check if the variable-length parameter starts with a parenthesis:
 
 ``` cpp
 #define PP_IS_BEGIN_PARENS(...) \
@@ -565,21 +610,21 @@ PP_IS_BEGIN_PARENS(()aa(bb()cc))    // -> 1
 PP_IS_BEGIN_PARENS(aa(bb()cc))      // -> 0
 ```
 
-`PP_IS_BEGIN_PARENS` can be used to determine whether the passed arguments start with parentheses, which is necessary when processing parenthesized parameters (such as the `__VA_OPT__` implementation mentioned later). It looks a bit complex, but the core idea is to construct a macro that evaluates to one result if the variable arguments start with parentheses, or evaluates to another result otherwise. Let's take a closer look:
+`PP_IS_BEGIN_PARENS` can be used to determine if the incoming parameter starts with parentheses. It is often used when dealing with parenthesized arguments (such as the implementation of `__VA_OPT__` mentioned later). It may seem a bit complicated, but the core idea is to build a macro that, if the variadic parameter starts with parentheses, can be evaluated together with the parentheses to obtain one result; otherwise, it can be evaluated separately to obtain another result. Let's take a closer look:
 
-The macro `PP_IS_BEGIN_PARENS_PROCESS` and `PP_IS_BEGIN_PARENS_PROCESS_0` are used to evaluate the variable arguments and then retrieve the 0th argument.
+The macro functionality composed of `PP_IS_BEGIN_PARENS_PROCESS` and `PP_IS_BEGIN_PARENS_PROCESS_0` is to first evaluate the incoming variadic arguments, and then take the 0th argument.
 
-The macro `PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)` first evaluates `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` and then concatenates the result with `PP_IS_BEGIN_PARENS_PRE_`.
+`PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)` evaluates `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` first, then concatenates the evaluated result with `PP_IS_BEGIN_PARENS_PRE_`.
 
-`PP_IS_BEGIN_PARENS_EAT(...)` macro will consume all arguments and return 1 if the previous step `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` has arguments that start with parentheses. In this case, it will match the evaluation of `PP_IS_BEGIN_PARENS_EAT(...)` and return 1. Conversely, if it does not start with parentheses, there is no match and `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` remains unchanged.
+`PP_IS_BEGIN_PARENS_EAT(...)` the macro will consume all its arguments and return 1. If in the previous step `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__`, `__VA_ARGS__` starts with parentheses, it will match the evaluation of `PP_IS_BEGIN_PARENS_EAT(...)` and return 1. On the other hand, if it does not start with parentheses, there is no match, and `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` will remain unchanged.
 
-If `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` evaluates to 1, `PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -> PP_IS_BEGIN_PARENS_PRE_1 -> 1,` note that there is a comma after 1, the value `1,` is passed to `PP_IS_BEGIN_PARENS_PROCESS_0`, which takes the 0th argument, resulting in `1`, indicating that the argument starts with parentheses.
+If `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` evaluates to `1`, `PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -> PP_IS_BEGIN_PARENS_PRE_1 -> 1` should be noted that there is a comma after `1`, pass `1,` to `PP_IS_BEGIN_PARENS_PROCESS_0`, take the 0th argument, and finally obtain `1`, which indicates that the argument begins with a parenthesis.
 
-If `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` evaluates to a value other than 1 and remains unchanged, `PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -> PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -> 0, __VA_ARGS__`, is passed to `PP_IS_BEGIN_PARENS_PROCESS_0` and the result is `0`, indicating that the argument does not start with parentheses.
+If `PP_IS_BEGIN_PARENS_EAT __VA_ARGS__` evaluates to something other than `1` and remains unchanged, then `PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -> PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -> 0, __VA_ARGS__` is passed to `PP_IS_BEGIN_PARENS_PROCESS_0`, which results in `0`, indicating that the argument does not begin with parentheses.
 
-#### Variadic Parameters Empty
+#### Variable-length parameter null
 
-Determining if variadic parameters are empty is also a common macro, and it is used in implementing `__VA_OPT__`. Here we can use `PP_IS_BEGIN_PARENS` to write an incomplete version:
+To judge whether variable-length parameters are empty is also a commonly used macro. This is required when implementing `__VA_OPT__`. Here, we can make use of `PP_IS_BEGIN_PARENS` to write an incomplete version first.
 
 ``` cpp
 #define PP_IS_EMPTY_PROCESS(...) \
@@ -592,21 +637,19 @@ PP_IS_EMPTY_PROCESS(1, 2)   // -> 0
 PP_IS_EMPTY_PROCESS(())     // -> 1
 ```
 
-The purpose of `PP_IS_EMPTY_PROCESS` is to determine if `PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()` starts with parentheses.
+The function of `PP_IS_EMPTY_PROCESS` is to determine if `PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__()` starts with parentheses.
 
-If `__VA_ARGS__` is empty, `PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -> PP_IS_EMPTY_PROCESS_EAT() -> ()`, the result is a pair of parentheses `()`, which is then passed to `PP_IS_BEGIN_PARENS` to return 1, indicating that the argument is empty.
+If `__VA_ARGS__` is empty, `PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -> PP_IS_EMPTY_PROCESS_EAT() -> ()`, it will result in a pair of parentheses `()`, which will then be passed to `PP_IS_BEGIN_PARENS` and return `1`, indicating that the argument is empty.
 
-Otherwise, `PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()` is passed unchanged to `PP_IS_BEGIN_PARENS`, which returns 0, indicating non-empty.
+Otherwise, `PP_IS_EMPTY_PROCESS_EAT__VA_ARGS__ ()` remains unchanged and is passed to `PP_IS_BEGIN_PARENS`, returning 0 to indicate non-empty content.
 
-Note the fourth example `PP_IS_EMPTY_PROCESS(()) -> 1`, `PP_IS_EMPTY_PROCESS` cannot handle variadic parameters that start with parentheses correctly because in this case, the parentheses introduced by the variadic parameters will match `PP_IS_EMPTY_PROCESS_EAT`, resulting in the evaluation of `()`. To solve this problem, we need to handle the case of whether the argument starts with parentheses or not:
+Pay attention to the 4th example `PP_IS_EMPTY_PROCESS(()) -> 1`, `PP_IS_EMPTY_PROCESS` cannot correctly handle variadic arguments that begin with parentheses, because in this case the parentheses brought by the variadic arguments will match `PP_IS_EMPTY_PROCESS_EAT` and result in `()`. To solve this problem, we need to differentiate between cases where the arguments begin with parentheses.
 
 ``` cpp
 #define PP_IS_EMPTY(...) \
     PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(__VA_ARGS__)) \
         (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(__VA_ARGS__)
-```
 
-``` cpp
 #define PP_IS_EMPTY_IF(if) PP_CONCAT(PP_IS_EMPTY_IF_, if)
 #define PP_IS_EMPTY_IF_1(then, else) then
 #define PP_IS_EMPTY_IF_0(then, else) else
@@ -619,15 +662,15 @@ PP_IS_EMPTY(1, 2)   // -> 0
 PP_IS_EMPTY(())     // -> 0
 ```
 
-The `PP_IS_EMPTY_IF` macro returns the 0th or the 1st parameter based on the `if` condition.
+`PP_IS_EMPTY_IF` returns the 0th or 1st parameter based on the `if` condition.
 
-If the variable arguments start with parentheses, `PP_IS_EMPTY_IF` returns `PP_IS_EMPTY_ZERO` which eventually returns 0, indicating that the variable arguments are not empty.
+If the variable-length parameters are enclosed in parentheses, `PP_IS_EMPTY_IF` returns `PP_IS_EMPTY_ZERO`, and finally returns `0`, indicating that the variable-length parameters are not empty.
 
-Otherwise, `PP_IS_EMPTY_IF` returns `PP_IS_EMPTY_PROCESS` and `PP_IS_EMPTY_PROCESS` determines whether the variable arguments are empty.
+On the contrary, `PP_IS_EMPTY_IF` returns `PP_IS_EMPTY_PROCESS`, and finally `PP_IS_EMPTY_PROCESS` is responsible for determining if the variable-length parameter is not empty.
 
-#### Element Access
+#### Index access
 
-Get the element at the specified position in the variable arguments:
+Get the element specified by the position of the variable-length arguments:
 
 ``` cpp
 #define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(__VA_ARGS__)
@@ -643,11 +686,11 @@ PP_ARGS_ELEM(0, "Hello", "World")   // -> PP_ARGS_ELEM_0("Hello", "World") -> "H
 PP_ARGS_ELEM(1, "Hello", "World")   // -> PP_ARGS_ELEM_1("Hello", "World") -> "World"
 ```
 
-The first parameter of `PP_ARGS_ELEM` is the element index `I`, followed by the variable arguments. By concatenating `PP_ARGS_ELEM_` and `I` using `PP_CONCAT`, the macro `PP_ARGS_ELEM_0..8` that returns the element at the corresponding position is obtained. Then, the variable arguments are passed to this macro to expand and return the element at the specified index.
+The first argument of `PP_ARGS_ELEM` is the index of the element `I`, followed by a variable-length argument. By using `PP_CONCAT` to concatenate `PP_ARGS_ELEM_` and `I`, we can obtain the macro `PP_ARGS_ELEM_0..8` which returns the element at the corresponding position. Then, we pass the variable-length argument to this macro to expand and return the element at the specified index.
 
 #### PP_IS_EMPTY2
 
-Using `PP_ARGS_ELEM`, another version of `PP_IS_EMPTY` can be implemented:
+By using `PP_ARGS_ELEM`, another version of `PP_IS_EMPTY` can be achieved:
 
 ``` cpp
 #define PP_IS_EMPTY2(...) \
@@ -664,9 +707,7 @@ Using `PP_ARGS_ELEM`, another version of `PP_IS_EMPTY` can be implemented:
 
 #define PP_HAS_COMMA(...) PP_ARGS_ELEM(8, __VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 0)
 #define PP_COMMA_ARGS(...) ,
-```
 
-```cpp
 PP_IS_EMPTY2()              // -> 1
 PP_IS_EMPTY2(a)             // -> 0
 PP_IS_EMPTY2(a, b)          // -> 0
@@ -674,17 +715,17 @@ PP_IS_EMPTY2(())            // -> 0
 PP_IS_EMPTY2(PP_COMMA)      // -> 0
 ```
 
-Using `PP_ARGS_ELEM` to determine if the argument contains a comma `PP_HAS_COMMA`. `PP_COMMA_ARGS` will consume any passed arguments and return a comma.
+Using `PP_ARGS_ELEM` to implement the detection of whether the argument contains a comma, `PP_HAS_COMMA`. `PP_COMMA_ARGS` will consume any passed-in arguments and return a comma.
 
-The basic logic for determining if the variable arguments are empty is `PP_COMMA_ARGS __VA_ARGS__ ()`, which returns a comma. In other words, if `__VA_ARGS__` is empty, when `PP_COMMA_ARGS` is concatenated with `()`, it is evaluated as `PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())`.
+The basic logic to determine whether variable arguments are empty is `PP_COMMA_ARGS __VA_ARGS__ ()` returns a comma, which means `__VA_ARGS__` is empty. `PP_COMMA_ARGS` and `()` are concatenated together for evaluation, and the specific notation is `PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())`.
 
-However, there are exceptions:
+However, there will be exceptions:
 
-* `__VA_ARGS__` itself may contain a comma;
-* Concatenation of `__VA_ARGS__ ()` can result in the evaluation producing a comma;
-* Concatenation of `PP_COMMA_ARGS __VA_ARGS__` can result in the evaluation producing a comma;
+* `__VA_ARGS__` may potentially contain commas;
+* `__VA_ARGS__ ()` concatenation together results in the evaluation of a comma;
+* `PP_COMMA_ARGS __VA_ARGS__` concatenation together results in the evaluation of a comma;
 
-To handle these three exceptions, the final implementation is equivalent to applying a logical AND to the following four conditions:
+In response to the three exceptional cases mentioned above, exclusions need to be made, so the final expression is equivalent to applying logical "AND" to the following four conditions:
 
 * `PP_NOT(PP_HAS_COMMA(__VA_ARGS__))` &&
 * `PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))` &&
@@ -693,9 +734,9 @@ To handle these three exceptions, the final implementation is equivalent to appl
 
 #### `__VA_OPT__`
 
-Using `PP_IS_EMPTY`, we can finally implement a macro similar to `__VA_OPT__`:
+With the help of `PP_IS_EMPTY`, it is finally possible to achieve macros similar to `__VA_OPT__`.
 
-```cpp
+``` cpp
 #define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple
 #define PP_REMOVE_PARENS_IMPL(...) __VA_ARGS__
 
@@ -706,14 +747,13 @@ Using `PP_IS_EMPTY`, we can finally implement a macro similar to `__VA_OPT__`:
 PP_ARGS_OPT((data), (empty))        // -> empty
 PP_ARGS_OPT((data), (empty), 1)     // -> data
 PP_ARGS_OPT((,), (), 1)             // -> ,
-
 ```
 
-`PP_ARGS_OPT` takes two fixed parameters and variable arguments. When the variable arguments are not empty, it returns `data`; otherwise, it returns `empty`. To support commas in `data` and `empty`, both of them need to be enclosed in parentheses, and `PP_REMOVE_PARENS` is used to remove the outer parentheses.
+`PP_ARGS_OPT` accepts two fixed parameters and a variable number of parameters. When the variable parameters are not empty, it returns `data`; otherwise, it returns `empty`. In order to support commas in `data` and `empty`, it is required that both of them are enclosed in parentheses with the actual parameters, and the outer parentheses are removed using `PP_REMOVE_PARENS`.
 
-With `PP_ARGS_OPT`, we can implement `LOG3` to achieve the functionality similar to `LOG2`:
+With `PP_ARGS_OPT`, it is possible to achieve the functionality of simulating `LOG2` by using `LOG3`.
 
-```cpp
+``` cpp
 #define LOG3(format, ...) \
     printf("log: " format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)
 
@@ -721,14 +761,13 @@ LOG3("Hello");                  // -> printf("log: " "Hello" );
 LOG3("Hello %s", "World");      // -> printf("log: " "Hello %s" , "World");
 ```
 
+`data_tuple` is `(,)`. If the variable-length argument is not empty, it will return all the elements in `data_tuple`, which in this case is a comma `,`.
 
-`data_tuple` is `()`, if the variable-length parameter is not empty, it will return all the elements in `data_tuple`, which is a comma `,` here.
+#### Number of Parameters Requested
 
-#### Calculate the number of parameters
+Get the number of variable arguments:
 
-To get the number of variable-length parameters:
-
-```cpp
+``` cpp
 #define PP_ARGS_SIZE_IMCOMPLETE(...) \
     PP_ARGS_ELEM(8, __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
@@ -738,13 +777,13 @@ PP_ARGS_SIZE_IMCOMPLETE(PP_COMMA())    // -> 2
 PP_ARGS_SIZE_IMCOMPLETE()              // -> 1
 ```
 
-The number of variable-length parameters is calculated by counting the position of the parameters. `__VA_ARGS__` causes the subsequent parameters to shift to the right. Use the macro `PP_ARGS_ELEM` to get the parameter at the 8th position. If `__VA_ARGS__` has only one parameter, the 8th parameter is equal to `1`; similarly, if `__VA_ARGS__` has two parameters, the 8th parameter becomes `2`, which is exactly equal to the number of variable-length parameters.
+The number of variable arguments is calculated by counting their positions. `__VA_ARGS__` causes all subsequent arguments to shift to the right. Use the macro `PP_ARGS_ELEM` to obtain the argument at the 8th position. If `__VA_ARGS__` only has one argument, then the 8th argument is equal to `1`. Similarly, if `__VA_ARGS__` has two arguments, then the 8th argument becomes `2`, exactly equal to the number of variable arguments.
 
-The example given here only supports a maximum of 8 variable-length parameters, which is dependent on the maximum length supported by `PP_ARGS_ELEM`.
+The examples given here only support a maximum number of 8 variable arguments, which is based on the maximum length supported by `PP_ARGS_ELEM`.
 
-However, this macro is incomplete. In the case of an empty variable-length parameter, this macro will incorrectly return `1`. If you need to handle empty variable-length parameters, you need to use the `PP_ARGS_OPT` macro mentioned earlier:
+However, this macro is not complete. In the case where the variable arguments are empty, this macro will incorrectly return `1`. If it is necessary to handle empty variable arguments, the `PP_ARGS_OPT` macro mentioned earlier needs to be used.
 
-```cpp
+``` cpp
 #define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), __VA_ARGS__)
 #define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, __VA_ARGS__ PP_COMMA_IF_ARGS(__VA_ARGS__) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)
 
@@ -755,13 +794,13 @@ PP_ARGS_SIZE()              // -> 0
 PP_ARGS_SIZE(,,,)           // -> 4
 ```
 
-The key to the problem is the comma `,`. When `__VA_ARGS__` is empty, removing the comma can correctly return `0`.
+The key to the problem lies in the comma `,`. When `__VA_ARGS__` is empty, the comma should be hidden to correctly return `0`.
 
-#### Iterate through access
+#### Traversal Access
 
-Similar to C++'s `for_each`, we can implement the macro `PP_FOR_EACH`:
+Similar to C++'s `for_each`, we can implement the `PP_FOR_EACH` macro.
 
-```cpp
+``` cpp
 #define PP_FOR_EACH(macro, contex, ...) \
     PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(__VA_ARGS__))(0, macro, contex, __VA_ARGS__)
 
@@ -772,31 +811,29 @@ Similar to C++'s `for_each`, we can implement the macro `PP_FOR_EACH`:
     macro(index, contex, arg) \
     PP_FOR_EACH_1(PP_INC(index), macro, contex, __VA_ARGS__)
 
-
-```cpp
-#define PP_FOR_EACH_3(index, macro, context, arg, ...) \
-    macro(index, context, arg) \
-    PP_FOR_EACH_2(PP_INC(index), macro, context, __VA_ARGS__)
+#define PP_FOR_EACH_3(index, macro, contex, arg, ...) \
+    macro(index, contex, arg) \
+    PP_FOR_EACH_2(PP_INC(index), macro, contex, __VA_ARGS__)
 // ...
-#define PP_FOR_EACH_8(index, macro, context, arg, ...) \
-    macro(index, context, arg) \
-    PP_FOR_EACH_7(PP_INC(index), macro, context, __VA_ARGS__)
+#define PP_FOR_EACH_8(index, macro, contex, arg, ...) \
+    macro(index, contex, arg) \
+    PP_FOR_EACH_7(PP_INC(index), macro, contex, __VA_ARGS__)
 
-#define DECLARE_EACH(index, context, arg)    PP_IF(index, PP_COMMA, PP_EMPTY)() context arg
+#define DECLARE_EACH(index, contex, arg)    PP_IF(index, PP_COMMA, PP_EMPTY)() contex arg
 
 PP_FOR_EACH(DECLARE_EACH, int, x, y, z);    // -> int x, y, z;
 PP_FOR_EACH(DECLARE_EACH, bool, a, b);      // -> bool a, b;
 ```
 
-`PP_FOR_EACH` function takes two fixed parameters: `macro`, which can be understood as the macro to be invoked during traversal, and `context`, which can be used as a predetermined value passed to `macro`. `PP_FOR_EACH` first gets the length `N` of the variable-length parameters using `PP_ARGS_SIZE`, then concatenates with `PP_CONCAT` to obtain `PP_FOR_EACH_N`, after which `PP_FOR_EACH_N` will recursively call `PP_FOR_EACH_N-1` to achieve the same number of iterations as the variable-length parameters.
+`PP_FOR_EACH` receives two fixed parameters: `macro`, which can be understood as the macro called during iteration, and `context`, which can be passed as a fixed value parameter to `macro`. `PP_FOR_EACH` first uses `PP_ARGS_SIZE` to obtain the length `N` of the variable-length parameters, and then concatenates `PP_FOR_EACH_N` using `PP_CONCAT`. Afterwards, `PP_FOR_EACH_N` will iteratively call `PP_FOR_EACH_N-1` to achieve the same number of iterations as the variable-length parameters.
 
-In the example, we declare `DECLARE_EACH` as the `macro` parameter. The purpose of `DECLARE_EACH` is to return `context arg`. If `context` is a type name and `arg` is a variable name, `DECLARE_EACH` can be used to declare variables.
+In the example, we declare `DECLARE_EACH` as a parameter `macro`, the purpose of `DECLARE_EACH` is to return `contex arg`, if `contex` is a type name and `arg` is a variable name, `DECLARE_EACH` can be used to declare variables.
 
 #### Conditional Loop
 
-With `FOR_EACH`, we can also write `PP_WHILE` in a similar way:
+With the introduction of `FOR_EACH`, we can also use a similar approach to write `PP_WHILE`:
 
-```cpp
+``` cpp
 #define PP_WHILE PP_WHILE_1
 
 #define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)
@@ -810,9 +847,7 @@ With `FOR_EACH`, we can also write `PP_WHILE` in a similar way:
 #define PP_WHILE_3(pred, op, val) PP_WHILE_3_IMPL(PP_BOOL(pred(val)), pred, op, val)
 #define PP_WHILE_3_IMPL(cond, pred, op, val) \
     PP_IF(cond, PP_WHILE_4, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))
-```
 
-```cpp
 #define PP_WHILE_4(pred, op, val) PP_WHILE_4_IMPL(PP_BOOL(pred(val)), pred, op, val)
 #define PP_WHILE_4_IMPL(cond, pred, op, val) \
     PP_IF(cond, PP_WHILE_5, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))
@@ -838,24 +873,24 @@ PP_WHILE(SUM_PRED, SUM_OP, (2, a))      // -> (0, a + 2 + 1)
 SUM(2, a)                               // -> a + 2 + 1
 ```
 
-`PP_WHILE` accepts three arguments: `pred` for the conditional function, `op` for the operation function, and `val` as the initial value. During the loop, `pred(val)` is repeated to check if the loop should terminate, and the value obtained from `op(val)` is passed to the subsequent macros. It can be understood as executing the following code:
+`PP_WHILE` accepts three parameters: `pred` as the conditional function, `op` as the operation function, and `val` as the initial value; during the loop, it continuously uses `pred(val)` as the termination condition and passes the value obtained from `op(val)` to the subsequent macro. It can be understood as executing the following code:
 
-```cpp
+``` cpp
 while (pred(val)) {
     val = op(val);
 }
 ```
 
-`PP_WHILE_N` first uses `pred(val)` to obtain the result of the conditional check, and passes the condition result `cond` and the remaining parameters to `PP_WHILE_N_IMPL`.
-`PP_WHILE_N_IMPL` can be divided into two parts: the latter half `(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))` is used as the parameter for the former part. `PP_IF(cond, op, PP_EMPTY_EAT)(val)` evaluates to `op(val)` if `cond` is true, otherwise it evaluates to `PP_EMPTY_EAT(val)` and returns an empty value. The former part `PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)` returns `PP_WHILE_N+1` if `cond` is true, continuing the loop in combination with the parameters of the latter half; otherwise it returns `val PP_EMPTY_EAT`, where `val` is the final result of the calculation, and `PP_EMPTY_EAT` will discard the result of the latter half.
+First, use `pred(val)` to obtain the condition evaluation result, and pass the condition result `cond` and other arguments to `PP_WHILE_N_IMPL`.
+`PP_WHILE_N_IMPL` can be divided into two parts: the latter part `(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))` is used as the parameter of the former part. `PP_IF(cond, op, PP_EMPTY_EAT)(val)` evaluates `op(val)` if `cond` is true, otherwise evaluates `PP_EMPTY_EAT(val)` to obtain an empty result. The former part `PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)` returns `PP_WHILE_N+1` if `cond` is true, and continues the loop with the combined parameters of the latter part. Otherwise, it returns `val PP_EMPTY_EAT`, in which case `val` is the final calculation result, and `PP_EMPTY_EAT` will discard the result of the latter part.
 
-`SUM` calculates `N + N-1 + ... + 1`. The initial value is `(max_num, origin_num)`; `SUM_PRED` takes the first element `x` and checks whether it is greater than 0; `SUM_OP` decrements `x` by `x = x - 1` and adds `x` to `y` by `y = y + x`. `SUM_PRED` and `SUM_OP` are passed directly to `PP_WHILE`, and the result returned is a tuple. The desired result is the second element of the tuple, so we use `SUM` again to get the value of the second element.
+`SUM` implements `N + N-1 + ... + 1`. The initial values are `(max_num, origin_num)`. For `SUM_PRED` it takes the first element `x` of the value and checks if it is greater than 0. `SUM_OP` performs the decrement operation `x = x - 1` on `x`, and the `+ x` operation `y = y + x` on `y`. Directly pass `SUM_PRED` and `SUM_OP` to `PP_WHILE`, the result returned is a tuple. The desired result is the second element of the tuple, so we use `SUM` to get the value of the second element.
 
-#### Recursion
+#### Recursive Reentry
 
-So far, our traversal access and conditional loop have been working well, producing the expected results. Do you remember when we mentioned the prohibition of recursive reentry when we talked about macro expansion rules? Unfortunately, we encounter the prohibition of recursive reentry when we want to perform nested loops:
+So far, our traversal visits and conditional loops have been working well and producing the expected results. Remember when we talked about the prohibition of recursive reentry in macro expansion rules? Unfortunately, we encountered this prohibition of recursive reentry when we wanted to perform nested loops.
 
-```cpp
+``` cpp
 #define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple
 #define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))
 
@@ -865,11 +900,11 @@ So far, our traversal access and conditional loop have been working well, produc
 SUM2(1, a)      // -> a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))
 ```
 
-In `SUM2`, the parameter `op` is replaced by `SUM_OP2`, and `SUM_OP2` calls `SUM`, which in turn expands to `PP_WHILE_1`, effectively causing `PP_WHILE_1` to call itself recursively, causing the preprocessor to stop expanding.
+`SUM2` changes the parameter `op` to `SUM_OP2`, and inside `SUM_OP2` it will call `SUM`, and when `SUM` expands, it will become `PP_WHILE_1`, which is equivalent to `PP_WHILE_1` recursively calling itself. The preprocessor stops expanding.
 
-To solve this problem, we can use a method called Automatic Recursion:
+To solve this problem, we can use a method called Automatic Recursion.
 
-```cpp
+``` cpp
 #define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))
 
 #define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)
@@ -903,15 +938,15 @@ PP_AUTO_WHILE       // -> PP_WHILE_1
 SUM4(2, a)          // -> a + 0 + 2 + 1 + 0 + 1
 ```
 
-`PP_AUTO_WHILE` is an automatic recursion version of `PP_WHILE`, and the core macro is `PP_AUTO_REC(PP_WHILE_PRED)`, which can find the current available version number `N` of `PP_WHILE_N`.
+`PP_AUTO_WHILE` is an automatically deduced recursive version of `PP_WHILE`, the core macro being `PP_AUTO_REC(PP_WHILE_PRED)`, which can determine the number `N` of the current available version of `PP_WHILE_N`.
 
-The principle of deduction is very simple, that is, to search all versions and find the version that can be expanded correctly, and return the number of that version. In order to improve the search speed, the common practice is to use binary search, which is what `PP_AUTO_REC` does. `PP_AUTO_REC` accepts a parameter `check`, which is responsible for checking the availability of versions. Here, the support for searching version range `[1, 4]` is given. `PP_AUTO_REC` will first check `check(2)`. If `check(2)` is true, it will call `PP_AUTO_REC_12` to search the range `[1, 2]`, otherwise it will use `PP_AUTO_REC_34` to search `[3, 4]`. `PP_AUTO_REC_12` checks `check(1)`. If it is true, it means that version `1` is available, otherwise it uses version `2`. `PP_AUTO_REC_34` works the same way.
+The principle of deduction is very simple. It searches through all versions, finds the version that can be correctly expanded, and returns the number of that version. In order to improve the speed of the search, the usual practice is to use binary search, which is what `PP_AUTO_REC` does. `PP_AUTO_REC` takes a parameter called `check`, which is responsible for checking the availability of versions. Here, the supported range for version search is specified as `[1, 4]`. `PP_AUTO_REC` will first check `check(2)`. If `check(2)` is true, it will call `PP_AUTO_REC_12` to search the range `[1, 2]`, otherwise it will use `PP_AUTO_REC_34` to search `[3, 4]`. `PP_AUTO_REC_12` checks `check(1)`, if it is true, it means that version `1` is available, otherwise it uses version `2`. `PP_AUTO_REC_34` follows the same logic.
 
-How should the `check` macro be written to determine the availability of versions? Here, `PP_WHILE_PRED` will be expanded into two parts of concatenation. Let's look at the latter part `PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`: if `PP_WHILE_ ## n` is available, because `PP_WHILE_FALSE` always returns `0`, this part will be expanded to the value of the `val` parameter, which is `PP_WHILE_FALSE`; otherwise, this macro will remain unchanged and still be `PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`.
+`check` How can we write the macro to check if the version is available? Here, `PP_WHILE_PRED` will be expanded into two parts of concatenation. Let's take a look at the latter part, `PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`: if `PP_WHILE_ ## n` is available, since `PP_WHILE_FALSE` always returns `0`, this part will be expanded to the value of the `val` parameter, which is `PP_WHILE_FALSE`; otherwise, this part of the macro will remain unchanged, still `PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`.
 
-Concatenate the result of the latter part with the front part `PP_WHILE_CHECK_` to get two results: `PP_WHILE_CHECK_PP_WHILE_FALSE` or `PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`. Therefore, we let `PP_WHILE_CHECK_PP_WHILE_FALSE` return `1` to indicate availability, and `PP_WHILE_CHECK_PP_WHILE_n` returns `0` to indicate unavailability. Thus, we have completed the functionality of automatic deduction.
+Concatenate the result of the latter part with the prefix `PP_WHILE_CHECK_` to obtain two possible results: `PP_WHILE_CHECK_PP_WHILE_FALSE` or `PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)`. Therefore, we make `PP_WHILE_CHECK_PP_WHILE_FALSE` return `1` to indicate availability and `PP_WHILE_CHECK_PP_WHILE_n` return `0` to indicate unavailability. With this, we have completed the automatic deduction of recursion.
 
-#### Arithmetic comparison
+#### Arithmetic Comparison
 
 Not equal:
 
@@ -929,8 +964,6 @@ Not equal:
 // ...
 #define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_8(...) 0
 
-```cpp
-
 #define PP_NOT_EQUAL_0(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))
 #define PP_NOT_EQUAL_1(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))
 #define PP_NOT_EQUAL_2(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))
@@ -943,11 +976,11 @@ PP_NOT_EQUAL(1, 1)          // -> 0
 PP_NOT_EQUAL(3, 1)          // -> 1
 ```
 
-It determines whether the values are equal. It uses the feature of forbidding recursive entry to concatenate `x` and `y` recursively into the macro `PP_NOT_EQUAL_x PP_NOT_EQUAL_y`. If `x == y`, the `PP_NOT_EQUAL_y` macro will not be expanded, and it will be concatenated with `PP_NOT_EQUAL_CHECK_` to form `PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y` which returns `0`; conversely, if both are expanded successfully, they will ultimately obtain `PP_EQUAL_NIL`, which is concatenated to obtain `PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL` and returns `1`.
+The judgment of whether the values are equal uses the feature of prohibiting recursive re-entry. The `x` and `y` are recursively concatenated into the `PP_NOT_EQUAL_x PP_NOT_EQUAL_y` macro. If `x == y`, the `PP_NOT_EQUAL_y` macro will not be expanded, and it will be concatenated with `PP_NOT_EQUAL_CHECK_` to form `PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y`, returning `0`. On the other hand, if it successfully expands twice, the final result will be `PP_EQUAL_NIL`, concatenated with `PP_NOT_EQUAL_CHECK_` to form `PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL`, returning `1`.
 
 Equal:
 
-```cpp
+``` cpp
 #define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))
 
 PP_EQUAL(1, 1)              // -> 1
@@ -955,9 +988,9 @@ PP_EQUAL(1, 3)              // -> 0
 
 ```
 
-Less than or equal to:
+<=
 
-```cpp
+``` cpp
 #define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))
 
 PP_LESS_EQUAL(2, 1)         // -> 0
@@ -967,7 +1000,7 @@ PP_LESS_EQUAL(1, 2)         // -> 1
 
 Less than:
 
-```cpp
+``` cpp
 #define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))
 
 PP_LESS(2, 1)               // -> 0
@@ -975,29 +1008,15 @@ PP_LESS(1, 2)               // -> 1
 PP_LESS(2, 2)               // -> 0
 ```
 
-In addition, there are arithmetic comparisons such as greater than, greater than or equal to, and so on. They are not discussed here.
+In addition, there are arithmetic comparisons such as greater than, greater than or equal to, and so on. No more details will be elaborated here.
 
-#### Arithmetic operations
+#### Arithmetic Operations
 
-Using `PP_AUTO_WHILE`, we can now implement basic arithmetic operations, supporting nested operations.
+With the use of `PP_AUTO_WHILE`, we can achieve basic arithmetic operations and also support nested operations.
 
 Addition:
 
-```cpp
-#define PP_ADD(x, y) \
-    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))
-#define PP_ADD_IMPL(x, y) x
-
-#define PP_ADD_PRED(xy_tuple) PP_ADD_PRED_IMPL xy_tuple
-#define PP_ADD_PRED_IMPL(x, y) y
-
-#define PP_ADD_OP(xy_tuple) PP_ADD_OP_IMPL xy_tuple
-#define PP_ADD_OP_IMPL(x, y) (PP_INC(x), PP_DEC(y))
-```
-
-```
-Addition:
-```cpp
+``` cpp
 #define PP_ADD(x, y) \
     PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))
 #define PP_ADD_IMPL(x, y) x
@@ -1008,12 +1027,13 @@ Addition:
 #define PP_ADD_OP(xy_tuple) PP_ADD_OP_IMPL xy_tuple
 #define PP_ADD_OP_IMPL(x, y) (PP_INC(x), PP_DEC(y))
 
-PP_ADD(1, 2)                // -> 3
-PP_ADD(1, PP_ADD(1, 2))     // -> 4
+PP_ADD(1, 2)                  // -> 3
+PP_ADD(1, PP_ADD(1, 2))       // -> 4
 ```
 
 Subtraction:
-```cpp
+
+``` cpp
 #define PP_SUB(x, y) \
     PP_IDENTITY(PP_SUB_IMPL PP_AUTO_WHILE(PP_SUB_PRED, PP_SUB_OP, (x, y)))
 #define PP_SUB_IMPL(x, y) x
@@ -1029,7 +1049,8 @@ PP_SUB(3, PP_ADD(2, 1))     // -> 0
 ```
 
 Multiplication:
-```cpp
+
+``` cpp
 #define PP_MUL(x, y) \
     IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))
 #define PP_MUL_IMPL(ret, x, y) ret
@@ -1044,10 +1065,11 @@ PP_MUL(1, 1)                // -> 1
 PP_MUL(2, PP_ADD(0, 1))     // -> 2
 ```
 
-In the multiplication implementation, an additional parameter `ret` is added with an initial value of `0`. It is updated by `ret = ret + x` in each iteration.
+Multiplication function adds an additional parameter `ret` here, with an initial value of `0`, and in each iteration `ret` is updated as `ret = ret + x`.
 
 Division:
-```cpp
+
+``` cpp
 #define PP_DIV(x, y) \
     IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))
 #define PP_DIV_IMPL(ret, x, y) ret
@@ -1063,35 +1085,33 @@ PP_DIV(2, 1)                // -> 2
 PP_DIV(2, PP_ADD(1, 1))     // -> 1
 ```
 
-The division operation utilizes `PP_LESS_EQUAL`, which continues the loop only if `y <= x`.
+Division uses `PP_LESS_EQUAL`, only continue the loop if `y <= x`.
 
 #### Data Structures
 
-Macros can also have data structures. In fact, we have already used a data structure called `tuple` in the earlier examples. `PP_REMOVE_PARENS` is used to remove the outer parentheses of the `tuple` and return the elements inside. Here, we will use `tuple` as an example to discuss its implementation. If you are interested in other data structures like `list` or `array`, you can take a look at the implementation in Boost library.
+Macros can also have data structures. In fact, we have briefly used a data structure called `tuple` earlier, where `PP_REMOVE_PARENS` can remove the outer parentheses of a `tuple` and return its elements. Here, we will use `tuple` as an example to discuss the relevant implementation. If you are interested, you can also look at the implementation of other data structures like `list` and `array` in `Boost`.
 
-A `tuple` is defined as a collection of elements enclosed in parentheses and separated by commas: `(a, b, c)`.
-```
+A `tuple` is defined as a collection of elements separated by commas and enclosed in parentheses: `(a, b, c)`.
 
-
-```cpp
+``` cpp
 #define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)
 
-// Obtain the element at the specified index
+// Get the element at the specified index
 #define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))
 
-// Consume the entire tuple and return empty
+// Swallow the entire tuple and return empty
 #define PP_TUPLE_EAT() PP_EMPTY_EAT
 
-// Obtain the size
+// Get Size
 #define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))
 
-// Add an element
+// Add element
 #define PP_TUPLE_PUSH_BACK(elem, tuple) \
     PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)
 #define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \
     (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)
 
-// Insert an element
+// Insert element
 #define PP_TUPLE_INSERT(i, elem, tuple) \
     PP_TUPLE_ELEM( \
         3, \
@@ -1101,8 +1121,8 @@ A `tuple` is defined as a collection of elements enclosed in parentheses and sep
             (0, i, elem, (), tuple) \
         ) \
     )
-#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PRED_IMPL args 
-#define PP_TUPLE_INSERT_PRED_IMPL(curi, i, elem, ret, tuple) \
+#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args 
+#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \
     PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))
 #define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args
 #define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \
@@ -1118,7 +1138,6 @@ A `tuple` is defined as a collection of elements enclosed in parentheses and sep
     ), \
     tuple \
     )
-```
 
 // Remove the last element
 #define PP_TUPLE_POP_BACK(tuple) \
@@ -1130,8 +1149,18 @@ A `tuple` is defined as a collection of elements enclosed in parentheses and sep
             (0, (), tuple) \
         ) \
     )
+#define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args
+#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \
+    PP_IF( \
+        PP_TUPLE_SIZE(tuple), \
+        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
+        0 \
+    )
+#define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args
+#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \
+    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)
 
-// Remove an element
+// Delete element
 #define PP_TUPLE_REMOVE(i, tuple) \
     PP_TUPLE_ELEM( \
         2, \
@@ -1140,6 +1169,25 @@ A `tuple` is defined as a collection of elements enclosed in parentheses and sep
             PP_TUPLE_REMOVE_OP, \
             (0, i, (), tuple) \
         ) \
+    )
+#define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args
+#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \
+    PP_IF( \
+        PP_TUPLE_SIZE(tuple), \
+        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
+        0 \
+    )    
+#define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args
+#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \
+    ( \
+    PP_INC(curi), \
+    i, \
+    PP_IF( \
+        PP_NOT_EQUAL(curi, i), \
+        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \
+        ret \
+    ), \
+    tuple \
     )
 
 PP_TUPLE_SIZE(())               // -> 0
@@ -1153,32 +1201,35 @@ PP_TUPLE_POP_BACK(())           // -> ()
 PP_TUPLE_POP_BACK((1))          // -> ()
 PP_TUPLE_POP_BACK((1, 2, 3))    // -> (1, 2)
 
-```
 PP_TUPLE_REMOVE(1, (1, 2, 3))   // -> (1, 3)
 PP_TUPLE_REMOVE(0, (1, 2, 3))   // -> (2, 3)
 ```
 
-Let me give a brief explanation of the implementation of inserting elements. Similar principles are used to implement other operations such as removing elements. `PP_TUPLE_INSERT(i, elem, tuple)` allows us to insert the element `elem` at position `i` in the `tuple`. To accomplish this, we first use `PP_TUPLE_PUSH_BACK` to move all the elements with positions less than `i` to a new `tuple` called `ret`. Then we place the element `elem` at position `i` in `ret`, and finally append the elements in the original `tuple` with positions greater than or equal to `i` to `ret`. As a result, `ret` gives us the desired outcome.
+Here's a brief explanation of how the insertion of elements is implemented here, and similar principles are used for other operations like element deletion. `PP_TUPLE_INSERT(i, elem, tuple)` can insert element `elem` at position `i` in `tuple`. To accomplish this, we first use `PP_TUPLE_PUSH_BACK` to place all elements with positions less than `i` onto a new `tuple` called `ret`. Then, we place element `elem` at position `i`. After that, we append the original elements from `tuple` with positions greater than or equal to `i` to the end of `ret`. Finally, `ret` gives us the desired result.
 
-## Conclusion
+## Summary
 
-The purpose of this article is to explain the principles and basic implementation of C/C++ macro programming. While documenting my own understanding and insights, I hope it can also provide some clarification and inspiration to others. It should be noted that although this article has been a bit lengthy, it still does not cover some macro programming techniques and usages, such as the recursive calling method based on delayed expansion proposed by CHAOS_PP, or the `REPEAT` macro in BOOST_PP. For those interested, further reading is recommended.
+The purpose of this document is to explain the principles and basic implementation of C/C++ macro programming. While recording my own understanding and knowledge, I hope to clarify and inspire others. It is worth noting that although this document is a bit long, there are still some macro programming techniques and usages that have not been covered, such as the [recursive call method based on delayed expansion proposed by CHAOS_PP](https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression), and the `REPEAT` related macros in BOOST_PP, etc. Interested readers can search for information on their own.
 
-Debugging macro programming can be a painful process. Here are some approaches:
+Debugging macro programming is a painful process. We can:
 
-* Use the `-P -E` options to output the preprocessed result.
-* Carefully study the expansion process using the modified version of `clang` mentioned earlier.
-* Break down complex macros and examine the intermediate results of macro expansion.
-* Shield irrelevant headers and macros.
-* Ultimately, it is necessary to mentally simulate the macro expansion process. Familiarity with macro expansion will improve debugging efficiency.
+* Use the `-P -E` options to output the preprocessing result;
+* Use the `clang` version that I modified as mentioned earlier to carefully study the expansion process;
+* Break down complex macros and examine the expansion results of intermediate macros;
+* Block irrelevant header files and macros;
+* Finally, it is necessary to mentally simulate the process of macro expansion. Familiarity with macro expansion will also improve debugging efficiency.
 
-The macros in this article are my own implementation after understanding the principles. Some macros are inspired by the implementation in Boost and referenced articles. If there are any errors, please feel free to point them out and reach out to me for further discussion.
+The macros in this article are my own reimplementation after understanding the principles. Some of the macros were inspired by the implementation in `Boost` and referenced articles. If there are any errors, feel free to correct them at any time. I am also open to discussing related issues with you.
 
-All the code in this article can be found here: [Download](assets/img/2021-3-31-cpp-preprocess/macors.cpp), [Online Demo](https://godbolt.org/z/coWvc5Pse).
+The code for this article is available here: [Download](assets/img/2021-3-31-cpp-preprocess/macors.cpp), [Online Demo](https://godbolt.org/z/coWvc5Pse).
 
-## References
+## Quote
 
 * [Boost.Preprocessor](https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/)
-* [The Art of Macro Programming in C/C++](https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art)
+[C/C++ Macro Programming Art](https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art)
+
+> Original: <https://disenone.github.io/wiki>  
+> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
