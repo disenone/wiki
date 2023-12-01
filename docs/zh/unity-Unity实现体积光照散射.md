@@ -294,3 +294,6 @@ Shader "Custom/LightScattering"
 ## 完整代码
 
 代码在[这里](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)，把`cs`脚本添加到相机上。
+
+> 原文地址：<https://disenone.github.io/wiki>  
+> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。

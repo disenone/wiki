@@ -168,3 +168,6 @@ extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
 	MSVCRT90.dll.
 
 所以使用的时候最好要注意一下。
+
+> 原文地址：<https://disenone.github.io/wiki>  
+> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。

@@ -269,3 +269,6 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
     </FASTBuild>
 </Configuration>
 ```
+
+> 原文地址：<https://disenone.github.io/wiki>  
+> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。

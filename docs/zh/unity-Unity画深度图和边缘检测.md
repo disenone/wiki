@@ -312,3 +312,6 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
 
 # 完整的代码
 代码文件有点多，就放到这里了[depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)。
+
+> 原文地址：<https://disenone.github.io/wiki>  
+> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。

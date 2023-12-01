@@ -376,3 +376,6 @@ strtest = Hello World!
 - `getenv` 是原生多平台就支持的，可以直接使用，但也过于原始，并使用的是环境变量，对环境有一定的污染，每次使用前最好清除不必要的环境变量防止上次的设置存留污染
 - `getopt` 是 Linux 平台原生支持的，Windows 不支持，所以需要包含实现的代码才能跨平台使用。参数的传递符合 Linux 的命令传参标准，支持可选参数，但使用起来略微麻烦，通常需要循环和条件判断来处理不同的参数，并对数值类型的参数不友好。
 - `moduleparam` 是参考 Linux 内核的 `moduleparam` 实现的命令行参数处理工具，支持跨平台使用，使用简单，能对不同类型的参数进行类型转换，缺点就是每个参数都需要一个相应的变量存储。
+
+> 原文地址：<https://disenone.github.io/wiki>  
+> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。

@@ -5,13 +5,13 @@ site_description: 无止境
 repo_url: https://github.com/disenone/wiki
 repo_name: GitHub
 copyright: Copyright &copy; 2014 - 2023 by <a href="https://github.com/disenone"> Disenone </a>
+edit_uri: edit/main/docs/ # 编辑按钮的url
 
 theme:
   name: material
   language: zh
   font: #false # 国内网络访问 Google 源可能会有问题
     text: "Noto Sans SC - local"
-    size: 14
     #code: Roboto Mono
   palette:
     - media: "(prefers-color-scheme: light)" # 检查用户系统配置是否为亮色
@@ -28,6 +28,8 @@ theme:
       toggle:
         icon: material/eye-outline
         name: 切换亮色模式
+  logo: assets/favicon/android-chrome-512x512.png
+  favicon: assets/favicon/favicon.ico
   features:
     - content.code.copy # 代码块复制按钮
     - content.action.edit # 文章编辑按钮
@@ -61,7 +63,13 @@ plugins:
         - locale: en
           name: English
           build: true
+          nav_translations:
+            Home: Home
+            编程技术: Programming
+            游戏开发: Game Dev
+            基础: Basic
   - search
+  - macros
   - blog:
       post_readtime: true
       post_date_format: full
@@ -73,6 +81,35 @@ plugins:
       exclude:
         - index.md
       custom_format: "%Y-%m-%d"
+  - rss:
+      abstract_chars_count: -1 # -1 for full content
+      #categories:
+      # - tags
+      #comments_path: "#__comments"
+      date_from_meta:
+        as_creation: "date"
+        as_update: false
+        datetime_format: "%Y-%m-%d %H:%M"
+      enabled: true
+      feed_ttl: 1440
+      image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png
+      length: 1000
+      pretty_print: true
+      match_path: "(zh|blog)/.*"
+      url_parameters:
+        utm_source: "documentation"
+        utm_medium: "RSS"
+        utm_campaign: "feed-syndication"
+
+extra:
+  alternate:
+    - name: 简体中文
+      link: /
+      lang: zh
+    - name: English
+      link: /en/
+      lang: en
+  generator: false
 
 markdown_extensions:
   - pymdownx.arithmatex:
@@ -83,7 +120,10 @@ markdown_extensions:
       anchor_linenums: true
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      base_path: ['.', 'docs/assets/ext']
+      check_paths: true
+      restrict_base_path: true
   - attr_list
   - md_in_html
   - mdx_truly_sane_lists
@@ -104,7 +144,7 @@ extra_css:
 
 nav:
   - Home: index.md
-  - 编程:
+  - 编程技术:
     - C/C++:
       - cpp-C和Cpp的命令行参数处理总结.md
       - cpp-C和Cpp宏编程解析.md
