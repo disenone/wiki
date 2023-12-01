@@ -13,7 +13,7 @@ except:
     pass
 
 # 日志
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 
 # 设置 OpenAI API Key 和 API Base 参数，通过 env.py 传入
 openai_client = OpenAI(
@@ -197,6 +197,7 @@ def translate_text(text, lang, type):
 
     # 获取翻译结果
     log('translate_text1:', completion, level=logging.DEBUG)
+    sys.stdout.flush()
     output_text = completion.choices[0].message.content
     return output_text
 
@@ -451,6 +452,7 @@ def run(working_folder):
                 processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
+        break
 
     with open(processed_dict_file, 'w', encoding='utf-8') as f:
         f.write(json.dumps(processed_dict, indent=2))
