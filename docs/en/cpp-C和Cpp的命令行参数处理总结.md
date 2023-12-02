@@ -1,19 +1,20 @@
 ---
 layout: post
-title: Summary of Command-Line Argument Processing in C/C++
+title: Summary of command line parameter handling in C/C++
 categories:
 - c++
 catalog: true
 tags:
 - dev
-description: Some time ago, while flipping through the Linux kernel code, I came across
-  the handling of module parameters (moduleparam) in the kernel. I found it quite
-  ingenious and couldn't help but wonder how command line arguments in C can be better
-  handled.
+description: Some time ago, when I was going through the Linux kernel code, I came
+  across the handling of module parameters (moduleparam) in the kernel, and I found
+  it quite ingenious. It made me want to study how command-line arguments in C can
+  be handled better.
 figures:
 - assets/post_assets/2016-11-19-aparsing/aparsing.png
 ---
 
+<meta property="og:title" content="C/C++ 的命令行参数处理总结" />
 
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/gcc-4.9-blue.svg){:style="display: inline-block"}
@@ -21,11 +22,11 @@ figures:
 
 ![](assets/img/2016-11-19-aparsing/aparsing.png)
 
-Some time ago, when I was browsing the Linux kernel code, I came across the handling of module parameters (moduleparam) in the kernel. I found it quite ingenious, which made me curious about how command line parameters are handled in C. The code used in this article can be found here [aparsing](https://github.com/disenone/aparsing). The code can be compiled and run on Windows, Linux, and Mac OS X, and detailed compilation instructions can be found in the README.md file.
+Some time ago, when I was going through the Linux kernel code, I came across the way the kernel handles module parameters (moduleparam), and I found it quite ingenious. It made me curious about how command-line arguments in C could be better handled. The code used in this article can be found here [aparsing](https://github.com/disenone/aparsing). The code can be compiled and run on Windows, Linux, and Mac OS X. Detailed compilation instructions can be found in the README.md file.
 
 ## getenv
 
-The standard library provides us with a function `getenv` which, as its literal meaning suggests, is used to retrieve environment variables. Therefore, as long as we set the required environment variables in advance and retrieve them in our program, we can indirectly pass the parameters to the program. Let's take a look at the following [code](https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c):
+The standard library provides us with a function `getenv`. Literally, this function is used to retrieve environment variables. So as long as we set the required environment variables in advance and retrieve them in the program, we indirectly pass the parameters to the program. Let's take a look at the following [code](https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c):
 
 ``` cpp linenums="1"
 #include <stdlib.h>
@@ -52,15 +53,18 @@ int main (int argc, char **argv)
 }
 ```
 
-The `getenv` function is declared in line [4](#__codelineno-0-5). It takes the variable name as input and returns the value of that variable. If the variable is not found, it returns 0. In lines [10](#__codelineno-0-10) and [15](#__codelineno-0-15), we are getting the values of two environment variables and if they are valid, we print their values. It's important to note that `getenv` always returns a string, so the user needs to manually convert it into the desired data type. This makes it less convenient to use. Compile and run the code.
+The `getenv` function is declared on line [4](#__codelineno-0-5). It takes the name of the variable you want to retrieve as input and returns the value of that variable. If the variable is not found, it returns 0. Lines [10](#__codelineno-0-10) and [15](#__codelineno-0-15) are used to retrieve the values of two environment variables respectively. If the variables are valid, their values are printed. It is worth noting that `getenv` always returns a string, so the user needs to manually convert it to the desired data type. Therefore, it may not be very convenient to use. Compile and run:
 
-On Windows:
+Under Windows:
 
 ``` bat
 set GETENV_ADD=abc & set GETENV_NUM=1 & .\getenv_test.exe
 ```
 
 Under Linux:
+
+ 
+
 
 ``` shell
 GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
@@ -75,7 +79,7 @@ GETENV_NUM = 2
 
 ## getopt
 
-Linux provides us with a set of functions `getopt, getopt_long, getopt_long_only` to handle command line arguments. The declarations of these three functions are respectively:
+Linux provides us with a set of functions `getopt, getopt_long, getopt_long_only` to handle command-line arguments. The declarations of these three functions are as follows:
 
 ```cpp linenums="1"
 extern char *optarg;
@@ -93,9 +97,9 @@ int getopt_long_only(int argc, char * const argv[],
             const struct option *longopts, int *longindex);
 ```
 
-`getopt` can only handle short options (i.e., single-character options), while `getopt_long` and `getopt_long_only` can handle long options. For detailed function explanations, you can refer to the manual in Linux. Below, we will illustrate the usage of `getopt` and `getopt_long` through examples.
+`getopt` can only handle short options (i.e., single character options), while `getopt_long` and `getopt_long_only` can handle long options. For a detailed explanation of the functions, you can refer to the manual in Linux. Now, let's illustrate the usage of `getopt` and `getopt_long` through examples.
 
-It should be noted that these functions are not available in Windows. Therefore, I found a piece of source code that can be compiled on Windows and made a small modification. The code can be found [here](https://github.com/disenone/aparsing/tree/master/getopt).
+It should be noted that these functions are not available on Windows, so I found a source code that can be compiled on Windows and made some minor modifications. The code can be found [here](https://github.com/disenone/aparsing/tree/master/getopt).
 
 ```cpp linenums="1"
 // test getopt
@@ -198,37 +202,29 @@ int main (int argc, char **argv)
 
 ```
 
-We will focus on the usage of `getopt_long`, the first three parameters of `getopt_long` are the same as `getopt`. They are the number of command line arguments `argc`, the array of command line arguments `argv`, and the specific format of short parameters `optstring`. The format of `optstring` consists of individual short parameter characters, followed by a colon `:` to indicate that it takes a required parameter, and two colons `::` to indicate that it takes an optional parameter. For example, in line 19, we declare the format of short parameters: the `b` parameter does not take any additional parameter, the `a` parameter takes an additional parameter, and the `c` parameter takes an optional parameter.
+Let's focus on analyzing the usage of `getopt_long`. The first three parameters of `getopt_long` are the same as `getopt`: the number of command-line arguments `argc`, the array of command-line arguments `argv`, and the exact format of short parameters `optstring`. The format of `optstring` consists of individual short parameter characters, followed by a colon `:` to indicate a parameter is required, and two colons `::` to indicate an optional parameter. For example, in line 19, the declaration of the short parameters is as follows: the `b` parameter does not take any extra arguments, the `a` parameter requires an extra argument, and the `c` parameter takes an optional argument.
 
-The last two arguments of `getopt_long` are used to handle long options, and the structure of `option` is as follows:
+The last two arguments of `getopt_long` are used to handle long options, and the structure of `option` is:
 
 ```c
 struct option {
-```markdown
-```
-`const char *name;       // 长参数名字`
-
-`int         has_arg;    // 是否带额外参数`
-
-`int        *flag;       // 设置如何返回函数调用结果`
-
-`int         val;        // 返回的数值`
-
-```markdown
-```
+const char *name;       // Long parameter name
+int         has_arg;    // Whether it takes an additional argument
+int        *flag;       // Specify how to return the function call result
+int         val;        // The returned value
 };
 ```
-Although it is called a long parameter, `name` can still be set to a single character length.
+Although it is called a long parameter, the `name` can still be set to a single character length.
 
-`[has_arg]` can be set to `[no_argument]`, `[required_argument]`, `[optional_argument]`, which respectively mean without argument, with argument, with optional argument.
+`has_arg` can be set to `no_argument, required_argument, optional_argument`, which respectively indicate no argument, required argument, optional argument.
 
-`flag` and `val` are used together. If `flag = NULL`, `getopt_long` will directly return `val`. Otherwise, if `flag` is a valid pointer, `getopt_long` will perform an operation similar to `*flag = val`, setting the variable pointed to by `flag` to the value of `val`.
+`flag` and `val` are used together. If `flag = NULL`, `getopt_long` will directly return `val`. Otherwise, if `flag` is a valid pointer, `getopt_long` will perform an operation similar to `*flag = val`, which sets the variable pointed to by `flag` to the value of `val`.
 
-If `getopt_long` finds a matching short option, it returns the character value of that short option. If it finds a matching long option, it returns `val` (`flag = NULL`) or `0` (`flag != NULL; *flag = val;`). If it encounters a non-option character, it returns `?`. If all options have been processed, it returns `-1`.
+If `getopt_long` finds a match for a short option, it will return the character value of that option. If it finds a match for a long option, it will return `val` (`flag = NULL`) or return `0` (`flag != NULL; *flag = val;`); if it encounters a non-option character, it will return `?`; if all options have been processed, it will return `-1`.
 
-By utilizing the characteristics of the return value, we can achieve the same effect as using long and short parameters with equivalent meanings. For example, in the `long_options` first parameter `add`, if the `val` value is set to the character `'a'` for the short parameter, then when the return is evaluated, `--add` and `-a` will enter the same processing branch and be treated as having the same meaning.
+By utilizing the feature of return values, we can achieve the same effect of having the same meaning for long options and short options. For example, the first parameter of `long_options` is set to `add` with `val` value as the character `'a'`. In this case, when checking the return value, both `--add` and `-a` will enter the same processing branch and be treated as having the same meaning.
 
-The last piece of the puzzle is the usage of `optind` and `optarg`. `optind` represents the position of the next argument to be processed in `argv`, while `optarg` points to the additional argument string.
+The last piece of the jigsaw puzzle is the usage of `optind` and `optarg`. `optind` represents the position of the next argument to be processed in `argv`, while `optarg` points to the additional argument string.
 
 Compile and run the code:
 
@@ -248,40 +244,38 @@ option 3
 
 ```
 
--the meaning of `-a` and `--add` is the same, for short parameters the optional parameter is followed directly afterwards, for example `-c4`, while for long parameters the optional parameter needs to be preceded by an equal sign, for example `--verbose=3`.
+The meanings of `-a` and `--add` are the same. For short parameters, the optional parameter follows immediately after, for example `-c4`. For long parameters, the optional parameter needs to be specified with an equal sign, for example `--verbose=3`.
 
 ## mobuleparam
 
-Ok, finally we come to the method that initially triggered this article. The Linux kernel uses a clever method to pass parameters to kernel modules, and this method is called `moduleparam`. Here, I will briefly explain the approach of `moduleparam` in the Linux kernel, for a more detailed explanation, you can refer to the code. Although I have borrowed some handling methods from `moduleparam`, there are some differences between my method and the `moduleparam` in the Linux kernel. To distinguish them, I will refer to my method as "small moduleparam", while the one in the Linux kernel will still be called "moduleparam".
+Okay, finally we have come to the method that triggered this article in the first place. The Linux kernel uses a clever technique to pass parameters to kernel modules, and that technique is called `moduleparam`. Here, I'll explain briefly how `moduleparam` works in the Linux kernel, but for a more detailed explanation, you can refer to the code. Although I have borrowed some handling techniques from `moduleparam`, there are some differences between my method, which I'll refer to as `small moduleparam`, and the one used in the Linux kernel, which will still be called `moduleparam`.
 
-First, let's take a look at the usage of `moduleparam`. Declare it inside the module:
+First, let's take a look at the usage of `moduleparam`, which is declared inside the module:
 
 ```c
 int enable_debug = 0;
 module_param(enable_debug, int, 0);
 ```
 
-And then input the parameters when loading the module:
+Then enter parameters when loading the module:
 
 ```shell
 $ insmod mod enable_debug=1
 ```
 
-The variable `enable_debug` is correctly set to `1`, making it very convenient to use. There is also very little additional code required. The code can be written in a concise and elegant manner, without the need for extensive loop conditions like those used in `getenv` and `getopt`. Furthermore, it comes with built-in type conversion. So, when I saw it, I thought it would be even better if this method could be used to handle command-line parameters.
+The variable `enable_debug` has been correctly set to `1`, making it convenient to use. There is also very little additional code that needs to be added, and the code can be written in a concise and elegant manner. There is no need to write multiple loop conditions like `getenv` and `getopt`, and it also includes built-in type conversion. So, when I see it, I think it would be even better if we can use this method to handle command-line arguments.
 
-Next, let's take a look at the core implementation of `moduleparam`:
+Now let's take a look at the core implementation of `moduleparam`:
 
 ```cpp linenums="1"
 struct kernel_param {
-```cpp
-const char * name;          // Variable name
-u16 perm;                    // Variable access permission
-u16 flags;                   // Variable whether of type bool
-param_set_fn set;            // str -> Variable value
-param_get_fn get;            // Variable value -> str
-```
+const char *name;           // Variable name
+u16 perm;                   // Variable access permission
+u16 flags;                  // Variable is bool type or not
+param_set_fn set;           // str -> variable value
+param_get_fn get;           // variable value -> str
 	union {
-        `void *arg;`  - Variable pointer
+void *arg;              // variable pointer
 		const struct kparam_string *str;
 		const struct kparam_array *arr;
 	};
@@ -314,9 +308,9 @@ param_get_fn get;            // Variable value -> str
 
 ```
 
-`module_param` is a macro that actually creates a structure `kernel_param` which can be reflected into the variable passed in. The structure holds enough information to access and set the variable, which can be seen from lines 20-24. It then puts the structure in a `section` called `__param` (`__section__ ("__param")`). Once the structure is saved, the kernel will locate the position of the `__param` section and the number of structures in the elf file when loading the module. The kernel will then set the values for each parameter based on their names and `param_set_fn`. The method to locate a specific name `section` is platform-dependent. In the Linux kernel implementation, it involves processing the elf file. Linux provides the command `readelf` to view information about elf files. Those who are interested can refer to the `readelf` help information.
+`module_param` is a macro that actually establishes a structure called `kernel_param` that reflects the incoming variable. This structure, which contains enough information to access and set the variable, is stored in a section called `__param`, as shown in lines 20-24. Once the structure is saved, the kernel will locate the position and number of structures in the elf file's `section __param` when loading the module. The parameters are then individually set based on their names and `param_set_fn`. The method of locating a specific named section is platform-specific, and the Linux kernel implements it by processing the elf file. In Linux, the `readelf` command can be used to view information about elf files. If interested, you can refer to the `readelf` help information.
 
-The above mentioned method of the Linux kernel is platform-specific, but I want a platform-independent approach for handling parameters. So, we need to modify the original method of `moduleparam` a bit by removing the `__section__("__param")` declaration, since we don't want to read the `section` of the elf file in a complicated way. Let's take a look at the modified usage below:
+The above mentioned method of the Linux kernel is platform-specific, but I am looking for a platform-independent way to handle parameters. So we need to make some changes to the original `moduleparam` approach by removing the `__section__ ("__param")` declaration, as we don't want to read the `section` of the elf file in a complicated way. Let's take a look at the modified usage below:
 
 ```cpp linenums="1"
 #include "moduleparam.h"
@@ -367,11 +361,11 @@ int main (int argc, char **argv)
 
 ```
 
-So in order to preserve the structure of each reflection, I added a macro `init_module_param(num)` to declare the space to save the structure. `num` is the number of parameters, and if the actual number of declared parameters exceeds `num`, the program will trigger an assertion error. The declaration of `module_param` is slightly different from the original, removing the last parameter that represents access permissions, and no longer controls permissions. In addition, a macro `module_param_bool` is added to handle variables representing `bool`. This is not needed in the Linux version because it uses the gcc built-in function `__builtin_types_compatible_p` to determine the variable's type. Unfortunately, MSVC does not have this function, so I can only remove this functionality and add a macro. `module_param_array` and `module_param_string` are for handling arrays and strings, which were also present in the original version.
+To preserve the structure of each reflection, I have added a macro `init_module_param(num)` to declare the space for storing the structure. `num` is the number of parameters, and if the actual number of parameters declared exceeds `num`, the program will trigger an assertion error. The declaration of `module_param` is slightly different from the original, removing the last parameter that represents access permissions, so no access control is done. In addition, a macro `module_param_bool` has been added to handle variables that represent `bool`. This is not necessary in the Linux version, as it uses the gcc built-in function `__builtin_types_compatible_p` to determine the variable type. Unfortunately, MSVC does not have this function, so I had to remove this functionality and add a macro instead. `module_param_array` and `module_param_string` are used to handle arrays and strings, which were already present in the original version.
 
-Statement parameters are completed, it's time to process the incoming parameters. Use the macro `parse_params` and pass `argc, argv` as arguments. The third argument is a pointer to the callback function for handling unknown parameters. You can pass `NULL` to interrupt the handling of positional arguments and return an error code.
+After declaring the parameters, it's time to process the incoming arguments. Use the macro `parse_params` and pass in `argc, argv`. The third parameter is a pointer to the callback function for handling unknown parameters. You can pass `NULL`, which will interrupt the processing of positional arguments and return an error code.
 
-Compile and run the code:
+Compile and run code:
 
 ```
 .\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
@@ -383,18 +377,19 @@ latest = 1,2,3
 strtest = Hello World!
 ```
 
-It can be seen that numerical values, arrays, and strings can be read and format-converted correctly. If encountering parameters that cannot be format-converted, an error code will be returned and relevant information will be printed. We can easily add a few lines of code to complete the parameter reading and format conversion process, making it very elegant to use. For a more detailed implementation, you can directly refer to the code [here](https://github.com/disenone/aparsing).
+You can see that numerical values, arrays, and strings can all be read and converted correctly. If there are parameters that cannot be converted, an error code will be returned and relevant information will be printed. We can easily add a few lines of code to handle parameter reading and conversion, which makes it very elegant to use. For more detailed implementation, you can directly refer to the code [here](https://github.com/disenone/aparsing).
 
 ## Summary
 
-This time we summarized three methods for handling command-line arguments in C/C++, which are `getenv`, `getopt`, and `moduleparam`. Each of these methods has its own characteristics, and in the future, you can choose the appropriate method based on the actual requirements.
+This time we summarized three methods for handling command line arguments in C/C++: `getenv`, `getopt`, and `moduleparam`. Each method has its own characteristics, and you can choose the appropriate method based on the actual needs in the future.
 
-- `getenv` is natively supported on multiple platforms, so it can be used directly. However, it is too primitive and uses environment variables, which can pollute the environment. It is best to clear unnecessary environment variables before each use to prevent lingering pollution from previous settings.
-- `getopt` is natively supported on Linux platforms, but not supported on Windows, so it needs to include implementation code to use it cross-platform. The parameter passing follows the standard of Linux command line arguments, supports optional parameters, but it is slightly cumbersome to use. Usually, it requires looping and conditional statements to handle different parameters, and it is not friendly to numeric parameters.
-- `moduleparam` is a command line parameter handling tool implemented based on the `moduleparam` in the Linux kernel. It supports cross-platform usage and is easy to use. It can perform type conversion on different types of parameters. The disadvantage is that each parameter requires a corresponding variable for storage.
+- `getenv` is a native multi-platform function that can be used directly. However, it is too primitive and utilizes environment variables, which can cause some pollution to the environment. It is recommended to clear unnecessary environment variables before each use to avoid contamination from previous settings.
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+- `getopt` is natively supported on Linux platforms, but not on Windows. Therefore, it requires code implementation to achieve cross-platform usage. The parameter passing follows the standard command line argument format of Linux and supports optional parameters. However, it can be slightly cumbersome to use, often requiring loops and conditional statements to handle different parameters, and it is not particularly friendly to numerical types of parameters.
+
+- `moduleparam` is a command line argument processing tool inspired by the `moduleparam` implementation in the Linux kernel. It supports cross-platform usage and is easy to use. It can perform type conversion on different types of parameters. The drawback is that each parameter requires a corresponding variable for storage.
+
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

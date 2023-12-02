@@ -1,59 +1,56 @@
 ---
 layout: post
-title: Building Third-Person Camera in Unity (Part 1)
+title: Building a Third-Person Camera in Unity (Part 1)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: I want to create a third-person camera in Unity, with the camera's behavior
-  based on the third-person camera in "World of Warcraft". Let's start by addressing
-  the camera rotation issue.
+description: I would like to create a third-person camera in Unity, with the camera's
+  behavior modeled after the third-person camera in "World of Warcraft". Let's address
+  the rotation issue of the camera first.
 figure: null
 ---
 
+<meta property="og:title" content="Unity第三人称相机构建(上)" />
 
-I want to create a third-person camera in Unity, with the camera behavior based on the third-person camera in "World of Warcraft". The specific requirements are as follows:
+I want to create a third-person camera in Unity, with the camera's behavior modeled after the third-person camera in "World of Warcraft". The specific requirements are:
 
-1. **Left mouse button:** Control the camera to rotate around the character without rotating the character.
-2. **Right mouse button:** Control the camera to rotate around the character. The character's forward direction (Unity's transform.forward) rotates accordingly, while the character's upward direction remains unchanged.
-3. After rotating with the left mouse button, rotating with the right mouse button will immediately adjust the character's forward direction based on the left mouse button's rotation. Then, continuing to rotate with the right mouse button is equivalent to rotating with the right mouse button twice.
-4. **Mouse scroll wheel:** Control the zoom level of the camera.
+1. Left mouse button: Control the camera to rotate around the character, but the character itself does not rotate.
+2. Right mouse button: Control the camera to rotate around the character. The character's forward direction (Unity's `tranform.forward`) rotates accordingly, but the character's upward direction remains unchanged.
+3. After rotating with the left mouse button, if you rotate with the right mouse button, the character's forward direction will immediately adjust based on the left mouse button's rotation. Then, the right mouse button rotation is applied, which is equivalent to two consecutive right mouse button rotations.
+4. Mouse scroll wheel: Control the camera's zoom in and out.
 5. The camera cannot pass through any rigid objects.
 6. After the camera moves away from a colliding rigid object, it gradually returns to its original distance.
-7. If the camera encounters an object and the mouse scroll wheel is used to zoom in, the camera needs to respond immediately, and the 6th point no longer applies.
-8. If the camera collides with the ground while rotating, it stops rotating up and down around the character and instead rotates up and down around itself. The left and right rotation still revolves around the character.
+7. If the camera encounters an object and you use the mouse scroll wheel to zoom in, the camera needs to respond immediately, and the 6th point no longer occurs thereafter.
+8. If the camera hits the ground during rotation, it stops rotating up and down around the character and instead rotates up and down around itself. The left and right rotation still revolves around the character.
 
 
 
-This requirement can be divided into two parts: camera rotation and camera rigidity. For simplicity, let's first solve the problem of camera rotation, which corresponds to the first 3 points of the requirement.
+This requirement can be divided into two parts: camera rotation and camera rigidity. For simplicity, let's first solve the issue of camera rotation, which refers to the first three points of the requirement.
 
-Camera Position Indicator
+Camera position indicator
 ----------------
-Before we address the formal camera operations, there is one more issue that needs to be resolved: the representation of the camera position. This can be done in multiple ways:
+Before we proceed to the formal resolution of camera operations, there is one more issue that needs to be addressed: the representation of the camera position. This can be done in multiple ways:
 
-- > Original: <https://disenone.github.io/wiki>
-- > This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
-- [to_be_replace[3]]
-
-- World coordinates of the camera
-- Coordinates of the camera relative to the character
+- Camera world coordinates
+- Camera coordinates relative to the character
 - Direction and distance of the camera in the character coordinate system
 
-Because in our requirements, the camera is transformed based on the character's position, so here I am using the third method, and in the controls, the camera is always aimed at the character, so only distance information needs to be saved inside the camera.
+Because in our needs, the camera is transformed according to the position of the character, so here I use the third method, and the camera in the control always aims at the character, so only distance information needs to be saved in the camera.
 
 ```c#
 float curDistance = 5F;
 ```
 
-Camera rotation
+Camera Rotation
 -------------
-Continuing the subdivision of camera rotation behavior, it can be divided into left-click rotation and right-click rotation. Let's proceed step by step to complete these two rotations. First, I set the camera as a child object of the character, so that the camera will automatically track some basic movements of the character.
+Continuing to further divide the camera rotation behavior, it can be divided into left button rotation and right button rotation. Now let's complete these two rotations step by step. Firstly, I will set the camera as a child object of the character, so that basic camera movements will automatically follow the character.
 
-###Rotate with Left Mouse Button###
-Simply put, the requirement for left mouse button rotation is quite simple: **the camera rotates while the character remains stationary**. This is similar to having a camera for observing a model, where the camera can freely rotate around the central object.
+### Rotate with Left Mouse Button ###
+When it comes to rotating with the left mouse button alone, the requirement is quite simple: **the camera rotates while the character remains stationary**. This is similar to a camera that observes a model, allowing the camera to observe the central object from any angle.
 
-To obtain the status of the left mouse button in Unity, use the statement: `Input.GetMouseButton(0)` (Note: all the code sections mentioned below will be in C#). Similarly, the right mouse button can be detected using `Input.GetMouseButton(1)`. To get the mouse cursor's movement position (which can be understood as the offset of the cursor on the X-Y axis between frames), use: `Input.GetAxis("Mouse X"); Input.GetAxis("Mouse Y")`. So, let's first obtain the movement information of the cursor after the left mouse button is pressed:
+To obtain the state of the left mouse button in Unity, you can use the statement: `Input.GetMouseButton(0)` (Note: all code-related references will be in C#). Similarly, to check the state of the right mouse button, you can use: `Input.GetMouseButton(1)`. To retrieve the movement position of the mouse cursor (which can be understood as the offset of the cursor on the X and Y axes between frames), you can use: `Input.GetAxis("Mouse X"); Input.GetAxis("Mouse Y")`. Now, let's proceed to retrieve the movement information of the cursor after the left mouse button is pressed.
 
 ```csharp
 if (Input.GetMouseButton(0))
@@ -62,51 +59,50 @@ if (Input.GetMouseButton(0))
     float y = Input.GetAxis("Mouse Y");
 }
 ```
-The code is very simple, and the crucial part is below: how to control the camera rotation. To understand rotation, some knowledge about quaternions is needed (there is a lot of information available online, so I won't list it here). One important aspect of quaternions is their ability to easily construct rotations, especially rotations around a certain vector. Once quaternion understanding is achieved, implementing camera rotation around a character is not difficult.
+The code is simple, and now comes the crucial part: how to control the camera rotation. To understand rotation, some knowledge about quaternions is needed (there are many online resources available, so I won't list them here). One important aspect of quaternions is that they can easily represent rotations, especially rotations around a specific vector. Once you understand quaternions, implementing the camera rotation around a character should not be difficult.
 
-And another point to note is that the rotation axis of quaternions is just a vector, starting from the origin. If you want to take a point `O` in the world coordinate system as the origin and a vector `V` starting from that point as the rotation axis, you need to transform the coordinate system. Simply put, you need to transform the point `P` that needs to be rotated to a coordinate system with the origin at `O`, perform the rotation according to `V`, and then transform it back to the world coordinate system. Based on these operations, a functional function can be written:
+One more thing to note is that the quaternion rotation axis is just a vector with the origin as the starting point. If you want to use a point `O` in the world coordinate system as the origin and a vector `V` starting from that point as the rotation axis, you need to perform a coordinate system transformation. In simple terms, you need to transform the point `P` that needs to be rotated into a coordinate system with `O` as the origin, rotate it based on `V`, and then transform it back to the world coordinate system. Based on these operations, a utility function can be written as follows:
 
 ```c#
 Vector3 MyRotate(Vector3 oldPosition, float angle, Vector3 axis, Vector3 axisPosition)
 {
-```python
-// Construct a quaternion, with `axis` as the rotation axis, which is in the character's coordinate system.
-```
-
+// Construct a quaternion with `axis` as the rotation axis. This rotation is in the character's coordinate system.
     Quaternion rotation = Quaternion.AngleAxis(angle, axis);
-// Here we are performing a coordinate transformation, converting the camera's world coordinates to coordinates under the character's coordinate system.
+// Here we are performing a coordinate system transformation, converting the camera's world coordinates into coordinates in the character's coordinate system.
     Vector3 offset = oldPosition - axisPosition;
-    // Calculate the rotation and transform it back to the world coordinate system.
+// Calculate rotation and transform back into world coordinate system
     return axisPosition + (rotation * offset);
 }
 ```
-`Quaternion` is the type used in Unity to represent quaternions. By adding the previous left mouse button detection, you can complete the left mouse button control to rotate the camera left and right.
+`Quaternion` is a type in Unity that represents quaternions. By adding the previously detected mouse left-click, you can complete the left-click control to rotate the camera left and right.
 
-The code to control the camera's left and right rotation by moving the mouse left and right can be directly provided as follows:
+The code to control the camera's left and right rotation by moving the mouse left and right can be directly provided as:
+
+[to_be_replaced[Code]]
 
 ```c#
 newForward = MyRotate(newForward, x, up, Vector3.zero);
 ```
-Because only the forward vector is being rotated here without involving coordinate system transformation, the fourth parameter is `Vector3.zero`.
+Because only the forward vector is being rotated here and there is no coordinate system transformation involved, the fourth parameter is set to `Vector3.zero`.
 
-Controlling the vertical rotation is slightly more difficult to grasp than the horizontal rotation because the rotation axis is constantly changing (assuming here that the character's "up" direction is always the positive Y-axis). It is important to note that the camera is also constantly rotating, with its focal point always aligned with the character. Therefore, the camera's right direction (right) is the axis we want to rotate around (think of the camera's right as the character's right). With this understanding, the code for vertical rotation is also quite simple:
+Controlling the rotation in the up and down direction is a bit more difficult to understand compared to the left and right rotation because the rotation axis keeps changing (assuming here that the character's "up" direction is always the positive Y-axis). It's important to note that the camera is also continuously rotating and keeping the character in the center of the view. In this case, the camera's right direction is the axis we want to rotate around (imagine the camera's right as the character's right). With this understanding, the code for the up and down rotation becomes quite simple:
+
 
 ```csharp
 newForward = MyRotate(newForward, -y, transform.right, Vector3.zero);
 ```
 
-###Right-click to rotate###
-
-After performing a left-click rotation, right-click rotation becomes very simple. You just need to set the character's forward direction when rotating left or right.
+###Right-click Rotation###
+After performing a left-click rotation, right-click rotation is quite simple. You just need to set the character's forward direction when rotating left or right.
 
 ```csharp
 player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
 ```
 
-The code for rotating up and down is the same as the code for the left mouse button.
+The code for vertical rotation is the same as the code for left click.
 
-###Left click first, then right click###
-Although it is possible to rotate with the left mouse button and the right mouse button separately, a problem arises when the left mouse button is used to rotate first and then the right mouse button is used: the character's forward direction becomes different from the camera's forward direction! As a result, the camera and the character's orientation are separated, which feels odd in actual operation. Therefore, when we rotate with the right mouse button, we need to adjust the character to align with the camera's forward direction first:
+###First left click, then right click###
+Although you can rotate separately with the left click and the right click above, once you rotate with the left click first and then perform the right click operation, a problem will arise: the character's forward direction will be different from the camera's forward direction! This causes the camera and the character's orientation to separate, making the actual operation very strange. So, when we rotate with the right click, we need to adjust the character first to align with the camera's forward direction:
 
 ```csharp
 player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
@@ -116,14 +112,14 @@ player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
 - - - 
 
 ###Euler Angle Gimbal Lock###
-By now, the rotation of the camera is almost complete, but there is one more issue to pay attention to: Euler Angle Gimbal Lock. The principle won't be explained here, those who are interested can search for it on their own. In the case of the camera here, when the camera rotates up and aligns with the upward direction of the character, the camera's perspective will undergo a sudden change. This is because when the camera reaches the top or bottom of the character, the upward direction of the camera will undergo a sudden change (because the Y value of the upward direction of the camera always needs to be greater than zero). Therefore, we need to limit the range of the camera's up and down rotation to prevent gimbal lock. The operation is quite simple, which is to limit the range of the angle between the forward direction of the camera and the upward direction of the character:
+Up until now, the camera rotation is almost complete, but there is one more thing to be aware of: Euler Angle Gimbal Lock. I won't go into detail about the theory here, but those who are interested can search for it on their own. In the case of the camera here, when the camera rotates up or down to align with the upward direction of the character, the camera's perspective undergoes a sudden change. This is because when the camera reaches the top or bottom of the character, the camera's upward direction experiences a sudden change (since the Y value of the camera's upward direction needs to be greater than zero). Therefore, we need to limit the range of the camera's up and down rotation to prevent gimbal lock from occurring. The operation is very simple, just restrict the angle between the camera's forward direction and the character's upward direction.
 
 ```c#
 if ((Vector3.Dot(transform.forward, transform.parent.up) >= -0.95F || y > 0) &&
     (Vector3.Dot(transform.forward, transform.parent.up) <= 0.95F || y < 0))
 ```
 
-###Complete code###
+### Full Code ###
 
 ```csharp
 // rotate oldPosition around a axis starting at axisPosition
@@ -172,8 +168,7 @@ Vector3 RotateIt(Vector3 oldForward, Vector3 up, Vector3 right, Transform player
 }
 ```
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

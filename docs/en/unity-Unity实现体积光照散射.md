@@ -1,60 +1,60 @@
 ---
 layout: post
-title: Unity implements Volumetric Light Scattering (also known as cloud gap light).
+title: Unity implements volumetric light scattering (also known as Volumetric Light
+  Scattering, or cloud gap light)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Volume light scattering is a pretty neat visual effect where you can
-  see the propagation of light in the air. The particles in the air are illuminated
-  by the light while some of the light rays are blocked, resulting in visual rays
-  radiating from the light source.
+description: Volumetric light scattering is a pretty cool visual effect. It's like
+  seeing how light spreads in the air, illuminating particles and creating the illusion
+  of rays radiating from the light source.
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
 
-
+<meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)" />
 
 ## Principle
 
-The principle of Volumetric Light Scattering can be referenced in Chapter 13 of "GPU Gems 3" ([link](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)). The book contains informative illustrations.
+The principle of Volumetric Light Scattering can be referred to in Chapter 13 of "GPU Gems 3" (http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html). The book contains effective illustrations.
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-Looks good, well then, our goal is to achieve this effect.
+[to_be_replace_0]Good-looking, well, then, our goal is to achieve this effect.
 
-The book explains the principle, and one crucial formula is:
+The book explains the principle, and one key formula is:
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-My understanding is that for each pixel in the image, light can be projected onto it. Then, samples are taken along the line connecting the pixel to the light source (corresponding to the formula \\(i\\)). The sampled results are weighted and averaged (corresponding to the formula \\(\sum\\)), and this average is used as the new color value for that pixel. There is also a crucial post-pixel shader, but if only that shader is used to process the camera's rendering result, it will result in obvious artificial artifacts, such as many stripes.
+My understanding is that for each pixel on the image, light can be projected onto it. Therefore, we sample the line connecting the pixel to the light source (corresponding to the formula \\(i\\)), and the sampled result is weighted and averaged (corresponding to the formula \\(\sum\\)), which becomes the new color value for that pixel. Additionally, there is a crucial post-pixel shader, but if we only use that shader to process the rendering results from the camera, it will create noticeable artificial artifacts, such as many stripes.
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-So how is the effect in the book achieved? Actually, the book has already provided the answer, it can be explained using a set of pictures:
+So how is the effect in the book achieved? In fact, the answer is already provided in the book and can be illustrated using a set of images:
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
-图a (Figure a) is the rough effect, if you look carefully, you can see many stripes, and there is no sufficient coverage, not realistic enough. Steps b, c, d are necessary to achieve a good result.
+图a represents a rough effect, and if you look carefully, you can see many stripes, and it doesn't cover up the lack of authenticity. Steps b, c, and d are necessary to achieve a good effect.
 
-b. Render the radiance effect of the lighting onto the image, and add occlusion of objects.
+b. Render the lighting radiance effect onto the image and add object occlusion.
 
-c. Apply Volumetric Light Scattering pixel shader to b to achieve the desired effect after occlusion.
+c. Apply the Volumetric Light Scattering pixel shader to b to achieve the effect after occlusion.
 
-d. Add the color of real scenes.
+d. Add colors from real scenes.
 
-So now let's go step by step and implement it.
+Then let's proceed step by step.
 
-## Paint obscuring objects
+## Painting Obstacles
 
-In actual practice, I first use `RenderWithShader` to render objects that will be occluded in black, while other areas will be rendered in white. This operation requires rendering each face individually, which may result in some performance overhead for complex scenes. There are both opaque and transparent objects in the scene. We want opaque objects to fully occlude light, while transparent objects should only partially occlude it. To achieve this, we need to write different shaders for objects with different RenderTypes. RenderType is the tag of the SubShader. If you are not familiar with it, you can refer to [here](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html). After writing the shaders, we call:
+In actual operation, I first use `RenderWithShader` to render the objects that will be occluded in black, and the rest in white. Because this requires rendering each face, it can lead to a certain performance cost for complex scenes. The objects in the scene can be opaque or transparent. We want opaque objects to produce full occlusion of light, while transparent objects should produce partial occlusion. Therefore, we need to write different shaders for objects with different RenderTypes. RenderType is the Tag for SubShader. If you are not clear about it, you can refer to [here](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html). After writing the shaders, we can call them like this:
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
 
 ```
-The second parameter of `RenderWithShader` is used to specify the replacement Shader based on the RenderType. In simple terms, the replacement Shader for the same object should have the same RenderType as the original Shader, allowing us to use different Shaders for objects with different RenderTypes.
+The second parameter of `RenderWithShader` is used to specify the Shader replacement based on the RenderType. In simple terms, when replacing the Shader for the same object, the RenderType of the replacement Shader must be consistent with the original Shader. This allows us to use different Shaders for objects with different RenderTypes.
 
 ```glsl
 Shader "Custom/ObjectOcclusion" 
@@ -144,13 +144,13 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-Note the differences between shaders for opaque and transparent objects: opaque objects are directly drawn as black; transparent objects require blending, taking the alpha channel from the object's texture and blending based on this alpha. The above code only lists Opaque and Transparent, but there are also other shaders like TreeOpaque (same as Opaque, just changes RenderType) and TreeTransparentCutout (same as Transparent). Since RenderType is specified, in order to be comprehensive, it is necessary to exhaustively consider objects that may cause occlusion in the scene. Here, I only have the four types mentioned earlier. The results are roughly as follows:
+Note the difference between shaders for opaque and transparent objects: opaque objects are directly rendered as black, while transparent objects require blending. We need to extract the alpha channel from the object's texture and use it for blending. The code above only lists Opaque and Transparent shaders, but there are also TreeOpaque (which is the same as Opaque but with a different RenderType) and TreeTransparentCutout (same as Transparent) shaders, among others. Since we have specified the RenderType, in order to be comprehensive, we need to cover as many scenarios as possible where objects can occlude each other. In this case, I have only included the four types mentioned earlier. The results are roughly as follows:
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
-## Combining object occlusion and rendering of light sources
+## Combine object occlusion to shade light source radiation.
 
-Drawing the radiation of the light source is not difficult. What needs to be noted is that some adjustments need to be made according to the size of the screen to ensure that the radiation of the light source appears circular.
+Painting the radiation of the light source is not difficult, but it is important to make some adjustments based on the size of the screen, so that the radiation of the light source appears circular.
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -202,14 +202,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-This Shader requires the input of the position of the light source on the screen (which can be calculated using `camera.WorldToViewportPoint`, resulting in the uv coordinates). Then, it draws a circle with a specified radius that gradually attenuates the brightness outward. The result is then combined with the previously obtained object occlusion image (stored in `_MainTex`). The overall result is approximately:
+This Shader requires the input of the screen position of the light source (which can be calculated using `camera.WorldToViewportPoint`, resulting in UV coordinates). Then, it draws a circle with a specified radius that decays in brightness outwardly. The result is combined with the previously obtained object occlusion image (stored in `_MainTex`), resulting in something like this:
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-## Light Scattering processing, combined with true colors
+## Light Scattering processing, combined with real colors.
 
-I will need to use the Pixel Shader provided in the book, version [to_be_replace[x]]:
-
+Here we will need to use the provided Pixel Shader in the book, my version being: [to_be_replace[x]]
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -294,16 +293,15 @@ Shader "Custom/LightScattering"
 }
 ```
 
-More or less consistent with what is written in the book, except that my parameters need to be passed into the program, combined with real color images and Light Scattering images, the results are:
+Generally speaking, it is consistent with what is described in the book, but my parameters need to be passed in the program, and it is combined with real color images and light scattering images. As a result:
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
 ## Complete Code
 
-The code is [here](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip), add the `cs` script to the camera.
+The code is available [here](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip). Add the `cs` script to the camera.
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
