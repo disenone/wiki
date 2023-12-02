@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Recently, I finished reading "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" (hereafter referred to as "Linking") and gained a lot from it. I'm now thinking about whether I can create some related code. I happened to learn about a memory leak detection tool for Windows called Visual Leak Detector (VLD) (available at https://vld.codeplex.com/). This tool tracks memory allocation and deallocation by replacing the dll interfaces responsible for memory management on Windows. Therefore, I've decided to reference Visual Leak Detector and develop a simple memory leak detection tool to better understand dll linking.">
+        <meta name="description" content="Recently, I finished reading "The Self-Taught Programmer: Linking, Loading, and Libraries" (abbreviated as "Linking"). I gained a lot from it and thought about whether I could create some related code. Coincidentally, I found out about a memory leak detection tool for Windows called Visual Leak Detector (VLD) [https://vld.codeplex.com/]. This tool tracks memory allocation and release by replacing the DLL interfaces responsible for memory management in Windows. Therefore, I decided to reference Visual Leak Detector and create a simple memory leak detection tool to understand DLL linking.">
       
       
         <meta name="author" content="Disenone">
@@ -591,11 +591,11 @@
         <li class="md-nav__item">
   <a href="#background-knowledge" class="md-nav__link">
     <span class="md-ellipsis">
-      Background knowledge
+      Background Knowledge
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Background knowledge">
+    <nav class="md-nav" aria-label="Background Knowledge">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1224,11 +1224,11 @@
         <li class="md-nav__item">
   <a href="#background-knowledge" class="md-nav__link">
     <span class="md-ellipsis">
-      Background knowledge
+      Background Knowledge
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Background knowledge">
+    <nav class="md-nav" aria-label="Background Knowledge">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1343,24 +1343,24 @@
 <p><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" />
 <img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></p>
 <h2 id="preface">Preface</h2>
-<p>Recently, I finished reading "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" (hereinafter referred to as "Linking") and gained a lot of knowledge. I started to think about whether I can create some related small code. Coincidentally, I learned about a memory leak detection tool called Visual Leak Detector for Windows (https://vld.codeplex.com/). This tool tracks memory allocation and release by replacing the dll interfaces responsible for memory management in Windows. Therefore, I decided to refer to Visual Leak Detector (hereinafter referred to as VLD) and create a simple memory leak detection tool to understand dll linking.</p>
-<h2 id="background-knowledge">Background knowledge</h2>
-<p>The book "Linking" provides a detailed explanation of the linking principles for executable files in Linux and Windows, and the executable file format in Windows is called PE (Portable Executable) file. As for the DLL file, it is explained as follows:</p>
-<p>DLL, short for Dynamic-Link Library, is the equivalent of shared objects in Linux. The DLL mechanism is widely used in the Windows system, to the extent that even the structure of the Windows kernel relies heavily on it. DLL files in Windows are conceptually similar to EXE files; they are both binary files in the PE format. The only difference is that the PE file header contains a flag indicating whether the file is an EXE or a DLL. The extension of a DLL file is not necessarily .dll, it could also be something else, such as .ocx (OCX controls) or .CPL (Control Panel programs).</p>
-<p>There are also examples such as Python's extension file <code>.pyd</code>. And the concept of memory leak detection in DLL is <strong>symbol export import table</strong>.</p>
+<p>Recently, I finished reading "The Self-Taught Programmer: Linking, Loading, and Libraries" (referred to as "Linking" hereafter) and gained a lot of insights. I thought about whether I could create some related code snippets. Coincidentally, I learned about a memory leak detection tool called Visual Leak Detector for Windows <a href="https://vld.codeplex.com/">Visual Leak Detector</a>. This tool tracks memory allocation and deallocation by replacing the DLL interface responsible for memory management in Windows. Therefore, I have decided to reference Visual Leak Detector (referred to as VLD hereafter) and create a simplified memory leak detection tool to deepen my understanding of DLL linking.</p>
+<h2 id="background-knowledge">Background Knowledge</h2>
+<p>The book "Linking" provides a detailed explanation of the linking principles for executable files under Linux and Windows. In Windows, the executable file format is called Portable Executable (PE) file. The interpretation of DLL files is as follows:</p>
+<p>DLL, short for Dynamic-Link Library, is the equivalent of shared objects in Linux. The DLL mechanism is widely used in the Windows system, to a great extent, even the structure of the Windows kernel relies heavily on the DLL mechanism. DLL files and EXE files in Windows are essentially the same concept, as they are both binary files in PE format. The only difference is that the PE file header contains a symbol that indicates whether the file is an EXE or a DLL. The extension of DLL files is not necessarily .dll, it could also be something else like .ocx (OCX control) or .CPL (Control Panel program).</p>
+<p>There are also Python extension files like .pyd. The concept of memory leak detection that we are discussing here is called the symbol export/import table in DLLs.</p>
 <h4 id="symbol-export-table">Symbol Export Table</h4>
-<p>When a PE needs to provide some functions or variables to be used by other PE files, we call this behavior <strong>symbol exporting</strong>.</p>
-<p>To understand it simply, in Windows PE, all exported symbols are centrally stored in a structure called the <strong>Export Table</strong>, which provides a mapping relationship between symbol names and symbol addresses. Symbols that need to be exported require the modifier <code>__declspec(dllexport)</code>.</p>
+<p>When a PE needs to provide some functions or variables to other PE files, we call this behavior <strong>symbol exporting</strong>.</p>
+<p>Simply put, in Windows PE, all exported symbols are centrally stored in a structure called the <strong>Export Table</strong>, which provides a mapping between symbol names and symbol addresses. Symbols that need to be exported should be annotated with the modifier <code>__declspec(dllexport)</code>.</p>
 <h4 id="symbol-import-table">Symbol Import Table</h4>
-<p>Symbol import table is the key concept here, it corresponds to the symbol export table. Let's first take a look at the concept explanation:</p>
-<p>If we use functions or variables from a DLL in a program, this behavior is called <strong>symbol importing</strong>.</p>
-<p>The structure in Windows PE that stores the symbols of variables and functions to be imported, as well as information about the modules in which they are located, is called the <strong>Import Table</strong>. When Windows loads a PE file, one of the tasks is to determine the addresses of all the functions to be imported and adjust the elements in the Import Table to the correct addresses. This allows the program to query the Import Table at runtime to locate the actual addresses of the functions and make the calls. The most important structure in the Import Table is the <strong>Import Address Table (IAT)</strong>, which contains the actual addresses of the imported functions.</p>
-<p>Seeing this, I believe you've already guessed how we're going to implement memory leak detection :) That's right, it's about hacking the import table. Specifically, we modify the addresses of functions related to memory allocation and deallocation in the import table of the module we want to monitor, and replace them with our custom functions. This way, we can monitor the memory allocation and deallocation behavior of the module and perform the detection we desire.</p>
-<p>For more detailed information about DLL linking, you can refer to the book "Linking" or other resources.</p>
+<p>Symbol import table is the key concept here, which corresponds to the symbol export table. Let's first take a look at the concept explanation:</p>
+<p>If we use functions or variables from a DLL in a program, we refer to this behavior as <strong>symbol importing</strong>.</p>
+<p>The structure in Windows PE that stores the symbols of variables and functions that modules need to import, as well as information about their location, is called the <strong>Import Table</strong>. When Windows loads a PE file, one of the tasks is to determine the addresses of all the functions that need to be imported and adjust the elements in the Import Table to the correct addresses. This allows the program to locate the actual addresses of the functions and make the necessary calls at runtime by querying the Import Table. The most important structure in the Import Table is the <strong>Import Address Table (IAT)</strong>, which stores the actual addresses of the imported functions.</p>
+<p>By now, you might have already guessed how we are going to implement the memory leak detection :) That's right, it's by hacking the import table. Specifically, we will modify the addresses of the memory allocation and deallocation functions in the import table of the modules we want to monitor, replacing them with our own custom functions. This way, we will be able to track every memory allocation and deallocation made by the modules, giving us the freedom to perform the desired checks.</p>
+<p>For more detailed knowledge about DLL linking, you can refer to the book "Linking" or other materials.</p>
 <h2 id="memory-leak-detector">Memory Leak Detector</h2>
-<p>Once the principle is understood, the following step is to implement memory leak detection based on this principle. The explanation below will be based on my own implementation, which I have uploaded to my GitHub: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>.</p>
+<p>After understanding the principle, the next step is to implement memory leak detection based on that principle. The following explanation will be based on my own implementation, which I have uploaded to my Github: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>.</p>
 <h4 id="replace-function">Replace Function</h4>
-<p>First, let's take a look at the key function, located in <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>:</p>
+<p>Let's take a look at the key function, located in <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>:</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -1442,20 +1442,20 @@
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="cm">/* Replace a function in the IAT (Import Address Table) of importModule with another function.</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="cm"> * importModule calls a function from another module, and this function is the one that needs to be patched.</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="cm"> * What we need to do is to make importModule call our custom function instead.</span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="cm">/* Replace a certain function in the IAT (Import Address Table) of importModule with another function.</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="cm">   importModule calls a function from another module, and this is the function that needs to be patched.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="cm">   What we need to do is to make import module call our custom function instead.</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="cm"> *</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="cm">* `importModule (IN):` The module to be processed that calls functions from other modules that need to be patched.</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="cm">* - importModule (IN): The module to be processed. This module calls functions from other modules that need to be patched.</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="cm"> *</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="cm">* `- exportModuleName (IN)`: Name of the module from which the function to be patched originates.</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="cm">- exportModuleName (IN): The name of the module from which the function to be patched is derived.</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="cm"> *</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="cm">- `exportModulePath` (IN): The path where the export module is located. First, attempt to load the export module using the `path`. If unsuccessful, use the `name` to load.</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="cm">- `importName` (IN): The name of the function.</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="cm">* `- exportModulePath (IN): The path where the export module is located. It first tries to load the export module using the path, if that fails, it uses the name to load it.</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="cm">* `- importName (IN): The name of the function.</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="cm"> *</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="cm">- replacement (IN): substitute function pointer</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="cm">* - replacement (IN): a function pointer that serves as a substitute</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="cm"> *</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="cm">* Return Value: true if success, otherwise false.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="cm">* Return Value: true if successful, false otherwise</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="cm">*/</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">RealDetector::patchImport</span><span class="p">(</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="n">HMODULE</span><span class="w"> </span><span class="n">importModule</span><span class="p">,</span>
@@ -1525,24 +1525,26 @@
 <a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>Let's analyze this function, just as the comment suggests, the function's purpose is to change the address of a certain function in the IAT to the address of another function. Let's look at lines 34-35:</p>
-<div class="language-ruby highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">idte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="no">IMAGE_IMPORT_DESCRIPTOR</span><span class="o">*</span><span class="p">)</span><span class="no">ImageDirectoryEntryToDataEx</span><span class="p">((</span><span class="no">PVOID</span><span class="p">)</span><span class="n">importModule</span><span class="p">,</span><span class="w"> </span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="no">TRUE</span><span class="p">,</span><span class="w"> </span><span class="no">IMAGE_DIRECTORY_ENTRY_IMPORT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">section</span><span class="p">);</span>
+<p>Let's analyze this function, as the comment says, the purpose of this function is to change the address of a certain function in the IAT to the address of another function. Let's take a look at lines 34-35:</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">idte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">IMAGE_IMPORT_DESCRIPTOR</span><span class="o">*</span><span class="p">)</span><span class="n">ImageDirectoryEntryToDataEx</span><span class="p">((</span><span class="n">PVOID</span><span class="p">)</span><span class="n">importModule</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">IMAGE_DIRECTORY_ENTRY_IMPORT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">section</span><span class="p">);</span>
 </code></pre></div>
 <p>The <code>ImageDirectoryEntryToDataEx</code> function can return the address of a certain structure in the file header of a module. The <code>IMAGE_DIRECTORY_ENTRY_IMPORT</code> specifies the import table structure, so the returned <code>idte</code> points to the import table of the module.</p>
-<p>Lines 36-40 are checking the validity of <code>idte</code>. Line 41, <code>idte-&gt;FirstThunk</code>, points to the actual IAT. Therefore, lines 41-48 are searching for the module that contains the function to be replaced based on the module name. If it cannot be found, it means that the module's function is not being called, so an error message is displayed and returned.</p>
-<p>After finding the module, naturally, we need to locate the function to be replaced. Open the module to which the function belongs on lines 55-62, and find the function address on line 64. Since IAT does not store names, we need to first locate the function based on its original address and then modify the function address. This process is carried out on lines 68-80. Once the function is successfully located, the address is simply modified to the address of <code>replacement</code>.</p>
+<p>The code in lines 36-40 is checking the validity of <code>idte</code>. In line 41, <code>idte-&gt;FirstThunk</code> points to the actual Import Address Table (IAT). Therefore, lines 41-48 are used to search for the module that contains the function to be replaced based on the module name. If the module is not found, it means that the function from that module is not being called, and an error will be prompted and returned.</p>
+<p>After finding the module, naturally, we need to locate the function to be replaced. On lines 55-62, we open the module to which the function belongs, and on line 64, we find the address of the function. Since the IAT does not save names, we need to first locate the function based on its original address, and then modify that address. Lines 68-80 are doing exactly that. Once the function is successfully found, we simply modify the address to <code>replacement</code>.</p>
 <p>So far, we have successfully replaced the functions in IAT.</p>
 <h4 id="module-and-function-names">Module and Function Names</h4>
-<p>Although we have already implemented the replacement of the IAT function <code>patchImport</code>, this function requires specifying the module name and function name. How do we know which module and function are used for memory allocation and deallocation in the program? To clarify this issue, we need to use the tool <a href="http://www.dependencywalker.com/">Dependency Walker</a> available on Windows. In Visual Studio, create a new project and use <code>new</code> in the <code>main</code> function to allocate memory. Compile the Debug version and then use <code>depends.exe</code> to open the compiled exe file. You will see a similar interface as shown below (using my project <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a> as an example):</p>
+<p>Although we have implemented the replacement of the IAT function <code>patchImport</code>, this function requires specifying the module name and function name. How can we know which module and function are used for memory allocation and deallocation in the program? To investigate this issue, we need to use the tool <a href="http://www.dependencywalker.com/">Dependency Walker</a> on Windows. Create a new project in Visual Studio, use <code>new</code> to allocate memory in the <code>main</code> function, compile in Debug mode, and then use <code>depends.exe</code> to open the compiled exe file. You will see a similar interface as shown below (using my project <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a> as an example):</p>
 <p><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png" /></p>
-<p>You can see that LeakDetectorTest.exe uses the <code>malloc</code> and <code>_free_dbg</code> functions from the uscrtbased.dll (not shown in the image). These are the functions that we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio version. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is use depends.exe to see which functions are actually being called.</p>
+<p>It can be seen that LeakDetectorTest.exe uses the <code>malloc</code> and <code>_free_dbg</code> functions from uscrtbased.dll (not shown in the image). These two functions are the ones we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is use depends.exe to check the actual functions being called.</p>
 <h4 id="analyzing-call-stack">Analyzing Call Stack</h4>
-<p>To record the memory allocation, it is necessary to record the call stack information at that time. I do not intend to provide a detailed explanation of how to obtain the current call stack information under Windows. The relevant function is <code>RtlCaptureStackBackTrace</code>. There is a lot of information available online, and you can also take a look at the function <code>printTrace</code> in the code that I have provided <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">here</a>.</p>
+<p>To record memory allocation, it is necessary to record the call stack information at the time. Here, I don't intend to provide a detailed guide on how to obtain the current call stack information in Windows. The relevant function is <code>RtlCaptureStackBackTrace</code>, and there are many related resources available online. You can also take a look at the <code>printTrace</code> function in my code <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">here</a>.</p>
 <h4 id="detecting-memory-leaks">Detecting Memory Leaks</h4>
-<p>To this point, we have collected all of the Dragon Balls. Now, we're officially summoning Shenron.</p>
-<p>I want to create a feature that can locally detect memory leaks (this is different from VLD, which does global detection and supports multi-threading). So, I wrapped another layer called <code>LeakDetector</code> around the actual replacement function class <code>RealDetector</code>, and exposed the interface of <code>LeakDetector</code> to the users. To use it, simply construct <code>LeakDetector</code>, which will replace the function and start detecting memory leaks. When <code>LeakDetector</code> is destructed, it will restore the original function, terminate memory leak detection, and print the results of memory leak detection.</p>
+<p>[to_be_replace0]</p>
+<p>At this point, we have collected all the Dragon Balls, and now it's time to officially summon Shenron.</p>
+<p>I want to create a feature that can detect memory leaks locally (this is different from VLD, which performs global detection and supports multi-threading). So, I added another layer of encapsulation called <code>LeakDetector</code> on top of the actual replacement function class <code>RealDetector</code> and exposed the interface of <code>LeakDetector</code> to the user. To use it, simply construct a <code>LeakDetector</code>, which will replace the function and start detecting memory leaks. When the <code>LeakDetector</code> is destroyed, it will restore the original function, terminate the memory leak detection, and print the results of the memory leak detection.</p>
 <p>Test with the following code:</p>
+<p>[to_be_replaced[x]]</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;LeakDetector.h&quot;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
@@ -1560,7 +1562,7 @@
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
 </code></pre></div>
-<p>The code directly allocated some memory using <code>new</code>, without releasing it before quitting. The program's output is:</p>
+<p>The code directly <code>new</code> some memory, without releasing it and then exits directly. The program prints the following result:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>============== LeakDetector::start ===============
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>LeakDetector init success.
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>============== LeakDetector::stop ================
@@ -1594,10 +1596,10 @@
 <a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 </code></pre></div>
-<p>The program correctly identified the two places where memory was allocated but not released and printed the complete call stack information. The desired functionality has been completed at this point.</p>
+<p>The program correctly identified the two instances where memory was allocated but not released, and printed out the complete call stack information. The required functionality has been completed up to this point.</p>
 <h3 id="conclusion">Conclusion</h3>
-<p>When you are not familiar with program links, loading, and libraries, you may feel confused about how to find functions in shared libraries, let alone replacing the library's functions with our own functions. Take memory leak detection as an example, here we will discuss how to replace functions in Windows DLL. For more detailed implementation, you can refer to the source code of VLD.</p>
-<p>Another thing I'd like to mention is that "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" is really a great book. It's not just a shameless promotion, but truly a good read.</p>
+<p>When you are not familiar with program linking, loading, and libraries, you may be confused about how to find functions in shared libraries, let alone replacing the library's functions with our own. Here, we take detecting memory leaks as an example and discuss how to replace functions in Windows DLLs. For a more detailed implementation, you can refer to the source code of VLD.</p>
+<p>Also, I want to say that "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" is really a good book. Just expressing my heartfelt admiration, not promotional content.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->

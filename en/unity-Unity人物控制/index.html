@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The control of character actions is a crucial part of the game, as games with strong operability can attract players well. Here I will attempt to create a simple character control scheme, where the character can perform basic movements, including walking and jumping.">
+        <meta name="description" content="The control of character actions is a crucial part of the game, and games with strong operability can attract players well. Here, I will try to create a simple character control that allows the character to perform basic movements, including walking and jumping.">
       
       
         <meta name="author" content="Disenone">
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#requirements" class="md-skip">
+        <a href="#requirement" class="md-skip">
           Skip to content
         </a>
       
@@ -1021,9 +1021,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#requirement" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      Requirement
     </span>
   </a>
   
@@ -1156,9 +1156,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#requirement" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      Requirement
     </span>
   </a>
   
@@ -1226,29 +1226,27 @@
   <h1>Unity Character Control</h1>
 
 <p><meta property="og:title" content="Unity人物控制" /></p>
-<p>[assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif]</p>
-<p>Character action control is a very important part of the game, and games with strong operability can attract players well. Here I will try to create a simple character control, where the character can perform basic movements, including walking and jumping.</p>
-<h2 id="requirements">Requirements</h2>
-<p>Let's first consider the specific requirements for controlling our characters:</p>
-<p>Translate these text into English language:</p>
+<p><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" /></p>
+<p>Character action control is a crucial part of the game, as games with strong operation capabilities can effectively attract players. Here, I will attempt to create a simple character control system where the character can perform basic movements, including walking and jumping.</p>
+<h2 id="requirement">Requirement</h2>
+<p>First, let's consider the specific requirements for character operations:</p>
 <ol>
-<li>[to_be_replaced[行走，能够在刚体的表面行走，由按键上下左右输入来控制，暂不考虑加速减速过程]]</li>
-<li>[to_be_replaced[行走的速度在不同方向上可以不同，例如后退应该比前进慢]]</li>
-<li>[to_be_replaced[跳跃，由jump按键控制，人物以一定初速度从上离开地面，并慢慢回落到地面]]</li>
+<li>Walking, able to walk on the surface of the rigid body, controlled by arrow keys for up, down, left, and right input, without considering the acceleration and deceleration process for now.</li>
+<li>The walking speed can be different in different directions, for example, moving backward should be slower than moving forward.</li>
+<li>Jumping, controlled by the jump key, the character leaves the ground with a certain initial velocity and gradually falls back to the ground.</li>
 </ol>
-<p>The basic idea is as follows: Use velocity to describe the movement of a character. The components of velocity in each direction can be calculated separately, and finally, multiplying velocity by time gives the character's displacement.</p>
+<p>The general idea is as follows: Use velocity to describe the movement of a character. The components of velocity in each direction can be calculated separately, and finally, multiplying velocity by time gives the character's position offset.</p>
 <h2 id="character-component-settings">Character Component Settings</h2>
-<p>Before writing scripts to manipulate and control characters, some preparations need to be made to configure the relevant components of the character first:</p>
-<p>Translate these text into English language:</p>
+<p>Before writing scripts to control and manipulate characters, some preparation work needs to be done to configure the relevant components of the character.</p>
 <ol>
-<li>In order to control the character and give the character some rigid physical behavior, it is necessary to add a <code>Character Controller Component</code> to the character.</li>
-<li>In order to make the structure more clear, separate the input for character actions, read and preprocess the input, and then pass the results to the character controller. Name this part of the script as <code>MyThirdPersonInput.cs</code>.</li>
-<li>The script that actually controls character movement should be named <code>MyThirdPersonController.cs</code>.</li>
+<li>In order to control the characters and give them some rigid physical behavior, it is necessary to add a <code>Character Controller Component</code> to the characters.</li>
+<li>For a clearer structure, separate the input for character operations first, read and preprocess the input, and then pass the results to the character controller. Name this part of the script as <code>MyThirdPersonInput.cs</code>.</li>
+<li>The script that actually controls the character's movement should be named <code>MyThirdPersonController.cs</code>.</li>
 </ol>
 <p>The result after configuration is as follows:
 <img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" /></p>
 <h2 id="input">Input</h2>
-<p>The input consists of directions for up, down, left, right, and jump. The directions need to be normalized.</p>
+<p>The input consists of up, down, left, right, and jump commands. The direction needs to be normalized:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// get movement from input</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">var</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Horizontal&quot;</span><span class="p">),</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Vertical&quot;</span><span class="p">));</span>
@@ -1263,8 +1261,8 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">person</span><span class="p">.</span><span class="n">inputJump</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetButton</span><span class="p">(</span><span class="s">&quot;Jump&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="err">````</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="err">##</span><span class="w"> </span><span class="n">Description</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Movement</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">Jumping</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">We</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">describe</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">character</span><span class="p">,</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">movement</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">jumping</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">movement</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">described</span><span class="w"> </span><span class="n">below</span><span class="p">:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="err">##</span><span class="w"> </span><span class="n">Describing</span><span class="w"> </span><span class="n">Movement</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">Jumping</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">We</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">describe</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">character</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">actions</span><span class="p">,</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">movement</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">jumping</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="p">.</span><span class="w"> </span><span class="n">Movement</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">described</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">the</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">variable</span><span class="p">:</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="err">```</span><span class="n">c</span><span class="err">#</span><span class="w">    </span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="na">[System.Serializable]</span>
@@ -1276,7 +1274,7 @@
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">}</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="k">public</span><span class="w"> </span><span class="n">Movement</span><span class="w"> </span><span class="n">movement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Movement</span><span class="p">();</span>
 </code></pre></div>
-<p><code>[System.Serializable]</code> is used to make these parameters visible in the Inspector. The description of jumping is as follows:</p>
+<p><code>[System.Serializable]</code> is used to expose these parameters in the Inspector. The description of jumping is as follows:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="na">[System.Serializable]</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Jumping</span><span class="w"> </span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
@@ -1289,28 +1287,28 @@
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">public</span><span class="w"> </span><span class="n">Jumping</span><span class="w"> </span><span class="n">jumping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Jumping</span><span class="p">();</span>
 </code></pre></div>
 <h2 id="decomposition-speed">Decomposition Speed</h2>
-<p>In order to describe the movement in different directions conveniently, the direction is divided into three components: forward/backward, left/right, and up/down, and solved separately.</p>
-<p>Different speeds before and after, judging according to the positive and negative values:</p>
+<p>In order to facilitate the description of movement in different directions, the direction is divided into three components: front and back, left and right, and up and down, respectively, to be resolved.</p>
+<p>The speed difference before and after varies. It can be determined based on the sign of the numerical value:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">velocity</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">velocity</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">movement</span><span class="p">.</span><span class="n">forwardSpeed</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">else</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">velocity</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">movement</span><span class="p">.</span><span class="n">backwardSpeed</span><span class="p">;</span>
 </code></pre></div>
-<p>Equal Speed on Both Sides:</p>
+<p>Same Speed on Both Sides:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">velocity</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inputMoveDirction</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">movement</span><span class="p">.</span><span class="n">sidewardSpeed</span><span class="p">;</span>
 </code></pre></div>
-<p>Jumping is a bit troublesome as it requires determining the current state of the character:</p>
+<p>Jumping is a bit troublesome as it requires determining the current status of the character:</p>
 <ul>
-<li>If already in the air, calculate velocity using gravity.</li>
+<li>If already in the air, calculate the speed with gravity.</li>
 <li>If on the ground:</li>
 <li>
 <ul>
-<li>If jump key is pressed, velocity is set to the initial jump velocity.</li>
+<li>If the jump key is pressed, the speed is the initial jump speed.</li>
 </ul>
 </li>
 <li>
 <ul>
-<li>Otherwise, the velocity in the y direction is set to 0.</li>
+<li>Otherwise, the speed in the y direction is 0.</li>
 </ul>
 </li>
 </ul>
@@ -1330,13 +1328,14 @@
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="update-character-location">Update Character Location</h2>
-<p>Assuming the calculated speed is the speed from the current frame, then the speed used to calculate the position in the current frame should be the speed calculated from the previous frame. Therefore, before updating the speed, calculate the character's new position.</p>
+<p>The calculated velocity is assumed to be the velocity from the current frame. So, the velocity used to calculate the position in the current frame should be the one calculated in the previous frame. Therefore, before updating the velocity, calculate the character's new position first.</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// move to new position</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">var</span><span class="w"> </span><span class="n">collisionFlag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">controller</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="n">velocity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">);</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">isOnGround</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">collisionFlag</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">CollisionFlags</span><span class="p">.</span><span class="n">CollidedBelow</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
 </code></pre></div>
-<p><code>controller.Move</code> returns <code>CollisionFlags</code> which indicates the collision state, through which we can determine whether the character is standing on the ground.</p>
-<p>Full code:</p>
+<p><code>controller.Move</code> will return <code>CollisionFlags</code> to indicate the collision state, through which we can determine whether the character is standing on the ground or not.</p>
+<p>Complete code:</p>
+<p>(to_be_replaced1)</p>
 <p>MyThirdPersonInput.cs:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>

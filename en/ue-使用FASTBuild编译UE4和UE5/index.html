@@ -1434,10 +1434,12 @@
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = &#39;10.0.19041.0&#39; // &lt;-- Set version here
 </code></pre></div></li>
 </ul>
-<p>Update the <code>.Clang11_BasePath</code> and <code>.Clang11_Version</code> in <code>External\SDK\Clang\Windows\Clang11.bff</code>, the path is located in <code>.VS2019_BasePath\Tools\Tools/LLVM/x64</code>.
+<ul>
+<li>Update the <code>.Clang11_BasePath</code> and <code>.Clang11_Version</code> in <code>External\SDK\Clang\Windows\Clang11.bff</code>, the path is located in <code>.VS2019_BasePath\Tools\Tools/LLVM/x64</code>.
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = &#39;C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64&#39;    // &lt;-- Set path here
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = &#39;12.x.x&#39;
-</code></pre></div></p>
+</code></pre></div></li>
+</ul>
 <ul>
 <li>Go to the Code directory and execute <code>FBuild.exe All-x64-Release</code> in the cmd. If the configuration is correct, you should see a successful compilation. You can find the FBuild.exe in tmp\x64-Release\Tools\FBuild\FBuild.</li>
 </ul>

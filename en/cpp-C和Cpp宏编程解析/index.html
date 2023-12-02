@@ -637,21 +637,6 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#macro-parameters-before-and-after-the-operator-will-not-be-expanded-they-will-be-directly-concatenated-for-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Macro parameters before and after the ## operator will not be expanded, they will be directly concatenated. For example:
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Macro parameters before and after the ## operator will not be expanded, they will be directly concatenated. For example:">
-      <ul class="md-nav__list">
-        
           <li class="md-nav__item">
   <a href="#repeat-scanning" class="md-nav__link">
     <span class="md-ellipsis">
@@ -693,21 +678,6 @@
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#after-execution-we-obtain-concata-b-when-encountering-the-macro-concat-the-preprocessor-enters-handleidentifier-first-and-prints-the-information-of-the-macro-its-found-that-the-macro-state-is-disable-used-indicating-that-it-has-already-been-expanded-and-further-re-entry-is-prohibited-thus-the-message-macro-is-not-ok-to-expand-is-displayed-the-preprocessor-stops-expanding-and-the-final-result-is-concata-b" class="md-nav__link">
-    <span class="md-ellipsis">
-      After execution, we obtain CONCAT(a, b). When encountering the macro CONCAT, the preprocessor enters HandleIdentifier first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is CONCAT(a, b).
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="After execution, we obtain CONCAT(a, b). When encountering the macro CONCAT, the preprocessor enters HandleIdentifier first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is CONCAT(a, b).">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#example-2" class="md-nav__link">
@@ -1576,21 +1546,6 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#macro-parameters-before-and-after-the-operator-will-not-be-expanded-they-will-be-directly-concatenated-for-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Macro parameters before and after the ## operator will not be expanded, they will be directly concatenated. For example:
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Macro parameters before and after the ## operator will not be expanded, they will be directly concatenated. For example:">
-      <ul class="md-nav__list">
-        
           <li class="md-nav__item">
   <a href="#repeat-scanning" class="md-nav__link">
     <span class="md-ellipsis">
@@ -1632,21 +1587,6 @@
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#after-execution-we-obtain-concata-b-when-encountering-the-macro-concat-the-preprocessor-enters-handleidentifier-first-and-prints-the-information-of-the-macro-its-found-that-the-macro-state-is-disable-used-indicating-that-it-has-already-been-expanded-and-further-re-entry-is-prohibited-thus-the-message-macro-is-not-ok-to-expand-is-displayed-the-preprocessor-stops-expanding-and-the-final-result-is-concata-b" class="md-nav__link">
-    <span class="md-ellipsis">
-      After execution, we obtain CONCAT(a, b). When encountering the macro CONCAT, the preprocessor enters HandleIdentifier first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is CONCAT(a, b).
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="After execution, we obtain CONCAT(a, b). When encountering the macro CONCAT, the preprocessor enters HandleIdentifier first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is CONCAT(a, b).">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#example-2" class="md-nav__link">
@@ -1926,9 +1866,9 @@
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; HelloWorld</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="err">`</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)`</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="err">`</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)`</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)</span>
 </code></pre></div>
 <p>The macro <code>CONCAT</code> is designed to concatenate <code>arg0</code> and <code>arg1</code>. After expanding the macro, <code>CONCAT(Hello, World)</code> will yield the correct result <code>HelloWorld</code>. However, when we use <code>CONCAT(Hello, CONCAT(World, !))</code>, only the outer macro is expanded, and the inner <code>CONCAT(World, !)</code> is not expanded but directly concatenated with <code>Hello</code>. This is different from what we expected. The desired result should be <code>HelloWorld!</code>. This is another important rule of macro expansion: macro arguments following the <code>##</code> operator will not be expanded, but will be directly concatenated with the preceding content.</p>
 <p>Through the above two examples, it can be seen that there are some counter-intuitive rules for macro expansion. If the specific rules are not clear, it is possible to write macros that do not achieve the desired effect.</p>
@@ -1958,7 +1898,7 @@
 </code></pre></div>
 <p>According to this rule <code>STRINGIZE(STRINGIZE(a))</code> can only be expanded to <code>"STRINGIZE(a)"</code>.</p>
 <h4 id="operator_1"><code>##</code> Operator</h4>
-<h2 id="macro-parameters-before-and-after-the-operator-will-not-be-expanded-they-will-be-directly-concatenated-for-example">Macro parameters before and after the <code>##</code> operator will not be expanded, they will be directly concatenated. For example:</h2>
+<p><code>##</code> Macro parameters before and after the <code>##</code> operator will not be expanded, they will be directly concatenated. For example:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                        </span><span class="c1">// -&gt; HelloWorld</span>
@@ -2057,7 +1997,7 @@
 <p>The first <code>Token</code> is <code>hashhash</code>, which is the <code>##</code> operator, continue to copy it to the result (lines <a href="#__codelineno-9-14">14-15</a>).</p>
 <p>The second <code>Token</code> is the formal parameter <code>arg1</code>, and its corresponding actual argument is <code>ONCAT(a, b)</code>. The preprocessor will also process the actual argument into individual <code>Tokens</code>, so you can see that the printed result is surrounded by brackets, representing each <code>Token</code> of the actual argument (line 18). Due to the usage of <code>##</code>, this actual argument does not need to be expanded, so it is directly copied to the result (lines <a href="#__codelineno-9-16">16-18</a>).</p>
 <p>Finally, <code>Leave ExpandFunctionArguments</code> prints the result obtained from expanding the scan this time (line <a href="#__codelineno-9-19">19</a>). Translating all the <code>Token</code> results gives us <code>C ## ONCAT(a, b)</code>, and then the preprocessor executes the <code>##</code> operator to generate new content.</p>
-<h2 id="after-execution-we-obtain-concata-b-when-encountering-the-macro-concat-the-preprocessor-enters-handleidentifier-first-and-prints-the-information-of-the-macro-its-found-that-the-macro-state-is-disable-used-indicating-that-it-has-already-been-expanded-and-further-re-entry-is-prohibited-thus-the-message-macro-is-not-ok-to-expand-is-displayed-the-preprocessor-stops-expanding-and-the-final-result-is-concata-b">After execution, we obtain <code>CONCAT(a, b)</code>. When encountering the macro <code>CONCAT</code>, the preprocessor enters <code>HandleIdentifier</code> first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is <code>CONCAT(a, b)</code>.</h2>
+<p><code>##</code> After execution, we obtain <code>CONCAT(a, b)</code>. When encountering the macro <code>CONCAT</code>, the preprocessor enters <code>HandleIdentifier</code> first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is <code>CONCAT(a, b)</code>.</p>
 <h4 id="example-2">Example 2</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="cp">#define IDENTITY(arg0) arg0</span>

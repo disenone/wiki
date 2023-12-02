@@ -13,8 +13,8 @@
     <language>en-None</language>
 
     
-    <pubDate>Sat, 02 Dec 2023 09:29:31 -0000</pubDate>
-    <lastBuildDate>Sat, 02 Dec 2023 09:29:31 -0000</lastBuildDate>
+    <pubDate>Sat, 02 Dec 2023 09:44:04 -0000</pubDate>
+    <lastBuildDate>Sat, 02 Dec 2023 09:44:04 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 09:29:32 +0000</pubDate>
+      <pubDate>Sat, 02 Dec 2023 09:44:04 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 09:29:30 +0000</pubDate>
+      <pubDate>Sat, 02 Dec 2023 09:44:02 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -2687,7 +2687,7 @@ return false;
 &lt;p&gt;}&lt;/p&gt;
 &lt;p&gt;```&lt;/p&gt;
 &lt;p&gt;我们来分析一下这个函数，就像注释所说的，这个函数实现的功能就是把 IAT 里面的某函数的地址改成另一个函数的地址。先来看第 34-35 行：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ruby
+&lt;p&gt;&lt;code&gt;cpp
 idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
     TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &amp;amp;size, &amp;amp;section);&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;ImageDirectoryEntryToDataEx&lt;/code&gt; 函数可以返回模块的文件头的某结构的地址，&lt;code&gt;IMAGE_DIRECTORY_ENTRY_IMPORT&lt;/code&gt; 指定要导入表结构，所以返回的 &lt;code&gt;idte&lt;/code&gt; 就指向了模块导入表了。&lt;/p&gt;
@@ -3309,7 +3309,7 @@ MSVCRT90.dll.
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Unity人物控制&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;[assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif]&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif&#34;&gt;&lt;/p&gt;
 &lt;p&gt;人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。&lt;/p&gt;
 &lt;h2&gt;需求&lt;/h2&gt;
 &lt;p&gt;先来考虑一下，我们的人物操作具体的需求：&lt;/p&gt;

@@ -13,8 +13,8 @@
     <language>en-None</language>
 
     
-    <pubDate>Sat, 02 Dec 2023 09:29:31 -0000</pubDate>
-    <lastBuildDate>Sat, 02 Dec 2023 09:29:31 -0000</lastBuildDate>
+    <pubDate>Sat, 02 Dec 2023 09:44:04 -0000</pubDate>
+    <lastBuildDate>Sat, 02 Dec 2023 09:44:04 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 09:29:32 +0000</pubDate>
+      <pubDate>Sat, 02 Dec 2023 09:44:04 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,10 +54,460 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 09:29:30 +0000</pubDate>
+      <pubDate>Sat, 02 Dec 2023 09:44:02 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>编写 Windows 下的 Memory Leak Detector</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;编写 Windows 下的 Memory Leak Detector&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;https://img.shields.io/badge/windows-10-blue.svg&#34;&gt;{:style=&#34;display: inline-block&#34;}
+&lt;img alt=&#34;&#34; src=&#34;https://img.shields.io/badge/vs-2015-68217A.svg&#34;&gt;{:style=&#34;display: inline-block&#34;}&lt;/p&gt;
+&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;这一阵子读完了《程序员的自我修养：链接、装载与库》（后面简称《链接》），收获良多，寻思着能不能做些相关的小代码出来。刚好知道 Windows 下有个内存泄露检测工具 &lt;a href=&#34;https://vld.codeplex.com/&#34;&gt;Visual Leak Detector&lt;/a&gt;，这个工具是通过替换 Windows 下负责内存管理的 dll 接口来实现跟踪内存分配释放。所以决定参考 Visual Leak Detector （后面简称 VLD）来做个简易的内存泄露检测工具，理解 dll 链接。&lt;/p&gt;
+&lt;h2&gt;预备知识&lt;/h2&gt;
+&lt;p&gt;《链接》一书详细解释了在 Linux 和 Windows 下可执行文件的链接原理，其中 Windows 下的可执行文件格式叫做 PE（Portable Executable）文件。而 DLL 文件的解释是这样的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;DLL 即动态链接库（Dynamic-Link Library）的缩写，它相当于 Linux 下的共享对象。Windows 系统中大量采用了这种 DLL 机制，甚至包括 Windows 的内核的结构都很大程度依赖于 DLL 机制。Windows 下的 DLL 文件和 EXE 文件实际上是一个概念，它们都是有 PE 格式的二进制文件，稍微有些不同的是 PE 文件头部中有个符号位表示该文件是 EXE 或是 DLL，而 DLL 文件的扩展名不一定是 .dll，也有可能是别的比如 .ocx（OCX控件）或是 .CPL（控制面板程序）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;还有比如 Python 的扩展文件 .pyd。而 DLL 中有关我们这里内存泄露检测的概念是&lt;strong&gt;符号导出导入表&lt;/strong&gt;。&lt;/p&gt;
+&lt;h4&gt;符号导出表&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当一个 PE 需要将一些函数或变量提供给其他 PE 文件使用时，我们把这种行为叫做&lt;strong&gt;符号导出（Symbol Exporting）&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;简单地理解，在 Windows PE 中，所有导出的符号被集中存放在被称作&lt;strong&gt;导出表（Export Table）&lt;/strong&gt;的结构中，它提供了一个符号名与符号地址的映射关系。需要导出的符号需要加上修饰符&lt;code&gt;__declspec(dllexport)&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;符号导入表&lt;/h4&gt;
+&lt;p&gt;符号导入表就是我们这里的关键概念，它跟符号导出表相对应，先来看概念解释：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果我们在某个程序中使用到了来自 DLL 的函数或者变量，那么我们就把这种行为叫做&lt;strong&gt;符号导入（Symbol Importing）&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Windows PE 中保存模块需要导入的变量和函数的符号以及所在的模块等信息的结构叫做&lt;strong&gt;导入表（Import Table）&lt;/strong&gt;。Windows 加载 PE 文件时，其中一个要做的事情就是将所有需要导入的函数地址确定并将导入表中的元素调整到正确的地址，使得运行时候，程序通过查询导入表来定位实际函数的地址，并进行调用。导入表中最重要的结构是&lt;strong&gt;导入地址数组（Import Address Table，IAT）&lt;/strong&gt;，里面存放的就是导入的函数实际地址。&lt;/p&gt;
+&lt;p&gt;看到这里是不是已经猜到我们要实现的内存泄露检测是怎么做 :)。没错就是 hack 导入表，具体地说就是把需要检测的模块的导入表中，关于内存申请和释放的函数的地址改成我们自定义的函数，那么我们就可以知道模块每一次的内存申请和释放情况了，可以尽情做我们想做的检测。&lt;/p&gt;
+&lt;p&gt;有关 DLL 链接的更详细知识可以自行查阅《链接》或者其他资料。&lt;/p&gt;
+&lt;h2&gt;Memory Leak Detector&lt;/h2&gt;
+&lt;p&gt;知道了原理，下面就是根据原理来实现内存泄露检测。下面的讲解将基于我自己的实现，我放在了我的 Github 上：&lt;a href=&#34;https://github.com/disenone/LeakDetector&#34;&gt;LeakDetector&lt;/a&gt;。&lt;/p&gt;
+&lt;h4&gt;替换函数&lt;/h4&gt;
+&lt;p&gt;先来看关键的函数，位于&lt;a href=&#34;https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp&#34;&gt;RealDetector.cpp&lt;/a&gt;：&lt;/p&gt;
+&lt;p&gt;```cpp linenums=&#34;1&#34;
+/&lt;em&gt; 把 importModule 中的 IAT (Import Address Table) 的某个函数替换成别的函数，
+ * importModule 会调用到别的 module 的函数，这个函数就是需要 patch 的函数，
+ * 我们要做的就是让 import module 改成调用我们自定义的函数。
+ *
+ * - importModule (IN): 要处理的 module，这个 module 调用到别的 module 的需要 patch 的函数
+ *
+ * - exportModuleName (IN): 需要 patch 的函数来自的 module 名字
+ *
+ * - exportModulePath (IN): export module 所在的路径，首先尝试用 path 来加载 export module，
+ *          如果失败，则用 name 来加载
+ * - importName (IN): 函数名
+ *
+ * - replacement (IN): 替代的函数指针
+ *
+ * Return Valur: 成功 true，否则 false
+&lt;/em&gt;/
+bool RealDetector::patchImport(
+    HMODULE importModule,
+    LPCSTR exportModuleName,
+    LPCSTR exportModulePath,
+    LPCSTR importName,
+    LPCVOID replacement)
+{
+    HMODULE                  exportmodule;
+    IMAGE_THUNK_DATA        &lt;em&gt;iate;
+    IMAGE_IMPORT_DESCRIPTOR &lt;/em&gt;idte;
+    FARPROC                  import;
+    DWORD                    protect;
+    IMAGE_SECTION_HEADER    *section;
+    ULONG                    size;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;assert(exportModuleName != NULL);
+
+idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
+    TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &amp;amp;size, &amp;amp;section);
+if (idte == NULL) 
+{
+    logMessage(&#34;patchImport failed: idte == NULL\n&#34;);
+    return false;
+}
+while (idte-&amp;gt;FirstThunk != 0x0) 
+{
+    if (strcmp((PCHAR)R2VA(importModule, idte-&amp;gt;Name), exportModuleName) == 0) 
+    {
+        break;
+    }
+    idte++;
+}
+if (idte-&amp;gt;FirstThunk == 0x0) 
+{
+    logMessage(&#34;patchImport failed: idte-&amp;gt;FirstThunk == 0x0\n&#34;);
+    return false;
+}
+
+if (exportModulePath != NULL) 
+{
+    exportmodule = GetModuleHandleA(exportModulePath);
+}
+else 
+{
+    exportmodule = GetModuleHandleA(exportModuleName);
+}
+assert(exportmodule != NULL);
+import = GetProcAddress(exportmodule, importName);
+assert(import != NULL);
+
+iate = (IMAGE_THUNK_DATA*)R2VA(importModule, idte-&amp;gt;FirstThunk);
+while (iate-&amp;gt;u1.Function != 0x0) 
+{
+    if (iate-&amp;gt;u1.Function == (DWORD_PTR)import) 
+    {
+        VirtualProtect(&amp;amp;iate-&amp;gt;u1.Function, sizeof(iate-&amp;gt;u1.Function), 
+            PAGE_READWRITE, &amp;amp;protect);
+        iate-&amp;gt;u1.Function = (DWORD_PTR)replacement;
+        VirtualProtect(&amp;amp;iate-&amp;gt;u1.Function, sizeof(iate-&amp;gt;u1.Function), 
+            protect, &amp;amp;protect);
+        return true;
+    }
+    iate++;
+}
+
+return false;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;我们来分析一下这个函数，就像注释所说的，这个函数实现的功能就是把 IAT 里面的某函数的地址改成另一个函数的地址。先来看第 34-35 行：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
+    TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &amp;amp;size, &amp;amp;section);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ImageDirectoryEntryToDataEx&lt;/code&gt; 函数可以返回模块的文件头的某结构的地址，&lt;code&gt;IMAGE_DIRECTORY_ENTRY_IMPORT&lt;/code&gt; 指定要导入表结构，所以返回的 &lt;code&gt;idte&lt;/code&gt; 就指向了模块导入表了。&lt;/p&gt;
+&lt;p&gt;36-40 行就是检查 &lt;code&gt;idte&lt;/code&gt; 有效。41 行 &lt;code&gt;idte-&amp;gt;FirstThunk&lt;/code&gt; 指向的就是实际的 IAT 了。所以 41-48 行就是在根据模块名字查找需要替换的函数的模块，如果找不到，说明没有调用到该模块的函数，只能提示错误并返回。&lt;/p&gt;
+&lt;p&gt;找到模块后，自然地，我们需要找到替换的那个函数，55-62 行打开函数所属的模块，64 行找到函数地址。因为 IAT 没有保存名字，所以需要先根据原来的函数地址，定位到函数，再修改该函数地址，68-80 行就是在做这个事情。成功找到函数之后，就简单地把地址修改成 &lt;code&gt;replacement&lt;/code&gt; 的地址。&lt;/p&gt;
+&lt;p&gt;至此，我们就成功地替换了 IAT 中的函数了。&lt;/p&gt;
+&lt;h4&gt;模块和函数名字&lt;/h4&gt;
+&lt;p&gt;虽然我们已经实现了替换 IAT 函数 &lt;code&gt;patchImport&lt;/code&gt;，但这个函数需要指定模块名字和函数名字呀，那我们怎么知道程序的内存分配和释放用了什么模块和函数呢？为了搞清楚这个问题，我们需要借助 Windows 下的工具 &lt;a href=&#34;http://www.dependencywalker.com/&#34;&gt;Dependency Walker&lt;/a&gt;。Visual Studio 下新建一个工程，在 &lt;code&gt;main&lt;/code&gt; 函数里面使用 &lt;code&gt;new&lt;/code&gt; 来申请内存，编译 Debug 版，之后使用 &lt;code&gt;depends.exe&lt;/code&gt; 来打开编译出来的 exe 文件，可以看到一下类似的界面（以我的工程 &lt;a href=&#34;https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest&#34;&gt;LeakDetectorTest&lt;/a&gt; 为例）：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2016-6-11-memory-leak-detector/depends.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以看到 LeakDetectorTest.exe 使用了 uscrtbased.dll 里面的 &lt;code&gt;malloc&lt;/code&gt; 和 &lt;code&gt;_free_dbg&lt;/code&gt; （没有在图中显示出来），这两个函数就是我们需要替换的函数了。要注意实际的模块函数名字可能跟你的 Windows 和 Visual Studio 版本有关，我的是 Windows 10 和 Visual Studio 2015，你需要做的就是用 depends.exe 看看实际调用的是什么函数。&lt;/p&gt;
+&lt;h4&gt;分析调用栈&lt;/h4&gt;
+&lt;p&gt;记录内存分配需要记录当时的调用栈信息，这里我不打算详细介绍 Windows 下如何拿到当前的调用栈信息，相关的函数是 &lt;code&gt;RtlCaptureStackBackTrace&lt;/code&gt;，网上有许多相关的资料，也可以看看我的代码里面的函数 &lt;a href=&#34;https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp&#34;&gt;&lt;code&gt;printTrace&lt;/code&gt;&lt;/a&gt; 。&lt;/p&gt;
+&lt;h4&gt;检测内存泄露&lt;/h4&gt;
+&lt;p&gt;至此，我们已经把龙珠都收集全了，下面正式召唤神龙。&lt;/p&gt;
+&lt;p&gt;我想做成可以局部检测内存泄露（这是跟 VLD 不同的地方，VLD 做的是全局的检测，并支持多线程）。所以我在实际替换函数的类&lt;code&gt;RealDetector&lt;/code&gt;上又封装了一层&lt;code&gt;LeakDetector&lt;/code&gt;，并把&lt;code&gt;LeakDetector&lt;/code&gt;的接口暴露给使用者。使用时只需构造&lt;code&gt;LeakDetector&lt;/code&gt;，即完成函数的替换并开始检测内存泄露，&lt;code&gt;LeakDetector&lt;/code&gt;析构时会恢复原来的函数，中止内存泄露检测，并打印内存泄露检测结果。&lt;/p&gt;
+&lt;p&gt;用下面代码测试一下：&lt;/p&gt;
+&lt;p&gt;```cpp&lt;/p&gt;
+&lt;h1&gt;include &#34;LeakDetector.h&#34;&lt;/h1&gt;
+&lt;h1&gt;include &lt;iostream&gt;&lt;/h1&gt;
+&lt;p&gt;using namespace std;&lt;/p&gt;
+&lt;p&gt;void new_some_mem()
+{
+    char&lt;em&gt; c = new char[12];
+    int&lt;/em&gt; i = new int[4];
+}&lt;/p&gt;
+&lt;p&gt;int main()
+{
+    auto ld = LDTools::LeakDetector(&#34;LeakDetectorTest.exe&#34;);
+    new_some_mem();
+    return 0;
+}&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;代码直接 &lt;code&gt;new&lt;/code&gt; 了一些内存出来，没有释放掉就直接退出，程序打印的结果：&lt;/p&gt;
+&lt;p&gt;```
+============== LeakDetector::start ===============
+LeakDetector init success.
+============== LeakDetector::stop ================
+Memory Leak Detected: total 2&lt;/p&gt;
+&lt;p&gt;Num 1:
+    e:\program\github\leakdetector\leakdetector\realdetector.cpp (109): LeakDetector.dll!LDTools::RealDetector::_malloc() + 0x1c bytes
+    f:\dd\vctools\crt\vcstartup\src\heap\new_scalar.cpp (19): LeakDetectorTest.exe!operator new() + 0x9 bytes
+    f:\dd\vctools\crt\vcstartup\src\heap\new_array.cpp (15): LeakDetectorTest.exe!operator new&lt;a href=&#34;&#34;&gt;&lt;/a&gt; + 0x9 bytes
+    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (12): LeakDetectorTest.exe!new_some_mem() + 0x7 bytes
+    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (19): LeakDetectorTest.exe!main()
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (74): LeakDetectorTest.exe!invoke_main() + 0x1b bytes
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (264): LeakDetectorTest.exe!__scrt_common_main_seh() + 0x5 bytes
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (309): LeakDetectorTest.exe!__scrt_common_main()
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_main.cpp (17): LeakDetectorTest.exe!mainCRTStartup()
+    KERNEL32.DLL!BaseThreadInitThunk() + 0x24 bytes
+    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
+    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes&lt;/p&gt;
+&lt;p&gt;Num 2:
+    e:\program\github\leakdetector\leakdetector\realdetector.cpp (109): LeakDetector.dll!LDTools::RealDetector::_malloc() + 0x1c bytes
+    f:\dd\vctools\crt\vcstartup\src\heap\new_scalar.cpp (19): LeakDetectorTest.exe!operator new() + 0x9 bytes
+    f:\dd\vctools\crt\vcstartup\src\heap\new_array.cpp (15): LeakDetectorTest.exe!operator new&lt;a href=&#34;&#34;&gt;&lt;/a&gt; + 0x9 bytes
+    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (11): LeakDetectorTest.exe!new_some_mem() + 0x7 bytes
+    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (19): LeakDetectorTest.exe!main()
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (74): LeakDetectorTest.exe!invoke_main() + 0x1b bytes
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (264): LeakDetectorTest.exe!__scrt_common_main_seh() + 0x5 bytes
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (309): LeakDetectorTest.exe!__scrt_common_main()
+    f:\dd\vctools\crt\vcstartup\src\startup\exe_main.cpp (17): LeakDetectorTest.exe!mainCRTStartup()
+    KERNEL32.DLL!BaseThreadInitThunk() + 0x24 bytes
+    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
+    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
+```&lt;/p&gt;
+&lt;p&gt;程序正确地找出有两个地方申请的内存没有释放，并且打印出了完整的调用栈信息，我们需要的功能至此已经完成了。&lt;/p&gt;
+&lt;h3&gt;结语&lt;/h3&gt;
+&lt;p&gt;当你还不了解程序链接、装载与库的时候，你可能会对如何找到共享链接库的函数一头雾水，更不要说要把链接库的函数替换成我们自己的函数了。这里就以检测内存泄露为例子，探讨下了如何替换 Windows DLL 的函数，更详细的实现可以参考 VLD 的源码。&lt;/p&gt;
+&lt;p&gt;另外想说的是，《程序员的自我修养：链接、装载与库》真是本不错的书呢，纯感慨非软广。&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sat, 02 Dec 2023 09:39:15 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Unity人物控制</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Unity人物控制&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif&#34;&gt;&lt;/p&gt;
+&lt;p&gt;人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。&lt;/p&gt;
+&lt;h2&gt;需求&lt;/h2&gt;
+&lt;p&gt;先来考虑一下，我们的人物操作具体的需求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;行走，能够在刚体的表面行走，由按键上下左右输入来控制，暂不考虑加速减速过程&lt;/li&gt;
+&lt;li&gt;行走的速度在不同方向上可以不同，例如后退应该比前进慢&lt;/li&gt;
+&lt;li&gt;跳跃，由jump按键控制，人物以一定初速度从上离开地面，并慢慢回落到地面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;那么大致的思路就是：用速度来描述人物的运动，速度每个方向上的分量可以分别计算，最后速度乘以时间就是人物的位置偏移了。&lt;/p&gt;
+&lt;h2&gt;人物组件设置&lt;/h2&gt;
+&lt;p&gt;在为人物写脚本来操作控制前，需要一些准备工作，把人物的相关组件先配置好：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;为了控制人物并使人物有一些刚性物理上的表现需要为人物添加一个&lt;code&gt;Character Controller Component&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;为了结构更分明一些，先把关于人物的操作输入分出来，读取输入并初步处理后把结果传给人物控制器，把这部分的脚本命名为&lt;code&gt;MyThirdPersonInput.cs&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;真正控制人物移动的脚本命名为&lt;code&gt;MyThirdPersonController.cs&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;配置后的结果是这样：
+&lt;img alt=&#34;&#34; src=&#34;assets/img/2014-3-15-unity-3rdperson-control0/setting.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;输入&lt;/h2&gt;
+&lt;p&gt;输入就是上下左右和跳跃，方向需要做一个归一化的处理：&lt;/p&gt;
+&lt;p&gt;```c#
+// get movement from input
+var direction = new Vector3(Input.GetAxis(&#34;Horizontal&#34;), 0, 
+    Input.GetAxis(&#34;Vertical&#34;));
+if (direction != Vector3.zero)
+{
+    // constrain length to [0, 1]
+    var directionLength = direction.magnitude;
+    directionLength = Math.Min(1, directionLength);
+    direction = direction.normalized * directionLength;
+}
+person.inputMoveDirction = direction;
+person.inputJump = Input.GetButton(&#34;Jump&#34;);
+````&lt;/p&gt;
+&lt;h2&gt;描述移动和跳跃&lt;/h2&gt;
+&lt;p&gt;我们需要用一些变量来描述人物的动作，例如移动速度，跳跃速度等，移动用下面变量描述：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#    
+[System.Serializable]
+public class Movement
+{
+    public float forwardSpeed = 5F;
+    public float backwardSpeed = 5F;
+    public float sidewardSpeed = 5F;
+}
+public Movement movement = new Movement();&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;[System.Serializable]&lt;/code&gt;是为了让这些参数暴露到Inspector上。跳跃的描述如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#
+[System.Serializable]
+public class Jumping 
+{
+    public bool enable = true;      // true if can jump
+    public float jumpSpeed = 5F;    // original speed when jump
+    public float gravity = 10F;
+    public float maxFallSpeed = 20F;
+    public bool jumping = false;    // true if now in the air
+}
+public Jumping jumping = new Jumping();&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;分解速度&lt;/h2&gt;
+&lt;p&gt;为了方便描述不同方向的移动，把方向分成三个分量：前后、左右、上下，分别求解。&lt;/p&gt;
+&lt;p&gt;前后速度不同，根据数值的正负判断：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#
+if (velocity.z &amp;gt; 0)
+    velocity.z *= movement.forwardSpeed;
+else
+    velocity.z *= movement.backwardSpeed;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;左右速度一致：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#
+velocity.x = inputMoveDirction.x * movement.sidewardSpeed;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;跳跃麻烦一点，要判断当前人物的状态：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果已经在空中，用重力计算速度&lt;/li&gt;
+&lt;li&gt;如果在地上：&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;如果按下跳跃键，速度为跳跃初始速度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;否则y方向速度为0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;c#
+if (!isOnGround)
+{
+    yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
+        -jumping.maxFallSpeed);
+}
+else
+{
+    if (jumping.enable &amp;amp;&amp;amp; inputJump)
+    {
+        yVelocity = jumping.jumpSpeed;
+    }
+    else
+        yVelocity = 0F;
+}&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;更新人物位置&lt;/h2&gt;
+&lt;p&gt;计算出来的速度假定为从本帧开始的速度，那么本帧计算位置的速度应该是前一帧计算出来的，因此在更新速度前，先计算人物的新位置：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#
+// move to new position
+var collisionFlag = controller.Move(velocity * Time.deltaTime);
+isOnGround = (collisionFlag &amp;amp; CollisionFlags.CollidedBelow) != 0;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;controller.Move&lt;/code&gt;会返回&lt;code&gt;CollisionFlags&lt;/code&gt;来表示碰撞的状态，通过这个状态就可以知道人物是不是站在地面上。&lt;/p&gt;
+&lt;p&gt;完整代码：&lt;/p&gt;
+&lt;p&gt;MyThirdPersonInput.cs:&lt;/p&gt;
+&lt;p&gt;```c#
+using UnityEngine;
+using System;
+using System.Collections;
+[RequireComponent(typeof(MyThirdPersonController))]&lt;/p&gt;
+&lt;p&gt;public class MyThirdPersonInput : MonoBehaviour {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;private MyThirdPersonController person;
+
+void Awake()
+{
+    person = GetComponent&amp;lt;MyThirdPersonController&amp;gt;();
+}
+
+// Update is called once per frame
+void Update () 
+{
+    // get movement from input
+    var direction = new Vector3(Input.GetAxis(&#34;Horizontal&#34;), 0, 
+        Input.GetAxis(&#34;Vertical&#34;));
+
+    if (direction != Vector3.zero)
+    {
+        // constrain length to [0, 1]
+        var directionLength = direction.magnitude;
+
+        directionLength = Math.Min(1, directionLength);
+
+        direction = direction.normalized * directionLength;
+
+    }
+
+    person.inputMoveDirction = direction;
+    person.inputJump = Input.GetButton(&#34;Jump&#34;);
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;MyThirdPersonController.cs:&lt;/p&gt;
+&lt;p&gt;```c#
+using UnityEngine;
+using System;
+using System.Collections;&lt;/p&gt;
+&lt;p&gt;public class MyThirdPersonController : MonoBehaviour {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// The current global direction we want the character to move in.
+[System.NonSerialized]
+public Vector3 inputMoveDirction = Vector3.zero;
+
+// Is the jump button held down? We use this interface instead of checking
+// for the jump button directly so this script can also be used by AIs.
+[System.NonSerialized]
+public bool inputJump = false;
+
+[System.Serializable]
+public class Movement
+{
+    public float forwardSpeed = 5F;
+    public float backwardSpeed = 5F;
+    public float sidewardSpeed = 5F;
+}
+public Movement movement = new Movement();
+
+[System.Serializable]
+public class Jumping 
+{
+    public bool enable = true;      // true if can jump
+    public float jumpSpeed = 5F;    // original speed when jump
+    public float gravity = 10F;     
+    public float maxFallSpeed = 20F;
+    public bool jumping = false;    // true if now in the air
+}
+public Jumping jumping = new Jumping();
+
+private CharacterController controller;
+private Vector3 velocity = Vector3.zero;
+private bool isOnGround = true;
+// Use this for initialization
+void Start () 
+{
+    controller = GetComponent&amp;lt;CharacterController&amp;gt;();
+}
+
+// Update is called once per frame
+void FixedUpdate() 
+{
+    // move to new position
+    var collisionFlag = controller.Move(velocity * Time.deltaTime);
+    isOnGround = (collisionFlag &amp;amp; CollisionFlags.CollidedBelow) != 0;
+
+    // update velocity
+    float yVelocity = velocity.y;
+    velocity = Vector3.zero;
+
+    // x-z plane velocity
+    if (inputMoveDirction != Vector3.zero)
+    {
+        velocity.z = inputMoveDirction.z;
+        if (velocity.z &amp;gt; 0)
+            velocity.z *= movement.forwardSpeed;
+        else
+            velocity.z *= movement.backwardSpeed;
+
+        velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
+    }
+
+    // y velocity
+    if (!isOnGround)
+    {
+        yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
+            -jumping.maxFallSpeed);
+    }
+    else
+    {
+        if (jumping.enable &amp;amp;&amp;amp; inputJump)
+        {
+            yVelocity = jumping.jumpSpeed;
+        }
+        else
+            yVelocity = 0F;
+    }
+
+    velocity = transform.rotation * velocity;
+    velocity.y = yVelocity;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sat, 02 Dec 2023 09:39:15 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/</guid>
       
     </item>
     
@@ -2307,205 +2757,6 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
     </item>
     
     <item>
-      <title>编写 Windows 下的 Memory Leak Detector</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;编写 Windows 下的 Memory Leak Detector&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;https://img.shields.io/badge/windows-10-blue.svg&#34;&gt;{:style=&#34;display: inline-block&#34;}
-&lt;img alt=&#34;&#34; src=&#34;https://img.shields.io/badge/vs-2015-68217A.svg&#34;&gt;{:style=&#34;display: inline-block&#34;}&lt;/p&gt;
-&lt;h2&gt;前言&lt;/h2&gt;
-&lt;p&gt;这一阵子读完了《程序员的自我修养：链接、装载与库》（后面简称《链接》），收获良多，寻思着能不能做些相关的小代码出来。刚好知道 Windows 下有个内存泄露检测工具 &lt;a href=&#34;https://vld.codeplex.com/&#34;&gt;Visual Leak Detector&lt;/a&gt;，这个工具是通过替换 Windows 下负责内存管理的 dll 接口来实现跟踪内存分配释放。所以决定参考 Visual Leak Detector （后面简称 VLD）来做个简易的内存泄露检测工具，理解 dll 链接。&lt;/p&gt;
-&lt;h2&gt;预备知识&lt;/h2&gt;
-&lt;p&gt;《链接》一书详细解释了在 Linux 和 Windows 下可执行文件的链接原理，其中 Windows 下的可执行文件格式叫做 PE（Portable Executable）文件。而 DLL 文件的解释是这样的：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;DLL 即动态链接库（Dynamic-Link Library）的缩写，它相当于 Linux 下的共享对象。Windows 系统中大量采用了这种 DLL 机制，甚至包括 Windows 的内核的结构都很大程度依赖于 DLL 机制。Windows 下的 DLL 文件和 EXE 文件实际上是一个概念，它们都是有 PE 格式的二进制文件，稍微有些不同的是 PE 文件头部中有个符号位表示该文件是 EXE 或是 DLL，而 DLL 文件的扩展名不一定是 .dll，也有可能是别的比如 .ocx（OCX控件）或是 .CPL（控制面板程序）。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;还有比如 Python 的扩展文件 .pyd。而 DLL 中有关我们这里内存泄露检测的概念是&lt;strong&gt;符号导出导入表&lt;/strong&gt;。&lt;/p&gt;
-&lt;h4&gt;符号导出表&lt;/h4&gt;
-&lt;blockquote&gt;
-&lt;p&gt;当一个 PE 需要将一些函数或变量提供给其他 PE 文件使用时，我们把这种行为叫做&lt;strong&gt;符号导出（Symbol Exporting）&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;简单地理解，在 Windows PE 中，所有导出的符号被集中存放在被称作&lt;strong&gt;导出表（Export Table）&lt;/strong&gt;的结构中，它提供了一个符号名与符号地址的映射关系。需要导出的符号需要加上修饰符&lt;code&gt;__declspec(dllexport)&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;符号导入表&lt;/h4&gt;
-&lt;p&gt;符号导入表就是我们这里的关键概念，它跟符号导出表相对应，先来看概念解释：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果我们在某个程序中使用到了来自 DLL 的函数或者变量，那么我们就把这种行为叫做&lt;strong&gt;符号导入（Symbol Importing）&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Windows PE 中保存模块需要导入的变量和函数的符号以及所在的模块等信息的结构叫做&lt;strong&gt;导入表（Import Table）&lt;/strong&gt;。Windows 加载 PE 文件时，其中一个要做的事情就是将所有需要导入的函数地址确定并将导入表中的元素调整到正确的地址，使得运行时候，程序通过查询导入表来定位实际函数的地址，并进行调用。导入表中最重要的结构是&lt;strong&gt;导入地址数组（Import Address Table，IAT）&lt;/strong&gt;，里面存放的就是导入的函数实际地址。&lt;/p&gt;
-&lt;p&gt;看到这里是不是已经猜到我们要实现的内存泄露检测是怎么做 :)。没错就是 hack 导入表，具体地说就是把需要检测的模块的导入表中，关于内存申请和释放的函数的地址改成我们自定义的函数，那么我们就可以知道模块每一次的内存申请和释放情况了，可以尽情做我们想做的检测。&lt;/p&gt;
-&lt;p&gt;有关 DLL 链接的更详细知识可以自行查阅《链接》或者其他资料。&lt;/p&gt;
-&lt;h2&gt;Memory Leak Detector&lt;/h2&gt;
-&lt;p&gt;知道了原理，下面就是根据原理来实现内存泄露检测。下面的讲解将基于我自己的实现，我放在了我的 Github 上：&lt;a href=&#34;https://github.com/disenone/LeakDetector&#34;&gt;LeakDetector&lt;/a&gt;。&lt;/p&gt;
-&lt;h4&gt;替换函数&lt;/h4&gt;
-&lt;p&gt;先来看关键的函数，位于&lt;a href=&#34;https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp&#34;&gt;RealDetector.cpp&lt;/a&gt;：&lt;/p&gt;
-&lt;p&gt;```cpp linenums=&#34;1&#34;
-/&lt;em&gt; 把 importModule 中的 IAT (Import Address Table) 的某个函数替换成别的函数，
- * importModule 会调用到别的 module 的函数，这个函数就是需要 patch 的函数，
- * 我们要做的就是让 import module 改成调用我们自定义的函数。
- *
- * - importModule (IN): 要处理的 module，这个 module 调用到别的 module 的需要 patch 的函数
- *
- * - exportModuleName (IN): 需要 patch 的函数来自的 module 名字
- *
- * - exportModulePath (IN): export module 所在的路径，首先尝试用 path 来加载 export module，
- *          如果失败，则用 name 来加载
- * - importName (IN): 函数名
- *
- * - replacement (IN): 替代的函数指针
- *
- * Return Valur: 成功 true，否则 false
-&lt;/em&gt;/
-bool RealDetector::patchImport(
-    HMODULE importModule,
-    LPCSTR exportModuleName,
-    LPCSTR exportModulePath,
-    LPCSTR importName,
-    LPCVOID replacement)
-{
-    HMODULE                  exportmodule;
-    IMAGE_THUNK_DATA        &lt;em&gt;iate;
-    IMAGE_IMPORT_DESCRIPTOR &lt;/em&gt;idte;
-    FARPROC                  import;
-    DWORD                    protect;
-    IMAGE_SECTION_HEADER    *section;
-    ULONG                    size;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;assert(exportModuleName != NULL);
-
-idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
-    TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &amp;amp;size, &amp;amp;section);
-if (idte == NULL) 
-{
-    logMessage(&#34;patchImport failed: idte == NULL\n&#34;);
-    return false;
-}
-while (idte-&amp;gt;FirstThunk != 0x0) 
-{
-    if (strcmp((PCHAR)R2VA(importModule, idte-&amp;gt;Name), exportModuleName) == 0) 
-    {
-        break;
-    }
-    idte++;
-}
-if (idte-&amp;gt;FirstThunk == 0x0) 
-{
-    logMessage(&#34;patchImport failed: idte-&amp;gt;FirstThunk == 0x0\n&#34;);
-    return false;
-}
-
-if (exportModulePath != NULL) 
-{
-    exportmodule = GetModuleHandleA(exportModulePath);
-}
-else 
-{
-    exportmodule = GetModuleHandleA(exportModuleName);
-}
-assert(exportmodule != NULL);
-import = GetProcAddress(exportmodule, importName);
-assert(import != NULL);
-
-iate = (IMAGE_THUNK_DATA*)R2VA(importModule, idte-&amp;gt;FirstThunk);
-while (iate-&amp;gt;u1.Function != 0x0) 
-{
-    if (iate-&amp;gt;u1.Function == (DWORD_PTR)import) 
-    {
-        VirtualProtect(&amp;amp;iate-&amp;gt;u1.Function, sizeof(iate-&amp;gt;u1.Function), 
-            PAGE_READWRITE, &amp;amp;protect);
-        iate-&amp;gt;u1.Function = (DWORD_PTR)replacement;
-        VirtualProtect(&amp;amp;iate-&amp;gt;u1.Function, sizeof(iate-&amp;gt;u1.Function), 
-            protect, &amp;amp;protect);
-        return true;
-    }
-    iate++;
-}
-
-return false;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;p&gt;我们来分析一下这个函数，就像注释所说的，这个函数实现的功能就是把 IAT 里面的某函数的地址改成另一个函数的地址。先来看第 34-35 行：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ruby
-idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
-    TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &amp;amp;size, &amp;amp;section);&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ImageDirectoryEntryToDataEx&lt;/code&gt; 函数可以返回模块的文件头的某结构的地址，&lt;code&gt;IMAGE_DIRECTORY_ENTRY_IMPORT&lt;/code&gt; 指定要导入表结构，所以返回的 &lt;code&gt;idte&lt;/code&gt; 就指向了模块导入表了。&lt;/p&gt;
-&lt;p&gt;36-40 行就是检查 &lt;code&gt;idte&lt;/code&gt; 有效。41 行 &lt;code&gt;idte-&amp;gt;FirstThunk&lt;/code&gt; 指向的就是实际的 IAT 了。所以 41-48 行就是在根据模块名字查找需要替换的函数的模块，如果找不到，说明没有调用到该模块的函数，只能提示错误并返回。&lt;/p&gt;
-&lt;p&gt;找到模块后，自然地，我们需要找到替换的那个函数，55-62 行打开函数所属的模块，64 行找到函数地址。因为 IAT 没有保存名字，所以需要先根据原来的函数地址，定位到函数，再修改该函数地址，68-80 行就是在做这个事情。成功找到函数之后，就简单地把地址修改成 &lt;code&gt;replacement&lt;/code&gt; 的地址。&lt;/p&gt;
-&lt;p&gt;至此，我们就成功地替换了 IAT 中的函数了。&lt;/p&gt;
-&lt;h4&gt;模块和函数名字&lt;/h4&gt;
-&lt;p&gt;虽然我们已经实现了替换 IAT 函数 &lt;code&gt;patchImport&lt;/code&gt;，但这个函数需要指定模块名字和函数名字呀，那我们怎么知道程序的内存分配和释放用了什么模块和函数呢？为了搞清楚这个问题，我们需要借助 Windows 下的工具 &lt;a href=&#34;http://www.dependencywalker.com/&#34;&gt;Dependency Walker&lt;/a&gt;。Visual Studio 下新建一个工程，在 &lt;code&gt;main&lt;/code&gt; 函数里面使用 &lt;code&gt;new&lt;/code&gt; 来申请内存，编译 Debug 版，之后使用 &lt;code&gt;depends.exe&lt;/code&gt; 来打开编译出来的 exe 文件，可以看到一下类似的界面（以我的工程 &lt;a href=&#34;https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest&#34;&gt;LeakDetectorTest&lt;/a&gt; 为例）：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2016-6-11-memory-leak-detector/depends.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;可以看到 LeakDetectorTest.exe 使用了 uscrtbased.dll 里面的 &lt;code&gt;malloc&lt;/code&gt; 和 &lt;code&gt;_free_dbg&lt;/code&gt; （没有在图中显示出来），这两个函数就是我们需要替换的函数了。要注意实际的模块函数名字可能跟你的 Windows 和 Visual Studio 版本有关，我的是 Windows 10 和 Visual Studio 2015，你需要做的就是用 depends.exe 看看实际调用的是什么函数。&lt;/p&gt;
-&lt;h4&gt;分析调用栈&lt;/h4&gt;
-&lt;p&gt;记录内存分配需要记录当时的调用栈信息，这里我不打算详细介绍 Windows 下如何拿到当前的调用栈信息，相关的函数是 &lt;code&gt;RtlCaptureStackBackTrace&lt;/code&gt;，网上有许多相关的资料，也可以看看我的代码里面的函数 &lt;a href=&#34;https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp&#34;&gt;&lt;code&gt;printTrace&lt;/code&gt;&lt;/a&gt; 。&lt;/p&gt;
-&lt;h4&gt;检测内存泄露&lt;/h4&gt;
-&lt;p&gt;至此，我们已经把龙珠都收集全了，下面正式召唤神龙。&lt;/p&gt;
-&lt;p&gt;我想做成可以局部检测内存泄露（这是跟 VLD 不同的地方，VLD 做的是全局的检测，并支持多线程）。所以我在实际替换函数的类&lt;code&gt;RealDetector&lt;/code&gt;上又封装了一层&lt;code&gt;LeakDetector&lt;/code&gt;，并把&lt;code&gt;LeakDetector&lt;/code&gt;的接口暴露给使用者。使用时只需构造&lt;code&gt;LeakDetector&lt;/code&gt;，即完成函数的替换并开始检测内存泄露，&lt;code&gt;LeakDetector&lt;/code&gt;析构时会恢复原来的函数，中止内存泄露检测，并打印内存泄露检测结果。&lt;/p&gt;
-&lt;p&gt;用下面代码测试一下：&lt;/p&gt;
-&lt;p&gt;```cpp&lt;/p&gt;
-&lt;h1&gt;include &#34;LeakDetector.h&#34;&lt;/h1&gt;
-&lt;h1&gt;include &lt;iostream&gt;&lt;/h1&gt;
-&lt;p&gt;using namespace std;&lt;/p&gt;
-&lt;p&gt;void new_some_mem()
-{
-    char&lt;em&gt; c = new char[12];
-    int&lt;/em&gt; i = new int[4];
-}&lt;/p&gt;
-&lt;p&gt;int main()
-{
-    auto ld = LDTools::LeakDetector(&#34;LeakDetectorTest.exe&#34;);
-    new_some_mem();
-    return 0;
-}&lt;/p&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;p&gt;代码直接 &lt;code&gt;new&lt;/code&gt; 了一些内存出来，没有释放掉就直接退出，程序打印的结果：&lt;/p&gt;
-&lt;p&gt;```
-============== LeakDetector::start ===============
-LeakDetector init success.
-============== LeakDetector::stop ================
-Memory Leak Detected: total 2&lt;/p&gt;
-&lt;p&gt;Num 1:
-    e:\program\github\leakdetector\leakdetector\realdetector.cpp (109): LeakDetector.dll!LDTools::RealDetector::_malloc() + 0x1c bytes
-    f:\dd\vctools\crt\vcstartup\src\heap\new_scalar.cpp (19): LeakDetectorTest.exe!operator new() + 0x9 bytes
-    f:\dd\vctools\crt\vcstartup\src\heap\new_array.cpp (15): LeakDetectorTest.exe!operator new&lt;a href=&#34;&#34;&gt;&lt;/a&gt; + 0x9 bytes
-    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (12): LeakDetectorTest.exe!new_some_mem() + 0x7 bytes
-    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (19): LeakDetectorTest.exe!main()
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (74): LeakDetectorTest.exe!invoke_main() + 0x1b bytes
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (264): LeakDetectorTest.exe!__scrt_common_main_seh() + 0x5 bytes
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (309): LeakDetectorTest.exe!__scrt_common_main()
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_main.cpp (17): LeakDetectorTest.exe!mainCRTStartup()
-    KERNEL32.DLL!BaseThreadInitThunk() + 0x24 bytes
-    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
-    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes&lt;/p&gt;
-&lt;p&gt;Num 2:
-    e:\program\github\leakdetector\leakdetector\realdetector.cpp (109): LeakDetector.dll!LDTools::RealDetector::_malloc() + 0x1c bytes
-    f:\dd\vctools\crt\vcstartup\src\heap\new_scalar.cpp (19): LeakDetectorTest.exe!operator new() + 0x9 bytes
-    f:\dd\vctools\crt\vcstartup\src\heap\new_array.cpp (15): LeakDetectorTest.exe!operator new&lt;a href=&#34;&#34;&gt;&lt;/a&gt; + 0x9 bytes
-    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (11): LeakDetectorTest.exe!new_some_mem() + 0x7 bytes
-    e:\program\github\leakdetector\leakdetectortest\leakdetectortest.cpp (19): LeakDetectorTest.exe!main()
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (74): LeakDetectorTest.exe!invoke_main() + 0x1b bytes
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (264): LeakDetectorTest.exe!__scrt_common_main_seh() + 0x5 bytes
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl (309): LeakDetectorTest.exe!__scrt_common_main()
-    f:\dd\vctools\crt\vcstartup\src\startup\exe_main.cpp (17): LeakDetectorTest.exe!mainCRTStartup()
-    KERNEL32.DLL!BaseThreadInitThunk() + 0x24 bytes
-    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
-    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
-```&lt;/p&gt;
-&lt;p&gt;程序正确地找出有两个地方申请的内存没有释放，并且打印出了完整的调用栈信息，我们需要的功能至此已经完成了。&lt;/p&gt;
-&lt;h3&gt;结语&lt;/h3&gt;
-&lt;p&gt;当你还不了解程序链接、装载与库的时候，你可能会对如何找到共享链接库的函数一头雾水，更不要说要把链接库的函数替换成我们自己的函数了。这里就以检测内存泄露为例子，探讨下了如何替换 Windows DLL 的函数，更详细的实现可以参考 VLD 的源码。&lt;/p&gt;
-&lt;p&gt;另外想说的是，《程序员的自我修养：链接、装载与库》真是本不错的书呢，纯感慨非软广。&lt;/p&gt;
-&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
-      <link>https://disenone.github.io/wiki/cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 05:04:22 +0000</pubDate>
-      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://disenone.github.io/wiki/cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/</guid>
-      
-    </item>
-    
-    <item>
       <title>游戏 AOI 算法解析和性能实测</title>
       
       
@@ -3615,257 +3866,6 @@ if (!String.IsNullOrEmpty(CachePath))
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/</guid>
-      
-    </item>
-    
-    <item>
-      <title>Unity人物控制</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Unity人物控制&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;[assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif]&lt;/p&gt;
-&lt;p&gt;人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。&lt;/p&gt;
-&lt;h2&gt;需求&lt;/h2&gt;
-&lt;p&gt;先来考虑一下，我们的人物操作具体的需求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;行走，能够在刚体的表面行走，由按键上下左右输入来控制，暂不考虑加速减速过程&lt;/li&gt;
-&lt;li&gt;行走的速度在不同方向上可以不同，例如后退应该比前进慢&lt;/li&gt;
-&lt;li&gt;跳跃，由jump按键控制，人物以一定初速度从上离开地面，并慢慢回落到地面&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;那么大致的思路就是：用速度来描述人物的运动，速度每个方向上的分量可以分别计算，最后速度乘以时间就是人物的位置偏移了。&lt;/p&gt;
-&lt;h2&gt;人物组件设置&lt;/h2&gt;
-&lt;p&gt;在为人物写脚本来操作控制前，需要一些准备工作，把人物的相关组件先配置好：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;为了控制人物并使人物有一些刚性物理上的表现需要为人物添加一个&lt;code&gt;Character Controller Component&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;为了结构更分明一些，先把关于人物的操作输入分出来，读取输入并初步处理后把结果传给人物控制器，把这部分的脚本命名为&lt;code&gt;MyThirdPersonInput.cs&lt;/code&gt;；&lt;/li&gt;
-&lt;li&gt;真正控制人物移动的脚本命名为&lt;code&gt;MyThirdPersonController.cs&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;配置后的结果是这样：
-&lt;img alt=&#34;&#34; src=&#34;assets/img/2014-3-15-unity-3rdperson-control0/setting.png&#34;&gt;&lt;/p&gt;
-&lt;h2&gt;输入&lt;/h2&gt;
-&lt;p&gt;输入就是上下左右和跳跃，方向需要做一个归一化的处理：&lt;/p&gt;
-&lt;p&gt;```c#
-// get movement from input
-var direction = new Vector3(Input.GetAxis(&#34;Horizontal&#34;), 0, 
-    Input.GetAxis(&#34;Vertical&#34;));
-if (direction != Vector3.zero)
-{
-    // constrain length to [0, 1]
-    var directionLength = direction.magnitude;
-    directionLength = Math.Min(1, directionLength);
-    direction = direction.normalized * directionLength;
-}
-person.inputMoveDirction = direction;
-person.inputJump = Input.GetButton(&#34;Jump&#34;);
-````&lt;/p&gt;
-&lt;h2&gt;描述移动和跳跃&lt;/h2&gt;
-&lt;p&gt;我们需要用一些变量来描述人物的动作，例如移动速度，跳跃速度等，移动用下面变量描述：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c#    
-[System.Serializable]
-public class Movement
-{
-    public float forwardSpeed = 5F;
-    public float backwardSpeed = 5F;
-    public float sidewardSpeed = 5F;
-}
-public Movement movement = new Movement();&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;[System.Serializable]&lt;/code&gt;是为了让这些参数暴露到Inspector上。跳跃的描述如下：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c#
-[System.Serializable]
-public class Jumping 
-{
-    public bool enable = true;      // true if can jump
-    public float jumpSpeed = 5F;    // original speed when jump
-    public float gravity = 10F;
-    public float maxFallSpeed = 20F;
-    public bool jumping = false;    // true if now in the air
-}
-public Jumping jumping = new Jumping();&lt;/code&gt;&lt;/p&gt;
-&lt;h2&gt;分解速度&lt;/h2&gt;
-&lt;p&gt;为了方便描述不同方向的移动，把方向分成三个分量：前后、左右、上下，分别求解。&lt;/p&gt;
-&lt;p&gt;前后速度不同，根据数值的正负判断：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c#
-if (velocity.z &amp;gt; 0)
-    velocity.z *= movement.forwardSpeed;
-else
-    velocity.z *= movement.backwardSpeed;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;左右速度一致：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c#
-velocity.x = inputMoveDirction.x * movement.sidewardSpeed;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;跳跃麻烦一点，要判断当前人物的状态：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果已经在空中，用重力计算速度&lt;/li&gt;
-&lt;li&gt;如果在地上：&lt;/li&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;如果按下跳跃键，速度为跳跃初始速度&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;否则y方向速度为0&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;c#
-if (!isOnGround)
-{
-    yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
-        -jumping.maxFallSpeed);
-}
-else
-{
-    if (jumping.enable &amp;amp;&amp;amp; inputJump)
-    {
-        yVelocity = jumping.jumpSpeed;
-    }
-    else
-        yVelocity = 0F;
-}&lt;/code&gt;&lt;/p&gt;
-&lt;h2&gt;更新人物位置&lt;/h2&gt;
-&lt;p&gt;计算出来的速度假定为从本帧开始的速度，那么本帧计算位置的速度应该是前一帧计算出来的，因此在更新速度前，先计算人物的新位置：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c#
-// move to new position
-var collisionFlag = controller.Move(velocity * Time.deltaTime);
-isOnGround = (collisionFlag &amp;amp; CollisionFlags.CollidedBelow) != 0;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;controller.Move&lt;/code&gt;会返回&lt;code&gt;CollisionFlags&lt;/code&gt;来表示碰撞的状态，通过这个状态就可以知道人物是不是站在地面上。&lt;/p&gt;
-&lt;p&gt;完整代码：&lt;/p&gt;
-&lt;p&gt;MyThirdPersonInput.cs:&lt;/p&gt;
-&lt;p&gt;```c#
-using UnityEngine;
-using System;
-using System.Collections;
-[RequireComponent(typeof(MyThirdPersonController))]&lt;/p&gt;
-&lt;p&gt;public class MyThirdPersonInput : MonoBehaviour {&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;private MyThirdPersonController person;
-
-void Awake()
-{
-    person = GetComponent&amp;lt;MyThirdPersonController&amp;gt;();
-}
-
-// Update is called once per frame
-void Update () 
-{
-    // get movement from input
-    var direction = new Vector3(Input.GetAxis(&#34;Horizontal&#34;), 0, 
-        Input.GetAxis(&#34;Vertical&#34;));
-
-    if (direction != Vector3.zero)
-    {
-        // constrain length to [0, 1]
-        var directionLength = direction.magnitude;
-
-        directionLength = Math.Min(1, directionLength);
-
-        direction = direction.normalized * directionLength;
-
-    }
-
-    person.inputMoveDirction = direction;
-    person.inputJump = Input.GetButton(&#34;Jump&#34;);
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;p&gt;MyThirdPersonController.cs:&lt;/p&gt;
-&lt;p&gt;```c#
-using UnityEngine;
-using System;
-using System.Collections;&lt;/p&gt;
-&lt;p&gt;public class MyThirdPersonController : MonoBehaviour {&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// The current global direction we want the character to move in.
-[System.NonSerialized]
-public Vector3 inputMoveDirction = Vector3.zero;
-
-// Is the jump button held down? We use this interface instead of checking
-// for the jump button directly so this script can also be used by AIs.
-[System.NonSerialized]
-public bool inputJump = false;
-
-[System.Serializable]
-public class Movement
-{
-    public float forwardSpeed = 5F;
-    public float backwardSpeed = 5F;
-    public float sidewardSpeed = 5F;
-}
-public Movement movement = new Movement();
-
-[System.Serializable]
-public class Jumping 
-{
-    public bool enable = true;      // true if can jump
-    public float jumpSpeed = 5F;    // original speed when jump
-    public float gravity = 10F;     
-    public float maxFallSpeed = 20F;
-    public bool jumping = false;    // true if now in the air
-}
-public Jumping jumping = new Jumping();
-
-private CharacterController controller;
-private Vector3 velocity = Vector3.zero;
-private bool isOnGround = true;
-// Use this for initialization
-void Start () 
-{
-    controller = GetComponent&amp;lt;CharacterController&amp;gt;();
-}
-
-// Update is called once per frame
-void FixedUpdate() 
-{
-    // move to new position
-    var collisionFlag = controller.Move(velocity * Time.deltaTime);
-    isOnGround = (collisionFlag &amp;amp; CollisionFlags.CollidedBelow) != 0;
-
-    // update velocity
-    float yVelocity = velocity.y;
-    velocity = Vector3.zero;
-
-    // x-z plane velocity
-    if (inputMoveDirction != Vector3.zero)
-    {
-        velocity.z = inputMoveDirction.z;
-        if (velocity.z &amp;gt; 0)
-            velocity.z *= movement.forwardSpeed;
-        else
-            velocity.z *= movement.backwardSpeed;
-
-        velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
-    }
-
-    // y velocity
-    if (!isOnGround)
-    {
-        yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
-            -jumping.maxFallSpeed);
-    }
-    else
-    {
-        if (jumping.enable &amp;amp;&amp;amp; inputJump)
-        {
-            yVelocity = jumping.jumpSpeed;
-        }
-        else
-            yVelocity = 0F;
-    }
-
-    velocity = transform.rotation * velocity;
-    velocity.y = yVelocity;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}
-```&lt;/p&gt;
-&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
-      <link>https://disenone.github.io/wiki/unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 05:04:22 +0000</pubDate>
-      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://disenone.github.io/wiki/unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/</guid>
       
     </item>
     
