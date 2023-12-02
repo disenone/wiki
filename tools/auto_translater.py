@@ -398,10 +398,9 @@ def GetGitRef(input_file):
 
 def CreateProcessInfo(input_file):
     info = {}
-    repo = git.Repo('.')
-    git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd","summary":"%s"}')
-    if git_log:
-        info['git_ref'] = json.loads(git_log)['commit']
+    git_ref = GetGitRef(input_file)
+    if git_ref:
+        info['git_ref'] = git_ref
     info['mtime'] = os.stat(input_file).st_mtime
     return info
 
