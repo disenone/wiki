@@ -8,6 +8,7 @@ description: |
     本文简单地分析了 KCP 的源码，并讨论了 KCP 上 ARQ 的实现，和一些 KCP 提升流速的策略。
 figures: []
 ---
+<meta property="og:title" content="KCP 源码剖析" />
 
 阅读本文之前，如果没听说过 KCP ，或者一点都不了解 KCP，麻烦抽一点时间先看看 KCP 项目的说明文档：[传送门](https://github.com/skywind3000/kcp)。本文的目的是深入 KCP 的实现细节去理解 KCP 。
 
@@ -1032,5 +1033,4 @@ KCP 还增加了一个配置 `nocwnd`，当 `nocwnd = 1`，发送数据是不再
 
 本文简单地分析了 KCP 的源码，并讨论了 KCP 上 ARQ 的实现，和一些 KCP 提升流速的策略。还有很多细节没有提到，感兴趣的可以自己翻 KCP 的源码对照着看，相信也能有不少的收获。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

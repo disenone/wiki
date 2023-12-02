@@ -7,6 +7,7 @@ description: |
     这一阵子读完了《程序员的自我修养：链接、装载与库》（后面简称《链接》），收获良多，寻思着能不能做些相关的小代码出来。刚好知道 Windows 下有个内存泄露检测工具 [Visual Leak Detector](https://vld.codeplex.com/)，这个工具是通过替换 Windows 下负责内存管理的 dll 接口来实现跟踪内存分配释放。所以决定参考 Visual Leak Detector （后面简称 VLD）来做个简易的内存泄露检测工具，理解 dll 链接。
 figures: [assets/post_assets/2016-6-11-memory-leak-detector/depends.png]
 ---
+<meta property="og:title" content="编写 Windows 下的 Memory Leak Detector" />
 
 ![](https://img.shields.io/badge/windows-10-blue.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
@@ -235,5 +236,4 @@ Num 2:
 
 另外想说的是，《程序员的自我修养：链接、装载与库》真是本不错的书呢，纯感慨非软广。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

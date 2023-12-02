@@ -9,6 +9,7 @@ description: |
 figures: []
 date: 2021-11-18
 ---
+<meta property="og:title" content="游戏 AOI 算法解析和性能实测" />
 
 ### 引子
 
@@ -423,5 +424,4 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 
 本人能力有限，文中内容仅代表本人想法，如有不足不妥之处欢迎留言讨论。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

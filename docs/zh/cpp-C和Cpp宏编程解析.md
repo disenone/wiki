@@ -8,6 +8,7 @@ description: |
     本文的目的是要讲清楚 C/C++ 宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。
 figures: []
 ---
+<meta property="og:title" content="C/C++ 宏编程解析" />
 
 本文的目的是要讲清楚 C/C++ 的宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。我会首先说说 C++ 标准 14 里面提到的关于宏展开的规则，然后通过修改 Clang 的源码来观察宏展开，最后基于这些知识来聊聊宏编程的实现。
 
@@ -1215,5 +1216,4 @@ PP_TUPLE_REMOVE(0, (1, 2, 3))   // -> (2, 3)
 * [Boost.Preprocessor](https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/)
 * [C/C++ 宏编程的艺术](https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art)
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

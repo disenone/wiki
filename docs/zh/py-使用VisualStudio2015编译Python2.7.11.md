@@ -11,6 +11,7 @@ figures:
 - https://img.shields.io/badge/vs-2015-68217A.svg
 nowidth: 1
 ---
+<meta property="og:title" content="使用 Visual Studio 2015 编译 Python 2.7.11" />
 
 ![](https://img.shields.io/badge/python-2.7.11-brightgreen.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
@@ -169,5 +170,4 @@ extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
 
 所以使用的时候最好要注意一下。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

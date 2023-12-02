@@ -8,7 +8,7 @@ description: |
     体积光散射是一个挺不错的视觉效果，你仿佛看到了光线在空中的传播，空中的微粒被光照亮，而部分光线又被遮挡住，视觉上会产生从光源辐射出的光线。
 figures: [assets/post_assets/2014-3-30-unity-light-scattering/effect.gif]
 ---
-
+<meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)" />
 
 ## 原理
 
@@ -295,5 +295,4 @@ Shader "Custom/LightScattering"
 
 代码在[这里](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)，把`cs`脚本添加到相机上。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

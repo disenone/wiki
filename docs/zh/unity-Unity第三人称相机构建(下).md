@@ -6,6 +6,7 @@ catalog: true
 tags: [dev]
 description: "我想在Unity中创建一个第三人称相机，相机的行为参考《魔兽世界》的第三人称相机。这里来解决相机的刚体问题。"
 ---
+<meta property="og:title" content="Unity第三人称相机构建(下)" />
 
 上一集讲完了[相机的旋转](unity-Unity第三人称相机构建(上).md)，那么现在我们要解决的问题是相机的刚性，要怎么做呢？
 
@@ -369,5 +370,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 }
 ```
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

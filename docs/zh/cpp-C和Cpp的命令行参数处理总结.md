@@ -8,6 +8,7 @@ description: |
     前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。
 figures: [assets/post_assets/2016-11-19-aparsing/aparsing.png]
 ---
+<meta property="og:title" content="C/C++ 的命令行参数处理总结" />
 
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/gcc-4.9-blue.svg){:style="display: inline-block"}
@@ -377,5 +378,4 @@ strtest = Hello World!
 - `getopt` 是 Linux 平台原生支持的，Windows 不支持，所以需要包含实现的代码才能跨平台使用。参数的传递符合 Linux 的命令传参标准，支持可选参数，但使用起来略微麻烦，通常需要循环和条件判断来处理不同的参数，并对数值类型的参数不友好。
 - `moduleparam` 是参考 Linux 内核的 `moduleparam` 实现的命令行参数处理工具，支持跨平台使用，使用简单，能对不同类型的参数进行类型转换，缺点就是每个参数都需要一个相应的变量存储。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

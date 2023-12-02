@@ -8,6 +8,9 @@ description: |
     人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。
 figures: [assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif]
 ---
+<meta property="og:title" content="Unity人物控制" />
+
+[assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif]
 
 人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。
 
@@ -268,5 +271,4 @@ public class MyThirdPersonController : MonoBehaviour {
 }
 ```
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

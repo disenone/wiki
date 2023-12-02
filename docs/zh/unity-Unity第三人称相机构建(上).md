@@ -7,6 +7,7 @@ tags: [dev]
 description: "我想在Unity中创建一个第三人称相机，相机的行为参考《魔兽世界》的第三人称相机。这里先来解决相机的旋转问题。"
 figure: 
 ---
+<meta property="og:title" content="Unity第三人称相机构建(上)" />
 
 我想在Unity中创建一个第三人称相机，相机的行为参考《魔兽世界》的第三人称相机，具体的需求是：
 
@@ -160,5 +161,4 @@ Vector3 RotateIt(Vector3 oldForward, Vector3 up, Vector3 right, Transform player
 }
 ```
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

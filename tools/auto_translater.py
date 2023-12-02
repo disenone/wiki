@@ -35,8 +35,12 @@ processed_dict_file = "tools/processed_dict.txt"  # 已处理的 Markdown 文件
 only_list = [         # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
     # 'test2.md',
     # 'cpp-C和Cpp宏编程解析.md',
+    # 'cpp-编写Windows下的MemoryLeakDetector.md',
+    # 'test3.md',
 ]
-skip_line_startswith = ['```', '<detail>', '</detail>']  # 跳过以这些字符开始的行，简单复制粘贴到结果中
+code_flag = '```'
+skip_line_startswith = [code_flag, '<detail>', '</detail>', '<meta property']  # 跳过以这些字符开始的行，简单复制粘贴到结果中
+
 
 # 由 ChatGPT 翻译的提示
 tips_translated_by_chatgpt = {
@@ -83,6 +87,13 @@ replace_rules = [
             "ar": "> يتم حماية هذا المقال بموجب اتفاقية [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh)، يُرجى ذكر المصدر عند إعادة النشر.",
         }
     },
+    {
+        # snippet
+        "orginal_text": '--8<-- "footer.md"',
+        "replaced_text": {
+            "en": '--8<-- "footer_en.md"'
+        }
+    }
 ]
 
 # Front Matter 固定字段替换规则。
@@ -204,8 +215,8 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else."},
-                {"role": "user", "content": f"Translate these text into {target_lang} language, do not explain them:\n\n{text}\n"},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not explain them."},
+                {"role": "user", "content": f"Translate these text into {target_lang} language:\n\n{text}\n"},
             ],
         )  
     # 翻译正文
@@ -213,8 +224,8 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field.You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add anyother control character."},
-                {"role": "user", "content": f"Translate these text into {target_lang} language, do not explain them:\n\n{text}\n"},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets."},
+                {"role": "user", "content": f"Translate these text into {target_lang} language:\n\n{text}\n"},
             ],
         )
 
@@ -222,11 +233,11 @@ def translate_text(text, lang, type):
 
     # 获取翻译结果
     output_text = completion.choices[0].message.content
-    # new_output_text = []
-    # for line in output_text.split('\n'):
-    #     if not is_skip_line(line):
-    #         new_output_text.append(line)
-    # output_text = '\n'.join(new_output_text)
+    new_output_text = []
+    for line in output_text.split('\n'):
+        if not line.startswith(code_flag):
+            new_output_text.append(line)
+    output_text = '\n'.join(new_output_text)
     log('translate_text2:', repr(output_text), level=logging.DEBUG)
 
     sys.stdout.flush()
@@ -312,7 +323,6 @@ def translate_file(working_folder, input_file, lang):
     # 拆分文章
     paragraphs = input_text.split("\n")
 
-    print(11111, paragraphs)
     input_text = ""
     output_paragraphs = []
     current_paragraph = ""
@@ -354,7 +364,6 @@ def translate_file(working_folder, input_file, lang):
         output_paragraphs.append(translate_text(input_text, lang,"main-body"))
 
     log('progress: 100%%')
-    print(33333, output_paragraphs)
     # 将输出段落合并为字符串
     output_text = "\n".join(output_paragraphs)
 

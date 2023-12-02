@@ -9,6 +9,7 @@ description: |
     UE 原生对 FASTBuild 支持不太完善，为了让 UE4 和 UE5 完美支持 FASTBuild，我们需要做一些配置和源码修改，下面为你一一道来。
 figures: []
 ---
+<meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5" />
 
 > 本文方法经测试支持 UE4.27 - UE5.3，其他版本未测试过，可以尝试。
 
@@ -270,5 +271,4 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 </Configuration>
 ```
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"

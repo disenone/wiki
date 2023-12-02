@@ -8,6 +8,7 @@ description: |
     发现Unity的RenderWithShader()和OnRenderImage()可以用来实现很多效果，趁着学习的机会，我决定用这两个函数实现场景深度图的生成和场景边缘检测，可用来作为游戏的一种小地图。
 figures: [assets/post_assets/2014-3-27-unity-depth-minimap/topview.png]
 ---
+<meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" />
 
 刚接触Unity没多久，对Unity的ShaderLab一直很感兴趣，感觉它可以快速地实现各种各样的显示效果，很有意思。嘛，作为一个门都还没入的人，我就来搞一搞深度图和边缘检测吧。
 
@@ -313,5 +314,4 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
 # 完整的代码
 代码文件有点多，就放到这里了[depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)。
 
-> 原文地址：<https://disenone.github.io/wiki>  
-> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。
+--8<-- "footer.md"
