@@ -1540,11 +1540,9 @@
 <h4 id="analyzing-call-stack">Analyzing Call Stack</h4>
 <p>To record memory allocation, it is necessary to record the call stack information at the time. Here, I don't intend to provide a detailed guide on how to obtain the current call stack information in Windows. The relevant function is <code>RtlCaptureStackBackTrace</code>, and there are many related resources available online. You can also take a look at the <code>printTrace</code> function in my code <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">here</a>.</p>
 <h4 id="detecting-memory-leaks">Detecting Memory Leaks</h4>
-<p>[to_be_replace0]</p>
 <p>At this point, we have collected all the Dragon Balls, and now it's time to officially summon Shenron.</p>
 <p>I want to create a feature that can detect memory leaks locally (this is different from VLD, which performs global detection and supports multi-threading). So, I added another layer of encapsulation called <code>LeakDetector</code> on top of the actual replacement function class <code>RealDetector</code> and exposed the interface of <code>LeakDetector</code> to the user. To use it, simply construct a <code>LeakDetector</code>, which will replace the function and start detecting memory leaks. When the <code>LeakDetector</code> is destroyed, it will restore the original function, terminate the memory leak detection, and print the results of the memory leak detection.</p>
 <p>Test with the following code:</p>
-<p>[to_be_replaced[x]]</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;LeakDetector.h&quot;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
