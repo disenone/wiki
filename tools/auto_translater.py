@@ -484,11 +484,11 @@ def run(working_folder):
     for input_file in file_list:
         for lang in dir_translate_to.keys():
             if NeedProcess(processed_dict, input_file, lang):
-                # translate_file(working_folder, input_file, lang)
-                print(input_file)
-                print(processed_dict[os.path.basename(input_file)])
+                log('find file to translate to [%s]: %s' % (lang, input_file))
+                log('old processed_info: %s' % (processed_dict[os.path.basename(input_file)], ))
+                translate_file(working_folder, input_file, lang)
                 processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
-                print(processed_dict[os.path.basename(input_file)])
+                log('new processed_info: %s' % (processed_dict[os.path.basename(input_file)], ))
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
 
