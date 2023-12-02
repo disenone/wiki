@@ -175,15 +175,11 @@ To record memory allocation, it is necessary to record the call stack informatio
 
 #### Detecting Memory Leaks
 
-[to_be_replace0]
-
 At this point, we have collected all the Dragon Balls, and now it's time to officially summon Shenron.
 
 I want to create a feature that can detect memory leaks locally (this is different from VLD, which performs global detection and supports multi-threading). So, I added another layer of encapsulation called `LeakDetector` on top of the actual replacement function class `RealDetector` and exposed the interface of `LeakDetector` to the user. To use it, simply construct a `LeakDetector`, which will replace the function and start detecting memory leaks. When the `LeakDetector` is destroyed, it will restore the original function, terminate the memory leak detection, and print the results of the memory leak detection.
 
 Test with the following code:
-
-[to_be_replaced[x]]
 
 ```cpp
 #include "LeakDetector.h"

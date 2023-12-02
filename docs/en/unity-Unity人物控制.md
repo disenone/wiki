@@ -37,6 +37,7 @@ Before writing scripts to control and manipulate characters, some preparation wo
 3. The script that actually controls the character's movement should be named `MyThirdPersonController.cs`.
 
 The result after configuration is as follows:
+
 ![](assets/img/2014-3-15-unity-3rdperson-control0/setting.png)
 
 ## Input
