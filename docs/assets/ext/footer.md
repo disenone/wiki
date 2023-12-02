@@ -8,14 +8,14 @@
 
 
 <!-- 转载 -->
-<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5" data-a2a-url="https://disenone.github.io/wiki/feed_rss_created.xml">
     <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
     <a class="a2a_button_copy_link"></a>
     <a class="a2a_button_wechat"></a>
-    <a class="a2a_button_sina_weibo"></a>
-    <a class="a2a_button_douban"></a>
-    <a class="a2a_button_facebook"></a>
-    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+    <a class="a2a_button_feed"></a>
 </div>
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
