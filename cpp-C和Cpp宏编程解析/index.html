@@ -1,0 +1,3131 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="本文的目的是要讲清楚 C/C++ 宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。
+">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://disenone.github.io/wiki/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/">
+      
+      
+        <link rel="prev" href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/">
+      
+      
+        <link rel="next" href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+    
+    
+      
+        <title>C/C++ 宏编程解析 - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C/C++ 宏编程解析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../en/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  编程技术
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  游戏开发
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    编程技术
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            编程技术
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 的命令行参数处理总结
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    C/C++ 宏编程解析
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 宏编程解析
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      引子
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="引子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      递归重入（Reentrancy）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符串拼接
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏展开规则
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏展开规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      参数分隔
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏参数展开
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      # 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      重复扫描
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      禁止递归重入
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clang" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过 Clang 观察展开过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通过 Clang 观察展开过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏编程实现
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏编程实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本符号
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      求值
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      拼接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      逻辑运算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件选择
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      递增递减
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      变长参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      惰性求值
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      以括号开始
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      变长参数空
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      下标访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pp_is_empty2" class="md-nav__link">
+    <span class="md-ellipsis">
+      PP_IS_EMPTY2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__va_opt__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __VA_OPT__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      求参数个数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      遍历访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件循环
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      递归重入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      算术比较
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      算术运算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据结构
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      引用
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    编写 Windows 下的 Memory Leak Detector
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP 源码剖析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 Visual Studio 2015 编译 Python 2.7.11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    游戏开发
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            游戏开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    基础
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            基础
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    游戏 AOI 算法解析和性能实测
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 FASTBuild 编译 UE4 和 UE5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity第三人称相机构建(上)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity第三人称相机构建(下)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity人物控制
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity画深度图(Depth Map)和边缘检测(Edge Detection)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      引子
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="引子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      递归重入（Reentrancy）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符串拼接
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏展开规则
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏展开规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      参数分隔
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏参数展开
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      # 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      重复扫描
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      禁止递归重入
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clang" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过 Clang 观察展开过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通过 Clang 观察展开过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      例子 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      宏编程实现
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="宏编程实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本符号
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      求值
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      拼接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      逻辑运算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件选择
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      递增递减
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      变长参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      惰性求值
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      以括号开始
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      变长参数空
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      下标访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pp_is_empty2" class="md-nav__link">
+    <span class="md-ellipsis">
+      PP_IS_EMPTY2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__va_opt__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __VA_OPT__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      求参数个数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      遍历访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件循环
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      递归重入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      算术比较
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      算术运算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据结构
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      引用
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki/edit/main/docs/zh/cpp-C和Cpp宏编程解析.md" title="编辑此页" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>C/C++ 宏编程解析</h1>
+
+<p><meta property="og:title" content="C/C++ 宏编程解析" /></p>
+<p>本文的目的是要讲清楚 C/C++ 的宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。我会首先说说 C++ 标准 14 里面提到的关于宏展开的规则，然后通过修改 Clang 的源码来观察宏展开，最后基于这些知识来聊聊宏编程的实现。</p>
+<p>本文的代码全部都在这里：<a href="../assets/img/2021-3-31-cpp-preprocess/macros.cpp">下载</a>，<a href="https://godbolt.org/z/coWvc5Pse">在线演示</a>。</p>
+<h2 id="_1">引子</h2>
+<p>我们可以通过执行命令 <code>gcc -P -E a.cpp -o a.cpp.i</code> 来让编译器对文件 <code>a.cpp</code> 只执行预处理并保存结果到 <code>a.cpp.i</code> 中。</p>
+<p>首先我们先来看一些例子:</p>
+<h4 id="reentrancy">递归重入（Reentrancy）</h4>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define ITER(arg0, arg1) ITER(arg1, arg0) </span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ITER</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; ITER(2, 1)</span>
+</code></pre></div>
+<p>宏 <code>ITER</code> 交换了 <code>arg0</code>, <code>arg1</code> 的位置。宏展开之后，得到的是 <code>ITER(2, 1)</code>。</p>
+<p>可以看到，<code>arg0</code> <code>arg1</code> 的位置成功交换，在这里宏成功展开了一次，但也只展开了一次，不再递归重入。换言之，宏的展开过程中，是不可自身递归重入的，如果在递归的过程中发现相同的宏在之前的递归中已经展开过，则不再展开，这是宏展开的其中一条重要的规则。禁止递归重入的原因也很简单，就是为了避免无限递归。</p>
+<h4 id="_2">字符串拼接</h4>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; HelloWorld</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)</span>
+</code></pre></div>
+<p>宏 <code>CONCAT</code> 目的是拼接 <code>arg0</code> <code>arg1</code>。宏展开之后，<code>CONCAT(Hello, World)</code> 能够得到正确的结果 <code>HelloWorld</code>。但是 <code>CONCAT(Hello, CONCAT(World, !))</code> 却只展开了外层的宏，内层的 <code>CONCAT(World, !)</code> 并没有展开而是直接跟 <code>Hello</code> 拼接在一起了，这跟我们预想的不一样，我们真正想要的结果是 <code>HelloWorld!</code>。这就是宏展开的另外一条重要的规则：跟在 <code>##</code> 操作符后面的宏参数，不会执行展开，而是会直接跟前面的内容先拼接在一起。</p>
+<p>通过上面两个例子可以看出来，宏展开的规则有一些是反直觉的，如果不清楚具体的规则，有可能写出来的宏跟我们想要的效果不一致。</p>
+<h2 id="_3">宏展开规则</h2>
+<p>通过引子的两个例子，我们了解到了宏展开是有一套标准的规则的，这套规则定义在 C/C++ 标准里面，内容不多，建议先仔细读几遍，我这里顺带给下标准 n4296 版本的链接，宏展开在 16.3 节：<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">传送门</a>。下面我挑出 n4296 版本中几条重要的规则，这些规则会决定如何正确编写宏（还是建议抽时间把标准里面的宏展开细读下）。</p>
+<h4 id="_4">参数分隔</h4>
+<p>宏的参数要求是用逗号分隔，而且参数的个数需要跟宏定义的个数一致，传递给宏的参数中，额外用括号包住的内容视为一个参数，参数允许为空：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define ADD_COMMA(arg1, arg2) arg1, arg2</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; a, b</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// 报错 &quot;macro &quot;MACRO&quot; requires 2 arguments, but only 1 given&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ADD_COMMA</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">        </span><span class="c1">// -&gt; (a, b), c</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ADD_COMMA</span><span class="p">(,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; , b</span>
+</code></pre></div>
+<p><code>ADD_COMMA((a, b), c)</code> 中 <code>(a, b)</code> 视为第一个参数。<code>ADD_COMMA(, b)</code> 中，第一个参数为空，于是展开为 <code>, b</code>。</p>
+<h4 id="_5">宏参数展开</h4>
+<p>在对宏进行展开的时候，如果宏的参数也是可以展开的宏，会先把参数完全展开，再展开宏，例如</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1, 2, 3, 4</span>
+</code></pre></div>
+<p>一般情况下的宏展开，都可以认为是先对参数求值，再对宏求值，除非遇到了 <code>#</code> 和 <code>##</code> 操作符。</p>
+<h4 id="_6"><code>#</code> 操作符</h4>
+<p><code>#</code> 操作符后面跟的宏参数，不会进行展开，会直接字符串化，例如：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; &quot;a&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; &quot;STRINGIZE(a)&quot;</span>
+</code></pre></div>
+<p>根据这条规则 <code>STRINGIZE(STRINGIZE(a))</code> 只能展开为 <code>"STRINGIZE(a)"</code>。</p>
+<h4 id="_7"><code>##</code> 操作符</h4>
+<p><code>##</code> 操作符前后的宏参数，都不会进行展开，会先直接拼接起来，例如：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                        </span><span class="c1">// -&gt; HelloWorld</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">             </span><span class="c1">// -&gt; HelloCONCAT(World, !)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="o">!</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; CONCAT(Hello, World) CONCAT(!)</span>
+</code></pre></div>
+<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> 只能是先拼接在一起，得到 <code>CONCAT(Hello, World) CONCAT(!)</code>。</p>
+<h4 id="_8">重复扫描</h4>
+<p>预处理器执行完一次宏展开之后，会重新扫描得到的内容，继续展开，直到没有可以展开的内容为止。</p>
+<p>一次宏展开，可以理解为先把参数完全展开（除非遇到 <code>#</code> 和 <code>##</code>），再根据宏的定义，把宏和完全展开后的参数按照定义进行替换，再处理定义中的所有 <code>#</code> 和 <code>##</code> 操作符。</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; &quot;Hello&quot;</span>
+</code></pre></div>
+<p><code>CONCAT(STRING, IZE(Hello))</code> 第一次扫描展开得到 <code>STRINGIZE(Hello)</code>，然后执行第二次扫描，发现 <code>STRINGIZE</code> 可以继续展开，最后得到 <code>"Hello"</code>。</p>
+<h4 id="_9">禁止递归重入</h4>
+<p>在重复扫描的过程中，禁止递归展开相同的宏。可以把宏展开理解为树形的结构，根节点就是一开始要展开的宏，每个宏展开之后的内容作为该宏的子节点连接到树上，那么禁止递归就是在展开子节点的宏时，如果该宏跟任意祖先节点的宏相同，则禁止展开。来看一些例子：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="cp">#define CONCAT_SPACE(arg0, arg1) arg0 arg1</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cp">#define IDENTITY_IMPL(arg0) arg0</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">                  </span><span class="c1">// -&gt; CONCAT(a, b)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">IDENTITY_IMPL</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">   </span><span class="c1">// -&gt; CONCAT(a, b)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">        </span><span class="c1">// -&gt; IDENTITY_IMPL(CONCAT(a, b)) -&gt; CONCAT(a, b)</span>
+</code></pre></div>
+<p><code>CONCAT(CON, CAT(a, b))</code>：由于 <code>CONCAT</code> 是用 <code>##</code> 拼接两个参数，根据 <code>##</code> 的规则，不会展开参数，直接拼接。所以第一次展开得到了 <code>CONCAT(a, b)</code>，由于 <code>CONCAT</code> 已经展开过了不会再递归展开，所以停止。</p>
+<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>：<code>IDENTITY_IMPL</code> 可以理解为对参数 <code>arg0</code> 求值，这里的参数 <code>arg0</code> 求值得到了 <code>CONCAT(a, b)</code>，并由于递归被标记为了禁止重入，之后 <code>IDENTITY_IMPL</code> 展开完成，进行第二次扫描的时候，发现是禁止重入的 <code>CONCAT(a, b)</code>，于是停止展开。在这里 <code>CONCAT(a, b)</code> 是由参数 <code>arg0</code> 展开而得到的，但在后续展开的时候，也会保持禁止重入的标记，可以理解为父节点是参数 <code>arg0</code>，一直保持着禁止重入的标记。</p>
+<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code>：这个例子主要是为了加强对父子节点的理解，参数自己展开的时候，是自身作为父节点，展开的内容作为子节点去判断递归，展开后的参数传到宏定义之后，禁止重入的标记会继续保留（如果传到宏定义之后没有改变参数展开后的宏）。可以把参数的展开过程看成是另外一棵树，参数的展开结果就是树的最底层子节点，这个子节点传给宏来执行展开的同时，依然是保留着禁止重入的特性。</p>
+<p>例如这里，在第一次完全展开之后得到 <code>IDENTITY_IMPL(CONCAT(a, b))</code>，<code>CONCAT(a, b)</code> 被标记为禁止重入， 即使 <code>IDENTITY_IMPL</code> 是对参数求值的，但参数已经禁止展开，所以参数就原封不动的传到定义里，最后我们还是得到 <code>CONCAT(a, b)</code>。</p>
+<p>以上我只是列出了一些我认为比较重要的，或者觉得不太好理解的规则，详细的宏展开规则，还是建议花点时间直接去看标准文档。</p>
+<h2 id="clang">通过 Clang 观察展开过程</h2>
+<p>我们可以给 Clang 源码加上一些打印信息来观察宏展开的过程，我无意深入解释 Clang 的源码，在这里给一份修改过的文件 diff，有兴趣的可以自己编译 Clang 来研究。这里我是用的 llvm 版本 11.1.0 （<a href="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz">传送门</a>），修改过的文件（<a href="../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">传送门</a>）。下面简单通过例子来验证我们之前介绍的宏展开规则：</p>
+<h4 id="1">例子1</h4>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">      </span><span class="c1">// CONCAT(a, b)</span>
+</code></pre></div>
+<p>使用修改过的 Clang 来预处理以上代码： <code>clang -P -E a.cpp -o a.cpp.i</code>，得到下面的打印信息：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span>
+<span class="normal"><a href="#__codelineno-9-15">15</a></span>
+<span class="normal"><a href="#__codelineno-9-16">16</a></span>
+<span class="normal"><a href="#__codelineno-9-17">17</a></span>
+<span class="normal"><a href="#__codelineno-9-18">18</a></span>
+<span class="normal"><a href="#__codelineno-9-19">19</a></span>
+<span class="normal"><a href="#__codelineno-9-20">20</a></span>
+<span class="normal"><a href="#__codelineno-9-21">21</a></span>
+<span class="normal"><a href="#__codelineno-9-22">22</a></span>
+<span class="normal"><a href="#__codelineno-9-23">23</a></span>
+<span class="normal"><a href="#__codelineno-9-24">24</a></span>
+<span class="normal"><a href="#__codelineno-9-25">25</a></span>
+<span class="normal"><a href="#__codelineno-9-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a>HandleIdentifier: 
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a>MacroInfo 0x559e57496900
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a>Macro is ok to expand
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>EnterMacro: 0
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a>MacroInfo 0x559e57496900 used
+<a id="__codelineno-9-10" name="__codelineno-9-10"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-9-11" name="__codelineno-9-11"></a>Token: 0
+<a id="__codelineno-9-12" name="__codelineno-9-12"></a>identifier: arg0
+<a id="__codelineno-9-13" name="__codelineno-9-13"></a>Args: [identifier: C]
+<a id="__codelineno-9-14" name="__codelineno-9-14"></a>Token: 1
+<a id="__codelineno-9-15" name="__codelineno-9-15"></a>hashhash: 
+<a id="__codelineno-9-16" name="__codelineno-9-16"></a>Token: 2
+<a id="__codelineno-9-17" name="__codelineno-9-17"></a>identifier: arg1
+<a id="__codelineno-9-18" name="__codelineno-9-18"></a>Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-9-19" name="__codelineno-9-19"></a>Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-9-20" name="__codelineno-9-20"></a>
+<a id="__codelineno-9-21" name="__codelineno-9-21"></a>LeaveMacro: 0
+<a id="__codelineno-9-22" name="__codelineno-9-22"></a>
+<a id="__codelineno-9-23" name="__codelineno-9-23"></a>HandleIdentifier: 
+<a id="__codelineno-9-24" name="__codelineno-9-24"></a>MacroInfo 0x559e57496900 disabled used
+<a id="__codelineno-9-25" name="__codelineno-9-25"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-9-26" name="__codelineno-9-26"></a>Macro is not ok to expand
+</code></pre></div></td></tr></table></div>
+<p>第 <a href="#__codelineno-9-1">1</a> 行 <code>HandleIdentifier</code> 遇到宏的时候会打印，接着打印宏的信息（第 <a href="#__codelineno-9-2">2-4</a> 行），宏没有禁用，所以可以按照定义来展开 <code>Macro is ok to expand</code>，之后进入宏 <code>EnterMacro</code>。</p>
+<p>真正执行宏展开的函数是 <code>ExpandFunctionArguments</code>，之后再次打印待展开的宏信息，注意到此时宏已经被标记为 <code>used</code> （第 <a href="#__codelineno-9-9">9</a> 行）。之后根据宏的定义，进行逐个 <code>Token</code> 的展开 （<code>Token</code> 是 <code>Clang</code> 预处理里面的概念，这里不深入说明）。</p>
+<p>第 0 个 <code>Token</code> 是形参 <code>arg0</code>, 对应的实参是 <code>C</code>，判断不需要展开，于是直接复制到结果上（第 <a href="#__codelineno-9-11">11-13</a> 行）。</p>
+<p>第 1 个 <code>Token</code> 是 <code>hashhash</code>，也就是 <code>##</code> 操作符，继续复制到结果上（第 <a href="#__codelineno-9-14">14-15</a> 行）。</p>
+<p>第 2 个 <code>Token</code> 是形参 <code>arg1</code>，对应的实参是 <code>ONCAT(a, b)</code>，预处理器也会把实参处理成一个个的 <code>Token</code>，所以可以看到打印的结果用中括号包住了实参的每个 <code>Token</code>（第 18 行），由于 <code>##</code> 的原因这个实参依然不需要展开，所以还是直接复制到结果上（第 <a href="#__codelineno-9-16">16-18</a> 行）。</p>
+<p>最后 <code>Leave ExpandFunctionArguments</code> 打印本次扫描展开得到的结果（第 <a href="#__codelineno-9-19">19</a> 行），把结果的 <code>Token</code> 都翻译过来就是 <code>C ## ONCAT(a, b)</code>，之后预处理器就执行 <code>##</code> 操作符来生成新的内容。</p>
+<p><code>##</code> 执行之后得到 <code>CONCAT(a, b)</code>，遇到宏 <code>CONCAT</code>，预处理还是先进入 <code>HandleIdentifier</code>，打印宏的信息，发现该宏状态是 <code>disable used</code>，是已经展开过的，禁止再重入了，显示 <code>Macro is not ok to expand</code>，预处理器不再展开，最终得到的结果就是 <code>CONCAT(a, b)</code>。</p>
+<h4 id="2">例子2</h4>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="cp">#define IDENTITY(arg0) arg0</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
+</code></pre></div>
+<details>
+<summary> <font> Clang 打印信息（点击展开）：</font> </summary>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span>
+<span class="normal"><a href="#__codelineno-11-19">19</a></span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span>
+<span class="normal"><a href="#__codelineno-11-22">22</a></span>
+<span class="normal"><a href="#__codelineno-11-23">23</a></span>
+<span class="normal"><a href="#__codelineno-11-24">24</a></span>
+<span class="normal"><a href="#__codelineno-11-25">25</a></span>
+<span class="normal"><a href="#__codelineno-11-26">26</a></span>
+<span class="normal"><a href="#__codelineno-11-27">27</a></span>
+<span class="normal"><a href="#__codelineno-11-28">28</a></span>
+<span class="normal"><a href="#__codelineno-11-29">29</a></span>
+<span class="normal"><a href="#__codelineno-11-30">30</a></span>
+<span class="normal"><a href="#__codelineno-11-31">31</a></span>
+<span class="normal"><a href="#__codelineno-11-32">32</a></span>
+<span class="normal"><a href="#__codelineno-11-33">33</a></span>
+<span class="normal"><a href="#__codelineno-11-34">34</a></span>
+<span class="normal"><a href="#__codelineno-11-35">35</a></span>
+<span class="normal"><a href="#__codelineno-11-36">36</a></span>
+<span class="normal"><a href="#__codelineno-11-37">37</a></span>
+<span class="normal"><a href="#__codelineno-11-38">38</a></span>
+<span class="normal"><a href="#__codelineno-11-39">39</a></span>
+<span class="normal"><a href="#__codelineno-11-40">40</a></span>
+<span class="normal"><a href="#__codelineno-11-41">41</a></span>
+<span class="normal"><a href="#__codelineno-11-42">42</a></span>
+<span class="normal"><a href="#__codelineno-11-43">43</a></span>
+<span class="normal"><a href="#__codelineno-11-44">44</a></span>
+<span class="normal"><a href="#__codelineno-11-45">45</a></span>
+<span class="normal"><a href="#__codelineno-11-46">46</a></span>
+<span class="normal"><a href="#__codelineno-11-47">47</a></span>
+<span class="normal"><a href="#__codelineno-11-48">48</a></span>
+<span class="normal"><a href="#__codelineno-11-49">49</a></span>
+<span class="normal"><a href="#__codelineno-11-50">50</a></span>
+<span class="normal"><a href="#__codelineno-11-51">51</a></span>
+<span class="normal"><a href="#__codelineno-11-52">52</a></span>
+<span class="normal"><a href="#__codelineno-11-53">53</a></span>
+<span class="normal"><a href="#__codelineno-11-54">54</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a>HandleIdentifier: 
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a>MacroInfo 0x562a148f5a60
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a>Macro is ok to expand
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a>HandleIdentifier: 
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a>MacroInfo 0x562a148f5930
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a>EnterMacro: 0
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a>MacroInfo 0x562a148f5a60 used
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a>    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a>Token: 0
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a>identifier: arg0
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a>Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a>getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
+<a id="__codelineno-11-19" name="__codelineno-11-19"></a>
+<a id="__codelineno-11-20" name="__codelineno-11-20"></a>HandleIdentifier: 
+<a id="__codelineno-11-21" name="__codelineno-11-21"></a>MacroInfo 0x562a148f5930
+<a id="__codelineno-11-22" name="__codelineno-11-22"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-11-23" name="__codelineno-11-23"></a>Macro is ok to expand
+<a id="__codelineno-11-24" name="__codelineno-11-24"></a>
+<a id="__codelineno-11-25" name="__codelineno-11-25"></a>EnterMacro: 1
+<a id="__codelineno-11-26" name="__codelineno-11-26"></a>
+<a id="__codelineno-11-27" name="__codelineno-11-27"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-11-28" name="__codelineno-11-28"></a>MacroInfo 0x562a148f5930 used
+<a id="__codelineno-11-29" name="__codelineno-11-29"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-11-30" name="__codelineno-11-30"></a>Token: 0
+<a id="__codelineno-11-31" name="__codelineno-11-31"></a>identifier: arg0
+<a id="__codelineno-11-32" name="__codelineno-11-32"></a>Args: [identifier: C]
+<a id="__codelineno-11-33" name="__codelineno-11-33"></a>Token: 1
+<a id="__codelineno-11-34" name="__codelineno-11-34"></a>hashhash: 
+<a id="__codelineno-11-35" name="__codelineno-11-35"></a>Token: 2
+<a id="__codelineno-11-36" name="__codelineno-11-36"></a>identifier: arg1
+<a id="__codelineno-11-37" name="__codelineno-11-37"></a>Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-11-38" name="__codelineno-11-38"></a>Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-11-39" name="__codelineno-11-39"></a>
+<a id="__codelineno-11-40" name="__codelineno-11-40"></a>LeaveMacro: 1
+<a id="__codelineno-11-41" name="__codelineno-11-41"></a>
+<a id="__codelineno-11-42" name="__codelineno-11-42"></a>HandleIdentifier: 
+<a id="__codelineno-11-43" name="__codelineno-11-43"></a>MacroInfo 0x562a148f5930 disabled used
+<a id="__codelineno-11-44" name="__codelineno-11-44"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-11-45" name="__codelineno-11-45"></a>Macro is not ok to expand
+<a id="__codelineno-11-46" name="__codelineno-11-46"></a>ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-11-47" name="__codelineno-11-47"></a>Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-11-48" name="__codelineno-11-48"></a>
+<a id="__codelineno-11-49" name="__codelineno-11-49"></a>LeaveMacro: 0
+<a id="__codelineno-11-50" name="__codelineno-11-50"></a>
+<a id="__codelineno-11-51" name="__codelineno-11-51"></a>HandleIdentifier: 
+<a id="__codelineno-11-52" name="__codelineno-11-52"></a>MacroInfo 0x562a148f5930 used
+<a id="__codelineno-11-53" name="__codelineno-11-53"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-11-54" name="__codelineno-11-54"></a>Macro is not ok to expand
+</code></pre></div></td></tr></table></div>
+
+</details>
+
+<p>第 <a href="#__codelineno-11-12">12</a> 行开始展开 <code>IDENTITY</code>，发现参数 <code>Token 0</code> 是 <code>CONCAT(...)</code>，也是一个宏，于是先对该参数进行求值。</p>
+<p>第 <a href="#__codelineno-11-27">27</a> 行开始展开参数宏 <code>CONCAT(...)</code>，跟例子 1 一样，多次扫描展开完成后得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-11-46">46</a> 行）。</p>
+<p>第 <a href="#__codelineno-11-47">47</a> 结束对 <code>IDENTITY</code> 的展开，得到的结果是 <code>CONCAT(a, b)</code>。</p>
+<p>第 <a href="#__codelineno-11-51">51</a> 行重新扫描 <code>CONCAT(a, b)</code>，发现虽然是宏，但在之前的参数展开过程中已经被设置成了 <code>used</code>，不再递归展开，直接作为最终结果。</p>
+<h4 id="3">例子 3</h4>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="cp">#define IDENTITY_IMPL(arg0) arg0</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
+</code></pre></div>
+<details>
+<summary> <font>Clang 打印信息（点击展开）：</font> </summary>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span>
+<span class="normal"><a href="#__codelineno-13-20">20</a></span>
+<span class="normal"><a href="#__codelineno-13-21">21</a></span>
+<span class="normal"><a href="#__codelineno-13-22">22</a></span>
+<span class="normal"><a href="#__codelineno-13-23">23</a></span>
+<span class="normal"><a href="#__codelineno-13-24">24</a></span>
+<span class="normal"><a href="#__codelineno-13-25">25</a></span>
+<span class="normal"><a href="#__codelineno-13-26">26</a></span>
+<span class="normal"><a href="#__codelineno-13-27">27</a></span>
+<span class="normal"><a href="#__codelineno-13-28">28</a></span>
+<span class="normal"><a href="#__codelineno-13-29">29</a></span>
+<span class="normal"><a href="#__codelineno-13-30">30</a></span>
+<span class="normal"><a href="#__codelineno-13-31">31</a></span>
+<span class="normal"><a href="#__codelineno-13-32">32</a></span>
+<span class="normal"><a href="#__codelineno-13-33">33</a></span>
+<span class="normal"><a href="#__codelineno-13-34">34</a></span>
+<span class="normal"><a href="#__codelineno-13-35">35</a></span>
+<span class="normal"><a href="#__codelineno-13-36">36</a></span>
+<span class="normal"><a href="#__codelineno-13-37">37</a></span>
+<span class="normal"><a href="#__codelineno-13-38">38</a></span>
+<span class="normal"><a href="#__codelineno-13-39">39</a></span>
+<span class="normal"><a href="#__codelineno-13-40">40</a></span>
+<span class="normal"><a href="#__codelineno-13-41">41</a></span>
+<span class="normal"><a href="#__codelineno-13-42">42</a></span>
+<span class="normal"><a href="#__codelineno-13-43">43</a></span>
+<span class="normal"><a href="#__codelineno-13-44">44</a></span>
+<span class="normal"><a href="#__codelineno-13-45">45</a></span>
+<span class="normal"><a href="#__codelineno-13-46">46</a></span>
+<span class="normal"><a href="#__codelineno-13-47">47</a></span>
+<span class="normal"><a href="#__codelineno-13-48">48</a></span>
+<span class="normal"><a href="#__codelineno-13-49">49</a></span>
+<span class="normal"><a href="#__codelineno-13-50">50</a></span>
+<span class="normal"><a href="#__codelineno-13-51">51</a></span>
+<span class="normal"><a href="#__codelineno-13-52">52</a></span>
+<span class="normal"><a href="#__codelineno-13-53">53</a></span>
+<span class="normal"><a href="#__codelineno-13-54">54</a></span>
+<span class="normal"><a href="#__codelineno-13-55">55</a></span>
+<span class="normal"><a href="#__codelineno-13-56">56</a></span>
+<span class="normal"><a href="#__codelineno-13-57">57</a></span>
+<span class="normal"><a href="#__codelineno-13-58">58</a></span>
+<span class="normal"><a href="#__codelineno-13-59">59</a></span>
+<span class="normal"><a href="#__codelineno-13-60">60</a></span>
+<span class="normal"><a href="#__codelineno-13-61">61</a></span>
+<span class="normal"><a href="#__codelineno-13-62">62</a></span>
+<span class="normal"><a href="#__codelineno-13-63">63</a></span>
+<span class="normal"><a href="#__codelineno-13-64">64</a></span>
+<span class="normal"><a href="#__codelineno-13-65">65</a></span>
+<span class="normal"><a href="#__codelineno-13-66">66</a></span>
+<span class="normal"><a href="#__codelineno-13-67">67</a></span>
+<span class="normal"><a href="#__codelineno-13-68">68</a></span>
+<span class="normal"><a href="#__codelineno-13-69">69</a></span>
+<span class="normal"><a href="#__codelineno-13-70">70</a></span>
+<span class="normal"><a href="#__codelineno-13-71">71</a></span>
+<span class="normal"><a href="#__codelineno-13-72">72</a></span>
+<span class="normal"><a href="#__codelineno-13-73">73</a></span>
+<span class="normal"><a href="#__codelineno-13-74">74</a></span>
+<span class="normal"><a href="#__codelineno-13-75">75</a></span>
+<span class="normal"><a href="#__codelineno-13-76">76</a></span>
+<span class="normal"><a href="#__codelineno-13-77">77</a></span>
+<span class="normal"><a href="#__codelineno-13-78">78</a></span>
+<span class="normal"><a href="#__codelineno-13-79">79</a></span>
+<span class="normal"><a href="#__codelineno-13-80">80</a></span>
+<span class="normal"><a href="#__codelineno-13-81">81</a></span>
+<span class="normal"><a href="#__codelineno-13-82">82</a></span>
+<span class="normal"><a href="#__codelineno-13-83">83</a></span>
+<span class="normal"><a href="#__codelineno-13-84">84</a></span>
+<span class="normal"><a href="#__codelineno-13-85">85</a></span>
+<span class="normal"><a href="#__codelineno-13-86">86</a></span>
+<span class="normal"><a href="#__codelineno-13-87">87</a></span>
+<span class="normal"><a href="#__codelineno-13-88">88</a></span>
+<span class="normal"><a href="#__codelineno-13-89">89</a></span>
+<span class="normal"><a href="#__codelineno-13-90">90</a></span>
+<span class="normal"><a href="#__codelineno-13-91">91</a></span>
+<span class="normal"><a href="#__codelineno-13-92">92</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a>HandleIdentifier: 
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a>MacroInfo 0x55e824457a80
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a>    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a>HandleIdentifier: 
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a>MacroInfo 0x55e824457ba0
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a>    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a>Macro is ok to expand
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a>HandleIdentifier: 
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a>MacroInfo 0x55e824457950
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-13" name="__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14"></a>EnterMacro: 0
+<a id="__codelineno-13-15" name="__codelineno-13-15"></a>
+<a id="__codelineno-13-16" name="__codelineno-13-16"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-13-17" name="__codelineno-13-17"></a>MacroInfo 0x55e824457ba0 used
+<a id="__codelineno-13-18" name="__codelineno-13-18"></a>    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
+<a id="__codelineno-13-19" name="__codelineno-13-19"></a>Token: 0
+<a id="__codelineno-13-20" name="__codelineno-13-20"></a>identifier: IDENTITY_IMPL
+<a id="__codelineno-13-21" name="__codelineno-13-21"></a>Token: 1
+<a id="__codelineno-13-22" name="__codelineno-13-22"></a>l_paren: 
+<a id="__codelineno-13-23" name="__codelineno-13-23"></a>Token: 2
+<a id="__codelineno-13-24" name="__codelineno-13-24"></a>identifier: arg0
+<a id="__codelineno-13-25" name="__codelineno-13-25"></a>Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+<a id="__codelineno-13-26" name="__codelineno-13-26"></a>getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
+<a id="__codelineno-13-27" name="__codelineno-13-27"></a>
+<a id="__codelineno-13-28" name="__codelineno-13-28"></a>HandleIdentifier: 
+<a id="__codelineno-13-29" name="__codelineno-13-29"></a>MacroInfo 0x55e824457950
+<a id="__codelineno-13-30" name="__codelineno-13-30"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-31" name="__codelineno-13-31"></a>Macro is ok to expand
+<a id="__codelineno-13-32" name="__codelineno-13-32"></a>
+<a id="__codelineno-13-33" name="__codelineno-13-33"></a>EnterMacro: 1
+<a id="__codelineno-13-34" name="__codelineno-13-34"></a>
+<a id="__codelineno-13-35" name="__codelineno-13-35"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-13-36" name="__codelineno-13-36"></a>MacroInfo 0x55e824457950 used
+<a id="__codelineno-13-37" name="__codelineno-13-37"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-38" name="__codelineno-13-38"></a>Token: 0
+<a id="__codelineno-13-39" name="__codelineno-13-39"></a>identifier: arg0
+<a id="__codelineno-13-40" name="__codelineno-13-40"></a>Args: [identifier: C]
+<a id="__codelineno-13-41" name="__codelineno-13-41"></a>Token: 1
+<a id="__codelineno-13-42" name="__codelineno-13-42"></a>hashhash: 
+<a id="__codelineno-13-43" name="__codelineno-13-43"></a>Token: 2
+<a id="__codelineno-13-44" name="__codelineno-13-44"></a>identifier: arg1
+<a id="__codelineno-13-45" name="__codelineno-13-45"></a>Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-46" name="__codelineno-13-46"></a>Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-47" name="__codelineno-13-47"></a>
+<a id="__codelineno-13-48" name="__codelineno-13-48"></a>LeaveMacro: 1
+<a id="__codelineno-13-49" name="__codelineno-13-49"></a>
+<a id="__codelineno-13-50" name="__codelineno-13-50"></a>HandleIdentifier: 
+<a id="__codelineno-13-51" name="__codelineno-13-51"></a>MacroInfo 0x55e824457950 disabled used
+<a id="__codelineno-13-52" name="__codelineno-13-52"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-53" name="__codelineno-13-53"></a>Macro is not ok to expand
+<a id="__codelineno-13-54" name="__codelineno-13-54"></a>ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-55" name="__codelineno-13-55"></a>Token: 3
+<a id="__codelineno-13-56" name="__codelineno-13-56"></a>r_paren: 
+<a id="__codelineno-13-57" name="__codelineno-13-57"></a>Leave ExpandFunctionArguments: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+<a id="__codelineno-13-58" name="__codelineno-13-58"></a>
+<a id="__codelineno-13-59" name="__codelineno-13-59"></a>LeaveMacro: 0
+<a id="__codelineno-13-60" name="__codelineno-13-60"></a>
+<a id="__codelineno-13-61" name="__codelineno-13-61"></a>HandleIdentifier: 
+<a id="__codelineno-13-62" name="__codelineno-13-62"></a>MacroInfo 0x55e824457a80
+<a id="__codelineno-13-63" name="__codelineno-13-63"></a>    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+<a id="__codelineno-13-64" name="__codelineno-13-64"></a>Macro is ok to expand
+<a id="__codelineno-13-65" name="__codelineno-13-65"></a>
+<a id="__codelineno-13-66" name="__codelineno-13-66"></a>HandleIdentifier: 
+<a id="__codelineno-13-67" name="__codelineno-13-67"></a>MacroInfo 0x55e824457950 used
+<a id="__codelineno-13-68" name="__codelineno-13-68"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-69" name="__codelineno-13-69"></a>
+<a id="__codelineno-13-70" name="__codelineno-13-70"></a>EnterMacro: 2
+<a id="__codelineno-13-71" name="__codelineno-13-71"></a>
+<a id="__codelineno-13-72" name="__codelineno-13-72"></a>Enter ExpandFunctionArguments: 
+<a id="__codelineno-13-73" name="__codelineno-13-73"></a>MacroInfo 0x55e824457a80 used
+<a id="__codelineno-13-74" name="__codelineno-13-74"></a>    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+<a id="__codelineno-13-75" name="__codelineno-13-75"></a>Token: 0
+<a id="__codelineno-13-76" name="__codelineno-13-76"></a>identifier: arg0
+<a id="__codelineno-13-77" name="__codelineno-13-77"></a>Args: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-78" name="__codelineno-13-78"></a>getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][eof: ]
+<a id="__codelineno-13-79" name="__codelineno-13-79"></a>
+<a id="__codelineno-13-80" name="__codelineno-13-80"></a>HandleIdentifier: 
+<a id="__codelineno-13-81" name="__codelineno-13-81"></a>MacroInfo 0x55e824457950 used
+<a id="__codelineno-13-82" name="__codelineno-13-82"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-83" name="__codelineno-13-83"></a>Macro is not ok to expand
+<a id="__codelineno-13-84" name="__codelineno-13-84"></a>ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-85" name="__codelineno-13-85"></a>Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+<a id="__codelineno-13-86" name="__codelineno-13-86"></a>
+<a id="__codelineno-13-87" name="__codelineno-13-87"></a>LeaveMacro: 2
+<a id="__codelineno-13-88" name="__codelineno-13-88"></a>
+<a id="__codelineno-13-89" name="__codelineno-13-89"></a>HandleIdentifier: 
+<a id="__codelineno-13-90" name="__codelineno-13-90"></a>MacroInfo 0x55e824457950 used
+<a id="__codelineno-13-91" name="__codelineno-13-91"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+<a id="__codelineno-13-92" name="__codelineno-13-92"></a>Macro is not ok to expand
+</code></pre></div></td></tr></table></div>
+
+</details>
+
+<ul>
+<li>第 <a href="#__codelineno-13-16">16</a> 行开始展开 <code>IDENTITY</code>，同理预处理器看到 <code>Token 2</code> （也即是 <code>arg0</code>）是宏，于是先展开 <code>CONCAT(C, ONCAT(a, b))</code>。</li>
+</ul>
+<ul>
+<li>展开 <code>arg0</code> 后得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-13-23">23-54</a> 行）</li>
+</ul>
+<ul>
+<li><code>IDENTITY</code> 最终展开为 <code>IDENTITY_IMPL(CONCAT(a, b))</code>（第 <a href="#__codelineno-13-57">57</a> 行）</li>
+</ul>
+<ul>
+<li>重新扫描，继续展开 <code>IDENTITY_IMPL</code>（第 <a href="#__codelineno-13-61">61-72</a> 行），发现此时的 <code>Token 0</code> 是宏 <code>CONCAT(a, b)</code>，但处于 <code>used</code> 状态，中止展开并返回（第 75-84行），最终得到的结果还是 <code>CONCAT(a, b)</code>（第 <a href="#__codelineno-13-85">85</a> 行）。</li>
+</ul>
+<ul>
+<li>重新扫描结果，发现宏 <code>CONCAT(a, b)</code> 的状态是 <code>used</code>，停止展开并得到最终的结果。</li>
+</ul>
+<p>通过以上三个简单的例子，我们可以大致的理解预处理器展开宏的过程，这里不再对预处理器进行更深入的探讨，有兴趣可以对照我提供的修改文件来研究。</p>
+<h2 id="_10">宏编程实现</h2>
+<p>下面我们开始进入到了主题（前面那一大段目的是为了更好的理解宏展开规则），宏编程实现。</p>
+<h4 id="_11">基本符号</h4>
+<p>首先可以先定义宏的特殊符号，做求值和拼接的时候会用到</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">#define PP_LPAREN() (</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#define PP_RPAREN() )</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#define PP_COMMA() ,</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#define PP_EMPTY() </span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#define PP_HASHHASH # ## #      </span><span class="c1">// 表示 ## 字符串，但只是作为字符串，不会当作 ## 操作符来处理</span>
+</code></pre></div>
+<h4 id="_12">求值</h4>
+<p>利用参数优先展开的规则，可以写出一个求值宏：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#define PP_IDENTITY(arg0) arg0</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">()</span><span class="w">                </span><span class="c1">// -&gt; PP_COMMA ( )</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">())</span><span class="w">   </span><span class="c1">// -&gt; PP_COMMA() -&gt; ,</span>
+</code></pre></div>
+<p>如果只是写 <code>PP_COMMA PP_LPAREN() PP_RPAREN()</code>，预处理器只会分别处理每个宏，对展开的结果不会再合并处理。加上 <code>PP_IDENTITY</code> 之后，预处理器可以对展开得到的 <code>PP_COMMA()</code> 再进行求值，得到 <code>,</code>。</p>
+<h4 id="_13">拼接</h4>
+<p>由于 <code>##</code> 拼接的时候，是不会展开左右两边的参数，为了让参数可以先求值再拼接，可以这样写：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">#define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="cp">#define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">PP_CONCAT</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">         </span><span class="c1">// -&gt; 12</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; 报错</span>
+</code></pre></div>
+<p>这里 <code>PP_CONCAT</code> 用到的方法叫做延迟拼接，在展开为 <code>PP_CONCAT_IMPL</code> 的时候，<code>arg0</code> 和 <code>arg1</code> 都会先展开求值，之后再由 <code>PP_CONCAT_IMPL</code> 执行真正的拼接操作。</p>
+<h4 id="_14">逻辑运算</h4>
+<p>借助 <code>PP_CONCAT</code> 可以实现逻辑运算。首先定义 <code>BOOL</code> 值：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cp">#define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="cp">#define PP_BOOL_0 0</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="cp">#define PP_BOOL_1 1</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="cp">#define PP_BOOL_2 1</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="cp">#define PP_BOOL_3 1</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1">// ...</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="cp">#define PP_BOOL_256 1</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">PP_BOOL</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; PP_BOOL_3 -&gt; 1</span>
+</code></pre></div>
+<p>用<code>PP_CONCAT</code> 先把 <code>PP_BOOL_</code> 和 <code>arg0</code> 拼接在一起，再对拼接结果进行求值。这里的 <code>arg0</code> 要求是求值之后得到 <code>[0, 256]</code> 范围的数字，拼接在 <code>PP_BOOL_</code> 后面求值，就能得到布尔值。与或非运算：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#define PP_NOT_0 1</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="cp">#define PP_NOT_1 0</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="cp">#define PP_AND(arg0, arg1) PP_CONCAT(PP_AND_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="cp">#define PP_AND_00 0</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="cp">#define PP_AND_01 0</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="cp">#define PP_AND_10 0</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="cp">#define PP_AND_11 1</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="cp">#define PP_OR(arg0, arg1) PP_CONCAT(PP_OR_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="cp">#define PP_OR_00 0</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="cp">#define PP_OR_01 1</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="cp">#define PP_OR_10 1</span>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="cp">#define PP_OR_11 1</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="n">PP_NOT</span><span class="p">(</span><span class="n">PP_BOOL</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; PP_CONCAT(PP_NOT_, 1) -&gt; PP_NOT_1 -&gt; 0</span>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="n">PP_AND</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">            </span><span class="c1">// -&gt; PP_CONCAT(PP_AND_, 11) -&gt; PP_AND_11 -&gt; 1</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="n">PP_AND</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">            </span><span class="c1">// -&gt; PP_CONCAT(PP_AND_, 10) -&gt; PP_AND_10 -&gt; 0</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="n">PP_OR</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; PP_CONCAT(PP_OR_, 10) -&gt; PP_OR_10, -&gt; 1</span>
+</code></pre></div>
+<p>先用 <code>PP_BOOL</code> 对参数求值，之后再根据 <code>0 1</code> 的组合来拼接逻辑运算的结果。如果不用 <code>PP_BOOL</code> 来求值，那么参数就只能支持 <code>0 1</code> 两种数值，适用性大大降低。同理也可以写出异或，或非等操作，有兴趣可以自己尝试。</p>
+<h4 id="_15">条件选择</h4>
+<p>利用 <code>PP_BOOL</code> 和 <code>PP_CONCAT</code>，还可以写出条件选择语句：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="cp">#define PP_IF_1(then, else) then</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="cp">#define PP_IF_0(then, else) else</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_1(2, 3) -&gt; 2</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_0(2, 3) -&gt; 3</span>
+</code></pre></div>
+<p><code>if</code> 求值如果是 <code>1</code>，用 <code>PP_CONCAT</code> 拼接成 <code>PP_IF_1</code>，最后展开为 <code>then</code> 的值；同理若 <code>if</code> 求值为 <code>0</code>，得到 <code>PP_IF_0</code>。</p>
+<h4 id="_16">递增递减</h4>
+<p>整数递增递减：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">#define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="cp">#define PP_INC_0 1</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="cp">#define PP_INC_1 2</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="cp">#define PP_INC_2 3</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="cp">#define PP_INC_3 4</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1">// ...</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="cp">#define PP_INC_255 256</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="cp">#define PP_INC_256 256</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="cp">#define PP_DEC(arg0) PP_CONCAT(PP_DEC_, arg0)</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="cp">#define PP_DEC_0 0</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="cp">#define PP_DEC_1 0</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="cp">#define PP_DEC_2 1</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="cp">#define PP_DEC_3 2</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1">// ...</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="cp">#define PP_DEC_255 254</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="cp">#define PP_DEC_256 255</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">PP_INC</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_INC_2 -&gt; 3</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="n">PP_DEC</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_DEC_3 -&gt; 2</span>
+</code></pre></div>
+<p>跟 <code>PP_BOOL</code> 类似，整数的递增递减也是有范围限制的，这里范围设置为 <code>[0, 256]</code>，递增到 <code>256</code> 之后，安全起见，<code>PP_INC_256</code> 会返回自身 <code>256</code> 作为边界，同理 <code>PP_DEC_0</code> 也是返回 <code>0</code>。</p>
+<h4 id="_17">变长参数</h4>
+<p>宏可以接受变长参数，格式是：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf(&quot;log: &quot; format, __VA_ARGS__)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">&quot;Hello %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s\n&quot;, &quot;World&quot;);</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello World&quot;, ); 多了个逗号，编译报错</span>
+</code></pre></div>
+<p>由于变长参数有可能为空，空的情况下会导致编译失败，因此 C++ 20 引入了 <code>__VA_OPT__</code>，如果变长参数是空，则返回空，否则返回原参数：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf(&quot;log: &quot; format __VA_OPT__(,) __VA_ARGS__)</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">&quot;Hello %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s\n&quot;, &quot;World&quot;);</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello World&quot; ); 没有逗号，正常编译</span>
+</code></pre></div>
+<p>但可惜只有 C++ 20 以上标准才有这个宏，下文中我们将会给出 <code>__VA_OPT__</code> 的实现方法。</p>
+<h4 id="_18">惰性求值</h4>
+<p>考虑这种情况：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; 报错 unterminated argument list invoking macro &quot;PP_IF_1&quot;</span>
+</code></pre></div>
+<p>我们知道，宏展开的时候会对先参数进行求值。<code>PP_COMMA()</code> 和 <code>PP_LPAREN()</code> 求值之后再传给 <code>PP_IF_1</code>，得到 <code>PP_IF_1(,,))</code>，导致预处理出错。此时，可以采用一种叫做惰性求值方法：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">,</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">)()</span><span class="w">       </span><span class="c1">// -&gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&gt; PP_COMMA() -&gt; ,</span>
+</code></pre></div>
+<p>改成这种写法，只传宏的名字，让 <code>PP_IF</code> 选出需要的宏名字之后，再跟括号 <code>()</code> 拼接在一起组成完成的宏，最后再展开。惰性求值在宏编程里面也是很常见的。</p>
+<h4 id="_19">以括号开始</h4>
+<p>判断变长参数是否以括号开始：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="cp">#define PP_IS_BEGIN_PARENS(...) \</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="cp">    PP_IS_BEGIN_PARENS_PROCESS( \</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="cp">        PP_IS_BEGIN_PARENS_CONCAT( \</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="cp">            PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ \</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="cp">        ) \</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="cp">    )</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="cp">#define PP_IS_BEGIN_PARENS_PROCESS(...) PP_IS_BEGIN_PARENS_PROCESS_0(__VA_ARGS__)</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="cp">#define PP_IS_BEGIN_PARENS_PROCESS_0(arg0, ...) arg0</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="cp">#define PP_IS_BEGIN_PARENS_CONCAT(arg0, ...) PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, __VA_ARGS__)</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="cp">#define PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, ...) arg0 ## __VA_ARGS__</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="cp">#define PP_IS_BEGIN_PARENS_PRE_1 1,</span>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a><span class="cp">#define PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT 0,</span>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="cp">#define PP_IS_BEGIN_PARENS_EAT(...) 1</span>
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>
+<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(())</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">((()))</span><span class="w">            </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-25-21" name="__codelineno-25-21" href="#__codelineno-25-21"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="p">())</span><span class="w">           </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-25-22" name="__codelineno-25-22" href="#__codelineno-25-22"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">a</span><span class="p">())</span><span class="w">             </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(()</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-25-24" name="__codelineno-25-24" href="#__codelineno-25-24"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p><code>PP_IS_BEGIN_PARENS</code> 可以用来判断传入的参数是否以括号开始，在需要处理括号参数的时候会需要用到（譬如后面说到的 <code>__VA_OPT__</code> 实现）。看上去有点复杂，核心思想就是构建出一个宏，若变长参数以括号开始，则可以跟括号连在一起求值得到一种结果，否则就另外求值得到另一种结果。我们来慢慢看：</p>
+<p><code>PP_IS_BEGIN_PARENS_PROCESS</code> 和 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 组成的宏功能是先对传入的不定参数求值，然后取第 0 个参数。</p>
+<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code> 是先对 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值，在把求值结果跟 <code>PP_IS_BEGIN_PARENS_PRE_</code> 拼接在一起。</p>
+<p><code>PP_IS_BEGIN_PARENS_EAT(...)</code> 宏会吞掉所有参数，返回1，如果上一步 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 中，<code>__VA_ARGS__</code> 是以括号开始的，那么就会匹配到对 <code>PP_IS_BEGIN_PARENS_EAT(...)</code> 的求值，然后返回 <code>1</code>；相反，如果不是以括号开始，则没有匹配上，<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 会保留不变。</p>
+<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到 <code>1</code>，<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1,</code>，注意 <code>1</code> 后面是有个逗号的，把 <code>1,</code> 传给 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>，取第 0 个参数，最后得到 <code>1</code>，表示参数是以括号开始。</p>
+<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到不是 <code>1</code>，而是保持不变，则 <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code>，传给 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 得到的是 <code>0</code>，表示参数不是以括号开始。</p>
+<h4 id="_20">变长参数空</h4>
+<p>判断变长参数是否为空也是一个常用的宏，在实现 <code>__VA_OPT__</code> 的时候需要用到，我们在这里利用 <code>PP_IS_BEGIN_PARENS</code>，可以先写出不完整的版本：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cp">#define PP_IS_EMPTY_PROCESS(...) \</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cp">    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ())</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="cp">#define PP_IS_EMPTY_PROCESS_EAT(...) ()</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">()</span><span class="w">       </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
+</code></pre></div>
+<p><code>PP_IS_EMPTY_PROCESS</code> 的作用是判断 <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code> 是否以括号开始。</p>
+<p>如果 <code>__VA_ARGS__</code> 是空，<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code>，得到的是一对括号 <code>()</code>，再传给 <code>PP_IS_BEGIN_PARENS</code> 返回 <code>1</code>，表示参数是空。</p>
+<p>否则，<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code> 保持不变地传给 <code>PP_IS_BEGIN_PARENS</code>，返回 0，表示非空。</p>
+<p>留意第 4 个例子 <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>，<code>PP_IS_EMPTY_PROCESS</code> 不能正确处理以括号开始的变长参数，因为这时变长参数带来的括号会匹配 <code>PP_IS_EMPTY_PROCESS_EAT</code> 导致求值得到 <code>()</code>。为了解决这个问题，我们需要区别对待参数是否以括号开始的情况：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">#define PP_IS_EMPTY(...) \</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(__VA_ARGS__)) \</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(__VA_ARGS__)</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="cp">#define PP_IS_EMPTY_IF(if) PP_CONCAT(PP_IS_EMPTY_IF_, if)</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="cp">#define PP_IS_EMPTY_IF_1(then, else) then</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="cp">#define PP_IS_EMPTY_IF_0(then, else) else</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="cp">#define PP_IS_EMPTY_ZERO(...) 0</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="n">PP_IS_EMPTY</span><span class="p">()</span><span class="w">       </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="n">PP_IS_EMPTY</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="n">PP_IS_EMPTY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="n">PP_IS_EMPTY</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p><code>PP_IS_EMPTY_IF</code> 根据 <code>if</code> 条件来返回第 0 或者 第 1 个参数。 </p>
+<p>如果传入的变长参数以括号开始，<code>PP_IS_EMPTY_IF</code> 返回 <code>PP_IS_EMPTY_ZERO</code>，最后返回 <code>0</code>，表示变长参数非空。</p>
+<p>反之 <code>PP_IS_EMPTY_IF</code> 返回 <code>PP_IS_EMPTY_PROCESS</code>，最后由 <code>PP_IS_EMPTY_PROCESS</code> 来判断变长参数是否非空。</p>
+<h4 id="_21">下标访问</h4>
+<p>获取变长参数指定位置的元素：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="cp">#define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(__VA_ARGS__)</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="cp">#define PP_ARGS_ELEM_0(a0, ...) a0</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="cp">#define PP_ARGS_ELEM_1(a0, a1, ...) a1</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="cp">#define PP_ARGS_ELEM_2(a0, a1, a2, ...) a2</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="cp">#define PP_ARGS_ELEM_3(a0, a1, a2, a3, ...) a3</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="c1">// ...</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="cp">#define PP_ARGS_ELEM_7(a0, a1, a2, a3, a4, a5, a6, a7, ...) a7</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="cp">#define PP_ARGS_ELEM_8(a0, a1, a2, a3, a4, a5, a6, a7, a8, ...) a8</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0(&quot;Hello&quot;, &quot;World&quot;) -&gt; &quot;Hello&quot;</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1(&quot;Hello&quot;, &quot;World&quot;) -&gt; &quot;World&quot;</span>
+</code></pre></div>
+<p><code>PP_ARGS_ELEM</code> 的第一个参数是元素下标 <code>I</code>，后面是变长参数。利用 <code>PP_CONCAT</code> 拼接 <code>PP_ARGS_ELEM_</code> 和 <code>I</code>，即可以得到返回相应位置元素的宏 <code>PP_ARGS_ELEM_0..8</code>，再把变长参数传给该宏，展开返回下标对应位置的元素。</p>
+<h4 id="pp_is_empty2">PP_IS_EMPTY2</h4>
+<p>利用 <code>PP_ARGS_ELEM</code> 也可以实现另一版本的 <code>PP_IS_EMPTY</code>：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="cp">#define PP_IS_EMPTY2(...) \</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="cp">    PP_AND( \</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="cp">        PP_AND( \</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="cp">            PP_NOT(PP_HAS_COMMA(__VA_ARGS__)), \</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="cp">            PP_NOT(PP_HAS_COMMA(__VA_ARGS__())) \</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="cp">        ), \</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="cp">        PP_AND( \</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="cp">            PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__)), \</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="cp">            PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ()) \</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="cp">        ) \</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="cp">    )</span>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="cp">#define PP_HAS_COMMA(...) PP_ARGS_ELEM(8, __VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 0)</span>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="cp">#define PP_COMMA_ARGS(...) ,</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="n">PP_IS_EMPTY2</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(())</span><span class="w">            </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p>借用 <code>PP_ARGS_ELEM</code> 实现判断参数是否含有逗号 <code>PP_HAS_COMMA</code>。<code>PP_COMMA_ARGS</code> 会吞掉传入的任意参数，返回一个逗号。</p>
+<p>判断变长参数是否为空的基础逻辑是 <code>PP_COMMA_ARGS __VA_ARGS__ ()</code> 返回一个逗号，也就是 <code>__VA_ARGS__</code> 为空，<code>PP_COMMA_ARGS</code> 和 <code>()</code> 拼接在一起求值，具体的写法就是 <code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code>。</p>
+<p>但是会有例外的情况：</p>
+<ul>
+<li><code>__VA_ARGS__</code> 本身有可能会带来逗号；</li>
+<li><code>__VA_ARGS__ ()</code> 拼接在一起发生求值带来逗号；</li>
+<li><code>PP_COMMA_ARGS __VA_ARGS__</code> 拼接在一起发生求值带来逗号；</li>
+</ul>
+<p>针对上面说到的三种例外情况，需要做排除，所以最后的写法等价于对以下 4 个条件执行与逻辑：</p>
+<ul>
+<li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__))</code> &amp;&amp;</li>
+<li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))</code> &amp;&amp;</li>
+<li><code>PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__))</code> &amp;&amp;</li>
+<li><code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code></li>
+</ul>
+<h4 id="__va_opt__"><code>__VA_OPT__</code></h4>
+<p>利用 <code>PP_IS_EMPTY</code> 终于可以来实现类似 <code>__VA_OPT__</code> 的宏：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="cp">#define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="cp">#define PP_REMOVE_PARENS_IMPL(...) __VA_ARGS__</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="cp">#define PP_ARGS_OPT(data_tuple, empty_tuple, ...) \</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="cp">    PP_ARGS_OPT_IMPL(PP_IF(PP_IS_EMPTY(__VA_ARGS__), empty_tuple, data_tuple))</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="cp">#define PP_ARGS_OPT_IMPL(tuple) PP_REMOVE_PARENS(tuple)</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="n">PP_ARGS_OPT</span><span class="p">((</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">empty</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; empty</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="n">PP_ARGS_OPT</span><span class="p">((</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">empty</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">     </span><span class="c1">// -&gt; data</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="n">PP_ARGS_OPT</span><span class="p">((,),</span><span class="w"> </span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; ,</span>
+</code></pre></div>
+<p><code>PP_ARGS_OPT</code> 接受两个固定参数和变长参数，变长参数非空时返回 <code>data</code>，否则返回 <code>empty</code>。为了让 <code>data</code> 和 <code>empty</code> 支持逗号，要求两者都要用括号包住实际的参数，最后用 <code>PP_REMOVE_PARENS</code> 来移除外层的括号。</p>
+<p>有了 <code>PP_ARGS_OPT</code> 可以实现 <code>LOG3</code> 来模拟 <code>LOG2</code> 实现的功能：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#define LOG3(format, ...) \</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf(&quot;log: &quot; format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello&quot; );</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">&quot;Hello %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s&quot; , &quot;World&quot;);</span>
+</code></pre></div>
+<p><code>data_tuple</code> 是 <code>(,)</code>，如果变长参数非空，则会返回 <code>data_tuple</code> 里面的所有元素，在这里就是逗号 <code>,</code>。</p>
+<h4 id="_22">求参数个数</h4>
+<p>获取变长参数的个数：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="cp">#define PP_ARGS_SIZE_IMCOMPLETE(...) \</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="cp">    PP_ARGS_ELEM(8, __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 2</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">())</span><span class="w">    </span><span class="c1">// -&gt; 2</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
+</code></pre></div>
+<p>计算变长参数的个数，是通过数参数的位置来获得的。<code>__VA_ARGS__</code> 会导致后续的参数全体往右移动，用宏 <code>PP_ARGS_ELEM</code> 来获取第 8 个位置的参数，如果 <code>__VA_ARGS__</code> 只有一个参数，则第 8 个参数等于 <code>1</code>；同理如果 <code>__VA_ARGS__</code> 有两个参数，则第 8 个参数就变为 <code>2</code>，刚好等于变长参数的个数。</p>
+<p>这里给的例子只最高支持个数 8 的变长参数，这是依赖于 <code>PP_ARGS_ELEM</code> 所能支持的最大长度。</p>
+<p>但是这个宏还不完整，在变长参数为空的情况下，这个宏会错误返回 <code>1</code>。如果需要处理空的变长参数，则需要用到我们前面说到的 <code>PP_ARGS_OPT</code> 宏：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="cp">#define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), __VA_ARGS__)</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="cp">#define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, __VA_ARGS__ PP_COMMA_IF_ARGS(__VA_ARGS__) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 2</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">())</span><span class="w">    </span><span class="c1">// -&gt; 2</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="n">PP_ARGS_SIZE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(,,,)</span><span class="w">           </span><span class="c1">// -&gt; 4</span>
+</code></pre></div>
+<p>问题的关键就是逗号 <code>,</code>，在 <code>__VA_ARGS__</code> 为空的时候，把逗号隐去就能正确返回 <code>0</code>。</p>
+<h4 id="_23">遍历访问</h4>
+<p>类似 C++ 的 <code>for_each</code>，我们可以实现宏的 <code>PP_FOR_EACH</code>：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="cp">#define PP_FOR_EACH(macro, contex, ...) \</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="cp">    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(__VA_ARGS__))(0, macro, contex, __VA_ARGS__)</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="cp">#define PP_FOR_EACH_0(index, macro, contex, ...)</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="cp">#define PP_FOR_EACH_1(index, macro, contex, arg, ...) macro(index, contex, arg)</span>
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="cp">#define PP_FOR_EACH_2(index, macro, contex, arg, ...) \</span>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="cp">    macro(index, contex, arg) \</span>
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="cp">    PP_FOR_EACH_1(PP_INC(index), macro, contex, __VA_ARGS__)</span>
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="cp">#define PP_FOR_EACH_3(index, macro, contex, arg, ...) \</span>
+<a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="cp">    macro(index, contex, arg) \</span>
+<a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="cp">    PP_FOR_EACH_2(PP_INC(index), macro, contex, __VA_ARGS__)</span>
+<a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="c1">// ...</span>
+<a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="cp">#define PP_FOR_EACH_8(index, macro, contex, arg, ...) \</span>
+<a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a><span class="cp">    macro(index, contex, arg) \</span>
+<a id="__codelineno-34-17" name="__codelineno-34-17" href="#__codelineno-34-17"></a><span class="cp">    PP_FOR_EACH_7(PP_INC(index), macro, contex, __VA_ARGS__)</span>
+<a id="__codelineno-34-18" name="__codelineno-34-18" href="#__codelineno-34-18"></a>
+<a id="__codelineno-34-19" name="__codelineno-34-19" href="#__codelineno-34-19"></a><span class="cp">#define DECLARE_EACH(index, contex, arg)    PP_IF(index, PP_COMMA, PP_EMPTY)() contex arg</span>
+<a id="__codelineno-34-20" name="__codelineno-34-20" href="#__codelineno-34-20"></a>
+<a id="__codelineno-34-21" name="__codelineno-34-21" href="#__codelineno-34-21"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span><span class="w">    </span><span class="c1">// -&gt; int x, y, z;</span>
+<a id="__codelineno-34-22" name="__codelineno-34-22" href="#__codelineno-34-22"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; bool a, b;</span>
+</code></pre></div>
+<p><code>PP_FOR_EACH</code> 接收两个固定参数： <code>macro</code> 可以理解为遍历的时候调用的宏，<code>contex</code> 可以作为固定值参数传给 <code>macro</code>。<code>PP_FOR_EACH</code> 先通过 <code>PP_ARGS_SIZE</code> 获取变长参数的长度 <code>N</code>，再用 <code>PP_CONCAT</code> 拼接得到 <code>PP_FOR_EACH_N</code>，之后 <code>PP_FOR_EACH_N</code> 会迭代调用 <code>PP_FOR_EACH_N-1</code> 来实现跟变长参数个数相同的遍历次数。</p>
+<p>例子里我们声明了 <code>DECLARE_EACH</code> 作为参数 <code>macro</code>，<code>DECLARE_EACH</code> 的作用就是返回 <code>contex arg</code>，如果 <code>contex</code> 是类型名字，<code>arg</code> 是变量名字，<code>DECLARE_EACH</code> 就可以用来声明变量。</p>
+<h4 id="_24">条件循环</h4>
+<p>有了 <code>FOR_EACH</code> 之后，我们还可以用类似的写法写出 <code>PP_WHILE</code>：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="cp">#define PP_WHILE PP_WHILE_1</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="cp">#define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="cp">#define PP_WHILE_1_IMPL(cond, pred, op, val) \</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="cp">    PP_IF(cond, PP_WHILE_2, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</span>
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="cp">#define PP_WHILE_2(pred, op, val) PP_WHILE_2_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="cp">#define PP_WHILE_2_IMPL(cond, pred, op, val) \</span>
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a><span class="cp">    PP_IF(cond, PP_WHILE_3, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</span>
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="cp">#define PP_WHILE_3(pred, op, val) PP_WHILE_3_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="cp">#define PP_WHILE_3_IMPL(cond, pred, op, val) \</span>
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="cp">    PP_IF(cond, PP_WHILE_4, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</span>
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="cp">#define PP_WHILE_4(pred, op, val) PP_WHILE_4_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a><span class="cp">#define PP_WHILE_4_IMPL(cond, pred, op, val) \</span>
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a><span class="cp">    PP_IF(cond, PP_WHILE_5, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</span>
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a><span class="c1">// ...</span>
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a>
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a><span class="cp">#define PP_WHILE_8(pred, op, val) PP_WHILE_8_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="cp">#define PP_WHILE_8_IMPL(cond, pred, op, val) \</span>
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a><span class="cp">    PP_IF(cond, PP_WHILE_8, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</span>
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a>
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a><span class="cp">#define PP_EMPTY_EAT(...)</span>
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a>
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a><span class="cp">#define SUM_OP(xy_tuple) SUM_OP_OP_IMPL xy_tuple</span>
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a><span class="cp">#define SUM_OP_OP_IMPL(x, y) (PP_DEC(x), y + x)</span>
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a>
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a><span class="cp">#define SUM_PRED(xy_tuple) SUM_PRED_IMPL xy_tuple</span>
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a><span class="cp">#define SUM_PRED_IMPL(x, y) x</span>
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a>
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a><span class="cp">#define SUM(max_num, origin_num) \</span>
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a><span class="cp">    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))</span>
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a><span class="cp">#define SUM_IMPL(ignore, ret) ret</span>
+<a id="__codelineno-35-35" name="__codelineno-35-35" href="#__codelineno-35-35"></a>
+<a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a><span class="n">PP_WHILE</span><span class="p">(</span><span class="n">SUM_PRED</span><span class="p">,</span><span class="w"> </span><span class="n">SUM_OP</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (0, a + 2 + 1)</span>
+<a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a><span class="n">SUM</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">                               </span><span class="c1">// -&gt; a + 2 + 1</span>
+</code></pre></div>
+<p><code>PP_WHILE</code> 接受三个参数： <code>pred</code> 条件判断函数，<code>op</code> 操作函数，<code>val</code> 初始值；循环的过程中不断用 <code>pred(val)</code> 来做循环终止判断，把 <code>op(val)</code> 得到的值传给后续的宏，可以理解为执行以下代码：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">pred</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>PP_WHILE_N</code> 首先用 <code>pred(val)</code> 得到条件判断结果，把条件结果 <code>cond</code> 和其余参数再传给 <code>PP_WHILE_N_IMPL</code>。
+<code>PP_WHILE_N_IMPL</code> 可以分两部分看：后半部分 <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> 是作为前半部分的参数，<code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> 是如果 <code>cond</code> 为真，则求值 <code>op(val)</code>， 否则求值 <code>PP_EMPTY_EAT(val)</code> 得到空。前半部分 <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code>，如果 <code>cond</code> 为真，则返回 <code>PP_WHILE_N+1</code>，结合后半部分的参数继续执行循环；否则返回 <code>val PP_EMPTY_EAT</code>，此时 <code>val</code> 就是最终的计算结果，而 <code>PP_EMPTY_EAT</code> 会吞掉后半部分的结果。</p>
+<p><code>SUM</code> 实现 <code>N + N-1 + ... + 1</code>。初始值 <code>(max_num, origin_num)</code>；<code>SUM_PRED</code> 取值的第一个元素 <code>x</code>，判断是否大于 0；<code>SUM_OP</code> 对 <code>x</code> 执行递减操作 <code>x = x - 1</code>，对 <code>y</code> 执行 <code>+ x</code> 操作 <code>y = y + x</code>。直接用 <code>SUM_PRED</code> 和 <code>SUM_OP</code> 传给 <code>PP_WHILE</code>，返回的结果是一个元组，我们真正想要的结果是元组的第 2 个元素，于是再用 <code>SUM</code> 取第 2 个元素的值。</p>
+<h4 id="_25">递归重入</h4>
+<p>到目前为止，我们的遍历访问和条件循环都运作的很好，结果符合预期。还记得我们在讲宏展开规则的时候提到的禁止递归重入么，当我们想要执行两重循环的时候就不幸遇到到了禁止递归重入：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="cp">#define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="cp">#define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="cp">#define SUM2(max_num, origin_num) \</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="cp">    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP2, (max_num, origin_num)))</span>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="n">SUM2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))</span>
+</code></pre></div>
+<p><code>SUM2</code> 把参数 <code>op</code> 改用 <code>SUM_OP2</code>，<code>SUM_OP2</code> 里面会调用到 <code>SUM</code>，而 <code>SUM</code> 展开还会是 <code>PP_WHILE_1</code>，相当于 <code>PP_WHILE_1</code> 递归调用到了自身，预处理器停止展开。</p>
+<p>为了解决这个问题，我们可以用一种自动推导递归的方法（Automatic Recursion）：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="cp">#define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="cp">#define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)</span>
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="cp">#define PP_AUTO_REC_12(check) PP_IF(check(1), 1, 2)</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="cp">#define PP_AUTO_REC_34(check) PP_IF(check(3), 3, 4)</span>
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="cp">#define PP_WHILE_PRED(n) \</span>
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="cp">    PP_CONCAT(PP_WHILE_CHECK_, PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE))</span>
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="cp">#define PP_WHILE_FALSE(...) 0</span>
+<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a>
+<a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_FALSE 1</span>
+<a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a>
+<a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_1(...) 0</span>
+<a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_2(...) 0</span>
+<a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_3(...) 0</span>
+<a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_4(...) 0</span>
+<a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a><span class="c1">// ...</span>
+<a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a><span class="cp">#define PP_WHILE_CHECK_PP_WHILE_8(...) 0</span>
+<a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a>
+<a id="__codelineno-38-20" name="__codelineno-38-20" href="#__codelineno-38-20"></a><span class="n">PP_AUTO_WHILE</span><span class="w">       </span><span class="c1">// -&gt; PP_WHILE_1</span>
+<a id="__codelineno-38-21" name="__codelineno-38-21" href="#__codelineno-38-21"></a>
+<a id="__codelineno-38-22" name="__codelineno-38-22" href="#__codelineno-38-22"></a><span class="cp">#define SUM3(max_num, origin_num) \</span>
+<a id="__codelineno-38-23" name="__codelineno-38-23" href="#__codelineno-38-23"></a><span class="cp">    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))</span>
+<a id="__codelineno-38-24" name="__codelineno-38-24" href="#__codelineno-38-24"></a>
+<a id="__codelineno-38-25" name="__codelineno-38-25" href="#__codelineno-38-25"></a><span class="cp">#define SUM_OP4(xy_tuple) SUM_OP_OP_IMPL4 xy_tuple</span>
+<a id="__codelineno-38-26" name="__codelineno-38-26" href="#__codelineno-38-26"></a><span class="cp">#define SUM_OP_OP_IMPL4(x, y) (PP_DEC(x), y + SUM3(x, 0))</span>
+<a id="__codelineno-38-27" name="__codelineno-38-27" href="#__codelineno-38-27"></a>
+<a id="__codelineno-38-28" name="__codelineno-38-28" href="#__codelineno-38-28"></a><span class="cp">#define SUM4(max_num, origin_num) \</span>
+<a id="__codelineno-38-29" name="__codelineno-38-29" href="#__codelineno-38-29"></a><span class="cp">    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP4, (max_num, origin_num)))</span>
+<a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
+<a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="n">SUM4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; a + 0 + 2 + 1 + 0 + 1</span>
+</code></pre></div>
+<p><code>PP_AUTO_WHILE</code> 就是 <code>PP_WHILE</code> 的自动推导递归版本，核心的宏是 <code>PP_AUTO_REC(PP_WHILE_PRED)</code>，这个宏可以找出当前可用的 <code>PP_WHILE_N</code> 版本的数字 <code>N</code>。</p>
+<p>推导的原理很简单，就是搜索所有版本，找出能够正确展开的版本，返回该版本的数字，为了提升搜索的速度，一般的做法是使用二分查找，这就是 <code>PP_AUTO_REC</code> 在做的事情。<code>PP_AUTO_REC</code> 接受一个参数 <code>check</code>，<code>check</code> 负责检查版本可用性，这里给出的是支持搜索版本范围 <code>[1, 4]</code>。<code>PP_AUTO_REC</code> 会首先检查 <code>check(2)</code>，如果 <code>check(2)</code> 为真，则调用 <code>PP_AUTO_REC_12</code> 搜索范围 <code>[1, 2]</code>，否则用 <code>PP_AUTO_REC_34</code> 搜索 <code>[3, 4]</code>。<code>PP_AUTO_REC_12</code> 检查 <code>check(1)</code> 如果为真，说明版本 <code>1</code> 可用，否则用版本 <code>2</code>，<code>PP_AUTO_REC_34</code> 同理。</p>
+<p><code>check</code> 宏要怎么写才能知道版本是否可用呢？在这里，<code>PP_WHILE_PRED</code> 会展开成两部分的拼接，我们来看后部分 <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>：如果 <code>PP_WHILE_ ## n</code> 可用，由于 <code>PP_WHILE_FALSE</code> 固定返回 <code>0</code>，这部分会展开得到 <code>val</code> 参数的值，也就是 <code>PP_WHILE_FALSE</code>；否则这部分宏会保持不变，依然是 <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>。</p>
+<p>把后部分的结果跟前部分 <code>PP_WHILE_CHECK_</code> 拼接起来，得到两种结果：<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 或者 <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>，于是我们让 <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 返回 <code>1</code> 表明可用，<code>PP_WHILE_CHECK_PP_WHILE_n</code> 返回 <code>0</code> 表示不可用。至此，我们完成了自动推导递归的功能。</p>
+<h4 id="_26">算术比较</h4>
+<p>不相等：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="cp">#define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="cp">#define PP_NOT_EQUAL_IMPL(x, y) \</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="cp">    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL 1</span>
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_0(...) 0</span>
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_1(...) 0</span>
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_2(...) 0</span>
+<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_3(...) 0</span>
+<a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_4(...) 0</span>
+<a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a><span class="c1">// ...</span>
+<a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a><span class="cp">#define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_8(...) 0</span>
+<a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>
+<a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a><span class="cp">#define PP_NOT_EQUAL_0(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a><span class="cp">#define PP_NOT_EQUAL_1(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a><span class="cp">#define PP_NOT_EQUAL_2(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-17" name="__codelineno-39-17" href="#__codelineno-39-17"></a><span class="cp">#define PP_NOT_EQUAL_3(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a><span class="cp">#define PP_NOT_EQUAL_4(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-19" name="__codelineno-39-19" href="#__codelineno-39-19"></a><span class="c1">// ...</span>
+<a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a><span class="cp">#define PP_NOT_EQUAL_8(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))</span>
+<a id="__codelineno-39-21" name="__codelineno-39-21" href="#__codelineno-39-21"></a>
+<a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 1</span>
+</code></pre></div>
+<p>判断数值是否相等，用到了禁止递归重入的特性，把 <code>x</code> 和 <code>y</code> 递归拼接成 <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code> 宏，如果 <code>x == y</code>，则不会展开 <code>PP_NOT_EQUAL_y</code> 宏，跟 <code>PP_NOT_EQUAL_CHECK_</code> 拼接成 <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> 返回 <code>0</code>；反之，两次都成功展开最后得到 <code>PP_EQUAL_NIL</code>，拼接得到 <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> 返回 <code>1</code>。</p>
+<p>相等：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="cp">#define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p>小于等于：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="cp">#define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
+</code></pre></div>
+<p>小于：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="cp">#define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p>另外还有大于，大于等于等等算术比较，这里不再赘述。</p>
+<h4 id="_27">算术运算</h4>
+<p>利用 <code>PP_AUTO_WHILE</code> 我们可以实现基础的算术运算了，而且支持嵌套运算。</p>
+<p>加法：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cp">#define PP_ADD(x, y) \</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="cp">    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="cp">#define PP_ADD_IMPL(x, y) x</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="cp">#define PP_ADD_PRED(xy_tuple) PP_ADD_PRED_IMPL xy_tuple</span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="cp">#define PP_ADD_PRED_IMPL(x, y) y</span>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="cp">#define PP_ADD_OP(xy_tuple) PP_ADD_OP_IMPL xy_tuple</span>
+<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="cp">#define PP_ADD_OP_IMPL(x, y) (PP_INC(x), PP_DEC(y))</span>
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>
+<a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                  </span><span class="c1">// -&gt; 3</span>
+<a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w">       </span><span class="c1">// -&gt; 4</span>
+</code></pre></div>
+<p>减法：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="cp">#define PP_SUB(x, y) \</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="cp">    PP_IDENTITY(PP_SUB_IMPL PP_AUTO_WHILE(PP_SUB_PRED, PP_SUB_OP, (x, y)))</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="cp">#define PP_SUB_IMPL(x, y) x</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="cp">#define PP_SUB_PRED(xy_tuple) PP_SUB_PRED_IMPL xy_tuple</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="cp">#define PP_SUB_PRED_IMPL(x, y) y</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="cp">#define PP_SUB_OP(xy_tuple) PP_SUB_OP_IMPL xy_tuple</span>
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a><span class="cp">#define PP_SUB_OP_IMPL(x, y) (PP_DEC(x), PP_DEC(y))</span>
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
+</code></pre></div>
+<p>乘法：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="cp">#define PP_MUL(x, y) \</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="cp">    IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="cp">#define PP_MUL_IMPL(ret, x, y) ret</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="cp">#define PP_MUL_PRED(rxy_tuple) PP_MUL_PRED_IMPL rxy_tuple</span>
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="cp">#define PP_MUL_PRED_IMPL(ret, x, y) y</span>
+<a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>
+<a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="cp">#define PP_MUL_OP(rxy_tuple) PP_MUL_OP_IMPL rxy_tuple</span>
+<a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="cp">#define PP_MUL_OP_IMPL(ret, x, y) (PP_ADD(ret, x), x, PP_DEC(y))</span>
+<a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a>
+<a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
+<a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 2</span>
+</code></pre></div>
+<p>乘法实现这里增加了一个参数 <code>ret</code>，初始值为 <code>0</code>，每次迭代会执行 <code>ret = ret + x</code>。</p>
+<p>除法：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="cp">#define PP_DIV(x, y) \</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="cp">    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="cp">#define PP_DIV_IMPL(ret, x, y) ret</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="cp">#define PP_DIV_PRED(rxy_tuple) PP_DIV_PRED_IMPL rxy_tuple</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="cp">#define PP_DIV_PRED_IMPL(ret, x, y) PP_LESS_EQUAL(y, x)</span>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="cp">#define PP_DIV_OP(rxy_tuple) PP_DIV_OP_IMPL rxy_tuple</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="cp">#define PP_DIV_OP_IMPL(ret, x, y) (PP_INC(ret), PP_SUB(x, y), y)</span>
+<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a>
+<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 2</span>
+<a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
+</code></pre></div>
+<p>除法利用了 <code>PP_LESS_EQUAL</code>，只有 <code>y &lt;= x</code> 的情况下才继续循环。</p>
+<h4 id="_28">数据结构</h4>
+<p>宏也可以有数据结构，其实我们在前面的也稍微用到了一种数据结构 <code>tuple</code>，<code>PP_REMOVE_PARENS</code> 就是可以去掉 <code>tuple</code> 的外层括号，返回里面的元素。我们这里就以 <code>tuple</code> 为例子讨论相关的实现，其他的数据结构 <code>list, array</code> 等有兴趣可以去看 <code>Boost</code> 的实现。</p>
+<p><code>tuple</code> 定义为用括号包住的逗号分开的元素集合：<code>(a, b, c)</code>。</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="cp">#define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="c1">// 获取指定下标的元素</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="cp">#define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))</span>
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="c1">// 吞掉整个 tuple 返回空</span>
+<a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="cp">#define PP_TUPLE_EAT() PP_EMPTY_EAT</span>
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="c1">// 获取大小</span>
+<a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="cp">#define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))</span>
+<a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>
+<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="c1">// 添加元素</span>
+<a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a><span class="cp">#define PP_TUPLE_PUSH_BACK(elem, tuple) \</span>
+<a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a><span class="cp">    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)</span>
+<a id="__codelineno-47-15" name="__codelineno-47-15" href="#__codelineno-47-15"></a><span class="cp">#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \</span>
+<a id="__codelineno-47-16" name="__codelineno-47-16" href="#__codelineno-47-16"></a><span class="cp">    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)</span>
+<a id="__codelineno-47-17" name="__codelineno-47-17" href="#__codelineno-47-17"></a>
+<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="c1">// 插入元素</span>
+<a id="__codelineno-47-19" name="__codelineno-47-19" href="#__codelineno-47-19"></a><span class="cp">#define PP_TUPLE_INSERT(i, elem, tuple) \</span>
+<a id="__codelineno-47-20" name="__codelineno-47-20" href="#__codelineno-47-20"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-21" name="__codelineno-47-21" href="#__codelineno-47-21"></a><span class="cp">        3, \</span>
+<a id="__codelineno-47-22" name="__codelineno-47-22" href="#__codelineno-47-22"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-23" name="__codelineno-47-23" href="#__codelineno-47-23"></a><span class="cp">            PP_TUPLE_INSERT_PRED, \</span>
+<a id="__codelineno-47-24" name="__codelineno-47-24" href="#__codelineno-47-24"></a><span class="cp">            PP_TUPLE_INSERT_OP, \</span>
+<a id="__codelineno-47-25" name="__codelineno-47-25" href="#__codelineno-47-25"></a><span class="cp">            (0, i, elem, (), tuple) \</span>
+<a id="__codelineno-47-26" name="__codelineno-47-26" href="#__codelineno-47-26"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-27" name="__codelineno-47-27" href="#__codelineno-47-27"></a><span class="cp">    )</span>
+<a id="__codelineno-47-28" name="__codelineno-47-28" href="#__codelineno-47-28"></a><span class="cp">#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args </span>
+<a id="__codelineno-47-29" name="__codelineno-47-29" href="#__codelineno-47-29"></a><span class="cp">#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \</span>
+<a id="__codelineno-47-30" name="__codelineno-47-30" href="#__codelineno-47-30"></a><span class="cp">    PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))</span>
+<a id="__codelineno-47-31" name="__codelineno-47-31" href="#__codelineno-47-31"></a><span class="cp">#define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args</span>
+<a id="__codelineno-47-32" name="__codelineno-47-32" href="#__codelineno-47-32"></a><span class="cp">#define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \</span>
+<a id="__codelineno-47-33" name="__codelineno-47-33" href="#__codelineno-47-33"></a><span class="cp">    ( \</span>
+<a id="__codelineno-47-34" name="__codelineno-47-34" href="#__codelineno-47-34"></a><span class="cp">    PP_IF(PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), PP_INC(curi), curi), \</span>
+<a id="__codelineno-47-35" name="__codelineno-47-35" href="#__codelineno-47-35"></a><span class="cp">    i, elem, \</span>
+<a id="__codelineno-47-36" name="__codelineno-47-36" href="#__codelineno-47-36"></a><span class="cp">    PP_TUPLE_PUSH_BACK(\</span>
+<a id="__codelineno-47-37" name="__codelineno-47-37" href="#__codelineno-47-37"></a><span class="cp">        PP_IF( \</span>
+<a id="__codelineno-47-38" name="__codelineno-47-38" href="#__codelineno-47-38"></a><span class="cp">            PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), \</span>
+<a id="__codelineno-47-39" name="__codelineno-47-39" href="#__codelineno-47-39"></a><span class="cp">            PP_TUPLE_ELEM(curi, tuple), elem \</span>
+<a id="__codelineno-47-40" name="__codelineno-47-40" href="#__codelineno-47-40"></a><span class="cp">        ), \</span>
+<a id="__codelineno-47-41" name="__codelineno-47-41" href="#__codelineno-47-41"></a><span class="cp">        ret \</span>
+<a id="__codelineno-47-42" name="__codelineno-47-42" href="#__codelineno-47-42"></a><span class="cp">    ), \</span>
+<a id="__codelineno-47-43" name="__codelineno-47-43" href="#__codelineno-47-43"></a><span class="cp">    tuple \</span>
+<a id="__codelineno-47-44" name="__codelineno-47-44" href="#__codelineno-47-44"></a><span class="cp">    )</span>
+<a id="__codelineno-47-45" name="__codelineno-47-45" href="#__codelineno-47-45"></a>
+<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="c1">// 删除末尾元素</span>
+<a id="__codelineno-47-47" name="__codelineno-47-47" href="#__codelineno-47-47"></a><span class="cp">#define PP_TUPLE_POP_BACK(tuple) \</span>
+<a id="__codelineno-47-48" name="__codelineno-47-48" href="#__codelineno-47-48"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-49" name="__codelineno-47-49" href="#__codelineno-47-49"></a><span class="cp">        1, \</span>
+<a id="__codelineno-47-50" name="__codelineno-47-50" href="#__codelineno-47-50"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-51" name="__codelineno-47-51" href="#__codelineno-47-51"></a><span class="cp">            PP_TUPLE_POP_BACK_PRED, \</span>
+<a id="__codelineno-47-52" name="__codelineno-47-52" href="#__codelineno-47-52"></a><span class="cp">            PP_TUPLE_POP_BACK_OP, \</span>
+<a id="__codelineno-47-53" name="__codelineno-47-53" href="#__codelineno-47-53"></a><span class="cp">            (0, (), tuple) \</span>
+<a id="__codelineno-47-54" name="__codelineno-47-54" href="#__codelineno-47-54"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-55" name="__codelineno-47-55" href="#__codelineno-47-55"></a><span class="cp">    )</span>
+<a id="__codelineno-47-56" name="__codelineno-47-56" href="#__codelineno-47-56"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args</span>
+<a id="__codelineno-47-57" name="__codelineno-47-57" href="#__codelineno-47-57"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \</span>
+<a id="__codelineno-47-58" name="__codelineno-47-58" href="#__codelineno-47-58"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-59" name="__codelineno-47-59" href="#__codelineno-47-59"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
+<a id="__codelineno-47-60" name="__codelineno-47-60" href="#__codelineno-47-60"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
+<a id="__codelineno-47-61" name="__codelineno-47-61" href="#__codelineno-47-61"></a><span class="cp">        0 \</span>
+<a id="__codelineno-47-62" name="__codelineno-47-62" href="#__codelineno-47-62"></a><span class="cp">    )</span>
+<a id="__codelineno-47-63" name="__codelineno-47-63" href="#__codelineno-47-63"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args</span>
+<a id="__codelineno-47-64" name="__codelineno-47-64" href="#__codelineno-47-64"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \</span>
+<a id="__codelineno-47-65" name="__codelineno-47-65" href="#__codelineno-47-65"></a><span class="cp">    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)</span>
+<a id="__codelineno-47-66" name="__codelineno-47-66" href="#__codelineno-47-66"></a>
+<a id="__codelineno-47-67" name="__codelineno-47-67" href="#__codelineno-47-67"></a><span class="c1">// 删除元素</span>
+<a id="__codelineno-47-68" name="__codelineno-47-68" href="#__codelineno-47-68"></a><span class="cp">#define PP_TUPLE_REMOVE(i, tuple) \</span>
+<a id="__codelineno-47-69" name="__codelineno-47-69" href="#__codelineno-47-69"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-70" name="__codelineno-47-70" href="#__codelineno-47-70"></a><span class="cp">        2, \</span>
+<a id="__codelineno-47-71" name="__codelineno-47-71" href="#__codelineno-47-71"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-72" name="__codelineno-47-72" href="#__codelineno-47-72"></a><span class="cp">            PP_TUPLE_REMOVE_PRED, \</span>
+<a id="__codelineno-47-73" name="__codelineno-47-73" href="#__codelineno-47-73"></a><span class="cp">            PP_TUPLE_REMOVE_OP, \</span>
+<a id="__codelineno-47-74" name="__codelineno-47-74" href="#__codelineno-47-74"></a><span class="cp">            (0, i, (), tuple) \</span>
+<a id="__codelineno-47-75" name="__codelineno-47-75" href="#__codelineno-47-75"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-76" name="__codelineno-47-76" href="#__codelineno-47-76"></a><span class="cp">    )</span>
+<a id="__codelineno-47-77" name="__codelineno-47-77" href="#__codelineno-47-77"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args</span>
+<a id="__codelineno-47-78" name="__codelineno-47-78" href="#__codelineno-47-78"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \</span>
+<a id="__codelineno-47-79" name="__codelineno-47-79" href="#__codelineno-47-79"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-80" name="__codelineno-47-80" href="#__codelineno-47-80"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
+<a id="__codelineno-47-81" name="__codelineno-47-81" href="#__codelineno-47-81"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
+<a id="__codelineno-47-82" name="__codelineno-47-82" href="#__codelineno-47-82"></a><span class="cp">        0 \</span>
+<a id="__codelineno-47-83" name="__codelineno-47-83" href="#__codelineno-47-83"></a><span class="cp">    )    </span>
+<a id="__codelineno-47-84" name="__codelineno-47-84" href="#__codelineno-47-84"></a><span class="cp">#define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args</span>
+<a id="__codelineno-47-85" name="__codelineno-47-85" href="#__codelineno-47-85"></a><span class="cp">#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \</span>
+<a id="__codelineno-47-86" name="__codelineno-47-86" href="#__codelineno-47-86"></a><span class="cp">    ( \</span>
+<a id="__codelineno-47-87" name="__codelineno-47-87" href="#__codelineno-47-87"></a><span class="cp">    PP_INC(curi), \</span>
+<a id="__codelineno-47-88" name="__codelineno-47-88" href="#__codelineno-47-88"></a><span class="cp">    i, \</span>
+<a id="__codelineno-47-89" name="__codelineno-47-89" href="#__codelineno-47-89"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-90" name="__codelineno-47-90" href="#__codelineno-47-90"></a><span class="cp">        PP_NOT_EQUAL(curi, i), \</span>
+<a id="__codelineno-47-91" name="__codelineno-47-91" href="#__codelineno-47-91"></a><span class="cp">        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \</span>
+<a id="__codelineno-47-92" name="__codelineno-47-92" href="#__codelineno-47-92"></a><span class="cp">        ret \</span>
+<a id="__codelineno-47-93" name="__codelineno-47-93" href="#__codelineno-47-93"></a><span class="cp">    ), \</span>
+<a id="__codelineno-47-94" name="__codelineno-47-94" href="#__codelineno-47-94"></a><span class="cp">    tuple \</span>
+<a id="__codelineno-47-95" name="__codelineno-47-95" href="#__codelineno-47-95"></a><span class="cp">    )</span>
+<a id="__codelineno-47-96" name="__codelineno-47-96" href="#__codelineno-47-96"></a>
+<a id="__codelineno-47-97" name="__codelineno-47-97" href="#__codelineno-47-97"></a><span class="n">PP_TUPLE_SIZE</span><span class="p">(())</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
+<a id="__codelineno-47-98" name="__codelineno-47-98" href="#__codelineno-47-98"></a>
+<a id="__codelineno-47-99" name="__codelineno-47-99" href="#__codelineno-47-99"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (1, 2)</span>
+<a id="__codelineno-47-100" name="__codelineno-47-100" href="#__codelineno-47-100"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">())</span><span class="w">       </span><span class="c1">// -&gt; (2)</span>
+<a id="__codelineno-47-101" name="__codelineno-47-101" href="#__codelineno-47-101"></a>
+<a id="__codelineno-47-102" name="__codelineno-47-102" href="#__codelineno-47-102"></a><span class="n">PP_TUPLE_INSERT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 2, 3)</span>
+<a id="__codelineno-47-103" name="__codelineno-47-103" href="#__codelineno-47-103"></a>
+<a id="__codelineno-47-104" name="__codelineno-47-104" href="#__codelineno-47-104"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">(())</span><span class="w">           </span><span class="c1">// -&gt; ()</span>
+<a id="__codelineno-47-105" name="__codelineno-47-105" href="#__codelineno-47-105"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">))</span><span class="w">          </span><span class="c1">// -&gt; ()</span>
+<a id="__codelineno-47-106" name="__codelineno-47-106" href="#__codelineno-47-106"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; (1, 2)</span>
+<a id="__codelineno-47-107" name="__codelineno-47-107" href="#__codelineno-47-107"></a>
+<a id="__codelineno-47-108" name="__codelineno-47-108" href="#__codelineno-47-108"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 3)</span>
+<a id="__codelineno-47-109" name="__codelineno-47-109" href="#__codelineno-47-109"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (2, 3)</span>
+</code></pre></div>
+<p>这里稍微解释一下插入元素的实现，其他删除元素等操作也是通过类似的原理来实现的。<code>PP_TUPLE_INSERT(i, elem, tuple)</code> 可以在 <code>tuple</code> 的位置 <code>i</code> 插入元素 <code>elem</code>，为了完成这个操作，先把位置小于 <code>i</code> 的元素都先用 <code>PP_TUPLE_PUSH_BACK</code> 放到一个新的 <code>tuple</code> 上（<code>ret</code>），然后在位置 <code>i</code> 放入元素 <code>elem</code>，之后再把原 <code>tuple</code> 位置大于等于 <code>i</code> 的元素放到 <code>ret</code> 后面，最后 <code>ret</code> 就得到我们想要的结果。</p>
+<h2 id="_29">小结</h2>
+<p>本文的目的是想要阐述清楚 C/C++ 宏编程的原理和基本实现，在记录我本人的一些理解和认识的同时，希望能够对其他人能带来一些解惑和启发。需要注意的是，尽管本文篇幅有点长，但还是有一些关于宏编程的技巧和用法是没有涉及到的，譬如 CHAOS_PP 提出的<a href="https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression">基于延迟展开的递归调用方法</a>，BOOST_PP 里面的 <code>REPEAT</code> 相关宏等等，有兴趣的可以自行查阅资料。</p>
+<p>宏编程的调试是一个痛苦的过程，我们可以：</p>
+<ul>
+<li>用 <code>-P -E</code> 选项输出预处理结果；</li>
+<li>用前面提到的我自己修改的 <code>clang</code> 版本仔细研究展开过程；</li>
+<li>把复杂的宏拆解，查看中间宏的展开结果；</li>
+<li>屏蔽无关的头文件和宏；</li>
+<li>最后就是要脑补宏展开的过程了，熟悉宏展开之后调试的效率也会提升。</li>
+</ul>
+<p>本文中的宏是我自己在理解了原理之后重新实现出来的，有部分宏借鉴了 <code>Boost</code> 的实现和引用里面的文章，有任何错误之处，欢迎随时指正，也欢迎找我来讨论相关的问题。</p>
+<p>本文的代码全部都在这里：<a href="assets/img/2021-3-31-cpp-preprocess/macors.cpp">下载</a>，<a href="https://godbolt.org/z/coWvc5Pse">在线演示</a>。</p>
+<h2 id="_30">引用</h2>
+<ul>
+<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a></li>
+<li><a href="https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art">C/C++ 宏编程的艺术</a></li>
+</ul>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>原文地址：<a href="https://disenone.github.io/wiki">https://disenone.github.io/wiki</a></p>
+<p>本篇文章受 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议保护，转载请注明出处。</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5" data-a2a-url="https://disenone.github.io/wiki/feed_rss_created.xml">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+    <a class="a2a_button_feed"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js"
+        data-repo="disenone/disenone.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOAQz-AM4CT6GS"
+        data-mapping="og:title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
+</blockquote>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      最后更新:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+      
+        <br>
+        创建日期:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-footer__link md-footer__link--prev" aria-label="上一页: C/C++ 的命令行参数处理总结">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                C/C++ 的命令行参数处理总结
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="下一页: 编写 Windows 下的 Memory Leak Detector">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                编写 Windows 下的 Memory Leak Detector
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2023 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      
+    
+  </body>
+</html>

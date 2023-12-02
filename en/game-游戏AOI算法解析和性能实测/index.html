@@ -1,0 +1,1822 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This text discusses two algorithms: the nine-grid and the cross-link. It also provides practical performance analysis for both algorithms, so that you can have a clear understanding and remain calm when dealing with them.">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://disenone.github.io/wiki/en/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/">
+      
+      
+        <link rel="prev" href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/">
+      
+      
+        <link rel="next" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+    
+    
+      
+        <title>Game AOI Algorithm Analysis and Performance Testing - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Game AOI Algorithm Analysis and Performance Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  Programming
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  Game Dev
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Programming
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Programming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Summary of command line parameter handling in C/C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ Macro Programming Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developing a Memory Leak Detector for Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP Source Code Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compile Python 2.7.11 using Visual Studio 2015.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Rambles 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Game Dev
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Game Dev
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Basic
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basic
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Game AOI Algorithm Analysis and Performance Testing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Game AOI Algorithm Analysis and Performance Testing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nine-gridmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nine-grid/matrix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-linked-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-linked list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-of-the-nine-grid-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation of the Nine-grid System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-of-cross-linked-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation of Cross-linked List
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nine-grid-actual-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nine-grid Actual Test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-linked-list-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-linked List Measurement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compile UE4 and UE5 using FASTBuild.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building a Third-Person Camera in Unity (Part 1)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building a third-person camera in Unity (Part 2)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity Character Control
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity draws depth maps and performs edge detection.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity implements volumetric light scattering (also known as Volumetric Light Scattering, or cloud gap light)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nine-gridmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nine-grid/matrix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-linked-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-linked list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-of-the-nine-grid-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation of the Nine-grid System
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-of-cross-linked-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation of Cross-linked List
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nine-grid-actual-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nine-grid Actual Test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-linked-list-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-linked List Measurement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki/edit/main/docs/en/game-游戏AOI算法解析和性能实测.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>Game AOI Algorithm Analysis and Performance Testing</h1>
+
+<p><meta property="og:title" content="游戏 AOI 算法解析和性能实测" /></p>
+<h3 id="introduction">Introduction</h3>
+<p><code>AOI</code> (Area Of Interest) is a fundamental feature in multiplayer online games, where players need to receive information about other players or entities entering their field of view. The algorithms that calculate which entities are present within a player's field of view and which entities enter or exit the field of view are generally referred to as <code>AOI</code> algorithms.</p>
+<p>This article discusses two types of <code>AOI</code> algorithms: Grid of Nine and Cross-chain. It also provides performance analysis of these two algorithms to give you a clear understanding and help you remain calm when facing challenges.</p>
+<p>The text will mention two terms: "玩家" and "实体". "实体" refers to the concept of objects in the game, while "玩家" refers to entities that have the AOI.</p>
+<p>The code mentioned in the text can be found here: <a href="https://github.com/disenone/AoiTesting">AoiTesting</a>.</p>
+<h3 id="nine-gridmatrix">Nine-grid/matrix</h3>
+<p>The so-called "Nine Palace" is a division of the positions of all entities in a scene into grids, for example, dividing them into squares with a side length of 200. To find other entities within the AOI (Area of Interest) of the central player, compare all the players within the grids involved in this range.</p>
+<p>For example, in a scene, there is a tick every 100 milliseconds. In the tick function, we can update the player's AOI like this:</p>
+<ul>
+<li>Calculate the set of grids involved in the AOI radius, with the player's position as the center.</li>
+<li>Calculate the distance between each entity in the grid set and the player.</li>
+<li>The set of entities whose distance is less than the AOI radius is the player's new AOI.</li>
+</ul>
+<p>The Sudoku algorithm is quite simple to implement. It can be described in a few sentences. We will discuss the performance analysis later. Let's take a look at the Cross-linked List algorithm first.</p>
+<h3 id="cross-linked-list">Cross-linked list</h3>
+<p>For 3D games, we usually create ordered linked lists for the X and Z coordinates separately. Each entity has a node on the linked list, storing the corresponding coordinate axis value. The values are stored in ascending order. However, if we only store the coordinates of the entities themselves, the efficiency of querying using these two linked lists is still low.</p>
+<p>The real key is that we will add left and right sentinel nodes to each player who has AOI on the linked list. The coordinates of the two sentinels are exactly equal to the player's coordinates plus or minus the AOI radius. For example, if the player <code>P</code> has coordinates <code>(a, b, c)</code> and the AOI radius is <code>r</code>, then there will be two sentinels <code>left_x</code> and <code>right_x</code> on the X-axis, with coordinates <code>a - r</code> and <code>a + r</code>, respectively. With the presence of the sentinels, we update AOI by tracking the movement of the sentinels and other entity nodes. Continuing with the previous example, if an entity <code>E</code> moves and crosses from the right side of <code>left_x</code> to the left side of <code>left_x</code> on the X-axis, it means that <code>E</code> has definitely left the AOI of <code>P</code>; similarly, if it crosses from the left side of <code>right_x</code> to the right side of <code>right_x</code>, it has also left the AOI. Conversely, if it crosses from the right side of <code>left_x</code> or the left side of <code>right_x</code>, it means that it may enter the AOI of <code>P</code>.</p>
+<p>It can be seen that the Cross-link List algorithm is much more complex than the Nine-grid algorithm. We need to maintain two sorted lists and synchronize the movement of nodes on the lists whenever an entity coordinate is updated, and update the AOI when crossing over other nodes.</p>
+<h3 id="implementation-of-the-nine-grid-system">Implementation of the Nine-grid System</h3>
+<p>Because it involves performance measurements, let's delve a little deeper into the implementation details of the Sudoku algorithm.</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">aoi_players</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">struct</span><span class="w"> </span><span class="nc">PlayerAoi</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1">// ...    </span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="n">SquareId</span><span class="w"> </span><span class="n">square_id</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">square_index</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">last_pos</span><span class="p">;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>PlayerAoi</code> stores player data, including an array called <code>sensors</code> which is used to calculate entities within a certain range. After each <code>Tick</code>, the calculated entities are then placed in the <code>aoi_players</code> array. <code>aoi_players</code> is a container that holds two arrays, used to compare the previous <code>Tick</code> results and determine players entering or leaving. The general flow of <code>Tick</code> is as follows:</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="nf">SquareAoi::Tick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">remove_list</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">// Calculate Aoi for players with sensors</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">player</span><span class="p">.</span><span class="n">sensors</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">update_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_UpdatePlayerAoi</span><span class="p">(</span><span class="n">cur_aoi_map_idx_</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">player</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">update_infos</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">update_info</span><span class="p">.</span><span class="n">nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">update_info</span><span class="p">));</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">// Record the player&#39;s last position</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">player</span><span class="p">.</span><span class="n">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="n">cur_aoi_map_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cur_aoi_map_idx_</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
+</code></pre></div>
+<p>The task performed by <code>Tick</code> is very simple. It iterates through players with <code>sensors</code> and calculates the entities within the range of the <code>sensor</code>, which is referred to as AOI (Area of Interest). <code>last_pos</code> is used to determine whether an entity has entered or left the AOI. The code for <code>_UpdatePlayerAoi</code> is as follows:</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="nf">SquareAoi::_UpdatePlayerAoi</span><span class="p">(</span><span class="n">Uint32</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="w"> </span><span class="n">pptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">nuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">new_aoi_map_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">sensors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">old_aoi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">aoi_players</span><span class="p">[</span><span class="n">cur_aoi_map_idx</span><span class="p">];</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">new_aoi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">aoi_players</span><span class="p">[</span><span class="n">new_aoi_map_idx</span><span class="p">];</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;*</span><span class="n">calc_aoi_players_func_</span><span class="p">)(</span><span class="o">*</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">sensor</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_aoi</span><span class="p">);</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">SensorUpdateInfo</span><span class="w"> </span><span class="n">update_info</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">enters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_info</span><span class="p">.</span><span class="n">enters</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">leaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_info</span><span class="p">.</span><span class="n">leaves</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">_CheckLeave</span><span class="p">(</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">radius_square</span><span class="p">,</span><span class="w"> </span><span class="n">old_aoi</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">leaves</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="n">_CheckEnter</span><span class="p">(</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">radius_square</span><span class="p">,</span><span class="w"> </span><span class="n">new_aoi</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">enters</span><span class="p">);</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enters</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">leaves</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">update_info</span><span class="p">));</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
+</code></pre></div>
+<p>The <code>old_aoi</code> is the AOI calculated from the previous <code>Tick</code>, and the <code>new_aoi</code> is the AOI to be calculated for this <code>Tick</code>. The <code>new_aoi</code> is obtained by traversing all the entities in the grid within the AOI range and selecting those that are within a distance less than the AOI radius from the player. Then, the <code>_CheckLeave</code> and <code>_CheckEnter</code> functions are used to calculate the entities that leave and enter the AOI in this <code>Tick</code>. For example, if an entity's <code>last_pos</code> in <code>new_aoi</code> is not within the AOI range, it means that the entity has entered the AOI in this <code>Tick</code>. The specific code can be found in the source file, and will not be further elaborated here.</p>
+<h3 id="implementation-of-cross-linked-list">Implementation of Cross-linked List</h3>
+<p>Compared to the nine-grid, the implementation of the cross-linked list is more complex. Let's first take a look at the basic data structure:</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">CoordNode</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="n">Uint8</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="n">PlayerAoi</span><span class="w"> </span><span class="o">*</span><span class="n">pplayer</span><span class="p">;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="n">Sensor</span><span class="w"> </span><span class="o">*</span><span class="n">psensor</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">};</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">KHASH_MAP_INIT_INT64</span><span class="p">(</span><span class="n">SensorHashMap</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="p">);</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="n">PlayerAoi</span><span class="w"> </span><span class="o">*</span><span class="n">pplayer</span><span class="p">;</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">left_x</span><span class="p">;</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">right_x</span><span class="p">;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">left_z</span><span class="p">;</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">right_z</span><span class="p">;</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">aoi_players</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">khash_t</span><span class="p">(</span><span class="n">SensorHashMap</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="n">aoi_player_candidates</span><span class="p">;</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="p">};</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="k">struct</span><span class="w"> </span><span class="nc">PlayerAoi</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">last_pos</span><span class="p">;</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">node_x</span><span class="p">;</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">node_z</span><span class="p">;</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">boost</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">detected_by</span><span class="p">;</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>Sensor</code> and <code>PlayerAoi</code> have some similarities with the 9-grid, but with the addition of a linked list-related node structure called <code>CoordNode</code>. <code>CoordNode</code> represents a node on the linked list, and it records the type and value of the node itself. There are three types: player node, left node of <code>Sensor</code>, and right node of <code>Sensor</code>.</p>
+<p>Most of the work in a cross-linked list is to maintain the order of the list.</p>
+<ul>
+<li>When a player joins, they need to move their player node to the correct position, and at the same time, handle the AOI events of other players entering or leaving.</li>
+<li>After the player moves to the correct position, the left and right nodes of the <code>Sensor</code> move from the front and back positions of the player to the correct position, and handle the events triggered when crossing other player nodes, such as entering and leaving.</li>
+<li>When the player moves, update their coordinates and move the player node and the left and right nodes of the <code>Sensor</code>, handling AOI enter and leave events.</li>
+</ul>
+<p>The code for moving a node is as follows. Each time a node is traversed, the <code>MoveCross</code> function is called. Based on the direction of movement, the node being moved, and the type of node being crossed, the <code>MoveCross</code> function determines whether to enter or leave the AOI.</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ListUpdateNode</span><span class="p">(</span><span class="n">CoordNode</span><span class="w"> </span><span class="o">**</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">pnode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="c1">// move right</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="n">MoveCross</span><span class="p">(</span><span class="n">MOVE_DIRECTION_RIGHT</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">);</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">ListRemove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="n">ListInsertAfter</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="c1">// move left</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">      </span><span class="n">MoveCross</span><span class="p">(</span><span class="n">MOVE_DIRECTION_LEFT</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">);</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">      </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="n">ListRemove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="n">ListInsertBefore</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">}</span>
+</code></pre></div>
+<p>Moving the linked list is slow, with a complexity of <code>O(n)</code>, especially when a new player joins the scene. The player needs to move gradually from a faraway location to the correct position, which requires traversing a large number of nodes and consumes a significant amount of resources. To optimize performance, we can place lighthouses in fixed positions in the scene. These lighthouses function similarly to players, but they additionally maintain a separate set of <code>detected_by</code> data, which records the sensors within range of the sentinel entity. When a player first enters the scene, they no longer start moving from the farthest point. Instead, they find the nearest lighthouse, insert their node next to it, and quickly enter the AOI (Area of Interest) range of other players who match the lighthouse's <code>detected_by</code> data. Then, they begin moving to the correct position. Of course, during the movement, entering and leaving also need to be handled. Similarly, for sensors, we can first inherit the lighthouse's data and then move to the correct position from the lighthouse's location. By implementing these two optimizations, player insertion performance can be improved by more than double.</p>
+<p><code>Sensor</code> has another <code>HashMap</code> called <code>aoi_player_candidates</code> (here, for performance reasons, <a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a> is used). The AOI events triggered by node movement can only detect a square area with side length <code>2r</code> on the X-Z coordinate axis, which is not strictly a circular AOI. The entities within this square area are recorded in <code>aoi_player_candidates</code> and the circular AOI range is calculated by iterating through them in the <code>Tick</code> function, hence the name <code>candidates</code>.</p>
+<p>All operations of the cross-linked list are to continuously maintain the entities <code>candidates</code> within the square area. The operations performed by the <code>Tick</code> in the cross-linked list are almost identical to those of the 9-grid, except that the calculation of the AOI <code>candidates</code> in the traversal is different. The <code>candidates</code> in the 9-grid are the entities covered by the circular AOI area in the grid, while the cross-linked list is the entities in the square area defined by the left and right nodes of the <code>Sensor</code> with a side length of <code>2r</code>. Qualitatively speaking, the <code>candidates</code> in the cross-linked list are generally fewer than those in the 9-grid, so the number of traversals in the <code>Tick</code> is smaller, resulting in better performance. However, the cross-linked list also has a lot of additional performance overhead on maintaining the list. The overall performance of these two approaches remains to be tested.</p>
+<h3 id="performance-testing">Performance Testing</h3>
+<p>I have separately tested the time consumption of the player joining the scene (<code>Add Player</code>), calculating AOI enter and exit events (<code>Tick</code>), and updating player coordinates (<code>Update Pos</code>).</p>
+<p>The player's initial position is randomly generated within the map range, and then the player is added to the scene. <code>player_num</code> represents the number of players, and <code>map_size</code> denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a <code>Sensor</code> with a radius of 100, which is used for AOI (Area of Interest). The boost::timer::cpu_timer is used for time calculation. The <code>player_num</code> field includes three scenarios: 100, 1000, and 10000, while the <code>map_size</code> field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].</p>
+<p>Updating player position will make the player move in a fixed random direction at a speed of <code>6m/s</code>.</p>
+<p>The current test environment is:</p>
+<ul>
+<li>CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz</li>
+<li>System: Debian GNU/Linux 10 (buster)</li>
+<li>gcc version: gcc version 8.3.0 (Debian 8.3.0-6)</li>
+<li>boost version: boost_1_75_0</li>
+</ul>
+<h4 id="nine-grid-actual-test">Nine-grid Actual Test</h4>
+<p>The test results for the grid of nine squares are as follows:</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000081</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000452</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000230</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000070</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000338</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000185</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000084</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000103</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000187</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000084</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000080</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000185</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000673</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.035298</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">85.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001841</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000664</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.025806</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">116.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001842</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000721</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001793</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001849</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">540.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000885</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000804</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001855</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006454</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">154.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">3.822028</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">3.800000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">3.820000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018402</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">108.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>
+<a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006439</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">2.805551</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">2.760000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">2.800000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018489</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">54.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a>
+<a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006698</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">149.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.093759</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">106.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018350</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">54.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a>
+<a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-68" name="__codelineno-5-68" href="#__codelineno-5-68"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.009046</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">110.6</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-69" name="__codelineno-5-69" href="#__codelineno-5-69"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.012091</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">82.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019033</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">105.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+</code></pre></div>
+<p>In the game grid, when there are <code>100</code> players, the time required for the three operations is very short. In the extreme case where <code>map_size = [-50, 50]</code>, all players are within the AOI range, and the time required for each <code>Tick</code> is approximately <code>0.4ms</code>. The performance is good, and both the player joining the scene and updating the coordinates have a linear complexity of <code>O(player_num)</code>.</p>
+<p>However, when the number of players reaches ten thousand (<code>player_num = 10000</code>) with a map size of <code>[-50, 50]</code>, both the <code>Add Player</code> and <code>Update Pos</code> operations can be completed within a few milliseconds due to their linear complexity. But the <code>Tick</code> operation takes up to <code>3.8s</code>, requiring a significant amount of CPU resources and rendering it unusable. In the case of ten thousand players and a map size of <code>[-1000, 1000]</code>, the <code>Tick</code> operation consumes approximately <code>94ms</code>. If the <code>Tick</code> frequency is reduced, for example, to twice per second, it can still be considered usable, albeit with some difficulty.</p>
+<h4 id="cross-linked-list-measurement">Cross-linked List Measurement</h4>
+<p>The test results of the cross-linked list are as follows:</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.002057</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000330</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000232</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001201</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000222</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000272</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000288</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000048</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000200</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000194</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000041</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000192</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.130766</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.130000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.130000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.4</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.028091</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">71.2</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.005369</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">186.2</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.103015</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">97.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019545</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">102.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.009208</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">108.6</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.010150</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">98.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000845</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.003023</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.004950</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">202.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000427</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.002234</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">21.606402</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">21.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">21.610000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">3.696885</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">3.680000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">3.710000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.4</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.434396</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.430000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.430000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a>
+<a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">18.499235</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">18.470000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">18.490000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">2.292608</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">2.290000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">2.290000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">1.522617</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">1.530000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">1.530000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a>
+<a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">1.642519</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">1.640000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">1.640000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042767</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.050000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.050000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">116.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.202949</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.200000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.200000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">98.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a>
+<a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.571257</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006325</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">158.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042568</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">94.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+</code></pre></div>
+<p>As we analyze, the cross-linked list takes more time in <code>Add Player</code> and <code>Update Pos</code>, especially in <code>Add Player</code>, which is several hundred or even tens of thousands times slower than the grid performance (<code>100, [-50, 50]</code> cross-linked list takes <code>2ms</code>, while the grid only takes <code>0.08ms</code>; <code>10000, [-50, 50]</code> cross-linked list takes <code>21.6s</code>, while the grid only takes <code>6ms</code>). There can also be a difference of up to a hundredfold in the execution time of <code>Update Pos</code>, where <code>10000, [-100, 100]</code> cross-linked list takes <code>1.5s</code>, while the grid takes only <code>18ms</code>. It can be observed that the cross-linked list has a wider range of execution time for <code>Add Player</code> and <code>Update Pos</code> compared to the grid, and is more affected by the number of players and the size of the map. In densely populated areas, the performance of these two operations will rapidly decline until they become unusable.</p>
+<p>Looking at the <code>Tick</code> operation of the Cross-chain, the overall performance is indeed better than that of the Nine-grid. In the best case, the time consumed is approximately only half of the Nine-grid's time (<code>0.8ms</code> for Cross-chain with <code>1000, [-1000, 1000]</code>, and <code>1.8ms</code> for Nine-grid), but in the worst case, the performance of the Cross-chain will degrade to be close to that of the Nine-grid (<code>3.7s</code> for Cross-chain with <code>10000, [-10000, 10000]</code>, and <code>3.8s</code> for Nine-grid). This is because, due to the small scene, players are all within each other's AOI range, and the number of <code>candidates</code> traversed by the Cross-chain <code>Tick</code> is actually very close to that of the Nine-grid.</p>
+<p>The Cross-Chain needs to achieve better performance than the Nine-Grid when used. This requires some stronger assumptions, such as <code>player_num = 1000, map_size = [-1000, 1000]</code>. In this case, the Cross-Chain takes 0.8ms for <code>Tick</code>, while the Nine-Grid takes 1.8ms; for <code>Update Pos</code>, the Cross-Chain takes 0.3ms and the Nine-Grid takes 0.18ms (note that the test time for <code>Update Pos</code> is the sum of the time for 10 executions). In order for the Cross-Chain to be faster than the Nine-Grid in terms of the total time of <code>Tick + Update Pos</code>, the number of <code>Update Pos</code> operations cannot exceed 8 times the number of <code>Tick</code> operations, or in other words, the number of <code>Update Pos</code> operations between two <code>Tick</code> operations needs to be less than 8 times. </p>
+<p>Furthermore, due to the significant time consumption of <code>Add Player</code> in the Cross-Chain, it is not suitable for scenarios where players frequently enter and exit scenes within a short period of time or when there is large-scale teleportation within the scene. Additionally, if a large number of players enter the scene within a short period of time, it can easily lead to performance degradation and consume a significant amount of CPU resources.</p>
+<p>For the cross-linked list, there is an optimization that can be done under one condition: get rid of <code>Tick</code>. The condition is that the game can accept a square-shaped AOI, and the additional costs such as network consumption brought by the square-shaped AOI are acceptable when measured. Actually, the condition is quite strict, because in the game, the CPU usage of AOI calculation is usually not significant. However, changing the circular AOI to a square AOI increases the area of the AOI range, and the number of players within the range may increase, possibly up to 1.27 times the original amount under a uniform distribution. However, once the condition is met, the cross-linked list can eliminate the need for <code>Tick</code> to periodically update AOI events, because the <code>candidates</code> of the cross-linked list already maintains a square-shaped AOI, which was originally used only for calculating the circular AOI distance in <code>Tick</code>. In this case, the cross-linked list has the potential to achieve excellent performance, as the performance of the cross-linked list's <code>Update Pos</code> can be several times to tens of times better than <code>Tick</code>.</p>
+<p>Finally, here is a comparative bar graph of the two:</p>
+<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png" /></p>
+<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png" /></p>
+<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></p>
+<h3 id="summary">Summary</h3>
+<p>In this article, we introduce the principles and basic implementations of two AOI algorithms (grid-based and cross-linked), and analyze the performance pros and cons of these two algorithms through empirical data. We hope that this will provide some assistance or inspiration to the readers.</p>
+<p>In general, the Nine-grid method is easy to implement and has balanced performance. It is very suitable for games that are not performance-intensive, such as AOI. The performance fluctuation range of the Nine-grid method is within the expected range, with a relatively high performance lower limit, making it less likely to become a bottleneck. However, on the other hand, the optimization space is not large, and the time complexity is relatively fixed. 
+On the contrary, the Cross-chain method has a more complex implementation and a lower performance lower limit compared to the Nine-grid method. However, if certain assumptions and prerequisites can be met, the Cross-chain method can offer higher optimization space, in other words, the upper limit can be higher. 
+These two methods have their own advantages and disadvantages. Different game engines in the gaming industry have chosen one of them. It's a matter of personal preference and needs.</p>
+<p>I have limited ability, and the content of this text only represents my own thoughts. If there are any deficiencies or inappropriate aspects, please feel free to leave a comment for discussion.</p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://disenone.github.io/wiki">https://disenone.github.io/wiki</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5" data-a2a-url="https://disenone.github.io/wiki/feed_rss_created.xml">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+    <a class="a2a_button_feed"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js"
+        data-repo="disenone/disenone.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOAQz-AM4CT6GS"
+        data-mapping="og:title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
+<p>This post is translated using ChatGPT, please <a href="https://github.com/disenone/wiki/issues/new"><strong>feedback</strong></a> if any omissions.</p>
+</blockquote>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Python Rambles 1 - Exploring __builtins__">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Python Rambles 1 - Exploring __builtins__
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-footer__link md-footer__link--next" aria-label="Next: Compile UE4 and UE5 using FASTBuild.">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Compile UE4 and UE5 using FASTBuild.
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2023 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      
+    
+  </body>
+</html>
