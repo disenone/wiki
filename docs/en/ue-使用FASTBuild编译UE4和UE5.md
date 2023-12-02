@@ -9,35 +9,37 @@ catalog: true
 tags:
 - dev
 - game
-description: The native support for FASTBuild in UE is not very comprehensive. In
-  order to achieve perfect FASTBuild compatibility for both UE4 and UE5, we need to
-  make some configurations and source code modifications. Let me guide you through
-  them one by one.
+description: The native support for FASTBuild in UE is not quite perfect. In order
+  to ensure flawless FASTBuild support for both UE4 and UE5, we need to make some
+  configuration and source code modifications. Let me guide you through them one by
+  one.
 figures: []
 ---
 
+<meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5" />
 
 This method has been tested and supports UE4.27 - UE5.3. Other versions have not been tested, but you can give it a try.
 
 ## Preface
 
-[FASTBuild](https://www.fastbuild.org/docs/home.html) is a free and open-source distributed compilation tool. The compilation process of UE itself is time-consuming, but by using FASTBuild, the compilation time can be greatly reduced.
+[FASTBuild](https://www.fastbuild.org/docs/home.html) is a free and open-source distributed compilation tool. The compilation process of UE itself is quite time-consuming, but by using FASTBuild, it is possible to significantly reduce the time required.
 
-UE has been able to support FASTBuild since version 4.x. The official source code comes with a modified version of FASTBuild, based on version 0.99, located in `Engine\Extras\ThirdPartyNotUE\FASTBuild`. UE5.3 also uses this version. This is already an older version. As of the time this article was created, the latest official version of FASTBuild is 1.11, which includes more new features and bug fixes. This article focuses on how to use version 1.11 to support both UE4 and UE5.
+Starting from UE 4.x, it is able to support FASTBuild. The official source code comes with a modified version of FASTBuild tool, based on version 0.99 of FASTBuild. Its location is `Engine\Extras\ThirdPartyNotUE\FASTBuild`. UE5.3 also uses this version. However, this is a relatively old version. As of the creation time of this article, the latest official version of FASTBuild is 1.11, which provides more new features and bug fixes. This article focuses on how to use version 1.11 to support both UE4 and UE5 simultaneously.
 
-## Simple Configuration
+## Easy Configuration
 
-In order to achieve the goal, we need to make some modifications to FASTBuild 1.11 and the UE source code. Actually, I have already made all the modifications here, so we can directly use the version I modified.
+To achieve the goal, we need to make some modifications to FASTBuild 1.11 and the UE source code. Here, in fact, I have already made all the modifications, so we can directly use the version I have modified.
 
-Download the executable files FBuild.exe, FBuildCoordinator.exe, and FBuildWorker.exe from the [latest release](https://github.com/disenone/fastbuild/releases) I have submitted. For clarity, the machine that uses FBuild.exe for compilation will be referred to as the `local machine`, and the remote machines that provide CPU assistance for compilation will be referred to as `remote machines`.
+Download the executable files FBuild.exe, FBuildCoordinator.exe, and FBuildWorker.exe from the [latest version](https://github.com/disenone/fastbuild/releases) that I submitted. In order to better illustrate, the machine that uses FBuild.exe for programming will be referred to as `local machine`, while the remote machines that provide CPU participation for editing will be referred to as `remote machines`.
 
-### System Configuration
+### Local Configuration
 
-Add the directory where FBuild.exe is located to the system environment variable Path, to ensure that FBuild.exe can be executed directly in the command prompt.
+Add the directory where FBuild.exe is located to the system environment variable `Path`, to ensure that FBuild.exe can be executed directly in the `cmd` command prompt.
 
-Configure Cache shared directory (if Cache generation is not required, it can be left unconfigured): Set an empty directory as a shared path and ensure remote machines can access it.
+Configure Cache Shared Directory (If Cache generation is not needed, this configuration can be skipped): Set an empty directory as a shared path and ensure that the remote machine has access to it.
 
-Open the source code project of UE4 / UE5 on this machine, and modify the compilation configuration file Engine\Saved\UnrealBuildTool\BuildConfiguration.xml as follows:
+Open the source code project of your local UE4/UE5. Modify the compilation configuration file Engine\Saved\UnrealBuildTool\BuildConfiguration.xml as follows:
+
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -54,22 +56,22 @@ Open the source code project of UE4 / UE5 on this machine, and modify the compil
 </Configuration>
 ```
 
-Run the previously downloaded FBuildCoordinator.exe on this machine.
+Run the downloaded FBuildCoordinator.exe on this machine.
 
 ### Remote Machine Configuration
 
-When configuring the Cache with the same settings, only the IP address needs to be specified as the local IP address. Assuming it is 192.168.1.100.
+With the same configuration as Cache, only the IP needs to be set to the local IP, assuming it is 192.168.1.100.
   - FASTBUILD_CACHE_PATH: \\192.168.1.100\Cache
   - FASTBUILD_CACHE_MODE: rw
 
-Same configuration Coordinator ip
+[Same configuration Coordinator IP]
   - FASTBUILD_COORDINATOR: 192.168.1.100
 
-Configure as shown in the following image.
+After configuring, it should look like the following image.
 
 ![](assets/img/2023-ue-fastbuild/remote_vars.png)
 
-Run FBuildWorker.exe on the remote computer. If the configuration is successful, you can see logs printed on the FBuildCoordinator.exe of this computer (here 192.168.1.101 is the IP address of the remote computer):
+Run FBuildWorker.exe on the remote machine. If the configuration is successful, logs will be printed on the FBuildCoordinator.exe of the local machine (here, 192.168.1.101 is the IP address of the remote machine):
 
 ```
 FBuildCoordinator - v1.11-UE
@@ -79,9 +81,9 @@ FBuildCoordinator - v1.11-UE
 [2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 ```
 
-### Testing UE Compilation
+### Test UE Compilation
 
-Open the UE source code project sln with VisualStudio, choose a C++ project, and click on Rebuild. If the configuration is correct, you should see log messages similar to the following:
+Open the UE source code project sln with VisualStudio, select a C++ project, and click Rebuild. If the configuration is correct, you will see logs similar to the following:
 
 ```
 11>FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
@@ -98,72 +100,72 @@ Open the UE source code project sln with VisualStudio, choose a C++ project, and
 11>Distributed Compilation : 1 Workers in pool '127.0.0.1'
 ```
 
-FASTBuild can find the IP of the remote machine and start sending compilation tasks to it. The FBuildWorker on the remote machine can also see that there is a current compilation task being executed.
+FASTBuild can find the IP address of the remote machine and start sending the compilation tasks to it. On the FBuildWorker of the remote machine, you can also see that there are currently compilation tasks being executed.
 
 ## Advanced Configuration
 
 ### Support for older versions of UE
 
-If you find that your UE does not have the FASTBuild tool (Engine\Extras\ThirdPartyNotUE\FASTBuild), and the FASTBuild.cs file is not in the UnrealBuildTool project, then there is a high probability that your UE version does not support FASTBuild yet.
+If you find that your UE doesn't have the FASTBuild tool (Engine\Extras\ThirdPartyNotUE\FASTBuild), and there is no FASTBuild.cs file in the UnrealBuildTool project, it's highly likely that your UE version does not support FASTBuild yet.
 
-So you need to refer to the source code of UE4.27 and also create a similar FASTBuild.cs file, and make the necessary modifications to other related code, which will not be elaborated here.
+So you need to refer to the source code of UE4.27 and create a similar FASTBuild.cs file, and make the necessary modifications to other related code. No further details will be provided here.
 
 
 ### Compile your own FASTBuild
 
-If you are also interested in FASTBuild itself or want to make some modifications, you can try using FASTBuild to compile FASTBuild.
+If you are also interested in FASTBuild itself, or want to make some modifications, you can try using FASTBuild to compile FASTBuild.
 
-- Download my [latest source code](https://github.com/disenone/fastbuild/releases) and extract it.
-- Modify External\SDK\VisualStudio\VS2019.bff and change .VS2019_BasePath and .VS2019_Version to the corresponding values on your machine. You can find the Version in the .VS2019_BasePath\Tools\MSVC directory, for example...
+- Download my [latest source code](https://github.com/disenone/fastbuild/releases) and unzip it.
+- Modify External\SDK\VisualStudio\VS2019.bff, change .VS2019_BasePath and .VS2019_Version to the corresponding values on your machine. You can find the Version in the .VS2019_BasePath\Tools\MSVC directory, for example...
     ```
     .VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // <-- Set path here
     .VS2019_Version         = '14.29.30133' // <-- Set version here
     .VS2019_MSC_VER         = '1929' // <-- Set MSC_VER here
     ```
 
-- Modify the .Windows10_SDKBasePath and .Windows10_SDKVersion in External\SDK\Windows\Windows10SDK.bff file. You can check the version in .Windows10_SDKBasePath/bin.
+- Modify the .Windows10_SDKBasePath and .Windows10_SDKVersion in External\SDK\Windows\Windows10SDK.bff file. The version can be found inside .Windows10_SDKBasePath/bin folder.
     ```
     .Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // <-- Set path here
     .Windows10_SDKVersion         = '10.0.19041.0' // <-- Set version here
     ```
 
-- Modify the .Clang11_BasePath and .Clang11_Version in External\SDK\Clang\Windows\Clang11.bff, the path is in .VS2019_BasePath\Tools\Tools/LLVM/x64.
+Update the `.Clang11_BasePath` and `.Clang11_Version` in `External\SDK\Clang\Windows\Clang11.bff`, the path is located in `.VS2019_BasePath\Tools\Tools/LLVM/x64`.
     ```
     .Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // <-- Set path here
     .Clang11_Version  = '12.x.x'
     ```
 
-- Go to the Code directory and execute `FBuild.exe All-x64-Release` in cmd. If the configuration is correct, you should see a successful compilation. You can find the FBuild.exe in tmp\x64-Release\Tools\FBuild\FBuild.
+- Go to the Code directory and execute `FBuild.exe All-x64-Release` in the cmd. If the configuration is correct, you should see a successful compilation. You can find the FBuild.exe in tmp\x64-Release\Tools\FBuild\FBuild.
 
-`FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1` can enable distributed compiling.
+The command `FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1` enables distributed compilation.
 
-### More Options for FBuild
+### FBuild More Options
 
 The FBuild I provide itself supports the following commonly used options:
 
 - coordinator: Specify the Coordinator IP address (can override the value of system environment variables)
 - brokerage: Specify the Brokerage address (can override the value of system environment variables)
-- nocache: Force not to use cache
+- nocache: Force to not use cache
 - dist: Enable distributed compilation
-- forceremote: Force compilation on a remote machine
-- summary: Output a statistical report after editing is completed
+- forceremote: Force to compile on a remote machine
+- summary: Output a statistical report after editing is finished
 
-Wait, more options can be viewed by running `FBuild.exe -help`.
+Wait, you can run `FBuild.exe -help` to see more options.
 
 The commonly used options for FBuildWorker are:
 
-- coordinator: Specify the Coordinator IP address (this value can override the value of system environment variables)
-- brokerage: Specify the Brokerage address (this value can override the value of system environment variables)
-- nocache: Force not to use cache
-- cpus: Specify how many cores to allocate for compilation
+- coordinator: Specify the Coordinator IP address (can override the value of the system environment variable).
+- brokerage: Specify the Brokerage address (can override the value of the system environment variable).
+- nocache: Forcefully disable the use of cache.
+- cpus: Specify the number of cores to allocate for compilation.
 
-For more options, you can run `FBuildWorder.exe -help` to check.
+To see more options, you can run `FBuildWorder.exe -help`.
 
 ### Modify the built-in FASTBuild.cs in UE
 
-The built-in FASTBuild.cs in UE does not handle system environment variables well in relation to the parameters specified in BuildConfiguration.xml. Many parameters prioritize reading the system environment variables, which is clearly opposite to the logic of using BuildConfiguration.xml.
+The built-in FASTBuild.cs provided by UE does not handle system environment variables well in relation to the parameters specified in BuildConfiguration.xml. Many parameters prioritize reading system environment variables, which clearly contradicts the logic of using BuildConfiguration.xml.
 
-To do this, you can modify the relevant code like this, taking UE5.3 as an example:
+To do this, you can modify the relevant code like this, taking UE5.3 as an example here:
 
 ```csharp
 private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
@@ -245,15 +247,15 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
     <ProjectFileGenerator>
-<!-- Specify the VS version -->
+<!-- Specify VS version -->
         <Format>VisualStudio2022</Format>   
     </ProjectFileGenerator>
     <BuildConfiguration>
 <!-- Enable FASTBuild -->
         <bAllowFASTBuild>true</bAllowFASTBuild>
-<!-- Specify the number of CPU cores used for compilation on this machine -->
+<!-- Specify the number of CPU cores that will participate in the compilation on the local machine -->
         <MaxParallelActions>12</MaxParallelActions>
-<!-- Close Incredibuild -->
+<!-- Disable Incredibuild -->
         <bAllowXGE>false</bAllowXGE>
     </BuildConfiguration>
     <FASTBuild>
@@ -261,24 +263,23 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
         <FBuildExecutablePath>d:\libs\FASTBuild\bin\FBuild.exe</FBuildExecutablePath>
 <!-- Enable distributed compilation -->
         <bEnableDistribution>true</bEnableDistribution>
-      <!-- Specify brokerage path -->
+<!-- Specify the brokerage path -->
         <FBuildBrokeragePath>\\127.0.0.1\Brokerage\</FBuildBrokeragePath>
 <!-- Specify cache path -->
         <FBuildCachePath>\\127.0.0.1\Cache\</FBuildCachePath>
 <!-- Enable cache -->
         <bEnableCaching>true</bEnableCaching>
-        <!-- cache read/write permissions: Read/Write/ReadWrite -->
+<!-- cache read/write permissions Read/Write/ReadWrite -->
         <CacheMode>ReadWrite</CacheMode>
-<!-- Specify coordinator IP -->
+<!-- Specify coordinator ip -->
         <FBuildCoordinator>192.168.88.187</FBuildCoordinator>
-<!-- Force Remote Compilation -->
+<!-- Force remote compilation -->
         <!-- <bForceRemote>true</bForceRemote> -->
     </FASTBuild>
 </Configuration>
 ```
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

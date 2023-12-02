@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unity can create depth maps and perform edge detection.
+title: Unity draws depth maps and performs edge detection.
 categories:
 - unity
 catalog: true
@@ -9,48 +9,53 @@ tags:
 description: I discovered that Unity's RenderWithShader() and OnRenderImage() can
   be used to achieve many effects. Taking advantage of this learning opportunity,
   I have decided to use these two functions to generate a depth map of the scene and
-  perform edge detection, which can be used as a mini-map in the game.
+  perform scene edge detection, which can be used as a mini-map in the game.
 figures:
 - assets/post_assets/2014-3-27-unity-depth-minimap/topview.png
 ---
 
+<meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" />
 
-Just recently started working with Unity, and have been very interested in ShaderLab. I feel like it allows for quickly achieving various visual effects, which is quite intriguing. Well, as someone who is still new to this field, I'll give a try to working with depth maps and edge detection.
+Just got in touch with Unity not long ago, have always been interested in Unity's ShaderLab, feel like it can quickly achieve all kinds of display effects, very interesting. Well, as someone who hasn't even entered the door yet, I'll mess around with depth maps and edge detection then.
 
 # Mini Map Settings
 
-Because I have only created a rough prototype, I do not intend to explain in detail how to draw a small map on the scene. In general, I have done the following things:
+Because I have only made a rough draft, I do not intend to go into detail on how to draw a small map on the scene. In general, I have done the following things:
 
-1. Get the bounding box of the scene, which is useful for setting the parameters and position of the camera.
-2. Configure the mini-map camera with an orthogonal projection, based on the bounding box, set the near and far planes of the camera.
-3. Add a character target to this camera, the target will be displayed at the center of the map.
-4. Update the position of the camera each time, based on the position of the target and the maximum y value of the scene.
+Translate these text into English language:
 
-The specific configuration can be referred to the code provided later.
+1. Get the bounding box of the scene, which is useful when setting camera parameters and position.
+2. Configure the minimap camera as orthogonal projection, and set the camera's near and far planes based on the bounding box.
+3. Add a character target to the camera, which will be displayed at the center of the map.
+4. Update the camera position each time, based on the target's position and the maximum y value of the scene.
+
+Specific configurations can be referred to the code provided later.
 
 # Get Depth Map
 
-## Use `depthTextureMode` to obtain the depth map.
+## Use `depthTextureMode` to access the depth texture
 
-The camera can save the DepthBuffer or a DepthNormalBuffer itself (which can be used for edge detection), just need to set [to_be_replace]
+The camera itself can save the DepthBuffer or a DepthNormalBuffer (which can be used for edge detection), just need to set `[to_be_replace]`.
 
 ```c#
 Camera.depthTextureMode = DepthTextureMode.DepthNormals;
 ```
 
-Then reference it in the shader.
+Then reference in the Shader.
 
 ```c#
 sampler2D _CameraDepthNormalsTexture;
 ```
 
-That's it, you can refer to the code I provided later for the specific procedure. For the relationship between the depth value saved in the Z-Buffer and the real-world depth, you can refer to these two articles: [Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html), [Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt). In addition, Unity also provides some functions for calculating depth, such as `Linear01Depth`, `LinearEyeDepth`, etc.
+It's enough, you can refer to the code I provided later for specific instructions. Regarding the relationship between the depth value saved in the Z-Buffer and the real-world depth, you can refer to these two articles: [Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html) and [Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt). Additionally, Unity also provides some functions for depth calculation: `Linear01Depth`, `LinearEyeDepth`, etc.
 
-This is not the focus of our discussion here. What I want to say is that my camera was originally set to use orthographic projection and the depth should be linear. However, when I tested it, it turned out to be non-linear. Then I tried using the method mentioned in the above link to calculate the real world depth, but it has always been incorrect. I couldn't calculate the true linear depth, and I don't know if it's a problem with Unity's Z_Buffer or something else. If any of you know, please teach me. Of course, if you don't need the real depth value and only need to compare depth, the method mentioned above is sufficient and very simple. However, for my case, I want to map the real depth to color values and I need to obtain the true linear depth value (even though it's still in the range [0,1]), so I had to use another method called RenderWithShader.
+This is not the main point I want to discuss here. What I want to say is that initially my camera was set to use orthogonal projection, and the depth should have been linear. However, when I tested it, I found that it was not linear. Then I tried using the method described in the link above to calculate the depth in real-world units, but it was always incorrect. I couldn't get the true linear depth, and I'm not sure if it's a problem with Unity's Z_Buffer or something else. If anyone knows, please teach me.
 
-## Use RenderWithShader to get depth maps
+Of course, if you don't need the actual depth values and only need to compare depths, the method mentioned above is sufficient and quite simple. But for me, I want to map the real depth to color values, and I need to obtain the true linear depth values (although they are also in the range of [0, 1]). So, I had to resort to using another method, which is to use the RenderWithShader function.
 
-This method is actually using an example from Unity Reference: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html). What needs to be understood is that `RenderWithShader` will draw the corresponding Mesh in the scene.
+## Use `RenderWithShader` to obtain depth map
+
+This method is actually using an example from the Unity Reference: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html). It is important to understand that `RenderWithShader` will render the corresponding Mesh in the scene.
 
 Create a Shader:
 
@@ -90,37 +95,37 @@ SubShader
 }
 ```
 
-Add a script to your minimap camera (if it doesn't exist) to configure the camera as orthographic projection etc., and use this Shader to render the scene in `Update()` function.
+Add a script to your mini map camera (create it if it doesn't exist), configure the camera to use orthographic projection, and render the scene using this Shader in the `Update()` method.
 
 ```c#
 camera.targetTexture = depthTexture;
 camera.RenderWithShader(depthShader, "");
 ```
 
-The rendering result will be saved inside `depthTexture`, it's quite simple, right?
+The result of rendering will be saved in the `depthTexture`, it's very simple.
 
-## Mapping depth to color
-
-To accomplish this task, you first need a color map. This map can be easily generated using Matlab. For example, I used the jet colormap in Matlab for this purpose.
+## Map Depth to Color
+To accomplish this task, the first step is to have a color map. This map can be easily generated using Matlab. For example, I have utilized the "jet" map inside Matlab.
 
 <img src=../../assets/img/2014-3-27-unity-depth-minimap/jet.png width=200 />
 
-Put this image in the project directory `Assets\Resources`, so it can be read in the program:
+Put this image into the project directory `Assets\Resources`, and you can read it in the program.
 
 ```c#
 colorMap = Resources.Load<Texture2D>("colormap");
 ```
 
-It should be noted that the `Wrap Mode` of this image should be set to `Clamp` to prevent interpolation between color values at the edges.
+What needs to be noted is that the `Wrap Mode` of this image should be set to `Clamp` to prevent interpolation between color values at the edges.
 
-Afterwards, you will need to use `OnRenderImage` and `Graphics.Blit` functions, the function prototypes are:
+Afterwards, you will need to use the `OnRenderImage` and `Graphics.Blit` functions. The function prototypes are:
 
 ```c#
 void OnRenderImage(RenderTexture src, RenderTexture dst);
 static void Blit(Texture source, RenderTexture dest, Material mat, int pass = -1);
 ```
 
-The `src` of this function is the result of camera rendering, while the `dst` is the result that will be passed back to the camera after processing. Therefore, this function is usually used to apply some effects to the image after camera rendering, such as depth color mapping and edge detection. The approach is to call `Graphics.Blit` in the `OnRenderImage` function and pass in a specific `Material`.
+The `src` parameter of this function is the result of camera rendering, while `dst` is the processed result to be passed back to the camera. Therefore, this function is usually used to apply various effects to the image after camera rendering, such as depth-color mapping and edge detection in our case. The approach is to call `Graphics.Blit` in `OnRenderImage` and pass in a specific `Material`:
+
 
 ```c#
 depthEdgeMaterial.SetTexture("_DepthTex", src);
@@ -128,18 +133,18 @@ Graphics.Blit(src, dst, depthEdgeMaterial);
 return;
 ```
 
-It is important to note that `Graphics.Blit` actually does the following: it draws a plane in front of the camera that is the same size as the screen, passes `src` as the `_MainTex` of this plane into the `Shader`, and then puts the result into `dst`, instead of redrawing the actual Mesh in the scene.
+It is worth noting that `Graphics.Blit` actually does the following: it draws a plane in front of the camera that is the same size as the screen, passes `src` as the `_MainTex` of this plane into the `Shader`, and then puts the result into `dst`, instead of redrawing the Meshes in the actual scene.
 
-Mapping colors is actually treating the depth [0, 1] as the uv of an image. Because I want the areas closer to the camera to be red, I inverted the depth.
+The color mapping is essentially mapping the depth [0, 1] to the UV of an image. Since I want the areas close to the camera to be red, I inverted the depth.
 
 ```glsl
 half4 color = tex2D(_ColorMap, float2(saturate(1-depth), 0.5));
 ```
 
 # Edge Detection
-Edge detection requires the use of the camera's `_CameraDepthNormalsTexture`, mainly for the values of the normals. The depth value is still obtained from the previous calculation. In each pixel (x, y, z, w) of the `_CameraDepthNormalsTexture`, (x, y) represents the normals, while (z, w) represents the depth. The normals are stored using a specific method, which you can search for if interested.
+Edge detection requires the use of the camera's `_CameraDepthNormalsTexture`, primarily utilizing the values of normals, while depth utilizes the previously calculated values. In each pixel (x, y, z, w) of the `_CameraDepthNormalsTexture`, (x, y) represents the normals, while (z, w) represents the depth. The normals are stored using a specific method, which you can explore more deeply if interested.
 
-The code is referenced from the built-in Image Effect of Unity for edge detection. The task is to compare the difference between the current pixel's normal depth and nearby pixels. If the difference is significant enough, we consider an edge to be present.
+The code refers to the edge detection in Unity's built-in Image Effect. What needs to be done is to compare the difference between the normal depth of the current pixel and its neighboring pixels. If the difference is large enough, we consider it as an edge.
 
 ```c#
 inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth, float sampleDepth)
@@ -161,7 +166,7 @@ inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth
 }
 ```
 
-The complete shader is as follows:
+The complete Shader is as follows:
 
 ```glsl
 Shader "Custom/DepthColorEdge" {
@@ -254,8 +259,9 @@ The result is similar to this:
 
 <img src=../../assets/img/2014-3-27-unity-depth-minimap/topview.png width=200 />
 
-# Mixed Real World Images
-Just having a color map of depth alone may be a bit dull, so we can mix in the color map from a real scene. We just need to create another shader, pass in the previous image and the real image from the camera, and blend them in the `OnRenderImage` function.
+# Blending Real-World Images
+
+Adding color to a depth map alone can be a bit dull, so we can blend in colors from real-world scenes. To do this, we just need to create another shader and pass in the previous image as well as the camera's real-world image. Then, in the `OnRenderImage` function, we can blend the two images together.
 
 ```glsl
 Shader "Custom/ColorMixDepth" {
@@ -314,13 +320,12 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
     }
 }
 ```
-The code above is responsible for completing this task. What needs to be understood is that when we call `RenderWithShader`, `OnRenderImage` will also be called. In other words, this function is called twice, but each call has a different functionality to perform. Therefore, I use a variable to indicate whether the current rendering state is for depth mapping or blending.
+The code above is responsible for completing this task. What needs to be understood is that when we call `RenderWithShader`, the function `OnRenderImage` will also be called. In other words, this function is called twice, and the functionality to be completed for each call is different. Therefore, I use a variable here to indicate the current rendering state, whether it is for creating a depth map or for blending.
 
-# Complete Code
-The code files are a bit extensive, so I'm just going to place them here [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip).
+# Complete code
+The code files are a bit long, so I have placed them here: [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip).
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

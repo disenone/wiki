@@ -1,35 +1,36 @@
 ---
 layout: post
-title: Building a Third-Person Camera in Unity (Part 2)
+title: Building a third-person camera in Unity (Part 2)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: I want to create a third-person camera in Unity, with the camera behavior
-  inspired by the third-person camera in "World of Warcraft". Here we will solve the
-  issue with the camera's rigid body.
+description: I want to create a third-person camera in Unity, with the camera's behavior
+  referencing the third-person camera in "World of Warcraft". Here we will address
+  the camera's rigid body issue.
 ---
 
+<meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-We have finished discussing the [rotation of the camera](unity-Building-a-Third-Person-Camera-in-Unity-Part-1.md) in the previous episode. Now, the problem we need to solve is the rigidity of the camera. How should we do it?
+The previous episode was about [camera rotation](unity-Third Person Camera Setup (Part I).md). So now, the problem we need to solve is the rigidity of the camera. How should we do it?
 
-Camera Rigidity
+Camera rigidity
 --------------
-Reviewing the requirements mentioned earlier:
+Reviewing the requirements previously mentioned:
 
-4. Mouse Wheel: Control the camera zoom.
+4. Mouse scroll wheel: control camera zooming.
 5. The camera cannot pass through any rigid objects.
-6. After the camera moves away from a colliding rigid object, it slowly returns to its original distance.
-7. If the camera encounters a rigid body and the mouse wheel is used to zoom in, the camera needs to respond immediately and point 6 will no longer occur; after colliding with the ground, scaling operations are not allowed.
-8. When the camera rotates and touches the ground, it stops rotating up and down around the character and instead rotates up and down around itself, while left and right rotation still revolves around the character.
+6. After the camera leaves a collision with a rigid object, it slowly returns to its original distance.
+7. If the camera encounters a rigid body and the mouse scroll wheel is used to zoom in, the camera needs to react immediately, and point 6 no longer occurs afterwards; scaling operations cannot be performed after colliding with the ground.
+8. When the camera in rotation touches the ground, stop rotating around the character up and down, and instead rotate up and down around itself, while left and right rotation still revolves around the character.
 
 
-The meaning of these points is: When the camera encounters a rigid object, it is forced to get closer to the character. So, we want the camera to slowly return to its original distance when it moves away. However, if the camera is manually zoomed in using the scroll wheel after automatically zooming in, it means that the camera is moving away from the object it collided with. In this case, the zoomed-in distance is the actual distance of the camera. Now, let's analyze these requirements step by step.
+The meaning of these points is: When the camera encounters a rigid object, it is forced to get closer to the character. So, we want the camera to slowly return to its original distance when it moves away. However, if after automatically getting closer, you manually zoom in with the scroll wheel, it means that the camera is moving away from the object it collided with, and the zoom distance is the actual distance of the camera. Now let's analyze these requirements step by step.
 
 Scroll control
 ----------
-Controlling the mouse scroll wheel is very simple. You just need to know that to obtain the scroll wheel information, you use `Input.GetAxis("Mouse ScrollWheel")`, and then set the maximum and minimum values for the distance. That's it.
+Scroll wheel control is very simple, you just need to know that obtaining the scroll wheel information is `Input.GetAxis("Mouse ScrollWheel")`, and set the maximum and minimum values for the distance and it's good to go:
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -46,19 +47,17 @@ if (zoom != 0F)
 }
 ```
 
-Here, `playerTransform` points to the character.
+`playerTransform` here refers to the character.
 
-Cannot penetrate through any rigid object.
+Cannot pass through any rigid objects.
 --------------------
-This requires detecting the contact between the camera and the rigid body. There is a function that can achieve this functionality:
-
-`[to_be_replaced[function_name]]`
+This requires checking the contact between the camera and the object. There is a function that can achieve this functionality:
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-Refer to Unity's [Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html) for specific usage. We can implement collision detection like this:
+Refer to Unity's [Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html) for specific usage. We can implement collision detection as follows:
 
 ```c#
 RaycastHit hitInfo;
@@ -69,13 +68,13 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-`targetPosition` is the position of the collision. Set the camera's position to the collision position and you're good to go.
+The `targetPosition` is the position of the collision. Set the camera's position to the collision position and you're good to go.
 
 After leaving the rigid body, slowly return to the original distance.
 ---------------------------------
-To complete this functionality, it is necessary to first record the desired distance (`desiredDistance`) and the current distance (`curDistance`) that the camera should be positioned at. The result of the scroll wheel operation should be stored in `desiredDistance` first, and then the new distance of the object should be calculated based on collision. 
+To accomplish this functionality, firstly, we need to record the desired distance (`desiredDistance`) and the current distance (`curDistance`) that the camera should be at. We will store the result of the scroll wheel operation in the `desiredDistance` variable and then calculate the new distance based on collision.
 
-When it is detected that the camera has moved away from the rigid body or collided with a further rigid body, it is not directly assigned the position of the collision to the camera. Instead, a movement speed is used to move towards the new distance. Let's first obtain the new distance:
+When we detect that the camera has moved away from the rigid body or has collided with a farther rigid body, we cannot directly assign the position of the collision to the camera. Instead, we need to use a movement speed to approach the new distance. Let's retrieve the new distance first:
 
 ```c#
 float newDistance = desiredDistance;
@@ -87,7 +86,7 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-So how can we determine if the camera is moving further away? We can compare `newDistances` with the current distance.
+So how can we determine if the camera is moving to a greater distance? We can compare `newDistances` with the current distance:
 
 ```c#
 // Move closer
@@ -95,35 +94,37 @@ if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-// Move to a greater distance
+// Move towards a greater distance
 else if(newDistance > curDistance)
 {
 }
 ```
 
-Then, judging by moving to a farther distance, it becomes very intuitive. Just add speed to move.
+So, to determine the movement to a further distance, it becomes very intuitive, just add a velocity to move:
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
 
 ```
-We have completed the general behavior of the camera, there are still some details that need to be addressed.
+We have already completed the general behavior of the camera, but there are still some details that need to be handled.
 
-After encountering a rigid body, the scroll wheel zooms in without scaling the ground.
+After encountering a rigid body, the roller zooms in and the ground does not scale.
 ------------------
-[to_be_replace[这里有两个要求：]]
+Here are two requirements:
 
-1. After encountering a rigid body, you can only get closer, not further away.
-2. After encountering the ground, scaling is not allowed.
+Translate these text into English language:
 
-First, use a variable to keep track of the collision status of the camera:
+1. After encountering a rigid body, you can only pull it closer, not farther apart.
+2. After contacting the ground, you cannot scale it.
+
+First, use a variable to store the collision status of the camera:
 
 ```c#
-bool isHitGround = false;       // Indicates whether it hits the ground
-bool isHitObject = false;       // Indicates whether it hits a rigid body (excluding the ground)
+bool isHitGround = false;       // Indicates whether it has collided with the ground
+bool isHitObject = false;       // Indicates whether it has collided with a rigid body (excluding the ground)
 ```
 
-Add condition judgment when judging scroll zoom:
+Add conditional judgment when determining the zooming of the scroll wheel:
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -132,9 +133,9 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-Land on the ground and rotate around yourself up and down.
+Meet the ground and rotate around oneself up and down.
 -----------------
-This functionality is a bit tricky to implement because our previous assumption that the camera is always focused on the character no longer holds true. Now we need to separate it into two vectors: the desired orientation of the camera (desireForward) and the direction from the player to the camera (cameraToPlayer). We calculate the values of these two vectors separately, with the former determining the camera's orientation and the latter determining its position. To simplify things, we split the rotation function mentioned in the previous episode (unity-Unity第三人称相机构建(上).md) into two parts: X rotation (RotateX) and Y rotation (RotateY). When calculating the RotateY for cameraToPlayer, we include the following condition:
+This functionality is a bit complicated to implement. It is necessary because our previous assumption that the camera is always pointed at the character no longer holds true. At this point, we need to split it into two vectors: the camera's orientation (`desireForward`) and the direction from the character to the camera (`cameraToPlayer`). We calculate the values for these two vectors separately. The former determines the camera's orientation, while the latter determines the camera's position. For convenience, we have divided the rotation function from the previous episode into two parts: X rotation (`RotateX`) and Y rotation (`RotateY`). Therefore, when calculating `RotateY` for `cameraToPlayer`, we add a condition:
 
 ```c#
 if ((!isHitGround) || 
@@ -147,16 +148,16 @@ if ((!isHitGround) ||
 
 This condition has two parts:
 
-- Did not touch the ground
-- Touched the ground, but preparing to leave the ground
+- Did not touch the ground.
+- Touched the ground but is ready to leave the ground.
 
-Then calculate the position of the camera using `cameraToPlayer`:
+Then use `cameraToPlayer` to calculate the position of the camera:
 
 ```c#
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-And calculate the orientation of the camera when needed (when it hits the ground):
+And calculate the orientation of the camera when necessary (i.e. when it encounters the ground):
 
 ```c#
 if (!isHitGround)
@@ -174,6 +175,14 @@ else
 We have implemented the behavior of this camera.
 
 Complete code:
+
+def hello_world():
+    print("Hello, world!")
+    
+hello_world()
+
+Output:
+Hello, world!
 
 ```c#
 using UnityEngine;
@@ -377,8 +386,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
 }
 ```
 
-> Original: <https://disenone.github.io/wiki>  
-> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
