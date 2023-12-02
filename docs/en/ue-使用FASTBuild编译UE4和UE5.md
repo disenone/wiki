@@ -129,7 +129,7 @@ If you are also interested in FASTBuild itself, or want to make some modificatio
     .Windows10_SDKVersion         = '10.0.19041.0' // <-- Set version here
     ```
 
-Update the `.Clang11_BasePath` and `.Clang11_Version` in `External\SDK\Clang\Windows\Clang11.bff`, the path is located in `.VS2019_BasePath\Tools\Tools/LLVM/x64`.
+- Update the `.Clang11_BasePath` and `.Clang11_Version` in `External\SDK\Clang\Windows\Clang11.bff`, the path is located in `.VS2019_BasePath\Tools\Tools/LLVM/x64`.
     ```
     .Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // <-- Set path here
     .Clang11_Version  = '12.x.x'

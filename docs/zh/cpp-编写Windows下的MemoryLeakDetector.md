@@ -138,7 +138,7 @@ bool RealDetector::patchImport(
 
 我们来分析一下这个函数，就像注释所说的，这个函数实现的功能就是把 IAT 里面的某函数的地址改成另一个函数的地址。先来看第 34-35 行：
 
-``` ruby
+``` cpp
 idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```

@@ -42,9 +42,9 @@ It can be seen that the positions of `arg0` and `arg1` are successfully swapped 
 #define CONCAT(arg0, arg1) arg0 ## arg1
 
 CONCAT(Hello, World)                // -> HelloWorld
-`CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)`
+CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)
 
-`CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)`
+CONCAT(Hello, CONCAT(World, !))     // ->　HelloCONCAT(World, !)
 ```
 
 The macro `CONCAT` is designed to concatenate `arg0` and `arg1`. After expanding the macro, `CONCAT(Hello, World)` will yield the correct result `HelloWorld`. However, when we use `CONCAT(Hello, CONCAT(World, !))`, only the outer macro is expanded, and the inner `CONCAT(World, !)` is not expanded but directly concatenated with `Hello`. This is different from what we expected. The desired result should be `HelloWorld!`. This is another important rule of macro expansion: macro arguments following the `##` operator will not be expanded, but will be directly concatenated with the preceding content.
@@ -95,7 +95,7 @@ According to this rule `STRINGIZE(STRINGIZE(a))` can only be expanded to `"STRIN
 
 #### `##` Operator
 
-## Macro parameters before and after the `##` operator will not be expanded, they will be directly concatenated. For example:
+`##` Macro parameters before and after the `##` operator will not be expanded, they will be directly concatenated. For example:
 
 ``` cpp
 #define CONCAT(arg0, arg1) arg0 ## arg1
@@ -202,7 +202,7 @@ The second `Token` is the formal parameter `arg1`, and its corresponding actual 
 
 Finally, `Leave ExpandFunctionArguments` prints the result obtained from expanding the scan this time (line [19](#__codelineno-9-19)). Translating all the `Token` results gives us `C ## ONCAT(a, b)`, and then the preprocessor executes the `##` operator to generate new content.
 
-## After execution, we obtain `CONCAT(a, b)`. When encountering the macro `CONCAT`, the preprocessor enters `HandleIdentifier` first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is `CONCAT(a, b)`.
+`##` After execution, we obtain `CONCAT(a, b)`. When encountering the macro `CONCAT`, the preprocessor enters `HandleIdentifier` first and prints the information of the macro. It's found that the macro state is "disable used", indicating that it has already been expanded and further re-entry is prohibited. Thus, the message "Macro is not ok to expand" is displayed. The preprocessor stops expanding and the final result is `CONCAT(a, b)`.
 
 #### Example 2
 
