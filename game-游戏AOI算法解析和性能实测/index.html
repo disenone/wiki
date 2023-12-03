@@ -65,7 +65,18 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1657,9 +1668,9 @@
 <p>十字链使用起来要达到比九宫格性能更优，需要一些更强的假设，譬如 <code>player_num = 1000, map_size = [-1000, 1000]</code> 情况下，<code>Tick</code> 耗时十字链为 <code>0.8ms</code> 九宫格 <code>1.8ms</code>，<code>Update Pos</code> 十字链为 <code>0.3ms</code> 九宫格 <code>0.18ms</code>（注意测试 <code>Update Pos</code> 时间为执行了 10 次的时间总和）。<code>Tick + Update Pos</code> 总时间下，十字链如果要比九宫格更少，那 <code>Update Pos</code> 的次数不能超过 <code>Tick</code> 的 <code>8</code> 倍，或者说两个 <code>Tick</code> 之间，<code>Update Pos</code> 的次数需要小于 <code>8</code> 次。另外因为十字链 <code>Add Player</code> 耗时巨大，不适用于玩家短时间频繁出入场景或者在场景内大范围传送的情况，另外如果短时间内有大量玩家进入场景，也很容易导致性能下降，大量占用 CPU。</p>
 <p>对于十字链表，在一个前提之下还能做一个优化：干掉 <code>Tick</code>，前提是游戏能接受正方形的 AOI，并且需要实测正方形 AOI 带来的其他诸如网络等消耗是能接受的。其实前提是比较苛刻的，因为在游戏中 AOI 计费能占用的 CPU 通常占比是不大的，但把圆形 AOI 改成方形 AOI 导致 AOI 范围面积增大，范围内的玩家数量也增多，均匀分布下玩家数量可能会增多到原来的 <code>1.27</code> 倍。但是，一旦能满足前提，十字链表可以做到不需要 <code>Tick</code> 来定期更新 AOI 事件，因为实现上十字链表的 <code>candidates</code> 就维护了一份方形下 AOI，原来只是为了计算圆形 AOI，而不得不在 <code>Tick</code> 中再遍历计算距离。在这种情况下，十字链是有可能能够达到很好的性能，因为十字链表 <code>Update Pos</code> 的性能可以跟 <code>Tick</code> 相差几倍到几十倍。</p>
 <p>最后给出两者的对比柱状图：</p>
-<p><img alt="" src="../assets/img/2021-11-18-aoi-tesing/add_player.png" /></p>
-<p><img alt="" src="../assets/img/2021-11-18-aoi-tesing/tick.png" /></p>
-<p><img alt="" src="../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/add_player.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/tick.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></a></p>
 <h3 id="_9">总结</h3>
 <p>本文我们介绍了两种 AOI 算法（九宫格和十字链）的原理和基本实现，并通过实测的数据分析了这两种算法的性能优劣，希望能够给读者带来一些帮助或者启发。</p>
 <p>总的来说，九宫格法实现简单，性能均衡不容易拉胯，非常适合 AOI 不是性能瓶颈的游戏来使用，九宫格法的性能波动范围是在可预期的范围内，性能下限比较高，也不容易导致瓶颈，但另一方面可优化空间也不大，时间复杂度比较固定。反观十字链法，实现要更复杂，性能下限比九宫格法低，但是如果能够满足一些假设和前提，十字链可优化空间更高，换句话说是上限是可以更高。这两种方法各有优劣，游戏业界内也有不同的引擎分别选择了两者之一，各取所需，见仁见智。</p>
@@ -1808,11 +1819,11 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

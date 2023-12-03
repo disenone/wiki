@@ -63,7 +63,18 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1227,14 +1238,14 @@
 <p><meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)" /></p>
 <h2 id="_1">原理</h2>
 <p>Volumetric Light Scattering 的原理可以参考《GPU Gems 3》<a href="http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html">第13章</a>，书上有效果图：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" /></a></p>
 <p>好看吧，那好，我们的目标就是实现这种效果。</p>
 <p>书上介绍了原理，一条关键的公式是：</p>
 <p>\[ L(s, \theta, \phi) = exposure \times \sum_{i=0}^n decay^i \times weight \times \frac{L( s_i, \theta_i )}{n} \]</p>
 <p>我的理解是，对于图像上的每个像素，光线都有可能照射到，那么对该像素到光源(在投影到图像上的位置)的连线进行采样(对应公式上\(i\))，采样出的结果进行加权平均(对应公式上\(\sum\))并作为该像素的新的颜色值。另外还有关键的后置像素着色器，但是如果只是用那个着色器来对相机渲染的结果进行处理，会产生明显的人工痕迹，有许多的条纹：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/badeffect.png" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/badeffect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/badeffect.png" /></a></p>
 <p>那么书上的效果是怎么做出来的？其实书上已经给出了答案，可以用一组图来阐述：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/steps.png" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/steps.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/steps.png" /></a></p>
 <p>图a 就是粗糙的效果，细心地可以看到有许多条纹，并且没有遮挡不够真实，b、c、 d就是为了获得好的效果需要进行的步骤：</p>
 <p>b. 把灯光辐射效果渲染到图像上，并加上物体的遮挡</p>
 <p>c. 对b执行 Volumetric Light Scattering 像素着色器，得到遮挡后的效果</p>
@@ -1331,7 +1342,7 @@
 <a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a><span class="p">}</span>
 </code></pre></div>
 <p>注意不透明和透明物体的Shader间的差别：不透明的物体直接画成黑色；不透明物体需要执行blending，获取物体纹理上的alpha通道，并基于这个alpha进行blending。上面代码只是列举了Opaque和Transparent，另外还有TreeOpaque (Shader跟Opaque一样，只是改变RenderType) ，TreeTransparentCutout (同Transparent) 等。由于指定了RenderType，所以为了全面，需要尽可能穷尽场景中的会发生遮挡的物体，我这里就只有前面提到的四种。结果大致如下：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" /></a></p>
 <h2 id="_3">结合物体遮挡画光源辐射</h2>
 <p>画光源的辐射不难，需要注意的是需要根据屏幕的大小做一些处理，使得光源的辐射状是圆形的：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="s">&quot;Custom/LightRadiate&quot;</span><span class="w"> </span>
@@ -1383,7 +1394,7 @@
 <a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="p">}</span>
 </code></pre></div>
 <p>这个Shader需要输入光源在屏幕上的位置(可以用<code>camera.WorldToViewportPoint</code>来计算，得到的是uv坐标)，然后根据指定的半径画一个亮度往外衰减的圆，并把结果跟前面得到的物体遮挡图像(放在<code>_MainTex</code>里)结合，结果大致为：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/light.png" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/light.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/light.png" /></a></p>
 <h2 id="light-scattering">Light Scattering处理，并结合真实颜色</h2>
 <p>这里就要用到书上提供的Pixel Shader，我的版本：</p>
 <div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">LightScattering</span><span class="err">&quot;</span><span class="w"> </span>
@@ -1468,7 +1479,7 @@
 <a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a><span class="p">}</span>
 </code></pre></div>
 <p>大体上跟书上的一致，只是我的参数需要在程序中传进来，并且结合了真实的颜色图和Light Scattering图，结果：</p>
-<p><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/effect.gif" /></p>
+<p><a class="glightbox" href="../assets/img/2014-3-30-unity-light-scattering/effect.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-30-unity-light-scattering/effect.gif" /></a></p>
 <h2 id="_4">完整代码</h2>
 <p>代码在<a href="../assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip">这里</a>，把<code>cs</code>脚本添加到相机上。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -1599,11 +1610,11 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

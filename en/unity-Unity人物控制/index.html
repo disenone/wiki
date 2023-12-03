@@ -64,7 +64,18 @@
     
     
     
-  </head>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1226,7 +1237,7 @@
   <h1>Unity Character Control</h1>
 
 <p><meta property="og:title" content="Unity人物控制" /></p>
-<p><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" /></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" /></a></p>
 <p>Character action control is a crucial part of the game, as games with strong operation capabilities can effectively attract players. Here, I will attempt to create a simple character control system where the character can perform basic movements, including walking and jumping.</p>
 <h2 id="requirement">Requirement</h2>
 <p>First, let's consider the specific requirements for character operations:</p>
@@ -1244,7 +1255,7 @@
 <li>The script that actually controls the character's movement should be named <code>MyThirdPersonController.cs</code>.</li>
 </ol>
 <p>The result after configuration is as follows:</p>
-<p><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" /></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" /></a></p>
 <h2 id="input">Input</h2>
 <p>The input consists of up, down, left, right, and jump commands. The direction needs to be normalized:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// get movement from input</span>
@@ -1609,11 +1620,11 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

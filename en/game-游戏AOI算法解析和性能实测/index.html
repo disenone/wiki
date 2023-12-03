@@ -64,7 +64,18 @@
     
     
     
-  </head>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1493,7 +1504,7 @@
 <p>All operations of the cross-linked list are to continuously maintain the entities <code>candidates</code> within the square area. The operations performed by the <code>Tick</code> in the cross-linked list are almost identical to those of the 9-grid, except that the calculation of the AOI <code>candidates</code> in the traversal is different. The <code>candidates</code> in the 9-grid are the entities covered by the circular AOI area in the grid, while the cross-linked list is the entities in the square area defined by the left and right nodes of the <code>Sensor</code> with a side length of <code>2r</code>. Qualitatively speaking, the <code>candidates</code> in the cross-linked list are generally fewer than those in the 9-grid, so the number of traversals in the <code>Tick</code> is smaller, resulting in better performance. However, the cross-linked list also has a lot of additional performance overhead on maintaining the list. The overall performance of these two approaches remains to be tested.</p>
 <h3 id="performance-testing">Performance Testing</h3>
 <p>I have separately tested the time consumption of the player joining the scene (<code>Add Player</code>), calculating AOI enter and exit events (<code>Tick</code>), and updating player coordinates (<code>Update Pos</code>).</p>
-<p>The player's initial position is randomly generated within the map range, and then the player is added to the scene. <code>player_num</code> represents the number of players, and <code>map_size</code> denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a <code>Sensor</code> with a radius of 100, which is used for AOI (Area of Interest). The boost::timer::cpu_timer is used for time calculation. The <code>player_num</code> field includes three scenarios: 100, 1000, and 10000, while the <code>map_size</code> field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].</p>
+<p>The player's initial position is randomly generated within the map range, and then the player is added to the scene. <code>player_num</code> represents the number of players, and <code>map_size</code> denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a <code>Sensor</code> with a radius of 100, which is used for AOI (Area of Interest). The boost:<img alt="⏲" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/23f2.svg" title=":timer:" />:cpu_timer is used for time calculation. The <code>player_num</code> field includes three scenarios: 100, 1000, and 10000, while the <code>map_size</code> field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].</p>
 <p>Updating player position will make the player move in a fixed random direction at a speed of <code>6m/s</code>.</p>
 <p>The current test environment is:</p>
 <ul>
@@ -1658,9 +1669,9 @@
 <p>Furthermore, due to the significant time consumption of <code>Add Player</code> in the Cross-Chain, it is not suitable for scenarios where players frequently enter and exit scenes within a short period of time or when there is large-scale teleportation within the scene. Additionally, if a large number of players enter the scene within a short period of time, it can easily lead to performance degradation and consume a significant amount of CPU resources.</p>
 <p>For the cross-linked list, there is an optimization that can be done under one condition: get rid of <code>Tick</code>. The condition is that the game can accept a square-shaped AOI, and the additional costs such as network consumption brought by the square-shaped AOI are acceptable when measured. Actually, the condition is quite strict, because in the game, the CPU usage of AOI calculation is usually not significant. However, changing the circular AOI to a square AOI increases the area of the AOI range, and the number of players within the range may increase, possibly up to 1.27 times the original amount under a uniform distribution. However, once the condition is met, the cross-linked list can eliminate the need for <code>Tick</code> to periodically update AOI events, because the <code>candidates</code> of the cross-linked list already maintains a square-shaped AOI, which was originally used only for calculating the circular AOI distance in <code>Tick</code>. In this case, the cross-linked list has the potential to achieve excellent performance, as the performance of the cross-linked list's <code>Update Pos</code> can be several times to tens of times better than <code>Tick</code>.</p>
 <p>Finally, here is a comparative bar graph of the two:</p>
-<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png" /></p>
-<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png" /></p>
-<p><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></a></p>
 <h3 id="summary">Summary</h3>
 <p>In this article, we introduce the principles and basic implementations of two AOI algorithms (grid-based and cross-linked), and analyze the performance pros and cons of these two algorithms through empirical data. We hope that this will provide some assistance or inspiration to the readers.</p>
 <p>In general, the Nine-grid method is easy to implement and has balanced performance. It is very suitable for games that are not performance-intensive, such as AOI. The performance fluctuation range of the Nine-grid method is within the expected range, with a relatively high performance lower limit, making it less likely to become a bottleneck. However, on the other hand, the optimization space is not large, and the time complexity is relatively fixed. 
@@ -1812,11 +1823,11 @@ These two methods have their own advantages and disadvantages. Different game en
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

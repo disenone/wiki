@@ -64,7 +64,18 @@
     
     
     
-  </head>
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1340,8 +1351,8 @@
   <h1>Developing a Memory Leak Detector for Windows</h1>
 
 <p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector" /></p>
-<p><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" />
-<img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a></p>
 <h2 id="preface">Preface</h2>
 <p>Recently, I finished reading "The Self-Taught Programmer: Linking, Loading, and Libraries" (referred to as "Linking" hereafter) and gained a lot of insights. I thought about whether I could create some related code snippets. Coincidentally, I learned about a memory leak detection tool called Visual Leak Detector for Windows <a href="https://vld.codeplex.com/">Visual Leak Detector</a>. This tool tracks memory allocation and deallocation by replacing the DLL interface responsible for memory management in Windows. Therefore, I have decided to reference Visual Leak Detector (referred to as VLD hereafter) and create a simplified memory leak detection tool to deepen my understanding of DLL linking.</p>
 <h2 id="background-knowledge">Background Knowledge</h2>
@@ -1535,7 +1546,7 @@
 <p>So far, we have successfully replaced the functions in IAT.</p>
 <h4 id="module-and-function-names">Module and Function Names</h4>
 <p>Although we have implemented the replacement of the IAT function <code>patchImport</code>, this function requires specifying the module name and function name. How can we know which module and function are used for memory allocation and deallocation in the program? To investigate this issue, we need to use the tool <a href="http://www.dependencywalker.com/">Dependency Walker</a> on Windows. Create a new project in Visual Studio, use <code>new</code> to allocate memory in the <code>main</code> function, compile in Debug mode, and then use <code>depends.exe</code> to open the compiled exe file. You will see a similar interface as shown below (using my project <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a> as an example):</p>
-<p><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png" /></p>
+<p><a class="glightbox" href="../../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png" /></a></p>
 <p>It can be seen that LeakDetectorTest.exe uses the <code>malloc</code> and <code>_free_dbg</code> functions from uscrtbased.dll (not shown in the image). These two functions are the ones we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is use depends.exe to check the actual functions being called.</p>
 <h4 id="analyzing-call-stack">Analyzing Call Stack</h4>
 <p>To record memory allocation, it is necessary to record the call stack information at the time. Here, I don't intend to provide a detailed guide on how to obtain the current call stack information in Windows. The relevant function is <code>RtlCaptureStackBackTrace</code>, and there are many related resources available online. You can also take a look at the <code>printTrace</code> function in my code <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">here</a>.</p>
@@ -1743,11 +1754,11 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

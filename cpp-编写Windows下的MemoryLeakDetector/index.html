@@ -65,7 +65,18 @@
     
     
     
-  </head>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1341,8 +1352,8 @@
   <h1>编写 Windows 下的 Memory Leak Detector</h1>
 
 <p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector" /></p>
-<p><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" />
-<img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a></p>
 <h2 id="_1">前言</h2>
 <p>这一阵子读完了《程序员的自我修养：链接、装载与库》（后面简称《链接》），收获良多，寻思着能不能做些相关的小代码出来。刚好知道 Windows 下有个内存泄露检测工具 <a href="https://vld.codeplex.com/">Visual Leak Detector</a>，这个工具是通过替换 Windows 下负责内存管理的 dll 接口来实现跟踪内存分配释放。所以决定参考 Visual Leak Detector （后面简称 VLD）来做个简易的内存泄露检测工具，理解 dll 链接。</p>
 <h2 id="_2">预备知识</h2>
@@ -1544,7 +1555,7 @@
 <p>至此，我们就成功地替换了 IAT 中的函数了。</p>
 <h4 id="_6">模块和函数名字</h4>
 <p>虽然我们已经实现了替换 IAT 函数 <code>patchImport</code>，但这个函数需要指定模块名字和函数名字呀，那我们怎么知道程序的内存分配和释放用了什么模块和函数呢？为了搞清楚这个问题，我们需要借助 Windows 下的工具 <a href="http://www.dependencywalker.com/">Dependency Walker</a>。Visual Studio 下新建一个工程，在 <code>main</code> 函数里面使用 <code>new</code> 来申请内存，编译 Debug 版，之后使用 <code>depends.exe</code> 来打开编译出来的 exe 文件，可以看到一下类似的界面（以我的工程 <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a> 为例）：</p>
-<p><img alt="" src="../assets/img/2016-6-11-memory-leak-detector/depends.png" /></p>
+<p><a class="glightbox" href="../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2016-6-11-memory-leak-detector/depends.png" /></a></p>
 <p>可以看到 LeakDetectorTest.exe 使用了 uscrtbased.dll 里面的 <code>malloc</code> 和 <code>_free_dbg</code> （没有在图中显示出来），这两个函数就是我们需要替换的函数了。要注意实际的模块函数名字可能跟你的 Windows 和 Visual Studio 版本有关，我的是 Windows 10 和 Visual Studio 2015，你需要做的就是用 depends.exe 看看实际调用的是什么函数。</p>
 <h4 id="_7">分析调用栈</h4>
 <p>记录内存分配需要记录当时的调用栈信息，这里我不打算详细介绍 Windows 下如何拿到当前的调用栈信息，相关的函数是 <code>RtlCaptureStackBackTrace</code>，网上有许多相关的资料，也可以看看我的代码里面的函数 <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp"><code>printTrace</code></a> 。</p>
@@ -1751,11 +1762,11 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.action.edit", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
