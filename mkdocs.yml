@@ -79,7 +79,8 @@ plugins:
       timezone: Asia/Shanghai
       enable_creation_date: true
       exclude:
-        - index.md
+        - zh/index.md
+        - en/index.md
       custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content
