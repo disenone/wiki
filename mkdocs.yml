@@ -32,7 +32,10 @@ theme:
   favicon: assets/favicon/favicon.ico
   features:
     - content.code.copy # 代码块复制按钮
+    - content.code.annotate
+    - content.code.select
     - content.action.edit # 文章编辑按钮
+    - content.tooltips
     #- navigation.instant # Instant loading，像个单页应用
     - navigation.tracking # Anchor tracking
     - navigation.tabs # 导航栏
@@ -49,7 +52,6 @@ theme:
   icon:
     repo: material/github
     #edit: material/pencil
-
 
 plugins:
   - i18n:
@@ -73,7 +75,6 @@ plugins:
   - blog:
       post_readtime: true
       post_date_format: full
-      post_date: true
   - git-revision-date-localized:
       type: custom
       timezone: Asia/Shanghai
@@ -101,24 +102,27 @@ plugins:
         utm_source: "documentation"
         utm_medium: "RSS"
         utm_campaign: "feed-syndication"
+  - glightbox
 
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
-  - pymdownx.betterem
   - pymdownx.highlight:
       use_pygments: true
       anchor_linenums: true
       pygments_lang_class: true
-  - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path: ['.', 'docs/assets/ext']
       check_paths: true
       restrict_base_path: true
       auto_append: []
-  - attr_list
-  - md_in_html
-  - mdx_truly_sane_lists
+  - pymdownx.emoji:
+       emoji_index: !!python/name:material.extensions.emoji.twemoji
+       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.superfences:
@@ -126,6 +130,22 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.betterem
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - attr_list
+  - md_in_html
+  - mdx_truly_sane_lists
+  - admonition
+  - tables
+  - footnotes
+  - def_list
+  - abbr
 
 extra_css:
   - assets/css/style.css
