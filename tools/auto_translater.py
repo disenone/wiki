@@ -391,7 +391,7 @@ def translate_file(working_folder, input_file, lang):
 
 def GetGitRef(input_file):
     repo = git.Repo('.')
-    git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd,"summary":"""%s"""}')
+    git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd","summary":"%s"}')
     if not git_log:
         return
     print(git_log)
