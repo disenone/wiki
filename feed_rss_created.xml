@@ -13,8 +13,8 @@
     <language>en-None</language>
 
     
-    <pubDate>Mon, 04 Dec 2023 15:44:44 -0000</pubDate>
-    <lastBuildDate>Mon, 04 Dec 2023 15:44:44 -0000</lastBuildDate>
+    <pubDate>Mon, 04 Dec 2023 16:36:02 -0000</pubDate>
+    <lastBuildDate>Mon, 04 Dec 2023 16:36:02 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 04 Dec 2023 15:45:21 +0000</pubDate>
+      <pubDate>Mon, 04 Dec 2023 16:36:40 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 04 Dec 2023 15:44:42 +0000</pubDate>
+      <pubDate>Mon, 04 Dec 2023 16:36:00 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -68,6 +68,8 @@
       
       
       <description>&lt;h1&gt;Contact and Subscribe&lt;/h1&gt;
+&lt;!-- no translate --&gt;
+
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/badge/GitHub-282c34?&amp;amp;style=for-the-badge&#34;&gt;&lt;/a&gt;
 &lt;a href=&#34;mailto:disenonec@gmail.com&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/badge/Email-f48222?&amp;amp;style=for-the-badge&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://disenone.github.io/wiki/sitemap.xml&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/badge/Sitemap-green?&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
@@ -322,7 +324,9 @@ if (!String.IsNullOrEmpty(CachePath))
       
       
       
-      <description>&lt;h1&gt;Disenone&#39;s Wiki&lt;/h1&gt;
+      <description>&lt;!-- no translate --&gt;
+
+&lt;h1&gt;Disenone&#39;s Wiki&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/wiki/actions&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://github.com/disenone/wiki/actions/workflows/Build.yml/badge.svg?label=Build&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
 &lt;a href=&#34;https://github.com/disenone/wiki/commits/main&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/github/last-commit/disenone/wiki?color=FCD734&amp;amp;label=Last%20commit&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
 &lt;a href=&#34;contact-and-subscribe&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/badge/Contact%20%26%20Subscribe-me-34ABE0?&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;&lt;/p&gt;
