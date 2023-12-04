@@ -98,7 +98,7 @@ camera.RenderWithShader(depthShader, "");
 ## 把深度映射成颜色
 要完成这个工作，首先需要一张颜色图，这张图可以用 Matlab 很简单地生成，例如我用的是 Matlab 里面的 jet 图：
 
-<img src=../../assets/img/2014-3-27-unity-depth-minimap/jet.png width=200 />
+![](assets/img/2014-3-27-unity-depth-minimap/jet.png){ width="200" }
 
 把这张图放到项目目录 `Assets\Resources` 里面，就可以在程序中读取：
 
@@ -247,7 +247,7 @@ Properties
 
 结果类似于这个：
 
-<img src=../../assets/img/2014-3-27-unity-depth-minimap/topview.png width=200 />
+![](assets/img/2014-3-27-unity-depth-minimap/topview.png){ width="200" }
 
 # 混合真实世界图像
 单单是深度的颜色图可能有点无趣，那么我们可以混合上真实场景的颜色图，只需要再建一个 Shader，传入前面的图像和相机的真实图像，在 `OnRenderImage` 中进行混合：

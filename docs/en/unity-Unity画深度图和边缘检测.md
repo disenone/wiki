@@ -107,7 +107,7 @@ The result of rendering will be saved in the `depthTexture`, it's very simple.
 ## Map Depth to Color
 To accomplish this task, the first step is to have a color map. This map can be easily generated using Matlab. For example, I have utilized the "jet" map inside Matlab.
 
-<img src=../../assets/img/2014-3-27-unity-depth-minimap/jet.png width=200 />
+![](assets/img/2014-3-27-unity-depth-minimap/jet.png){ width="200" }
 
 Put this image into the project directory `Assets\Resources`, and you can read it in the program.
 
@@ -257,7 +257,7 @@ Properties
 
 The result is similar to this:
 
-<img src=../../assets/img/2014-3-27-unity-depth-minimap/topview.png width=200 />
+![](assets/img/2014-3-27-unity-depth-minimap/topview.png){ width="200" }
 
 # Blending Real-World Images
 
