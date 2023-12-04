@@ -493,8 +493,8 @@ def run(working_folder):
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
 
-    with open(processed_dict_file, 'w', encoding='utf-8') as f:
-        f.write(json.dumps(processed_dict, indent=2))
+    with open(processed_dict_file, 'wb') as f:
+        f.write(json.dumps(processed_dict, indent=2, ensure_ascii=False).encode('utf-8'))
 
     # 所有任务完成的提示
     log("Congratulations! All files processed done.")
