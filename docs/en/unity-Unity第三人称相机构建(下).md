@@ -13,7 +13,7 @@ description: I want to create a third-person camera in Unity, with the camera's 
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-The previous episode was about [camera rotation](unity-Third Person Camera Setup (Part I).md). So now, the problem we need to solve is the rigidity of the camera. How should we do it?
+The previous episode was about [camera rotation](unity-Unity第三人称相机构建(上).md). So now, the problem we need to solve is the rigidity of the camera. How should we do it?
 
 Camera rigidity
 --------------
