@@ -5,6 +5,8 @@ hide:
   - toc
 ---
 
+<!-- no translate -->
+
 # Disenone's Wiki
 
 [![badge](https://github.com/disenone/wiki/actions/workflows/Build.yml/badge.svg?label=Build&style=flat-square){ loading=lazy }](https://github.com/disenone/wiki/actions)

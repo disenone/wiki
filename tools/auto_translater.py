@@ -30,7 +30,7 @@ dir_to_translate = "docs/zh"
 dir_translate_to = {"en": "docs/en", }
 
 # 不进行翻译的文件列表
-exclude_list = ["index.md", "contact-and-subscribe.md", "WeChat.md"]  # 不进行翻译的文件列表
+exclude_list = []  # 不进行翻译的文件列表
 processed_dict_file = "tools/processed_dict.txt"  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
 only_list = [         # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
     # 'test2.md',
@@ -40,7 +40,6 @@ only_list = [         # 强制指定翻译的文件，其他文件都不翻译�
 ]
 code_flag = '```'
 skip_line_startswith = [code_flag, '<detail>', '</detail>', '<meta property']  # 跳过以这些字符开始的行，简单复制粘贴到结果中
-
 
 # 由 ChatGPT 翻译的提示
 tips_translated_by_chatgpt = {
@@ -53,6 +52,8 @@ tips_translated_by_chatgpt = {
 marker_written_in_en = "\n> This post was originally written in English.\n"
 # 即使在已处理的列表中，仍需要重新翻译的标记
 marker_force_translate = "\n[translate]\n"
+# 含有这个标记，则不翻译文件
+marker_no_translate = '<!-- no translate -->'
 
 # Front Matter 处理规则
 front_matter_translation_rules = {
@@ -390,9 +391,10 @@ def translate_file(working_folder, input_file, lang):
 
 def GetGitRef(input_file):
     repo = git.Repo('.')
-    git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd","summary":"%s"}')
+    git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd,"summary":"""%s"""}')
     if not git_log:
         return
+    print(git_log)
     return json.loads(git_log)['commit']
     
 
@@ -419,6 +421,11 @@ def NeedProcess(precessed_dict, input_file, lang):
     # 读取 Markdown 文件的内容
     with open(input_file, "r", encoding="utf-8") as f:
         md_content = f.read()
+
+    if marker_no_translate in md_content:
+        log(f"Pass the post with content {marker_no_translate}: {filename}")
+        sys.stdout.flush()
+        return False
 
     if marker_force_translate in md_content:  # 如果有强制翻译的标识，则执行这部分的代码
         if marker_written_in_en in md_content:  # 翻译为除英文之外的语言
@@ -485,7 +492,7 @@ def run(working_folder):
         for lang in dir_translate_to.keys():
             if NeedProcess(processed_dict, input_file, lang):
                 log('find file translate to [%s]: %s' % (lang, input_file))
-                log('old processed_info: %s' % (processed_dict[os.path.basename(input_file)], ))
+                log('old processed_info: %s' % (processed_dict.get(os.path.basename(input_file)), ))
                 new_info = CreateProcessInfo(input_file)
                 log('new processed_info: %s' % (new_info, ))
                 translate_file(working_folder, input_file, lang)
