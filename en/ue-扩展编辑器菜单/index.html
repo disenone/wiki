@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Record how to expand the UE editor menu">
+        <meta name="description" content="Record how UE expands the editor menu.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE Edit Menu Expansion - Disenone's Wiki</title>
+        <title>UE Editor Menu Extension - Disenone's Wiki</title>
       
     
     
@@ -94,7 +94,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-record-ue-expanding-the-editor-menu" class="md-skip">
+        <a href="#hook" class="md-skip">
           Skip to content
         </a>
       
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE Edit Menu Expansion
+              UE Editor Menu Extension
             
           </span>
         </div>
@@ -919,14 +919,12 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   <span class="md-ellipsis">
-    UE Edit Menu Expansion
+    UE Editor Menu Extension
   </span>
   
 
@@ -937,7 +935,7 @@
         
   
   <span class="md-ellipsis">
-    UE Edit Menu Expansion
+    UE Editor Menu Extension
   </span>
   
 
@@ -948,8 +946,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -979,7 +975,7 @@
         <li class="md-nav__item">
   <a href="#add-menu-bar" class="md-nav__link">
     <span class="md-ellipsis">
-      Add menu bar
+      Add Menu Bar
     </span>
   </a>
   
@@ -1016,6 +1012,33 @@
   <a href="#submenu" class="md-nav__link">
     <span class="md-ellipsis">
       Submenu
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slateui-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      SlateUI Controls
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-add-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hook Add Menu
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Code
     </span>
   </a>
   
@@ -1227,8 +1250,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1257,7 +1278,7 @@
         <li class="md-nav__item">
   <a href="#add-menu-bar" class="md-nav__link">
     <span class="md-ellipsis">
-      Add menu bar
+      Add Menu Bar
     </span>
   </a>
   
@@ -1299,6 +1320,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#slateui-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      SlateUI Controls
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-add-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hook Add Menu
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Code
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1323,9 +1371,9 @@
 
 
 <p><meta property="og:title" content="UE 扩展编辑器菜单" /></p>
-<h1 id="how-to-record-ue-expanding-the-editor-menu">How to record UE expanding the editor menu</h1>
+<p>Record how to expand the editor's menu in UE</p>
 <h2 id="hook">Hook</h2>
-<p>Hook can be understood as an anchor point for extending the menu. We can set the newly added menu commands before or after the Hook. The built-in editor menu commands of UE are basically equipped with Hooks. In UE5, open <code>Edit - Editor Preference Settings - General - Others - Show UI Extension Points</code> to display all menu Hooks.</p>
+<p>Hook can be understood as the anchor point for extending menus. We can set the newly added menu commands to be in front of or behind the Hook. The built-in editor menu commands in UE all basically have Hooks. In UE5, open <code>Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points</code> to display the Hooks for all menus.</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook.png" /></a></p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook2.png" /></a></p>
 <h2 id="module-dependencies">Module Dependencies</h2>
@@ -1346,8 +1394,8 @@
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="p">);</span>
 </code></pre></div>
-<h2 id="add-menu-bar">Add menu bar</h2>
-<p><code>Directly write the code</code></p>
+<h2 id="add-menu-bar">Add Menu Bar</h2>
+<p>直接上代码</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuBarExtension</span><span class="p">(</span>
@@ -1367,10 +1415,10 @@
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">);</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
 </code></pre></div>
-<p>Executing the above code, you can see that a menu bar called MenuTest has been added after the "Help" menu.</p>
+<p>Executing the above code, you can see that a menu bar "MenuTest" has been added after the "Help".</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/bar.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/bar.png" /></a></p>
 <h2 id="add-command">Add Command</h2>
-<p>Using the <code>MenuBuilder.AddMenuEntry</code> interface:</p>
+<p>Use the <code>MenuBuilder.AddMenuEntry</code> interface:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Inside MenuTest Lambda</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span>
@@ -1379,10 +1427,10 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="c1">// do action</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">})));</span>
 </code></pre></div>
-<p>Put the above code into the CreateLambda, and you can generate the menu command:</p>
+<p>Put the above code into CreateLambda to generate the menu command:</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/action.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/action.png" /></a></p>
 <h2 id="menu-section">Menu Section</h2>
-<p>Using <code>MenuBuilder.BeginSection</code> and <code>MenuBuilder.EndSection</code>:</p>
+<p>Use <code>MenuBuilder.BeginSection</code> and <code>MenuBuilder.EndSection</code>:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">NAME_None</span><span class="p">,</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSection&quot;</span><span class="p">));</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// code to create action</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
@@ -1392,7 +1440,7 @@
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/section%26sperator.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/section%26sperator.png" /></a></p>
 <h2 id="submenu">Submenu</h2>
-<p>Submenus are similar to menu bars and need to be defined within Lambda:</p>
+<p><code>Submenus</code> are similar to menu bars and need to be defined within Lambda:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSub&quot;</span><span class="p">),</span><span class="w"> </span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSub&quot;</span><span class="p">),</span><span class="w"> </span>
@@ -1435,74 +1483,107 @@
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="p">);</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/widget.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/widget.png" /></a></p>
-<p>The content related to Slate UI is not elaborated here. If you are interested, you can find another article to read.</p>
-<h2 id="full-code">Full Code</h2>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">BuildTestMenu</span><span class="p">()</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuBarExtension</span><span class="p">(</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="s">&quot;Help&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="k">nullptr</span><span class="p">,</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="n">FMenuBarExtensionDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBarBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBarBuilder</span><span class="p">)</span>
+<p>The content related to Slate UI is not detailed here. If you are interested, you can find articles elsewhere to read.</p>
+<h1 id="hook-add-menu">Hook Add Menu</h1>
+<p>For example, add a command in the "Tools - Programming" section: </p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuExtension</span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="s">&quot;Programming&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">nullptr</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">FMenuExtensionDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">            </span><span class="n">MenuBarBuilder</span><span class="p">.</span><span class="n">AddPullDownMenu</span><span class="p">(</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">                </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">                </span><span class="p">{</span>
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">NAME_None</span><span class="p">,</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSection&quot;</span><span class="p">));</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuSeparator</span><span class="p">();</span>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">                        </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">                        </span><span class="p">{</span>
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">                            </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">LogMenuTest</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">));</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">                        </span><span class="p">})));</span>
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubb&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubb&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">                        </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">                        </span><span class="p">{</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">                            </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">                                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubAction&quot;</span><span class="p">),</span>
-<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">                                </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
-<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">                                </span><span class="p">{</span>
-<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">                                    </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">LogMenuTest</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;MenuTestSubAction&quot;</span><span class="p">));</span>
-<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">                                </span><span class="p">})));</span>
-<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">                        </span><span class="p">}));</span>
-<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
-<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>
-<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddWidget</span><span class="p">(</span>
-<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="w">                    </span><span class="n">SNew</span><span class="p">(</span><span class="n">SHorizontalBox</span><span class="p">)</span>
-<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="w">                         </span><span class="o">+</span><span class="w"> </span><span class="n">SHorizontalBox</span><span class="o">::</span><span class="n">Slot</span><span class="p">()</span>
-<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="w">                         </span><span class="p">.</span><span class="n">AutoWidth</span><span class="p">()</span>
-<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="w">                         </span><span class="p">[</span>
-<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="w">                             </span><span class="n">SNew</span><span class="p">(</span><span class="n">SEditableTextBox</span><span class="p">)</span>
-<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">                             </span><span class="p">.</span><span class="n">MinDesiredWidth</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">                             </span><span class="p">.</span><span class="n">Text</span><span class="p">(</span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestWidget&quot;</span><span class="p">))</span>
-<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="w">                         </span><span class="p">]</span>
-<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">                         </span><span class="o">+</span><span class="w"> </span><span class="n">SHorizontalBox</span><span class="o">::</span><span class="n">Slot</span><span class="p">()</span>
-<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="w">                         </span><span class="p">.</span><span class="n">AutoWidth</span><span class="p">()</span>
-<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">                         </span><span class="p">.</span><span class="n">Padding</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">                         </span><span class="p">[</span>
-<a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a><span class="w">                            </span><span class="n">SNew</span><span class="p">(</span><span class="n">SButton</span><span class="p">)</span>
-<a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a><span class="w">                            </span><span class="p">.</span><span class="n">Text</span><span class="p">(</span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;ExtendWidget&quot;</span><span class="p">))</span>
-<a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a><span class="w">                            </span><span class="p">.</span><span class="n">OnClicked</span><span class="p">(</span><span class="n">FOnClicked</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
-<a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a><span class="w">                            </span><span class="p">{</span>
-<a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a><span class="w">                                </span><span class="c1">// do action</span>
-<a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a><span class="w">                                </span><span class="k">return</span><span class="w"> </span><span class="n">FReply</span><span class="o">::</span><span class="n">Handled</span><span class="p">();</span>
-<a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a><span class="w">                            </span><span class="p">}))</span>
-<a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="w">                         </span><span class="p">],</span>
-<a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="w">                     </span><span class="n">FText</span><span class="o">::</span><span class="n">GetEmpty</span><span class="p">()</span>
-<a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">                    </span><span class="p">);</span>
-<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="w">                </span><span class="p">}),</span>
-<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="w">                </span><span class="s">&quot;MenuTest&quot;</span><span class="p">);</span>
-<a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="w">        </span><span class="p">})</span>
-<a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a><span class="w">    </span><span class="p">);</span>
-<a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a><span class="w">    </span><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
-<a id="__codelineno-7-66" name="__codelineno-7-66" href="#__codelineno-7-66"></a><span class="p">}</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">            </span><span class="c1">// do action</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="p">})));</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">);</span>
+</code></pre></div>
+<p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/other_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/other_hook.png" /></a></p>
+<p>Similarly, other menu types can be added.</p>
+<h1 id="complete-code">Complete Code</h1>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">BuildTestMenu</span><span class="p">()</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuBarExtension</span><span class="p">(</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="s">&quot;Help&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="k">nullptr</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="n">FMenuBarExtensionDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBarBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBarBuilder</span><span class="p">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">            </span><span class="n">MenuBarBuilder</span><span class="p">.</span><span class="n">AddPullDownMenu</span><span class="p">(</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">                </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">                </span><span class="p">{</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">NAME_None</span><span class="p">,</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSection&quot;</span><span class="p">));</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuSeparator</span><span class="p">();</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">                        </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">                        </span><span class="p">{</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">                            </span><span class="c1">// do action</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">                        </span><span class="p">})));</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubb&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">                        </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubb&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">                        </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">                        </span><span class="p">{</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">                            </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="w">                                </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSubAction&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">                                </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="w">                                </span><span class="p">{</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="w">                                    </span><span class="c1">// do action</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="w">                                </span><span class="p">})));</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="w">                        </span><span class="p">}));</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">                    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddWidget</span><span class="p">(</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="w">                    </span><span class="n">SNew</span><span class="p">(</span><span class="n">SHorizontalBox</span><span class="p">)</span>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="w">                         </span><span class="o">+</span><span class="w"> </span><span class="n">SHorizontalBox</span><span class="o">::</span><span class="n">Slot</span><span class="p">()</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">                         </span><span class="p">.</span><span class="n">AutoWidth</span><span class="p">()</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="w">                         </span><span class="p">[</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a><span class="w">                             </span><span class="n">SNew</span><span class="p">(</span><span class="n">SEditableTextBox</span><span class="p">)</span>
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a><span class="w">                             </span><span class="p">.</span><span class="n">MinDesiredWidth</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="w">                             </span><span class="p">.</span><span class="n">Text</span><span class="p">(</span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestWidget&quot;</span><span class="p">))</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="w">                         </span><span class="p">]</span>
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="w">                         </span><span class="o">+</span><span class="w"> </span><span class="n">SHorizontalBox</span><span class="o">::</span><span class="n">Slot</span><span class="p">()</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a><span class="w">                         </span><span class="p">.</span><span class="n">AutoWidth</span><span class="p">()</span>
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a><span class="w">                         </span><span class="p">.</span><span class="n">Padding</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a><span class="w">                         </span><span class="p">[</span>
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a><span class="w">                            </span><span class="n">SNew</span><span class="p">(</span><span class="n">SButton</span><span class="p">)</span>
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="w">                            </span><span class="p">.</span><span class="n">Text</span><span class="p">(</span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;ExtendWidget&quot;</span><span class="p">))</span>
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a><span class="w">                            </span><span class="p">.</span><span class="n">OnClicked</span><span class="p">(</span><span class="n">FOnClicked</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a><span class="w">                            </span><span class="p">{</span>
+<a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a><span class="w">                                </span><span class="c1">// do action</span>
+<a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a><span class="w">                                </span><span class="k">return</span><span class="w"> </span><span class="n">FReply</span><span class="o">::</span><span class="n">Handled</span><span class="p">();</span>
+<a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="w">                            </span><span class="p">}))</span>
+<a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a><span class="w">                         </span><span class="p">],</span>
+<a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a><span class="w">                     </span><span class="n">FText</span><span class="o">::</span><span class="n">GetEmpty</span><span class="p">()</span>
+<a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a><span class="w">                    </span><span class="p">);</span>
+<a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a><span class="w">                </span><span class="p">}),</span>
+<a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a><span class="w">                </span><span class="s">&quot;MenuTest&quot;</span><span class="p">);</span>
+<a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a><span class="w">        </span><span class="p">})</span>
+<a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a>
+<a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a><span class="w">    </span><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuExtension</span><span class="p">(</span>
+<a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a><span class="w">        </span><span class="s">&quot;Programming&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
+<a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a><span class="w">        </span><span class="k">nullptr</span><span class="p">,</span>
+<a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a><span class="w">        </span><span class="n">FMenuExtensionDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([](</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a><span class="w">            </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
+<a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a><span class="w">            </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestAction&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a><span class="w">            </span><span class="n">FSlateIcon</span><span class="p">(),</span><span class="w"> </span><span class="n">FUIAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a><span class="w">                </span><span class="c1">// do action</span>
+<a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a><span class="w">            </span><span class="p">})));</span>
+<a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a><span class="w">        </span><span class="p">})</span>
+<a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a>
+<a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a><span class="w">    </span><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
+<a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a><span class="p">}</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/overall.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/overall.png" /></a></p>
 <blockquote>
