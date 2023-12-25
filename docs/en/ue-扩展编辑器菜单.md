@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE Edit Menu Expansion
+title: UE Editor Menu Extension
 date: 2023-12-01
 categories:
 - c++
@@ -13,17 +13,17 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Record how to expand the UE editor menu
+description: Record how UE expands the editor menu.
 figures: []
 ---
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-# How to record UE expanding the editor menu
+Record how to expand the editor's menu in UE
 
 ## Hook
 
-Hook can be understood as an anchor point for extending the menu. We can set the newly added menu commands before or after the Hook. The built-in editor menu commands of UE are basically equipped with Hooks. In UE5, open `Edit - Editor Preference Settings - General - Others - Show UI Extension Points` to display all menu Hooks.
+Hook can be understood as the anchor point for extending menus. We can set the newly added menu commands to be in front of or behind the Hook. The built-in editor menu commands in UE all basically have Hooks. In UE5, open `Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points` to display the Hooks for all menus.
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
@@ -51,9 +51,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-## Add menu bar
+## Add Menu Bar
 
-`Directly write the code`
+直接上代码
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -76,14 +76,13 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Executing the above code, you can see that a menu bar called MenuTest has been added after the "Help" menu.
+Executing the above code, you can see that a menu bar "MenuTest" has been added after the "Help".
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-
 ## Add Command
 
-Using the `MenuBuilder.AddMenuEntry` interface:
+Use the `MenuBuilder.AddMenuEntry` interface:
 
 ```cpp
 // Inside MenuTest Lambda
@@ -95,13 +94,13 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Put the above code into the CreateLambda, and you can generate the menu command:
+Put the above code into CreateLambda to generate the menu command:
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
 ## Menu Section
 
-Using `MenuBuilder.BeginSection` and `MenuBuilder.EndSection`:
+Use `MenuBuilder.BeginSection` and `MenuBuilder.EndSection`:
 
 ```cpp
 MenuBuilder.BeginSection(NAME_None, FText::FromName("MenuTestSection"));
@@ -119,7 +118,7 @@ MenuBuilder.AddMenuSeparator();
 
 ## Submenu
 
-Submenus are similar to menu bars and need to be defined within Lambda:
+`Submenus` are similar to menu bars and need to be defined within Lambda:
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -171,10 +170,33 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-The content related to Slate UI is not elaborated here. If you are interested, you can find another article to read.
+The content related to Slate UI is not detailed here. If you are interested, you can find articles elsewhere to read.
 
+# Hook Add Menu
 
-## Full Code
+For example, add a command in the "Tools - Programming" section: 
+
+```cpp
+MenuExtender->AddMenuExtension(
+    "Programming", EExtensionHook::After,
+    nullptr,
+    FMenuExtensionDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
+    {
+        MenuBuilder.AddMenuEntry(
+        FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
+        FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+        {
+            // do action
+        })));
+    })
+);
+```
+
+![](assets/img/2023-ue-extend_menu/other_hook.png)
+
+Similarly, other menu types can be added.
+
+# Complete Code
 
 ```cpp
 void BuildTestMenu()
@@ -197,7 +219,7 @@ void BuildTestMenu()
 						FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
 						FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
 						{
-							UE_LOG(LogMenuTest, Display, TEXT("MenuTestAction"));
+                            // do action
 						})));
 
 					MenuBuilder.AddSubMenu(
@@ -209,7 +231,7 @@ void BuildTestMenu()
 								FText::FromName("MenuTestSubAction"), FText::FromName("MenuTestSubAction"),
 								FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
 								{
-									UE_LOG(LogMenuTest, Display, TEXT("MenuTestSubAction"));
+                                    // do action
 								})));
 						}));
 					MenuBuilder.EndSection();
@@ -241,6 +263,21 @@ void BuildTestMenu()
 				"MenuTest");
 		})
 	);
+
+	MenuExtender->AddMenuExtension(
+		"Programming", EExtensionHook::After,
+		nullptr,
+		FMenuExtensionDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
+		{
+			MenuBuilder.AddMenuEntry(
+			FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
+			FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+			{
+                // do action
+			})));
+		})
+	);
+
 	FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 }
 ```
