@@ -10,7 +10,6 @@ description: |
 figures: []
 ---
 <meta property="og:title" content="UE 扩展编辑器菜单" />
-<!-- no translate -->
 
 > 记录 UE 如何扩展编辑器菜单
 
@@ -72,7 +71,6 @@ FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExte
 执行以上代码可以看到在 帮助 后面加上了一个菜单栏 MenuTest:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
-
 
 ## 添加命令
 
@@ -166,6 +164,29 @@ MenuBuilder.AddWidget(
 
 Slate UI 相关的内容这里不详细展开，有兴趣可以去另外找文章看。
 
+# Hook 增加菜单
+
+譬如在 `工具 - 编程` 里面增加一个命令：
+
+```cpp
+MenuExtender->AddMenuExtension(
+    "Programming", EExtensionHook::After,
+    nullptr,
+    FMenuExtensionDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
+    {
+        MenuBuilder.AddMenuEntry(
+        FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
+        FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+        {
+            // do action
+        })));
+    })
+);
+```
+
+![](assets/img/2023-ue-extend_menu/other_hook.png)
+
+同理可以添加其他菜单类型。
 
 # 完整代码
 
@@ -190,7 +211,7 @@ void BuildTestMenu()
 						FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
 						FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
 						{
-							UE_LOG(LogMenuTest, Display, TEXT("MenuTestAction"));
+                            // do action
 						})));
 
 					MenuBuilder.AddSubMenu(
@@ -202,7 +223,7 @@ void BuildTestMenu()
 								FText::FromName("MenuTestSubAction"), FText::FromName("MenuTestSubAction"),
 								FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
 								{
-									UE_LOG(LogMenuTest, Display, TEXT("MenuTestSubAction"));
+                                    // do action
 								})));
 						}));
 					MenuBuilder.EndSection();
@@ -234,6 +255,21 @@ void BuildTestMenu()
 				"MenuTest");
 		})
 	);
+
+	MenuExtender->AddMenuExtension(
+		"Programming", EExtensionHook::After,
+		nullptr,
+		FMenuExtensionDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
+		{
+			MenuBuilder.AddMenuEntry(
+			FText::FromName("MenuTestAction"), FText::FromName("MenuTestAction"),
+			FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+			{
+                // do action
+			})));
+		})
+	);
+
 	FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 }
 ```
