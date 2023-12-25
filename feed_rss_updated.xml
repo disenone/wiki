@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Mon, 25 Dec 2023 17:23:06 -0000</pubDate>
-    <lastBuildDate>Mon, 25 Dec 2023 17:23:06 -0000</lastBuildDate>
+    <pubDate>Mon, 25 Dec 2023 17:29:24 -0000</pubDate>
+    <lastBuildDate>Mon, 25 Dec 2023 17:29:24 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 25 Dec 2023 17:23:17 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 17:29:35 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 25 Dec 2023 17:23:04 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 17:29:22 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -68,6 +68,8 @@
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 扩展编辑器菜单&#34; /&gt;&lt;/p&gt;
+&lt;!-- no translate --&gt;
+
 &lt;blockquote&gt;
 &lt;p&gt;记录 UE 如何扩展编辑器菜单&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -184,7 +186,7 @@ FText::GetEmpty()
 ```&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/widget.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Slate UI 相关的内容这里不详细展开，有兴趣可以去另外找文章看。&lt;/p&gt;
-&lt;h2&gt;完整代码&lt;/h2&gt;
+&lt;h1&gt;完整代码&lt;/h1&gt;
 &lt;p&gt;```cpp
 void BuildTestMenu()
 {
@@ -255,7 +257,7 @@ FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEd
 ```&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/overall.png&#34;&gt;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 25 Dec 2023 17:20:26 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 17:26:31 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/</guid>
