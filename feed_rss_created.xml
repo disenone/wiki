@@ -10,15 +10,15 @@
     
     <managingEditor>Disenone</managingEditor>
     <docs>https://github.com/disenone/wiki</docs>
-    <language>en-None</language>
+    <language>zh</language>
 
     
-    <pubDate>Wed, 06 Dec 2023 03:43:55 -0000</pubDate>
-    <lastBuildDate>Wed, 06 Dec 2023 03:43:55 -0000</lastBuildDate>
+    <pubDate>Mon, 25 Dec 2023 12:27:44 -0000</pubDate>
+    <lastBuildDate>Mon, 25 Dec 2023 12:27:44 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.8.0</generator>
+    <generator>MkDocs RSS plugin - v1.11.0</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 06 Dec 2023 03:44:07 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 12:27:55 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 06 Dec 2023 03:43:53 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 12:27:43 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -315,6 +315,40 @@ if (!String.IsNullOrEmpty(CachePath))
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 通过插件源码添加插件</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 通过插件源码添加插件&#34; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;简单记录一下如何在拥有插件源码的情况下添加插件.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以插件 [UE.EditorPlus] 为例&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;把源码放到 Plugins 目录下&lt;/li&gt;
+&lt;li&gt;（这一步可以不执行）修改项目 .uproject 文件，Plugins 字段下增加：
+    &lt;code&gt;json
+        &#34;Plugins&#34;: [
+        {
+            &#34;Name&#34;: &#34;EditorPlus&#34;,
+            &#34;Enabled&#34;: true,
+            &#34;TargetAllowList&#34;: [
+                &#34;Editor&#34;
+            ]
+        }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;右键 uproject 文件，执行 &#34;Generate Visual Studio Project Files&#34;，更新 sln 项目文件&lt;/li&gt;
+&lt;li&gt;打开 sln 文件，编译项目&lt;/li&gt;
+&lt;/ul&gt;</description>
+      <link>https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 01 Dec 2023 00:00:00 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/</guid>
       
     </item>
     
