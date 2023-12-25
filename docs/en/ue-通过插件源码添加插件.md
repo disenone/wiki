@@ -1,29 +1,31 @@
 ---
 layout: post
-title: UE adds plugins through plugin source code.
+title: Use the plugin source code to add a plugin in UE.
 date: 2023-12-01
 categories:
 - c++
-- python
+- ue
 catalog: true
 tags:
 - dev
 - game
-- ue
+- UE
 - UnreanEngine
-description: Simply note how to add a plugin to UE when you have the plugin source
+- UE4
+- UE5
+description: Just a simple note on how to add plugins to Unreal Engine with the source
   code.
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-Simple record on how to add a plugin when having the plugin source code.
+Just a simple note on how to add a plugin when you have the plugin source code.
 
-Using the plugin [UE.EditorPlus] as an example
+Using the plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus) as an example
 
-- Place the source code into the Plugins directory.
-- (This step is optional) Modify the project's .uproject file, add the following under the Plugins field:
+- Place the source code in the Plugins directory
+- (This step can be skipped) Modify the .uproject file of the project, add the following under the Plugins field:
     ```json
     	"Plugins": [
 		{
