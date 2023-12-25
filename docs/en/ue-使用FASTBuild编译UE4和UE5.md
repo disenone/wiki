@@ -6,9 +6,7 @@ categories:
 - c++
 - python
 catalog: true
-tags:
-- dev
-- game
+tags: [dev, game, ue, UnreanEngine]
 description: The native support for FASTBuild in UE is not quite perfect. In order
   to ensure flawless FASTBuild support for both UE4 and UE5, we need to make some
   configuration and source code modifications. Let me guide you through them one by
