@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Mon, 25 Dec 2023 12:31:53 -0000</pubDate>
-    <lastBuildDate>Mon, 25 Dec 2023 12:31:53 -0000</lastBuildDate>
+    <pubDate>Mon, 25 Dec 2023 17:23:06 -0000</pubDate>
+    <lastBuildDate>Mon, 25 Dec 2023 17:23:06 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 25 Dec 2023 12:32:04 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 17:23:17 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 25 Dec 2023 12:31:51 +0000</pubDate>
+      <pubDate>Mon, 25 Dec 2023 17:23:04 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -321,6 +321,207 @@ if (!String.IsNullOrEmpty(CachePath))
     </item>
     
     <item>
+      <title>UE 扩展编辑器菜单</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 扩展编辑器菜单&#34; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记录 UE 如何扩展编辑器菜单&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Hook&lt;/h2&gt;
+&lt;p&gt;Hook 可以理解为扩展菜单的锚点，我们可以设置新加的菜单命令在 Hook 的前面或者后面，UE 自带的编辑器菜单命令基本都带有 Hook，UE5 下打开 &lt;code&gt;编辑 - 编辑器偏好设置 - 通用 - 其他 - 显示 UI 扩展点&lt;/code&gt; 来显示所有菜单的 Hook：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/show_hook.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/show_hook2.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;模块依赖&lt;/h2&gt;
+&lt;p&gt;需要在项目 .Build.cs 文件里面加上依赖的模块 LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c#
+PrivateDependencyModuleNames.AddRange(
+    new string[]
+    {
+        &#34;Core&#34;,
+        &#34;Engine&#34;,
+        &#34;CoreUObject&#34;,
+        &#34;LevelEditor&#34;,
+        &#34;Slate&#34;,
+        &#34;SlateCore&#34;,
+        &#34;EditorStyle&#34;,
+        &#34;EditorWidgets&#34;,
+        &#34;UnrealEd&#34;,
+        &#34;ToolMenus&#34;,
+    }
+    );&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;添加菜单栏&lt;/h2&gt;
+&lt;p&gt;直接上代码&lt;/p&gt;
+&lt;p&gt;```cpp
+auto MenuExtender = MakeShared&lt;FExtender&gt;();&lt;/p&gt;
+&lt;p&gt;MenuExtender-&amp;gt;AddMenuBarExtension(
+    &#34;Help&#34;, EExtensionHook::After,      // Create After Help
+    nullptr,
+    FMenuBarExtensionDelegate::CreateLambda(&lt;a href=&#34;FMenuBarBuilder&amp;amp; MenuBarBuilder&#34;&gt;&lt;/a&gt;
+    {
+        MenuBarBuilder.AddPullDownMenu(
+            TEXT(&#34;MenuTest&#34;),       // Name
+            TEXT(&#34;MenuTest&#34;),       // Tips
+            FNewMenuDelegate::CreateLambda(&lt;a href=&#34;FMenuBuilder&amp;amp; MenuBuilder&#34;&gt;&lt;/a&gt;
+            {
+                // create sub menus
+            }),
+            TEXT(&#34;MenuText&#34;));      // New Hook
+    })
+);
+FModuleManager::LoadModuleChecked&lt;FLevelEditorModule&gt;(&#34;LevelEditor&#34;).GetMenuExtensibilityManager()-&amp;gt;AddExtender(MenuExtender);
+```&lt;/p&gt;
+&lt;p&gt;执行以上代码可以看到在 帮助 后面加上了一个菜单栏 MenuTest:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/bar.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;添加命令&lt;/h2&gt;
+&lt;p&gt;使用接口 &lt;code&gt;MenuBuilder.AddMenuEntry&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+// Inside MenuTest Lambda
+MenuBuilder.AddMenuEntry(
+    FText::FromName(&#34;MenuTestAction&#34;), FText::FromName(&#34;MenuTestAction&#34;),
+    FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+    {
+        // do action
+    })));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;把以上代码放到 CreateLambda 里面，即可生成菜单命令：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/action.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;菜单分节&lt;/h2&gt;
+&lt;p&gt;使用 &lt;code&gt;MenuBuilder.BeginSection&lt;/code&gt; 和 &lt;code&gt;MenuBuilder.EndSection&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+MenuBuilder.BeginSection(NAME_None, FText::FromName(&#34;MenuTestSection&#34;));
+// code to create action
+MenuBuilder.EndSection();&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;分隔符&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cpp
+MenuBuilder.AddMenuSeparator();&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/section&amp;amp;sperator.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;子菜单&lt;/h2&gt;
+&lt;p&gt;子菜单类似菜单栏，需要在 Lambda 里面定义：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+MenuBuilder.AddSubMenu(
+    FText::FromName(&#34;MenuTestSub&#34;), 
+    FText::FromName(&#34;MenuTestSub&#34;), 
+    FNewMenuDelegate::CreateLambda([](FMenuBuilder&amp;amp; MenuBuilder)
+    {
+        MenuBuilder.AddMenuEntry(
+            FText::FromName(&#34;MenuTestSubAction&#34;), FText::FromName(&#34;MenuTestSubAction&#34;),
+            FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+            {
+                // do action
+            })));
+    }));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/submenu.png&#34;&gt;&lt;/p&gt;
+&lt;h1&gt;SlateUI 控件&lt;/h1&gt;
+&lt;p&gt;还可以添加 UI 控件：&lt;/p&gt;
+&lt;p&gt;```cpp
+MenuBuilder.AddWidget(
+    SNew(SHorizontalBox)
+        + SHorizontalBox::Slot()
+        .AutoWidth()
+        [
+            SNew(SEditableTextBox)
+            .MinDesiredWidth(50)
+            .Text(FText::FromName(&#34;MenuTestWidget&#34;))
+        ]&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    + SHorizontalBox::Slot()
+    .AutoWidth()
+    .Padding(5, 0, 0, 0)
+    [
+    SNew(SButton)
+    .Text(FText::FromName(&#34;ExtendWidget&#34;))
+    .OnClicked(FOnClicked::CreateLambda([]()
+    {
+        // do action
+        return FReply::Handled();
+    }))
+    ],
+FText::GetEmpty()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;);
+```&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/widget.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Slate UI 相关的内容这里不详细展开，有兴趣可以去另外找文章看。&lt;/p&gt;
+&lt;h2&gt;完整代码&lt;/h2&gt;
+&lt;p&gt;```cpp
+void BuildTestMenu()
+{
+    auto MenuExtender = MakeShared&lt;FExtender&gt;();&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MenuExtender-&amp;gt;AddMenuBarExtension(
+    &#34;Help&#34;, EExtensionHook::After,
+    nullptr,
+    FMenuBarExtensionDelegate::CreateLambda([](FMenuBarBuilder&amp;amp; MenuBarBuilder)
+    {
+        MenuBarBuilder.AddPullDownMenu(
+            FText::FromName(&#34;MenuTest&#34;),
+            FText::FromName(&#34;MenuTest&#34;),
+            FNewMenuDelegate::CreateLambda([](FMenuBuilder&amp;amp; MenuBuilder)
+            {
+                MenuBuilder.BeginSection(NAME_None, FText::FromName(&#34;MenuTestSection&#34;));
+                MenuBuilder.AddMenuSeparator();
+                MenuBuilder.AddMenuEntry(
+                    FText::FromName(&#34;MenuTestAction&#34;), FText::FromName(&#34;MenuTestAction&#34;),
+                    FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+                    {
+                        UE_LOG(LogMenuTest, Display, TEXT(&#34;MenuTestAction&#34;));
+                    })));
+
+                MenuBuilder.AddSubMenu(
+                    FText::FromName(&#34;MenuTestSubb&#34;),
+                    FText::FromName(&#34;MenuTestSubb&#34;),
+                    FNewMenuDelegate::CreateLambda([](FMenuBuilder&amp;amp; MenuBuilder)
+                    {
+                        MenuBuilder.AddMenuEntry(
+                            FText::FromName(&#34;MenuTestSubAction&#34;), FText::FromName(&#34;MenuTestSubAction&#34;),
+                            FSlateIcon(), FUIAction(FExecuteAction::CreateLambda([]()
+                            {
+                                UE_LOG(LogMenuTest, Display, TEXT(&#34;MenuTestSubAction&#34;));
+                            })));
+                    }));
+                MenuBuilder.EndSection();
+
+                MenuBuilder.AddWidget(
+                SNew(SHorizontalBox)
+                     + SHorizontalBox::Slot()
+                     .AutoWidth()
+                     [
+                         SNew(SEditableTextBox)
+                         .MinDesiredWidth(50)
+                         .Text(FText::FromName(&#34;MenuTestWidget&#34;))
+                     ]
+                     + SHorizontalBox::Slot()
+                     .AutoWidth()
+                     .Padding(5, 0, 0, 0)
+                     [
+                        SNew(SButton)
+                        .Text(FText::FromName(&#34;ExtendWidget&#34;))
+                        .OnClicked(FOnClicked::CreateLambda([]()
+                        {
+                            // do action
+                            return FReply::Handled();
+                        }))
+                     ],
+                 FText::GetEmpty()
+                );
+            }),
+            &#34;MenuTest&#34;);
+    })
+);
+FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEditor&#34;).GetMenuExtensibilityManager()-&amp;gt;AddExtender(MenuExtender);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/overall.png&#34;&gt;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 01 Dec 2023 00:00:00 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/</guid>
+      
+    </item>
+    
+    <item>
       <title>UE 通过插件源码添加插件</title>
       
       
@@ -330,7 +531,7 @@ if (!String.IsNullOrEmpty(CachePath))
 &lt;blockquote&gt;
 &lt;p&gt;简单记录一下如何在拥有插件源码的情况下添加插件.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;以插件 [UE.EditorPlus] 为例&lt;/p&gt;
+&lt;p&gt;以插件 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt; 为例&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;把源码放到 Plugins 目录下&lt;/li&gt;
 &lt;li&gt;（这一步可以不执行）修改项目 .uproject 文件，Plugins 字段下增加：

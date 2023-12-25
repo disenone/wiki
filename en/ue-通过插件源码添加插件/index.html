@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Simply note how to add a plugin to UE when you have the plugin source code.">
+        <meta name="description" content="Just a simple note on how to add plugins to Unreal Engine with the source code.">
       
       
         <meta name="author" content="Disenone">
@@ -18,7 +18,7 @@
         <link rel="prev" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
       
       
-        <link rel="next" href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/">
+        <link rel="next" href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/">
       
       
         <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE adds plugins through plugin source code. - Disenone's Wiki</title>
+        <title>Use the plugin source code to add a plugin in UE. - Disenone's Wiki</title>
       
     
     
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE adds plugins through plugin source code.
+              Use the plugin source code to add a plugin in UE.
             
           </span>
         </div>
@@ -824,6 +824,8 @@
       
         
       
+        
+      
     
     
     
@@ -896,12 +898,33 @@
         
   
   <span class="md-ellipsis">
-    UE adds plugins through plugin source code.
+    Use the plugin source code to add a plugin in UE.
   </span>
   
 
       </a>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE Edit Menu Expansion
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1126,14 +1149,14 @@
   
 
 
-  <h1>UE adds plugins through plugin source code.</h1>
+  <h1>Use the plugin source code to add a plugin in UE.</h1>
 
 <p><meta property="og:title" content="UE 通过插件源码添加插件" /></p>
-<p>Simple record on how to add a plugin when having the plugin source code.</p>
-<p>Using the plugin [UE.EditorPlus] as an example</p>
+<p>Just a simple note on how to add a plugin when you have the plugin source code.</p>
+<p>Using the plugin <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a> as an example</p>
 <ul>
-<li>Place the source code into the Plugins directory.</li>
-<li>(This step is optional) Modify the project's .uproject file, add the following under the Plugins field:
+<li>Place the source code in the Plugins directory</li>
+<li>(This step can be skipped) Modify the .uproject file of the project, add the following under the Plugins field:
     <div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">&quot;Plugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EditorPlus&quot;</span><span class="p">,</span>
@@ -1171,7 +1194,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-25</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-26</span>
   </span>
 
     
@@ -1233,13 +1256,13 @@
         
         
           
-          <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-footer__link md-footer__link--next" aria-label="Next: Building a Third-Person Camera in Unity (Part 1)">
+          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--next" aria-label="Next: UE Edit Menu Expansion">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Building a Third-Person Camera in Unity (Part 1)
+                UE Edit Menu Expansion
               </div>
             </div>
             <div class="md-footer__button md-icon">
