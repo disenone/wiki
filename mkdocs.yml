@@ -170,6 +170,7 @@ nav:
       - game-游戏AOI算法解析和性能实测.md
     - UE:
       - ue-使用FASTBuild编译UE4和UE5.md
+      - ue-通过插件源码添加插件.md
     - Unity:
       - unity-Unity第三人称相机构建(上).md
       - unity-Unity第三人称相机构建(下).md
