@@ -10,6 +10,7 @@ description: |
 figures: []
 ---
 <meta property="og:title" content="UE 扩展编辑器菜单" />
+<!-- no translate -->
 
 > 记录 UE 如何扩展编辑器菜单
 
@@ -166,7 +167,7 @@ MenuBuilder.AddWidget(
 Slate UI 相关的内容这里不详细展开，有兴趣可以去另外找文章看。
 
 
-## 完整代码
+# 完整代码
 
 ```cpp
 void BuildTestMenu()
