@@ -52,7 +52,7 @@ tips_translated_by_chatgpt = {
 # 文章使用英文撰写的提示，避免本身为英文的文章被重复翻译为英文
 marker_written_in_en = "\n> This post was originally written in English.\n"
 # 即使在已处理的列表中，仍需要重新翻译的标记
-marker_force_translate = "\n[translate]\n"
+marker_force_translate = "\n<!-- translate -->\n"
 # 含有这个标记，则不翻译文件
 marker_no_translate = '<!-- no translate -->'
 
@@ -78,24 +78,6 @@ front_matter_translation_rules = {
 
 # 固定字段替换规则。文章中一些固定的字段，不需要每篇都进行翻译，且翻译结果可能不一致，所以直接替换掉。
 replace_rules = [
-    # {
-    #     # 版权信息手动翻译
-    #     "orginal_text": "> 原文地址：<https://disenone.github.io/wiki>",
-    #     "replaced_text": {
-    #         "en": "> Original: <https://disenone.github.io/wiki>",
-    #         "es": "> Dirección original del artículo: <https://disenone.github.io/wiki>",
-    #         "ar": "> عنوان النص: <https://disenone.github.io/wiki>",
-    #     }
-    # },
-    # {
-    #     # 版权信息手动翻译
-    #     "orginal_text": "> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。",
-    #     "replaced_text": {
-    #         "en": "> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.",
-    #         "es": "> Este artículo está protegido por la licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh). Si desea reproducirlo, por favor indique la fuente.",
-    #         "ar": "> يتم حماية هذا المقال بموجب اتفاقية [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh)، يُرجى ذكر المصدر عند إعادة النشر.",
-    #     }
-    # },
     {
         # snippet
         "orginal_text": '--8<-- "footer.md"',
@@ -247,6 +229,10 @@ def translate_text(text, lang, type):
         output_text += link_url
         output_text += translate_text(text[link_match.end():], lang, type)
         return output_text
+
+    # 标题
+    if text.startswith('#'):
+        return '#' + translate_text(text[1:], lang, type)
 
     log('translate_text0:', repr(text), lang, type, level=logging.DEBUG)
     target_lang = {
