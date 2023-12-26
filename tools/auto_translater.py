@@ -207,6 +207,9 @@ def is_skip_line(line):
 # 定义调用 ChatGPT API 翻译的函数
 @retry_except(3)
 def translate_text(text, lang, type):    
+    if not text:
+        return text
+
     if is_skip_line(text):
         return text
     
@@ -245,7 +248,7 @@ def translate_text(text, lang, type):
         output_text += translate_text(text[link_match.end():], lang, type)
         return output_text
 
-    log('translate_text0:', repr(text), level=logging.DEBUG)
+    log('translate_text0:', repr(text), lang, type, level=logging.DEBUG)
     target_lang = {
         "en": "English",
         "es": "Spanish",
@@ -281,6 +284,8 @@ def translate_text(text, lang, type):
         if not line.startswith(code_flag):
             new_output_text.append(line)
     output_text = '\n'.join(new_output_text)
+    if text.startswith('> ') and not output_text.startswith('> '):
+        output_text = '> ' + output_text
     log('translate_text2:', repr(output_text), level=logging.DEBUG)
 
     sys.stdout.flush()
@@ -372,21 +377,11 @@ def translate_file(working_folder, input_file, lang):
     next_percent = 10
     for idx, paragraph in enumerate(paragraphs):
         if is_skip_line(paragraph):
-            translate_idx = idx
-            current_paragraph and output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
             output_paragraphs.append(paragraph)
-            current_paragraph = ''
-        elif len(current_paragraph) + len(paragraph) + 2 <= max_length:
-            # 如果当前段落加上新段落的长度不超过最大长度，就将它们合并
-            if current_paragraph:
-                current_paragraph += "\n"
-            current_paragraph += paragraph
         else:
-            # 否则翻译当前段落，并将翻译结果添加到输出列表中
-            translate_idx = idx
-            output_paragraphs.append(translate_text(current_paragraph, lang,"main-body"))
-            current_paragraph = paragraph
-        percent = float(translate_idx) / len(paragraphs) * 100
+            output_paragraphs.append(translate_text(paragraph, lang, "main-body"))
+
+        percent = float(idx) / len(paragraphs) * 100
         if percent >= next_percent:
             log('progress: %.1f%%' % percent)
             next_percent = int(percent) - int(percent) % 10 + 10
