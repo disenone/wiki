@@ -275,3 +275,5 @@ void BuildTestMenu()
 ```
 
 ![](assets/img/2023-ue-extend_menu/overall.png)
+
+--8<-- "footer.md"

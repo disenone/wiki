@@ -29,3 +29,5 @@ figures: []
     ```
 - 右键 uproject 文件，执行 "Generate Visual Studio Project Files"，更新 sln 项目文件
 - 打开 sln 文件，编译项目
+
+--8<-- "footer.md"

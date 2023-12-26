@@ -37,6 +37,7 @@ only_list = [         # 强制指定翻译的文件，其他文件都不翻译�
     # 'cpp-C和Cpp宏编程解析.md',
     # 'cpp-编写Windows下的MemoryLeakDetector.md',
     # 'test3.md',
+    # 'ue-使用路径形式扩展菜单.md',
 ]
 code_flag = '```'
 skip_line_startswith = [code_flag, '<detail>', '</detail>', '<meta property']  # 跳过以这些字符开始的行，简单复制粘贴到结果中
@@ -55,6 +56,13 @@ marker_force_translate = "\n[translate]\n"
 # 含有这个标记，则不翻译文件
 marker_no_translate = '<!-- no translate -->'
 
+# 段落内 begin end 包住的内容不翻译
+marker_no_translate_begin = '<!-- no translate begin -->'
+marker_no_translate_end = '<!-- no translate end -->'
+
+# 正则匹配链接
+marker_link_pattern = re.compile(r'(\[.*?\])(\(.*?\))')
+
 # Front Matter 处理规则
 front_matter_translation_rules = {
     # 调用 ChatGPT 自动翻译
@@ -70,24 +78,24 @@ front_matter_translation_rules = {
 
 # 固定字段替换规则。文章中一些固定的字段，不需要每篇都进行翻译，且翻译结果可能不一致，所以直接替换掉。
 replace_rules = [
-    {
-        # 版权信息手动翻译
-        "orginal_text": "> 原文地址：<https://disenone.github.io/wiki>",
-        "replaced_text": {
-            "en": "> Original: <https://disenone.github.io/wiki>",
-            "es": "> Dirección original del artículo: <https://disenone.github.io/wiki>",
-            "ar": "> عنوان النص: <https://disenone.github.io/wiki>",
-        }
-    },
-    {
-        # 版权信息手动翻译
-        "orginal_text": "> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。",
-        "replaced_text": {
-            "en": "> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.",
-            "es": "> Este artículo está protegido por la licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh). Si desea reproducirlo, por favor indique la fuente.",
-            "ar": "> يتم حماية هذا المقال بموجب اتفاقية [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh)، يُرجى ذكر المصدر عند إعادة النشر.",
-        }
-    },
+    # {
+    #     # 版权信息手动翻译
+    #     "orginal_text": "> 原文地址：<https://disenone.github.io/wiki>",
+    #     "replaced_text": {
+    #         "en": "> Original: <https://disenone.github.io/wiki>",
+    #         "es": "> Dirección original del artículo: <https://disenone.github.io/wiki>",
+    #         "ar": "> عنوان النص: <https://disenone.github.io/wiki>",
+    #     }
+    # },
+    # {
+    #     # 版权信息手动翻译
+    #     "orginal_text": "> 本篇文章受 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh) 协议保护，转载请注明出处。",
+    #     "replaced_text": {
+    #         "en": "> This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.",
+    #         "es": "> Este artículo está protegido por la licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh). Si desea reproducirlo, por favor indique la fuente.",
+    #         "ar": "> يتم حماية هذا المقال بموجب اتفاقية [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh)، يُرجى ذكر المصدر عند إعادة النشر.",
+    #     }
+    # },
     {
         # snippet
         "orginal_text": '--8<-- "footer.md"',
@@ -184,6 +192,8 @@ def retry_except(times=3):
         
 
 def is_skip_line(line):
+    if not line:
+        return True
     if line.isspace():
         return False
     if line.isascii():
@@ -202,7 +212,39 @@ def translate_text(text, lang, type):
     
     if text.isspace():
         return text
-    
+
+    if marker_no_translate_begin in text and text.count(marker_no_translate_begin) == text.count(marker_no_translate_end):
+        if text.count(marker_no_translate_begin) != text.count(marker_no_translate_end):
+            raise RuntimeError('count marker_no_translate_begin != marker_no_translate_end: %s' % text)
+        
+        output_text = ''
+        while text:
+            begin = text.find(marker_no_translate_begin)
+            if begin >= 0:
+                end = text.find(marker_no_translate_end)
+                if end <= begin:
+                    raise RuntimeError('index marker_no_translate_end <= marker_no_translate_begin: %s' % text)
+                
+                output_text += translate_text(text[:begin], lang, type)
+                if output_text.endswith('\n') and text[begin-1] != '\n':
+                    output_text = output_text[:-1]
+                output_text += text[begin:end+len(marker_no_translate_end)]
+                text = text[end+len(marker_no_translate_end):]
+            else:
+                output_text += translate_text(text, lang, type)
+                text = ''
+        return output_text
+
+    # 链接
+    link_match = marker_link_pattern.search(text)
+    if link_match:
+        link_text = link_match.group(1)
+        link_url = link_match.group(2)
+        output_text = translate_text(text[:link_match.start()+len(link_text)], lang, type)
+        output_text += link_url
+        output_text += translate_text(text[link_match.end():], lang, type)
+        return output_text
+
     log('translate_text0:', repr(text), level=logging.DEBUG)
     target_lang = {
         "en": "English",
@@ -225,7 +267,7 @@ def translate_text(text, lang, type):
         completion = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must not translate the `[to_be_replace[x]]` field. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets."},
+                {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets. You must translate the punctuation."},
                 {"role": "user", "content": f"Translate these text into {target_lang} language:\n\n{text}\n"},
             ],
         )
@@ -283,13 +325,11 @@ def translate_file(working_folder, input_file, lang):
     # 创建一个字典来存储占位词和对应的替换文本
     placeholder_dict = {}
 
-    # 使用 for 循环应用替换规则，并将匹配的文本替换为占位词
-    for i, rule in enumerate(replace_rules):
+    # 使用 for 循环应用替换规则
+    for rule in replace_rules:
         find_text = rule["orginal_text"]
         replace_with = rule["replaced_text"][lang]
-        placeholder = f"[to_be_replace[{i + 1}]]"
-        input_text = input_text.replace(find_text, placeholder)
-        placeholder_dict[placeholder] = replace_with
+        input_text = input_text.replace(find_text, replace_with)
 
     # 删除译文中指示强制翻译的 marker
     input_text = input_text.replace(marker_force_translate, "")
