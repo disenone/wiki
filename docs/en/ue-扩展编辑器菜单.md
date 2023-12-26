@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE Editor Menu Extension
+title: UE Editor Menu Expansion
 date: 2023-12-01
 categories:
 - c++
@@ -13,17 +13,17 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Record how UE expands the editor menu.
+description: Record how to extend the UE editor menu.
 figures: []
 ---
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-Record how to expand the editor's menu in UE
+Record how UE extends the editor menu
 
 ## Hook
 
-Hook can be understood as the anchor point for extending menus. We can set the newly added menu commands to be in front of or behind the Hook. The built-in editor menu commands in UE all basically have Hooks. In UE5, open `Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points` to display the Hooks for all menus.
+The "Hook" can be understood as an anchor point for extending menus. We can set the newly added menu commands before or after the Hook. The built-in editor menu commands in UE basically all have a Hook. In UE5, open `Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points` to display the Hooks for all menus.
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
@@ -31,7 +31,7 @@ Hook can be understood as the anchor point for extending menus. We can set the n
 
 ## Module Dependencies
 
-You need to add the required modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus in the .Build.cs file of the project.
+You need to add the required modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus in the project's .Build.cs file.
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -51,9 +51,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-## Add Menu Bar
+### Add Menu Bar
 
-直接上代码
+Directly enter the code
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -76,13 +76,13 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Executing the above code, you can see that a menu bar "MenuTest" has been added after the "Help".
+Running the above code, you can see that a menu bar MenuTest is added after "Help".
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-## Add Command
+## Add command
 
-Use the `MenuBuilder.AddMenuEntry` interface:
+Using the `MenuBuilder.AddMenuEntry` interface:
 
 ```cpp
 // Inside MenuTest Lambda
@@ -94,11 +94,11 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Put the above code into CreateLambda to generate the menu command:
+Put the above code inside CreateLambda to generate menu commands:
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-## Menu Section
+## Menu Sections
 
 Use `MenuBuilder.BeginSection` and `MenuBuilder.EndSection`:
 
@@ -118,7 +118,7 @@ MenuBuilder.AddMenuSeparator();
 
 ## Submenu
 
-`Submenus` are similar to menu bars and need to be defined within Lambda:
+Sub-menus, similar to menu bars, need to be defined within Lambda:
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -139,7 +139,7 @@ MenuBuilder.AddSubMenu(
 
 # SlateUI Controls
 
-You can also add UI controls:
+Additional UI controls can be added:
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -170,11 +170,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-The content related to Slate UI is not detailed here. If you are interested, you can find articles elsewhere to read.
+The content related to Slate UI is not detailed here. If you are interested, you can find another article to read.
 
-# Hook Add Menu
+# Add Hook Menu
 
-For example, add a command in the "Tools - Programming" section: 
+For example, add a command in `Tools - Programming`:
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -194,7 +194,7 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-Similarly, other menu types can be added.
+Likewise, other types of menus can be added.
 
 # Complete Code
 
@@ -283,6 +283,8 @@ void BuildTestMenu()
 ```
 
 ![](assets/img/2023-ue-extend_menu/overall.png)
+
+--8<-- "footer_en.md"
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
