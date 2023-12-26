@@ -82,6 +82,8 @@ plugins:
       exclude:
         - zh/index.md
         - en/index.md
+        - zh/contact-and-subscribe.md
+        - en/contact-and-subscribe.md
       custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content
