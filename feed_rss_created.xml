@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 10:06:25 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 10:06:25 -0000</lastBuildDate>
+    <pubDate>Thu, 28 Dec 2023 12:55:00 -0000</pubDate>
+    <lastBuildDate>Thu, 28 Dec 2023 12:55:00 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 10:06:36 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 12:55:11 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 10:06:23 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 12:54:58 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -71,7 +71,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;记录如何在 UE 中实现路径形式扩展菜单&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;如果不熟悉 UE 扩展菜单，建议先简单看下：&lt;a href=&#34;ue-使用路径形式扩展菜单.md&#34;&gt;UE 扩展编辑器菜单&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果不熟悉 UE 扩展菜单，建议先简单看下：&lt;a href=&#34;ue-扩展编辑器菜单.md&#34;&gt;UE 扩展编辑器菜单&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;本文代码基于插件：&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;节点管理&lt;/h2&gt;
 &lt;p&gt;把菜单按照树的结构来管理，父节点可以包含孩子：&lt;/p&gt;
