@@ -99,6 +99,13 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://disenone.github.io/wiki/en/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/"/>
     </url>
     <url>
+        <loc>https://disenone.github.io/wiki/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/</loc>
+        <lastmod>2023-12-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://disenone.github.io/wiki/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://disenone.github.io/wiki/en/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
+    </url>
+    <url>
         <loc>https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/</loc>
         <lastmod>2023-12-28</lastmod>
         <changefreq>daily</changefreq>
@@ -251,6 +258,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://disenone.github.io/wiki/en/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/"/>
+    </url>
+    <url>
+        <loc>https://disenone.github.io/wiki/en/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/</loc>
+        <lastmod>2023-12-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://disenone.github.io/wiki/en/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://disenone.github.io/wiki/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/"/>
     </url>
     <url>
         <loc>https://disenone.github.io/wiki/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/</loc>

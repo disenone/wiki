@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Record how to expand the editor menu in UE.">
+        <meta name="description" content="Record how to expand the UE editor menu.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE editor menu expansion - Disenone's Wiki</title>
+        <title>UE expands editor menu - Disenone's Wiki</title>
       
     
     
@@ -94,7 +94,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hook" class="md-skip">
+        <a href="#ue-editor-menu-extension" class="md-skip">
           Skip to content
         </a>
       
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE editor menu expansion
+              UE expands editor menu
             
           </span>
         </div>
@@ -833,6 +833,8 @@
       
         
       
+        
+      
     
     
     
@@ -921,12 +923,14 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   <span class="md-ellipsis">
-    UE editor menu expansion
+    UE expands editor menu
   </span>
   
 
@@ -937,7 +941,7 @@
         
   
   <span class="md-ellipsis">
-    UE editor menu expansion
+    UE expands editor menu
   </span>
   
 
@@ -948,6 +952,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -986,7 +992,7 @@
         <li class="md-nav__item">
   <a href="#add-command" class="md-nav__link">
     <span class="md-ellipsis">
-      Add command
+      Add Command
     </span>
   </a>
   
@@ -1002,9 +1008,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delimiter" class="md-nav__link">
+  <a href="#separator" class="md-nav__link">
     <span class="md-ellipsis">
-      Delimiter
+      Separator
     </span>
   </a>
   
@@ -1014,33 +1020,6 @@
   <a href="#submenu" class="md-nav__link">
     <span class="md-ellipsis">
       Submenu
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slateui-controls" class="md-nav__link">
-    <span class="md-ellipsis">
-      SlateUI Controls
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hook-adds-menu" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hook Adds Menu
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#complete-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      Complete code
     </span>
   </a>
   
@@ -1067,6 +1046,27 @@
   
   <span class="md-ellipsis">
     UE uses path-based expanding menu.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE sets up localization for multiple languages.
   </span>
   
 
@@ -1273,6 +1273,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1310,7 +1312,7 @@
         <li class="md-nav__item">
   <a href="#add-command" class="md-nav__link">
     <span class="md-ellipsis">
-      Add command
+      Add Command
     </span>
   </a>
   
@@ -1326,9 +1328,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delimiter" class="md-nav__link">
+  <a href="#separator" class="md-nav__link">
     <span class="md-ellipsis">
-      Delimiter
+      Separator
     </span>
   </a>
   
@@ -1338,33 +1340,6 @@
   <a href="#submenu" class="md-nav__link">
     <span class="md-ellipsis">
       Submenu
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slateui-controls" class="md-nav__link">
-    <span class="md-ellipsis">
-      SlateUI Controls
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hook-adds-menu" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hook Adds Menu
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#complete-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      Complete code
     </span>
   </a>
   
@@ -1394,15 +1369,16 @@
 
 
 <p><meta property="og:title" content="UE 扩展编辑器菜单" /></p>
+<h1 id="ue-editor-menu-extension">UE Editor Menu Extension</h1>
 <blockquote>
-<p>Record how UE expands the editor menu</p>
+<p>Record how to extend the editor menu in UE</p>
 </blockquote>
 <h2 id="hook">Hook</h2>
-<p>Hook can be understood as an anchor point for extending menus. We can set the newly added menu commands before or after the Hook. The built-in editor menu commands of UE generally have Hooks. In UE5, open <code>Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points</code> to display all menu Hooks:</p>
+<p>Hook can be understood as an anchor point for extending menus. We can set the newly added menu commands to appear before or after the Hook. The built-in editor menu commands in UE generally come with a Hook. In UE5, open <code>Edit - Editor Preferences - General - Others - Show UI extension points</code> to display all menu Hooks.</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook.png" /></a></p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook2.png" /></a></p>
 <h2 id="module-dependency">Module dependency</h2>
-<p>You need to add the dependent modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus in the .Build.cs file of the project.</p>
+<p>You need to add the required modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus to the .Build.cs file of the project.</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">PrivateDependencyModuleNames</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
@@ -1420,7 +1396,7 @@
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="p">);</span>
 </code></pre></div>
 <h2 id="add-menu-bar">Add menu bar</h2>
-<p>Just put the code directly</p>
+<p>Directly enter the code</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuBarExtension</span><span class="p">(</span>
@@ -1440,9 +1416,9 @@
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">);</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
 </code></pre></div>
-<p>Executing the above code, you can see that a menu bar MenuTest is added after the "Help".</p>
+<p>Executing the above code, you can see that a menu bar MenuTest has been added after the Help.</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/bar.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/bar.png" /></a></p>
-<h2 id="add-command">Add command</h2>
+<h2 id="add-command">Add Command</h2>
 <p>Using the <code>MenuBuilder.AddMenuEntry</code> interface:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Inside MenuTest Lambda</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
@@ -1452,7 +1428,7 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="c1">// do action</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">})));</span>
 </code></pre></div>
-<p>Put the above code inside the CreateLambda function and you will be able to generate the menu command:</p>
+<p>Put the above code into CreateLambda to generate menu commands:</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/action.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/action.png" /></a></p>
 <h2 id="menu-section">Menu Section</h2>
 <p>Use <code>MenuBuilder.BeginSection</code> and <code>MenuBuilder.EndSection</code>:</p>
@@ -1460,12 +1436,12 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// code to create action</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
 </code></pre></div>
-<h2 id="delimiter">Delimiter</h2>
+<h2 id="separator">Separator</h2>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuSeparator</span><span class="p">();</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/section%26sperator.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/section%26sperator.png" /></a></p>
 <h2 id="submenu">Submenu</h2>
-<p>Sub-menus are similar to menu bars and need to be defined within Lambda.</p>
+<p>Submenus are similar to menus and need to be defined inside Lambda:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSub&quot;</span><span class="p">),</span><span class="w"> </span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSub&quot;</span><span class="p">),</span><span class="w"> </span>
@@ -1480,7 +1456,7 @@
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="p">}));</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/submenu.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/submenu.png" /></a></p>
-<h1 id="slateui-controls">SlateUI Controls</h1>
+<h1 id="slateui-control">SlateUI Control</h1>
 <p>You can also add UI controls:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddWidget</span><span class="p">(</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">SNew</span><span class="p">(</span><span class="n">SHorizontalBox</span><span class="p">)</span>
@@ -1508,9 +1484,9 @@
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="p">);</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/widget.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/widget.png" /></a></p>
-<p>The details related to Slate UI are not elaborated here. If you are interested, you can search for another article to read about it.</p>
-<h1 id="hook-adds-menu">Hook Adds Menu</h1>
-<p>For example, adding a command in <code>Tools - Programming</code>:</p>
+<p>The content related to Slate UI is not elaborated here. If you are interested, you can look for another article to read.</p>
+<h1 id="hook-add-menu"><strong>Hook</strong> Add Menu</h1>
+<p>For example, add a command in <code>Tools - Programming</code>:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuExtension</span><span class="p">(</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="s">&quot;Programming&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">nullptr</span><span class="p">,</span>
@@ -1526,8 +1502,8 @@
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">);</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/other_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/other_hook.png" /></a></p>
-<p>Similarly, other menu types can be added.</p>
-<h1 id="complete-code">Complete code</h1>
+<p>Similarly, you can add other types of menus.</p>
+<h1 id="complete-code">Complete Code</h1>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">BuildTestMenu</span><span class="p">()</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
@@ -1674,7 +1650,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-27</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-29</span>
   </span>
 
     

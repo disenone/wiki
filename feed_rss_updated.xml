@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 12:55:00 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 12:55:00 -0000</lastBuildDate>
+    <pubDate>Thu, 28 Dec 2023 18:13:23 -0000</pubDate>
+    <lastBuildDate>Thu, 28 Dec 2023 18:13:23 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 12:55:11 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 18:13:34 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,157 +54,10 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 12:54:58 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 18:13:21 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
-      
-    </item>
-    
-    <item>
-      <title>UE 使用路径形式扩展菜单</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 使用路径形式扩展菜单&#34; /&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;记录如何在 UE 中实现路径形式扩展菜单&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;如果不熟悉 UE 扩展菜单，建议先简单看下：&lt;a href=&#34;ue-扩展编辑器菜单.md&#34;&gt;UE 扩展编辑器菜单&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;本文代码基于插件：&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;节点管理&lt;/h2&gt;
-&lt;p&gt;把菜单按照树的结构来管理，父节点可以包含孩子：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis&amp;lt;FEditorPlusMenuBase&amp;gt;
-{
-protected:
-    // sub menus
-    TArray&amp;lt;TSharedRef&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;gt; Children;
-}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在创建父节点的同时创建子节点：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-void FEditorPlusMenuBase::Register(FMenuBuilder&amp;amp; MenuBuilder)
-{
-    for (const auto Menu: Children)
-    {
-        Menu-&amp;gt;Register(MenuBuilder);
-    }
-}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;当然每个节点的具体创建行为会有点不同，覆写虚函数来实现：&lt;/p&gt;
-&lt;p&gt;```cpp
-// Menubar
-void FEditorPlusMenuBar::Register(FMenuBarBuilder&amp;amp; MenuBarBuilder)
-{
-    MenuBarBuilder.AddPullDownMenu(
-        GetFriendlyName(),
-        GetFriendlyTips(),
-        // Delegate to call Register
-        FEditorPlusMenuManager::GetDelegate&lt;FNewMenuDelegate&gt;(GetUniqueId()),     &lt;br&gt;
-        Hook);
-}&lt;/p&gt;
-&lt;p&gt;// Section
-void FEditorPlusSection::Register(FMenuBuilder&amp;amp; MenuBuilder)
-{
-    MenuBuilder.BeginSection(Hook, GetFriendlyName());
-    FEditorPlusMenuBase::Register(MenuBuilder);
-    MenuBuilder.EndSection();
-}&lt;/p&gt;
-&lt;p&gt;// Separator
-void FEditorPlusSeparator::Register(FMenuBuilder&amp;amp; MenuBuilder)
-{
-    MenuBuilder.AddMenuSeparator(Hook);
-    FEditorPlusMenuBase::Register(MenuBuilder);
-}&lt;/p&gt;
-&lt;p&gt;// SubMenu
-void FEditorPlusSubMenu::Register(FMenuBuilder&amp;amp; MenuBuilder)
-{
-    MenuBuilder.AddSubMenu(
-        GetFriendlyName(),
-        GetFriendlyTips(),
-        FNewMenuDelegate::CreateSP(this, &amp;amp;FEditorPlusSubMenu::MakeSubMenu),
-        false,
-        FSlateIcon(),
-        true,
-        Hook
-    );
-}&lt;/p&gt;
-&lt;p&gt;// Command
-void FEditorPlusCommand::Register(FMenuBuilder&amp;amp; MenuBuilder)
-{
-    MenuBuilder.AddMenuEntry(
-        CommandInfo-&amp;gt;Label, CommandInfo-&amp;gt;Tips, CommandInfo-&amp;gt;Icon,
-        CommandInfo-&amp;gt;ExecuteAction, CommandInfo-&amp;gt;Hook, CommandInfo-&amp;gt;Type);
-}&lt;/p&gt;
-&lt;p&gt;// ......
-```&lt;/p&gt;
-&lt;h2&gt;通过路径生成节点&lt;/h2&gt;
-&lt;p&gt;按照树形结构组织好菜单，路径格式就可以定义一条菜单的树形结构：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-&#34;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;BarTest/&amp;lt;SubMenu&amp;gt;SubTest/&amp;lt;Command&amp;gt;Action&#34;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;以上路径即可以定义一系列菜单的创建：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;：位置在 Hook 名字为 Help 的菜单后&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;BarTest&lt;/code&gt;：创建类型 MenuBar 的菜单，名字为 BarTest&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;SubTest&lt;/code&gt;：创建子节点，类型 SubMenu, 名字 SubTest&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;Action&lt;/code&gt;：最后创建一个命令&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;接口调用形式可以很简洁：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-const FString Path = &#34;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;BarTest/&amp;lt;SubMenu&amp;gt;SubTest/&amp;lt;Command&amp;gt;Action&#34;;
-FEditorPlusPath::RegisterPathAction(
-    Path, 
-    FExecuteAction::CreateLambda([]
-    {
-        // do action
-    })
-);&lt;/code&gt;&lt;/p&gt;
-&lt;h2&gt;自定义形式生成节点&lt;/h2&gt;
-&lt;p&gt;我们依然保留了笨重的方式来创建菜单，笨重的方式可以允许有更详细的设置，代码的组织形式跟 UE 的 SlateUI 写法有些像：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-EP_NEW_MENU(FEditorPlusMenuBar)(&#34;BarTest&#34;)
--&amp;gt;RegisterPath()
--&amp;gt;Content({
-    EP_NEW_MENU(FEditorPlusSubMenu)(&#34;SubTest&#34;)
-    -&amp;gt;Content({
-        EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)
-        -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
-            {
-                // do action
-            })),
-    })
-});&lt;/code&gt;&lt;/p&gt;
-&lt;h2&gt;混合形式&lt;/h2&gt;
-&lt;p&gt;当然，本身路径形式和自定义生成的菜单，都是相同的，它们之间可以混用，有很大的灵活性：&lt;/p&gt;
-&lt;p&gt;```cpp
-FEditorPlusPath::RegisterPath(
-    &#34;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action1&#34;, 
-    EP_NEW_MENU(FEditorPlusCommand)(&#34;Action1&#34;)
-    -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
-        {
-            // do action
-        })),
-);&lt;/p&gt;
-&lt;p&gt;FEditorPlusPath::RegisterPath(
-    &#34;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action2&#34;, 
-    EP_NEW_MENU(FEditorPlusCommand)(&#34;Action2&#34;)
-    -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
-        {
-            // do action
-        })),
-);
-```&lt;/p&gt;
-&lt;p&gt;多个地方定义的菜单，会合并到同一个树形结构中，名字相同的节点会认为是同一个节点。换言之，路径是唯一的，同一个路径可以唯一确定一个菜单节点。
-于是我们也可以把节点找出来，重新做一些设置和修改：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-// set Name and Tips
-FEditorPlusPath::GetNodeByPath(&#34;/&amp;lt;MenuBar&amp;gt;BarTest&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;MenuTest&#34;, &#34;MenuTest&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;MenuTestTips&#34;, &#34;MenuTestTips&#34;));&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
-      <link>https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 12:51:24 +0000</pubDate>
-      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</guid>
       
     </item>
     
@@ -215,6 +68,7 @@ FEditorPlusPath::GetNodeByPath(&#34;/&amp;lt;MenuBar&amp;gt;BarTest&#34;)-&amp;g
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 扩展编辑器菜单&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;UE 扩展编辑器菜单&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;记录 UE 如何扩展编辑器菜单&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -436,10 +290,261 @@ FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEd
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-extend_menu/overall.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 26 Dec 2023 17:16:39 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 18:06:38 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 设置本地化多语言</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 设置本地化多语言&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;UE 设置本地化多语言&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记录如何在 UE 中实现本地化多语言&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果不熟悉 UE 扩展菜单，建议先简单看下：&lt;a href=&#34;ue-扩展编辑器菜单.md&#34;&gt;UE 扩展编辑器菜单&lt;/a&gt;，&lt;a href=&#34;ue-使用路径形式扩展菜单.md&#34;&gt;ue-使用路径形式扩展菜单&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本文代码基于插件：&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;功能介绍&lt;/h2&gt;
+&lt;p&gt;UE 自带工具可以实现本地化多语言，譬如我们可以为编辑器菜单实现本地化：&lt;/p&gt;
+&lt;p&gt;中文菜单：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/chinese.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;英文菜单：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/english.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;代码声明&lt;/h2&gt;
+&lt;p&gt;为了实现菜单本地化，我们需要在代码中明确声明需要 UE 处理的字符串，使用 UE 定义好的宏 &lt;code&gt;LOCTEXT&lt;/code&gt; 和 &lt;code&gt;NSLOCTEXT&lt;/code&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件全局定义方式，先开始定义一个叫做 &lt;code&gt;LOCTEXT_NAMESPACE&lt;/code&gt; 的宏，内容是当前多语言文本所在的名字空间，之后文件中的文本就可以用 &lt;code&gt;LOCTEXT&lt;/code&gt; 来定义，文件最后取消宏 &lt;code&gt;LOCTEXT_NAMESPACE&lt;/code&gt;：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;```cpp
+// #define LOCTEXT(InKey, InTextLiteral)&lt;/p&gt;
+&lt;h1&gt;define LOCTEXT_NAMESPACE &#34;EditorPlusTools&#34;&lt;/h1&gt;
+&lt;p&gt;LOCTEXT(&#34;Key&#34;, &#34;Content&#34;);&lt;/p&gt;
+&lt;h1&gt;undef LOCTEXT_NAMESPACE&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;局部定义方式，使用 &lt;code&gt;NSLOCTEXT&lt;/code&gt;，定义文本的时候带上名字空间参数：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;```cpp
+// #define NSLOCTEXT(InNamespace, InKey, InTextLiteral)&lt;/p&gt;
+&lt;p&gt;NSLOCTEXT(&#34;EditorPlusTools&#34;, &#34;Key&#34;, &#34;Content&#34;);
+```&lt;/p&gt;
+&lt;p&gt;UE 工具通过查找宏 &lt;code&gt;LOCTEXT&lt;/code&gt; 和 &lt;code&gt;NSLOCTEXT&lt;/code&gt; 的出现来收集出所有需要翻译的文本。&lt;/p&gt;
+&lt;h2&gt;使用工具翻译文本&lt;/h2&gt;
+&lt;p&gt;假设我们有如下代码定义文本：&lt;/p&gt;
+&lt;p&gt;```cpp&lt;/p&gt;
+&lt;h1&gt;define LOCTEXT_NAMESPACE &#34;EditorPlusTools&#34;&lt;/h1&gt;
+&lt;p&gt;// register path node loctext
+FEditorPlusPath::GetNodeByPath(&#34;/MenuTest&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;MenuTest&#34;, &#34;MenuTest&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;MenuTestTips&#34;, &#34;MenuTestTips&#34;));
+FEditorPlusPath::GetNodeByPath(&#34;/MenuTest/&lt;SubMenu&gt;SubMenu1&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;SubMenu1&#34;, &#34;SubMenu1&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;SubMenu1Tips&#34;, &#34;SubMenu1Tips&#34;));
+FEditorPlusPath::GetNodeByPath(&#34;/MenuTest/&lt;SubMenu&gt;SubMenu1/&lt;SubMenu&gt;SubMenu1&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;SubMenu1&#34;, &#34;SubMenu1&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;SubMenu1Tips&#34;, &#34;SubMenu1Tips&#34;));
+FEditorPlusPath::GetNodeByPath(&#34;/&lt;Hook&gt;Help/&lt;MenuBar&gt;MenuTest/&lt;SubMenu&gt;SubMenu1/&lt;Section&gt;Section1&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;Section1&#34;, &#34;Section1&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;Section1Tips&#34;, &#34;Section1Tips&#34;));&lt;/p&gt;
+&lt;h1&gt;undef LOCTEXT_NAMESPACE&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;首先开启翻译工具，打开编辑器设置 &lt;code&gt;编辑 - 编辑器偏好设置&lt;/code&gt;，勾选 &lt;code&gt;通用 - 试验性功能 - Tools - 翻译选取器&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/editor_enable_tool.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;然后打开翻译工具 &lt;code&gt;工具 - 本地化控制板&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/editor_open_tool.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;新建一个目标（在默认的 Game 下面也行，新建一个是为了方便管理和移动这些翻译文本）&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_new_target.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;配置目标的参数，我这里名字改为 &lt;code&gt;EditorPlusTools&lt;/code&gt;，加载政策是 &lt;code&gt;编辑器&lt;/code&gt;，从文本收集，并加上插件目录，目标依赖性是 &lt;code&gt;Engine, Editor&lt;/code&gt;，其他配置保持不变：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_target_config.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;添加语系，保证有中文（简体）和英文两个语系，确认鼠标放在语言名字上分别显示 &lt;code&gt;zh-Hans&lt;/code&gt; 和 &lt;code&gt;en&lt;/code&gt;，并选中英语（因为我们代码里面是用英文定义的文本，我们这里需要收集这些英语文本）：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_target_lang.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击收集文本：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_target_collect.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;会弹出收集进度框，等待收集成功，会显示绿色对钩：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_target_collected.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;关掉收集进度框，回到翻译工具可以看到英文一行有显示收集到的数量，本身英文的我们不需要翻译，点开中文一行的翻译按钮：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_go_trans.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;打开后我们可以看到未翻译一栏有内容，在英文文本的右边一栏输入翻译后的内容，翻译内容都完成之后，保存退出窗口：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_trans.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击统计字数，结束后能看到中文一栏显示了翻译的数量：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_count.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最后编译文本：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_build.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;翻译的数据会放在 &lt;code&gt;Content\Localization\EditorPlusTools&lt;/code&gt; 里面，每种语言一个文件夹，在 zh-Hans 里面能看到两个文件，&lt;code&gt;.archive&lt;/code&gt; 是收集和翻译的文本，&lt;code&gt;.locres&lt;/code&gt; 则是编译之后的数据：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_ret.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_ret2.png&#34;&gt;&lt;/p&gt;
+&lt;h2&gt;翻译好的文本放入插件目录中&lt;/h2&gt;
+&lt;p&gt;我们上面给插件生成的翻译文本放在了项目目录下面，我们需要把这些文本移动到插件里面，方便随着插件一起发布。&lt;/p&gt;
+&lt;p&gt;把 &lt;code&gt;Content\Localization\EditorPlusTools&lt;/code&gt; 目录移动到插件目录 Content 下面，我这里是 &lt;code&gt;Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;修改项目的配置文件 &lt;code&gt;DefaultEditor.ini&lt;/code&gt;，加上新路径：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ini
+[Internationalization]
++LocalizationPaths=%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这样，其他项目拿到插件后，只要修改 &lt;code&gt;DefaultEditor.ini&lt;/code&gt; 则可以直接使用翻译文本，不需要重新配置翻译。&lt;/p&gt;
+&lt;h2&gt;注意事项&lt;/h2&gt;
+&lt;p&gt;在生成翻译数据的过程中，遇到过一些问题，以下总结出来注意的事项：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代码里面定义文本必须要用宏 &lt;code&gt;LOCTEXT&lt;/code&gt; 和 &lt;code&gt;NSLOCTEXT&lt;/code&gt;，文本需要是字符串常量，这样 UE 才是收集出来。&lt;/li&gt;
+&lt;li&gt;翻译目标名字不能带有符号 &lt;code&gt;.&lt;/code&gt;，&lt;code&gt;Content\Localiztion\&lt;/code&gt; 下的目录名字不能带有 &lt;code&gt;.&lt;/code&gt;，UE 只会截取 &lt;code&gt;.&lt;/code&gt; 前面的名字。会导致 UE 在读取翻译文本的时候，由于名字错误，读取失败。&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对于编辑器插件，需要判断如果是命令行模式 &lt;code&gt;IsRunningCommandlet()&lt;/code&gt; 则不生成菜单和 SlateUI ，因为命令行模式下没有 Slate 模块，会导致收集文本的时候报错 &lt;code&gt;Assertion failed: CurrentApplication.IsValid()&lt;/code&gt;。如果你也遇到类似的报错，可以尝试加上这个判断。具体报错信息：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Assertion failed: CurrentApplication.IsValid() [File:E:\UE\ue5.3_git\Engine\Source\Runtime\Slate\Public\Framework\Application\SlateApplication.h] [Line: 255] &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-localization/tool_error.png&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Thu, 28 Dec 2023 18:06:38 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 使用路径形式扩展菜单</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 使用路径形式扩展菜单&#34; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记录如何在 UE 中实现路径形式扩展菜单&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果不熟悉 UE 扩展菜单，建议先简单看下：&lt;a href=&#34;ue-扩展编辑器菜单.md&#34;&gt;UE 扩展编辑器菜单&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本文代码基于插件：&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;节点管理&lt;/h2&gt;
+&lt;p&gt;把菜单按照树的结构来管理，父节点可以包含孩子：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis&amp;lt;FEditorPlusMenuBase&amp;gt;
+{
+protected:
+    // sub menus
+    TArray&amp;lt;TSharedRef&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;gt; Children;
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在创建父节点的同时创建子节点：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+void FEditorPlusMenuBase::Register(FMenuBuilder&amp;amp; MenuBuilder)
+{
+    for (const auto Menu: Children)
+    {
+        Menu-&amp;gt;Register(MenuBuilder);
+    }
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;当然每个节点的具体创建行为会有点不同，覆写虚函数来实现：&lt;/p&gt;
+&lt;p&gt;```cpp
+// Menubar
+void FEditorPlusMenuBar::Register(FMenuBarBuilder&amp;amp; MenuBarBuilder)
+{
+    MenuBarBuilder.AddPullDownMenu(
+        GetFriendlyName(),
+        GetFriendlyTips(),
+        // Delegate to call Register
+        FEditorPlusMenuManager::GetDelegate&lt;FNewMenuDelegate&gt;(GetUniqueId()),     &lt;br&gt;
+        Hook);
+}&lt;/p&gt;
+&lt;p&gt;// Section
+void FEditorPlusSection::Register(FMenuBuilder&amp;amp; MenuBuilder)
+{
+    MenuBuilder.BeginSection(Hook, GetFriendlyName());
+    FEditorPlusMenuBase::Register(MenuBuilder);
+    MenuBuilder.EndSection();
+}&lt;/p&gt;
+&lt;p&gt;// Separator
+void FEditorPlusSeparator::Register(FMenuBuilder&amp;amp; MenuBuilder)
+{
+    MenuBuilder.AddMenuSeparator(Hook);
+    FEditorPlusMenuBase::Register(MenuBuilder);
+}&lt;/p&gt;
+&lt;p&gt;// SubMenu
+void FEditorPlusSubMenu::Register(FMenuBuilder&amp;amp; MenuBuilder)
+{
+    MenuBuilder.AddSubMenu(
+        GetFriendlyName(),
+        GetFriendlyTips(),
+        FNewMenuDelegate::CreateSP(this, &amp;amp;FEditorPlusSubMenu::MakeSubMenu),
+        false,
+        FSlateIcon(),
+        true,
+        Hook
+    );
+}&lt;/p&gt;
+&lt;p&gt;// Command
+void FEditorPlusCommand::Register(FMenuBuilder&amp;amp; MenuBuilder)
+{
+    MenuBuilder.AddMenuEntry(
+        CommandInfo-&amp;gt;Label, CommandInfo-&amp;gt;Tips, CommandInfo-&amp;gt;Icon,
+        CommandInfo-&amp;gt;ExecuteAction, CommandInfo-&amp;gt;Hook, CommandInfo-&amp;gt;Type);
+}&lt;/p&gt;
+&lt;p&gt;// ......
+```&lt;/p&gt;
+&lt;h2&gt;通过路径生成节点&lt;/h2&gt;
+&lt;p&gt;按照树形结构组织好菜单，路径格式就可以定义一条菜单的树形结构：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+&#34;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;BarTest/&amp;lt;SubMenu&amp;gt;SubTest/&amp;lt;Command&amp;gt;Action&#34;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;以上路径即可以定义一系列菜单的创建：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;：位置在 Hook 名字为 Help 的菜单后&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;BarTest&lt;/code&gt;：创建类型 MenuBar 的菜单，名字为 BarTest&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;SubTest&lt;/code&gt;：创建子节点，类型 SubMenu, 名字 SubTest&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;Action&lt;/code&gt;：最后创建一个命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接口调用形式可以很简洁：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+const FString Path = &#34;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;BarTest/&amp;lt;SubMenu&amp;gt;SubTest/&amp;lt;Command&amp;gt;Action&#34;;
+FEditorPlusPath::RegisterPathAction(
+    Path, 
+    FExecuteAction::CreateLambda([]
+    {
+        // do action
+    })
+);&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;自定义形式生成节点&lt;/h2&gt;
+&lt;p&gt;我们依然保留了笨重的方式来创建菜单，笨重的方式可以允许有更详细的设置，代码的组织形式跟 UE 的 SlateUI 写法有些像：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+EP_NEW_MENU(FEditorPlusMenuBar)(&#34;BarTest&#34;)
+-&amp;gt;RegisterPath()
+-&amp;gt;Content({
+    EP_NEW_MENU(FEditorPlusSubMenu)(&#34;SubTest&#34;)
+    -&amp;gt;Content({
+        EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)
+        -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
+            {
+                // do action
+            })),
+    })
+});&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;混合形式&lt;/h2&gt;
+&lt;p&gt;当然，本身路径形式和自定义生成的菜单，都是相同的，它们之间可以混用，有很大的灵活性：&lt;/p&gt;
+&lt;p&gt;```cpp
+FEditorPlusPath::RegisterPath(
+    &#34;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action1&#34;, 
+    EP_NEW_MENU(FEditorPlusCommand)(&#34;Action1&#34;)
+    -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
+        {
+            // do action
+        })),
+);&lt;/p&gt;
+&lt;p&gt;FEditorPlusPath::RegisterPath(
+    &#34;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action2&#34;, 
+    EP_NEW_MENU(FEditorPlusCommand)(&#34;Action2&#34;)
+    -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
+        {
+            // do action
+        })),
+);
+```&lt;/p&gt;
+&lt;p&gt;多个地方定义的菜单，会合并到同一个树形结构中，名字相同的节点会认为是同一个节点。换言之，路径是唯一的，同一个路径可以唯一确定一个菜单节点。
+于是我们也可以把节点找出来，重新做一些设置和修改：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+// set Name and Tips
+FEditorPlusPath::GetNodeByPath(&#34;/&amp;lt;MenuBar&amp;gt;BarTest&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;MenuTest&#34;, &#34;MenuTest&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;MenuTestTips&#34;, &#34;MenuTestTips&#34;));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Thu, 28 Dec 2023 12:51:24 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</guid>
       
     </item>
     
