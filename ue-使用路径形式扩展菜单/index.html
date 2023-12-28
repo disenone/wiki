@@ -6,20 +6,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="简单记录一下如何在拥有插件源码的情况下为 UE 添加插件
-">
+        <meta name="description" content="无止境">
       
       
         <meta name="author" content="Disenone">
       
       
-        <link rel="canonical" href="https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/">
+        <link rel="canonical" href="https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/">
       
       
-        <link rel="prev" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
+        <link rel="prev" href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/">
       
       
-        <link rel="next" href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/">
+        <link rel="next" href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/">
       
       
         <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
@@ -30,7 +29,7 @@
     
     
       
-        <title>UE 通过插件源码添加插件 - Disenone's Wiki</title>
+        <title>UE 使用路径形式扩展菜单 - Disenone's Wiki</title>
       
     
     
@@ -94,6 +93,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -123,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE 通过插件源码添加插件
+              UE 使用路径形式扩展菜单
             
           </span>
         </div>
@@ -176,7 +180,7 @@
           </li>
         
           <li class="md-select__item">
-            <a href="../en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" hreflang="en" class="md-select__link">
+            <a href="../en/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
@@ -887,17 +891,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -906,7 +903,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -937,10 +933,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    UE 使用路径形式扩展菜单
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -949,6 +963,60 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      节点管理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过路径生成节点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义形式生成节点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      混合形式
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1152,6 +1220,50 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      节点管理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过路径生成节点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义形式生成节点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      混合形式
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1165,7 +1277,7 @@
                   
 
   
-    <a href="https://github.com/disenone/wiki/edit/main/docs/zh/ue-通过插件源码添加插件.md" title="编辑此页" class="md-content__button md-icon">
+    <a href="https://github.com/disenone/wiki/edit/main/docs/zh/ue-使用路径形式扩展菜单.md" title="编辑此页" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1173,28 +1285,144 @@
   
 
 
-  <h1>UE 通过插件源码添加插件</h1>
+  <h1>UE 使用路径形式扩展菜单</h1>
 
-<p><meta property="og:title" content="UE 通过插件源码添加插件" /></p>
+<p><meta property="og:title" content="UE 使用路径形式扩展菜单" /></p>
 <blockquote>
-<p>简单记录一下如何在拥有插件源码的情况下添加插件.</p>
+<p>记录如何在 UE 中实现路径形式扩展菜单</p>
 </blockquote>
-<p>以插件 <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a> 为例</p>
+<p>如果不熟悉 UE 扩展菜单，建议先简单看下：<a href="./">UE 扩展编辑器菜单</a></p>
+<p>本文代码基于插件：<a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a></p>
+<h2 id="_1">节点管理</h2>
+<p>把菜单按照树的结构来管理，父节点可以包含孩子：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">EDITORPLUS_API</span><span class="w"> </span><span class="n">FEditorPlusMenuBase</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TSharedFromThis</span><span class="o">&lt;</span><span class="n">FEditorPlusMenuBase</span><span class="o">&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">protected</span><span class="o">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="c1">// sub menus</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">TArray</span><span class="o">&lt;</span><span class="n">TSharedRef</span><span class="o">&lt;</span><span class="n">FEditorPlusMenuBase</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">Children</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>在创建父节点的同时创建子节点：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusMenuBase::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">Menu</span><span class="o">:</span><span class="w"> </span><span class="n">Children</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="n">Menu</span><span class="o">-&gt;</span><span class="n">Register</span><span class="p">(</span><span class="n">MenuBuilder</span><span class="p">);</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>当然每个节点的具体创建行为会有点不同，覆写虚函数来实现：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Menubar</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusMenuBar::Register</span><span class="p">(</span><span class="n">FMenuBarBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBarBuilder</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">MenuBarBuilder</span><span class="p">.</span><span class="n">AddPullDownMenu</span><span class="p">(</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="c1">// Delegate to call Register</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">FEditorPlusMenuManager</span><span class="o">::</span><span class="n">GetDelegate</span><span class="o">&lt;</span><span class="n">FNewMenuDelegate</span><span class="o">&gt;</span><span class="p">(</span><span class="n">GetUniqueId</span><span class="p">()),</span><span class="w">       </span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="n">Hook</span><span class="p">);</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// Section</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSection::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">GetFriendlyText</span><span class="p">());</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">FEditorPlusMenuBase</span><span class="o">::</span><span class="n">Register</span><span class="p">(</span><span class="n">MenuBuilder</span><span class="p">);</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">}</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1">// Separator</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSeparator::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">{</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuSeparator</span><span class="p">(</span><span class="n">Hook</span><span class="p">);</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="n">FEditorPlusMenuBase</span><span class="o">::</span><span class="n">Register</span><span class="p">(</span><span class="n">MenuBuilder</span><span class="p">);</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="p">}</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="c1">// SubMenu</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSubMenu::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">{</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateSP</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">FEditorPlusSubMenu</span><span class="o">::</span><span class="n">MakeSubMenu</span><span class="p">),</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nb">false</span><span class="p">,</span>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">        </span><span class="n">FSlateIcon</span><span class="p">(),</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">        </span><span class="nb">true</span><span class="p">,</span>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">        </span><span class="n">Hook</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="p">}</span>
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="c1">// Command</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusCommand::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="p">{</span>
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuEntry</span><span class="p">(</span>
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="w">        </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">Label</span><span class="p">,</span><span class="w"> </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">Tips</span><span class="p">,</span><span class="w"> </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">Icon</span><span class="p">,</span>
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">        </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">ExecuteAction</span><span class="p">,</span><span class="w"> </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">CommandInfo</span><span class="o">-&gt;</span><span class="n">Type</span><span class="p">);</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="p">}</span>
+<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>
+<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="c1">// ......</span>
+</code></pre></div>
+<h2 id="_2">通过路径生成节点</h2>
+<p>按照树形结构组织好菜单，路径格式就可以定义一条菜单的树形结构：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="s">&quot;/&lt;Hook&gt;Help/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubTest/&lt;Command&gt;Action&quot;</span>
+</code></pre></div>
+<p>以上路径即可以定义一系列菜单的创建：</p>
 <ul>
-<li>把源码放到 Plugins 目录下</li>
-<li>（这一步可以不执行）修改项目 .uproject 文件，Plugins 字段下增加：
-    <div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">&quot;Plugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EditorPlus&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">&quot;Enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&quot;TargetAllowList&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="s2">&quot;Editor&quot;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
-</code></pre></div></li>
-<li>右键 uproject 文件，执行 "Generate Visual Studio Project Files"，更新 sln 项目文件</li>
-<li>打开 sln 文件，编译项目</li>
+<li><code>&lt;Hook&gt;/Help</code>：位置在 Hook 名字为 Help 的菜单后</li>
+<li><code>&lt;MenuBar&gt;BarTest</code>：创建类型 MenuBar 的菜单，名字为 BarTest</li>
+<li><code>&lt;SubMenu&gt;SubTest</code>：创建子节点，类型 SubMenu, 名字 SubTest</li>
+<li><code>&lt;Command&gt;Action</code>：最后创建一个命令</li>
 </ul>
+<p>接口调用形式可以很简洁：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="w"> </span><span class="n">Path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/&lt;Hook&gt;Help/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubTest/&lt;Command&gt;Action&quot;</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">RegisterPathAction</span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">Path</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="c1">// do action</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">);</span>
+</code></pre></div>
+<h2 id="_3">自定义形式生成节点</h2>
+<p>我们依然保留了笨重的方式来创建菜单，笨重的方式可以允许有更详细的设置，代码的组织形式跟 UE 的 SlateUI 写法有些像：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusMenuBar</span><span class="p">)(</span><span class="s">&quot;BarTest&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">-&gt;</span><span class="n">RegisterPath</span><span class="p">()</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="o">-&gt;</span><span class="n">Content</span><span class="p">({</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusSubMenu</span><span class="p">)(</span><span class="s">&quot;SubTest&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="o">-&gt;</span><span class="n">Content</span><span class="p">({</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusCommand</span><span class="p">)(</span><span class="s">&quot;Action&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="o">-&gt;</span><span class="n">BindAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">                </span><span class="c1">// do action</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">            </span><span class="p">})),</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">});</span>
+</code></pre></div>
+<h2 id="_4">混合形式</h2>
+<p>当然，本身路径形式和自定义生成的菜单，都是相同的，它们之间可以混用，有很大的灵活性：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">RegisterPath</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="s">&quot;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action1&quot;</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusCommand</span><span class="p">)(</span><span class="s">&quot;Action1&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="o">-&gt;</span><span class="n">BindAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">            </span><span class="c1">// do action</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="p">})),</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">);</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">RegisterPath</span><span class="p">(</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="s">&quot;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action2&quot;</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusCommand</span><span class="p">)(</span><span class="s">&quot;Action2&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="o">-&gt;</span><span class="n">BindAction</span><span class="p">(</span><span class="n">FExecuteAction</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">            </span><span class="c1">// do action</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">        </span><span class="p">})),</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">);</span>
+</code></pre></div>
+<p>多个地方定义的菜单，会合并到同一个树形结构中，名字相同的节点会认为是同一个节点。换言之，路径是唯一的，同一个路径可以唯一确定一个菜单节点。
+于是我们也可以把节点找出来，重新做一些设置和修改：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// set Name and Tips</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">GetNodeByPath</span><span class="p">(</span><span class="s">&quot;/&lt;MenuBar&gt;BarTest&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">SetFriendlyName</span><span class="p">(</span><span class="n">LOCTEXT</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MenuTest&quot;</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">SetFriendlyTips</span><span class="p">(</span><span class="n">LOCTEXT</span><span class="p">(</span><span class="s">&quot;MenuTestTips&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MenuTestTips&quot;</span><span class="p">));</span>
+</code></pre></div>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1257,7 +1485,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-27</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-28</span>
   </span>
 
     
@@ -1267,7 +1495,7 @@
     <span class="md-icon" title="创建日期">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-25</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-28</span>
   </span>
 
     
@@ -1302,7 +1530,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 使用 FASTBuild 编译 UE4 和 UE5">
+          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--prev" aria-label="上一页: UE 扩展编辑器菜单">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1312,20 +1540,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                使用 FASTBuild 编译 UE4 和 UE5
+                UE 扩展编辑器菜单
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--next" aria-label="下一页: UE 扩展编辑器菜单">
+          <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-footer__link md-footer__link--next" aria-label="下一页: Unity第三人称相机构建(上)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                UE 扩展编辑器菜单
+                Unity第三人称相机构建(上)
               </div>
             </div>
             <div class="md-footer__button md-icon">
