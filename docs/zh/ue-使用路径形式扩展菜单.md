@@ -7,7 +7,7 @@ tags: [dev, game, UE, UnreanEngine, UE4, UE5]
 
 > 记录如何在 UE 中实现路径形式扩展菜单
 
-如果不熟悉 UE 扩展菜单，建议先简单看下：[UE 扩展编辑器菜单](ue-使用路径形式扩展菜单.md)
+如果不熟悉 UE 扩展菜单，建议先简单看下：[UE 扩展编辑器菜单](ue-扩展编辑器菜单.md)
 
 本文代码基于插件：[UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
