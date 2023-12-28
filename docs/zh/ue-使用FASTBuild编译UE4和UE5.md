@@ -54,11 +54,13 @@ FASTBuild 下载我提交的 [最新版本](https://github.com/disenone/fastbuil
 ### 远程机配置
 
 同样配置 Cache，只是 ip 需要指定到本机 ip，这里假定为 192.168.1.100
-  - FASTBUILD_CACHE_PATH: \\192.168.1.100\Cache
-  - FASTBUILD_CACHE_MODE: rw
+
+- FASTBUILD_CACHE_PATH: \\192.168.1.100\Cache
+- FASTBUILD_CACHE_MODE: rw
 
 同样配置 Coordinator ip
-  - FASTBUILD_COORDINATOR: 192.168.1.100
+
+- FASTBUILD_COORDINATOR: 192.168.1.100
 
 配置完如下图
 
@@ -85,7 +87,7 @@ FBuildCoordinator - v1.11-UE
 11>FBuild BrokeragePath: '\\127.0.0.1\Brokerage\
 11>FBuild CachePath: '\\127.0.0.1\Cache\
 11>BFF file 'E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff' has changed (reparsing will occur).
-11>Using Coordinator: 192.168.88.187
+11>Using Coordinator: 127.0.0.1
 11>Requesting worker list from Corrdinator
 11>Get Worker List from Coordinator.
 11>2 workers in payload: [192.168.1.101]
@@ -265,7 +267,7 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
         <!-- cache 的读写权限 Read/Write/ReadWrite -->
         <CacheMode>ReadWrite</CacheMode>
         <!-- 指定 coordinator ip -->
-        <FBuildCoordinator>192.168.88.187</FBuildCoordinator>
+        <FBuildCoordinator>127.0.0.1</FBuildCoordinator>
         <!-- 强制远程编译 -->
         <!-- <bForceRemote>true</bForceRemote> -->
     </FASTBuild>
