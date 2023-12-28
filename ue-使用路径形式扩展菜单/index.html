@@ -1316,7 +1316,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusMenuBar::Register</span><span class="p">(</span><span class="n">FMenuBarBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBarBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">{</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">MenuBarBuilder</span><span class="p">.</span><span class="n">AddPullDownMenu</span><span class="p">(</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">GetFriendlyName</span><span class="p">(),</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="c1">// Delegate to call Register</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">FEditorPlusMenuManager</span><span class="o">::</span><span class="n">GetDelegate</span><span class="o">&lt;</span><span class="n">FNewMenuDelegate</span><span class="o">&gt;</span><span class="p">(</span><span class="n">GetUniqueId</span><span class="p">()),</span><span class="w">       </span>
@@ -1326,7 +1326,7 @@
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// Section</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSection::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">{</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">GetFriendlyText</span><span class="p">());</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">GetFriendlyName</span><span class="p">());</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">FEditorPlusMenuBase</span><span class="o">::</span><span class="n">Register</span><span class="p">(</span><span class="n">MenuBuilder</span><span class="p">);</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">}</span>
@@ -1342,7 +1342,7 @@
 <a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSubMenu::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">{</span>
 <a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="n">GetFriendlyName</span><span class="p">(),</span>
 <a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
 <a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateSP</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">FEditorPlusSubMenu</span><span class="o">::</span><span class="n">MakeSubMenu</span><span class="p">),</span>
 <a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nb">false</span><span class="p">,</span>
@@ -1368,7 +1368,7 @@
 </code></pre></div>
 <p>以上路径即可以定义一系列菜单的创建：</p>
 <ul>
-<li><code>&lt;Hook&gt;/Help</code>：位置在 Hook 名字为 Help 的菜单后</li>
+<li><code>&lt;Hook&gt;Help</code>：位置在 Hook 名字为 Help 的菜单后</li>
 <li><code>&lt;MenuBar&gt;BarTest</code>：创建类型 MenuBar 的菜单，名字为 BarTest</li>
 <li><code>&lt;SubMenu&gt;SubTest</code>：创建子节点，类型 SubMenu, 名字 SubTest</li>
 <li><code>&lt;Command&gt;Action</code>：最后创建一个命令</li>

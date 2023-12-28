@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 09:38:45 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 09:38:45 -0000</lastBuildDate>
+    <pubDate>Thu, 28 Dec 2023 10:06:25 -0000</pubDate>
+    <lastBuildDate>Thu, 28 Dec 2023 10:06:25 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 09:38:56 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 10:06:36 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 09:38:43 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 10:06:23 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -97,7 +97,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder&amp;amp; MenuBuilder)
 void FEditorPlusMenuBar::Register(FMenuBarBuilder&amp;amp; MenuBarBuilder)
 {
     MenuBarBuilder.AddPullDownMenu(
-        GetFriendlyText(),
+        GetFriendlyName(),
         GetFriendlyTips(),
         // Delegate to call Register
         FEditorPlusMenuManager::GetDelegate&lt;FNewMenuDelegate&gt;(GetUniqueId()),     &lt;br&gt;
@@ -106,7 +106,7 @@ void FEditorPlusMenuBar::Register(FMenuBarBuilder&amp;amp; MenuBarBuilder)
 &lt;p&gt;// Section
 void FEditorPlusSection::Register(FMenuBuilder&amp;amp; MenuBuilder)
 {
-    MenuBuilder.BeginSection(Hook, GetFriendlyText());
+    MenuBuilder.BeginSection(Hook, GetFriendlyName());
     FEditorPlusMenuBase::Register(MenuBuilder);
     MenuBuilder.EndSection();
 }&lt;/p&gt;
@@ -120,7 +120,7 @@ void FEditorPlusSeparator::Register(FMenuBuilder&amp;amp; MenuBuilder)
 void FEditorPlusSubMenu::Register(FMenuBuilder&amp;amp; MenuBuilder)
 {
     MenuBuilder.AddSubMenu(
-        GetFriendlyText(),
+        GetFriendlyName(),
         GetFriendlyTips(),
         FNewMenuDelegate::CreateSP(this, &amp;amp;FEditorPlusSubMenu::MakeSubMenu),
         false,
@@ -144,7 +144,7 @@ void FEditorPlusCommand::Register(FMenuBuilder&amp;amp; MenuBuilder)
 &#34;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;BarTest/&amp;lt;SubMenu&amp;gt;SubTest/&amp;lt;Command&amp;gt;Action&#34;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;以上路径即可以定义一系列菜单的创建：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;/Help&lt;/code&gt;：位置在 Hook 名字为 Help 的菜单后&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;：位置在 Hook 名字为 Help 的菜单后&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;BarTest&lt;/code&gt;：创建类型 MenuBar 的菜单，名字为 BarTest&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;SubTest&lt;/code&gt;：创建子节点，类型 SubMenu, 名字 SubTest&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;Action&lt;/code&gt;：最后创建一个命令&lt;/li&gt;
@@ -201,7 +201,7 @@ FEditorPlusPath::RegisterPath(
 FEditorPlusPath::GetNodeByPath(&#34;/&amp;lt;MenuBar&amp;gt;BarTest&#34;)-&amp;gt;SetFriendlyName(LOCTEXT(&#34;MenuTest&#34;, &#34;MenuTest&#34;))-&amp;gt;SetFriendlyTips(LOCTEXT(&#34;MenuTestTips&#34;, &#34;MenuTestTips&#34;));&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 09:35:18 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 10:02:51 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</guid>

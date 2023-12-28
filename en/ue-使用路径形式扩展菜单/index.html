@@ -29,7 +29,7 @@
     
     
       
-        <title>The UE uses path form to expand the menu. - Disenone's Wiki</title>
+        <title>The menu is expanded using the path form in UE. - Disenone's Wiki</title>
       
     
     
@@ -127,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              The UE uses path form to expand the menu.
+              The menu is expanded using the path form in UE.
             
           </span>
         </div>
@@ -947,7 +947,7 @@
           
   
   <span class="md-ellipsis">
-    The UE uses path form to expand the menu.
+    The menu is expanded using the path form in UE.
   </span>
   
 
@@ -958,7 +958,7 @@
         
   
   <span class="md-ellipsis">
-    The UE uses path form to expand the menu.
+    The menu is expanded using the path form in UE.
   </span>
   
 
@@ -987,27 +987,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-nodes-through-the-path" class="md-nav__link">
+  <a href="#generate-nodes-through-paths" class="md-nav__link">
     <span class="md-ellipsis">
-      Generate nodes through the path.
+      Generate nodes through paths
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-nodes-in-custom-form" class="md-nav__link">
+  <a href="#custom-form-to-generate-nodes" class="md-nav__link">
     <span class="md-ellipsis">
-      Generate nodes in custom form
+      Custom form to generate nodes
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mixed-form" class="md-nav__link">
+  <a href="#combined-form" class="md-nav__link">
     <span class="md-ellipsis">
-      Mixed Form
+      Combined form
     </span>
   </a>
   
@@ -1236,27 +1236,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-nodes-through-the-path" class="md-nav__link">
+  <a href="#generate-nodes-through-paths" class="md-nav__link">
     <span class="md-ellipsis">
-      Generate nodes through the path.
+      Generate nodes through paths
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-nodes-in-custom-form" class="md-nav__link">
+  <a href="#custom-form-to-generate-nodes" class="md-nav__link">
     <span class="md-ellipsis">
-      Generate nodes in custom form
+      Custom form to generate nodes
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mixed-form" class="md-nav__link">
+  <a href="#combined-form" class="md-nav__link">
     <span class="md-ellipsis">
-      Mixed Form
+      Combined form
     </span>
   </a>
   
@@ -1285,16 +1285,16 @@
   
 
 
-  <h1>The UE uses path form to expand the menu.</h1>
+  <h1>The menu is expanded using the path form in UE.</h1>
 
 <p><meta property="og:title" content="UE 使用路径形式扩展菜单" /></p>
 <blockquote>
-<p>Record how to implement path-based context menu extension in UE</p>
+<p>Record how to implement path-based extended menus in UE</p>
 </blockquote>
-<p>If you're not familiar with the UE extension menu, I suggest taking a quick look at: <a href="./">UE Extension Editor Menu</a></p>
+<p>If you are not familiar with the UE extension menu, it is recommended to take a quick look at: <a href="./">UE Extension Editor Menu</a></p>
 <p>This text is based on the plugin: <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a></p>
 <h2 id="node-management">Node Management</h2>
-<p>Organize the menu in a tree structure, where parent nodes can contain children:</p>
+<p>Manage the menu according to the structure of a tree, where parent nodes can contain children:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">EDITORPLUS_API</span><span class="w"> </span><span class="n">FEditorPlusMenuBase</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TSharedFromThis</span><span class="o">&lt;</span><span class="n">FEditorPlusMenuBase</span><span class="o">&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">protected</span><span class="o">:</span>
@@ -1311,12 +1311,12 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </code></pre></div>
-<p>Of course, the specific creation behavior of each node will be slightly different, and you can override virtual functions to implement it:</p>
+<p>Of course, the specific creation behavior of each node may be a little different. Override the virtual function to achieve this:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Menubar</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusMenuBar::Register</span><span class="p">(</span><span class="n">FMenuBarBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBarBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">{</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">MenuBarBuilder</span><span class="p">.</span><span class="n">AddPullDownMenu</span><span class="p">(</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">GetFriendlyName</span><span class="p">(),</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="c1">// Delegate to call Register</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">FEditorPlusMenuManager</span><span class="o">::</span><span class="n">GetDelegate</span><span class="o">&lt;</span><span class="n">FNewMenuDelegate</span><span class="o">&gt;</span><span class="p">(</span><span class="n">GetUniqueId</span><span class="p">()),</span><span class="w">       </span>
@@ -1326,7 +1326,7 @@
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// Section</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSection::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">{</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">GetFriendlyText</span><span class="p">());</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">Hook</span><span class="p">,</span><span class="w"> </span><span class="n">GetFriendlyName</span><span class="p">());</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">FEditorPlusMenuBase</span><span class="o">::</span><span class="n">Register</span><span class="p">(</span><span class="n">MenuBuilder</span><span class="p">);</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">EndSection</span><span class="p">();</span>
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">}</span>
@@ -1342,7 +1342,7 @@
 <a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="kt">void</span><span class="w"> </span><span class="nf">FEditorPlusSubMenu::Register</span><span class="p">(</span><span class="n">FMenuBuilder</span><span class="o">&amp;</span><span class="w"> </span><span class="n">MenuBuilder</span><span class="p">)</span>
 <a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">{</span>
 <a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">    </span><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="n">GetFriendlyText</span><span class="p">(),</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">        </span><span class="n">GetFriendlyName</span><span class="p">(),</span>
 <a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">        </span><span class="n">GetFriendlyTips</span><span class="p">(),</span>
 <a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">        </span><span class="n">FNewMenuDelegate</span><span class="o">::</span><span class="n">CreateSP</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">FEditorPlusSubMenu</span><span class="o">::</span><span class="n">MakeSubMenu</span><span class="p">),</span>
 <a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nb">false</span><span class="p">,</span>
@@ -1362,15 +1362,17 @@
 <a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>
 <a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="c1">// ......</span>
 </code></pre></div>
-<h2 id="generate-nodes-through-the-path">Generate nodes through the path.</h2>
-<p>Organize the menu in a tree structure, and the path format can then define the tree structure of a menu.</p>
+<h2 id="generate-nodes-through-paths">Generate nodes through paths</h2>
+<p>Organize the menu in a tree structure, and the path format can define the tree structure of a menu:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="s">&quot;/&lt;Hook&gt;Help/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubTest/&lt;Command&gt;Action&quot;</span>
 </code></pre></div>
-<p>The above path can be used to define a series of menu creations:</p>
-<p><code>&lt;Hook&gt;/Help</code>: Located after the menu with the name Hook as Help.
-- <code>&lt;MenuBar&gt;BarTest</code>: Create a menu of type MenuBar, named BarTest.
-- <code>&lt;SubMenu&gt;SubTest</code>: Create a child node of type SubMenu with the name SubTest.
-- <code>&lt;Command&gt;Action</code>: Finally create a command</p>
+<p>The above code can be used to define a series of menu creation:</p>
+<ul>
+<li><code>&lt;Hook&gt;Help</code>: Located after the menu with the Hook named Help</li>
+<li><code>&lt;MenuBar&gt;BarTest</code>: Create a menu of type MenuBar with the name BarTest.</li>
+<li><code>&lt;SubMenu&gt;SubTest</code>: Create a sub-node of type SubMenu with the name SubTest.
+<code>&lt;Command&gt;Action</code>: Finally create a command</li>
+</ul>
 <p>The interface invocation can be very concise:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="w"> </span><span class="n">Path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/&lt;Hook&gt;Help/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubTest/&lt;Command&gt;Action&quot;</span><span class="p">;</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">RegisterPathAction</span><span class="p">(</span>
@@ -1381,8 +1383,8 @@
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">})</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">);</span>
 </code></pre></div>
-<h2 id="generate-nodes-in-custom-form">Generate nodes in custom form</h2>
-<p>We still keep the cumbersome way to create menus, which allows for more detailed settings. The code organization is somewhat similar to UE's SlateUI writing style.</p>
+<h2 id="custom-form-to-generate-nodes">Custom form to generate nodes</h2>
+<p>We still keep the cumbersome way to create menus, which allows for more detailed settings. The organization of the code is somewhat similar to UE's SlateUI writing method:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusMenuBar</span><span class="p">)(</span><span class="s">&quot;BarTest&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">-&gt;</span><span class="n">RegisterPath</span><span class="p">()</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="o">-&gt;</span><span class="n">Content</span><span class="p">({</span>
@@ -1396,8 +1398,8 @@
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="p">})</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">});</span>
 </code></pre></div>
-<h2 id="mixed-form">Mixed Form</h2>
-<p>Of course, the path format itself and the custom-generated menu are identical, they can be used interchangeably, providing great flexibility:</p>
+<h2 id="combined-form">Combined form</h2>
+<p>Of course, the path form itself and the menu generated by customization are the same, they can be used interchangeably, and are very flexible:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">RegisterPath</span><span class="p">(</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="s">&quot;/&lt;MenuBar&gt;BarTest/&lt;SubMenu&gt;SubMenu/&lt;Command&gt;Action1&quot;</span><span class="p">,</span><span class="w"> </span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">EP_NEW_MENU</span><span class="p">(</span><span class="n">FEditorPlusCommand</span><span class="p">)(</span><span class="s">&quot;Action1&quot;</span><span class="p">)</span>
@@ -1416,8 +1418,8 @@
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">        </span><span class="p">})),</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">);</span>
 </code></pre></div>
-<p>Multiple menus defined in different places will be merged into the same tree structure, and nodes with the same names will be considered the same node. In other words, the path is unique, and the same path can uniquely identify a menu node.
-So we can also find the nodes, and make some settings and modifications again:</p>
+<p>Multiple menus defined in different places will be merged into the same tree structure, and nodes with the same name will be considered as the same node. In other words, the path is unique, and the same path can uniquely determine a menu node.
+So we can also locate the nodes and make some settings and modifications again:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// set Name and Tips</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">FEditorPlusPath</span><span class="o">::</span><span class="n">GetNodeByPath</span><span class="p">(</span><span class="s">&quot;/&lt;MenuBar&gt;BarTest&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">SetFriendlyName</span><span class="p">(</span><span class="n">LOCTEXT</span><span class="p">(</span><span class="s">&quot;MenuTest&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MenuTest&quot;</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">SetFriendlyTips</span><span class="p">(</span><span class="n">LOCTEXT</span><span class="p">(</span><span class="s">&quot;MenuTestTips&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MenuTestTips&quot;</span><span class="p">));</span>
 </code></pre></div>
