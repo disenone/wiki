@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 18:13:23 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 18:13:23 -0000</lastBuildDate>
+    <pubDate>Thu, 28 Dec 2023 18:31:36 -0000</pubDate>
+    <lastBuildDate>Thu, 28 Dec 2023 18:31:36 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:13:34 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 18:31:47 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:13:21 +0000</pubDate>
+      <pubDate>Thu, 28 Dec 2023 18:31:34 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -608,11 +608,15 @@ FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEd
 ```&lt;/p&gt;
 &lt;p&gt;本机运行之前下载的 FBuildCoordinator.exe。&lt;/p&gt;
 &lt;h3&gt;远程机配置&lt;/h3&gt;
-&lt;p&gt;同样配置 Cache，只是 ip 需要指定到本机 ip，这里假定为 192.168.1.100
-  - FASTBUILD_CACHE_PATH: \192.168.1.100\Cache
-  - FASTBUILD_CACHE_MODE: rw&lt;/p&gt;
-&lt;p&gt;同样配置 Coordinator ip
-  - FASTBUILD_COORDINATOR: 192.168.1.100&lt;/p&gt;
+&lt;p&gt;同样配置 Cache，只是 ip 需要指定到本机 ip，这里假定为 192.168.1.100&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FASTBUILD_CACHE_PATH: \192.168.1.100\Cache&lt;/li&gt;
+&lt;li&gt;FASTBUILD_CACHE_MODE: rw&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同样配置 Coordinator ip&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FASTBUILD_COORDINATOR: 192.168.1.100&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;配置完如下图&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2023-ue-fastbuild/remote_vars.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;远程机上运行 FBuildWorker.exe，如果配置成功，可以看到本机的 FBuildCoordinator.exe 上会打印日志（这里 192.168.1.101 是远程机的 ip）：&lt;/p&gt;
@@ -629,7 +633,7 @@ FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEd
 11&amp;gt;FBuild BrokeragePath: &#39;\\127.0.0.1\Brokerage\
 11&amp;gt;FBuild CachePath: &#39;\\127.0.0.1\Cache\
 11&amp;gt;BFF file &#39;E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff&#39; has changed (reparsing will occur).
-11&amp;gt;Using Coordinator: 192.168.88.187
+11&amp;gt;Using Coordinator: 127.0.0.1
 11&amp;gt;Requesting worker list from Corrdinator
 11&amp;gt;Get Worker List from Coordinator.
 11&amp;gt;2 workers in payload: [192.168.1.101]
@@ -792,7 +796,7 @@ if (!String.IsNullOrEmpty(CachePath))
         &lt;!-- cache 的读写权限 Read/Write/ReadWrite --&gt;
         &lt;CacheMode&gt;ReadWrite&lt;/CacheMode&gt;
         &lt;!-- 指定 coordinator ip --&gt;
-        &lt;FBuildCoordinator&gt;192.168.88.187&lt;/FBuildCoordinator&gt;
+        &lt;FBuildCoordinator&gt;127.0.0.1&lt;/FBuildCoordinator&gt;
         &lt;!-- 强制远程编译 --&gt;
         &lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;
     &lt;/FASTBuild&gt;

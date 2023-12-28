@@ -1492,11 +1492,15 @@
 </code></pre></div>
 <p>本机运行之前下载的 FBuildCoordinator.exe。</p>
 <h3 id="_4">远程机配置</h3>
-<p>同样配置 Cache，只是 ip 需要指定到本机 ip，这里假定为 192.168.1.100
-  - FASTBUILD_CACHE_PATH: \192.168.1.100\Cache
-  - FASTBUILD_CACHE_MODE: rw</p>
-<p>同样配置 Coordinator ip
-  - FASTBUILD_COORDINATOR: 192.168.1.100</p>
+<p>同样配置 Cache，只是 ip 需要指定到本机 ip，这里假定为 192.168.1.100</p>
+<ul>
+<li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
+<li>FASTBUILD_CACHE_MODE: rw</li>
+</ul>
+<p>同样配置 Coordinator ip</p>
+<ul>
+<li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
+</ul>
 <p>配置完如下图</p>
 <p><a class="glightbox" href="../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-fastbuild/remote_vars.png" /></a></p>
 <p>远程机上运行 FBuildWorker.exe，如果配置成功，可以看到本机的 FBuildCoordinator.exe 上会打印日志（这里 192.168.1.101 是远程机的 ip）：</p>
@@ -1514,7 +1518,7 @@
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>11&gt;FBuild BrokeragePath: &#39;\\127.0.0.1\Brokerage\
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>11&gt;FBuild CachePath: &#39;\\127.0.0.1\Cache\
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>11&gt;BFF file &#39;E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff&#39; has changed (reparsing will occur).
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>11&gt;Using Coordinator: 192.168.88.187
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>11&gt;Using Coordinator: 127.0.0.1
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>11&gt;Requesting worker list from Corrdinator
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>11&gt;Get Worker List from Coordinator.
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>11&gt;2 workers in payload: [192.168.1.101]
@@ -1677,7 +1681,7 @@
 <a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">        </span><span class="cm">&lt;!-- cache 的读写权限 Read/Write/ReadWrite --&gt;</span>
 <a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
 <a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">        </span><span class="cm">&lt;!-- 指定 coordinator ip --&gt;</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>192.168.88.187<span class="nt">&lt;/FBuildCoordinator&gt;</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
 <a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">        </span><span class="cm">&lt;!-- 强制远程编译 --&gt;</span>
 <a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
 <a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
@@ -1745,7 +1749,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-25</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-29</span>
   </span>
 
     
