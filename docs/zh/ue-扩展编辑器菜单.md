@@ -1,15 +1,13 @@
 ---
 layout: post
 title: UE 扩展编辑器菜单
-date: 2023-12-01
-categories: [c++, ue]
-catalog: true
 tags: [dev, game, UE, UnreanEngine, UE4, UE5]
-description: |
-    记录 UE 如何扩展编辑器菜单
-figures: []
+description: 记录 UE 如何扩展编辑器菜单
 ---
+
 <meta property="og:title" content="UE 扩展编辑器菜单" />
+
+# UE 扩展编辑器菜单
 
 > 记录 UE 如何扩展编辑器菜单
 
