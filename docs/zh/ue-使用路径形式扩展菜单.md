@@ -43,7 +43,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
 void FEditorPlusMenuBar::Register(FMenuBarBuilder& MenuBarBuilder)
 {
 	MenuBarBuilder.AddPullDownMenu(
-		GetFriendlyText(),
+		GetFriendlyName(),
 		GetFriendlyTips(),
         // Delegate to call Register
 		FEditorPlusMenuManager::GetDelegate<FNewMenuDelegate>(GetUniqueId()),       
@@ -53,7 +53,7 @@ void FEditorPlusMenuBar::Register(FMenuBarBuilder& MenuBarBuilder)
 // Section
 void FEditorPlusSection::Register(FMenuBuilder& MenuBuilder)
 {
-	MenuBuilder.BeginSection(Hook, GetFriendlyText());
+	MenuBuilder.BeginSection(Hook, GetFriendlyName());
 	FEditorPlusMenuBase::Register(MenuBuilder);
 	MenuBuilder.EndSection();
 }
@@ -69,7 +69,7 @@ void FEditorPlusSeparator::Register(FMenuBuilder& MenuBuilder)
 void FEditorPlusSubMenu::Register(FMenuBuilder& MenuBuilder)
 {
 	MenuBuilder.AddSubMenu(
-		GetFriendlyText(),
+		GetFriendlyName(),
 		GetFriendlyTips(),
 		FNewMenuDelegate::CreateSP(this, &FEditorPlusSubMenu::MakeSubMenu),
 		false,
@@ -100,7 +100,7 @@ void FEditorPlusCommand::Register(FMenuBuilder& MenuBuilder)
 
 以上路径即可以定义一系列菜单的创建：
 
-- `<Hook>/Help`：位置在 Hook 名字为 Help 的菜单后
+- `<Hook>Help`：位置在 Hook 名字为 Help 的菜单后
 - `<MenuBar>BarTest`：创建类型 MenuBar 的菜单，名字为 BarTest
 - `<SubMenu>SubTest`：创建子节点，类型 SubMenu, 名字 SubTest
 - `<Command>Action`：最后创建一个命令
