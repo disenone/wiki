@@ -6,7 +6,7 @@ description: 记录如何在 Python3.12 中实现热更新
 ---
 <meta property="og:title" content="Python 杂谈 2 - Python3.12 热更新" />
 
-# Python 杂谈 2 - Python3.12 现热更新
+# Python 杂谈 2 - Python3.12 热更新
 
 > 记录如何在 Python3.12 中实现热更新
 
