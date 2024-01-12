@@ -68,11 +68,11 @@ front_matter_translation_rules = {
     # 调用 ChatGPT 自动翻译
     "title": lambda value, lang: translate_text(value, lang,"front-matter"),
     "description": lambda value, lang: translate_text(value, lang,"front-matter"),
-    
+
     # 使用固定的替换规则
     "categories": lambda value, lang: front_matter_replace(value, lang),
     "tags": lambda value, lang: front_matter_replace(value, lang),
-    
+
     # 未添加的字段将默认不翻译
 }
 
@@ -171,7 +171,7 @@ def retry_except(times=3):
             return func(*args, **kwargs)
         return wrapper
     return _retry
-        
+
 
 def is_skip_line(line):
     if not line:
@@ -188,20 +188,20 @@ def is_skip_line(line):
 
 # 定义调用 ChatGPT API 翻译的函数
 @retry_except(3)
-def translate_text(text, lang, type):    
+def translate_text(text, lang, type):
     if not text:
         return text
 
     if is_skip_line(text):
         return text
-    
+
     if text.isspace():
         return text
 
     if marker_no_translate_begin in text and text.count(marker_no_translate_begin) == text.count(marker_no_translate_end):
         if text.count(marker_no_translate_begin) != text.count(marker_no_translate_end):
             raise RuntimeError('count marker_no_translate_begin != marker_no_translate_end: %s' % text)
-        
+
         output_text = ''
         while text:
             begin = text.find(marker_no_translate_begin)
@@ -209,7 +209,7 @@ def translate_text(text, lang, type):
                 end = text.find(marker_no_translate_end)
                 if end <= begin:
                     raise RuntimeError('index marker_no_translate_end <= marker_no_translate_begin: %s' % text)
-                
+
                 output_text += translate_text(text[:begin], lang, type)
                 if output_text.endswith('\n') and text[begin-1] != '\n':
                     output_text = output_text[:-1]
@@ -225,7 +225,9 @@ def translate_text(text, lang, type):
     if link_match:
         link_text = link_match.group(1)
         link_url = link_match.group(2)
-        output_text = translate_text(text[:link_match.start()+len(link_text)], lang, type)
+        output_text = translate_text(text[:link_match.start() + len(link_text)], lang, type)
+        if not output_text.endswith(']'):
+            output_text = output_text[:output_text.rfind(']')]
         output_text += link_url
         output_text += translate_text(text[link_match.end():], lang, type)
         return output_text
@@ -240,7 +242,7 @@ def translate_text(text, lang, type):
         "es": "Spanish",
         "ar": "Arabic"
     }[lang]
-    
+
     # Front Matter 与正文内容使用不同的 prompt 翻译
     # 翻译 Front Matter。
     if type == "front-matter":
@@ -250,7 +252,7 @@ def translate_text(text, lang, type):
                 {"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not explain them."},
                 {"role": "user", "content": f"Translate these text into {target_lang} language:\n\n{text}\n"},
             ],
-        )  
+        )
     # 翻译正文
     elif type== "main-body":
         completion = openai_client.chat.completions.create(
@@ -298,7 +300,7 @@ def translate_file(working_folder, input_file, lang):
     filename = os.path.basename(input_file)
     if only_list and filename not in only_list:
         return
-    
+
     log(f"Translating into {lang}: {filename}")
     sys.stdout.flush()
 
@@ -417,7 +419,7 @@ def GetGitRef(input_file):
         return
     log(git_log, level=logging.DEBUG)
     return json.loads(git_log)['commit']
-    
+
 
 def CreateProcessInfo(input_file):
     info = {}
@@ -438,7 +440,7 @@ def NeedProcess(precessed_dict, input_file, lang):
 
     if only_list:
         return filename in only_list
-    
+
     # 读取 Markdown 文件的内容
     with open(input_file, "r", encoding="utf-8") as f:
         md_content = f.read()
@@ -454,7 +456,7 @@ def NeedProcess(precessed_dict, input_file, lang):
             sys.stdout.flush()
             if lang != 'en':
                 return True
-            
+
         else:  # 翻译为所有语言
             return True
 
@@ -463,9 +465,9 @@ def NeedProcess(precessed_dict, input_file, lang):
         sys.stdout.flush()
         return False
 
-    elif filename in precessed_dict:  
+    elif filename in precessed_dict:
         # 以前翻译过，判断是否有更新
-        # 优先判断 git_ref，如果没有 git_ref，则判断修改时间 
+        # 优先判断 git_ref，如果没有 git_ref，则判断修改时间
         processed_info = precessed_dict[filename]
         git_ref = GetGitRef(input_file)
         if git_ref:
@@ -477,16 +479,16 @@ def NeedProcess(precessed_dict, input_file, lang):
                 return True
         log(f"Pass the post in processed_list: {filename}")
         sys.stdout.flush()
-        
+
     elif marker_written_in_en in md_content:  # 翻译为除英文之外的语言
         log(f"Pass the en-en translation: {filename}")
         sys.stdout.flush()
         if lang != 'en':
             return True
-            
+
     else:  # 翻译为所有语言
         return True
- 
+
 
 def run(working_folder):
     # 按文件名称顺序排序
@@ -495,7 +497,7 @@ def run(working_folder):
     file_list = sorted(file_list)
     file_list = [os.path.join(dir_to_translate_abs, file) for file in file_list]
     # log(sorted_file_list)
-    
+
     # 创建一个外部列表文件，存放已处理的 Markdown 文件名列表
     if not os.path.exists(processed_dict_file):
         with open(processed_dict_file, "w", encoding="utf-8") as f:
@@ -527,7 +529,7 @@ def run(working_folder):
     # 所有任务完成的提示
     log("Congratulations! All files processed done.")
     sys.stdout.flush()
-    
+
 
 def main(working_folder='.'):
     try:
@@ -544,4 +546,3 @@ def main(working_folder='.'):
 
 if __name__ == '__main__':
     main()
-    
