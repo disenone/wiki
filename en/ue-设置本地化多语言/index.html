@@ -601,6 +601,8 @@
       
         
       
+        
+      
     
     
     
@@ -666,7 +668,28 @@
         
   
   <span class="md-ellipsis">
-    Python Rambles 1 - Exploring __builtins__
+    Python Chat 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Miscellany 2 - Python 3.12 Hot Update
   </span>
   
 
@@ -1342,9 +1365,9 @@
 <h2 id="feature-introduction">Feature Introduction</h2>
 <p>The UE comes with tools for implementing localization for multiple languages, for example, we can localize the editor menu:</p>
 <p>English Menu:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/chinese.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/chinese.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/chinese.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/chinese.png" /></a></p>
 <p>English menu:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/english.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/english.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/english.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/english.png" /></a></p>
 <h2 id="code-declaration">Code declaration</h2>
 <p>In order to achieve menu localization, we need to explicitly declare the strings that require UE processing in the code, using the macros <code>LOCTEXT</code> and <code>NSLOCTEXT</code> defined by UE.</p>
 <ul>
@@ -1373,30 +1396,30 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cp">#undef LOCTEXT_NAMESPACE</span>
 </code></pre></div>
 <p>First, open the translation tool and go to the editor settings <code>Edit - Editor Preferences</code>, then check <code>General - Experimental Features - Tools - Translation Selector</code>.</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/editor_enable_tool.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/editor_enable_tool.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/editor_enable_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/editor_enable_tool.png" /></a></p>
 <p>Then open the translation tool <code>Tools - Localization Control Panel</code>:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/editor_open_tool.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/editor_open_tool.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/editor_open_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/editor_open_tool.png" /></a></p>
 <p>Create a new target (It's okay to create under the default Game, creating a new one for the convenience of managing and moving these translated texts)</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_new_target.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_new_target.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_new_target.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_new_target.png" /></a></p>
 <p>Set the parameters for the target, change the name to <code>EditorPlusTools</code> here, load the policy as <code>Editor</code>, collect from text, and add the plugin directory. The target dependencies are <code>Engine, Editor</code>, keep the other configurations unchanged:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_config.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_config.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_config.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_config.png" /></a></p>
 <p>Add language support to ensure that there are two language options: Chinese (Simplified) and English. Verify that when the mouse is placed over the language name, "zh-Hans" and "en" are displayed respectively. Select English, as the text in our code is defined in English, and we need to gather this English text here.</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_lang.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_lang.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_lang.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_lang.png" /></a></p>
 <p>Click to collect text:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_collect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_collect.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_collect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_collect.png" /></a></p>
 <p>A progress dialog will pop up, wait for the collection to be successful, and a green check mark will be displayed:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_collected.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_collected.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_target_collected.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_target_collected.png" /></a></p>
 <p>Turn off the collection progress dialog and go back to the translation tool. You can see the number of collected items displayed in one line of English that we don't need to translate. Click the translation button for the Chinese line.</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_go_trans.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_go_trans.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_go_trans.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_go_trans.png" /></a></p>
 <p>Open the window and you will see that the "Untranslated" column has content. On the right side of the English text, input the translated content. Once all the content has been translated, save and exit the window.</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_trans.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_trans.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_trans.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_trans.png" /></a></p>
 <p>Click to calculate the number of words, and after finishing, you will be able to see the Chinese column displaying the translated quantity:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_count.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_count.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_count.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_count.png" /></a></p>
 <p>Final compiled text:</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_build.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_build.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_build.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_build.png" /></a></p>
 <p>The translated data will be placed in <code>Content\Localization\EditorPlusTools</code>, with one folder for each language. Inside the zh-Hans folder, you can see two files. <code>.archive</code> is the collected and translated text, while <code>.locres</code> is the compiled data.</p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_ret.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_ret.png" /></a></p>
-<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_ret2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_ret2.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_ret.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_ret.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-localization/tool_ret2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-localization/tool_ret2.png" /></a></p>
 <h2 id="put-the-translated-text-into-the-plugin-directory">Put the translated text into the plugin directory</h2>
 <p>We've placed the translation text generated for the plugin in the project directory above. We need to move these texts into the plugin to facilitate publishing them along with the plugin.</p>
 <p>Move the <code>Content\Localization\EditorPlusTools</code> directory to the plugin directory under Content, I have it here as <code>Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools</code>.</p>

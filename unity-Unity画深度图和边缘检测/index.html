@@ -602,6 +602,8 @@
       
         
       
+        
+      
     
     
     
@@ -668,6 +670,27 @@
   
   <span class="md-ellipsis">
     Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -1271,7 +1294,7 @@
 <p>渲染的结果就会保存在 <code>depthTexture</code>里面，很简单吧。</p>
 <h2 id="_3">把深度映射成颜色</h2>
 <p>要完成这个工作，首先需要一张颜色图，这张图可以用 Matlab 很简单地生成，例如我用的是 Matlab 里面的 jet 图：</p>
-<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200" /></a></p>
+<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200" /></a></p>
 <p>把这张图放到项目目录 <code>Assets\Resources</code> 里面，就可以在程序中读取：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">colorMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">Load</span><span class="o">&lt;</span><span class="n">Texture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;colormap&quot;</span><span class="p">);</span>
 </code></pre></div>
@@ -1397,7 +1420,7 @@
 <a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="p">}</span>
 </code></pre></div>
 <p>结果类似于这个：</p>
-<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200" /></a></p>
+<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200" /></a></p>
 <h1 id="_5">混合真实世界图像</h1>
 <p>单单是深度的颜色图可能有点无趣，那么我们可以混合上真实场景的颜色图，只需要再建一个 Shader，传入前面的图像和相机的真实图像，在 <code>OnRenderImage</code> 中进行混合：</p>
 <div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">ColorMixDepth</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{</span>

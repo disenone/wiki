@@ -602,6 +602,8 @@
       
         
       
+        
+      
     
     
     
@@ -668,6 +670,27 @@
   
   <span class="md-ellipsis">
     Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -1330,7 +1353,7 @@
   <h1>Unity人物控制</h1>
 
 <p><meta property="og:title" content="Unity人物控制" /></p>
-<p><a class="glightbox" href="../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" /></a></p>
+<p><a class="glightbox" href="../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" /></a></p>
 <p>人物的动作控制是游戏里面很重要的一部分，操作性强的游戏能够很好的吸引玩家。这里我就尝试做一个简单的人物操作控制，人物能够完成基本的移动，包括行走，跳跃。</p>
 <h2 id="_1">需求</h2>
 <p>先来考虑一下，我们的人物操作具体的需求：</p>
@@ -1348,7 +1371,7 @@
 <li>真正控制人物移动的脚本命名为<code>MyThirdPersonController.cs</code></li>
 </ol>
 <p>配置后的结果是这样：
-<a class="glightbox" href="../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" /></a></p>
+<a class="glightbox" href="../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" /></a></p>
 <h2 id="_3">输入</h2>
 <p>输入就是上下左右和跳跃，方向需要做一个归一化的处理：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// get movement from input</span>

@@ -752,6 +752,8 @@
       
         
       
+        
+      
     
     
     
@@ -817,7 +819,28 @@
         
   
   <span class="md-ellipsis">
-    Python Rambles 1 - Exploring __builtins__
+    Python Chat 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Miscellany 2 - Python 3.12 Hot Update
   </span>
   
 
@@ -1628,7 +1651,7 @@
 </code></pre></div>
 </details>
 
-<p>Annotate each field in the KCP structure one by one. You can have a preliminary feeling that the entire KCP protocol is not too complicated. By carefully analyzing the code, both you and I can read and understand the KCP protocol. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f604.svg" title=":smile:" /></p>
+<p>Annotate each field in the KCP structure one by one. You can have a preliminary feeling that the entire KCP protocol is not too complicated. By carefully analyzing the code, both you and I can read and understand the KCP protocol. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:" /></p>
 <h2 id="kcps-arq-implementation">KCP's ARQ Implementation</h2>
 <p>KCP is essentially an ARQ (Auto Repeat-reQuest) protocol that primarily focuses on ensuring reliable transmission. So, let's first pay attention to the basic ARQ component of KCP and how KCP achieves reliable transmission.</p>
 <p>ARQ, as the name implies, automatically retransmits the corresponding data packet when we believe that the recipient has failed to receive it. This is achieved through two mechanisms: acknowledgement (ACK) and retransmission upon timeout. In terms of specific code implementation, KCP assigns a unique identifier, <code>sn</code>, to each data packet (referred to as <code>SEGMENT</code> in the previous section). Once the recipient receives a data packet, it responds with an ACK packet (also a <code>SEGMENT</code>) that has the same <code>sn</code> as the received data packet, indicating successful reception. The <code>SEGMENT</code> also includes a field called <code>una</code>, which represents the sequence number of the next expected data packet. In other words, it signifies that all data packets with a sequence number lower than <code>una</code> have been successfully received. It is equivalent to a full ACK packet, allowing the sender to update the send buffer and send window more efficiently.</p>

@@ -599,6 +599,8 @@
       
         
       
+        
+      
     
     
     
@@ -664,7 +666,28 @@
         
   
   <span class="md-ellipsis">
-    Python Rambles 1 - Exploring __builtins__
+    Python Chat 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Miscellany 2 - Python 3.12 Hot Update
   </span>
   
 
@@ -1329,14 +1352,14 @@
 <p><meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)" /></p>
 <h2 id="principle">Principle</h2>
 <p>The principle of Volumetric Light Scattering can be referred to in Chapter 13 of "GPU Gems 3" (http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html). The book contains effective illustrations.</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" /></a></p>
 <p>[to_be_replace_0]Good-looking, well, then, our goal is to achieve this effect.</p>
 <p>The book explains the principle, and one key formula is:</p>
 <p>\[ L(s, \theta, \phi) = exposure \times \sum_{i=0}^n decay^i \times weight \times \frac{L( s_i, \theta_i )}{n} \]</p>
 <p>My understanding is that for each pixel on the image, light can be projected onto it. Therefore, we sample the line connecting the pixel to the light source (corresponding to the formula \(i\)), and the sampled result is weighted and averaged (corresponding to the formula \(\sum\)), which becomes the new color value for that pixel. Additionally, there is a crucial post-pixel shader, but if we only use that shader to process the rendering results from the camera, it will create noticeable artificial artifacts, such as many stripes.</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png" /></a></p>
 <p>So how is the effect in the book achieved? In fact, the answer is already provided in the book and can be illustrated using a set of images:</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/steps.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/steps.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/steps.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/steps.png" /></a></p>
 <p>图a represents a rough effect, and if you look carefully, you can see many stripes, and it doesn't cover up the lack of authenticity. Steps b, c, and d are necessary to achieve a good effect.</p>
 <p>b. Render the lighting radiance effect onto the image and add object occlusion.</p>
 <p>c. Apply the Volumetric Light Scattering pixel shader to b to achieve the effect after occlusion.</p>
@@ -1433,7 +1456,7 @@ The second parameter of <code>RenderWithShader</code> is used to specify the Sha
 <a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a><span class="p">}</span>
 </code></pre></div>
 <p>Note the difference between shaders for opaque and transparent objects: opaque objects are directly rendered as black, while transparent objects require blending. We need to extract the alpha channel from the object's texture and use it for blending. The code above only lists Opaque and Transparent shaders, but there are also TreeOpaque (which is the same as Opaque but with a different RenderType) and TreeTransparentCutout (same as Transparent) shaders, among others. Since we have specified the RenderType, in order to be comprehensive, we need to cover as many scenarios as possible where objects can occlude each other. In this case, I have only included the four types mentioned earlier. The results are roughly as follows:</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" /></a></p>
 <h2 id="combine-object-occlusion-to-shade-light-source-radiation">Combine object occlusion to shade light source radiation.</h2>
 <p>Painting the radiation of the light source is not difficult, but it is important to make some adjustments based on the size of the screen, so that the radiation of the light source appears circular.</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="s">&quot;Custom/LightRadiate&quot;</span><span class="w"> </span>
@@ -1485,7 +1508,7 @@ The second parameter of <code>RenderWithShader</code> is used to specify the Sha
 <a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="p">}</span>
 </code></pre></div>
 <p>This Shader requires the input of the screen position of the light source (which can be calculated using <code>camera.WorldToViewportPoint</code>, resulting in UV coordinates). Then, it draws a circle with a specified radius that decays in brightness outwardly. The result is combined with the previously obtained object occlusion image (stored in <code>_MainTex</code>), resulting in something like this:</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/light.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/light.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/light.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/light.png" /></a></p>
 <h2 id="light-scattering-processing-combined-with-real-colors">Light Scattering processing, combined with real colors.</h2>
 <p>Here we will need to use the provided Pixel Shader in the book, my version being: [to_be_replace[x]]</p>
 <div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">LightScattering</span><span class="err">&quot;</span><span class="w"> </span>
@@ -1570,7 +1593,7 @@ The second parameter of <code>RenderWithShader</code> is used to specify the Sha
 <a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a><span class="p">}</span>
 </code></pre></div>
 <p>Generally speaking, it is consistent with what is described in the book, but my parameters need to be passed in the program, and it is combined with real color images and light scattering images. As a result:</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/effect.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/effect.gif" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/effect.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/effect.gif" /></a></p>
 <h2 id="complete-code">Complete Code</h2>
 <p>The code is available <a href="../../assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip">here</a>. Add the <code>cs</code> script to the camera.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

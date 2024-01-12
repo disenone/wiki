@@ -601,6 +601,8 @@
       
         
       
+        
+      
     
     
     
@@ -667,6 +669,27 @@
   
   <span class="md-ellipsis">
     Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -1375,8 +1398,8 @@
 </blockquote>
 <h2 id="hook">Hook</h2>
 <p>Hook 可以理解为扩展菜单的锚点，我们可以设置新加的菜单命令在 Hook 的前面或者后面，UE 自带的编辑器菜单命令基本都带有 Hook，UE5 下打开 <code>编辑 - 编辑器偏好设置 - 通用 - 其他 - 显示 UI 扩展点</code> 来显示所有菜单的 Hook：</p>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/show_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/show_hook.png" /></a></p>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/show_hook2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/show_hook2.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/show_hook.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/show_hook.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/show_hook2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/show_hook2.png" /></a></p>
 <h2 id="_1">模块依赖</h2>
 <p>需要在项目 .Build.cs 文件里面加上依赖的模块 LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">PrivateDependencyModuleNames</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span>
@@ -1417,7 +1440,7 @@
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
 </code></pre></div>
 <p>执行以上代码可以看到在 帮助 后面加上了一个菜单栏 MenuTest:</p>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/bar.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/bar.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/bar.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/bar.png" /></a></p>
 <h2 id="_3">添加命令</h2>
 <p>使用接口 <code>MenuBuilder.AddMenuEntry</code>：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Inside MenuTest Lambda</span>
@@ -1429,7 +1452,7 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">})));</span>
 </code></pre></div>
 <p>把以上代码放到 CreateLambda 里面，即可生成菜单命令：</p>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/action.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/action.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/action.png" /></a></p>
 <h2 id="_4">菜单分节</h2>
 <p>使用 <code>MenuBuilder.BeginSection</code> 和 <code>MenuBuilder.EndSection</code>：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">BeginSection</span><span class="p">(</span><span class="n">NAME_None</span><span class="p">,</span><span class="w"> </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">&quot;MenuTestSection&quot;</span><span class="p">));</span>
@@ -1439,7 +1462,7 @@
 <h2 id="_5">分隔符</h2>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddMenuSeparator</span><span class="p">();</span>
 </code></pre></div>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/section%26sperator.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/section%26sperator.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/section%26sperator.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/section%26sperator.png" /></a></p>
 <h2 id="_6">子菜单</h2>
 <p>子菜单类似菜单栏，需要在 Lambda 里面定义：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
@@ -1455,7 +1478,7 @@
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">            </span><span class="p">})));</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="p">}));</span>
 </code></pre></div>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/submenu.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/submenu.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/submenu.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/submenu.png" /></a></p>
 <h1 id="slateui">SlateUI 控件</h1>
 <p>还可以添加 UI 控件：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddWidget</span><span class="p">(</span>
@@ -1483,7 +1506,7 @@
 <a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">GetEmpty</span><span class="p">()</span>
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="p">);</span>
 </code></pre></div>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/widget.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/widget.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/widget.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/widget.png" /></a></p>
 <p>Slate UI 相关的内容这里不详细展开，有兴趣可以去另外找文章看。</p>
 <h1 id="hook_1">Hook 增加菜单</h1>
 <p>譬如在 <code>工具 - 编程</code> 里面增加一个命令：</p>
@@ -1501,7 +1524,7 @@
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="p">})</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">);</span>
 </code></pre></div>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/other_hook.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/other_hook.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/other_hook.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/other_hook.png" /></a></p>
 <p>同理可以添加其他菜单类型。</p>
 <h1 id="_7">完整代码</h1>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">BuildTestMenu</span><span class="p">()</span>
@@ -1586,7 +1609,7 @@
 <a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a><span class="w">    </span><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LevelEditor&quot;</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
 <a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a><span class="p">}</span>
 </code></pre></div>
-<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/overall.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/overall.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2023-ue-extend_menu/overall.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2023-ue-extend_menu/overall.png" /></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->

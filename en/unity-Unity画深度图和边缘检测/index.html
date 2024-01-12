@@ -601,6 +601,8 @@
       
         
       
+        
+      
     
     
     
@@ -666,7 +668,28 @@
         
   
   <span class="md-ellipsis">
-    Python Rambles 1 - Exploring __builtins__
+    Python Chat 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Miscellany 2 - Python 3.12 Hot Update
   </span>
   
 
@@ -1271,7 +1294,7 @@
 <p>The result of rendering will be saved in the <code>depthTexture</code>, it's very simple.</p>
 <h2 id="map-depth-to-color">Map Depth to Color</h2>
 <p>To accomplish this task, the first step is to have a color map. This map can be easily generated using Matlab. For example, I have utilized the "jet" map inside Matlab.</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200" /></a></p>
 <p>Put this image into the project directory <code>Assets\Resources</code>, and you can read it in the program.</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">colorMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">Load</span><span class="o">&lt;</span><span class="n">Texture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;colormap&quot;</span><span class="p">);</span>
 </code></pre></div>
@@ -1397,7 +1420,7 @@
 <a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="p">}</span>
 </code></pre></div>
 <p>The result is similar to this:</p>
-<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200" /></a></p>
 <h1 id="blending-real-world-images">Blending Real-World Images</h1>
 <p>Adding color to a depth map alone can be a bit dull, so we can blend in colors from real-world scenes. To do this, we just need to create another shader and pass in the previous image as well as the camera's real-world image. Then, in the <code>OnRenderImage</code> function, we can blend the two images together.</p>
 <div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">ColorMixDepth</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{</span>

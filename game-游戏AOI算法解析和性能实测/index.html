@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://disenone.github.io/wiki/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/">
       
       
-        <link rel="prev" href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/">
+        <link rel="prev" href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/">
       
       
         <link rel="next" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
@@ -602,6 +602,8 @@
       
         
       
+        
+      
     
     
     
@@ -668,6 +670,27 @@
   
   <span class="md-ellipsis">
     Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -1760,9 +1783,9 @@
 <p>十字链使用起来要达到比九宫格性能更优，需要一些更强的假设，譬如 <code>player_num = 1000, map_size = [-1000, 1000]</code> 情况下，<code>Tick</code> 耗时十字链为 <code>0.8ms</code> 九宫格 <code>1.8ms</code>，<code>Update Pos</code> 十字链为 <code>0.3ms</code> 九宫格 <code>0.18ms</code>（注意测试 <code>Update Pos</code> 时间为执行了 10 次的时间总和）。<code>Tick + Update Pos</code> 总时间下，十字链如果要比九宫格更少，那 <code>Update Pos</code> 的次数不能超过 <code>Tick</code> 的 <code>8</code> 倍，或者说两个 <code>Tick</code> 之间，<code>Update Pos</code> 的次数需要小于 <code>8</code> 次。另外因为十字链 <code>Add Player</code> 耗时巨大，不适用于玩家短时间频繁出入场景或者在场景内大范围传送的情况，另外如果短时间内有大量玩家进入场景，也很容易导致性能下降，大量占用 CPU。</p>
 <p>对于十字链表，在一个前提之下还能做一个优化：干掉 <code>Tick</code>，前提是游戏能接受正方形的 AOI，并且需要实测正方形 AOI 带来的其他诸如网络等消耗是能接受的。其实前提是比较苛刻的，因为在游戏中 AOI 计费能占用的 CPU 通常占比是不大的，但把圆形 AOI 改成方形 AOI 导致 AOI 范围面积增大，范围内的玩家数量也增多，均匀分布下玩家数量可能会增多到原来的 <code>1.27</code> 倍。但是，一旦能满足前提，十字链表可以做到不需要 <code>Tick</code> 来定期更新 AOI 事件，因为实现上十字链表的 <code>candidates</code> 就维护了一份方形下 AOI，原来只是为了计算圆形 AOI，而不得不在 <code>Tick</code> 中再遍历计算距离。在这种情况下，十字链是有可能能够达到很好的性能，因为十字链表 <code>Update Pos</code> 的性能可以跟 <code>Tick</code> 相差几倍到几十倍。</p>
 <p>最后给出两者的对比柱状图：</p>
-<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/add_player.png" /></a></p>
-<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/tick.png" /></a></p>
-<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/add_player.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/tick.png" /></a></p>
+<p><a class="glightbox" href="../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2021-11-18-aoi-tesing/update_pos.png" /></a></p>
 <h3 id="_9">总结</h3>
 <p>本文我们介绍了两种 AOI 算法（九宫格和十字链）的原理和基本实现，并通过实测的数据分析了这两种算法的性能优劣，希望能够给读者带来一些帮助或者启发。</p>
 <p>总的来说，九宫格法实现简单，性能均衡不容易拉胯，非常适合 AOI 不是性能瓶颈的游戏来使用，九宫格法的性能波动范围是在可预期的范围内，性能下限比较高，也不容易导致瓶颈，但另一方面可优化空间也不大，时间复杂度比较固定。反观十字链法，实现要更复杂，性能下限比九宫格法低，但是如果能够满足一些假设和前提，十字链可优化空间更高，换句话说是上限是可以更高。这两种方法各有优劣，游戏业界内也有不同的引擎分别选择了两者之一，各取所需，见仁见智。</p>
@@ -1874,7 +1897,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Python 杂谈 1 - 探究 __builtins__">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Python 杂谈 2 - Python3.12 热更新">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1884,7 +1907,7 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                Python 杂谈 1 - 探究 __builtins__
+                Python 杂谈 2 - Python3.12 热更新
               </div>
             </div>
           </a>

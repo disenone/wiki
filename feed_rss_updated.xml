@@ -13,12 +13,12 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 18:31:36 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 18:31:36 -0000</lastBuildDate>
+    <pubDate>Fri, 12 Jan 2024 06:44:35 -0000</pubDate>
+    <lastBuildDate>Fri, 12 Jan 2024 06:44:35 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.11.0</generator>
+    <generator>MkDocs RSS plugin - v1.11.1</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:31:47 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:44:46 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,10 +54,604 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:31:34 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:44:33 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Python 杂谈 1 - 探究 __builtins__</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Python 杂谈 1 - 探究 __builtins__ - Disenone&#34; /&gt;&lt;/p&gt;
+&lt;h2&gt;引子&lt;/h2&gt;
+&lt;p&gt;我们知道，&lt;code&gt;__builtins__&lt;/code&gt; 本身是在全局命名空间中就有的一个对象，是 &lt;code&gt;Python&lt;/code&gt; 故意暴露出来给代码层的，在代码的任意地方都可以直接使用。但是有点冷的知识是，&lt;code&gt;__builtins__&lt;/code&gt; 在 &lt;code&gt;main&lt;/code&gt; 模块（也就是 &lt;code&gt;__main__&lt;/code&gt;，指的都是同一个模块，后文可能会混用）里面是 &lt;code&gt;__builtin__&lt;/code&gt; 这个模块，但在其他模块里面，它表示的是 &lt;code&gt;__builtin__.__dict__&lt;/code&gt;，这就有点让人莫名其妙了。虽然官方不推荐直接使用 &lt;code&gt;__builtins__&lt;/code&gt;，但你给我搞两种情况是怎么回事？本文我们就来盘一盘这个设定的由来，在这个过程中，我们还可以找到这些问题的答案：&lt;code&gt;__builtin__&lt;/code&gt; 跟 &lt;code&gt;__builtins__&lt;/code&gt; 有什么区别？&lt;code&gt;__builtins__&lt;/code&gt; 在 &lt;code&gt;main&lt;/code&gt; 模块跟其他模块为什么会设定成不同？&lt;code&gt;__builtins__&lt;/code&gt; 是在哪里定义的？&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;__builtin__&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;在探讨 &lt;code&gt;__builtins__&lt;/code&gt; 之前，我们需要先看看 &lt;code&gt;__builtin__&lt;/code&gt; 是什么。&lt;code&gt;__builtin__&lt;/code&gt; 是存放所有内建对象的模块，我们平常可以直接使用的 &lt;code&gt;Python&lt;/code&gt; 内建对象，本质上都是 &lt;code&gt;__builtin__&lt;/code&gt; 模块里的对象，即放在 &lt;code&gt;__builtin__.__dict__&lt;/code&gt; 里，对应着的是 &lt;code&gt;Python&lt;/code&gt; 的内建名字空间。记住这个关键知识点：&lt;code&gt;__buintin__&lt;/code&gt; 是一个模块 &lt;code&gt;module&lt;/code&gt;。我们可以在 &lt;code&gt;Python&lt;/code&gt; 源码中找到 &lt;code&gt;__builtin__&lt;/code&gt; 模块的定义和使用（注意，下文提到的 &lt;code&gt;Python&lt;/code&gt; 源码，都是指 CPython-2.7.18 源码）：&lt;/p&gt;
+&lt;p&gt;``` c
+// pythonrun.c
+void
+Py_InitializeEx(int install_sigs)
+{
+    PyInterpreterState *interp;
+    ...
+    // 初始化 &lt;strong&gt;builtin&lt;/strong&gt;
+    bimod = _PyBuiltin_Init();
+    // interp-&amp;gt;builtins = &lt;strong&gt;builtin&lt;/strong&gt;.&lt;strong&gt;dict&lt;/strong&gt;
+    interp-&amp;gt;builtins = PyModule_GetDict(bimod);
+    ...
+}&lt;/p&gt;
+&lt;p&gt;// bltinmodule.c
+PyObject *
+_PyBuiltin_Init(void)
+{
+    PyObject &lt;em&gt;mod, &lt;/em&gt;dict, &lt;em&gt;debug;
+    mod = Py_InitModule4(&#34;&lt;strong&gt;builtin&lt;/strong&gt;&#34;, builtin_methods,
+                         builtin_doc, (PyObject &lt;/em&gt;)NULL,
+                         PYTHON_API_VERSION);
+    if (mod == NULL)
+        return NULL;
+    dict = PyModule_GetDict(mod);&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 给 dict 加上内建的对象
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;// ceval.c
+// 获取 builtins
+PyObject *
+PyEval_GetBuiltins(void)
+{
+    PyFrameObject *current_frame = PyEval_GetFrame();
+    if (current_frame == NULL)
+        return PyThreadState_GET()-&amp;gt;interp-&amp;gt;builtins;
+    else
+        return current_frame-&amp;gt;f_builtins;
+}
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 初始化的时候会调用 &lt;code&gt;_PyBuiltin_Init&lt;/code&gt; 来创建 &lt;code&gt;__builtin__&lt;/code&gt; 模块，并在里面添加上内建的对象，解释器本身会引用住 &lt;code&gt;interp-&amp;gt;builtins = __buintin__.__dict__&lt;/code&gt;，当前执行的栈帧结构同时也会引用一份 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt;。那么很自然地，当执行代码需要根据名字寻找对象的时候，&lt;code&gt;Python&lt;/code&gt; 会去 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt; 里面来找，自然就能拿到所有的内建对象：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;c
+// ceval.c
+TARGET(LOAD_NAME)
+{
+    // 先在 f-&amp;gt;f_locals 名字空间里面找
+    ...
+    if (x == NULL) {
+        // 再找找全局空间
+        x = PyDict_GetItem(f-&amp;gt;f_globals, w);
+        if (x == NULL) {
+            // 这里就去内建空间找
+            x = PyDict_GetItem(f-&amp;gt;f_builtins, w);
+            if (x == NULL) {
+                format_exc_check_arg(
+                            PyExc_NameError,
+                            NAME_ERROR_MSG, w);
+                break;
+            }
+        }
+        Py_INCREF(x);
+    }
+    PUSH(x);
+    DISPATCH();
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;最后，由于 &lt;code&gt;__builtin__&lt;/code&gt; 这个名字实在是太有迷惑性了，&lt;code&gt;Python3&lt;/code&gt; 中已经改名为 &lt;code&gt;builtins&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;__builtins__&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;__builtins__&lt;/code&gt; 的表现是有点奇怪的：
+* 在 &lt;code&gt;main&lt;/code&gt; 模块中（&lt;code&gt;main&lt;/code&gt; 模块，或者叫&lt;code&gt;最高层级代码运行所在环境&lt;/code&gt;，是用户指定最先启动运行的 &lt;code&gt;Python&lt;/code&gt; 模块，也就是通常我们在命令行执行 &lt;code&gt;python xxx.py&lt;/code&gt; 时，&lt;code&gt;xxx.py&lt;/code&gt; 这个模块），&lt;code&gt;__builtins__ = __builtin__&lt;/code&gt;；
+* 在其他模块中 &lt;code&gt;__builtins__ = __builtin__.__dict__&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;相同的名字，但在不同的模块下表现却是不相同的，这样的设定很容易让人疑惑。不过只要知道这个设定，就足够支持你在 &lt;code&gt;Python&lt;/code&gt; 中使用 &lt;code&gt;__builtins__&lt;/code&gt;，疑惑并不会影响你写出足够安全的代码，诸如：&lt;/p&gt;
+&lt;p&gt;``` python
+def SetBuiltins(builtins, key, val):
+    if isinstance(builtins, dict):
+        builtins[key] = val
+    else:
+        setattr(builtins, key, val)&lt;/p&gt;
+&lt;p&gt;SetBuiltins(&lt;strong&gt;builtins&lt;/strong&gt;, &#39;test&#39;, 1)
+```&lt;/p&gt;
+&lt;p&gt;需要注意，其实并不建议使用 &lt;code&gt;__builtins__&lt;/code&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;CPython implementation detail&lt;/strong&gt;: Users should not touch &lt;code&gt;__builtins__&lt;/code&gt;; it is strictly an implementation detail. Users wanting to override values in the builtins namespace should import the &lt;code&gt;__builtin__&lt;/code&gt; (no ‘s’) module and modify its attributes appropriately.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当然，这样的疑惑，总有一天会让你心痒难耐，我这里就决定继续探究下去，也因为这样，才有了这篇文章。我们下面的内容会深入到 &lt;strong&gt;CPython implementation detail&lt;/strong&gt; 中去。&lt;/p&gt;
+&lt;h2&gt;Restricted Execution&lt;/h2&gt;
+&lt;p&gt;Restricted Execution 可以理解为有限制地执行不安全的代码，所谓有限制，可以是限制网络、io 等等，把代码限制在一定的执行环境中，控制代码的执行权限，防止代码影响到外部的环境和系统。常见的用例就是一些在线代码执行网站，譬如这个：&lt;a href=&#34;https://pythonsandbox.dev/&#34;&gt;pythonsandbox&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;跟你猜想的一样，&lt;code&gt;Python&lt;/code&gt; 对 &lt;code&gt;__builtins__&lt;/code&gt; 的设定是跟 Restricted Execution 有关。&lt;code&gt;Python&lt;/code&gt; 在 2.3 版本之前，曾经提供过类似的功能 &lt;a href=&#34;https://docs.python.org/2.7/library/restricted.html&#34;&gt;Restricted Execution&lt;/a&gt;，只是由于后来被证实为不可行的，只好把这个功能作废了，但代码在 2.7.18 版本还保留着，所以我们可以来考古。&lt;/p&gt;
+&lt;p&gt;首先来看 &lt;code&gt;Python&lt;/code&gt; 源码里面对 &lt;code&gt;__builtins__&lt;/code&gt; 的设置：&lt;/p&gt;
+&lt;p&gt;``` c
+// pythonrun.c
+static void initmain(void)
+{
+    PyObject &lt;em&gt;m, &lt;/em&gt;d;
+    // 获取 &lt;strong&gt;main&lt;/strong&gt; 模块
+    m = PyImport_AddModule(&#34;&lt;strong&gt;main&lt;/strong&gt;&#34;);
+    if (m == NULL)
+        Py_FatalError(&#34;can&#39;t create &lt;strong&gt;main&lt;/strong&gt; module&#34;);&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// d = __main__.__dict__
+d = PyModule_GetDict(m);
+
+// 设置 __main__.__dict__[&#39;__builtins__&#39;]，如果已有，则跳过
+if (PyDict_GetItemString(d, &#34;__builtins__&#34;) == NULL) {
+    PyObject *bimod = PyImport_ImportModule(&#34;__builtin__&#34;);
+    if (bimod == NULL ||
+        PyDict_SetItemString(d, &#34;__builtins__&#34;, bimod) != 0)
+        Py_FatalError(&#34;can&#39;t add __builtins__ to __main__&#34;);
+    Py_XDECREF(bimod);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;initmain&lt;/code&gt; 中，&lt;code&gt;Python&lt;/code&gt; 会给 &lt;code&gt;__main__&lt;/code&gt; 模块设置 &lt;code&gt;__builtins__&lt;/code&gt; 属性，默认等于 &lt;code&gt;__builtin__&lt;/code&gt; 模块，但如果已有，则跳过不会重新设置。利用这个特点，我们就可以通过修改 &lt;code&gt;__main__.__builtins__&lt;/code&gt; 来修改内建的一些功能，以达到限制代码执行权限的目的，具体的方法先按下不表，我们看看 &lt;code&gt;__builtins__&lt;/code&gt; 是怎么被传递的。&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;__builtins__&lt;/code&gt; 的传递&lt;/h2&gt;
+&lt;p&gt;在创建新的栈帧的时候：&lt;/p&gt;
+&lt;p&gt;```c
+PyFrameObject *
+PyFrame_New(PyThreadState &lt;em&gt;tstate, PyCodeObject &lt;/em&gt;code, PyObject &lt;em&gt;globals,
+            PyObject &lt;/em&gt;locals)
+{
+    ...
+    if (back == NULL || back-&amp;gt;f_globals != globals) {
+        // 取 globals[&#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;] 作为新栈帧的 &lt;strong&gt;builtins&lt;/strong&gt;
+        // builtin_object 就是字符串 &#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;
+        builtins = PyDict_GetItem(globals, builtin_object);
+        if (builtins) {
+            if (PyModule_Check(builtins)) {
+                builtins = PyModule_GetDict(builtins);
+                assert(!builtins || PyDict_Check(builtins));
+            }
+            else if (!PyDict_Check(builtins))
+                builtins = NULL;
+        }
+        ...&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;}
+else {
+    /* If we share the globals, we share the builtins.
+       Save a lookup and a call. */
+    // 或者直接继承上一层栈帧的 f_builtins
+    builtins = back-&amp;gt;f_builtins;
+    assert(builtins != NULL &amp;amp;&amp;amp; PyDict_Check(builtins));
+    Py_INCREF(builtins);
+}
+...
+f-&amp;gt;f_builtins = builtins;
+f-&amp;gt;f_globals = globals;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+&lt;p&gt;创建新的栈帧时，对于 &lt;code&gt;__builtins__&lt;/code&gt; 的处理主要有两种情况：一种是没有上层栈帧的情况下，取 &lt;code&gt;globals[&#39;__builtins__&#39;]&lt;/code&gt;；另一种是直接取上层栈帧的 &lt;code&gt;f_builtins&lt;/code&gt;。联合起来看的话，可以理解为，一般情况下，在 &lt;code&gt;__main__&lt;/code&gt; 中设置好的 &lt;code&gt;__builtins__&lt;/code&gt;，会一直继承给后面的栈帧，相当于共用同一份。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;import&lt;/code&gt; 模块时：&lt;/p&gt;
+&lt;p&gt;```c
+static PyObject *
+load_compiled_module(char &lt;em&gt;name, char &lt;/em&gt;cpathname, FILE &lt;em&gt;fp)
+{
+    long magic;
+    PyCodeObject &lt;/em&gt;co;
+    PyObject &lt;em&gt;m;
+    ...
+    co = read_compiled_module(cpathname, fp);
+    ...
+    m = PyImport_ExecCodeModuleEx(name, (PyObject &lt;/em&gt;)co, cpathname);
+    ...
+}&lt;/p&gt;
+&lt;p&gt;PyObject *
+PyImport_ExecCodeModuleEx(char &lt;em&gt;name, PyObject &lt;/em&gt;co, char *pathname)
+{
+    ...
+    m = PyImport_AddModule(name);
+    ...
+    // d = m.&lt;strong&gt;dict&lt;/strong&gt;
+    d = PyModule_GetDict(m);&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 在这里设置新加载模块的 __builtins__ 属性
+if (PyDict_GetItemString(d, &#34;__builtins__&#34;) == NULL) {
+    if (PyDict_SetItemString(d, &#34;__builtins__&#34;,
+                             PyEval_GetBuiltins()) != 0)
+        goto error;
+}
+...
+// globals = d, locals = d
+v = PyEval_EvalCode((PyCodeObject *)co, d, d);
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;PyObject *
+PyEval_EvalCode(PyCodeObject &lt;em&gt;co, PyObject &lt;/em&gt;globals, PyObject &lt;em&gt;locals)
+{
+    return PyEval_EvalCodeEx(co,
+                      globals, locals,
+                      (PyObject &lt;/em&gt;&lt;em&gt;)NULL, 0,
+                      (PyObject &lt;/em&gt;&lt;em&gt;)NULL, 0,
+                      (PyObject &lt;/em&gt;*)NULL, 0,
+                      NULL);
+}
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;import&lt;/code&gt; 其他模块的时候，会把该模块的 &lt;code&gt;__builtins__&lt;/code&gt; 设置为 &lt;code&gt;PyEval_GetBuiltins()&lt;/code&gt; 的返回结果，这个函数我们已经说过，大部分情况下相当于 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt;。对于 &lt;code&gt;__main__&lt;/code&gt; 模块的里面的 &lt;code&gt;import&lt;/code&gt;，&lt;code&gt;current_frame&lt;/code&gt; 就是 &lt;code&gt;__main__&lt;/code&gt; 模块的栈帧，&lt;code&gt;current_frame-&amp;gt;f_builtins = __main__.__dict__[&#39;__builtins__&#39;]&lt;/code&gt;（上文 &lt;code&gt;PyFrame_New&lt;/code&gt; 的第一种情况）。&lt;/p&gt;
+&lt;p&gt;加载的新模块，会使用 &lt;code&gt;PyEval_EvalCode&lt;/code&gt; 来执行新模块中的代码，可以看到，传给 &lt;code&gt;PyEval_EvalCode&lt;/code&gt; 的参数 &lt;code&gt;globals&lt;/code&gt;、&lt;code&gt;locals&lt;/code&gt; 其实都是模块自身的 &lt;code&gt;__dict__&lt;/code&gt;，并且模块 &lt;code&gt;m.__dict__[&#39;__builtins__&#39;] = PyEval_GetBuiltins()&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;综合来看，我们可以得知，从 &lt;code&gt;__main__&lt;/code&gt; 模块开始 &lt;code&gt;import&lt;/code&gt; 的模块，也会继承 &lt;code&gt;__main__&lt;/code&gt; 中的 &lt;code&gt;__builtins__&lt;/code&gt;，并会在内部的 &lt;code&gt;import&lt;/code&gt; 中传递下去，这样就可以确保，所有从 &lt;code&gt;__main__&lt;/code&gt; 加载的模块和子模块，都能共用同一份来自 &lt;code&gt;__main__&lt;/code&gt; 的 &lt;code&gt;__builtins__&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;那么如果是在模块中调用的函数呢？对于模块中的函数，创建和调用时：&lt;/p&gt;
+&lt;p&gt;```c
+// ceval.c
+// 创建函数
+TARGET(MAKE_FUNCTION)
+{
+    v = POP(); /&lt;em&gt; code object &lt;/em&gt;/&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 这里的 f-&amp;gt;f_globals，相当于模块自身的 globals，由上文可知，也相当于 m.__dict__
+x = PyFunction_New(v, f-&amp;gt;f_globals);
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;PyObject *
+PyFunction_New(PyObject &lt;em&gt;code, PyObject &lt;/em&gt;globals)
+{
+    PyFunctionObject *op = PyObject_GC_New(PyFunctionObject,
+                                        &amp;amp;PyFunction_Type);
+    ...
+    // 这里相当于 op-&amp;gt;func_globals = globals = f-&amp;gt;f_globals
+    op-&amp;gt;func_globals = globals;
+}&lt;/p&gt;
+&lt;p&gt;// 调用函数
+static PyObject *
+fast_function(PyObject &lt;em&gt;func, PyObject &lt;/em&gt;&lt;em&gt;&lt;em&gt;pp_stack, int n, int na, int nk)
+{
+    PyCodeObject &lt;/em&gt;co = (PyCodeObject &lt;/em&gt;)PyFunction_GET_CODE(func);
+    // globals = func-&amp;gt;func_globals
+    PyObject &lt;em&gt;globals = PyFunction_GET_GLOBALS(func);
+    ...
+    // globals 传给 PyEval_EvalCodeEx，里面就会传给 PyFrame_New 来创建新的栈帧
+    return PyEval_EvalCodeEx(co, globals,
+                             (PyObject &lt;/em&gt;)NULL, (&lt;em&gt;pp_stack)-n, na,
+                             (&lt;/em&gt;pp_stack)-2*nk, nk, d, nd,
+                             PyFunction_GET_CLOSURE(func));
+}
+```&lt;/p&gt;
+&lt;p&gt;创建函数时，会把 &lt;code&gt;f-&amp;gt;f_globals&lt;/code&gt; 存到函数结构体变量 &lt;code&gt;func_globals&lt;/code&gt; 里面，而对于模块 &lt;code&gt;m&lt;/code&gt;，&lt;code&gt;f-&amp;gt;f_globals = m.__dict__&lt;/code&gt;。函数执行的时候，传给 &lt;code&gt;PyFrame_New&lt;/code&gt; 的 &lt;code&gt;globals&lt;/code&gt; 参数，就是创建时候保存起来的 &lt;code&gt;func_globals&lt;/code&gt;，&lt;code&gt;__builtins__&lt;/code&gt; 自然就可以在 &lt;code&gt;func_globals&lt;/code&gt; 中获取。&lt;/p&gt;
+&lt;p&gt;至此，&lt;code&gt;__builtins__&lt;/code&gt; 的传递是能保证一致性的，所有模块、子模块 、函数，栈帧等都能引用到同一个，也就是拥有相同的内建名字空间。&lt;/p&gt;
+&lt;h2&gt;指定 &lt;code&gt;__main__&lt;/code&gt; 模块执行&lt;/h2&gt;
+&lt;p&gt;我们已经知道 &lt;code&gt;__main__&lt;/code&gt; 模块自身的 &lt;code&gt;__builtins__&lt;/code&gt; 可以传递给所有子模块、函数和栈帧，而在命令行执行 &lt;code&gt;python a.py&lt;/code&gt; 时，Python 会把 &lt;code&gt;a.py&lt;/code&gt; 作为 &lt;code&gt;__main__&lt;/code&gt; 模块来执行，那这是如何做到的呢：&lt;/p&gt;
+&lt;p&gt;```c
+// python.c
+int
+main(int argc, char **argv)
+{
+    ...
+    return Py_Main(argc, argv);
+}&lt;/p&gt;
+&lt;p&gt;// main.c
+int
+Py_Main(int argc, char **argv)
+{
+    ...
+    // 尝试用模块的 importer 来执行代码
+    if (filename != NULL) {
+        sts = RunMainFromImporter(filename);
+    }
+    ...
+    // 一般我们自己的 py 文件，会使用这个来执行
+    sts = PyRun_AnyFileExFlags(
+            fp,
+            filename == NULL ? &#34;&lt;stdin&gt;&#34; : filename,
+            filename != NULL, &amp;amp;cf) != 0;
+    }
+    ...
+}&lt;/p&gt;
+&lt;p&gt;// pythonrun.c
+int
+PyRun_AnyFileExFlags(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, int closeit,
+                     PyCompilerFlags *flags)
+{
+    ...
+    return PyRun_SimpleFileExFlags(fp, filename, closeit, flags);
+}&lt;/p&gt;
+&lt;p&gt;int
+PyRun_SimpleFileExFlags(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, int closeit,
+                        PyCompilerFlags *flags)
+{
+    ...
+    m = PyImport_AddModule(&#34;&lt;strong&gt;main&lt;/strong&gt;&#34;);
+    d = PyModule_GetDict(m);
+    ...
+    // 设置 &lt;strong&gt;file&lt;/strong&gt; 属性
+    if (PyDict_SetItemString(d, &#34;&lt;strong&gt;file&lt;/strong&gt;&#34;, f) &amp;lt; 0) {
+        ...
+    }
+    ...
+    // globals = locals = d = &lt;strong&gt;main&lt;/strong&gt;.&lt;strong&gt;dict&lt;/strong&gt;
+    v = run_pyc_file(fp, filename, d, d, flags);
+    ...
+}&lt;/p&gt;
+&lt;p&gt;static PyObject *
+run_pyc_file(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, PyObject &lt;em&gt;globals,
+             PyObject &lt;/em&gt;locals, PyCompilerFlags *flags)
+{
+    ...
+    // 从 pyc 文件读取代码对象 co ，并执行代码
+    // PyEval_EvalCode 里面也同样会调用 PyFrame_New 创建新栈帧
+    v = PyEval_EvalCode(co, globals, locals);
+    ...
+}
+```&lt;/p&gt;
+&lt;p&gt;当执行 &lt;code&gt;python a.py&lt;/code&gt; 时，一般情况下会走到 &lt;code&gt;PyRun_SimpleFileExFlags&lt;/code&gt;，&lt;code&gt;PyRun_SimpleFileExFlags&lt;/code&gt; 里面会取出来 &lt;code&gt;__main__.__dict__&lt;/code&gt;，作为代码执行时的 &lt;code&gt;globals&lt;/code&gt; 和 &lt;code&gt;locals&lt;/code&gt;，最终也会传到 &lt;code&gt;PyFrame_New&lt;/code&gt; 中创建新的栈帧来执行 &lt;code&gt;a.py&lt;/code&gt;。结合我们上文提到的 &lt;code&gt;__builtins__&lt;/code&gt; 在模块和函数中传递，就可以让后续执行的代码都能共用同一份 &lt;code&gt;current_frame-&amp;gt;f_builtins = __main__.__builtins__.__dict__&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;再论 Restricted Execution&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 在 2.3 版本之前，曾经提供过的 &lt;a href=&#34;https://docs.python.org/2.7/library/restricted.html&#34;&gt;Restricted Execution&lt;/a&gt;，就是基于 &lt;code&gt;__builtins__&lt;/code&gt; 的特性来制作的。或者可以认为，&lt;code&gt;__builtins__&lt;/code&gt; 之所以设计成在 &lt;code&gt;__main__&lt;/code&gt; 模块中是一个模块对象，而在其他模块中是一个 &lt;code&gt;dict&lt;/code&gt; 对象，就是为了可以实现 &lt;strong&gt;Restricted Execution&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;考虑这种情况：如果我们可以自由定制自己的 &lt;code&gt;__builtin__&lt;/code&gt; 模块，并设置成 &lt;code&gt;__main__.__builtins__&lt;/code&gt;，那就相当于后续所有执行的代码，都会使用我们定制的模块，我们可以定制特定版本的 &lt;code&gt;open&lt;/code&gt;、&lt;code&gt;__import__&lt;/code&gt;、&lt;code&gt;file&lt;/code&gt; 等内建函数和类型，更进一步，这种方式是不是可以帮助我们限制执行代码的权限，防止代码做一些不安全的函数调用，或者访问一些不安全的文件？&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 当时就做过这种尝试，实现这个功能的模块就叫做: &lt;code&gt;rexec&lt;/code&gt;。&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;rexec&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;我无意太深入讲解 &lt;code&gt;rexec&lt;/code&gt; 的实现，因为原理其实上文已经讲清楚了，并且这个模块本身就已经废弃，我这些仅简单做一些关键代码的摘要，方便查阅。&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;rexec.py&lt;/h1&gt;
+&lt;p&gt;class RExec(ihooks._Verbose):
+    ...
+    nok_builtin_names = (&#39;open&#39;, &#39;file&#39;, &#39;reload&#39;, &#39;&lt;strong&gt;import&lt;/strong&gt;&#39;)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def __init__(self, hooks = None, verbose = 0):
+    ...
+    self.modules = {}
+    ...
+    self.make_builtin()
+    self.make_initial_modules()
+    self.make_sys()
+    self.loader = RModuleLoader(self.hooks, verbose)
+    self.importer = RModuleImporter(self.loader, verbose)
+
+def make_builtin(self):
+    m = self.copy_except(__builtin__, self.nok_builtin_names)
+    m.__import__ = self.r_import
+    m.reload = self.r_reload
+    m.open = m.file = self.r_open
+
+def add_module(self, mname):
+    m = self.modules.get(mname)
+    if m is None:
+        self.modules[mname] = m = self.hooks.new_module(mname)
+    m.__builtins__ = self.modules[&#39;__builtin__&#39;]
+    return m
+
+def r_exec(self, code):
+    m = self.add_module(&#39;__main__&#39;)
+    exec code in m.__dict__
+
+def r_eval(self, code):
+    m = self.add_module(&#39;__main__&#39;)
+    return eval(code, m.__dict__)
+
+def r_execfile(self, file):
+    m = self.add_module(&#39;__main__&#39;)
+    execfile(file, m.__dict__)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;r_execfile&lt;/code&gt; 函数会把文件当作 &lt;code&gt;__main__&lt;/code&gt; 模块来执行，只是 &lt;code&gt;__main__&lt;/code&gt; 是定制过的。&lt;code&gt;self.add_module(&#39;__main__&#39;)&lt;/code&gt; 里面，会设置模块的 &lt;code&gt;m.__builtins__ = self.modules[&#39;__builtin__&#39;]&lt;/code&gt;，这个 &lt;code&gt;__builtin__&lt;/code&gt; 是由 &lt;code&gt;make_builtin&lt;/code&gt; 来定制生成的，在里面替换了 &lt;code&gt;__import__&lt;/code&gt;、&lt;code&gt;reload&lt;/code&gt;、&lt;code&gt;open&lt;/code&gt; 函数，并删除了 &lt;code&gt;file&lt;/code&gt; 类型。这样，我们就能控制要执行的代码对内建命名空间的访问了。&lt;/p&gt;
+&lt;p&gt;对于一些内建模块，&lt;code&gt;rexec&lt;/code&gt; 也做了定制，保护不安全的访问，譬如 &lt;code&gt;sys&lt;/code&gt; 模块，只保留了一部分的对象，并且通过定制的 &lt;code&gt;self.loader&lt;/code&gt;、&lt;code&gt;self.importer&lt;/code&gt;，来实现 &lt;code&gt;import&lt;/code&gt; 的时候，优先加载定制的模块。&lt;/p&gt;
+&lt;p&gt;如果对代码细节感兴趣，请自行查阅相关源码。&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;rexec&lt;/code&gt; 的失败&lt;/h3&gt;
+&lt;p&gt;上文提到，&lt;code&gt;Python 2.3&lt;/code&gt; 之后，&lt;code&gt;rexec&lt;/code&gt; 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在社区有人报告了 &lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2002-December/031160.html&#34;&gt;Bug&lt;/a&gt;，并引发了开发者之间的讨论：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;it&#39;s never going to be safe, and I doubt it&#39;s very useful as long as it&#39;s not safe.&lt;/p&gt;
+&lt;p&gt;Every change is a potential security hole.&lt;/p&gt;
+&lt;p&gt;it&#39;s hard to predict what change is going to break it.&lt;/p&gt;
+&lt;p&gt;I don&#39;t expect you&#39;ll ever reach the point where it&#39;ll be wise to advertise this as safe.  I certainly won&#39;t.&lt;/p&gt;
+&lt;p&gt;this is only a useful occupation if you expect to eventually reach a point where you expect that there aren&#39;t any security flaws left.  Jeremy &amp;amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you &lt;em&gt;can&#39;t&lt;/em&gt; make it safe, don&#39;t waste time trying).&lt;/p&gt;
+&lt;p&gt;I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.&lt;/p&gt;
+&lt;p&gt;The code will still be in older versions if someone decides to pick it up and work on it as a separate project.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;该 Bug 的起因是 &lt;code&gt;Python&lt;/code&gt; 引入了新式类（new-style class） &lt;code&gt;object&lt;/code&gt;，导致 &lt;code&gt;rexec&lt;/code&gt; 不能正常工作。于是开发者表示，在可预见的未来，这种情况都很难避免，任意的修改都会可能导致 &lt;code&gt;rexec&lt;/code&gt; 出现漏洞，不能正常工作，或者被突破权限的限制，基本上无法实现没有漏洞地去提供一个安全环境的愿景，开发者需要不断地修修补补，浪费大量的时间。最终，&lt;code&gt;rexec&lt;/code&gt; 这个模块就被废弃掉了，&lt;code&gt;Python&lt;/code&gt; 也没有再提供类似的功能。但关于 &lt;code&gt;__builtins__&lt;/code&gt; 的设定，由于兼容性等问题，就继续保留下来了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;后面在大概 2010 年的时候，有位程序员推出了 &lt;a href=&#34;https://github.com/vstinner/pysandbox&#34;&gt;pysandbox&lt;/a&gt;，致力于提供可以替代 &lt;code&gt;rexec&lt;/code&gt; 的 &lt;code&gt;Python&lt;/code&gt; 沙盒环境。但是 3 年后，作者主动放弃了这个项目，并详细说明了为什么作者认为这个项目是失败的：&lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2013-November/130132.html&#34;&gt;The pysandbox project is broken&lt;/a&gt;，也有其他作者撰文总结了这个项目的失败：&lt;a href=&#34;https://lwn.net/Articles/574215/&#34;&gt;The failure of pysandbox&lt;/a&gt;。如果感兴趣的话，可以具体去翻翻原文，我这里也给一些摘要来帮助了解：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.&lt;/p&gt;
+&lt;p&gt;I now agree that putting a sandbox in CPython is the wrong design. There are too many ways to escape the untrusted namespace using the various introspection features of the Python language. To guarantee the [safety] of a security product, the code should be [carefully] audited and the code to review must be as small as possible. Using pysandbox, the &#34;code&#34; is the whole Python core which is a really huge code base. For example, the Python and Objects directories of Python 3.4 contain more than 126,000 lines of C code.&lt;/p&gt;
+&lt;p&gt;The security of pysandbox is the security of its weakest part. A single bug is enough to escape the whole sandbox.&lt;/p&gt;
+&lt;p&gt;pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like &#34;del dict[key]&#34; are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating &#34;1+(2*3)&#34;, pysandbox cannot be used in practice, because of all these protections.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;pysandbox&lt;/strong&gt; 的作者认为，在 &lt;code&gt;Python&lt;/code&gt; 里面放一个沙盒环境是错误的设计，有太多的方式可以从沙盒中逃逸出去，&lt;code&gt;Python&lt;/code&gt; 提供的语言特性很丰富，&lt;code&gt;CPython&lt;/code&gt; 源码的代码量很大，基本不可能保证有足够的安全性。而 &lt;strong&gt;pysandbox&lt;/strong&gt; 的开发过程就是在不断地打补丁，补丁太多，限制太多，以至于作者认为 &lt;strong&gt;pysandbox&lt;/strong&gt; 已经没法实际使用，因为很多的语法特性和功能都被限制不能使用了，譬如简单的 &lt;code&gt;del dict[key]&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;Restricted Execution 出路在哪&lt;/h2&gt;
+&lt;p&gt;既然 &lt;code&gt;rexec&lt;/code&gt; 和 &lt;strong&gt;pysandbox&lt;/strong&gt; 这种通过 Patch Python 来提供沙盒环境的方法（这里姑且把这种方法称作 Patch Python）已经走不通了，那我不禁好奇：要怎么才能给 Python 提供一个能用的沙盒环境？&lt;/p&gt;
+&lt;p&gt;在这里我继续收集了一些其他的实现方法或者案例，方便参考和查阅：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://doc.pypy.org/en/latest/sandbox.html&#34;&gt;PyPy&lt;/a&gt; 有一个&lt;a href=&#34;https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2&#34;&gt;分支&lt;/a&gt;提供了沙盒的功能，结合额外的 &lt;a href=&#34;https://foss.heptapod.net/pypy/sandboxlib&#34;&gt;sandboxlib&lt;/a&gt;，可以自行编译出带沙盒环境版本的 PyPy。如果感兴趣，可以尝试自行配置，参考这里的一些&lt;a href=&#34;https://foss.heptapod.net/pypy/pypy/-/issues/3192&#34;&gt;说明&lt;/a&gt;。PyPy 实现的原理是创建一个子进程，子进程的所有输入输出和系统调用，都会重定向到外部进程，由外部进程控制这些权限，另外也可以控制内存和 CPU 的使用量。需要注意的是，这个分支也有段时间没有新的提交了，请谨慎使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;借助操作系统提供的沙盒环境工具。&lt;a href=&#34;https://en.wikipedia.org/wiki/Seccomp&#34;&gt;seccomp&lt;/a&gt; 是 Linux 内核提供的计算安全工具，&lt;a href=&#34;https://github.com/seccomp/libseccomp/tree/main/src/python&#34;&gt;libsecoomp&lt;/a&gt; 提供了 Python 绑定，可以内嵌到代码里面使用；或者使用基于 seccomp 实现的工具来执行代码，譬如 &lt;a href=&#34;https://firejail.wordpress.com/&#34;&gt;Firejail&lt;/a&gt;。&lt;a href=&#34;https://apparmor.net/&#34;&gt;AppArmor&lt;/a&gt; 是一个 Linux 内核安全模块，允许管理员控制程序能访问的系统资源和功能，保护操作系统。&lt;a href=&#34;https://github.com/openedx/codejail&#34;&gt;codejail&lt;/a&gt; 是基于 AppArmor 实现的 Python 沙盒环境，有兴趣可以尝试。还有很多类似的工具，这里不一一列举。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用沙盒虚拟环境或者容器。&lt;a href=&#34;https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview&#34;&gt;Windows 沙盒&lt;/a&gt;，&lt;a href=&#34;https://linuxcontainers.org/&#34;&gt;LXC&lt;/a&gt;, &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; 等等，这里不再详述。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;本文篇幅有点长，感谢看到这里，文章一开始所列出的疑问，相信都已经解答完毕。&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 12 Jan 2024 06:37:04 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Python 杂谈 2 - Python3.12 热更新</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Python 杂谈 2 - Python3.12 热更新&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;Python 杂谈 2 - Python3.12 现热更新&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记录如何在 Python3.12 中实现热更新&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;热更新&lt;/h2&gt;
+&lt;p&gt;热更新（Hot Reload）可以理解在不需要重启程序的情况下对其进行更新的技术。这项技术在游戏行业有广泛的应用，开发者对游戏问题进行修复的时候，为了不对玩家造成影响，往往需要采用一些静默更新的方式，也就是热更新。&lt;/p&gt;
+&lt;h2&gt;Python 热更新&lt;/h2&gt;
+&lt;p&gt;Python 本身是动态语言，一切皆是对象，是有能力做到热更新的。我们可以粗略把 Python 中的需要热更的对象分成两种：数据 和 函数。&lt;/p&gt;
+&lt;p&gt;数据，可以理解成游戏中的数值或者设定，譬如玩家的等级，装备等等一些数据，部分数据是不应该热更的（譬如玩家当前等级，玩家身上拥有哪些装备，这些数据的修改不应该通过热更来实现），部分数据是我们想要热更的（譬如装备的基础数值设定，技能的基础数值设定，UI 上的文字等等）。&lt;/p&gt;
+&lt;p&gt;函数，可以理解成游戏逻辑，这基本都是我们想要热更的，逻辑错误基本都需要通过热更新函数来实现。&lt;/p&gt;
+&lt;p&gt;下面我们来具体看看有什么方法可以对 Python3.12 执行热更新。&lt;/p&gt;
+&lt;h2&gt;Hotfix&lt;/h2&gt;
+&lt;p&gt;第一种方法我们叫做 Hotfix，通过让程序（客户端程序 / 服务端程序都可以）执行一段特定的 Python 代码，实现对数据和函数的热更新。一段简单的 Hotfix 代码可能是这样：&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;hotfix code&lt;/h1&gt;
+&lt;h1&gt;hotfix data&lt;/h1&gt;
+&lt;p&gt;import weapon_data
+weapon_data.gun.damage = 100&lt;/p&gt;
+&lt;h1&gt;hotfix func&lt;/h1&gt;
+&lt;p&gt;import player
+def new_fire_func(self, target):
+    target.health -= weapon_data.gun.damage
+    # ...
+player.Player.fire_func = new_fire_func
+```&lt;/p&gt;
+&lt;p&gt;以上代码简单展示 Hotfix 的写法，数据 / 函数修改之后，程序后续访问的时候就会读到新的数据 / 函数来执行。&lt;/p&gt;
+&lt;p&gt;如果你比较细致，你可能会有一个疑问：那如果其他代码里面引用住了这些需要修改数据和函数，会发生什么事情？&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;attack.py module&lt;/h1&gt;
+&lt;p&gt;player_fire = player.Player.fire_func&lt;/p&gt;
+&lt;p&gt;def player_attack_by_gun(player, target):
+    player_fire(target)
+    # ...
+```&lt;/p&gt;
+&lt;p&gt;答案是，前面的 Hotfix 对这种情况是不生效的，&lt;code&gt;fire_func&lt;/code&gt; 这个函数相当于在其他模块多了一份副本，该模块中调用的是函数的副本，我们修改函数本体对副本不生效。&lt;/p&gt;
+&lt;p&gt;所以需要注意，一般代码中尽量减少模块级别的数据引用和函数引用，避免出现这种 Hotfix 不生效的情况，如果代码已经是这样写的，Hotfix 需要多做一些工作：&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;hotfix code&lt;/h1&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;import attack
+attack.player_fire = player.Player.fire_func&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;在对数据 / 函数本体 Hotfix 修改之后，再额外对引用的地方进行修改。这些额外的修改很容易被遗漏，所以我们还是建议，从代码规范上来尽量避免多处引用的写法。&lt;/p&gt;
+&lt;p&gt;综上，Hotfix 能满足热更的基本需求，同时存在以下问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果数据/函数被其他模块明确引用住，需要额外对这些模块的引用 Hotfix&lt;/li&gt;
+&lt;li&gt;如果有大量的数据/函数需要 Hotfix，那么 Hotfix 的代码会变得很庞大，维护难度上升，也更容易出错&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Reload&lt;/h2&gt;
+&lt;p&gt;本章节源码可从这里获得：&lt;a href=&#34;https://github.com/disenone/python_reloader&#34;&gt;python_reloader&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们更想要的是自动热更新，不需要额外写 Hotfix，只需要更新代码文件，让程序执行一个 Reload 函数则会自动替换新的函数和新的数据。我们把这个自动热更新的功能叫做 Reload。&lt;/p&gt;
+&lt;p&gt;Python3.12 提供了 importlib.reload 函数，可以重新加载模块，但是却是全量加载，并且返回新的模块对象，对于其他模块中的引用，并不能自动修改，也就是其他模块如果 import 了 reload 的模块，那么访问的依然是旧的模块对象。这个功能比我们的 Hotfix 好不了多少，更何况是全量 reload 模块，不能由我们控制哪些数据应该保留。我们想要自己实现一个 Reload 功能，满足这些要求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自动替换函数，同时旧函数的引用依然有效，并会执行新函数的内容&lt;/li&gt;
+&lt;li&gt;自动替换数据，同时可控制部分替换&lt;/li&gt;
+&lt;li&gt;保留旧模块的引用，通过旧模块就能访问到新的内容&lt;/li&gt;
+&lt;li&gt;需要 Reload 的模块可控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;要完成这些要求，我们需要借助 Python 里面 meta_path 的机制，详细的介绍可以看官方文档 &lt;a href=&#34;https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path&#34;&gt;the-meta-path&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;sys.meta_path 里面可以定义我们的元路径查找器对象，譬如我们把用于 Reload 的查找器叫做 reload_finder，reload_finder 需要实现一个函数 find_spec 并返回 spec 对象。Python 拿到 spec 对象后，会依次执行 spec.loader.create_module 和 spec.loader.exec_module 完成模块的导入。&lt;/p&gt;
+&lt;p&gt;如果我们在这个过程中，执行新的模块代码，并把新的模块里面的函数和需要的数据复制到旧模块中，则可以达到 Reload 的目的：&lt;/p&gt;
+&lt;p&gt;```python linenums=&#34;1&#34;
+class MetaFinder:
+    def &lt;strong&gt;init&lt;/strong&gt;(self, reloader):
+        self._reloader = reloader&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def find_spec(self, fullname, path, target=None):
+    # find source file
+    finder = importlib.machinery.PathFinder()
+    spec = finder.find_spec(fullname, path)
+    if not spec:
+        return
+
+    old_module = self._reloader.GetOldModule(fullname)
+    if old_module:
+        # run new code in old module dict
+        code = spec.loader.get_code(fullname)
+        exec(code, old_module.__dict__)
+        module = old_module
+    else:
+        # if old module not exists, just create a new one
+        module = import_util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+    try:
+        self._reloader.ReloadModule(module)
+    except:
+        sys.excepthook(*sys.exc_info())
+
+    return import_util.spec_from_loader(fullname, MetaLoader(module))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;class MetaLoader:
+    def &lt;strong&gt;init&lt;/strong&gt;(self, module):
+        self._module = module&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def create_module(self, spec):
+    return self._module
+
+def exec_module(self, module):
+    # restore __spec__
+    module.__spec__ = module.__dict__.pop(&#39;__backup_spec__&#39;)
+    module.__loader__ = module.__dict__.pop(&#39;__backup_loader__&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;如上，&lt;code&gt;find_spec&lt;/code&gt; 加载最新的模块源码，并在旧模块的 &lt;code&gt;__dict__&lt;/code&gt; 里面执行新模块的代码，之后我们调用 &lt;code&gt;ReloadModule&lt;/code&gt; 来处理类 / 函数 / 数据的引用和替换。&lt;code&gt;MetaLoader&lt;/code&gt; 的目的是适配 meta_path 机制，给 Python 虚拟机返回我们处理过的模块对象。&lt;/p&gt;
+&lt;p&gt;处理完加载的流程，再来看 &lt;code&gt;ReloadModule&lt;/code&gt; 的大致实现&lt;/p&gt;
+&lt;p&gt;```python linenums=&#34;1&#34;&lt;/p&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;def ReloadModule(self, module):
+    old_module_info = self._old_module_infos.get(module.&lt;strong&gt;name&lt;/strong&gt;)
+    if not old_module_info:
+        return&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;self.ReloadDict(module, old_module_info, module.__dict__)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;def ReloadDict(self, module, old_dict, new_dict, _reload_all_data=False, _del_func=False):
+    dels = []&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for attr_name, old_attr in old_dict.items():
+
+    if attr_name in self.IGNORE_ATTRS:
+        continue
+
+    if attr_name not in new_dict:
+        if _del_func and (inspect.isfunction(old_attr) or inspect.ismethod(old_attr)):
+            dels.append(attr_name)
+        continue
+
+    new_attr = new_dict[attr_name]
+
+    if inspect.isclass(old_attr):
+        new_dict[attr_name] = self.ReloadClass(module, old_attr, new_attr)
+
+    elif inspect.isfunction(old_attr):
+        new_dict[attr_name] = self.ReloadFunction(module, old_attr, new_attr)
+
+    elif inspect.ismethod(old_attr) or isinstance(old_attr, classmethod) or isinstance(old_attr, staticmethod):
+        self.ReloadFunction(module, old_attr.__func__, new_attr.__func__)
+        new_dict[attr_name] = old_attr
+
+    elif inspect.isbuiltin(old_attr) \
+            or inspect.ismodule(old_attr) \
+            or inspect.ismethoddescriptor(old_attr) \
+            or isinstance(old_attr, property):
+        # keep new
+        pass
+
+    elif not _reload_all_data and not self.NeedUpdateData(module, new_dict, attr_name):
+        # keep old data
+        new_dict[attr_name] = old_attr
+
+if dels:
+    for name in dels:
+        old_dict.pop(name)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ReloadDict&lt;/code&gt; 里面会区分处理不同类型的对象&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是 class，则调用 &lt;code&gt;ReloadClass&lt;/code&gt;，会返回旧模块的引用，并更新 class 的成员&lt;/li&gt;
+&lt;li&gt;如果是 function / method ，则调用 &lt;code&gt;ReloadFunction&lt;/code&gt;，会返回旧模块的引用，并更新函数的内部数据&lt;/li&gt;
+&lt;li&gt;如果是数据，并且需要保留，则会回滚 &lt;code&gt;new_dict[attr_name] = old_attr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;其余的都保持新的引用&lt;/li&gt;
+&lt;li&gt;删除新模块不存在的函数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;ReloadClass&lt;/code&gt;，&lt;code&gt;ReloadFunction&lt;/code&gt; 的具体代码这里不再展开分析，有兴趣可以直接看&lt;a href=&#34;https://github.com/disenone/python_reloader&#34;&gt;源码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;整个 Reload 的过程，可以概括为：旧瓶装新酒。为了保持模块/模块的函数/模块的类/模块的数据有效，我们需要保留原来的这些对象的引用（躯壳），转而去更新它们内部的具体数据，譬如对于函数，更新 &lt;code&gt;__code__&lt;/code&gt;，&lt;code&gt;__dict__&lt;/code&gt; 等数据，函数执行的时候，就会转而执行新的代码。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;本文详细介绍了 Python3 的两种热更新方式，每种都有相应的应用场景，希望能对你有帮助。有任何疑问欢迎随时交流。&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 12 Jan 2024 06:37:04 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/</guid>
       
     </item>
     
@@ -4158,419 +4752,6 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/</guid>
-      
-    </item>
-    
-    <item>
-      <title>Python 杂谈 1 - 探究 __builtins__</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Python 杂谈 1 - 探究 __builtins__ - Disenone&#34; /&gt;&lt;/p&gt;
-&lt;h2&gt;引子&lt;/h2&gt;
-&lt;p&gt;我们知道，&lt;code&gt;__builtins__&lt;/code&gt; 本身是在全局命名空间中就有的一个对象，是 &lt;code&gt;Python&lt;/code&gt; 故意暴露出来给代码层的，在代码的任意地方都可以直接使用。但是有点冷的知识是，&lt;code&gt;__builtins__&lt;/code&gt; 在 &lt;code&gt;main&lt;/code&gt; 模块（也就是 &lt;code&gt;__main__&lt;/code&gt;，指的都是同一个模块，后文可能会混用）里面是 &lt;code&gt;__builtin__&lt;/code&gt; 这个模块，但在其他模块里面，它表示的是 &lt;code&gt;__builtin__.__dict__&lt;/code&gt;，这就有点让人莫名其妙了。虽然官方不推荐直接使用 &lt;code&gt;__builtins__&lt;/code&gt;，但你给我搞两种情况是怎么回事？本文我们就来盘一盘这个设定的由来，在这个过程中，我们还可以找到这些问题的答案：&lt;code&gt;__builtin__&lt;/code&gt; 跟 &lt;code&gt;__builtins__&lt;/code&gt; 有什么区别？&lt;code&gt;__builtins__&lt;/code&gt; 在 &lt;code&gt;main&lt;/code&gt; 模块跟其他模块为什么会设定成不同？&lt;code&gt;__builtins__&lt;/code&gt; 是在哪里定义的？&lt;/p&gt;
-&lt;h2&gt;&lt;code&gt;__builtin__&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;在探讨 &lt;code&gt;__builtins__&lt;/code&gt; 之前，我们需要先看看 &lt;code&gt;__builtin__&lt;/code&gt; 是什么。&lt;code&gt;__builtin__&lt;/code&gt; 是存放所有内建对象的模块，我们平常可以直接使用的 &lt;code&gt;Python&lt;/code&gt; 内建对象，本质上都是 &lt;code&gt;__builtin__&lt;/code&gt; 模块里的对象，即放在 &lt;code&gt;__builtin__.__dict__&lt;/code&gt; 里，对应着的是 &lt;code&gt;Python&lt;/code&gt; 的内建名字空间。记住这个关键知识点：&lt;code&gt;__buintin__&lt;/code&gt; 是一个模块 &lt;code&gt;module&lt;/code&gt;。我们可以在 &lt;code&gt;Python&lt;/code&gt; 源码中找到 &lt;code&gt;__builtin__&lt;/code&gt; 模块的定义和使用（注意，下文提到的 &lt;code&gt;Python&lt;/code&gt; 源码，都是指 CPython-2.7.18 源码）：&lt;/p&gt;
-&lt;p&gt;``` c
-// pythonrun.c
-void
-Py_InitializeEx(int install_sigs)
-{
-    PyInterpreterState *interp;
-    ...
-    // 初始化 &lt;strong&gt;builtin&lt;/strong&gt;
-    bimod = _PyBuiltin_Init();
-    // interp-&amp;gt;builtins = &lt;strong&gt;builtin&lt;/strong&gt;.&lt;strong&gt;dict&lt;/strong&gt;
-    interp-&amp;gt;builtins = PyModule_GetDict(bimod);
-    ...
-}&lt;/p&gt;
-&lt;p&gt;// bltinmodule.c
-PyObject *
-_PyBuiltin_Init(void)
-{
-    PyObject &lt;em&gt;mod, &lt;/em&gt;dict, &lt;em&gt;debug;
-    mod = Py_InitModule4(&#34;&lt;strong&gt;builtin&lt;/strong&gt;&#34;, builtin_methods,
-                         builtin_doc, (PyObject &lt;/em&gt;)NULL,
-                         PYTHON_API_VERSION);
-    if (mod == NULL)
-        return NULL;
-    dict = PyModule_GetDict(mod);&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// 给 dict 加上内建的对象
-...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;// ceval.c
-// 获取 builtins
-PyObject *
-PyEval_GetBuiltins(void)
-{
-    PyFrameObject *current_frame = PyEval_GetFrame();
-    if (current_frame == NULL)
-        return PyThreadState_GET()-&amp;gt;interp-&amp;gt;builtins;
-    else
-        return current_frame-&amp;gt;f_builtins;
-}
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 初始化的时候会调用 &lt;code&gt;_PyBuiltin_Init&lt;/code&gt; 来创建 &lt;code&gt;__builtin__&lt;/code&gt; 模块，并在里面添加上内建的对象，解释器本身会引用住 &lt;code&gt;interp-&amp;gt;builtins = __buintin__.__dict__&lt;/code&gt;，当前执行的栈帧结构同时也会引用一份 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt;。那么很自然地，当执行代码需要根据名字寻找对象的时候，&lt;code&gt;Python&lt;/code&gt; 会去 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt; 里面来找，自然就能拿到所有的内建对象：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;c
-// ceval.c
-TARGET(LOAD_NAME)
-{
-    // 先在 f-&amp;gt;f_locals 名字空间里面找
-    ... 
-    if (x == NULL) {
-        // 再找找全局空间
-        x = PyDict_GetItem(f-&amp;gt;f_globals, w);
-        if (x == NULL) {
-            // 这里就去内建空间找
-            x = PyDict_GetItem(f-&amp;gt;f_builtins, w);
-            if (x == NULL) {
-                format_exc_check_arg(
-                            PyExc_NameError,
-                            NAME_ERROR_MSG, w);
-                break;
-            }
-        }
-        Py_INCREF(x);
-    }
-    PUSH(x);
-    DISPATCH();
-}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;最后，由于 &lt;code&gt;__builtin__&lt;/code&gt; 这个名字实在是太有迷惑性了，&lt;code&gt;Python3&lt;/code&gt; 中已经改名为 &lt;code&gt;builtins&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;&lt;code&gt;__builtins__&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;__builtins__&lt;/code&gt; 的表现是有点奇怪的：
-* 在 &lt;code&gt;main&lt;/code&gt; 模块中（&lt;code&gt;main&lt;/code&gt; 模块，或者叫&lt;code&gt;最高层级代码运行所在环境&lt;/code&gt;，是用户指定最先启动运行的 &lt;code&gt;Python&lt;/code&gt; 模块，也就是通常我们在命令行执行 &lt;code&gt;python xxx.py&lt;/code&gt; 时，&lt;code&gt;xxx.py&lt;/code&gt; 这个模块），&lt;code&gt;__builtins__ = __builtin__&lt;/code&gt;；
-* 在其他模块中 &lt;code&gt;__builtins__ = __builtin__.__dict__&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;相同的名字，但在不同的模块下表现却是不相同的，这样的设定很容易让人疑惑。不过只要知道这个设定，就足够支持你在 &lt;code&gt;Python&lt;/code&gt; 中使用 &lt;code&gt;__builtins__&lt;/code&gt;，疑惑并不会影响你写出足够安全的代码，诸如：&lt;/p&gt;
-&lt;p&gt;``` python
-def SetBuiltins(builtins, key, val):
-    if isinstance(builtins, dict):
-        builtins[key] = val
-    else:
-        setattr(builtins, key, val)&lt;/p&gt;
-&lt;p&gt;SetBuiltins(&lt;strong&gt;builtins&lt;/strong&gt;, &#39;test&#39;, 1)
-```&lt;/p&gt;
-&lt;p&gt;需要注意，其实并不建议使用 &lt;code&gt;__builtins__&lt;/code&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;CPython implementation detail&lt;/strong&gt;: Users should not touch &lt;code&gt;__builtins__&lt;/code&gt;; it is strictly an implementation detail. Users wanting to override values in the builtins namespace should import the &lt;code&gt;__builtin__&lt;/code&gt; (no ‘s’) module and modify its attributes appropriately.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;当然，这样的疑惑，总有一天会让你心痒难耐，我这里就决定继续探究下去，也因为这样，才有了这篇文章。我们下面的内容会深入到 &lt;strong&gt;CPython implementation detail&lt;/strong&gt; 中去。&lt;/p&gt;
-&lt;h2&gt;Restricted Execution&lt;/h2&gt;
-&lt;p&gt;Restricted Execution 可以理解为有限制地执行不安全的代码，所谓有限制，可以是限制网络、io 等等，把代码限制在一定的执行环境中，控制代码的执行权限，防止代码影响到外部的环境和系统。常见的用例就是一些在线代码执行网站，譬如这个：&lt;a href=&#34;https://pythonsandbox.dev/&#34;&gt;pythonsandbox&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;跟你猜想的一样，&lt;code&gt;Python&lt;/code&gt; 对 &lt;code&gt;__builtins__&lt;/code&gt; 的设定是跟 Restricted Execution 有关。&lt;code&gt;Python&lt;/code&gt; 在 2.3 版本之前，曾经提供过类似的功能 &lt;a href=&#34;https://docs.python.org/2.7/library/restricted.html&#34;&gt;Restricted Execution&lt;/a&gt;，只是由于后来被证实为不可行的，只好把这个功能作废了，但代码在 2.7.18 版本还保留着，所以我们可以来考古。&lt;/p&gt;
-&lt;p&gt;首先来看 &lt;code&gt;Python&lt;/code&gt; 源码里面对 &lt;code&gt;__builtins__&lt;/code&gt; 的设置：&lt;/p&gt;
-&lt;p&gt;``` c
-// pythonrun.c
-static void initmain(void)
-{
-    PyObject &lt;em&gt;m, &lt;/em&gt;d;
-    // 获取 &lt;strong&gt;main&lt;/strong&gt; 模块
-    m = PyImport_AddModule(&#34;&lt;strong&gt;main&lt;/strong&gt;&#34;);
-    if (m == NULL)
-        Py_FatalError(&#34;can&#39;t create &lt;strong&gt;main&lt;/strong&gt; module&#34;);&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// d = __main__.__dict__
-d = PyModule_GetDict(m);
-
-// 设置 __main__.__dict__[&#39;__builtins__&#39;]，如果已有，则跳过
-if (PyDict_GetItemString(d, &#34;__builtins__&#34;) == NULL) {
-    PyObject *bimod = PyImport_ImportModule(&#34;__builtin__&#34;);
-    if (bimod == NULL ||
-        PyDict_SetItemString(d, &#34;__builtins__&#34;, bimod) != 0)
-        Py_FatalError(&#34;can&#39;t add __builtins__ to __main__&#34;);
-    Py_XDECREF(bimod);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}
-```&lt;/p&gt;
-&lt;p&gt;在 &lt;code&gt;initmain&lt;/code&gt; 中，&lt;code&gt;Python&lt;/code&gt; 会给 &lt;code&gt;__main__&lt;/code&gt; 模块设置 &lt;code&gt;__builtins__&lt;/code&gt; 属性，默认等于 &lt;code&gt;__builtin__&lt;/code&gt; 模块，但如果已有，则跳过不会重新设置。利用这个特点，我们就可以通过修改 &lt;code&gt;__main__.__builtins__&lt;/code&gt; 来修改内建的一些功能，以达到限制代码执行权限的目的，具体的方法先按下不表，我们看看 &lt;code&gt;__builtins__&lt;/code&gt; 是怎么被传递的。&lt;/p&gt;
-&lt;h2&gt;&lt;code&gt;__builtins__&lt;/code&gt; 的传递&lt;/h2&gt;
-&lt;p&gt;在创建新的栈帧的时候：&lt;/p&gt;
-&lt;p&gt;```c
-PyFrameObject *
-PyFrame_New(PyThreadState &lt;em&gt;tstate, PyCodeObject &lt;/em&gt;code, PyObject &lt;em&gt;globals,
-            PyObject &lt;/em&gt;locals)
-{
-    ...
-    if (back == NULL || back-&amp;gt;f_globals != globals) {
-        // 取 globals[&#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;] 作为新栈帧的 &lt;strong&gt;builtins&lt;/strong&gt;
-        // builtin_object 就是字符串 &#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;
-        builtins = PyDict_GetItem(globals, builtin_object);  &lt;br&gt;
-        if (builtins) {
-            if (PyModule_Check(builtins)) {
-                builtins = PyModule_GetDict(builtins);
-                assert(!builtins || PyDict_Check(builtins));
-            }
-            else if (!PyDict_Check(builtins))
-                builtins = NULL;
-        }
-        ...&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;}
-else {
-    /* If we share the globals, we share the builtins.
-       Save a lookup and a call. */
-    // 或者直接继承上一层栈帧的 f_builtins
-    builtins = back-&amp;gt;f_builtins;
-    assert(builtins != NULL &amp;amp;&amp;amp; PyDict_Check(builtins));
-    Py_INCREF(builtins);
-}
-...
-f-&amp;gt;f_builtins = builtins;
-f-&amp;gt;f_globals = globals;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}
-```&lt;/p&gt;
-&lt;p&gt;创建新的栈帧时，对于 &lt;code&gt;__builtins__&lt;/code&gt; 的处理主要有两种情况：一种是没有上层栈帧的情况下，取 &lt;code&gt;globals[&#39;__builtins__&#39;]&lt;/code&gt;；另一种是直接取上层栈帧的 &lt;code&gt;f_builtins&lt;/code&gt;。联合起来看的话，可以理解为，一般情况下，在 &lt;code&gt;__main__&lt;/code&gt; 中设置好的 &lt;code&gt;__builtins__&lt;/code&gt;，会一直继承给后面的栈帧，相当于共用同一份。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;import&lt;/code&gt; 模块时：&lt;/p&gt;
-&lt;p&gt;```c
-static PyObject *
-load_compiled_module(char &lt;em&gt;name, char &lt;/em&gt;cpathname, FILE &lt;em&gt;fp)
-{
-    long magic;
-    PyCodeObject &lt;/em&gt;co;
-    PyObject &lt;em&gt;m;
-    ...
-    co = read_compiled_module(cpathname, fp);
-    ...
-    m = PyImport_ExecCodeModuleEx(name, (PyObject &lt;/em&gt;)co, cpathname);
-    ...
-}&lt;/p&gt;
-&lt;p&gt;PyObject *
-PyImport_ExecCodeModuleEx(char &lt;em&gt;name, PyObject &lt;/em&gt;co, char *pathname)
-{
-    ...
-    m = PyImport_AddModule(name);
-    ...
-    // d = m.&lt;strong&gt;dict&lt;/strong&gt;
-    d = PyModule_GetDict(m);&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// 在这里设置新加载模块的 __builtins__ 属性
-if (PyDict_GetItemString(d, &#34;__builtins__&#34;) == NULL) {
-    if (PyDict_SetItemString(d, &#34;__builtins__&#34;,
-                             PyEval_GetBuiltins()) != 0)
-        goto error;
-}
-...
-// globals = d, locals = d
-v = PyEval_EvalCode((PyCodeObject *)co, d, d);
-...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;PyObject *
-PyEval_EvalCode(PyCodeObject &lt;em&gt;co, PyObject &lt;/em&gt;globals, PyObject &lt;em&gt;locals)
-{
-    return PyEval_EvalCodeEx(co,
-                      globals, locals,
-                      (PyObject &lt;/em&gt;&lt;em&gt;)NULL, 0,
-                      (PyObject &lt;/em&gt;&lt;em&gt;)NULL, 0,
-                      (PyObject &lt;/em&gt;*)NULL, 0,
-                      NULL);
-}
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;import&lt;/code&gt; 其他模块的时候，会把该模块的 &lt;code&gt;__builtins__&lt;/code&gt; 设置为 &lt;code&gt;PyEval_GetBuiltins()&lt;/code&gt; 的返回结果，这个函数我们已经说过，大部分情况下相当于 &lt;code&gt;current_frame-&amp;gt;f_builtins&lt;/code&gt;。对于 &lt;code&gt;__main__&lt;/code&gt; 模块的里面的 &lt;code&gt;import&lt;/code&gt;，&lt;code&gt;current_frame&lt;/code&gt; 就是 &lt;code&gt;__main__&lt;/code&gt; 模块的栈帧，&lt;code&gt;current_frame-&amp;gt;f_builtins = __main__.__dict__[&#39;__builtins__&#39;]&lt;/code&gt;（上文 &lt;code&gt;PyFrame_New&lt;/code&gt; 的第一种情况）。&lt;/p&gt;
-&lt;p&gt;加载的新模块，会使用 &lt;code&gt;PyEval_EvalCode&lt;/code&gt; 来执行新模块中的代码，可以看到，传给 &lt;code&gt;PyEval_EvalCode&lt;/code&gt; 的参数 &lt;code&gt;globals&lt;/code&gt;、&lt;code&gt;locals&lt;/code&gt; 其实都是模块自身的 &lt;code&gt;__dict__&lt;/code&gt;，并且模块 &lt;code&gt;m.__dict__[&#39;__builtins__&#39;] = PyEval_GetBuiltins()&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;综合来看，我们可以得知，从 &lt;code&gt;__main__&lt;/code&gt; 模块开始 &lt;code&gt;import&lt;/code&gt; 的模块，也会继承 &lt;code&gt;__main__&lt;/code&gt; 中的 &lt;code&gt;__builtins__&lt;/code&gt;，并会在内部的 &lt;code&gt;import&lt;/code&gt; 中传递下去，这样就可以确保，所有从 &lt;code&gt;__main__&lt;/code&gt; 加载的模块和子模块，都能共用同一份来自 &lt;code&gt;__main__&lt;/code&gt; 的 &lt;code&gt;__builtins__&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;那么如果是在模块中调用的函数呢？对于模块中的函数，创建和调用时：&lt;/p&gt;
-&lt;p&gt;```c
-// ceval.c
-// 创建函数
-TARGET(MAKE_FUNCTION)
-{
-    v = POP(); /&lt;em&gt; code object &lt;/em&gt;/&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// 这里的 f-&amp;gt;f_globals，相当于模块自身的 globals，由上文可知，也相当于 m.__dict__
-x = PyFunction_New(v, f-&amp;gt;f_globals);
-...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;PyObject *
-PyFunction_New(PyObject &lt;em&gt;code, PyObject &lt;/em&gt;globals)
-{
-    PyFunctionObject *op = PyObject_GC_New(PyFunctionObject,
-                                        &amp;amp;PyFunction_Type);
-    ...
-    // 这里相当于 op-&amp;gt;func_globals = globals = f-&amp;gt;f_globals
-    op-&amp;gt;func_globals = globals;   &lt;br&gt;
-}&lt;/p&gt;
-&lt;p&gt;// 调用函数
-static PyObject *
-fast_function(PyObject &lt;em&gt;func, PyObject &lt;/em&gt;&lt;em&gt;&lt;em&gt;pp_stack, int n, int na, int nk)
-{
-    PyCodeObject &lt;/em&gt;co = (PyCodeObject &lt;/em&gt;)PyFunction_GET_CODE(func);
-    // globals = func-&amp;gt;func_globals
-    PyObject &lt;em&gt;globals = PyFunction_GET_GLOBALS(func);
-    ...
-    // globals 传给 PyEval_EvalCodeEx，里面就会传给 PyFrame_New 来创建新的栈帧
-    return PyEval_EvalCodeEx(co, globals,
-                             (PyObject &lt;/em&gt;)NULL, (&lt;em&gt;pp_stack)-n, na,
-                             (&lt;/em&gt;pp_stack)-2*nk, nk, d, nd,
-                             PyFunction_GET_CLOSURE(func));
-}
-```&lt;/p&gt;
-&lt;p&gt;创建函数时，会把 &lt;code&gt;f-&amp;gt;f_globals&lt;/code&gt; 存到函数结构体变量 &lt;code&gt;func_globals&lt;/code&gt; 里面，而对于模块 &lt;code&gt;m&lt;/code&gt;，&lt;code&gt;f-&amp;gt;f_globals = m.__dict__&lt;/code&gt;。函数执行的时候，传给 &lt;code&gt;PyFrame_New&lt;/code&gt; 的 &lt;code&gt;globals&lt;/code&gt; 参数，就是创建时候保存起来的 &lt;code&gt;func_globals&lt;/code&gt;，&lt;code&gt;__builtins__&lt;/code&gt; 自然就可以在 &lt;code&gt;func_globals&lt;/code&gt; 中获取。&lt;/p&gt;
-&lt;p&gt;至此，&lt;code&gt;__builtins__&lt;/code&gt; 的传递是能保证一致性的，所有模块、子模块 、函数，栈帧等都能引用到同一个，也就是拥有相同的内建名字空间。&lt;/p&gt;
-&lt;h2&gt;指定 &lt;code&gt;__main__&lt;/code&gt; 模块执行&lt;/h2&gt;
-&lt;p&gt;我们已经知道 &lt;code&gt;__main__&lt;/code&gt; 模块自身的 &lt;code&gt;__builtins__&lt;/code&gt; 可以传递给所有子模块、函数和栈帧，而在命令行执行 &lt;code&gt;python a.py&lt;/code&gt; 时，Python 会把 &lt;code&gt;a.py&lt;/code&gt; 作为 &lt;code&gt;__main__&lt;/code&gt; 模块来执行，那这是如何做到的呢：&lt;/p&gt;
-&lt;p&gt;```c
-// python.c
-int
-main(int argc, char **argv)
-{
-    ...
-    return Py_Main(argc, argv);
-}&lt;/p&gt;
-&lt;p&gt;// main.c
-int
-Py_Main(int argc, char **argv)
-{
-    ...
-    // 尝试用模块的 importer 来执行代码
-    if (filename != NULL) {
-        sts = RunMainFromImporter(filename);
-    }
-    ...
-    // 一般我们自己的 py 文件，会使用这个来执行
-    sts = PyRun_AnyFileExFlags(
-            fp,
-            filename == NULL ? &#34;&lt;stdin&gt;&#34; : filename,
-            filename != NULL, &amp;amp;cf) != 0;
-    }
-    ...
-}&lt;/p&gt;
-&lt;p&gt;// pythonrun.c
-int
-PyRun_AnyFileExFlags(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, int closeit,
-                     PyCompilerFlags *flags)
-{
-    ...
-    return PyRun_SimpleFileExFlags(fp, filename, closeit, flags);
-}&lt;/p&gt;
-&lt;p&gt;int
-PyRun_SimpleFileExFlags(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, int closeit,
-                        PyCompilerFlags *flags)
-{
-    ...
-    m = PyImport_AddModule(&#34;&lt;strong&gt;main&lt;/strong&gt;&#34;);
-    d = PyModule_GetDict(m);
-    ...
-    // 设置 &lt;strong&gt;file&lt;/strong&gt; 属性
-    if (PyDict_SetItemString(d, &#34;&lt;strong&gt;file&lt;/strong&gt;&#34;, f) &amp;lt; 0) {
-        ...
-    }
-    ...
-    // globals = locals = d = &lt;strong&gt;main&lt;/strong&gt;.&lt;strong&gt;dict&lt;/strong&gt;
-    v = run_pyc_file(fp, filename, d, d, flags);
-    ...
-}&lt;/p&gt;
-&lt;p&gt;static PyObject *
-run_pyc_file(FILE &lt;em&gt;fp, const char &lt;/em&gt;filename, PyObject &lt;em&gt;globals,
-             PyObject &lt;/em&gt;locals, PyCompilerFlags *flags)
-{
-    ...
-    // 从 pyc 文件读取代码对象 co ，并执行代码
-    // PyEval_EvalCode 里面也同样会调用 PyFrame_New 创建新栈帧
-    v = PyEval_EvalCode(co, globals, locals);
-    ...
-}
-```&lt;/p&gt;
-&lt;p&gt;当执行 &lt;code&gt;python a.py&lt;/code&gt; 时，一般情况下会走到 &lt;code&gt;PyRun_SimpleFileExFlags&lt;/code&gt;，&lt;code&gt;PyRun_SimpleFileExFlags&lt;/code&gt; 里面会取出来 &lt;code&gt;__main__.__dict__&lt;/code&gt;，作为代码执行时的 &lt;code&gt;globals&lt;/code&gt; 和 &lt;code&gt;locals&lt;/code&gt;，最终也会传到 &lt;code&gt;PyFrame_New&lt;/code&gt; 中创建新的栈帧来执行 &lt;code&gt;a.py&lt;/code&gt;。结合我们上文提到的 &lt;code&gt;__builtins__&lt;/code&gt; 在模块和函数中传递，就可以让后续执行的代码都能共用同一份 &lt;code&gt;current_frame-&amp;gt;f_builtins = __main__.__builtins__.__dict__&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;再论 Restricted Execution&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 在 2.3 版本之前，曾经提供过的 &lt;a href=&#34;https://docs.python.org/2.7/library/restricted.html&#34;&gt;Restricted Execution&lt;/a&gt;，就是基于 &lt;code&gt;__builtins__&lt;/code&gt; 的特性来制作的。或者可以认为，&lt;code&gt;__builtins__&lt;/code&gt; 之所以设计成在 &lt;code&gt;__main__&lt;/code&gt; 模块中是一个模块对象，而在其他模块中是一个 &lt;code&gt;dict&lt;/code&gt; 对象，就是为了可以实现 &lt;strong&gt;Restricted Execution&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;考虑这种情况：如果我们可以自由定制自己的 &lt;code&gt;__builtin__&lt;/code&gt; 模块，并设置成 &lt;code&gt;__main__.__builtins__&lt;/code&gt;，那就相当于后续所有执行的代码，都会使用我们定制的模块，我们可以定制特定版本的 &lt;code&gt;open&lt;/code&gt;、&lt;code&gt;__import__&lt;/code&gt;、&lt;code&gt;file&lt;/code&gt; 等内建函数和类型，更进一步，这种方式是不是可以帮助我们限制执行代码的权限，防止代码做一些不安全的函数调用，或者访问一些不安全的文件？&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Python&lt;/code&gt; 当时就做过这种尝试，实现这个功能的模块就叫做: &lt;code&gt;rexec&lt;/code&gt;。&lt;/p&gt;
-&lt;h3&gt;&lt;code&gt;rexec&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;我无意太深入讲解 &lt;code&gt;rexec&lt;/code&gt; 的实现，因为原理其实上文已经讲清楚了，并且这个模块本身就已经废弃，我这些仅简单做一些关键代码的摘要，方便查阅。&lt;/p&gt;
-&lt;p&gt;```python&lt;/p&gt;
-&lt;h1&gt;rexec.py&lt;/h1&gt;
-&lt;p&gt;class RExec(ihooks._Verbose):
-    ...
-    nok_builtin_names = (&#39;open&#39;, &#39;file&#39;, &#39;reload&#39;, &#39;&lt;strong&gt;import&lt;/strong&gt;&#39;)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;def __init__(self, hooks = None, verbose = 0):
-    ...
-    self.modules = {}
-    ...
-    self.make_builtin()
-    self.make_initial_modules()
-    self.make_sys()
-    self.loader = RModuleLoader(self.hooks, verbose)
-    self.importer = RModuleImporter(self.loader, verbose)
-
-def make_builtin(self):
-    m = self.copy_except(__builtin__, self.nok_builtin_names)
-    m.__import__ = self.r_import
-    m.reload = self.r_reload
-    m.open = m.file = self.r_open
-
-def add_module(self, mname):
-    m = self.modules.get(mname)
-    if m is None:
-        self.modules[mname] = m = self.hooks.new_module(mname)
-    m.__builtins__ = self.modules[&#39;__builtin__&#39;]
-    return m
-
-def r_exec(self, code):
-    m = self.add_module(&#39;__main__&#39;)
-    exec code in m.__dict__
-
-def r_eval(self, code):
-    m = self.add_module(&#39;__main__&#39;)
-    return eval(code, m.__dict__)
-
-def r_execfile(self, file):
-    m = self.add_module(&#39;__main__&#39;)
-    execfile(file, m.__dict__)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;r_execfile&lt;/code&gt; 函数会把文件当作 &lt;code&gt;__main__&lt;/code&gt; 模块来执行，只是 &lt;code&gt;__main__&lt;/code&gt; 是定制过的。&lt;code&gt;self.add_module(&#39;__main__&#39;)&lt;/code&gt; 里面，会设置模块的 &lt;code&gt;m.__builtins__ = self.modules[&#39;__builtin__&#39;]&lt;/code&gt;，这个 &lt;code&gt;__builtin__&lt;/code&gt; 是由 &lt;code&gt;make_builtin&lt;/code&gt; 来定制生成的，在里面替换了 &lt;code&gt;__import__&lt;/code&gt;、&lt;code&gt;reload&lt;/code&gt;、&lt;code&gt;open&lt;/code&gt; 函数，并删除了 &lt;code&gt;file&lt;/code&gt; 类型。这样，我们就能控制要执行的代码对内建命名空间的访问了。&lt;/p&gt;
-&lt;p&gt;对于一些内建模块，&lt;code&gt;rexec&lt;/code&gt; 也做了定制，保护不安全的访问，譬如 &lt;code&gt;sys&lt;/code&gt; 模块，只保留了一部分的对象，并且通过定制的 &lt;code&gt;self.loader&lt;/code&gt;、&lt;code&gt;self.importer&lt;/code&gt;，来实现 &lt;code&gt;import&lt;/code&gt; 的时候，优先加载定制的模块。&lt;/p&gt;
-&lt;p&gt;如果对代码细节感兴趣，请自行查阅相关源码。&lt;/p&gt;
-&lt;h3&gt;&lt;code&gt;rexec&lt;/code&gt; 的失败&lt;/h3&gt;
-&lt;p&gt;上文提到，&lt;code&gt;Python 2.3&lt;/code&gt; 之后，&lt;code&gt;rexec&lt;/code&gt; 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;在社区有人报告了 &lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2002-December/031160.html&#34;&gt;Bug&lt;/a&gt;，并引发了开发者之间的讨论：
-    &amp;gt; it&#39;s never going to be safe, and I doubt it&#39;s very useful as long as it&#39;s not safe.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Every change is a potential security hole.&lt;/p&gt;
-&lt;p&gt;it&#39;s hard to predict what change is going to break it.&lt;/p&gt;
-&lt;p&gt;I don&#39;t expect you&#39;ll ever reach the point where it&#39;ll be wise to advertise this as safe.  I certainly won&#39;t.&lt;/p&gt;
-&lt;p&gt;this is only a useful occupation if you expect to eventually reach a point where you expect that there aren&#39;t any security flaws left.  Jeremy &amp;amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you &lt;em&gt;can&#39;t&lt;/em&gt; make it safe, don&#39;t waste time trying).&lt;/p&gt;
-&lt;p&gt;I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.&lt;/p&gt;
-&lt;p&gt;The code will still be in older versions if someone decides to pick it up and work on it as a separate project.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;该 Bug 的起因是 &lt;code&gt;Python&lt;/code&gt; 引入了新式类（new-style class） &lt;code&gt;object&lt;/code&gt;，导致 &lt;code&gt;rexec&lt;/code&gt; 不能正常工作。于是开发者表示，在可预见的未来，这种情况都很难避免，任意的修改都会可能导致 &lt;code&gt;rexec&lt;/code&gt; 出现漏洞，不能正常工作，或者被突破权限的限制，基本上无法实现没有漏洞地去提供一个安全环境的愿景，开发者需要不断地修修补补，浪费大量的时间。最终，&lt;code&gt;rexec&lt;/code&gt; 这个模块就被废弃掉了，&lt;code&gt;Python&lt;/code&gt; 也没有再提供类似的功能。但关于 &lt;code&gt;__builtins__&lt;/code&gt; 的设定，由于兼容性等问题，就继续保留下来了。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;后面在大概 2010 年的时候，有位程序员推出了 &lt;a href=&#34;https://github.com/vstinner/pysandbox&#34;&gt;pysandbox&lt;/a&gt;，致力于提供可以替代 &lt;code&gt;rexec&lt;/code&gt; 的 &lt;code&gt;Python&lt;/code&gt; 沙盒环境。但是 3 年后，作者主动放弃了这个项目，并详细说明了为什么作者认为这个项目是失败的：&lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2013-November/130132.html&#34;&gt;The pysandbox project is broken&lt;/a&gt;，也有其他作者撰文总结了这个项目的失败：&lt;a href=&#34;https://lwn.net/Articles/574215/&#34;&gt;The failure of pysandbox&lt;/a&gt;。如果感兴趣的话，可以具体去翻翻原文，我这里也给一些摘要来帮助了解：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.&lt;/p&gt;
-&lt;p&gt;I now agree that putting a sandbox in CPython is the wrong design. There are too many ways to escape the untrusted namespace using the various introspection features of the Python language. To guarantee the [safety] of a security product, the code should be [carefully] audited and the code to review must be as small as possible. Using pysandbox, the &#34;code&#34; is the whole Python core which is a really huge code base. For example, the Python and Objects directories of Python 3.4 contain more than 126,000 lines of C code.&lt;/p&gt;
-&lt;p&gt;The security of pysandbox is the security of its weakest part. A single bug is enough to escape the whole sandbox.&lt;/p&gt;
-&lt;p&gt;pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like &#34;del dict[key]&#34; are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating &#34;1+(2*3)&#34;, pysandbox cannot be used in practice, because of all these protections.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;pysandbox&lt;/strong&gt; 的作者认为，在 &lt;code&gt;Python&lt;/code&gt; 里面放一个沙盒环境是错误的设计，有太多的方式可以从沙盒中逃逸出去，&lt;code&gt;Python&lt;/code&gt; 提供的语言特性很丰富，&lt;code&gt;CPython&lt;/code&gt; 源码的代码量很大，基本不可能保证有足够的安全性。而 &lt;strong&gt;pysandbox&lt;/strong&gt; 的开发过程就是在不断地打补丁，补丁太多，限制太多，以至于作者认为 &lt;strong&gt;pysandbox&lt;/strong&gt; 已经没法实际使用，因为很多的语法特性和功能都被限制不能使用了，譬如简单的 &lt;code&gt;del dict[key]&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;Restricted Execution 出路在哪&lt;/h2&gt;
-&lt;p&gt;既然 &lt;code&gt;rexec&lt;/code&gt; 和 &lt;strong&gt;pysandbox&lt;/strong&gt; 这种通过 Patch Python 来提供沙盒环境的方法（这里姑且把这种方法称作 Patch Python）已经走不通了，那我不禁好奇：要怎么才能给 Python 提供一个能用的沙盒环境？&lt;/p&gt;
-&lt;p&gt;在这里我继续收集了一些其他的实现方法或者案例，方便参考和查阅：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://doc.pypy.org/en/latest/sandbox.html&#34;&gt;PyPy&lt;/a&gt; 有一个&lt;a href=&#34;https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2&#34;&gt;分支&lt;/a&gt;提供了沙盒的功能，结合额外的 &lt;a href=&#34;https://foss.heptapod.net/pypy/sandboxlib&#34;&gt;sandboxlib&lt;/a&gt;，可以自行编译出带沙盒环境版本的 PyPy。如果感兴趣，可以尝试自行配置，参考这里的一些&lt;a href=&#34;https://foss.heptapod.net/pypy/pypy/-/issues/3192&#34;&gt;说明&lt;/a&gt;。PyPy 实现的原理是创建一个子进程，子进程的所有输入输出和系统调用，都会重定向到外部进程，由外部进程控制这些权限，另外也可以控制内存和 CPU 的使用量。需要注意的是，这个分支也有段时间没有新的提交了，请谨慎使用。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;借助操作系统提供的沙盒环境工具。&lt;a href=&#34;https://en.wikipedia.org/wiki/Seccomp&#34;&gt;seccomp&lt;/a&gt; 是 Linux 内核提供的计算安全工具，&lt;a href=&#34;https://github.com/seccomp/libseccomp/tree/main/src/python&#34;&gt;libsecoomp&lt;/a&gt; 提供了 Python 绑定，可以内嵌到代码里面使用；或者使用基于 seccomp 实现的工具来执行代码，譬如 &lt;a href=&#34;https://firejail.wordpress.com/&#34;&gt;Firejail&lt;/a&gt;。&lt;a href=&#34;https://apparmor.net/&#34;&gt;AppArmor&lt;/a&gt; 是一个 Linux 内核安全模块，允许管理员控制程序能访问的系统资源和功能，保护操作系统。&lt;a href=&#34;https://github.com/openedx/codejail&#34;&gt;codejail&lt;/a&gt; 是基于 AppArmor 实现的 Python 沙盒环境，有兴趣可以尝试。还有很多类似的工具，这里不一一列举。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;使用沙盒虚拟环境或者容器。&lt;a href=&#34;https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview&#34;&gt;Windows 沙盒&lt;/a&gt;，&lt;a href=&#34;https://linuxcontainers.org/&#34;&gt;LXC&lt;/a&gt;, &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; 等等，这里不再详述。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;总结&lt;/h2&gt;
-&lt;p&gt;本文篇幅有点长，感谢看到这里，文章一开始所列出的疑问，相信都已经解答完毕。&lt;/p&gt;
-&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
-      <link>https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 05:04:22 +0000</pubDate>
-      <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/</guid>
       
     </item>
     

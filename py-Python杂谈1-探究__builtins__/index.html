@@ -19,7 +19,7 @@
         <link rel="prev" href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/">
       
       
-        <link rel="next" href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/">
+        <link rel="next" href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/">
       
       
         <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
@@ -606,6 +606,8 @@
       
         
       
+        
+      
     
     
     
@@ -817,6 +819,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1500,7 +1523,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">LOAD_NAME</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">// 先在 f-&gt;f_locals 名字空间里面找</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">...</span><span class="w"> </span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="c1">// 再找找全局空间</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
@@ -1576,7 +1599,7 @@
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">back</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">globals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="c1">// 取 globals[&#39;__builtins__&#39;] 作为新栈帧的 __builtins__</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="c1">// builtin_object 就是字符串 &#39;__builtins__&#39;</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_object</span><span class="p">);</span><span class="w">    </span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_object</span><span class="p">);</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">builtins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyModule_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">                </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">builtins</span><span class="p">);</span>
@@ -1671,7 +1694,7 @@
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                                        </span><span class="o">&amp;</span><span class="n">PyFunction_Type</span><span class="p">);</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="c1">// 这里相当于 op-&gt;func_globals = globals = f-&gt;f_globals</span>
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span><span class="w">     </span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
 <a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">}</span>
 <a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
 <a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1">// 调用函数</span>
@@ -1812,8 +1835,8 @@
 <h3 id="rexec_1"><code>rexec</code> 的失败</h3>
 <p>上文提到，<code>Python 2.3</code> 之后，<code>rexec</code> 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：</p>
 <ul>
-<li>在社区有人报告了 <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>，并引发了开发者之间的讨论：
-    &gt; it's never going to be safe, and I doubt it's very useful as long as it's not safe.<blockquote>
+<li>在社区有人报告了 <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>，并引发了开发者之间的讨论：<blockquote>
+<p>it's never going to be safe, and I doubt it's very useful as long as it's not safe.</p>
 <p>Every change is a potential security hole.</p>
 <p>it's hard to predict what change is going to break it.</p>
 <p>I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.</p>
@@ -1910,7 +1933,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-01-12</span>
   </span>
 
     
@@ -1972,13 +1995,13 @@
         
         
           
-          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--next" aria-label="下一页: 游戏 AOI 算法解析和性能实测">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="下一页: Python 杂谈 2 - Python3.12 热更新">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                游戏 AOI 算法解析和性能实测
+                Python 杂谈 2 - Python3.12 热更新
               </div>
             </div>
             <div class="md-footer__button md-icon">

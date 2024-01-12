@@ -13,12 +13,12 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 28 Dec 2023 18:31:36 -0000</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2023 18:31:36 -0000</lastBuildDate>
+    <pubDate>Fri, 12 Jan 2024 06:44:35 -0000</pubDate>
+    <lastBuildDate>Fri, 12 Jan 2024 06:44:35 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.11.0</generator>
+    <generator>MkDocs RSS plugin - v1.11.1</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:31:47 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:44:46 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,10 +54,191 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 28 Dec 2023 18:31:34 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:44:33 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Python 杂谈 2 - Python3.12 热更新</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Python 杂谈 2 - Python3.12 热更新&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;Python 杂谈 2 - Python3.12 现热更新&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记录如何在 Python3.12 中实现热更新&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;热更新&lt;/h2&gt;
+&lt;p&gt;热更新（Hot Reload）可以理解在不需要重启程序的情况下对其进行更新的技术。这项技术在游戏行业有广泛的应用，开发者对游戏问题进行修复的时候，为了不对玩家造成影响，往往需要采用一些静默更新的方式，也就是热更新。&lt;/p&gt;
+&lt;h2&gt;Python 热更新&lt;/h2&gt;
+&lt;p&gt;Python 本身是动态语言，一切皆是对象，是有能力做到热更新的。我们可以粗略把 Python 中的需要热更的对象分成两种：数据 和 函数。&lt;/p&gt;
+&lt;p&gt;数据，可以理解成游戏中的数值或者设定，譬如玩家的等级，装备等等一些数据，部分数据是不应该热更的（譬如玩家当前等级，玩家身上拥有哪些装备，这些数据的修改不应该通过热更来实现），部分数据是我们想要热更的（譬如装备的基础数值设定，技能的基础数值设定，UI 上的文字等等）。&lt;/p&gt;
+&lt;p&gt;函数，可以理解成游戏逻辑，这基本都是我们想要热更的，逻辑错误基本都需要通过热更新函数来实现。&lt;/p&gt;
+&lt;p&gt;下面我们来具体看看有什么方法可以对 Python3.12 执行热更新。&lt;/p&gt;
+&lt;h2&gt;Hotfix&lt;/h2&gt;
+&lt;p&gt;第一种方法我们叫做 Hotfix，通过让程序（客户端程序 / 服务端程序都可以）执行一段特定的 Python 代码，实现对数据和函数的热更新。一段简单的 Hotfix 代码可能是这样：&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;hotfix code&lt;/h1&gt;
+&lt;h1&gt;hotfix data&lt;/h1&gt;
+&lt;p&gt;import weapon_data
+weapon_data.gun.damage = 100&lt;/p&gt;
+&lt;h1&gt;hotfix func&lt;/h1&gt;
+&lt;p&gt;import player
+def new_fire_func(self, target):
+    target.health -= weapon_data.gun.damage
+    # ...
+player.Player.fire_func = new_fire_func
+```&lt;/p&gt;
+&lt;p&gt;以上代码简单展示 Hotfix 的写法，数据 / 函数修改之后，程序后续访问的时候就会读到新的数据 / 函数来执行。&lt;/p&gt;
+&lt;p&gt;如果你比较细致，你可能会有一个疑问：那如果其他代码里面引用住了这些需要修改数据和函数，会发生什么事情？&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;attack.py module&lt;/h1&gt;
+&lt;p&gt;player_fire = player.Player.fire_func&lt;/p&gt;
+&lt;p&gt;def player_attack_by_gun(player, target):
+    player_fire(target)
+    # ...
+```&lt;/p&gt;
+&lt;p&gt;答案是，前面的 Hotfix 对这种情况是不生效的，&lt;code&gt;fire_func&lt;/code&gt; 这个函数相当于在其他模块多了一份副本，该模块中调用的是函数的副本，我们修改函数本体对副本不生效。&lt;/p&gt;
+&lt;p&gt;所以需要注意，一般代码中尽量减少模块级别的数据引用和函数引用，避免出现这种 Hotfix 不生效的情况，如果代码已经是这样写的，Hotfix 需要多做一些工作：&lt;/p&gt;
+&lt;p&gt;```python&lt;/p&gt;
+&lt;h1&gt;hotfix code&lt;/h1&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;import attack
+attack.player_fire = player.Player.fire_func&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;在对数据 / 函数本体 Hotfix 修改之后，再额外对引用的地方进行修改。这些额外的修改很容易被遗漏，所以我们还是建议，从代码规范上来尽量避免多处引用的写法。&lt;/p&gt;
+&lt;p&gt;综上，Hotfix 能满足热更的基本需求，同时存在以下问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果数据/函数被其他模块明确引用住，需要额外对这些模块的引用 Hotfix&lt;/li&gt;
+&lt;li&gt;如果有大量的数据/函数需要 Hotfix，那么 Hotfix 的代码会变得很庞大，维护难度上升，也更容易出错&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Reload&lt;/h2&gt;
+&lt;p&gt;本章节源码可从这里获得：&lt;a href=&#34;https://github.com/disenone/python_reloader&#34;&gt;python_reloader&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们更想要的是自动热更新，不需要额外写 Hotfix，只需要更新代码文件，让程序执行一个 Reload 函数则会自动替换新的函数和新的数据。我们把这个自动热更新的功能叫做 Reload。&lt;/p&gt;
+&lt;p&gt;Python3.12 提供了 importlib.reload 函数，可以重新加载模块，但是却是全量加载，并且返回新的模块对象，对于其他模块中的引用，并不能自动修改，也就是其他模块如果 import 了 reload 的模块，那么访问的依然是旧的模块对象。这个功能比我们的 Hotfix 好不了多少，更何况是全量 reload 模块，不能由我们控制哪些数据应该保留。我们想要自己实现一个 Reload 功能，满足这些要求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自动替换函数，同时旧函数的引用依然有效，并会执行新函数的内容&lt;/li&gt;
+&lt;li&gt;自动替换数据，同时可控制部分替换&lt;/li&gt;
+&lt;li&gt;保留旧模块的引用，通过旧模块就能访问到新的内容&lt;/li&gt;
+&lt;li&gt;需要 Reload 的模块可控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;要完成这些要求，我们需要借助 Python 里面 meta_path 的机制，详细的介绍可以看官方文档 &lt;a href=&#34;https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path&#34;&gt;the-meta-path&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;sys.meta_path 里面可以定义我们的元路径查找器对象，譬如我们把用于 Reload 的查找器叫做 reload_finder，reload_finder 需要实现一个函数 find_spec 并返回 spec 对象。Python 拿到 spec 对象后，会依次执行 spec.loader.create_module 和 spec.loader.exec_module 完成模块的导入。&lt;/p&gt;
+&lt;p&gt;如果我们在这个过程中，执行新的模块代码，并把新的模块里面的函数和需要的数据复制到旧模块中，则可以达到 Reload 的目的：&lt;/p&gt;
+&lt;p&gt;```python linenums=&#34;1&#34;
+class MetaFinder:
+    def &lt;strong&gt;init&lt;/strong&gt;(self, reloader):
+        self._reloader = reloader&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def find_spec(self, fullname, path, target=None):
+    # find source file
+    finder = importlib.machinery.PathFinder()
+    spec = finder.find_spec(fullname, path)
+    if not spec:
+        return
+
+    old_module = self._reloader.GetOldModule(fullname)
+    if old_module:
+        # run new code in old module dict
+        code = spec.loader.get_code(fullname)
+        exec(code, old_module.__dict__)
+        module = old_module
+    else:
+        # if old module not exists, just create a new one
+        module = import_util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+    try:
+        self._reloader.ReloadModule(module)
+    except:
+        sys.excepthook(*sys.exc_info())
+
+    return import_util.spec_from_loader(fullname, MetaLoader(module))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;class MetaLoader:
+    def &lt;strong&gt;init&lt;/strong&gt;(self, module):
+        self._module = module&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def create_module(self, spec):
+    return self._module
+
+def exec_module(self, module):
+    # restore __spec__
+    module.__spec__ = module.__dict__.pop(&#39;__backup_spec__&#39;)
+    module.__loader__ = module.__dict__.pop(&#39;__backup_loader__&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;如上，&lt;code&gt;find_spec&lt;/code&gt; 加载最新的模块源码，并在旧模块的 &lt;code&gt;__dict__&lt;/code&gt; 里面执行新模块的代码，之后我们调用 &lt;code&gt;ReloadModule&lt;/code&gt; 来处理类 / 函数 / 数据的引用和替换。&lt;code&gt;MetaLoader&lt;/code&gt; 的目的是适配 meta_path 机制，给 Python 虚拟机返回我们处理过的模块对象。&lt;/p&gt;
+&lt;p&gt;处理完加载的流程，再来看 &lt;code&gt;ReloadModule&lt;/code&gt; 的大致实现&lt;/p&gt;
+&lt;p&gt;```python linenums=&#34;1&#34;&lt;/p&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;def ReloadModule(self, module):
+    old_module_info = self._old_module_infos.get(module.&lt;strong&gt;name&lt;/strong&gt;)
+    if not old_module_info:
+        return&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;self.ReloadDict(module, old_module_info, module.__dict__)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;def ReloadDict(self, module, old_dict, new_dict, _reload_all_data=False, _del_func=False):
+    dels = []&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for attr_name, old_attr in old_dict.items():
+
+    if attr_name in self.IGNORE_ATTRS:
+        continue
+
+    if attr_name not in new_dict:
+        if _del_func and (inspect.isfunction(old_attr) or inspect.ismethod(old_attr)):
+            dels.append(attr_name)
+        continue
+
+    new_attr = new_dict[attr_name]
+
+    if inspect.isclass(old_attr):
+        new_dict[attr_name] = self.ReloadClass(module, old_attr, new_attr)
+
+    elif inspect.isfunction(old_attr):
+        new_dict[attr_name] = self.ReloadFunction(module, old_attr, new_attr)
+
+    elif inspect.ismethod(old_attr) or isinstance(old_attr, classmethod) or isinstance(old_attr, staticmethod):
+        self.ReloadFunction(module, old_attr.__func__, new_attr.__func__)
+        new_dict[attr_name] = old_attr
+
+    elif inspect.isbuiltin(old_attr) \
+            or inspect.ismodule(old_attr) \
+            or inspect.ismethoddescriptor(old_attr) \
+            or isinstance(old_attr, property):
+        # keep new
+        pass
+
+    elif not _reload_all_data and not self.NeedUpdateData(module, new_dict, attr_name):
+        # keep old data
+        new_dict[attr_name] = old_attr
+
+if dels:
+    for name in dels:
+        old_dict.pop(name)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;...&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ReloadDict&lt;/code&gt; 里面会区分处理不同类型的对象&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是 class，则调用 &lt;code&gt;ReloadClass&lt;/code&gt;，会返回旧模块的引用，并更新 class 的成员&lt;/li&gt;
+&lt;li&gt;如果是 function / method ，则调用 &lt;code&gt;ReloadFunction&lt;/code&gt;，会返回旧模块的引用，并更新函数的内部数据&lt;/li&gt;
+&lt;li&gt;如果是数据，并且需要保留，则会回滚 &lt;code&gt;new_dict[attr_name] = old_attr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;其余的都保持新的引用&lt;/li&gt;
+&lt;li&gt;删除新模块不存在的函数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;ReloadClass&lt;/code&gt;，&lt;code&gt;ReloadFunction&lt;/code&gt; 的具体代码这里不再展开分析，有兴趣可以直接看&lt;a href=&#34;https://github.com/disenone/python_reloader&#34;&gt;源码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;整个 Reload 的过程，可以概括为：旧瓶装新酒。为了保持模块/模块的函数/模块的类/模块的数据有效，我们需要保留原来的这些对象的引用（躯壳），转而去更新它们内部的具体数据，譬如对于函数，更新 &lt;code&gt;__code__&lt;/code&gt;，&lt;code&gt;__dict__&lt;/code&gt; 等数据，函数执行的时候，就会转而执行新的代码。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;本文详细介绍了 Python3 的两种热更新方式，每种都有相应的应用场景，希望能对你有帮助。有任何疑问欢迎随时交流。&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 12 Jan 2024 06:37:04 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/</guid>
       
     </item>
     
@@ -3355,7 +3536,7 @@ PyEval_GetBuiltins(void)
 TARGET(LOAD_NAME)
 {
     // 先在 f-&amp;gt;f_locals 名字空间里面找
-    ... 
+    ...
     if (x == NULL) {
         // 再找找全局空间
         x = PyDict_GetItem(f-&amp;gt;f_globals, w);
@@ -3432,7 +3613,7 @@ PyFrame_New(PyThreadState &lt;em&gt;tstate, PyCodeObject &lt;/em&gt;code, PyObje
     if (back == NULL || back-&amp;gt;f_globals != globals) {
         // 取 globals[&#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;] 作为新栈帧的 &lt;strong&gt;builtins&lt;/strong&gt;
         // builtin_object 就是字符串 &#39;&lt;strong&gt;builtins&lt;/strong&gt;&#39;
-        builtins = PyDict_GetItem(globals, builtin_object);  &lt;br&gt;
+        builtins = PyDict_GetItem(globals, builtin_object);
         if (builtins) {
             if (PyModule_Check(builtins)) {
                 builtins = PyModule_GetDict(builtins);
@@ -3525,7 +3706,7 @@ PyFunction_New(PyObject &lt;em&gt;code, PyObject &lt;/em&gt;globals)
                                         &amp;amp;PyFunction_Type);
     ...
     // 这里相当于 op-&amp;gt;func_globals = globals = f-&amp;gt;f_globals
-    op-&amp;gt;func_globals = globals;   &lt;br&gt;
+    op-&amp;gt;func_globals = globals;
 }&lt;/p&gt;
 &lt;p&gt;// 调用函数
 static PyObject *
@@ -3663,9 +3844,9 @@ def r_execfile(self, file):
 &lt;p&gt;上文提到，&lt;code&gt;Python 2.3&lt;/code&gt; 之后，&lt;code&gt;rexec&lt;/code&gt; 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;在社区有人报告了 &lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2002-December/031160.html&#34;&gt;Bug&lt;/a&gt;，并引发了开发者之间的讨论：
-    &amp;gt; it&#39;s never going to be safe, and I doubt it&#39;s very useful as long as it&#39;s not safe.&lt;/p&gt;
+&lt;p&gt;在社区有人报告了 &lt;a href=&#34;https://mail.python.org/pipermail/python-dev/2002-December/031160.html&#34;&gt;Bug&lt;/a&gt;，并引发了开发者之间的讨论：&lt;/p&gt;
 &lt;blockquote&gt;
+&lt;p&gt;it&#39;s never going to be safe, and I doubt it&#39;s very useful as long as it&#39;s not safe.&lt;/p&gt;
 &lt;p&gt;Every change is a potential security hole.&lt;/p&gt;
 &lt;p&gt;it&#39;s hard to predict what change is going to break it.&lt;/p&gt;
 &lt;p&gt;I don&#39;t expect you&#39;ll ever reach the point where it&#39;ll be wise to advertise this as safe.  I certainly won&#39;t.&lt;/p&gt;

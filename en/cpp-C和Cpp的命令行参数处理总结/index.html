@@ -677,6 +677,8 @@
       
         
       
+        
+      
     
     
     
@@ -742,7 +744,28 @@
         
   
   <span class="md-ellipsis">
-    Python Rambles 1 - Exploring __builtins__
+    Python Chat 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Miscellany 2 - Python 3.12 Hot Update
   </span>
   
 
@@ -1311,10 +1334,10 @@
   <h1>Summary of command line parameter handling in C/C++</h1>
 
 <p><meta property="og:title" content="C/C++ 的命令行参数处理总结" /></p>
-<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block" /></a></p>
-<p><a class="glightbox" href="../../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-11-19-aparsing/aparsing.png" /></a></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-11-19-aparsing/aparsing.png" /></a></p>
 <p>Some time ago, when I was going through the Linux kernel code, I came across the way the kernel handles module parameters (moduleparam), and I found it quite ingenious. It made me curious about how command-line arguments in C could be better handled. The code used in this article can be found here <a href="https://github.com/disenone/aparsing">aparsing</a>. The code can be compiled and run on Windows, Linux, and Mac OS X. Detailed compilation instructions can be found in the README.md file.</p>
 <h2 id="getenv">getenv</h2>
 <p>The standard library provides us with a function <code>getenv</code>. Literally, this function is used to retrieve environment variables. So as long as we set the required environment variables in advance and retrieve them in the program, we indirectly pass the parameters to the program. Let's take a look at the following <a href="https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c">code</a>:</p>

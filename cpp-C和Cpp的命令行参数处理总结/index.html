@@ -678,6 +678,8 @@
       
         
       
+        
+      
     
     
     
@@ -744,6 +746,27 @@
   
   <span class="md-ellipsis">
     Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -1312,10 +1335,10 @@
   <h1>C/C++ 的命令行参数处理总结</h1>
 
 <p><meta property="og:title" content="C/C++ 的命令行参数处理总结" /></p>
-<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block" /></a></p>
-<p><a class="glightbox" href="../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2016-11-19-aparsing/aparsing.png" /></a></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block" /></a></p>
+<p><a class="glightbox" href="../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2016-11-19-aparsing/aparsing.png" /></a></p>
 <p>前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。本文所用代码都在这里 <a href="https://github.com/disenone/aparsing">aparsing</a> 。代码支持在 Windows 、 Linux 、 Mac OS X 下编译运行，详细的编译指南在 README.md 里面。 </p>
 <h2 id="getenv">getenv</h2>
 <p>标准库为我们提供了一个函数 <code>getenv</code> ，按照字面意思，这个函数是用来获取环境变量的，那么只要我们预先设置好需要的环境变量，在程序里面拿出来，就间接地把参数传到程序里面啦。我们来看下面这段<a href="https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c">代码</a>：</p>
