@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Fri, 12 Jan 2024 06:44:35 -0000</pubDate>
-    <lastBuildDate>Fri, 12 Jan 2024 06:44:35 -0000</lastBuildDate>
+    <pubDate>Fri, 12 Jan 2024 06:54:33 -0000</pubDate>
+    <lastBuildDate>Fri, 12 Jan 2024 06:54:33 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 06:44:46 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:54:44 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 06:44:33 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 06:54:31 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -68,7 +68,7 @@
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;Python 杂谈 2 - Python3.12 热更新&#34; /&gt;&lt;/p&gt;
-&lt;h1&gt;Python 杂谈 2 - Python3.12 现热更新&lt;/h1&gt;
+&lt;h1&gt;Python 杂谈 2 - Python3.12 热更新&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;记录如何在 Python3.12 中实现热更新&lt;/p&gt;
 &lt;/blockquote&gt;
