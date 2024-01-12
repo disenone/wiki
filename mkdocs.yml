@@ -167,6 +167,7 @@ nav:
     - Python:
       - py-使用VisualStudio2015编译Python2.7.11.md
       - py-Python杂谈1-探究__builtins__.md
+      - py-Python杂谈2-Python312-热更新.md
   - 游戏开发:
     - 基础:
       - game-游戏AOI算法解析和性能实测.md

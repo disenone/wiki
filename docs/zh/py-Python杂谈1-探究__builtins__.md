@@ -3,7 +3,7 @@ layout: post
 title: Python 杂谈 1 - 探究 __builtins__
 categories: [c++, python]
 catalog: true
-tags: [dev, game]
+tags: [dev, game, python, __builtins__, builtins]
 description: |
     __builtin__ 跟 __builtins__ 有什么区别？__builtins__ 在 main 模块跟其他模块是不同的？为什么会设定成不同？__builtins__ 是在哪里定义的？本文我们来探讨一下关于 __builtins__ 的冷知识，并且还有一些引申的内容，不容错过。
 figures: []
@@ -69,7 +69,7 @@ PyEval_GetBuiltins(void)
 TARGET(LOAD_NAME)
 {
     // 先在 f->f_locals 名字空间里面找
-    ... 
+    ...
     if (x == NULL) {
         // 再找找全局空间
         x = PyDict_GetItem(f->f_globals, w);
@@ -164,7 +164,7 @@ PyFrame_New(PyThreadState *tstate, PyCodeObject *code, PyObject *globals,
     if (back == NULL || back->f_globals != globals) {
         // 取 globals['__builtins__'] 作为新栈帧的 __builtins__
         // builtin_object 就是字符串 '__builtins__'
-        builtins = PyDict_GetItem(globals, builtin_object);    
+        builtins = PyDict_GetItem(globals, builtin_object);
         if (builtins) {
             if (PyModule_Check(builtins)) {
                 builtins = PyModule_GetDict(builtins);
@@ -256,7 +256,7 @@ PyEval_EvalCode(PyCodeObject *co, PyObject *globals, PyObject *locals)
 TARGET(MAKE_FUNCTION)
 {
     v = POP(); /* code object */
-    
+
     // 这里的 f->f_globals，相当于模块自身的 globals，由上文可知，也相当于 m.__dict__
     x = PyFunction_New(v, f->f_globals);
     ...
@@ -269,7 +269,7 @@ PyFunction_New(PyObject *code, PyObject *globals)
                                         &PyFunction_Type);
     ...
     // 这里相当于 op->func_globals = globals = f->f_globals
-    op->func_globals = globals;     
+    op->func_globals = globals;
 }
 
 // 调用函数
@@ -433,6 +433,7 @@ class RExec(ihooks._Verbose):
 上文提到，`Python 2.3` 之后，`rexec` 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：
 
 * 在社区有人报告了 [Bug](https://mail.python.org/pipermail/python-dev/2002-December/031160.html)，并引发了开发者之间的讨论：
+
     > it's never going to be safe, and I doubt it's very useful as long as it's not safe.
 
     > Every change is a potential security hole.
