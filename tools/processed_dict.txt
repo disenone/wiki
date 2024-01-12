@@ -28,8 +28,8 @@
     "mtime": 1701704595.865458
   },
   "py-Python杂谈1-探究__builtins__.md": {
-    "git_ref": "af63d71",
-    "mtime": 1701491678.530614
+    "git_ref": "155c9a4",
+    "mtime": 1705041456.5351534
   },
   "py-使用VisualStudio2015编译Python2.7.11.md": {
     "git_ref": "af63d71",
@@ -74,5 +74,9 @@
   "ue-设置本地化多语言.md": {
     "git_ref": "eca19c9",
     "mtime": 1703786987.3951695
+  },
+  "py-Python杂谈2-Python312-热更新.md": {
+    "git_ref": "155c9a4",
+    "mtime": 1705041456.5391533
   }
 }
