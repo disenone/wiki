@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Fri, 12 Jan 2024 08:08:58 -0000</pubDate>
-    <lastBuildDate>Fri, 12 Jan 2024 08:08:58 -0000</lastBuildDate>
+    <pubDate>Fri, 12 Jan 2024 08:20:58 -0000</pubDate>
+    <lastBuildDate>Fri, 12 Jan 2024 08:20:58 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 08:09:09 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 08:21:09 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 08:08:56 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 08:20:56 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -235,7 +235,7 @@ if dels:
 &lt;p&gt;本文详细介绍了 Python3 的两种热更新方式，每种都有相应的应用场景，希望能对你有帮助。有任何疑问欢迎随时交流。&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 08:03:56 +0000</pubDate>
+      <pubDate>Fri, 12 Jan 2024 08:16:26 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/</guid>
