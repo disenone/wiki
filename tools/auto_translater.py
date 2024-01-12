@@ -227,7 +227,7 @@ def translate_text(text, lang, type):
         link_url = link_match.group(2)
         output_text = translate_text(text[:link_match.start() + len(link_text)], lang, type)
         if not output_text.endswith(']'):
-            output_text = output_text[:output_text.rfind(']')]
+            output_text = output_text[:output_text.rfind(']') + 1]
         output_text += link_url
         output_text += translate_text(text[link_match.end():], lang, type)
         return output_text
