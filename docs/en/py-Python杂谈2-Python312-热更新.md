@@ -1,39 +1,39 @@
 ---
 layout: post
-title: Python Miscellaneous 2 - Python 3.12 Hot Update
+title: Python Chat 2 - Python 3.12 Hot Update
 tags:
 - dev
 - game
 - python
 - reload
 - 热更新
-description: How to implement hot reload in Python 3.12.
+description: How to implement hot reloading in Python 3.12.
 ---
 
 <meta property="og:title" content="Python 杂谈 2 - Python3.12 热更新" />
 
-#Python Miscellaneous 2 - Python 3.12 Hot Update
+#Python Misc 2 - Python 3.12 Hot Reload
 
-> Record how to achieve hot update in Python 3.12
+> Record how to achieve hot reloading in Python 3.12
 
 ##Hot update
 
-Hot Reload is a technology that allows updates to be made to a program without the need for a restart. This technology is widely used in the gaming industry. When developers need to fix issues in games without impacting players, they often use a form of silent update, which is known as Hot Reload.
+Hot Reload allows updates to be made to a program without the need to restart it. This technology is widely used in the gaming industry. When developers need to fix issues in a game without impacting the players, they often use a technique called hot reload.
 
 
-##Python Hot Update
+##`Python Hot Update`
 
-Python itself is a dynamic language where everything is an object and has the ability to achieve hot updates. We can roughly divide the objects that need hot updates in Python into two categories: data and functions.
+Python itself is a dynamic language, where everything is an object, capable of achieving hot updates. We can roughly divide the objects that need to be updated in Python into two categories: data and functions.
 
-Data can be understood as the values or settings in the game, such as the player's level, equipment, and so on. Some data should not be hot-updated (such as the player's current level, the player's owned equipment; these data should not be modified through hot updates), while some data is what we want to hot-update (such as the basic numerical settings of equipment, the basic numerical settings of skills, text on the UI, etc.).
+Data can be understood as the numerical values or settings in the game, such as the player's level, equipment, and so on. Some data should not be hot-updated (such as the player's current level, the equipment the player has, these data modifications should not be done through hot-updates), some data are the ones we want to hot-update (such as the basic numerical settings of equipment, the basic numerical settings of skills, the text on the UI, and so on).
 
 Function, can be understood as game logic, this is basically what we want to hotfix, logic errors basically need to be implemented through hot update functions.
 
-Let's take a closer look at what methods can be used to perform hot reloading on Python 3.12.
+Let's take a closer look at what methods can be used to implement hot updates for Python 3.12.
 
 ## Hotfix
 
-The first method we call Hotfix, through letting the program (both client and server programs) execute a specific Python code, achieves hot updates for data and functions. A simple Hotfix code may look like this:
+The first method we call Hotfix, which allows the program (both client program and server program) to execute a specific Python code segment to achieve hot updates for data and functions. A simple Hotfix code could look like this:
 
 
 ```python
@@ -51,9 +51,9 @@ def new_fire_func(self, target):
 player.Player.fire_func = new_fire_func
 ```
 
-The above code demonstrates the basic usage of Hotfix. After the data / function is modified, the program will subsequently read and execute the new data / function when accessed.
+The above code simply demonstrates the writing method of Hotfix. After the data/function is modified, the program will read the new data/function for execution during subsequent accesses.
 
-If you are meticulous, you may have a question: What would happen if other code references these data and functions that need to be modified?
+If you are meticulous, you may have a question: What happens if other code references these data and functions that need to be modified?
 
 ```python
 # attack.py module
@@ -65,9 +65,9 @@ def player_attack_by_gun(player, target):
     # ...
 ```
 
-The answer is that the previous Hotfix does not work in this case. The `fire_func` function is like an extra copy in other modules. The module calls the copy of the function, so modifications to the original function do not affect the copy.
+The answer is, the previous Hotfix does not take effect in this situation, the `fire_func` function is like an extra copy in other modules, and the module calls the copy of the function, so the modifications made to the original function do not take effect on the copy.
 
-So it's important to note that in general, we should try to minimize module-level data references and function references in the code, to avoid situations where the hotfixes don't take effect. If the code is already written this way, extra work will be needed for the hotfix.
+So need to be careful, generally in the code try to reduce the references to module-level data and function references as much as possible, to avoid the situation where the hotfix does not take effect. If the code is already written this way, the hotfix needs to do more work:
 
 ```python
 # hotfix code
@@ -78,31 +78,33 @@ attack.player_fire = player.Player.fire_func
 
 ```
 
-After modifying the data/function core Hotfix, make additional modifications to the referenced locations. These additional modifications are easy to overlook, so we still recommend avoiding the use of multiple references as much as possible from the code specification.
+After modifying the data/function core hotfix, make additional modifications to the places where it is referenced. These additional modifications are easily overlooked, so we still recommend avoiding the use of multiple references as much as possible from the code specification.
 
-In conclusion, hotfix can meet the basic needs of live updates, but it also has the following issues:
+In conclusion, Hotfix can meet the basic needs of hot updates, while also presenting the following issues:
 
-If the data/function is explicitly referenced by other modules, additional references to these modules need to be hotfixed.
-If there is a large amount of data/functions that need to be hotfixed, the hotfix code will become very large, making maintenance more difficult and prone to errors.
+**Translate these text into English language:**
+
+- If the data/function is explicitly referenced by other modules, additional references to these modules are required. Hotfix
+If there's a large amount of data/functions that need to be hotfixed, the hotfix code will become very lengthy, maintenance will become more difficult, and it will also be more prone to errors.
 
 ## Reload
 
-This chapter's source code can be obtained from here: [python_reloader](https://github.com/disenone/python_reloader)
+The source code for this chapter can be obtained from here: [python_reloader](https://github.com/disenone/python_reloader)
 
-What we really want is automatic hot updates, without the need for writing extra hotfixes. We just need to update the code files and then have the program execute a reload function to automatically replace the new functions and data. We call this automatic hot update feature "Reload".
+What we really want is automatic hot reloading, without the need to write additional hotfixes. We just need to update the code files, and when the program executes a reload function, it will automatically replace the new functions and data. We call this automatic hot reloading function "Reload."
 
-Python 3.12 provides the `importlib.reload` function, which can reload modules, but it is a full reload and returns a new module object. For references to the reloaded module in other modules, they are not automatically updated, meaning that if other modules import the reloaded module, they still access the old module object. This feature is not much better than our Hotfix, especially because it fully reloads the module and we can't control which data should be retained. We want to implement our own Reload feature that meets these requirements:
+Python 3.12 provides the importlib.reload function, which can reload modules, but it is a full reload and returns a new module object. For references in other modules, it does not automatically update. In other words, if other modules import the reloaded module, they will still access the old module object. This feature is not much better than our Hotfix, especially considering that it fully reloads the module and does not allow us to control which data should be retained. We want to implement our own reload function to meet these requirements:
 
 - Automatic replacement function, while the reference to the old function remains valid and will execute the content of the new function
-- Automatically replace data while controlling partial replacements
-- Keep the reference to the old module, and through the old module, you can access the new content.
-- Modules requiring reload are controllable
+- Automatically replace data while controlling partial replacement
+- Retain references to the old module, so that the new content can be accessed through the old module.
+- Modules that need to be reloaded are controllable.
 
-To meet these requirements, we need to make use of the mechanism inside Python called meta_path. For a detailed explanation, you can refer to the official documentation [the-meta-path].(https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path)。
+To accomplish these requirements, we need to make use of the meta_path mechanism inside Python. For a detailed explanation, you can refer to the official documentation [the-meta-path(https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path).
 
-Inside `sys.meta_path`, we can define our meta path finder objects, for example, we can name the finder used for reloading as `reload_finder`. `reload_finder` needs to implement a function called `find_spec` and return a `spec` object. After Python obtains the `spec` object, it will execute `spec.loader.create_module` and `spec.loader.exec_module` in sequence to complete the module import.
+In `sys.meta_path` we can define our meta-path finder objects. For example, if we name the finder used for reloading as `reload_finder`, `reload_finder` needs to implement a function `find_spec` and return a `spec` object. Upon receiving the `spec` object, Python will sequentially execute `spec.loader.create_module` and `spec.loader.exec_module` to complete the module import.
 
-If we execute new module code during this process and copy the functions and required data from the new module to the old module, we can achieve the purpose of reloading.
+If, during this process, we execute new module code and copy the functions and required data from the new module into the old module, we can achieve the goal of reloading.
 
 ```python linenums="1"
 class MetaFinder:
@@ -148,9 +150,9 @@ class MetaLoader:
         module.__loader__ = module.__dict__.pop('__backup_loader__')
 ```
 
-As mentioned above, `find_spec` loads the latest source code of a module and executes the new module's code within the `__dict__` of the old module. After that, we call `ReloadModule` to handle the references and replacements of classes / functions / data. The purpose of `MetaLoader` is to adapt to the meta_path mechanism and return the processed module objects to the Python virtual machine.
+As mentioned, `find_spec` loads the latest module source code and executes the new module's code within the `__dict__` of the old module. Then we call `ReloadModule` to handle the references and replacements of classes, functions, and data. The purpose of `MetaLoader` is to adapt to the meta_path mechanism and to return the processed module objects to the Python virtual machine.
 
-After completing the loading process, let's take a look at the general implementation of `ReloadModule`.
+After handling the loading process, let's take a look at the general implementation of `ReloadModule`.
 
 ```python linenums="1"
 # ...
@@ -204,23 +206,24 @@ def ReloadDict(self, module, old_dict, new_dict, _reload_all_data=False, _del_fu
 
 ```
 
-The `ReloadDict` will differentiate and handle different types of objects inside.
+The `ReloadDict` will differentiate and handle different types of objects.
 
-If it is a class, calling `ReloadClass` will return a reference to the old module and update the members of the class.
-If it's a function/method, invoking `ReloadFunction` will return the reference of the old module and update the internal data of the function.
-If it's data and needs to be preserved, it will roll back `new_dict[attr_name] = old_attr`.
-- The rest should remain in the new citation.
+If it's a class, calling `ReloadClass` will return a reference to the old module and update the class members.
+If it is a function/method, calling `ReloadFunction` will return a reference to the old module and update the internal data of the function.
+If it's data and needs to be preserved, it will roll back `new_dict[attr_name] = old_attr`
+- The rest should keep the new reference.
 - Remove functions that do not exist in the new module
 
-The specific code for `ReloadClass` and `ReloadFunction` will not be further analyzed here. If you are interested, you can directly refer to the [source code].(https://github.com/disenone/python_reloader)。
+The specific code for `ReloadClass` and `ReloadFunction` will not be further analyzed here. If you are interested, you can directly check the [source code(https://github.com/disenone/python_reloader)。
 
-The entire Reload process can be summarized as putting new wine in old bottles. In order to keep the module/module functions/module classes/module data valid, we need to retain the references to these original objects (shells) and then update their specific data internally. For example, for functions, we update `__code__`, `__dict__`, and other data. When the function is executed, it will in turn execute the new code.
+The whole Reload process can be summarized as "old wine in a new bottle". To keep the module/module function/module class/module data valid, we need to retain references to these original objects (shells) and update their specific data internally, for example, for functions, update `__code__`, `__dict__`, etc. When the function is executed, it will then execute the new code instead.
 
 ##Summary
 
-This article provides a detailed introduction to the two hot update methods of Python3, each with its own corresponding use cases, hoping to be helpful to you. Feel free to reach out if you have any questions.
+This article provides a detailed introduction to two hot update methods of Python3, each with its corresponding application scenarios, hoping to be helpful to you. If you have any questions, please feel free to communicate at any time.
 
 --8<-- "footer_en.md"
+
 
 
 > This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
