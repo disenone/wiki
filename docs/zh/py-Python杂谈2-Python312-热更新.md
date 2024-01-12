@@ -55,7 +55,7 @@ player.Player.fire_func = new_fire_func
 player_fire = player.Player.fire_func
 
 def player_attack_by_gun(player, target):
-    player_fire(target)
+    player_fire(player, target)
     # ...
 ```
 
