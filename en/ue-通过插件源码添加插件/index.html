@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Simply record how to add plugins to UE when you have the plugin source code.">
+        <meta name="description" content="Simple record of how to add plugins to UE with the source code.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE adds plugins through the plugin source code. - Disenone's Wiki</title>
+        <title>UE adds plugins through plugin source code. - Disenone's Wiki</title>
       
     
     
@@ -93,6 +93,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#add-plugins-by-adding-plugin-source-code-in-ue" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -122,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE adds plugins through the plugin source code.
+              UE adds plugins through plugin source code.
             
           </span>
         </div>
@@ -853,6 +858,8 @@
       
         
       
+        
+      
     
     
     
@@ -920,12 +927,14 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    UE adds plugins through the plugin source code.
+    UE adds plugins through plugin source code.
   </span>
   
 
@@ -990,6 +999,27 @@
   
   <span class="md-ellipsis">
     UE sets up localization for multiple languages.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE Editor Plugin EditorPlus Documentation
   </span>
   
 
@@ -1196,6 +1226,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -1218,14 +1250,15 @@
   
 
 
-  <h1>UE adds plugins through the plugin source code.</h1>
-
 <p><meta property="og:title" content="UE 通过插件源码添加插件" /></p>
-<p>Just a quick note on how to add a plugin when you have the plugin source code.</p>
+<h1 id="add-plugins-by-adding-plugin-source-code-in-ue">Add plugins by adding plugin source code in UE.</h1>
+<h1 id="add-plugin">Add plugin</h1>
+<blockquote>
+<p>Simple record of how to add a plugin when you have the plugin source code.</p>
+</blockquote>
 <p>Plugin <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a>For example</p>
-<ul>
-<li>Put the source code into the Plugins directory.</li>
-<li>(This step can be skipped) Modify the project's .uproject file and add the following under the Plugins field:
+<p>Put the source code into the Plugins directory.
+- (This step can be skipped) Modify the .uproject file of the project, add the following under the Plugins field:
     <div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">&quot;Plugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EditorPlus&quot;</span><span class="p">,</span>
@@ -1234,10 +1267,14 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="s2">&quot;Editor&quot;</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">]</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
-</code></pre></div></li>
-<li>Right-click on the uproject file, execute "Generate Visual Studio Project Files," update the sln project file.</li>
-<li>Open the sln file, compile the project.</li>
-</ul>
+</code></pre></div>
+- Right-click on the uproject file, execute "Generate Visual Studio Project Files", and update the sln project file.
+Open the .sln file and compile the project.</p>
+<h1 id="set-up-multiple-languages">Set up multiple languages</h1>
+<p>Edit the project's configuration file <code>DefaultEditor.ini</code> to add the new path:</p>
+<div class="language-ini highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[Internationalization]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">+LocalizationPaths</span><span class="o">=</span><span class="s">%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools</span>
+</code></pre></div>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1301,7 +1338,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-27</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-01-13</span>
   </span>
 
     

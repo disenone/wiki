@@ -94,6 +94,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#ue" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -854,6 +859,8 @@
       
         
       
+        
+      
     
     
     
@@ -920,6 +927,8 @@
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
+      
+        
       
       
       <a href="./" class="md-nav__link md-nav__link--active">
@@ -991,6 +1000,27 @@
   
   <span class="md-ellipsis">
     UE 设置本地化多语言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 编辑器插件 EditorPlus 说明文档
   </span>
   
 
@@ -1197,6 +1227,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -1219,9 +1251,9 @@
   
 
 
-  <h1>UE 通过插件源码添加插件</h1>
-
 <p><meta property="og:title" content="UE 通过插件源码添加插件" /></p>
+<h1 id="ue">UE 通过插件源码添加插件</h1>
+<h1 id="_1">添加插件</h1>
 <blockquote>
 <p>简单记录一下如何在拥有插件源码的情况下添加插件.</p>
 </blockquote>
@@ -1241,6 +1273,11 @@
 <li>右键 uproject 文件，执行 "Generate Visual Studio Project Files"，更新 sln 项目文件</li>
 <li>打开 sln 文件，编译项目</li>
 </ul>
+<h1 id="_2">设置多语言</h1>
+<p>修改项目的配置文件 <code>DefaultEditor.ini</code>，加上新路径：</p>
+<div class="language-ini highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[Internationalization]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">+LocalizationPaths</span><span class="o">=</span><span class="s">%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools</span>
+</code></pre></div>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1303,7 +1340,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-27</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-01-13</span>
   </span>
 
     

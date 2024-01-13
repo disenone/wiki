@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Fri, 12 Jan 2024 08:20:58 -0000</pubDate>
-    <lastBuildDate>Fri, 12 Jan 2024 08:20:58 -0000</lastBuildDate>
+    <pubDate>Sat, 13 Jan 2024 03:58:47 -0000</pubDate>
+    <lastBuildDate>Sat, 13 Jan 2024 03:58:47 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 08:21:09 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 03:58:58 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,10 +54,239 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 12 Jan 2024 08:20:56 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 03:58:45 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 编辑器插件 EditorPlus 说明文档</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 编辑器插件 EditorPlus 说明文档&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;UE 编辑器插件 EditorPlus 说明文档&lt;/h1&gt;
+&lt;h2&gt;插件源码&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;项目添加源码插件 EditorPlus&lt;/h2&gt;
+&lt;p&gt;参考文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;中文：&lt;a href=&#34;https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE 通过插件源码添加插件&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;English: &lt;a href=&#34;https://disenone.github.io/wiki/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE adds plugins through the plugin source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;插件说明&lt;/h2&gt;
+&lt;p&gt;EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。&lt;/p&gt;
+&lt;h2&gt;扩展编辑器菜单&lt;/h2&gt;
+&lt;h3&gt;说明&lt;/h3&gt;
+&lt;p&gt;支持多种方式扩展编辑器菜单：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;路径方式：&lt;code&gt;RegisterPathAction(&#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;实例化方式：&lt;code&gt;EP_NEW_MENU(FEditorPlusMenuBar)(&#34;Bar&#34;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;混合方式：&lt;code&gt;RegisterPath(&#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;,EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;路径方式&lt;/h2&gt;
+&lt;p&gt;可以通过这样的方式来注册一个编辑器菜单指令：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPathAction(
+    &#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;,
+    FExecuteAction::CreateLambda([]
+        {
+            // do action
+        })
+);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这样就可以在编辑器菜单栏 Help 后面增加一个菜单栏 Bar，Bar 里面增加一个子菜单 SubMenu， SubMenu 里面增加一个命令 Action。&lt;/p&gt;
+&lt;p&gt;完整的路径格式会是这样的：&lt;code&gt;/&amp;lt;Hook&amp;gt;HookName/&amp;lt;Type1&amp;gt;Name1/&amp;lt;Type2&amp;gt;Name2&lt;/code&gt;，第一个路径必须是 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;，目前支持的类型和限制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;：后续路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Section&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;, &amp;lt;Section&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Separator&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;：后面不能有任何路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Widget&amp;gt;&lt;/code&gt;：后面不能有任何路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;更简易的路径形式：&lt;code&gt;/BarName/SubMenuName1/SubMenuName2/CommandName&lt;/code&gt;，如果不指定类型，默认路径的第一个是 &lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;，中间的是 &lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;，最后的是 &lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;如果没有指定 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt; 则自动最前面加上 &lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;，表示在 Help 菜单后面添加菜单栏。&lt;/p&gt;
+&lt;h2&gt;实例化方式&lt;/h2&gt;
+&lt;p&gt;路径方式是自动把所有节点根据类型和默认参数实例化出来，我们也可以自己控制实例化，可以更细致控制扩展的内容。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;`cpp
+EP_NEW_MENU(FEditorPlusMenuBar)(&#34;MyBar&#34;, &#34;MyBar&#34;, LOCTEXT(&#34;MyBar&#34;, &#34;MyBar&#34;), LOCTEXT(&#34;MyBarTips&#34;, &#34;MyBarTips&#34;))
+-&amp;gt;RegisterPath()
+-&amp;gt;Content({
+    EP_NEW_MENU(FEditorPlusSubMenu)(&#34;MySubMenu&#34;)
+    -&amp;gt;Content({
+        EP_NEW_MENU(FEditorPlusCommand)(&#34;MyAction&#34;)
+        -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
+            {
+                // do action
+            })),
+    })
+});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;实例化 &lt;code&gt;MyBar&lt;/code&gt; 的时候可以传入 Hook 名字，本地化名字，本地化提示参数（&lt;code&gt;&#34;MyBar&#34;, LOCTEXT(&#34;MyBar&#34;, &#34;MyBar&#34;), LOCTEXT(&#34;MyBarTips&#34;, &#34;MyBarTips&#34;)&lt;/code&gt;）。上面代码就相当于路径方式 &lt;code&gt;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;MyBar/&amp;lt;SubMenu&amp;gt;MySubMenu/&amp;lt;Command&amp;gt;MyAction&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;混合方式&lt;/h2&gt;
+&lt;p&gt;当然还可以两种方式混合使用：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPath(
+    &#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;,
+    EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)
+    -&amp;gt;BindAction(FExecuteAction::CreateLambda([]
+        {
+            // do action
+        })),
+);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这种情况下，插件会自动实例化中间路径的节点，最后的路径使用用户自己实例化的节点。&lt;/p&gt;
+&lt;h2&gt;更多用例&lt;/h2&gt;
+&lt;p&gt;头文件:&lt;/p&gt;
+&lt;p&gt;```cpp&lt;/p&gt;
+&lt;h1&gt;include &lt;EditorPlusPath.h&gt;&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;路径方式指定本地化语言，&lt;code&gt;EP_FNAME_HOOK_AUTO&lt;/code&gt; 表示自动使用路径名字作为 &lt;code&gt;Hook&lt;/code&gt; 名字：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPathAction(
+        &#34;/Bar/Action&#34;,
+        FExecuteAction::CreateLambda([]
+        {
+            // do action
+        }),
+        EP_FNAME_HOOK_AUTO,
+        LOCTEXT(&#34;Action&#34;, &#34;Action&#34;),
+        LOCTEXT(&#34;ActionTips&#34;, &#34;ActionTips&#34;));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;通过路径获取节点并设置本地化文本：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::GetNodeByPath(&#34;/MenuTest&#34;)
+    -&amp;gt;SetFriendlyName(LOCTEXT(&#34;MenuTest&#34;, &#34;MenuTest&#34;))
+    -&amp;gt;SetFriendlyTips(LOCTEXT(&#34;MenuTestTips&#34;, &#34;MenuTestTips&#34;));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;路径末端添加一个 Slate UI 控件&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPath(
+    &#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Widget&amp;gt;Widget&#34;,
+    EP_NEW_MENU(FEditorPlusWidget)(&#34;Widget&#34;, LOCTEXT(&#34;Widget&#34;, &#34;Widget&#34;))
+        -&amp;gt;BindWidget(SNew(SHorizontalBox)));
+);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在 UE 自带的 Hook 里面添加新的节点&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPath(&#34;&amp;lt;Hook&amp;gt;EpicGamesHelp/&amp;lt;Separator&amp;gt;ExtendSeparator&#34;)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;多次声明相同的路径，都被识别成同一个路径，因此可以不断扩展相同的路径&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::RegisterPathAction(&#34;/MenuTest/SubMenu1/SubMenu1/Path1&#34;, Action, EP_FNAME_HOOK_AUTO, LOCTEXT(&#34;Path1&#34;, &#34;Path1&#34;), LOCTEXT(&#34;Path1Tips&#34;, &#34;Path1Tips&#34;));
+FEditorPlusPath::RegisterPathAction(&#34;/MenuTest/SubMenu1/SubMenu1/Path2&#34;, Action, EP_FNAME_HOOK_AUTO, LOCTEXT(&#34;Path2&#34;, &#34;Path2&#34;), LOCTEXT(&#34;Path2Tips&#34;, &#34;Path2Tips&#34;));&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;为一个节点继续扩展路径&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+auto node = FEditorPlusPath::GetNodeByPath(&#34;/MenuTest&#34;);
+FEditorPlusPath::RegisterChildPath(node, &#34;&amp;lt;SubMenu&amp;gt;Sub/&amp;lt;Separator&amp;gt;Sep&#34;);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;删除一个路径&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+FEditorPlusPath::UnregisterPath(&#34;/MenuTest/SubMenu1/SubMenu1/Path1&#34;);&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;接口说明&lt;/h2&gt;
+&lt;p&gt;```cpp
+class EDITORPLUS_API FEditorPlusPath
+{
+public:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterPath(const FString&amp;amp; Path, const TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; Menu=nullptr);
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterPath(const FString&amp;amp; Path, const FText&amp;amp; FriendlyName, const FText&amp;amp; FriendlyTips);
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterPathAction(
+    const FString&amp;amp; Path, const FExecuteAction&amp;amp; ExecuteAction, const FName&amp;amp; Hook=EP_FNAME_HOOK_AUTO,
+    const FText&amp;amp; FriendlyName=FText::GetEmpty(), const FText&amp;amp; FriendlyTips=FText::GetEmpty());
+
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterChildPath(
+    const TSharedRef&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; InParent, const FString&amp;amp; Path, const TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; Menu=nullptr);
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterChildPath(
+    const TSharedRef&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; InParent, const FString&amp;amp; Path, const FText&amp;amp; FriendlyName, const FText&amp;amp; FriendlyTips);
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; RegisterChildPathAction(
+    const TSharedRef&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; InParent, const FString&amp;amp; Path, const FExecuteAction&amp;amp; ExecuteAction,
+    const FName&amp;amp; Hook=EP_FNAME_HOOK_AUTO, const FText&amp;amp; FriendlyName=FText::GetEmpty(), const FText&amp;amp; FriendlyTips=FText::GetEmpty());
+
+static bool UnregisterPath(
+    const FString&amp;amp; Path, const TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt;&amp;amp; Leaf=nullptr);
+
+static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; GetNodeByPath(const FString&amp;amp; Path);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;};
+```&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;RegisterPath&lt;/code&gt;：生成路径菜单&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RegisterPathAction&lt;/code&gt;：生成路径菜单，并自动为末端 &lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt; 节点绑定操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RegisterChildPath&lt;/code&gt;：为指定节点继续生成子路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RegisterChildPathAction&lt;/code&gt;：为指定节点继续生成子路径，并自动绑定操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UnregisterPath&lt;/code&gt;：删除路径，&lt;code&gt;Leaf&lt;/code&gt; 在有多个同名的末端节点可以指定严格匹配。删除的过程中，会回溯中间节点，一旦中间节点没有任何子节点也会被删除&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GetNodeByPath&lt;/code&gt;：根据路径获取节点&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;节点类型&lt;/p&gt;
+&lt;p&gt;```cpp
+// base class of all node
+class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis&lt;FEditorPlusMenuBase&gt; {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusHook: public TEditorPlusMenuBaseRoot {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusMenuBar: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusSection: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusSeparator: public TEditorPlusMenuBaseNode{}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusSubMenu: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
+```&lt;/p&gt;
+&lt;p&gt;更多样例和接口说明请参考源码 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;，测试用例 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp&#34;&gt;MenuTest.cpp&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;模块化管理&lt;/h2&gt;
+&lt;p&gt;UE.EditorPlus 还提供了一个模块化管理扩展菜单的框架，支持插件加载和卸载的时候，自动加载和卸载扩展的菜单&lt;/p&gt;
+&lt;p&gt;让菜单类继承 &lt;code&gt;IEditorPlusToolInterface&lt;/code&gt;，并覆写 &lt;code&gt;OnStartup&lt;/code&gt; 和 &lt;code&gt;OnShutdown&lt;/code&gt; 函数。&lt;code&gt;OnStartup&lt;/code&gt; 负责创建菜单，&lt;code&gt;OnShutdown&lt;/code&gt; 负责调用节点的 &lt;code&gt;Destroy&lt;/code&gt; 函数清理菜单。单节点的引用数归0，则会执行自动清理。&lt;/p&gt;
+&lt;p&gt;```cpp
+class FMenuTest: public IEditorPlusToolInterface
+{
+public:
+    virtual void OnStartup() override;
+    virtual void OnShutdown() override;
+}&lt;/p&gt;
+&lt;p&gt;void FMenuTest::OnStartup()
+{
+    BuildPathMenu();
+    BuildCustomMenu();
+    BuildMixMenu();
+    BuildExtendMenu();
+}&lt;/p&gt;
+&lt;p&gt;void FMenuTest::OnShutdown()
+{
+    for(auto Menu: Menus)
+    {
+        if(Menu.IsValid()) Menu-&amp;gt;Destroy();
+    }
+    Menus.Empty();
+}
+```&lt;/p&gt;
+&lt;p&gt;菜单管理类继承 &lt;code&gt;IEditorPlusToolManagerInterface&lt;/code&gt;，并覆写 &lt;code&gt;AddTools&lt;/code&gt; 函数，在 &lt;code&gt;AddTools&lt;/code&gt; 里面添加菜单类&lt;/p&gt;
+&lt;p&gt;```cpp
+class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
+{
+public:
+    virtual void AddTools() override;
+}&lt;/p&gt;
+&lt;p&gt;void FEditorPlusToolsImpl::AddTools()
+{
+    if (!Tools.Num())
+    {
+        Tools.Emplace(MakeShared&lt;FMenuTest&gt;());
+    }&lt;/p&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+&lt;p&gt;插件加载和卸载的时候分别调用管理类的 &lt;code&gt;StartupTools&lt;/code&gt; 和 &lt;code&gt;ShutdownTools&lt;/code&gt; 函数&lt;/p&gt;
+&lt;p&gt;```cpp
+void FEditorPlusToolsModule::StartupModule()
+{
+    Impl = FEditorPlusToolsImpl::Get();
+    Impl-&amp;gt;StartupTools();&lt;/p&gt;
+&lt;p&gt;}
+void FEditorPlusToolsModule::ShutdownModule()
+{
+    Impl-&amp;gt;ShutdownTools();
+}
+```&lt;/p&gt;
+&lt;p&gt;完成以上适配，则可以自动在加载和卸载插件的时候，自动加载和卸载扩展的菜单。&lt;/p&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sat, 13 Jan 2024 03:55:10 +0000</pubDate>
+      <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
       
     </item>
     
@@ -999,6 +1228,8 @@ if (!String.IsNullOrEmpty(CachePath))
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 通过插件源码添加插件&#34; /&gt;&lt;/p&gt;
+&lt;h1&gt;UE 通过插件源码添加插件&lt;/h1&gt;
+&lt;h1&gt;添加插件&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;简单记录一下如何在拥有插件源码的情况下添加插件.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1018,6 +1249,11 @@ if (!String.IsNullOrEmpty(CachePath))
 &lt;li&gt;右键 uproject 文件，执行 &#34;Generate Visual Studio Project Files&#34;，更新 sln 项目文件&lt;/li&gt;
 &lt;li&gt;打开 sln 文件，编译项目&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h1&gt;设置多语言&lt;/h1&gt;
+&lt;p&gt;修改项目的配置文件 &lt;code&gt;DefaultEditor.ini&lt;/code&gt;，加上新路径：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ini
+[Internationalization]
++LocalizationPaths=%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
       <pubDate>Fri, 01 Dec 2023 00:00:00 +0000</pubDate>
