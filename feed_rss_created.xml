@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Sat, 13 Jan 2024 08:21:27 -0000</pubDate>
-    <lastBuildDate>Sat, 13 Jan 2024 08:21:27 -0000</lastBuildDate>
+    <pubDate>Sat, 13 Jan 2024 08:35:56 -0000</pubDate>
+    <lastBuildDate>Sat, 13 Jan 2024 08:35:56 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 08:21:38 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 08:36:07 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 08:21:25 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 08:35:54 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -126,7 +126,7 @@ EP_NEW_MENU(FEditorPlusMenuBar)(&#34;MyBar&#34;, &#34;MyBar&#34;, LOCTEXT(&#34;M
     })
 });&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;实例化 &lt;code&gt;MyBar&lt;/code&gt; 的时候可以传入 Hook 名字，本地化名字，本地化提示参数（&lt;code&gt;&#34;MyBar&#34;, LOCTEXT(&#34;MyBar&#34;, &#34;MyBar&#34;), LOCTEXT(&#34;MyBarTips&#34;, &#34;MyBarTips&#34;)&lt;/code&gt;）。上面代码就相当于路径方式 &lt;code&gt;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;MyBar/&amp;lt;SubMenu&amp;gt;MySubMenu/&amp;lt;Command&amp;gt;MyAction&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;混合方式&lt;/h2&gt;
+&lt;h3&gt;混合方式&lt;/h3&gt;
 &lt;p&gt;当然还可以两种方式混合使用：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cpp
 FEditorPlusPath::RegisterPath(
