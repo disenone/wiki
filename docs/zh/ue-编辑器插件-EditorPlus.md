@@ -6,13 +6,13 @@ description: UE 编辑器插件 EditorPlus 说明文档
 ---
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-# UE 编辑器插件 EditorPlus 说明文档
+# UE 编辑器插件 UD.EditorPlus 说明文档
 
 ## 插件源码
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-## 项目添加源码插件 EditorPlus
+## 项目添加源码插件 EU.ditorPlus
 
 参考文档：
 
@@ -22,7 +22,7 @@ description: UE 编辑器插件 EditorPlus 说明文档
 
 ## 插件说明
 
-EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。
+UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。
 
 
 ## 扩展编辑器菜单
@@ -35,7 +35,7 @@ EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩�
 - 实例化方式：`EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
 - 混合方式：`RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
 
-## 路径方式
+### 路径方式
 
 可以通过这样的方式来注册一个编辑器菜单指令：
 
@@ -65,7 +65,7 @@ FEditorPlusPath::RegisterPathAction(
 
 如果没有指定 `<Hook>` 则自动最前面加上 `<Hook>Help`，表示在 Help 菜单后面添加菜单栏。
 
-## 实例化方式
+### 实例化方式
 
 路径方式是自动把所有节点根据类型和默认参数实例化出来，我们也可以自己控制实例化，可以更细致控制扩展的内容。
 
@@ -82,7 +82,7 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
             })),
     })
 });
-``
+```
 
 实例化 `MyBar` 的时候可以传入 Hook 名字，本地化名字，本地化提示参数（`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`）。上面代码就相当于路径方式 `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`。
 
@@ -103,7 +103,7 @@ FEditorPlusPath::RegisterPath(
 
 这种情况下，插件会自动实例化中间路径的节点，最后的路径使用用户自己实例化的节点。
 
-## 更多用例
+### 更多用例
 
 头文件:
 
@@ -170,7 +170,7 @@ FEditorPlusPath::RegisterChildPath(node, "<SubMenu>Sub/<Separator>Sep");
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
-## 接口说明
+### 接口说明
 
 ```cpp
 class EDITORPLUS_API FEditorPlusPath
@@ -230,7 +230,7 @@ class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 更多样例和接口说明请参考源码 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，测试用例 [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-## 模块化管理
+### 模块化管理
 
 UE.EditorPlus 还提供了一个模块化管理扩展菜单的框架，支持插件加载和卸载的时候，自动加载和卸载扩展的菜单
 
@@ -297,5 +297,49 @@ void FEditorPlusToolsModule::ShutdownModule()
 ```
 
 完成以上适配，则可以自动在加载和卸载插件的时候，自动加载和卸载扩展的菜单。
+
+
+## 编辑器工具
+
+UE.EditorPlus 还提供了一些实用的编辑器工具
+
+## 创建编辑器窗口
+
+使用 EditorPlus，可以很简单的创建一个新的编辑器窗口
+
+```cpp
+// register spawn tab
+Tab = MakeShared<FEditorPlusTab>(LOCTEXT("ClassBrowser", "ClassBrowser"), LOCTEXT("ClassBrowserTip", "Open the ClassBrowser"));
+Tab->Register<SClassBrowserTab>();
+
+// register menu action to spawn tab
+FEditorPlusPath::RegisterPathAction(
+    "/EditorPlusTools/ClassBrowser",
+    FExecuteAction::CreateSP(Tab.ToSharedRef(), &FEditorPlusTab::TryInvokeTab),
+);
+```
+
+`SClassBrowserTab` 是一个自定义的 UI 控件
+
+```cpp
+class SClassBrowserTab final : public SCompoundWidget
+{
+	SLATE_BEGIN_ARGS(SClassBrowserTab)
+	{}
+	SLATE_END_ARGS()
+    // ...
+}
+```
+
+### ClassBrowser
+
+ClassBrowser 是一个 UE Class 查看器，通过菜单 EditorPlusTools -> ClassBrowser 来打开
+
+![](assets/img/2024-ue-editorplus/menu.png)
+
+![](assets/img/2024-ue-editorplus/classbrowser.png)
+
+基于 UE 的反射来实现，可以很方便查看 UE 各种类型的成员信息，说明提示等，支持模糊搜索，并能跳转打开父类的信息。
+
 
 --8<-- "footer.md"
