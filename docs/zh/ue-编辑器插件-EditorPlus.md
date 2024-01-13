@@ -1,18 +1,18 @@
 ---
 layout: post
-title: UE 编辑器插件 EditorPlus 说明文档
+title: UE 编辑器插件 UE.EditorPlus 说明文档
 tags: [dev, game, UE, UnreanEngine, UE4, UE5]
-description: UE 编辑器插件 EditorPlus 说明文档
+description: UE 编辑器插件  UE.EditorPlus 说明文档
 ---
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-# UE 编辑器插件 UD.EditorPlus 说明文档
+# UE 编辑器插件 UE.EditorPlus 说明文档
 
 ## 插件源码
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-## 项目添加源码插件 EU.ditorPlus
+## 项目添加源码插件 EU.EditorPlus
 
 参考文档：
 
