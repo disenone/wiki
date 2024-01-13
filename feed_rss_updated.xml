@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Sat, 13 Jan 2024 03:58:47 -0000</pubDate>
-    <lastBuildDate>Sat, 13 Jan 2024 03:58:47 -0000</lastBuildDate>
+    <pubDate>Sat, 13 Jan 2024 08:21:27 -0000</pubDate>
+    <lastBuildDate>Sat, 13 Jan 2024 08:21:27 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 03:58:58 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 08:21:38 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 03:58:45 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 08:21:25 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -62,23 +62,23 @@
     </item>
     
     <item>
-      <title>UE 编辑器插件 EditorPlus 说明文档</title>
+      <title>UE 编辑器插件 UE.EditorPlus 说明文档</title>
       
       
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 编辑器插件 EditorPlus 说明文档&#34; /&gt;&lt;/p&gt;
-&lt;h1&gt;UE 编辑器插件 EditorPlus 说明文档&lt;/h1&gt;
+&lt;h1&gt;UE 编辑器插件 UE.EditorPlus 说明文档&lt;/h1&gt;
 &lt;h2&gt;插件源码&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;项目添加源码插件 EditorPlus&lt;/h2&gt;
+&lt;h2&gt;项目添加源码插件 EU.EditorPlus&lt;/h2&gt;
 &lt;p&gt;参考文档：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;中文：&lt;a href=&#34;https://disenone.github.io/wiki/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE 通过插件源码添加插件&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;English: &lt;a href=&#34;https://disenone.github.io/wiki/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE adds plugins through the plugin source code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;插件说明&lt;/h2&gt;
-&lt;p&gt;EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。&lt;/p&gt;
+&lt;p&gt;UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。&lt;/p&gt;
 &lt;h2&gt;扩展编辑器菜单&lt;/h2&gt;
 &lt;h3&gt;说明&lt;/h3&gt;
 &lt;p&gt;支持多种方式扩展编辑器菜单：&lt;/p&gt;
@@ -87,7 +87,7 @@
 &lt;li&gt;实例化方式：&lt;code&gt;EP_NEW_MENU(FEditorPlusMenuBar)(&#34;Bar&#34;)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;混合方式：&lt;code&gt;RegisterPath(&#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;,EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;路径方式&lt;/h2&gt;
+&lt;h3&gt;路径方式&lt;/h3&gt;
 &lt;p&gt;可以通过这样的方式来注册一个编辑器菜单指令：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cpp
 FEditorPlusPath::RegisterPathAction(
@@ -110,9 +110,9 @@ FEditorPlusPath::RegisterPathAction(
 &lt;/ul&gt;
 &lt;p&gt;更简易的路径形式：&lt;code&gt;/BarName/SubMenuName1/SubMenuName2/CommandName&lt;/code&gt;，如果不指定类型，默认路径的第一个是 &lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;，中间的是 &lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;，最后的是 &lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;如果没有指定 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt; 则自动最前面加上 &lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;，表示在 Help 菜单后面添加菜单栏。&lt;/p&gt;
-&lt;h2&gt;实例化方式&lt;/h2&gt;
+&lt;h3&gt;实例化方式&lt;/h3&gt;
 &lt;p&gt;路径方式是自动把所有节点根据类型和默认参数实例化出来，我们也可以自己控制实例化，可以更细致控制扩展的内容。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;`cpp
+&lt;p&gt;&lt;code&gt;cpp
 EP_NEW_MENU(FEditorPlusMenuBar)(&#34;MyBar&#34;, &#34;MyBar&#34;, LOCTEXT(&#34;MyBar&#34;, &#34;MyBar&#34;), LOCTEXT(&#34;MyBarTips&#34;, &#34;MyBarTips&#34;))
 -&amp;gt;RegisterPath()
 -&amp;gt;Content({
@@ -138,7 +138,7 @@ FEditorPlusPath::RegisterPath(
         })),
 );&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;这种情况下，插件会自动实例化中间路径的节点，最后的路径使用用户自己实例化的节点。&lt;/p&gt;
-&lt;h2&gt;更多用例&lt;/h2&gt;
+&lt;h3&gt;更多用例&lt;/h3&gt;
 &lt;p&gt;头文件:&lt;/p&gt;
 &lt;p&gt;```cpp&lt;/p&gt;
 &lt;h1&gt;include &lt;EditorPlusPath.h&gt;&lt;/h1&gt;
@@ -180,7 +180,7 @@ FEditorPlusPath::RegisterChildPath(node, &#34;&amp;lt;SubMenu&amp;gt;Sub/&amp;lt
 &lt;p&gt;删除一个路径&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cpp
 FEditorPlusPath::UnregisterPath(&#34;/MenuTest/SubMenu1/SubMenu1/Path1&#34;);&lt;/code&gt;&lt;/p&gt;
-&lt;h2&gt;接口说明&lt;/h2&gt;
+&lt;h3&gt;接口说明&lt;/h3&gt;
 &lt;p&gt;```cpp
 class EDITORPLUS_API FEditorPlusPath
 {
@@ -227,7 +227,7 @@ class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis&lt;FEditorPlusM
 &lt;p&gt;class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```&lt;/p&gt;
 &lt;p&gt;更多样例和接口说明请参考源码 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;，测试用例 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp&#34;&gt;MenuTest.cpp&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;模块化管理&lt;/h2&gt;
+&lt;h3&gt;模块化管理&lt;/h3&gt;
 &lt;p&gt;UE.EditorPlus 还提供了一个模块化管理扩展菜单的框架，支持插件加载和卸载的时候，自动加载和卸载扩展的菜单&lt;/p&gt;
 &lt;p&gt;让菜单类继承 &lt;code&gt;IEditorPlusToolInterface&lt;/code&gt;，并覆写 &lt;code&gt;OnStartup&lt;/code&gt; 和 &lt;code&gt;OnShutdown&lt;/code&gt; 函数。&lt;code&gt;OnStartup&lt;/code&gt; 负责创建菜单，&lt;code&gt;OnShutdown&lt;/code&gt; 负责调用节点的 &lt;code&gt;Destroy&lt;/code&gt; 函数清理菜单。单节点的引用数归0，则会执行自动清理。&lt;/p&gt;
 &lt;p&gt;```cpp
@@ -281,9 +281,37 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```&lt;/p&gt;
 &lt;p&gt;完成以上适配，则可以自动在加载和卸载插件的时候，自动加载和卸载扩展的菜单。&lt;/p&gt;
+&lt;h2&gt;编辑器工具&lt;/h2&gt;
+&lt;p&gt;UE.EditorPlus 还提供了一些实用的编辑器工具&lt;/p&gt;
+&lt;h2&gt;创建编辑器窗口&lt;/h2&gt;
+&lt;p&gt;使用 EditorPlus，可以很简单的创建一个新的编辑器窗口&lt;/p&gt;
+&lt;p&gt;```cpp
+// register spawn tab
+Tab = MakeShared&lt;FEditorPlusTab&gt;(LOCTEXT(&#34;ClassBrowser&#34;, &#34;ClassBrowser&#34;), LOCTEXT(&#34;ClassBrowserTip&#34;, &#34;Open the ClassBrowser&#34;));
+Tab-&amp;gt;Register&lt;SClassBrowserTab&gt;();&lt;/p&gt;
+&lt;p&gt;// register menu action to spawn tab
+FEditorPlusPath::RegisterPathAction(
+    &#34;/EditorPlusTools/ClassBrowser&#34;,
+    FExecuteAction::CreateSP(Tab.ToSharedRef(), &amp;amp;FEditorPlusTab::TryInvokeTab),
+);
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SClassBrowserTab&lt;/code&gt; 是一个自定义的 UI 控件&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+class SClassBrowserTab final : public SCompoundWidget
+{
+    SLATE_BEGIN_ARGS(SClassBrowserTab)
+    {}
+    SLATE_END_ARGS()
+    // ...
+}&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;ClassBrowser&lt;/h3&gt;
+&lt;p&gt;ClassBrowser 是一个 UE Class 查看器，通过菜单 EditorPlusTools -&amp;gt; ClassBrowser 来打开&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menu.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/classbrowser.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;基于 UE 的反射来实现，可以很方便查看 UE 各种类型的成员信息，说明提示等，支持模糊搜索，并能跳转打开父类的信息。&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 03:55:10 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 08:17:48 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
