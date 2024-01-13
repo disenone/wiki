@@ -86,7 +86,7 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 
 实例化 `MyBar` 的时候可以传入 Hook 名字，本地化名字，本地化提示参数（`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`）。上面代码就相当于路径方式 `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`。
 
-## 混合方式
+### 混合方式
 
 当然还可以两种方式混合使用：
 
