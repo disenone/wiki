@@ -22,7 +22,7 @@ description: UE 编辑器插件  UE.EditorPlus 说明文档
 
 ## 插件说明
 
-UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。
+UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.3+。
 
 
 ## 扩展编辑器菜单
@@ -340,6 +340,14 @@ ClassBrowser 是一个 UE Class 查看器，通过菜单 EditorPlusTools -> Clas
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
 基于 UE 的反射来实现，可以很方便查看 UE 各种类型的成员信息，说明提示等，支持模糊搜索，并能跳转打开父类的信息。
+
+### MenuCollections
+
+MenuCollections 是一个菜单命令快速查找和收藏工具，能够帮助你快速找到需要执行的菜单命令，并可以收藏常用命令，提升效率。
+
+![](assets/img/2024-ue-editorplus/menucollection_find.png)
+
+![](assets/img/2024-ue-editorplus/menucollection_star.png)
 
 
 --8<-- "footer.md"
