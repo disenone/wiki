@@ -13,12 +13,12 @@
     <language>zh</language>
 
     
-    <pubDate>Sat, 13 Jan 2024 08:35:56 -0000</pubDate>
-    <lastBuildDate>Sat, 13 Jan 2024 08:35:56 -0000</lastBuildDate>
+    <pubDate>Sat, 20 Jan 2024 11:17:52 -0000</pubDate>
+    <lastBuildDate>Sat, 20 Jan 2024 11:17:52 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.11.1</generator>
+    <generator>MkDocs RSS plugin - v1.12.0</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 08:36:07 +0000</pubDate>
+      <pubDate>Sat, 20 Jan 2024 11:18:03 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 08:35:54 +0000</pubDate>
+      <pubDate>Sat, 20 Jan 2024 11:17:50 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -78,7 +78,7 @@
 &lt;li&gt;English: &lt;a href=&#34;https://disenone.github.io/wiki/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE adds plugins through the plugin source code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;插件说明&lt;/h2&gt;
-&lt;p&gt;UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.2+。&lt;/p&gt;
+&lt;p&gt;UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.3+。&lt;/p&gt;
 &lt;h2&gt;扩展编辑器菜单&lt;/h2&gt;
 &lt;h3&gt;说明&lt;/h3&gt;
 &lt;p&gt;支持多种方式扩展编辑器菜单：&lt;/p&gt;
@@ -309,6 +309,10 @@ class SClassBrowserTab final : public SCompoundWidget
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menu.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/classbrowser.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;基于 UE 的反射来实现，可以很方便查看 UE 各种类型的成员信息，说明提示等，支持模糊搜索，并能跳转打开父类的信息。&lt;/p&gt;
+&lt;h3&gt;MenuCollections&lt;/h3&gt;
+&lt;p&gt;MenuCollections 是一个菜单命令快速查找和收藏工具，能够帮助你快速找到需要执行的菜单命令，并可以收藏常用命令，提升效率。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_find.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_star.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
       <pubDate>Sat, 13 Jan 2024 03:55:10 +0000</pubDate>
