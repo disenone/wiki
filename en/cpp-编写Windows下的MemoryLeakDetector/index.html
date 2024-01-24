@@ -1488,9 +1488,9 @@
 
   <h1>Developing a Memory Leak Detector for Windows</h1>
 
-<p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector" /></p>
-<p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a></p>
+<div><p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector"></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block"></a>
+<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block"></a></p>
 <h2 id="preface">Preface</h2>
 <p>Recently, I finished reading "The Self-Taught Programmer: Linking, Loading, and Libraries" (referred to as "Linking" hereafter) and gained a lot of insights. I thought about whether I could create some related code snippets. Coincidentally, I learned about a memory leak detection tool called Visual Leak Detector for Windows <a href="https://vld.codeplex.com/">Visual Leak Detector</a>. This tool tracks memory allocation and deallocation by replacing the DLL interface responsible for memory management in Windows. Therefore, I have decided to reference Visual Leak Detector (referred to as VLD hereafter) and create a simplified memory leak detection tool to deepen my understanding of DLL linking.</p>
 <h2 id="background-knowledge">Background Knowledge</h2>
@@ -1627,7 +1627,7 @@
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="w">        </span><span class="n">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">IMAGE_DIRECTORY_ENTRY_IMPORT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">section</span><span class="p">);</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idte</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span>
 <a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="n">logMessage</span><span class="p">(</span><span class="s">&quot;patchImport failed: idte == NULL</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="n">logMessage</span><span class="p">(</span><span class="s">"patchImport failed: idte == NULL</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">idte</span><span class="o">-&gt;</span><span class="n">FirstThunk</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x0</span><span class="p">)</span><span class="w"> </span>
@@ -1640,7 +1640,7 @@
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idte</span><span class="o">-&gt;</span><span class="n">FirstThunk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x0</span><span class="p">)</span><span class="w"> </span>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="w">        </span><span class="n">logMessage</span><span class="p">(</span><span class="s">&quot;patchImport failed: idte-&gt;FirstThunk == 0x0</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="w">        </span><span class="n">logMessage</span><span class="p">(</span><span class="s">"patchImport failed: idte-&gt;FirstThunk == 0x0</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-53" name="__codelineno-0-53"></a>
@@ -1684,7 +1684,7 @@
 <p>So far, we have successfully replaced the functions in IAT.</p>
 <h4 id="module-and-function-names">Module and Function Names</h4>
 <p>Although we have implemented the replacement of the IAT function <code>patchImport</code>, this function requires specifying the module name and function name. How can we know which module and function are used for memory allocation and deallocation in the program? To investigate this issue, we need to use the tool <a href="http://www.dependencywalker.com/">Dependency Walker</a> on Windows. Create a new project in Visual Studio, use <code>new</code> to allocate memory in the <code>main</code> function, compile in Debug mode, and then use <code>depends.exe</code> to open the compiled exe file. You will see a similar interface as shown below (using my project <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a> as an example):</p>
-<p><a class="glightbox" href="../../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png"></a></p>
 <p>It can be seen that LeakDetectorTest.exe uses the <code>malloc</code> and <code>_free_dbg</code> functions from uscrtbased.dll (not shown in the image). These two functions are the ones we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is use depends.exe to check the actual functions being called.</p>
 <h4 id="analyzing-call-stack">Analyzing Call Stack</h4>
 <p>To record memory allocation, it is necessary to record the call stack information at the time. Here, I don't intend to provide a detailed guide on how to obtain the current call stack information in Windows. The relevant function is <code>RtlCaptureStackBackTrace</code>, and there are many related resources available online. You can also take a look at the <code>printTrace</code> function in my code <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">here</a>.</p>
@@ -1692,7 +1692,7 @@
 <p>At this point, we have collected all the Dragon Balls, and now it's time to officially summon Shenron.</p>
 <p>I want to create a feature that can detect memory leaks locally (this is different from VLD, which performs global detection and supports multi-threading). So, I added another layer of encapsulation called <code>LeakDetector</code> on top of the actual replacement function class <code>RealDetector</code> and exposed the interface of <code>LeakDetector</code> to the user. To use it, simply construct a <code>LeakDetector</code>, which will replace the function and start detecting memory leaks. When the <code>LeakDetector</code> is destroyed, it will restore the original function, terminate the memory leak detection, and print the results of the memory leak detection.</p>
 <p>Test with the following code:</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;LeakDetector.h&quot;</span>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"LeakDetector.h"</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
@@ -1704,7 +1704,7 @@
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">{</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">ld</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LDTools</span><span class="o">::</span><span class="n">LeakDetector</span><span class="p">(</span><span class="s">&quot;LeakDetectorTest.exe&quot;</span><span class="p">);</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">ld</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LDTools</span><span class="o">::</span><span class="n">LeakDetector</span><span class="p">(</span><span class="s">"LeakDetectorTest.exe"</span><span class="p">);</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">new_some_mem</span><span class="p">();</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
@@ -1766,28 +1766,14 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
 <p>This post is translated using ChatGPT, please <a href="https://github.com/disenone/wiki/issues/new"><strong>feedback</strong></a> if any omissions.</p>
-</blockquote>
+</blockquote></div>
 
 
 

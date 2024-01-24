@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Sat, 20 Jan 2024 11:44:53 -0000</pubDate>
-    <lastBuildDate>Sat, 20 Jan 2024 11:44:53 -0000</lastBuildDate>
+    <pubDate>Wed, 24 Jan 2024 03:49:45 -0000</pubDate>
+    <lastBuildDate>Wed, 24 Jan 2024 03:49:45 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 20 Jan 2024 11:45:04 +0000</pubDate>
+      <pubDate>Wed, 24 Jan 2024 03:49:56 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 20 Jan 2024 11:44:51 +0000</pubDate>
+      <pubDate>Wed, 24 Jan 2024 03:49:43 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -69,6 +69,8 @@
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 编辑器插件 EditorPlus 说明文档&#34; /&gt;&lt;/p&gt;
 &lt;h1&gt;UE 编辑器插件 UE.EditorPlus 说明文档&lt;/h1&gt;
+&lt;h2&gt;介绍视频&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;type:video&#34; src=&#34;assets/img/2024-ue-editorplus/market/video.mp4&#34;&gt;&lt;/p&gt;
 &lt;h2&gt;插件源码&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;项目添加源码插件 EU.EditorPlus&lt;/h2&gt;
@@ -306,7 +308,7 @@ class SClassBrowserTab final : public SCompoundWidget
 }&lt;/code&gt;&lt;/p&gt;
 &lt;h3&gt;ClassBrowser&lt;/h3&gt;
 &lt;p&gt;ClassBrowser 是一个 UE Class 查看器，通过菜单 EditorPlusTools -&amp;gt; ClassBrowser 来打开&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menu.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/classbrowser_menu.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/classbrowser.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;基于 UE 的反射来实现，可以很方便查看 UE 各种类型的成员信息，说明提示等，支持模糊搜索，并能跳转打开父类的信息。&lt;/p&gt;
 &lt;h3&gt;MenuCollections&lt;/h3&gt;
@@ -315,7 +317,7 @@ class SClassBrowserTab final : public SCompoundWidget
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_star.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 20 Jan 2024 11:15:01 +0000</pubDate>
+      <pubDate>Wed, 24 Jan 2024 03:45:25 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>

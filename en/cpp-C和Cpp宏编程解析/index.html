@@ -1998,7 +1998,7 @@
 
   <h1>C/C++ Macro Programming Analysis</h1>
 
-<p><meta property="og:title" content="C/C++ 宏编程解析" /></p>
+<div><p><meta property="og:title" content="C/C++ 宏编程解析"></p>
 <p>The purpose of this text is to explain the rules and implementation methods of macro programming in C/C++, so that you no longer fear seeing macros in code. First, I will talk about the rules for macro expansion mentioned in C++ standard 14, then observe macro expansion by modifying Clang's source code, and finally discuss the implementation of macro programming based on this knowledge.</p>
 <p>The code for this article is available here: <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Download</a>, <a href="https://godbolt.org/z/coWvc5Pse">Online Demo</a>.</p>
 <h2 id="introduction">Introduction</h2>
@@ -2028,7 +2028,7 @@
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define ADD_COMMA(arg1, arg2) arg1, arg2</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; a, b</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// Error: &quot;macro &#39;MACRO&#39; requires 2 arguments, but only 1 given&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// Error: "macro 'MACRO' requires 2 arguments, but only 1 given"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ADD_COMMA</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">        </span><span class="c1">// -&gt; (a, b), c</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ADD_COMMA</span><span class="p">(,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; , b</span>
 </code></pre></div>
@@ -2042,8 +2042,8 @@
 <p><code>#</code> The macro parameter followed by the operator will not be expanded, but will be directly stringized. For example:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; &quot;a&quot;</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; &quot;STRINGIZE(a)&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; "a"</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; "STRINGIZE(a)"</span>
 </code></pre></div>
 <p>According to this rule <code>STRINGIZE(STRINGIZE(a))</code> can only be expanded to <code>"STRINGIZE(a)"</code>.</p>
 <h4 id="operator_1"><code>##</code> Operator</h4>
@@ -2061,7 +2061,7 @@
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; &quot;Hello&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; "Hello"</span>
 </code></pre></div>
 <p><code>CONCAT(STRING, IZE(Hello))</code> is expanded to <code>STRINGIZE(Hello)</code> during the first scan, and then during the second scan it is found that <code>STRINGIZE</code> can be further expanded, resulting in <code>"Hello"</code>.</p>
 <h4 id="recursion-reentry-prohibited">Recursion Reentry Prohibited</h4>
@@ -2482,7 +2482,7 @@
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#define PP_RPAREN() )</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#define PP_COMMA() ,</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#define PP_EMPTY() </span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#define PP_HASHHASH # ## #      </span><span class="c1">// Represents the string &quot;##&quot;, but only as a string, it will not be treated as the ## operator</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#define PP_HASHHASH # ## #      </span><span class="c1">// Represents the string "##", but only as a string, it will not be treated as the ## operator</span>
 </code></pre></div>
 <h4 id="evaluate">Evaluate</h4>
 <p>By utilizing the rule of parameter expansion, it is possible to write a macro for evaluation:</p>
@@ -2572,21 +2572,21 @@
 <p>Similar to <code>PP_BOOL</code>, the increment and decrement of integers also have range restrictions. Here, the range is set to <code>[0, 256]</code>. After reaching <code>256</code>, for safety reasons, <code>PP_INC_256</code> will return itself <code>256</code> as the boundary. Similarly, <code>PP_DEC_0</code> will also return <code>0</code>.</p>
 <h4 id="variable-length-arguments">Variable-length arguments</h4>
 <p>Macros can accept variable-length parameters in the following format:</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf(&quot;log: &quot; format, __VA_ARGS__)</span>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf("log: " format, __VA_ARGS__)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">&quot;Hello %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s\n&quot;, &quot;World&quot;);</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello World&quot;, ); An extra comma is added, resulting in a compilation error.</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w"> </span><span class="c1">// -&gt; printf("log: " "Hello World", ); An extra comma is added, resulting in a compilation error.</span>
 </code></pre></div>
 <p>Due to the possibility of variable-length parameters being empty, their emptiness can lead to compilation failures. Therefore, C++ 20 introduced <code>__VA_OPT__</code>. If the variable-length parameters are empty, it will return empty; otherwise, it will return the original parameters.</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf(&quot;log: &quot; format __VA_OPT__(,) __VA_ARGS__)</span>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">&quot;Hello %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s\n&quot;, &quot;World&quot;);</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello World&quot; ); No comma, compiles normally</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World" ); No comma, compiles normally</span>
 </code></pre></div>
 <p>Unfortunately, this macro is only available in the C++ 20 standard or higher. In the following text, we will provide the implementation method for <code>__VA_OPT__</code>.</p>
 <h4 id="lazy-evaluation">Lazy Evaluation</h4>
 <p>Consider this situation:</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; Error: unterminated argument list invoking macro &quot;PP_IF_1&quot;</span>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; Error: unterminated argument list invoking macro "PP_IF_1"</span>
 </code></pre></div>
 <p>We know that when macro expansion occurs, the initial arguments are evaluated. After the evaluation of <code>PP_COMMA()</code> and <code>PP_LPAREN()</code>, the result is then passed to <code>PP_IF_1</code> as <code>PP_IF_1(,,))</code>, resulting in a preprocessing error. In this situation, a method called lazy evaluation can be used.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">,</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">)()</span><span class="w">       </span><span class="c1">// -&gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&gt; PP_COMMA() -&gt; ,</span>
@@ -2670,8 +2670,8 @@
 <a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="cp">#define PP_ARGS_ELEM_7(a0, a1, a2, a3, a4, a5, a6, a7, ...) a7</span>
 <a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="cp">#define PP_ARGS_ELEM_8(a0, a1, a2, a3, a4, a5, a6, a7, a8, ...) a8</span>
 <a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0(&quot;Hello&quot;, &quot;World&quot;) -&gt; &quot;Hello&quot;</span>
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1(&quot;Hello&quot;, &quot;World&quot;) -&gt; &quot;World&quot;</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0("Hello", "World") -&gt; "Hello"</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1("Hello", "World") -&gt; "World"</span>
 </code></pre></div>
 <p>The first argument of <code>PP_ARGS_ELEM</code> is the element index <code>I</code>, followed by a variable number of arguments. By using <code>PP_CONCAT</code> to concatenate <code>PP_ARGS_ELEM_</code> and <code>I</code>, we can obtain the macro <code>PP_ARGS_ELEM_0..8</code> that returns the element at the corresponding position. Then, pass the variable arguments to this macro to expand and return the element corresponding to the index.</p>
 <h4 id="pp_is_empty2">PP_IS_EMPTY2</h4>
@@ -2728,10 +2728,10 @@
 <p><code>PP_ARGS_OPT</code> accepts two fixed arguments and a variable number of arguments. When the variable arguments are not empty, it returns <code>data</code>; otherwise, it returns <code>empty</code>. To support commas in <code>data</code> and <code>empty</code>, both of them need to be enclosed in parentheses with actual arguments, and finally, <code>PP_REMOVE_PARENS</code> is used to remove the outer parentheses.</p>
 <p>With <code>PP_ARGS_OPT</code>, it is possible to achieve the functionality implemented by <code>LOG2</code> using <code>LOG3</code>.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#define LOG3(format, ...) \</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf(&quot;log: &quot; format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf("log: " format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello&quot; );</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">&quot;Hello %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf(&quot;log: &quot; &quot;Hello %s&quot; , &quot;World&quot;);</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf("log: " "Hello" );</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello %s"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s" , "World");</span>
 </code></pre></div>
 <p><code>data_tuple</code> is <code>(,)</code>, if the variable-length arguments are not empty, it will return all the elements in <code>data_tuple</code>, which in this case is the comma <code>,</code>.</p>
 <h4 id="requesting-the-number-of-parameters">Requesting the number of parameters</h4>
@@ -3139,28 +3139,14 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
 <p>This post is translated using ChatGPT, please <a href="https://github.com/disenone/wiki/issues/new"><strong>feedback</strong></a> if any omissions.</p>
-</blockquote>
+</blockquote></div>
 
 
 

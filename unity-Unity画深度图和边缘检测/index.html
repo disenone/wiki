@@ -1251,7 +1251,7 @@
   
 
 
-<p><meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" /></p>
+<div><p><meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)"></p>
 <p>刚接触Unity没多久，对Unity的ShaderLab一直很感兴趣，感觉它可以快速地实现各种各样的显示效果，很有意思。嘛，作为一个门都还没入的人，我就来搞一搞深度图和边缘检测吧。</p>
 <h1 id="_1">小地图设置</h1>
 <p>因为我只是做了一个小雏形，所以我不打算详细地讲如何去在场景上画小地图，大致上说我做了以下一些事情：</p>
@@ -1276,17 +1276,17 @@
 <h2 id="renderwithshader">RenderWithShader 来获取深度图</h2>
 <p>这种方法其实就是用Unity Reference里面的一个例子：<a href="http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html">Rendering with Replaced Shaders</a>。需要理解的是，<code>RenderWithShader</code>会把场景中的相应的Mesh画一遍。</p>
 <p>创建一个 Shader :</p>
-<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthByReplaceShader</span><span class="err">&quot;</span><span class="w"> </span>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthByReplaceShader</span><span class="err">"</span><span class="w"> </span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">SubShader</span><span class="w"> </span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">{</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&quot;</span><span class="n">RenderType</span><span class="err">&quot;</span><span class="o">=</span><span class="err">&quot;</span><span class="n">Opaque</span><span class="err">&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">Pass</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="n">Fog</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Mode</span><span class="w"> </span><span class="n">Off</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">CGPROGRAM</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="cp">#pragma vertex vert</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="cp">#pragma fragment frag</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="cp">#include &quot;UnityCG.cginc&quot;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="cp">#include "UnityCG.cginc"</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="n">v2f</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">            </span><span class="n">float4</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">SV_POSITION</span><span class="p">;</span>
@@ -1312,14 +1312,14 @@
 </code></pre></div>
 <p>为你的小地图相机(没有的话创建之)添加一个脚本，把相机配置成正交投影等，并且在 <code>Update()</code> 里面使用这个 Shader 来渲染场景：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">camera</span><span class="p">.</span><span class="n">targetTexture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">depthTexture</span><span class="p">;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">camera</span><span class="p">.</span><span class="n">RenderWithShader</span><span class="p">(</span><span class="n">depthShader</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">camera</span><span class="p">.</span><span class="n">RenderWithShader</span><span class="p">(</span><span class="n">depthShader</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
 </code></pre></div>
 <p>渲染的结果就会保存在 <code>depthTexture</code>里面，很简单吧。</p>
 <h2 id="_3">把深度映射成颜色</h2>
 <p>要完成这个工作，首先需要一张颜色图，这张图可以用 Matlab 很简单地生成，例如我用的是 Matlab 里面的 jet 图：</p>
-<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200" /></a></p>
+<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200"></a></p>
 <p>把这张图放到项目目录 <code>Assets\Resources</code> 里面，就可以在程序中读取：</p>
-<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">colorMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">Load</span><span class="o">&lt;</span><span class="n">Texture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;colormap&quot;</span><span class="p">);</span>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">colorMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">Load</span><span class="o">&lt;</span><span class="n">Texture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"colormap"</span><span class="p">);</span>
 </code></pre></div>
 <p>需要注意的是，这张图片的 <code>Wrap Mode</code> 应该是 <code>Clamp</code>，防止在两边缘的颜色值之间进行插值。</p>
 <p>之后就需要使用 <code>OnRenderImage</code> 和 <code>Graphics.Blit</code> 函数，函数的原型为：</p>
@@ -1327,7 +1327,7 @@
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">static</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Blit</span><span class="p">(</span><span class="n">Texture</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">Material</span><span class="w"> </span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="p">);</span>
 </code></pre></div>
 <p>这个函数的 src 是相机渲染的结果，dst 是处理后传回给相机的结果，因此这个函数通常是用来在相机渲染完成后做图片的一些效果，例如我们这里的对深度做颜色映射，还有边缘检测。做法就是在<code>OnRenderImage</code>中调用<code>Graphics.Blit</code>，传入特定的<code>Material</code>：</p>
-<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">&quot;_DepthTex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">depthEdgeMaterial</span><span class="p">);</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">return</span><span class="p">;</span>
 </code></pre></div>
@@ -1341,7 +1341,7 @@
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">inline</span><span class="w"> </span><span class="n">half</span><span class="w"> </span><span class="nf">CheckSame</span><span class="w"> </span><span class="p">(</span><span class="n">half2</span><span class="w"> </span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth</span><span class="p">)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c1">// difference in normals</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c1">// do not bother decoding normals - there&#39;s no need here</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c1">// do not bother decoding normals - there's no need here</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">half2</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerNormal</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">);</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">half</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">;</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
@@ -1357,16 +1357,16 @@
 <a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="p">}</span>
 </code></pre></div>
 <p>完整的 Shader 如下：</p>
-<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthColorEdge</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthColorEdge</span><span class="err">"</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">Properties</span><span class="w"> </span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">&quot;</span><span class="n">Depth</span><span class="w"> </span><span class="n">Tex</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">white</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{}</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">_ColorMap</span><span class="w"> </span><span class="p">(</span><span class="err">&quot;</span><span class="n">Color</span><span class="w"> </span><span class="n">Map</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">white</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Depth</span><span class="w"> </span><span class="n">Tex</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">_ColorMap</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Color</span><span class="w"> </span><span class="n">Map</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">SubShader</span><span class="w"> </span>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&quot;</span><span class="n">RenderType</span><span class="err">&quot;</span><span class="o">=</span><span class="err">&quot;</span><span class="n">Opaque</span><span class="err">&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">        </span><span class="n">LOD</span><span class="w"> </span><span class="mi">200</span>
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="n">Pass</span>
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">        </span><span class="p">{</span>
@@ -1375,7 +1375,7 @@
 <a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">            </span><span class="n">CGPROGRAM</span>
 <a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">            </span><span class="cp">#pragma vertex vert</span>
 <a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">            </span><span class="cp">#pragma fragment frag</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">            </span><span class="cp">#include &quot;UnityCG.cginc&quot;</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">            </span><span class="cp">#include "UnityCG.cginc"</span>
 <a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">            </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_CameraDepthNormalsTexture</span><span class="p">;</span>
 <a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">            </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_DepthTex</span><span class="p">;</span>
 <a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">            </span><span class="k">uniform</span><span class="w"> </span><span class="n">float4</span><span class="w"> </span><span class="n">_DepthTex_TexelSize</span><span class="p">;</span>
@@ -1403,7 +1403,7 @@
 <a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="w">            </span><span class="kr">inline</span><span class="w"> </span><span class="kr">half</span><span class="w"> </span><span class="n">CheckSame</span><span class="w"> </span><span class="p">(</span><span class="n">half2</span><span class="w"> </span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth</span><span class="p">)</span>
 <a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="w">            </span><span class="p">{</span>
 <a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="w">                </span><span class="c1">// difference in normals</span>
-<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">                </span><span class="c1">// do not bother decoding normals - there&#39;s no need here</span>
+<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">                </span><span class="c1">// do not bother decoding normals - there's no need here</span>
 <a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a><span class="w">                </span><span class="n">half2</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerNormal</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">);</span>
 <a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">                </span><span class="kr">half</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
 <a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>
@@ -1439,20 +1439,20 @@
 <a id="__codelineno-9-80" name="__codelineno-9-80" href="#__codelineno-9-80"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-9-81" name="__codelineno-9-81" href="#__codelineno-9-81"></a>
 <a id="__codelineno-9-82" name="__codelineno-9-82" href="#__codelineno-9-82"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-9-83" name="__codelineno-9-83" href="#__codelineno-9-83"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Diffuse</span><span class="err">&quot;</span>
+<a id="__codelineno-9-83" name="__codelineno-9-83" href="#__codelineno-9-83"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
 <a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="p">}</span>
 </code></pre></div>
 <p>结果类似于这个：</p>
-<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200" /></a></p>
+<p><a class="glightbox" href="../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200"></a></p>
 <h1 id="_5">混合真实世界图像</h1>
 <p>单单是深度的颜色图可能有点无趣，那么我们可以混合上真实场景的颜色图，只需要再建一个 Shader，传入前面的图像和相机的真实图像，在 <code>OnRenderImage</code> 中进行混合：</p>
-<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Custom</span><span class="o">/</span><span class="n">ColorMixDepth</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">ColorMixDepth</span><span class="err">"</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">Properties</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">        </span><span class="n">_MainTex</span><span class="w"> </span><span class="p">(</span><span class="err">&quot;</span><span class="n">Base</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">white</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{}</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">        </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">&quot;</span><span class="n">Depth</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">white</span><span class="err">&quot;</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">        </span><span class="n">_MainTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Base</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">        </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Depth</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="n">SubShader</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&quot;</span><span class="n">RenderType</span><span class="err">&quot;</span><span class="o">=</span><span class="err">&quot;</span><span class="n">Opaque</span><span class="err">&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">        </span><span class="n">LOD</span><span class="w"> </span><span class="mi">200</span>
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="n">CGPROGRAM</span>
@@ -1475,15 +1475,15 @@
 <a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">        </span><span class="n">ENDCG</span>
 <a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span>
-<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">&quot;</span><span class="n">Diffuse</span><span class="err">&quot;</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
 <a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="p">}</span>
 </code></pre></div>
-<p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">void</span><span class="w"> </span><span class="nf">OnRenderImage</span><span class="p">(</span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dst</span><span class="p">)</span>
+<p></p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">void</span><span class="w"> </span><span class="nf">OnRenderImage</span><span class="p">(</span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dst</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="c1">// if now rendering depth map</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isRenderDepth</span><span class="p">)</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">&quot;_DepthTex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">isUseColorMap</span><span class="p">)</span>
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">            </span><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">depthEdgeMaterial</span><span class="p">);</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="k">else</span>
@@ -1493,14 +1493,14 @@
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="c1">// else rendering real color scene, mix the real color with depth map</span>
 <a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="k">else</span>
 <a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">&quot;_MainTex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">&quot;_DepthTex&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">depthTexture</span><span class="p">);</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_MainTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">depthTexture</span><span class="p">);</span>
 <a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">        </span><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">mixMaterial</span><span class="p">);</span>
 <a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">        </span><span class="n">ReleaseTexture</span><span class="p">();</span>
 <a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="p">}</span>
 </code></pre></div>
-上面的代码就是完成这个工作，需要理解的是，我们在调用 <code>RenderWithShader</code> 的时候，<code>OnRenderImage</code> 也会被调用，也就是这个函数被调用了两次，而两次调用需要完成的功能是不同的，所以我这里用一个变量来指示当前的渲染状态是做深度图还是混合。</p>
+上面的代码就是完成这个工作，需要理解的是，我们在调用 <code>RenderWithShader</code> 的时候，<code>OnRenderImage</code> 也会被调用，也就是这个函数被调用了两次，而两次调用需要完成的功能是不同的，所以我这里用一个变量来指示当前的渲染状态是做深度图还是混合。
 <h1 id="_6">完整的代码</h1>
 <p>代码文件有点多，就放到这里了<a href="../assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip">depth-minimap</a>。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -1522,27 +1522,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
-</blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+</blockquote></div>
 
 
 

@@ -1357,11 +1357,11 @@
 
   <h1>C/C++ 的命令行参数处理总结</h1>
 
-<p><meta property="og:title" content="C/C++ 的命令行参数处理总结" /></p>
-<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block" /></a></p>
-<p><a class="glightbox" href="../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2016-11-19-aparsing/aparsing.png" /></a></p>
+<div><p><meta property="og:title" content="C/C++ 的命令行参数处理总结"></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block"></a>
+<a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block"></a>
+<a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block"></a></p>
+<p><a class="glightbox" href="../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../assets/img/2016-11-19-aparsing/aparsing.png"></a></p>
 <p>前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。本文所用代码都在这里 <a href="https://github.com/disenone/aparsing">aparsing</a> 。代码支持在 Windows 、 Linux 、 Mac OS X 下编译运行，详细的编译指南在 README.md 里面。 </p>
 <h2 id="getenv">getenv</h2>
 <p>标准库为我们提供了一个函数 <code>getenv</code> ，按照字面意思，这个函数是用来获取环境变量的，那么只要我们预先设置好需要的环境变量，在程序里面拿出来，就间接地把参数传到程序里面啦。我们来看下面这段<a href="https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c">代码</a>：</p>
@@ -1395,18 +1395,18 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="p">{</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">add</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">num</span><span class="p">;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;GETENV_ADD&quot;</span><span class="p">)))</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GETENV_ADD = %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="p">);</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">"GETENV_ADD"</span><span class="p">)))</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"GETENV_ADD = %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="p">);</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="k">else</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GETENV_ADD not found</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"GETENV_ADD not found</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;GETENV_NUM&quot;</span><span class="p">)))</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">"GETENV_NUM"</span><span class="p">)))</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">numi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GETENV_NUM = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">numi</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"GETENV_NUM = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">numi</span><span class="p">);</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="k">else</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GETENV_NUM not found</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"GETENV_NUM not found</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p><code>getenv</code> 函数声明如第 <a href="#__codelineno-0-5">4</a> 行，传入想要获取的变量名字，返回该变量的值，如果找不到变量，则返回0。<a href="#__codelineno-0-10">10</a> 和 <a href="#__codelineno-0-15">15</a> 行就是分别获取两个环境变量的值，如果变量有效则打印变量值。需要注意的是 <code>getenv</code> 返回的都是字符串，需要使用者手动转换数值类型的，所以使用起来不够方便。编译运行:</p>
@@ -1554,17 +1554,17 @@
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a>
 <a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">option</span><span class="w"> </span><span class="n">long_options</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="p">{</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;add&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">},</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;append&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;delete&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;verbose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">optional_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;create&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;file&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="w">    </span><span class="p">{</span><span class="s">&quot;help&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="p">{</span><span class="s">"add"</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="sc">'a'</span><span class="p">},</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="p">{</span><span class="s">"append"</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">    </span><span class="p">{</span><span class="s">"delete"</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">    </span><span class="p">{</span><span class="s">"verbose"</span><span class="p">,</span><span class="w"> </span><span class="n">optional_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">    </span><span class="p">{</span><span class="s">"create"</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="w">    </span><span class="p">{</span><span class="s">"file"</span><span class="p">,</span><span class="w"> </span><span class="n">required_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="w">    </span><span class="p">{</span><span class="s">"help"</span><span class="p">,</span><span class="w"> </span><span class="n">no_argument</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
 <a id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="w">    </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span>
 <a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="p">};</span>
 <a id="__codelineno-5-18" name="__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">simple_options</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;a:bc::d:0123456789&quot;</span><span class="p">;</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">simple_options</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"a:bc::d:0123456789"</span><span class="p">;</span>
 <a id="__codelineno-5-20" name="__codelineno-5-20"></a>
 <a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
 <a id="__codelineno-5-22" name="__codelineno-5-22"></a><span class="p">{</span>
@@ -1585,60 +1585,60 @@
 <a id="__codelineno-5-37" name="__codelineno-5-37"></a><span class="w">        </span><span class="p">{</span>
 <a id="__codelineno-5-38" name="__codelineno-5-38"></a><span class="w">            </span><span class="c1">// long option</span>
 <a id="__codelineno-5-39" name="__codelineno-5-39"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
-<a id="__codelineno-5-40" name="__codelineno-5-40"></a><span class="w">                   </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">long_options</span><span class="p">[</span><span class="n">longindex</span><span class="p">].</span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40"></a><span class="w">                   </span><span class="n">printf</span><span class="p">(</span><span class="s">"option %s"</span><span class="p">,</span><span class="w"> </span><span class="n">long_options</span><span class="p">[</span><span class="n">longindex</span><span class="p">].</span><span class="n">name</span><span class="p">);</span>
 <a id="__codelineno-5-41" name="__codelineno-5-41"></a><span class="w">                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">optarg</span><span class="p">)</span>
-<a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="w">                       </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot; with arg %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
-<a id="__codelineno-5-43" name="__codelineno-5-43"></a><span class="w">                   </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="w">                       </span><span class="n">printf</span><span class="p">(</span><span class="s">" with arg %s"</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43"></a><span class="w">                   </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-5-44" name="__codelineno-5-44"></a><span class="w">                   </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-45" name="__codelineno-5-45"></a>
 <a id="__codelineno-5-46" name="__codelineno-5-46"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-47" name="__codelineno-5-47"></a>
-<a id="__codelineno-5-48" name="__codelineno-5-48"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-49" name="__codelineno-5-49"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-50" name="__codelineno-5-50"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;2&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-51" name="__codelineno-5-51"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;3&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-52" name="__codelineno-5-52"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;4&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-53" name="__codelineno-5-53"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;5&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-54" name="__codelineno-5-54"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;6&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-55" name="__codelineno-5-55"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;7&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-56" name="__codelineno-5-56"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;8&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-57" name="__codelineno-5-57"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;9&#39;</span><span class="p">:</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'0'</span><span class="p">:</span>
+<a id="__codelineno-5-49" name="__codelineno-5-49"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'1'</span><span class="p">:</span>
+<a id="__codelineno-5-50" name="__codelineno-5-50"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'2'</span><span class="p">:</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'3'</span><span class="p">:</span>
+<a id="__codelineno-5-52" name="__codelineno-5-52"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'4'</span><span class="p">:</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'5'</span><span class="p">:</span>
+<a id="__codelineno-5-54" name="__codelineno-5-54"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'6'</span><span class="p">:</span>
+<a id="__codelineno-5-55" name="__codelineno-5-55"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'7'</span><span class="p">:</span>
+<a id="__codelineno-5-56" name="__codelineno-5-56"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'8'</span><span class="p">:</span>
+<a id="__codelineno-5-57" name="__codelineno-5-57"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'9'</span><span class="p">:</span>
 <a id="__codelineno-5-58" name="__codelineno-5-58"></a><span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">digit_optind</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">digit_optind</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">this_option_optind</span><span class="p">)</span>
-<a id="__codelineno-5-59" name="__codelineno-5-59"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;digits occur in two different argv-elements.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-59" name="__codelineno-5-59"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">"digits occur in two different argv-elements.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-5-60" name="__codelineno-5-60"></a>
 <a id="__codelineno-5-61" name="__codelineno-5-61"></a><span class="w">                </span><span class="n">digit_optind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this_option_optind</span><span class="p">;</span>
-<a id="__codelineno-5-62" name="__codelineno-5-62"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option %c</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<a id="__codelineno-5-62" name="__codelineno-5-62"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">"option %c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
 <a id="__codelineno-5-63" name="__codelineno-5-63"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-64" name="__codelineno-5-64"></a>
-<a id="__codelineno-5-65" name="__codelineno-5-65"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-66" name="__codelineno-5-66"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option a with value &#39;%s&#39;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
+<a id="__codelineno-5-65" name="__codelineno-5-65"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'a'</span><span class="p">:</span>
+<a id="__codelineno-5-66" name="__codelineno-5-66"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">"option a with value '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
 <a id="__codelineno-5-67" name="__codelineno-5-67"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-68" name="__codelineno-5-68"></a>
-<a id="__codelineno-5-69" name="__codelineno-5-69"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;b&#39;</span><span class="p">:</span>
-<a id="__codelineno-5-70" name="__codelineno-5-70"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option b</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-69" name="__codelineno-5-69"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'b'</span><span class="p">:</span>
+<a id="__codelineno-5-70" name="__codelineno-5-70"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">"option b</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-5-71" name="__codelineno-5-71"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-72" name="__codelineno-5-72"></a>
-<a id="__codelineno-5-73" name="__codelineno-5-73"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;c&#39;</span><span class="p">:</span>
+<a id="__codelineno-5-73" name="__codelineno-5-73"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'c'</span><span class="p">:</span>
 <a id="__codelineno-5-74" name="__codelineno-5-74"></a><span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">optarg</span><span class="p">)</span>
-<a id="__codelineno-5-75" name="__codelineno-5-75"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option c with value &#39;%s&#39;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
+<a id="__codelineno-5-75" name="__codelineno-5-75"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">"option c with value '%s'</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">optarg</span><span class="p">);</span>
 <a id="__codelineno-5-76" name="__codelineno-5-76"></a><span class="w">                </span><span class="k">else</span>
-<a id="__codelineno-5-77" name="__codelineno-5-77"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;option c</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-77" name="__codelineno-5-77"></a><span class="w">                    </span><span class="n">printf</span><span class="p">(</span><span class="s">"option c</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-5-78" name="__codelineno-5-78"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-79" name="__codelineno-5-79"></a>
-<a id="__codelineno-5-80" name="__codelineno-5-80"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;?&#39;</span><span class="p">:</span>
+<a id="__codelineno-5-80" name="__codelineno-5-80"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="sc">'?'</span><span class="p">:</span>
 <a id="__codelineno-5-81" name="__codelineno-5-81"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
 <a id="__codelineno-5-82" name="__codelineno-5-82"></a>
 <a id="__codelineno-5-83" name="__codelineno-5-83"></a><span class="w">            </span><span class="k">default</span><span class="o">:</span>
-<a id="__codelineno-5-84" name="__codelineno-5-84"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;?? getopt returned character code 0%o ??</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<a id="__codelineno-5-84" name="__codelineno-5-84"></a><span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">"?? getopt returned character code 0%o ??</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
 <a id="__codelineno-5-85" name="__codelineno-5-85"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="c1">// switch</span>
 <a id="__codelineno-5-86" name="__codelineno-5-86"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// while</span>
 <a id="__codelineno-5-87" name="__codelineno-5-87"></a>
 <a id="__codelineno-5-88" name="__codelineno-5-88"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">optind</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">argc</span><span class="p">)</span>
 <a id="__codelineno-5-89" name="__codelineno-5-89"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-5-90" name="__codelineno-5-90"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;non-option ARGV-elements: &quot;</span><span class="p">);</span>
+<a id="__codelineno-5-90" name="__codelineno-5-90"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"non-option ARGV-elements: "</span><span class="p">);</span>
 <a id="__codelineno-5-91" name="__codelineno-5-91"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">optind</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">argc</span><span class="p">)</span>
-<a id="__codelineno-5-92" name="__codelineno-5-92"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="n">optind</span><span class="o">++</span><span class="p">]);</span>
-<a id="__codelineno-5-93" name="__codelineno-5-93"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-92" name="__codelineno-5-92"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"%s "</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="n">optind</span><span class="o">++</span><span class="p">]);</span>
+<a id="__codelineno-5-93" name="__codelineno-5-93"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-5-94" name="__codelineno-5-94"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-5-95" name="__codelineno-5-95"></a>
 <a id="__codelineno-5-96" name="__codelineno-5-96"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -1646,14 +1646,14 @@
 </code></pre></div></td></tr></table></div>
 <p>我们来着重分析 <code>getopt_long</code> 的用法，<code>getopt_long</code> 的前三个参数跟 <code>getopt</code> 是一样的，分别是：命令行参数个数 <code>argc</code> ，命令行参数数组 <code>argv</code>，短参数具体形式 <code>optstring</code>。<code>otpstring</code> 的格式就是一个个的短参数字符，后面加冒号 <code>:</code> 表示带参数，两个冒号 <code>::</code> 表示可选参数，譬如第 19 行，就是声明短参数的形式，<code>b</code> 参数不带额外参数， <code>a</code> 参数带额外参数，<code>c</code> 带可选参数。</p>
 <p><code>getopt_long</code> 后两个参数是用来处理长参数的，其中 <code>option</code> 的结构是：</p>
-<p><div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">option</span><span class="w"> </span><span class="p">{</span>
+<p></p><div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">option</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">       </span><span class="c1">// 长参数名字</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">has_arg</span><span class="p">;</span><span class="w">    </span><span class="c1">// 是否带额外参数</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kt">int</span><span class="w">        </span><span class="o">*</span><span class="n">flag</span><span class="p">;</span><span class="w">       </span><span class="c1">// 设置如何返回函数调用结果</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">val</span><span class="p">;</span><span class="w">        </span><span class="c1">// 返回的数值</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">};</span>
 </code></pre></div>
-虽然说是长参数，但 <code>name</code> 还是可以设置为单字符长度的。</p>
+虽然说是长参数，但 <code>name</code> 还是可以设置为单字符长度的。
 <p><code>has_arg</code> 可以设置为 <code>no_argument, required_argument, optional_argument</code>，分别表示不带参数，带参数，带可选参数。</p>
 <p><code>flag</code> 和 <code>val</code> 是配合使用的，如果 <code>flag = NULL</code>，<code>getopt_long</code> 会直接返回 <code>val</code> ，否则如果 <code>flag</code> 为有效指针，<code>getopt_long</code> 会执行类似 <code>*flag = val</code> 的操作，把 <code>flag</code> 指向的变量设置为 <code>val</code> 的数值。</p>
 <p>如果 <code>getopt_long</code> 找到匹配的短参数，会返回该短参数的字符值，如果找到匹配的长参数，会返回 <code>val</code>（ <code>flag = NULL</code> ）或者返回 <code>0</code> （ <code>flag != NULL; *flag = val;</code> ）；如果遇到非参数的字符，会返回 <code>?</code>；如果所有参数都处理完毕，则返回 <code>-1</code> 。</p>
@@ -1661,17 +1661,17 @@
 <p>拼图的最后一块就是 <code>optind</code> 和 <code>optarg</code> 的用法，<code>optind</code> 是下一个待处理参数在 <code>argv</code> 中的位置， <code>optarg</code> 则指向额外参数字符串。</p>
 <p>编译运行代码：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$ .\getopt_test -a 1 -b -c4 --add 2 --verbose --verbose=3 -123 -e --e
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>option a with value &#39;1&#39;
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>option a with value '1'
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>option b
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>option c with value &#39;4&#39;
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>option a with value &#39;2&#39;
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>option c with value '4'
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>option a with value '2'
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>option verbose
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>option verbose with arg 3
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>option 1
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>option 2
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>option 3
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>.\getopt_test: invalid option -- e
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>.\getopt_test: unrecognized option `--e&#39;
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>.\getopt_test: unrecognized option `--e'
 </code></pre></div>
 <p><code>-a</code> 和 <code>--add</code> 的含义相同，短参数的可选参数直接跟在后面，譬如 <code>-c4</code>，而长参数的可选参数需要有等号，譬如 <code>--verbose=3</code>。</p>
 <h2 id="mobuleparam">mobuleparam</h2>
@@ -1738,11 +1738,11 @@
 <a id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="cp">    </span><span class="cm">/* Default value instead of permissions? */</span><span class="cp">         \</span>
 <a id="__codelineno-10-16" name="__codelineno-10-16"></a><span class="cp">    static int __param_perm_check_##name __attribute__((unused)) =  \</span>
 <a id="__codelineno-10-17" name="__codelineno-10-17"></a><span class="cp">    BUILD_BUG_ON_ZERO((perm) &lt; 0 || (perm) &gt; 0777 || ((perm) &amp; 2))  \</span>
-<a id="__codelineno-10-18" name="__codelineno-10-18"></a><span class="cp">    + BUILD_BUG_ON_ZERO(sizeof(&quot;&quot;prefix) &gt; MAX_PARAM_PREFIX_LEN);   \</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18"></a><span class="cp">    + BUILD_BUG_ON_ZERO(sizeof(""prefix) &gt; MAX_PARAM_PREFIX_LEN);   \</span>
 <a id="__codelineno-10-19" name="__codelineno-10-19"></a><span class="cp">    static const char __param_str_##name[] = prefix #name;      \</span>
 <a id="__codelineno-10-20" name="__codelineno-10-20"></a><span class="cp">    static struct kernel_param __moduleparam_const __param_##name   \</span>
 <a id="__codelineno-10-21" name="__codelineno-10-21"></a><span class="cp">    __used                              \</span>
-<a id="__codelineno-10-22" name="__codelineno-10-22"></a><span class="cp">        __attribute__ ((unused,__section__ (&quot;__param&quot;),aligned(sizeof(void *)))) \</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22"></a><span class="cp">        __attribute__ ((unused,__section__ ("__param"),aligned(sizeof(void *)))) \</span>
 <a id="__codelineno-10-23" name="__codelineno-10-23"></a><span class="cp">    = { __param_str_##name, perm, isbool ? KPARAM_ISBOOL : 0,   \</span>
 <a id="__codelineno-10-24" name="__codelineno-10-24"></a><span class="cp">        set, get, { arg } }</span>
 <a id="__codelineno-10-25" name="__codelineno-10-25"></a>
@@ -1805,24 +1805,24 @@
 <span class="normal"><a href="#__codelineno-11-42">42</a></span>
 <span class="normal"><a href="#__codelineno-11-43">43</a></span>
 <span class="normal"><a href="#__codelineno-11-44">44</a></span>
-<span class="normal"><a href="#__codelineno-11-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;moduleparam.h&quot;</span>
+<span class="normal"><a href="#__codelineno-11-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"moduleparam.h"</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="k">static</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">btest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">latest_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="k">static</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">latest</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">strtest</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\0</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">strtest</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="se">\0</span><span class="s">"</span><span class="p">;</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9"></a>
 <a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usage</span><span class="p">()</span>
 <a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="p">{</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usage: moduleparam_test [test=int] [btest[=bool]] [latest=int array] [strtest=string]</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"usage: moduleparam_test [test=int] [btest[=bool]] [latest=int array] [strtest=string]</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
 <a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
 <a id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="p">}</span>
 <a id="__codelineno-11-15" name="__codelineno-11-15"></a>
 <a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="kt">int</span><span class="w"> </span><span class="nf">unknown_handler</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">param</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">)</span>
 <a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="p">{</span>
-<a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;find unknown param: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">);</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"find unknown param: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">);</span>
 <a id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="p">}</span>
 <a id="__codelineno-11-21" name="__codelineno-11-21"></a>
@@ -1846,7 +1846,7 @@
 <a id="__codelineno-11-39" name="__codelineno-11-39"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MODULE_INIT_VARIABLE_NUM</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
 <a id="__codelineno-11-40" name="__codelineno-11-40"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-11-41" name="__codelineno-11-41"></a><span class="w">        </span><span class="n">MODULE_INIT_VARIABLE</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">get</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">MODULE_INIT_VARIABLE</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-<a id="__codelineno-11-42" name="__codelineno-11-42"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s = %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">MODULE_INIT_VARIABLE</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+<a id="__codelineno-11-42" name="__codelineno-11-42"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"%s = %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">MODULE_INIT_VARIABLE</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
 <a id="__codelineno-11-43" name="__codelineno-11-43"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-11-44" name="__codelineno-11-44"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-45" name="__codelineno-11-45"></a><span class="p">}</span>
@@ -1854,8 +1854,8 @@
 <p>那么为了保存每一个反射的结构，我就增加了一个宏 <code>init_module_param(num)</code> ，来声明保存结构的空间， <code>num</code> 是参数的个数，如果实际声明的参数个数超出 <code>num</code> ，程序会触发断言错误。<code>module_param</code> 的声明跟原始的稍有不同，去掉了最后一个表示访问权限的参数，不做权限的控制。另外新增了宏 <code>module_param_bool</code> 来处理表示 <code>bool</code> 的变量，这在 Linux 的版本是不需要的，因为它用到了 gcc 内建函数 <code>__builtin_types_compatible_p</code> 来判断变量的类型，很遗憾，MSVC 是没有这个函数的，所以我只能把这个功能去掉，增加一个宏。 <code>module_param_array</code> 和 <code>module_param_string</code> 就是对数组和字符串的处理，这两个功能在原始的版本也是有的。</p>
 <p>声明参数完毕，就是处理传入的参数了，使用宏 <code>parse_params</code> ，传入 <code>argc, argv</code>，第 3 个参数是对未知参数的处理回调函数指针，可以传 <code>NULL</code> ，则入到位置参数会中断处理参数，返回错误码。</p>
 <p>编译运行代码：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>.\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\&quot;Hello World!\&quot;
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Parsing ARGS: error=0 test=101 btest=1 latest=1,2,3 strtest=&quot;Hello World!&quot;
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>.\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Parsing ARGS: error=0 test=101 btest=1 latest=1,2,3 strtest="Hello World!"
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>find unknown param: error
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>test = 101
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>btest = Y
@@ -1889,27 +1889,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
-</blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+</blockquote></div>
 
 
 

@@ -1378,7 +1378,7 @@
   
 
 
-<p><meta property="og:title" content="Python 杂谈 2 - Python3.12 热更新" /></p>
+<div><p><meta property="og:title" content="Python 杂谈 2 - Python3.12 热更新"></p>
 <h1 id="python-2-python312">Python 杂谈 2 - Python3.12 热更新</h1>
 <blockquote>
 <p>记录如何在 Python3.12 中实现热更新</p>
@@ -1521,8 +1521,8 @@
 <a id="__codelineno-3-37" name="__codelineno-3-37"></a>
 <a id="__codelineno-3-38" name="__codelineno-3-38"></a>    <span class="k">def</span> <span class="nf">exec_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
 <a id="__codelineno-3-39" name="__codelineno-3-39"></a>        <span class="c1"># restore __spec__</span>
-<a id="__codelineno-3-40" name="__codelineno-3-40"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;__backup_spec__&#39;</span><span class="p">)</span>
-<a id="__codelineno-3-41" name="__codelineno-3-41"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;__backup_loader__&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_spec__'</span><span class="p">)</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_loader__'</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <p>如上，<code>find_spec</code> 加载最新的模块源码，并在旧模块的 <code>__dict__</code> 里面执行新模块的代码，之后我们调用 <code>ReloadModule</code> 来处理类 / 函数 / 数据的引用和替换。<code>MetaLoader</code> 的目的是适配 meta_path 机制，给 Python 虚拟机返回我们处理过的模块对象。</p>
 <p>处理完加载的流程，再来看 <code>ReloadModule</code> 的大致实现</p>
@@ -1653,27 +1653,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
-</blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+</blockquote></div>
 
 
 

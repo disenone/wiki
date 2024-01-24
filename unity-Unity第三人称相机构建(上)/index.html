@@ -1422,7 +1422,7 @@
 
   <h1>Unity第三人称相机构建(上)</h1>
 
-<p><meta property="og:title" content="Unity第三人称相机构建(上)" /></p>
+<div><p><meta property="og:title" content="Unity第三人称相机构建(上)"></p>
 <p>我想在Unity中创建一个第三人称相机，相机的行为参考《魔兽世界》的第三人称相机，具体的需求是：</p>
 <ol>
 <li>鼠标左键：控制相机围绕人物旋转，人物不旋转</li>
@@ -1452,13 +1452,13 @@
 <p>在Unity中获取鼠标左键状态使用语句：<code>Input.GetMouseButton(0)</code>（注：后面涉及到代码的地方，都是使用C#），明显，右键就是<code>Input.GetMouseButton(1)</code>。获取鼠标光标的移动位置（可以理解为帧之间光标在X-Y上的偏移量）信息是：<code>Input.GetAxis("Mouse X"); Input.GetAxis("Mouse Y")</code>。那么我们可以先来获取鼠标左键按下后光标的移动信息：</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">GetMouseButton</span><span class="p">(</span><span class="m">0</span><span class="p">))</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Mouse X&quot;</span><span class="p">);</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Mouse Y&quot;</span><span class="p">);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Mouse X"</span><span class="p">);</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Mouse Y"</span><span class="p">);</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>代码很简单，那下面就是关键的地方：如何控制相机来旋转。要理解旋转，这里需要一些关于四元数的知识（网上资料很多，这里就不列举了），四元数重要的一点是它可以很简单地构造旋转，特别是围绕某个向量的旋转，理解四元数后，实现相机围绕人物的旋转就不难了。</p>
 <p>另外还有一点要注意的是，四元数旋转轴只是一个向量，以原点为出发点，如果要以世界坐标系中的某点<code>O</code>为原点，以该点为出发点的向量<code>V</code>为旋转轴，就需要进行坐标系的变换，简单地说，就是把需要旋转的点<code>P</code>变换到，以<code>O</code>为原点的坐标系中，根据<code>V</code>旋转，再变换会世界坐标系。根据这些操作，可以写出一个功能函数：</p>
-<p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Vector3</span><span class="w"> </span><span class="nf">MyRotate</span><span class="p">(</span><span class="n">Vector3</span><span class="w"> </span><span class="n">oldPosition</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="w"> </span><span class="n">axis</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="w"> </span><span class="n">axisPosition</span><span class="p">)</span>
+<p></p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Vector3</span><span class="w"> </span><span class="nf">MyRotate</span><span class="p">(</span><span class="n">Vector3</span><span class="w"> </span><span class="n">oldPosition</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">angle</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="w"> </span><span class="n">axis</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="w"> </span><span class="n">axisPosition</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1">// 构造一个四元数，以axis为旋转轴，这是在人物坐标系中的旋转</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">Quaternion</span><span class="w"> </span><span class="n">rotation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Quaternion</span><span class="p">.</span><span class="n">AngleAxis</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span><span class="w"> </span><span class="n">axis</span><span class="p">);</span>
@@ -1468,11 +1468,11 @@
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">axisPosition</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">rotation</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
 </code></pre></div>
-<code>Quaternion</code>是Unity中表示四元数的类型，加上之前鼠标左键的检测，就可以完成左键控制相机左右旋转。</p>
+<code>Quaternion</code>是Unity中表示四元数的类型，加上之前鼠标左键的检测，就可以完成左键控制相机左右旋转。
 <p>鼠标左右移动控制相机左右旋转的代码就可以直接给出：</p>
-<p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">newForward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyRotate</span><span class="p">(</span><span class="n">newForward</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">up</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="p">.</span><span class="n">zero</span><span class="p">);</span>
+<p></p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">newForward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyRotate</span><span class="p">(</span><span class="n">newForward</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">up</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="p">.</span><span class="n">zero</span><span class="p">);</span>
 </code></pre></div>
-因为这里只有前向量做旋转，没有涉及到坐标系的转换，所以第四个参数为<code>Vector3.zero</code>。</p>
+因为这里只有前向量做旋转，没有涉及到坐标系的转换，所以第四个参数为<code>Vector3.zero</code>。
 <p>控制上下旋转比左右旋转难理解一点，因为此时的旋转轴是会一直变化的(这里假设人物的up一直是Y轴的正方向)。注意的相机也是一直在旋转，并且视点中心一直对准人物，那么相机的右方向(right)就是我们想要围绕着旋转的轴了(把相机right想象成人物的right)，这样理解，那么上下旋转的代码也很简单了：</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">newForward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyRotate</span><span class="p">(</span><span class="n">newForward</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">.</span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">Vector3</span><span class="p">.</span><span class="n">zero</span><span class="p">);</span>
 </code></pre></div>
@@ -1485,7 +1485,7 @@
 <p>上面虽然可以分别左键旋转，右键旋转，但是一旦先用左键旋转，再用右键操作的时候，问题就会出现：人物的前方向和相机的前方向不同了！那么相机和人物的正方向就从此分离，实际操作起来很奇怪。那么我们在用右键旋转的时候就要先把人物调整为跟相机的正方向一致：</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">player</span><span class="p">.</span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Vector3</span><span class="p">.</span><span class="n">Normalize</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Vector3</span><span class="p">(</span><span class="n">oldForward</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">oldForward</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>
 </code></pre></div>
-<hr />
+<hr>
 <h3 id="_6">欧拉角万向锁</h3>
 <p>至此，相机的旋转差不多就完成，不过还有一个问题要注意：欧拉角万向锁。原理这里就不细讲，有兴趣的朋友可以自行搜索，针对这里相机的情况，就是当相机上下旋转到跟人物的上方向重合的时候，相机的视角会发生突变。这是因为相机到达人物的头顶或者脚底，相机的上方向会发生突变(因为相机的上方向的Y值一直都要大于零)，所以我们需要限制相机的上下旋转范围，防止发生万向锁。操作很简单，就是限制相机的前方向与人物的上方向的夹角的范围：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">Vector3</span><span class="p">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">forward</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">.</span><span class="n">parent</span><span class="p">.</span><span class="n">up</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="o">-</span><span class="m">0.95F</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span>
@@ -1507,8 +1507,8 @@
 <a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="c1">// mouse LB RB rotate camera and character</span>
 <a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">GetMouseButton</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetMouseButton</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
 <a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Mouse X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotateSpeed</span><span class="p">;</span>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">&quot;Mouse Y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotateSpeed</span><span class="p">;</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Mouse X"</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotateSpeed</span><span class="p">;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Mouse Y"</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rotateSpeed</span><span class="p">;</span>
 <a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
 <a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">0F</span><span class="p">)</span>
 <a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">        </span><span class="p">{</span>
@@ -1556,27 +1556,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
-</blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+</blockquote></div>
 
 
 

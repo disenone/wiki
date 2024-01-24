@@ -1422,9 +1422,9 @@
 
   <h1>Compile Python 2.7.11 using Visual Studio 2015.</h1>
 
-<p><meta property="og:title" content="使用 Visual Studio 2015 编译 Python 2.7.11" /></p>
-<p><a class="glightbox" href="https://img.shields.io/badge/python-2.7.11-brightgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/python-2.7.11-brightgreen.svg" style="display: inline-block" /></a>
-<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block" /></a></p>
+<div><p><meta property="og:title" content="使用 Visual Studio 2015 编译 Python 2.7.11"></p>
+<p><a class="glightbox" href="https://img.shields.io/badge/python-2.7.11-brightgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/python-2.7.11-brightgreen.svg" style="display: inline-block"></a>
+<a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block"></a></p>
 <h2 id="reason">Reason</h2>
 <p>The official version of Python 2.7 supports compiling with Visual Studio versions prior to 2010. Please refer to <code>PCbuild\readme.txt</code> for more information.</p>
 <div class="language-text highlight"><pre><span></span><code>1.  Install Microsoft Visual Studio 2008, any edition.
@@ -1452,9 +1452,9 @@
 <p>再来改<code>PCbuild/tk.vcxproj</code>，用文本编辑器打开，修改 63, 64 行</p>
 <p>Go ahead and make changes to <code>PCbuild/tk.vcxproj</code>. Open it with a text editor and modify lines 63 and 64.</p>
 <div class="language-text highlight"><pre><span></span><code>- &lt;TkOpts&gt;msvcrt&lt;/TkOpts&gt;
-- &lt;TkOpts Condition=&quot;$(Configuration) == &#39;Debug&#39;&quot;&gt;symbols,msvcrt&lt;/TkOpts&gt;
+- &lt;TkOpts Condition="$(Configuration) == 'Debug'"&gt;symbols,msvcrt&lt;/TkOpts&gt;
 + &lt;TkOpts&gt;msvcrt,noxp&lt;/TkOpts&gt;
-+ &lt;TkOpts Condition=&quot;$(Configuration) == &#39;Debug&#39;&quot;&gt;symbols,msvcrt,noxp&lt;/TkOpts&gt;
++ &lt;TkOpts Condition="$(Configuration) == 'Debug'"&gt;symbols,msvcrt,noxp&lt;/TkOpts&gt;
 </code></pre></div>
 <p>Change <code>PCbuild/tcltk.props</code>, open it with a text editor, and modify line 41.</p>
 <div class="language-text highlight"><pre><span></span><code>- &lt;BuildDirTop&gt;$(BuildDirTop)_VC9&lt;/BuildDirTop&gt;
@@ -1484,7 +1484,7 @@
 <p>So far, Python can be compiled successfully. For more specific modifications, you can refer to the contents of my commit: <a href="https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf">modify to build by vs2015</a></p>
 <h3 id="invalid-handle-check">Invalid Handle Check</h3>
 <p>Although the compilation passed, the consequence of forcefully ignoring invalid file handles is that once an invalid handle is accessed (such as closing the same file twice), Python will directly trigger an assertion failure and the program will crash. In this way, Python is simply unusable. Python utilizes a special method to prevent this situation, but unfortunately it cannot be used in VS2015. The explanation in the comments is as follows:</p>
-<div class="language-text highlight"><pre><span></span><code>Microsoft CRT in VS2005 and higher will verify that a filehandle is valid and raise an assertion if it isn&#39;t.
+<div class="language-text highlight"><pre><span></span><code>Microsoft CRT in VS2005 and higher will verify that a filehandle is valid and raise an assertion if it isn't.
 </code></pre></div>
 <p>Fortunately, there is already a solution, which I found in the Python issue tracker. You can find it here: <a href="http://psf.upfronthosting.co.za/roundup/tracker/issue23524">issue23524</a>, <a href="http://psf.upfronthosting.co.za/roundup/tracker/issue25759">issue25759</a>. This method is also used in Python 3.x.</p>
 <p>To be specific, it means disabling the assert crash mechanism in Windows when using file handles and replacing it with error code checking. So how do you disable the assert mechanism in Windows? The answer is to use your own error handling function to replace the default Windows handling function. The key code is:</p>
@@ -1534,7 +1534,7 @@
 <h2 id="end">End</h2>
 <p>By now, Python 2.7.11 can be compiled and run normally in VS2015. However, Python official does not recommend this configuration.</p>
 <div class="language-text highlight"><pre><span></span><code>***WARNING***
-Building Python 2.7 for Windows using any toolchain that doesn&#39;t link
+Building Python 2.7 for Windows using any toolchain that doesn't link
 against MSVCRT90.dll is *unsupported* as the resulting python.exe will
 not be able to use precompiled extension modules that do link against
 MSVCRT90.dll.
@@ -1559,28 +1559,14 @@ MSVCRT90.dll.
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
-        data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
-        data-mapping="og:title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script src="https://giscus.app/client.js" data-repo="disenone/disenone.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg==" data-category="Announcements" data-category-id="DIC_kwDOAQz-AM4CT6GS" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
-<p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p></p>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
 <p>This post is translated using ChatGPT, please <a href="https://github.com/disenone/wiki/issues/new"><strong>feedback</strong></a> if any omissions.</p>
-</blockquote>
+</blockquote></div>
 
 
 
