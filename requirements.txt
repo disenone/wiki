@@ -10,3 +10,4 @@ jieba
 mkdocs-static-i18n
 mkdocs-macros-plugin
 mkdocs-glightbox
+mkdocs-video

@@ -105,6 +105,7 @@ plugins:
         utm_medium: "RSS"
         utm_campaign: "feed-syndication"
   - glightbox
+  - mkdocs-video
 
 markdown_extensions:
   - pymdownx.arithmatex:

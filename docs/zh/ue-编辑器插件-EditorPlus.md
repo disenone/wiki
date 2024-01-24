@@ -8,6 +8,10 @@ description: UE 编辑器插件  UE.EditorPlus 说明文档
 
 # UE 编辑器插件 UE.EditorPlus 说明文档
 
+## 介绍视频
+
+![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
+
 ## 插件源码
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
@@ -335,7 +339,7 @@ class SClassBrowserTab final : public SCompoundWidget
 
 ClassBrowser 是一个 UE Class 查看器，通过菜单 EditorPlusTools -> ClassBrowser 来打开
 
-![](assets/img/2024-ue-editorplus/menu.png)
+![](assets/img/2024-ue-editorplus/classbrowser_menu.png)
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
