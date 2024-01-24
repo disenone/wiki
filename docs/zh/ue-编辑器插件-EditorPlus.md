@@ -31,6 +31,8 @@ UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来�
 
 ## 扩展编辑器菜单
 
+![](assets/img/2024-ue-editorplus/menu.png)
+
 ### 说明
 
 支持多种方式扩展编辑器菜单：
