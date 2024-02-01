@@ -33,6 +33,8 @@ UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来�
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
+![](assets/img/2024-ue-editorplus/toolbar.png)
+
 ### 说明
 
 支持多种方式扩展编辑器菜单：
@@ -59,13 +61,14 @@ FEditorPlusPath::RegisterPathAction(
 
 完整的路径格式会是这样的：`/<Hook>HookName/<Type1>Name1/<Type2>Name2`，第一个路径必须是 `<Hook>`，目前支持的类型和限制：
 
-- `<Hook>`：后续路径不能有 `<Hook>`
-- `<MenuBar>`：后面路径不能有 `<Hook>, <MenuBar>`
-- `<Section>`：后面路径不能有 `<Hook>, <MenuBar>, <Section>`
-- `<Separator>`：后面路径不能有 `<Hook>, <MenuBar>`
-- `<SubMenu>`：后面路径不能有 `<Hook>, <MenuBar>`
-- `<Command>`：后面不能有任何路径
-- `<Widget>`：后面不能有任何路径
+- `<Hook>`：表示需要在哪个 Hook 的位置上生成菜单，后续路径不能有 `<Hook>`
+- `<MenuBar>`：菜单栏，后面路径不能有 `<Hook>, <MenuBar>, <ToolBar>`
+- `<ToolBar>`: 工具栏，后面路径不能有 `<Hook>, <MenuBar>, <ToolBar>`
+- `<Section>`：菜单分节，后面路径不能有 `<Hook>, <MenuBar>, <Section>`
+- `<Separator>`：菜单分隔符，后面路径不能有 `<Hook>, <MenuBar>`
+- `<SubMenu>`：子菜单，后面路径不能有 `<Hook>, <MenuBar>`
+- `<Command>`：菜单命令，后面不能有任何路径
+- `<Widget>`：更多可扩展定制的 Slate UI 组件，后面不能有任何路径
 
 更简易的路径形式：`/BarName/SubMenuName1/SubMenuName2/CommandName`，如果不指定类型，默认路径的第一个是 `<MenuBar>`，中间的是 `<SubMenu>`，最后的是 `<Command>`。
 
@@ -176,6 +179,15 @@ FEditorPlusPath::RegisterChildPath(node, "<SubMenu>Sub/<Separator>Sep");
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
+扩展工具栏
+```cpp
+FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
+->Content({
+    EP_NEW_MENU(FEditorPlusCommand)("ToolBarCommand1")
+    ->BindAction(...)
+});
+```
+
 ### 接口说明
 
 ```cpp
@@ -221,6 +233,8 @@ class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis<FEditorPlusMenu
 class EDITORPLUS_API FEditorPlusHook: public TEditorPlusMenuBaseRoot {}
 
 class EDITORPLUS_API FEditorPlusMenuBar: public TEditorPlusMenuBaseNode {}
+
+class EDITORPLUS_API FEditorPlusToolBar: public TEditorPlusMenuBaseNode {}
 
 class EDITORPLUS_API FEditorPlusSection: public TEditorPlusMenuBaseNode {}
 
