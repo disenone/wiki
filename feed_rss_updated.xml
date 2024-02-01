@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Wed, 24 Jan 2024 15:59:08 -0000</pubDate>
-    <lastBuildDate>Wed, 24 Jan 2024 15:59:08 -0000</lastBuildDate>
+    <pubDate>Thu, 01 Feb 2024 02:25:32 -0000</pubDate>
+    <lastBuildDate>Thu, 01 Feb 2024 02:25:32 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 24 Jan 2024 15:59:19 +0000</pubDate>
+      <pubDate>Thu, 01 Feb 2024 02:25:43 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 24 Jan 2024 15:59:06 +0000</pubDate>
+      <pubDate>Thu, 01 Feb 2024 02:25:30 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -83,6 +83,7 @@
 &lt;p&gt;UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.3+。&lt;/p&gt;
 &lt;h2&gt;扩展编辑器菜单&lt;/h2&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menu.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/toolbar.png&#34;&gt;&lt;/p&gt;
 &lt;h3&gt;说明&lt;/h3&gt;
 &lt;p&gt;支持多种方式扩展编辑器菜单：&lt;/p&gt;
 &lt;ul&gt;
@@ -103,13 +104,14 @@ FEditorPlusPath::RegisterPathAction(
 &lt;p&gt;这样就可以在编辑器菜单栏 Help 后面增加一个菜单栏 Bar，Bar 里面增加一个子菜单 SubMenu， SubMenu 里面增加一个命令 Action。&lt;/p&gt;
 &lt;p&gt;完整的路径格式会是这样的：&lt;code&gt;/&amp;lt;Hook&amp;gt;HookName/&amp;lt;Type1&amp;gt;Name1/&amp;lt;Type2&amp;gt;Name2&lt;/code&gt;，第一个路径必须是 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;，目前支持的类型和限制：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;：后续路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Section&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;, &amp;lt;Section&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Separator&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;：后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;：后面不能有任何路径&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;Widget&amp;gt;&lt;/code&gt;：后面不能有任何路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;：表示需要在哪个 Hook 的位置上生成菜单，后续路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;：菜单栏，后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;, &amp;lt;ToolBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;ToolBar&amp;gt;&lt;/code&gt;: 工具栏，后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;, &amp;lt;ToolBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Section&amp;gt;&lt;/code&gt;：菜单分节，后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;, &amp;lt;Section&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Separator&amp;gt;&lt;/code&gt;：菜单分隔符，后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;：子菜单，后面路径不能有 &lt;code&gt;&amp;lt;Hook&amp;gt;, &amp;lt;MenuBar&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;：菜单命令，后面不能有任何路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Widget&amp;gt;&lt;/code&gt;：更多可扩展定制的 Slate UI 组件，后面不能有任何路径&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;更简易的路径形式：&lt;code&gt;/BarName/SubMenuName1/SubMenuName2/CommandName&lt;/code&gt;，如果不指定类型，默认路径的第一个是 &lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;，中间的是 &lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;，最后的是 &lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;如果没有指定 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt; 则自动最前面加上 &lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;，表示在 Help 菜单后面添加菜单栏。&lt;/p&gt;
@@ -183,6 +185,13 @@ FEditorPlusPath::RegisterChildPath(node, &#34;&amp;lt;SubMenu&amp;gt;Sub/&amp;lt
 &lt;p&gt;删除一个路径&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;cpp
 FEditorPlusPath::UnregisterPath(&#34;/MenuTest/SubMenu1/SubMenu1/Path1&#34;);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;扩展工具栏
+&lt;code&gt;cpp
+FEditorPlusPath::RegisterPath(&#34;/&amp;lt;Hook&amp;gt;ProjectSettings/&amp;lt;ToolBar&amp;gt;MenuTestToolBar&#34;)
+-&amp;gt;Content({
+    EP_NEW_MENU(FEditorPlusCommand)(&#34;ToolBarCommand1&#34;)
+    -&amp;gt;BindAction(...)
+});&lt;/code&gt;&lt;/p&gt;
 &lt;h3&gt;接口说明&lt;/h3&gt;
 &lt;p&gt;```cpp
 class EDITORPLUS_API FEditorPlusPath
@@ -223,6 +232,7 @@ static TSharedPtr&amp;lt;FEditorPlusMenuBase&amp;gt; GetNodeByPath(const FString
 class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis&lt;FEditorPlusMenuBase&gt; {}&lt;/p&gt;
 &lt;p&gt;class EDITORPLUS_API FEditorPlusHook: public TEditorPlusMenuBaseRoot {}&lt;/p&gt;
 &lt;p&gt;class EDITORPLUS_API FEditorPlusMenuBar: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
+&lt;p&gt;class EDITORPLUS_API FEditorPlusToolBar: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
 &lt;p&gt;class EDITORPLUS_API FEditorPlusSection: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
 &lt;p&gt;class EDITORPLUS_API FEditorPlusSeparator: public TEditorPlusMenuBaseNode{}&lt;/p&gt;
 &lt;p&gt;class EDITORPLUS_API FEditorPlusSubMenu: public TEditorPlusMenuBaseNode {}&lt;/p&gt;
@@ -318,7 +328,7 @@ class SClassBrowserTab final : public SCompoundWidget
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_star.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 24 Jan 2024 04:33:33 +0000</pubDate>
+      <pubDate>Thu, 01 Feb 2024 02:21:40 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
