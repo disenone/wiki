@@ -13,12 +13,12 @@
     <language>zh</language>
 
     
-    <pubDate>Thu, 01 Feb 2024 02:25:32 -0000</pubDate>
-    <lastBuildDate>Thu, 01 Feb 2024 02:25:32 -0000</lastBuildDate>
+    <pubDate>Fri, 29 Mar 2024 02:38:18 -0000</pubDate>
+    <lastBuildDate>Fri, 29 Mar 2024 02:38:18 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.12.0</generator>
+    <generator>MkDocs RSS plugin - v1.12.1</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 01 Feb 2024 02:25:43 +0000</pubDate>
+      <pubDate>Fri, 29 Mar 2024 02:38:29 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/wiki/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 01 Feb 2024 02:25:30 +0000</pubDate>
+      <pubDate>Fri, 29 Mar 2024 02:38:16 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/blog/</guid>
@@ -326,9 +326,15 @@ class SClassBrowserTab final : public SCompoundWidget
 &lt;p&gt;MenuCollections 是一个菜单命令快速查找和收藏工具，能够帮助你快速找到需要执行的菜单命令，并可以收藏常用命令，提升效率。&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_find.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/menucollection_star.png&#34;&gt;&lt;/p&gt;
+&lt;h3&gt;SlateResourceBrowser&lt;/h3&gt;
+&lt;p&gt;SlateResourceBrowser 是一个可以快速查看 Slate UI 资源的工具，能够帮助你浏览和查找需要的编辑器资源，方便扩展编辑器。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/slateresourcebrowser_color.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/slateresourcebrowser_icon.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/slateresourcebrowser_font.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;assets/img/2024-ue-editorplus/slateresourcebrowser_widgetstyle.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
       <link>https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 01 Feb 2024 02:21:40 +0000</pubDate>
+      <pubDate>Fri, 29 Mar 2024 02:33:07 +0000</pubDate>
       <source url="https://disenone.github.io/wiki/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/wiki/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
