@@ -370,4 +370,16 @@ MenuCollections 是一个菜单命令快速查找和收藏工具，能够帮助�
 ![](assets/img/2024-ue-editorplus/menucollection_star.png)
 
 
+### SlateResourceBrowser
+
+SlateResourceBrowser 是一个可以快速查看 Slate UI 资源的工具，能够帮助你浏览和查找需要的编辑器资源，方便扩展编辑器。
+
+![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
+
+![](assets/img/2024-ue-editorplus/slateresourcebrowser_icon.png)
+
+![](assets/img/2024-ue-editorplus/slateresourcebrowser_font.png)
+
+![](assets/img/2024-ue-editorplus/slateresourcebrowser_widgetstyle.png)
+
 --8<-- "footer.md"
