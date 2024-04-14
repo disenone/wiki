@@ -1,10 +1,10 @@
 site_name: Disenone's Wiki
-site_url: https://disenone.github.io/wiki
+site_url: https://disenone.github.io
 site_author: Disenone
 site_description: 无止境
-repo_url: https://github.com/disenone/wiki
+repo_url: https://github.com/disenone/disenone.github.io
 repo_name: GitHub
-copyright: Copyright &copy; 2014 - 2023 by <a href="https://github.com/disenone"> Disenone </a>
+copyright: Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
 edit_uri: edit/main/docs/ # 编辑按钮的url
 
 theme:
