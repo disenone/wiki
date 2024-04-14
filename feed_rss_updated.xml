@@ -13,8 +13,8 @@
     <language>zh</language>
 
     
-    <pubDate>Sun, 14 Apr 2024 16:51:42 -0000</pubDate>
-    <lastBuildDate>Sun, 14 Apr 2024 16:51:42 -0000</lastBuildDate>
+    <pubDate>Sun, 14 Apr 2024 16:59:38 -0000</pubDate>
+    <lastBuildDate>Sun, 14 Apr 2024 16:59:38 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 14 Apr 2024 16:51:53 +0000</pubDate>
+      <pubDate>Sun, 14 Apr 2024 16:59:48 +0000</pubDate>
       <source url="https://disenone.github.io/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/en/blog/</guid>
@@ -54,10 +54,932 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://disenone.github.io/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 14 Apr 2024 16:51:40 +0000</pubDate>
+      <pubDate>Sun, 14 Apr 2024 16:59:36 +0000</pubDate>
       <source url="https://disenone.github.io/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>C/C++ 宏编程解析</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;C/C++ 宏编程解析&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;本文的目的是要讲清楚 C/C++ 的宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。我会首先说说 C++ 标准 14 里面提到的关于宏展开的规则，然后通过修改 Clang 的源码来观察宏展开，最后基于这些知识来聊聊宏编程的实现。&lt;/p&gt;
+&lt;p&gt;本文的代码全部都在这里：&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/macros.cpp&#34;&gt;下载&lt;/a&gt;，&lt;a href=&#34;https://godbolt.org/z/coWvc5Pse&#34;&gt;在线演示&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;引子&lt;/h2&gt;
+&lt;p&gt;我们可以通过执行命令 &lt;code&gt;gcc -P -E a.cpp -o a.cpp.i&lt;/code&gt; 来让编译器对文件 &lt;code&gt;a.cpp&lt;/code&gt; 只执行预处理并保存结果到 &lt;code&gt;a.cpp.i&lt;/code&gt; 中。&lt;/p&gt;
+&lt;p&gt;首先我们先来看一些例子:&lt;/p&gt;
+&lt;h4&gt;递归重入（Reentrancy）&lt;/h4&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define ITER(arg0, arg1) ITER(arg1, arg0)&lt;/h1&gt;
+&lt;p&gt;ITER(1, 2)          // -&amp;gt; ITER(2, 1)
+```&lt;/p&gt;
+&lt;p&gt;宏 &lt;code&gt;ITER&lt;/code&gt; 交换了 &lt;code&gt;arg0&lt;/code&gt;, &lt;code&gt;arg1&lt;/code&gt; 的位置。宏展开之后，得到的是 &lt;code&gt;ITER(2, 1)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;可以看到，&lt;code&gt;arg0&lt;/code&gt; &lt;code&gt;arg1&lt;/code&gt; 的位置成功交换，在这里宏成功展开了一次，但也只展开了一次，不再递归重入。换言之，宏的展开过程中，是不可自身递归重入的，如果在递归的过程中发现相同的宏在之前的递归中已经展开过，则不再展开，这是宏展开的其中一条重要的规则。禁止递归重入的原因也很简单，就是为了避免无限递归。&lt;/p&gt;
+&lt;h4&gt;字符串拼接&lt;/h4&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;p&gt;CONCAT(Hello, World)                // -&amp;gt; HelloWorld
+CONCAT(Hello, CONCAT(World, !))     // -&amp;gt;　HelloCONCAT(World, !)
+```&lt;/p&gt;
+&lt;p&gt;宏 &lt;code&gt;CONCAT&lt;/code&gt; 目的是拼接 &lt;code&gt;arg0&lt;/code&gt; &lt;code&gt;arg1&lt;/code&gt;。宏展开之后，&lt;code&gt;CONCAT(Hello, World)&lt;/code&gt; 能够得到正确的结果 &lt;code&gt;HelloWorld&lt;/code&gt;。但是 &lt;code&gt;CONCAT(Hello, CONCAT(World, !))&lt;/code&gt; 却只展开了外层的宏，内层的 &lt;code&gt;CONCAT(World, !)&lt;/code&gt; 并没有展开而是直接跟 &lt;code&gt;Hello&lt;/code&gt; 拼接在一起了，这跟我们预想的不一样，我们真正想要的结果是 &lt;code&gt;HelloWorld!&lt;/code&gt;。这就是宏展开的另外一条重要的规则：跟在 &lt;code&gt;##&lt;/code&gt; 操作符后面的宏参数，不会执行展开，而是会直接跟前面的内容先拼接在一起。&lt;/p&gt;
+&lt;p&gt;通过上面两个例子可以看出来，宏展开的规则有一些是反直觉的，如果不清楚具体的规则，有可能写出来的宏跟我们想要的效果不一致。&lt;/p&gt;
+&lt;h2&gt;宏展开规则&lt;/h2&gt;
+&lt;p&gt;通过引子的两个例子，我们了解到了宏展开是有一套标准的规则的，这套规则定义在 C/C++ 标准里面，内容不多，建议先仔细读几遍，我这里顺带给下标准 n4296 版本的链接，宏展开在 16.3 节：&lt;a href=&#34;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf&#34;&gt;传送门&lt;/a&gt;。下面我挑出 n4296 版本中几条重要的规则，这些规则会决定如何正确编写宏（还是建议抽时间把标准里面的宏展开细读下）。&lt;/p&gt;
+&lt;h4&gt;参数分隔&lt;/h4&gt;
+&lt;p&gt;宏的参数要求是用逗号分隔，而且参数的个数需要跟宏定义的个数一致，传递给宏的参数中，额外用括号包住的内容视为一个参数，参数允许为空：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define ADD_COMMA(arg1, arg2) arg1, arg2&lt;/h1&gt;
+&lt;p&gt;ADD_COMMA(a, b)             // -&amp;gt; a, b
+ADD_COMMA(a)                // 报错 &#34;macro &#34;MACRO&#34; requires 2 arguments, but only 1 given&#34;
+ADD_COMMA((a, b), c)        // -&amp;gt; (a, b), c
+ADD_COMMA(, b)              // -&amp;gt; , b
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ADD_COMMA((a, b), c)&lt;/code&gt; 中 &lt;code&gt;(a, b)&lt;/code&gt; 视为第一个参数。&lt;code&gt;ADD_COMMA(, b)&lt;/code&gt; 中，第一个参数为空，于是展开为 &lt;code&gt;, b&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;宏参数展开&lt;/h4&gt;
+&lt;p&gt;在对宏进行展开的时候，如果宏的参数也是可以展开的宏，会先把参数完全展开，再展开宏，例如&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+ADD_COMMA(ADD_COMMA(1, 2), ADD_COMMA(3, 4))     // -&amp;gt; 1, 2, 3, 4&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;一般情况下的宏展开，都可以认为是先对参数求值，再对宏求值，除非遇到了 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt; 操作符。&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;#&lt;/code&gt; 操作符&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;#&lt;/code&gt; 操作符后面跟的宏参数，不会进行展开，会直接字符串化，例如：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define STRINGIZE(arg0) # arg0&lt;/h1&gt;
+&lt;p&gt;STRINGIZE(a)                // -&amp;gt; &#34;a&#34;
+STRINGIZE(STRINGIZE(a))     // -&amp;gt; &#34;STRINGIZE(a)&#34;
+```&lt;/p&gt;
+&lt;p&gt;根据这条规则 &lt;code&gt;STRINGIZE(STRINGIZE(a))&lt;/code&gt; 只能展开为 &lt;code&gt;&#34;STRINGIZE(a)&#34;&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;##&lt;/code&gt; 操作符&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;##&lt;/code&gt; 操作符前后的宏参数，都不会进行展开，会先直接拼接起来，例如：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;p&gt;CONCAT(Hello, World)                        // -&amp;gt; HelloWorld
+CONCAT(Hello, CONCAT(World, !))             // -&amp;gt; HelloCONCAT(World, !)
+CONCAT(CONCAT(Hello, World) C, ONCAT(!))    // -&amp;gt; CONCAT(Hello, World) CONCAT(!)
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CONCAT(CONCAT(Hello, World) C, ONCAT(!))&lt;/code&gt; 只能是先拼接在一起，得到 &lt;code&gt;CONCAT(Hello, World) CONCAT(!)&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;重复扫描&lt;/h4&gt;
+&lt;p&gt;预处理器执行完一次宏展开之后，会重新扫描得到的内容，继续展开，直到没有可以展开的内容为止。&lt;/p&gt;
+&lt;p&gt;一次宏展开，可以理解为先把参数完全展开（除非遇到 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt;），再根据宏的定义，把宏和完全展开后的参数按照定义进行替换，再处理定义中的所有 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt; 操作符。&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;h1&gt;define STRINGIZE(arg0) # arg0&lt;/h1&gt;
+&lt;p&gt;CONCAT(STRING, IZE(Hello))        // -&amp;gt; STRINGIZE(Hello) -&amp;gt; &#34;Hello&#34;
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CONCAT(STRING, IZE(Hello))&lt;/code&gt; 第一次扫描展开得到 &lt;code&gt;STRINGIZE(Hello)&lt;/code&gt;，然后执行第二次扫描，发现 &lt;code&gt;STRINGIZE&lt;/code&gt; 可以继续展开，最后得到 &lt;code&gt;&#34;Hello&#34;&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;禁止递归重入&lt;/h4&gt;
+&lt;p&gt;在重复扫描的过程中，禁止递归展开相同的宏。可以把宏展开理解为树形的结构，根节点就是一开始要展开的宏，每个宏展开之后的内容作为该宏的子节点连接到树上，那么禁止递归就是在展开子节点的宏时，如果该宏跟任意祖先节点的宏相同，则禁止展开。来看一些例子：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;h1&gt;define CONCAT_SPACE(arg0, arg1) arg0 arg1&lt;/h1&gt;
+&lt;h1&gt;define IDENTITY(arg0) IDENTITY_IMPL(arg0)&lt;/h1&gt;
+&lt;h1&gt;define IDENTITY_IMPL(arg0) arg0&lt;/h1&gt;
+&lt;p&gt;CONCAT(CON, CAT(a, b))                  // -&amp;gt; CONCAT(a, b)
+IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))   // -&amp;gt; CONCAT(a, b)
+IDENTITY(CONCAT(CON, CAT(a, b)))        // -&amp;gt; IDENTITY_IMPL(CONCAT(a, b)) -&amp;gt; CONCAT(a, b)
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CONCAT(CON, CAT(a, b))&lt;/code&gt;：由于 &lt;code&gt;CONCAT&lt;/code&gt; 是用 &lt;code&gt;##&lt;/code&gt; 拼接两个参数，根据 &lt;code&gt;##&lt;/code&gt; 的规则，不会展开参数，直接拼接。所以第一次展开得到了 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，由于 &lt;code&gt;CONCAT&lt;/code&gt; 已经展开过了不会再递归展开，所以停止。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))&lt;/code&gt;：&lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 可以理解为对参数 &lt;code&gt;arg0&lt;/code&gt; 求值，这里的参数 &lt;code&gt;arg0&lt;/code&gt; 求值得到了 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，并由于递归被标记为了禁止重入，之后 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 展开完成，进行第二次扫描的时候，发现是禁止重入的 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，于是停止展开。在这里 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; 是由参数 &lt;code&gt;arg0&lt;/code&gt; 展开而得到的，但在后续展开的时候，也会保持禁止重入的标记，可以理解为父节点是参数 &lt;code&gt;arg0&lt;/code&gt;，一直保持着禁止重入的标记。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;IDENTITY(CONCAT(CON, CAT(a, b)))&lt;/code&gt;：这个例子主要是为了加强对父子节点的理解，参数自己展开的时候，是自身作为父节点，展开的内容作为子节点去判断递归，展开后的参数传到宏定义之后，禁止重入的标记会继续保留（如果传到宏定义之后没有改变参数展开后的宏）。可以把参数的展开过程看成是另外一棵树，参数的展开结果就是树的最底层子节点，这个子节点传给宏来执行展开的同时，依然是保留着禁止重入的特性。&lt;/p&gt;
+&lt;p&gt;例如这里，在第一次完全展开之后得到 &lt;code&gt;IDENTITY_IMPL(CONCAT(a, b))&lt;/code&gt;，&lt;code&gt;CONCAT(a, b)&lt;/code&gt; 被标记为禁止重入， 即使 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 是对参数求值的，但参数已经禁止展开，所以参数就原封不动的传到定义里，最后我们还是得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;以上我只是列出了一些我认为比较重要的，或者觉得不太好理解的规则，详细的宏展开规则，还是建议花点时间直接去看标准文档。&lt;/p&gt;
+&lt;h2&gt;通过 Clang 观察展开过程&lt;/h2&gt;
+&lt;p&gt;我们可以给 Clang 源码加上一些打印信息来观察宏展开的过程，我无意深入解释 Clang 的源码，在这里给一份修改过的文件 diff，有兴趣的可以自己编译 Clang 来研究。这里我是用的 llvm 版本 11.1.0 （&lt;a href=&#34;https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz&#34;&gt;传送门&lt;/a&gt;），修改过的文件（&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/clang-modify.zip&#34;&gt;传送门&lt;/a&gt;）。下面简单通过例子来验证我们之前介绍的宏展开规则：&lt;/p&gt;
+&lt;h4&gt;例子1&lt;/h4&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;p&gt;CONCAT(C, ONCAT(a, b))      // CONCAT(a, b)
+```&lt;/p&gt;
+&lt;p&gt;使用修改过的 Clang 来预处理以上代码： &lt;code&gt;clang -P -E a.cpp -o a.cpp.i&lt;/code&gt;，得到下面的打印信息：&lt;/p&gt;
+&lt;p&gt;``` text linenums=&#34;1&#34;
+HandleIdentifier:
+MacroInfo 0x559e57496900
+    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
+Macro is ok to expand&lt;/p&gt;
+&lt;p&gt;EnterMacro: 0&lt;/p&gt;
+&lt;p&gt;Enter ExpandFunctionArguments:
+MacroInfo 0x559e57496900 used
+    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
+Token: 0
+identifier: arg0
+Args: [identifier: C]
+Token: 1
+hashhash:
+Token: 2
+identifier: arg1
+Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]&lt;/p&gt;
+&lt;p&gt;LeaveMacro: 0&lt;/p&gt;
+&lt;p&gt;HandleIdentifier:
+MacroInfo 0x559e57496900 disabled used
+    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
+Macro is not ok to expand
+```&lt;/p&gt;
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-9-1&#34;&gt;1&lt;/a&gt; 行 &lt;code&gt;HandleIdentifier&lt;/code&gt; 遇到宏的时候会打印，接着打印宏的信息（第 &lt;a href=&#34;#__codelineno-9-2&#34;&gt;2-4&lt;/a&gt; 行），宏没有禁用，所以可以按照定义来展开 &lt;code&gt;Macro is ok to expand&lt;/code&gt;，之后进入宏 &lt;code&gt;EnterMacro&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;真正执行宏展开的函数是 &lt;code&gt;ExpandFunctionArguments&lt;/code&gt;，之后再次打印待展开的宏信息，注意到此时宏已经被标记为 &lt;code&gt;used&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-9-9&#34;&gt;9&lt;/a&gt; 行）。之后根据宏的定义，进行逐个 &lt;code&gt;Token&lt;/code&gt; 的展开 （&lt;code&gt;Token&lt;/code&gt; 是 &lt;code&gt;Clang&lt;/code&gt; 预处理里面的概念，这里不深入说明）。&lt;/p&gt;
+&lt;p&gt;第 0 个 &lt;code&gt;Token&lt;/code&gt; 是形参 &lt;code&gt;arg0&lt;/code&gt;, 对应的实参是 &lt;code&gt;C&lt;/code&gt;，判断不需要展开，于是直接复制到结果上（第 &lt;a href=&#34;#__codelineno-9-11&#34;&gt;11-13&lt;/a&gt; 行）。&lt;/p&gt;
+&lt;p&gt;第 1 个 &lt;code&gt;Token&lt;/code&gt; 是 &lt;code&gt;hashhash&lt;/code&gt;，也就是 &lt;code&gt;##&lt;/code&gt; 操作符，继续复制到结果上（第 &lt;a href=&#34;#__codelineno-9-14&#34;&gt;14-15&lt;/a&gt; 行）。&lt;/p&gt;
+&lt;p&gt;第 2 个 &lt;code&gt;Token&lt;/code&gt; 是形参 &lt;code&gt;arg1&lt;/code&gt;，对应的实参是 &lt;code&gt;ONCAT(a, b)&lt;/code&gt;，预处理器也会把实参处理成一个个的 &lt;code&gt;Token&lt;/code&gt;，所以可以看到打印的结果用中括号包住了实参的每个 &lt;code&gt;Token&lt;/code&gt;（第 18 行），由于 &lt;code&gt;##&lt;/code&gt; 的原因这个实参依然不需要展开，所以还是直接复制到结果上（第 &lt;a href=&#34;#__codelineno-9-16&#34;&gt;16-18&lt;/a&gt; 行）。&lt;/p&gt;
+&lt;p&gt;最后 &lt;code&gt;Leave ExpandFunctionArguments&lt;/code&gt; 打印本次扫描展开得到的结果（第 &lt;a href=&#34;#__codelineno-9-19&#34;&gt;19&lt;/a&gt; 行），把结果的 &lt;code&gt;Token&lt;/code&gt; 都翻译过来就是 &lt;code&gt;C ## ONCAT(a, b)&lt;/code&gt;，之后预处理器就执行 &lt;code&gt;##&lt;/code&gt; 操作符来生成新的内容。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;##&lt;/code&gt; 执行之后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，遇到宏 &lt;code&gt;CONCAT&lt;/code&gt;，预处理还是先进入 &lt;code&gt;HandleIdentifier&lt;/code&gt;，打印宏的信息，发现该宏状态是 &lt;code&gt;disable used&lt;/code&gt;，是已经展开过的，禁止再重入了，显示 &lt;code&gt;Macro is not ok to expand&lt;/code&gt;，预处理器不再展开，最终得到的结果就是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;例子2&lt;/h4&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;h1&gt;define IDENTITY(arg0) arg0&lt;/h1&gt;
+&lt;p&gt;IDENTITY(CONCAT(C, ONCAT(a, b)))
+```&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;font&gt; Clang 打印信息（点击展开）：&lt;/font&gt; &lt;/summary&gt;
+``` test linenums=&#34;1&#34;
+HandleIdentifier:
+MacroInfo 0x562a148f5a60
+    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
+Macro is ok to expand
+
+HandleIdentifier:
+MacroInfo 0x562a148f5930
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+
+EnterMacro: 0
+
+Enter ExpandFunctionArguments:
+MacroInfo 0x562a148f5a60 used
+    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
+Token: 0
+identifier: arg0
+Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
+
+HandleIdentifier:
+MacroInfo 0x562a148f5930
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is ok to expand
+
+EnterMacro: 1
+
+Enter ExpandFunctionArguments:
+MacroInfo 0x562a148f5930 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Token: 0
+identifier: arg0
+Args: [identifier: C]
+Token: 1
+hashhash:
+Token: 2
+identifier: arg1
+Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+
+LeaveMacro: 1
+
+HandleIdentifier:
+MacroInfo 0x562a148f5930 disabled used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is not ok to expand
+ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+
+LeaveMacro: 0
+
+HandleIdentifier:
+MacroInfo 0x562a148f5930 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is not ok to expand
+```
+
+&lt;/details&gt;
+
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-12&#34;&gt;12&lt;/a&gt; 行开始展开 &lt;code&gt;IDENTITY&lt;/code&gt;，发现参数 &lt;code&gt;Token 0&lt;/code&gt; 是 &lt;code&gt;CONCAT(...)&lt;/code&gt;，也是一个宏，于是先对该参数进行求值。&lt;/p&gt;
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-27&#34;&gt;27&lt;/a&gt; 行开始展开参数宏 &lt;code&gt;CONCAT(...)&lt;/code&gt;，跟例子 1 一样，多次扫描展开完成后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-11-46&#34;&gt;46&lt;/a&gt; 行）。&lt;/p&gt;
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-47&#34;&gt;47&lt;/a&gt; 结束对 &lt;code&gt;IDENTITY&lt;/code&gt; 的展开，得到的结果是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-51&#34;&gt;51&lt;/a&gt; 行重新扫描 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，发现虽然是宏，但在之前的参数展开过程中已经被设置成了 &lt;code&gt;used&lt;/code&gt;，不再递归展开，直接作为最终结果。&lt;/p&gt;
+&lt;h4&gt;例子 3&lt;/h4&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;h1&gt;define IDENTITY_IMPL(arg0) arg0&lt;/h1&gt;
+&lt;h1&gt;define IDENTITY(arg0) IDENTITY_IMPL(arg0)&lt;/h1&gt;
+&lt;p&gt;IDENTITY(CONCAT(C, ONCAT(a, b)))
+```&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;font&gt;Clang 打印信息（点击展开）：&lt;/font&gt; &lt;/summary&gt;
+``` test linenums=&#34;1&#34;
+HandleIdentifier:
+MacroInfo 0x55e824457a80
+    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+
+HandleIdentifier:
+MacroInfo 0x55e824457ba0
+    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
+Macro is ok to expand
+
+HandleIdentifier:
+MacroInfo 0x55e824457950
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+
+EnterMacro: 0
+
+Enter ExpandFunctionArguments:
+MacroInfo 0x55e824457ba0 used
+    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
+Token: 0
+identifier: IDENTITY_IMPL
+Token: 1
+l_paren:
+Token: 2
+identifier: arg0
+Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
+
+HandleIdentifier:
+MacroInfo 0x55e824457950
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is ok to expand
+
+EnterMacro: 1
+
+Enter ExpandFunctionArguments:
+MacroInfo 0x55e824457950 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Token: 0
+identifier: arg0
+Args: [identifier: C]
+Token: 1
+hashhash:
+Token: 2
+identifier: arg1
+Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+
+LeaveMacro: 1
+
+HandleIdentifier:
+MacroInfo 0x55e824457950 disabled used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is not ok to expand
+ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Token: 3
+r_paren:
+Leave ExpandFunctionArguments: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
+
+LeaveMacro: 0
+
+HandleIdentifier:
+MacroInfo 0x55e824457a80
+    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+Macro is ok to expand
+
+HandleIdentifier:
+MacroInfo 0x55e824457950 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+
+EnterMacro: 2
+
+Enter ExpandFunctionArguments:
+MacroInfo 0x55e824457a80 used
+    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
+Token: 0
+identifier: arg0
+Args: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][eof: ]
+
+HandleIdentifier:
+MacroInfo 0x55e824457950 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is not ok to expand
+ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
+
+LeaveMacro: 2
+
+HandleIdentifier:
+MacroInfo 0x55e824457950 used
+    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
+Macro is not ok to expand
+```
+
+&lt;/details&gt;
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;第 &lt;a href=&#34;#__codelineno-13-16&#34;&gt;16&lt;/a&gt; 行开始展开 &lt;code&gt;IDENTITY&lt;/code&gt;，同理预处理器看到 &lt;code&gt;Token 2&lt;/code&gt; （也即是 &lt;code&gt;arg0&lt;/code&gt;）是宏，于是先展开 &lt;code&gt;CONCAT(C, ONCAT(a, b))&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;展开 &lt;code&gt;arg0&lt;/code&gt; 后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-13-23&#34;&gt;23-54&lt;/a&gt; 行）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;IDENTITY&lt;/code&gt; 最终展开为 &lt;code&gt;IDENTITY_IMPL(CONCAT(a, b))&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-57&#34;&gt;57&lt;/a&gt; 行）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重新扫描，继续展开 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-61&#34;&gt;61-72&lt;/a&gt; 行），发现此时的 &lt;code&gt;Token 0&lt;/code&gt; 是宏 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，但处于 &lt;code&gt;used&lt;/code&gt; 状态，中止展开并返回（第 75-84行），最终得到的结果还是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-85&#34;&gt;85&lt;/a&gt; 行）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重新扫描结果，发现宏 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; 的状态是 &lt;code&gt;used&lt;/code&gt;，停止展开并得到最终的结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过以上三个简单的例子，我们可以大致的理解预处理器展开宏的过程，这里不再对预处理器进行更深入的探讨，有兴趣可以对照我提供的修改文件来研究。&lt;/p&gt;
+&lt;h2&gt;宏编程实现&lt;/h2&gt;
+&lt;p&gt;下面我们开始进入到了主题（前面那一大段目的是为了更好的理解宏展开规则），宏编程实现。&lt;/p&gt;
+&lt;h4&gt;基本符号&lt;/h4&gt;
+&lt;p&gt;首先可以先定义宏的特殊符号，做求值和拼接的时候会用到&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_LPAREN() (&lt;/h1&gt;
+&lt;h1&gt;define PP_RPAREN() )&lt;/h1&gt;
+&lt;h1&gt;define PP_COMMA() ,&lt;/h1&gt;
+&lt;h1&gt;define PP_EMPTY()&lt;/h1&gt;
+&lt;h1&gt;define PP_HASHHASH # ## #      // 表示 ## 字符串，但只是作为字符串，不会当作 ## 操作符来处理&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;h4&gt;求值&lt;/h4&gt;
+&lt;p&gt;利用参数优先展开的规则，可以写出一个求值宏：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_IDENTITY(arg0) arg0&lt;/h1&gt;
+&lt;p&gt;PP_COMMA PP_LPAREN() PP_RPAREN()                // -&amp;gt; PP_COMMA ( )
+PP_IDENTITY(PP_COMMA PP_LPAREN() PP_RPAREN())   // -&amp;gt; PP_COMMA() -&amp;gt; ,
+```&lt;/p&gt;
+&lt;p&gt;如果只是写 &lt;code&gt;PP_COMMA PP_LPAREN() PP_RPAREN()&lt;/code&gt;，预处理器只会分别处理每个宏，对展开的结果不会再合并处理。加上 &lt;code&gt;PP_IDENTITY&lt;/code&gt; 之后，预处理器可以对展开得到的 &lt;code&gt;PP_COMMA()&lt;/code&gt; 再进行求值，得到 &lt;code&gt;,&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;拼接&lt;/h4&gt;
+&lt;p&gt;由于 &lt;code&gt;##&lt;/code&gt; 拼接的时候，是不会展开左右两边的参数，为了让参数可以先求值再拼接，可以这样写：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)&lt;/h1&gt;
+&lt;h1&gt;define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
+&lt;p&gt;PP_CONCAT(PP_IDENTITY(1), PP_IDENTITY(2))         // -&amp;gt; 12
+PP_CONCAT_IMPL(PP_IDENTITY(1), PP_IDENTITY(2))    // -&amp;gt; PP_IDENTITY(1)PP_IDENTITY(2) -&amp;gt; 报错
+```&lt;/p&gt;
+&lt;p&gt;这里 &lt;code&gt;PP_CONCAT&lt;/code&gt; 用到的方法叫做延迟拼接，在展开为 &lt;code&gt;PP_CONCAT_IMPL&lt;/code&gt; 的时候，&lt;code&gt;arg0&lt;/code&gt; 和 &lt;code&gt;arg1&lt;/code&gt; 都会先展开求值，之后再由 &lt;code&gt;PP_CONCAT_IMPL&lt;/code&gt; 执行真正的拼接操作。&lt;/p&gt;
+&lt;h4&gt;逻辑运算&lt;/h4&gt;
+&lt;p&gt;借助 &lt;code&gt;PP_CONCAT&lt;/code&gt; 可以实现逻辑运算。首先定义 &lt;code&gt;BOOL&lt;/code&gt; 值：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)&lt;/h1&gt;
+&lt;h1&gt;define PP_BOOL_0 0&lt;/h1&gt;
+&lt;h1&gt;define PP_BOOL_1 1&lt;/h1&gt;
+&lt;h1&gt;define PP_BOOL_2 1&lt;/h1&gt;
+&lt;h1&gt;define PP_BOOL_3 1&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_BOOL_256 1&lt;/h1&gt;
+&lt;p&gt;PP_BOOL(3)              // -&amp;gt; PP_BOOL_3 -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;用&lt;code&gt;PP_CONCAT&lt;/code&gt; 先把 &lt;code&gt;PP_BOOL_&lt;/code&gt; 和 &lt;code&gt;arg0&lt;/code&gt; 拼接在一起，再对拼接结果进行求值。这里的 &lt;code&gt;arg0&lt;/code&gt; 要求是求值之后得到 &lt;code&gt;[0, 256]&lt;/code&gt; 范围的数字，拼接在 &lt;code&gt;PP_BOOL_&lt;/code&gt; 后面求值，就能得到布尔值。与或非运算：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_0 1&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_1 0&lt;/h1&gt;
+&lt;h1&gt;define PP_AND(arg0, arg1) PP_CONCAT(PP_AND_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))&lt;/h1&gt;
+&lt;h1&gt;define PP_AND_00 0&lt;/h1&gt;
+&lt;h1&gt;define PP_AND_01 0&lt;/h1&gt;
+&lt;h1&gt;define PP_AND_10 0&lt;/h1&gt;
+&lt;h1&gt;define PP_AND_11 1&lt;/h1&gt;
+&lt;h1&gt;define PP_OR(arg0, arg1) PP_CONCAT(PP_OR_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))&lt;/h1&gt;
+&lt;h1&gt;define PP_OR_00 0&lt;/h1&gt;
+&lt;h1&gt;define PP_OR_01 1&lt;/h1&gt;
+&lt;h1&gt;define PP_OR_10 1&lt;/h1&gt;
+&lt;h1&gt;define PP_OR_11 1&lt;/h1&gt;
+&lt;p&gt;PP_NOT(PP_BOOL(2))      // -&amp;gt; PP_CONCAT(PP_NOT_, 1) -&amp;gt; PP_NOT_1 -&amp;gt; 0
+PP_AND(2, 3)            // -&amp;gt; PP_CONCAT(PP_AND_, 11) -&amp;gt; PP_AND_11 -&amp;gt; 1
+PP_AND(2, 0)            // -&amp;gt; PP_CONCAT(PP_AND_, 10) -&amp;gt; PP_AND_10 -&amp;gt; 0
+PP_OR(2, 0)             // -&amp;gt; PP_CONCAT(PP_OR_, 10) -&amp;gt; PP_OR_10, -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;先用 &lt;code&gt;PP_BOOL&lt;/code&gt; 对参数求值，之后再根据 &lt;code&gt;0 1&lt;/code&gt; 的组合来拼接逻辑运算的结果。如果不用 &lt;code&gt;PP_BOOL&lt;/code&gt; 来求值，那么参数就只能支持 &lt;code&gt;0 1&lt;/code&gt; 两种数值，适用性大大降低。同理也可以写出异或，或非等操作，有兴趣可以自己尝试。&lt;/p&gt;
+&lt;h4&gt;条件选择&lt;/h4&gt;
+&lt;p&gt;利用 &lt;code&gt;PP_BOOL&lt;/code&gt; 和 &lt;code&gt;PP_CONCAT&lt;/code&gt;，还可以写出条件选择语句：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)&lt;/h1&gt;
+&lt;h1&gt;define PP_IF_1(then, else) then&lt;/h1&gt;
+&lt;h1&gt;define PP_IF_0(then, else) else&lt;/h1&gt;
+&lt;p&gt;PP_IF(1, 2, 3)      // -&amp;gt; PP_IF_1(2, 3) -&amp;gt; 2
+PP_IF(0, 2, 3)      // -&amp;gt; PP_IF_0(2, 3) -&amp;gt; 3
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;if&lt;/code&gt; 求值如果是 &lt;code&gt;1&lt;/code&gt;，用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接成 &lt;code&gt;PP_IF_1&lt;/code&gt;，最后展开为 &lt;code&gt;then&lt;/code&gt; 的值；同理若 &lt;code&gt;if&lt;/code&gt; 求值为 &lt;code&gt;0&lt;/code&gt;，得到 &lt;code&gt;PP_IF_0&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;递增递减&lt;/h4&gt;
+&lt;p&gt;整数递增递减：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)&lt;/h1&gt;
+&lt;h1&gt;define PP_INC_0 1&lt;/h1&gt;
+&lt;h1&gt;define PP_INC_1 2&lt;/h1&gt;
+&lt;h1&gt;define PP_INC_2 3&lt;/h1&gt;
+&lt;h1&gt;define PP_INC_3 4&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_INC_255 256&lt;/h1&gt;
+&lt;h1&gt;define PP_INC_256 256&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC(arg0) PP_CONCAT(PP_DEC_, arg0)&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC_0 0&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC_1 0&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC_2 1&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC_3 2&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_DEC_255 254&lt;/h1&gt;
+&lt;h1&gt;define PP_DEC_256 255&lt;/h1&gt;
+&lt;p&gt;PP_INC(2)                   // -&amp;gt; PP_INC_2 -&amp;gt; 3
+PP_DEC(3)                   // -&amp;gt; PP_DEC_3 -&amp;gt; 2
+```&lt;/p&gt;
+&lt;p&gt;跟 &lt;code&gt;PP_BOOL&lt;/code&gt; 类似，整数的递增递减也是有范围限制的，这里范围设置为 &lt;code&gt;[0, 256]&lt;/code&gt;，递增到 &lt;code&gt;256&lt;/code&gt; 之后，安全起见，&lt;code&gt;PP_INC_256&lt;/code&gt; 会返回自身 &lt;code&gt;256&lt;/code&gt; 作为边界，同理 &lt;code&gt;PP_DEC_0&lt;/code&gt; 也是返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;变长参数&lt;/h4&gt;
+&lt;p&gt;宏可以接受变长参数，格式是：&lt;/p&gt;
+&lt;p&gt;```cpp&lt;/p&gt;
+&lt;h1&gt;define LOG(format, ...) printf(&#34;log: &#34; format, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;p&gt;LOG(&#34;Hello %s\n&#34;, &#34;World&#34;)      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s\n&#34;, &#34;World&#34;);
+LOG(&#34;Hello World&#34;)              // -&amp;gt; printf(&#34;log: &#34; &#34;Hello World&#34;, ); 多了个逗号，编译报错
+```&lt;/p&gt;
+&lt;p&gt;由于变长参数有可能为空，空的情况下会导致编译失败，因此 C++ 20 引入了 &lt;code&gt;__VA_OPT__&lt;/code&gt;，如果变长参数是空，则返回空，否则返回原参数：&lt;/p&gt;
+&lt;p&gt;```cpp&lt;/p&gt;
+&lt;h1&gt;define LOG2(format, ...) printf(&#34;log: &#34; format &lt;strong&gt;VA_OPT&lt;/strong&gt;(,) &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;p&gt;LOG2(&#34;Hello %s\n&#34;, &#34;World&#34;)      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s\n&#34;, &#34;World&#34;);
+LOG2(&#34;Hello World&#34;)              // -&amp;gt; printf(&#34;log: &#34; &#34;Hello World&#34; ); 没有逗号，正常编译
+```&lt;/p&gt;
+&lt;p&gt;但可惜只有 C++ 20 以上标准才有这个宏，下文中我们将会给出 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的实现方法。&lt;/p&gt;
+&lt;h4&gt;惰性求值&lt;/h4&gt;
+&lt;p&gt;考虑这种情况：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+PP_IF(1, PP_COMMA(), PP_LPAREN())     // -&amp;gt; PP_IF_1(,,)) -&amp;gt; 报错 unterminated argument list invoking macro &#34;PP_IF_1&#34;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;我们知道，宏展开的时候会对先参数进行求值。&lt;code&gt;PP_COMMA()&lt;/code&gt; 和 &lt;code&gt;PP_LPAREN()&lt;/code&gt; 求值之后再传给 &lt;code&gt;PP_IF_1&lt;/code&gt;，得到 &lt;code&gt;PP_IF_1(,,))&lt;/code&gt;，导致预处理出错。此时，可以采用一种叫做惰性求值方法：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+PP_IF(1, PP_COMMA, PP_LPAREN)()       // -&amp;gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&amp;gt; PP_COMMA() -&amp;gt; ,&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;改成这种写法，只传宏的名字，让 &lt;code&gt;PP_IF&lt;/code&gt; 选出需要的宏名字之后，再跟括号 &lt;code&gt;()&lt;/code&gt; 拼接在一起组成完成的宏，最后再展开。惰性求值在宏编程里面也是很常见的。&lt;/p&gt;
+&lt;h4&gt;以括号开始&lt;/h4&gt;
+&lt;p&gt;判断变长参数是否以括号开始：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_IS_BEGIN_PARENS(...) \
+    PP_IS_BEGIN_PARENS_PROCESS( \
+        PP_IS_BEGIN_PARENS_CONCAT( \
+            PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT &lt;strong&gt;VA_ARGS&lt;/strong&gt; \
+        ) \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_PROCESS(...) PP_IS_BEGIN_PARENS_PROCESS_0(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_PROCESS_0(arg0, ...) arg0&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_CONCAT(arg0, ...) PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, ...) arg0 ## &lt;strong&gt;VA_ARGS&lt;/strong&gt;&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_PRE_1 1,&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT 0,&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_BEGIN_PARENS_EAT(...) 1&lt;/h1&gt;
+&lt;p&gt;PP_IS_BEGIN_PARENS(())              // -&amp;gt; 1
+PP_IS_BEGIN_PARENS((()))            // -&amp;gt; 1
+PP_IS_BEGIN_PARENS(a, b, c)         // -&amp;gt; 0
+PP_IS_BEGIN_PARENS(a, ())           // -&amp;gt; 0
+PP_IS_BEGIN_PARENS(a())             // -&amp;gt; 0
+PP_IS_BEGIN_PARENS(()aa(bb()cc))    // -&amp;gt; 1
+PP_IS_BEGIN_PARENS(aa(bb()cc))      // -&amp;gt; 0
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt; 可以用来判断传入的参数是否以括号开始，在需要处理括号参数的时候会需要用到（譬如后面说到的 &lt;code&gt;__VA_OPT__&lt;/code&gt; 实现）。看上去有点复杂，核心思想就是构建出一个宏，若变长参数以括号开始，则可以跟括号连在一起求值得到一种结果，否则就另外求值得到另一种结果。我们来慢慢看：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS&lt;/code&gt; 和 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt; 组成的宏功能是先对传入的不定参数求值，然后取第 0 个参数。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)&lt;/code&gt; 是先对 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值，在把求值结果跟 &lt;code&gt;PP_IS_BEGIN_PARENS_PRE_&lt;/code&gt; 拼接在一起。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_EAT(...)&lt;/code&gt; 宏会吞掉所有参数，返回1，如果上一步 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 中，&lt;code&gt;__VA_ARGS__&lt;/code&gt; 是以括号开始的，那么就会匹配到对 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT(...)&lt;/code&gt; 的求值，然后返回 &lt;code&gt;1&lt;/code&gt;；相反，如果不是以括号开始，则没有匹配上，&lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 会保留不变。&lt;/p&gt;
+&lt;p&gt;若 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值得到 &lt;code&gt;1&lt;/code&gt;，&lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&amp;gt; PP_IS_BEGIN_PARENS_PRE_1 -&amp;gt; 1,&lt;/code&gt;，注意 &lt;code&gt;1&lt;/code&gt; 后面是有个逗号的，把 &lt;code&gt;1,&lt;/code&gt; 传给 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt;，取第 0 个参数，最后得到 &lt;code&gt;1&lt;/code&gt;，表示参数是以括号开始。&lt;/p&gt;
+&lt;p&gt;若 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值得到不是 &lt;code&gt;1&lt;/code&gt;，而是保持不变，则 &lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&amp;gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&amp;gt; 0, __VA_ARGS__&lt;/code&gt;，传给 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt; 得到的是 &lt;code&gt;0&lt;/code&gt;，表示参数不是以括号开始。&lt;/p&gt;
+&lt;h4&gt;变长参数空&lt;/h4&gt;
+&lt;p&gt;判断变长参数是否为空也是一个常用的宏，在实现 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的时候需要用到，我们在这里利用 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt;，可以先写出不完整的版本：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_IS_EMPTY_PROCESS(...) \
+    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT &lt;strong&gt;VA_ARGS&lt;/strong&gt; ())&lt;/p&gt;
+&lt;h1&gt;define PP_IS_EMPTY_PROCESS_EAT(...) ()&lt;/h1&gt;
+&lt;p&gt;PP_IS_EMPTY_PROCESS()       // -&amp;gt; 1
+PP_IS_EMPTY_PROCESS(1)      // -&amp;gt; 0
+PP_IS_EMPTY_PROCESS(1, 2)   // -&amp;gt; 0
+PP_IS_EMPTY_PROCESS(())     // -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 的作用是判断 &lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()&lt;/code&gt; 是否以括号开始。&lt;/p&gt;
+&lt;p&gt;如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 是空，&lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&amp;gt; PP_IS_EMPTY_PROCESS_EAT() -&amp;gt; ()&lt;/code&gt;，得到的是一对括号 &lt;code&gt;()&lt;/code&gt;，再传给 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt;，表示参数是空。&lt;/p&gt;
+&lt;p&gt;否则，&lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()&lt;/code&gt; 保持不变地传给 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt;，返回 0，表示非空。&lt;/p&gt;
+&lt;p&gt;留意第 4 个例子 &lt;code&gt;PP_IS_EMPTY_PROCESS(()) -&amp;gt; 1&lt;/code&gt;，&lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 不能正确处理以括号开始的变长参数，因为这时变长参数带来的括号会匹配 &lt;code&gt;PP_IS_EMPTY_PROCESS_EAT&lt;/code&gt; 导致求值得到 &lt;code&gt;()&lt;/code&gt;。为了解决这个问题，我们需要区别对待参数是否以括号开始的情况：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_IS_EMPTY(...) \
+    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)) \
+        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
+&lt;h1&gt;define PP_IS_EMPTY_IF(if) PP_CONCAT(PP_IS_EMPTY_IF_, if)&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_EMPTY_IF_1(then, else) then&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_EMPTY_IF_0(then, else) else&lt;/h1&gt;
+&lt;h1&gt;define PP_IS_EMPTY_ZERO(...) 0&lt;/h1&gt;
+&lt;p&gt;PP_IS_EMPTY()       // -&amp;gt; 1
+PP_IS_EMPTY(1)      // -&amp;gt; 0
+PP_IS_EMPTY(1, 2)   // -&amp;gt; 0
+PP_IS_EMPTY(())     // -&amp;gt; 0
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 根据 &lt;code&gt;if&lt;/code&gt; 条件来返回第 0 或者 第 1 个参数。&lt;/p&gt;
+&lt;p&gt;如果传入的变长参数以括号开始，&lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 返回 &lt;code&gt;PP_IS_EMPTY_ZERO&lt;/code&gt;，最后返回 &lt;code&gt;0&lt;/code&gt;，表示变长参数非空。&lt;/p&gt;
+&lt;p&gt;反之 &lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 返回 &lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt;，最后由 &lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 来判断变长参数是否非空。&lt;/p&gt;
+&lt;h4&gt;下标访问&lt;/h4&gt;
+&lt;p&gt;获取变长参数指定位置的元素：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_0(a0, ...) a0&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_1(a0, a1, ...) a1&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_2(a0, a1, a2, ...) a2&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_3(a0, a1, a2, a3, ...) a3&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_7(a0, a1, a2, a3, a4, a5, a6, a7, ...) a7&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_ELEM_8(a0, a1, a2, a3, a4, a5, a6, a7, a8, ...) a8&lt;/h1&gt;
+&lt;p&gt;PP_ARGS_ELEM(0, &#34;Hello&#34;, &#34;World&#34;)   // -&amp;gt; PP_ARGS_ELEM_0(&#34;Hello&#34;, &#34;World&#34;) -&amp;gt; &#34;Hello&#34;
+PP_ARGS_ELEM(1, &#34;Hello&#34;, &#34;World&#34;)   // -&amp;gt; PP_ARGS_ELEM_1(&#34;Hello&#34;, &#34;World&#34;) -&amp;gt; &#34;World&#34;
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 的第一个参数是元素下标 &lt;code&gt;I&lt;/code&gt;，后面是变长参数。利用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接 &lt;code&gt;PP_ARGS_ELEM_&lt;/code&gt; 和 &lt;code&gt;I&lt;/code&gt;，即可以得到返回相应位置元素的宏 &lt;code&gt;PP_ARGS_ELEM_0..8&lt;/code&gt;，再把变长参数传给该宏，展开返回下标对应位置的元素。&lt;/p&gt;
+&lt;h4&gt;PP_IS_EMPTY2&lt;/h4&gt;
+&lt;p&gt;利用 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 也可以实现另一版本的 &lt;code&gt;PP_IS_EMPTY&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_IS_EMPTY2(...) \
+    PP_AND( \
+        PP_AND( \
+            PP_NOT(PP_HAS_COMMA(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)), \
+            PP_NOT(PP_HAS_COMMA(&lt;strong&gt;VA_ARGS&lt;/strong&gt;())) \
+        ), \
+        PP_AND( \
+            PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS &lt;strong&gt;VA_ARGS&lt;/strong&gt;)), \
+            PP_HAS_COMMA(PP_COMMA_ARGS &lt;strong&gt;VA_ARGS&lt;/strong&gt; ()) \
+        ) \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_HAS_COMMA(...) PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt;, 1, 1, 1, 1, 1, 1, 1, 0)&lt;/h1&gt;
+&lt;h1&gt;define PP_COMMA_ARGS(...) ,&lt;/h1&gt;
+&lt;p&gt;PP_IS_EMPTY2()              // -&amp;gt; 1
+PP_IS_EMPTY2(a)             // -&amp;gt; 0
+PP_IS_EMPTY2(a, b)          // -&amp;gt; 0
+PP_IS_EMPTY2(())            // -&amp;gt; 0
+PP_IS_EMPTY2(PP_COMMA)      // -&amp;gt; 0
+```&lt;/p&gt;
+&lt;p&gt;借用 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 实现判断参数是否含有逗号 &lt;code&gt;PP_HAS_COMMA&lt;/code&gt;。&lt;code&gt;PP_COMMA_ARGS&lt;/code&gt; 会吞掉传入的任意参数，返回一个逗号。&lt;/p&gt;
+&lt;p&gt;判断变长参数是否为空的基础逻辑是 &lt;code&gt;PP_COMMA_ARGS __VA_ARGS__ ()&lt;/code&gt; 返回一个逗号，也就是 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 为空，&lt;code&gt;PP_COMMA_ARGS&lt;/code&gt; 和 &lt;code&gt;()&lt;/code&gt; 拼接在一起求值，具体的写法就是 &lt;code&gt;PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;但是会有例外的情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;__VA_ARGS__&lt;/code&gt; 本身有可能会带来逗号；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;__VA_ARGS__ ()&lt;/code&gt; 拼接在一起发生求值带来逗号；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PP_COMMA_ARGS __VA_ARGS__&lt;/code&gt; 拼接在一起发生求值带来逗号；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;针对上面说到的三种例外情况，需要做排除，所以最后的写法等价于对以下 4 个条件执行与逻辑：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(__VA_ARGS__))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;&lt;code&gt;__VA_OPT__&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;利用 &lt;code&gt;PP_IS_EMPTY&lt;/code&gt; 终于可以来实现类似 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的宏：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_REMOVE_PARENS_IMPL(...) &lt;strong&gt;VA_ARGS&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;#define PP_ARGS_OPT(data_tuple, empty_tuple, ...) \
+    PP_ARGS_OPT_IMPL(PP_IF(PP_IS_EMPTY(&lt;strong&gt;VA_ARGS&lt;/strong&gt;), empty_tuple, data_tuple))&lt;/p&gt;
+&lt;h1&gt;define PP_ARGS_OPT_IMPL(tuple) PP_REMOVE_PARENS(tuple)&lt;/h1&gt;
+&lt;p&gt;PP_ARGS_OPT((data), (empty))        // -&amp;gt; empty
+PP_ARGS_OPT((data), (empty), 1)     // -&amp;gt; data
+PP_ARGS_OPT((,), (), 1)             // -&amp;gt; ,
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 接受两个固定参数和变长参数，变长参数非空时返回 &lt;code&gt;data&lt;/code&gt;，否则返回 &lt;code&gt;empty&lt;/code&gt;。为了让 &lt;code&gt;data&lt;/code&gt; 和 &lt;code&gt;empty&lt;/code&gt; 支持逗号，要求两者都要用括号包住实际的参数，最后用 &lt;code&gt;PP_REMOVE_PARENS&lt;/code&gt; 来移除外层的括号。&lt;/p&gt;
+&lt;p&gt;有了 &lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 可以实现 &lt;code&gt;LOG3&lt;/code&gt; 来模拟 &lt;code&gt;LOG2&lt;/code&gt; 实现的功能：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define LOG3(format, ...) \
+    printf(&#34;log: &#34; format PP_ARGS_OPT((,), (), &lt;strong&gt;VA_ARGS&lt;/strong&gt;) &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
+&lt;p&gt;LOG3(&#34;Hello&#34;);                  // -&amp;gt; printf(&#34;log: &#34; &#34;Hello&#34; );
+LOG3(&#34;Hello %s&#34;, &#34;World&#34;);      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s&#34; , &#34;World&#34;);
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;data_tuple&lt;/code&gt; 是 &lt;code&gt;(,)&lt;/code&gt;，如果变长参数非空，则会返回 &lt;code&gt;data_tuple&lt;/code&gt; 里面的所有元素，在这里就是逗号 &lt;code&gt;,&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;求参数个数&lt;/h4&gt;
+&lt;p&gt;获取变长参数的个数：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_ARGS_SIZE_IMCOMPLETE(...) \
+    PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt;, 8, 7, 6, 5, 4, 3, 2, 1, 0)&lt;/p&gt;
+&lt;p&gt;PP_ARGS_SIZE_IMCOMPLETE(a)             // -&amp;gt; 1
+PP_ARGS_SIZE_IMCOMPLETE(a, b)          // -&amp;gt; 2
+PP_ARGS_SIZE_IMCOMPLETE(PP_COMMA())    // -&amp;gt; 2
+PP_ARGS_SIZE_IMCOMPLETE()              // -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;计算变长参数的个数，是通过数参数的位置来获得的。&lt;code&gt;__VA_ARGS__&lt;/code&gt; 会导致后续的参数全体往右移动，用宏 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 来获取第 8 个位置的参数，如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 只有一个参数，则第 8 个参数等于 &lt;code&gt;1&lt;/code&gt;；同理如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 有两个参数，则第 8 个参数就变为 &lt;code&gt;2&lt;/code&gt;，刚好等于变长参数的个数。&lt;/p&gt;
+&lt;p&gt;这里给的例子只最高支持个数 8 的变长参数，这是依赖于 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 所能支持的最大长度。&lt;/p&gt;
+&lt;p&gt;但是这个宏还不完整，在变长参数为空的情况下，这个宏会错误返回 &lt;code&gt;1&lt;/code&gt;。如果需要处理空的变长参数，则需要用到我们前面说到的 &lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 宏：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
+&lt;h1&gt;define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt; PP_COMMA_IF_ARGS(&lt;strong&gt;VA_ARGS&lt;/strong&gt;) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)&lt;/h1&gt;
+&lt;p&gt;PP_ARGS_SIZE(a)             // -&amp;gt; 1
+PP_ARGS_SIZE(a, b)          // -&amp;gt; 2
+PP_ARGS_SIZE(PP_COMMA())    // -&amp;gt; 2
+PP_ARGS_SIZE()              // -&amp;gt; 0
+PP_ARGS_SIZE(,,,)           // -&amp;gt; 4
+```&lt;/p&gt;
+&lt;p&gt;问题的关键就是逗号 &lt;code&gt;,&lt;/code&gt;，在 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 为空的时候，把逗号隐去就能正确返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;遍历访问&lt;/h4&gt;
+&lt;p&gt;类似 C++ 的 &lt;code&gt;for_each&lt;/code&gt;，我们可以实现宏的 &lt;code&gt;PP_FOR_EACH&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_FOR_EACH(macro, contex, ...) \
+    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(&lt;strong&gt;VA_ARGS&lt;/strong&gt;))(0, macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
+&lt;h1&gt;define PP_FOR_EACH_0(index, macro, contex, ...)&lt;/h1&gt;
+&lt;h1&gt;define PP_FOR_EACH_1(index, macro, contex, arg, ...) macro(index, contex, arg)&lt;/h1&gt;
+&lt;p&gt;#define PP_FOR_EACH_2(index, macro, contex, arg, ...) \
+    macro(index, contex, arg) \
+    PP_FOR_EACH_1(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
+&lt;p&gt;#define PP_FOR_EACH_3(index, macro, contex, arg, ...) \
+    macro(index, contex, arg) \
+    PP_FOR_EACH_2(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)
+// ...
+#define PP_FOR_EACH_8(index, macro, contex, arg, ...) \
+    macro(index, contex, arg) \
+    PP_FOR_EACH_7(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
+&lt;h1&gt;define DECLARE_EACH(index, contex, arg)    PP_IF(index, PP_COMMA, PP_EMPTY)() contex arg&lt;/h1&gt;
+&lt;p&gt;PP_FOR_EACH(DECLARE_EACH, int, x, y, z);    // -&amp;gt; int x, y, z;
+PP_FOR_EACH(DECLARE_EACH, bool, a, b);      // -&amp;gt; bool a, b;
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_FOR_EACH&lt;/code&gt; 接收两个固定参数： &lt;code&gt;macro&lt;/code&gt; 可以理解为遍历的时候调用的宏，&lt;code&gt;contex&lt;/code&gt; 可以作为固定值参数传给 &lt;code&gt;macro&lt;/code&gt;。&lt;code&gt;PP_FOR_EACH&lt;/code&gt; 先通过 &lt;code&gt;PP_ARGS_SIZE&lt;/code&gt; 获取变长参数的长度 &lt;code&gt;N&lt;/code&gt;，再用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接得到 &lt;code&gt;PP_FOR_EACH_N&lt;/code&gt;，之后 &lt;code&gt;PP_FOR_EACH_N&lt;/code&gt; 会迭代调用 &lt;code&gt;PP_FOR_EACH_N-1&lt;/code&gt; 来实现跟变长参数个数相同的遍历次数。&lt;/p&gt;
+&lt;p&gt;例子里我们声明了 &lt;code&gt;DECLARE_EACH&lt;/code&gt; 作为参数 &lt;code&gt;macro&lt;/code&gt;，&lt;code&gt;DECLARE_EACH&lt;/code&gt; 的作用就是返回 &lt;code&gt;contex arg&lt;/code&gt;，如果 &lt;code&gt;contex&lt;/code&gt; 是类型名字，&lt;code&gt;arg&lt;/code&gt; 是变量名字，&lt;code&gt;DECLARE_EACH&lt;/code&gt; 就可以用来声明变量。&lt;/p&gt;
+&lt;h4&gt;条件循环&lt;/h4&gt;
+&lt;p&gt;有了 &lt;code&gt;FOR_EACH&lt;/code&gt; 之后，我们还可以用类似的写法写出 &lt;code&gt;PP_WHILE&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE PP_WHILE_1&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_1_IMPL(cond, pred, op, val) \
+    PP_IF(cond, PP_WHILE_2, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_2(pred, op, val) PP_WHILE_2_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_2_IMPL(cond, pred, op, val) \
+    PP_IF(cond, PP_WHILE_3, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_3(pred, op, val) PP_WHILE_3_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_3_IMPL(cond, pred, op, val) \
+    PP_IF(cond, PP_WHILE_4, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_4(pred, op, val) PP_WHILE_4_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_4_IMPL(cond, pred, op, val) \
+    PP_IF(cond, PP_WHILE_5, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))
+// ...&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_8(pred, op, val) PP_WHILE_8_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_8_IMPL(cond, pred, op, val) \
+    PP_IF(cond, PP_WHILE_8, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
+&lt;h1&gt;define PP_EMPTY_EAT(...)&lt;/h1&gt;
+&lt;h1&gt;define SUM_OP(xy_tuple) SUM_OP_OP_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define SUM_OP_OP_IMPL(x, y) (PP_DEC(x), y + x)&lt;/h1&gt;
+&lt;h1&gt;define SUM_PRED(xy_tuple) SUM_PRED_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define SUM_PRED_IMPL(x, y) x&lt;/h1&gt;
+&lt;p&gt;#define SUM(max_num, origin_num) \
+    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))&lt;/p&gt;
+&lt;h1&gt;define SUM_IMPL(ignore, ret) ret&lt;/h1&gt;
+&lt;p&gt;PP_WHILE(SUM_PRED, SUM_OP, (2, a))      // -&amp;gt; (0, a + 2 + 1)
+SUM(2, a)                               // -&amp;gt; a + 2 + 1
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_WHILE&lt;/code&gt; 接受三个参数： &lt;code&gt;pred&lt;/code&gt; 条件判断函数，&lt;code&gt;op&lt;/code&gt; 操作函数，&lt;code&gt;val&lt;/code&gt; 初始值；循环的过程中不断用 &lt;code&gt;pred(val)&lt;/code&gt; 来做循环终止判断，把 &lt;code&gt;op(val)&lt;/code&gt; 得到的值传给后续的宏，可以理解为执行以下代码：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cpp
+while (pred(val)) {
+    val = op(val);
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_WHILE_N&lt;/code&gt; 首先用 &lt;code&gt;pred(val)&lt;/code&gt; 得到条件判断结果，把条件结果 &lt;code&gt;cond&lt;/code&gt; 和其余参数再传给 &lt;code&gt;PP_WHILE_N_IMPL&lt;/code&gt;。
+&lt;code&gt;PP_WHILE_N_IMPL&lt;/code&gt; 可以分两部分看：后半部分 &lt;code&gt;(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/code&gt; 是作为前半部分的参数，&lt;code&gt;PP_IF(cond, op, PP_EMPTY_EAT)(val)&lt;/code&gt; 是如果 &lt;code&gt;cond&lt;/code&gt; 为真，则求值 &lt;code&gt;op(val)&lt;/code&gt;， 否则求值 &lt;code&gt;PP_EMPTY_EAT(val)&lt;/code&gt; 得到空。前半部分 &lt;code&gt;PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)&lt;/code&gt;，如果 &lt;code&gt;cond&lt;/code&gt; 为真，则返回 &lt;code&gt;PP_WHILE_N+1&lt;/code&gt;，结合后半部分的参数继续执行循环；否则返回 &lt;code&gt;val PP_EMPTY_EAT&lt;/code&gt;，此时 &lt;code&gt;val&lt;/code&gt; 就是最终的计算结果，而 &lt;code&gt;PP_EMPTY_EAT&lt;/code&gt; 会吞掉后半部分的结果。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SUM&lt;/code&gt; 实现 &lt;code&gt;N + N-1 + ... + 1&lt;/code&gt;。初始值 &lt;code&gt;(max_num, origin_num)&lt;/code&gt;；&lt;code&gt;SUM_PRED&lt;/code&gt; 取值的第一个元素 &lt;code&gt;x&lt;/code&gt;，判断是否大于 0；&lt;code&gt;SUM_OP&lt;/code&gt; 对 &lt;code&gt;x&lt;/code&gt; 执行递减操作 &lt;code&gt;x = x - 1&lt;/code&gt;，对 &lt;code&gt;y&lt;/code&gt; 执行 &lt;code&gt;+ x&lt;/code&gt; 操作 &lt;code&gt;y = y + x&lt;/code&gt;。直接用 &lt;code&gt;SUM_PRED&lt;/code&gt; 和 &lt;code&gt;SUM_OP&lt;/code&gt; 传给 &lt;code&gt;PP_WHILE&lt;/code&gt;，返回的结果是一个元组，我们真正想要的结果是元组的第 2 个元素，于是再用 &lt;code&gt;SUM&lt;/code&gt; 取第 2 个元素的值。&lt;/p&gt;
+&lt;h4&gt;递归重入&lt;/h4&gt;
+&lt;p&gt;到目前为止，我们的遍历访问和条件循环都运作的很好，结果符合预期。还记得我们在讲宏展开规则的时候提到的禁止递归重入么，当我们想要执行两重循环的时候就不幸遇到到了禁止递归重入：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))&lt;/h1&gt;
+&lt;p&gt;#define SUM2(max_num, origin_num) \
+    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP2, (max_num, origin_num)))&lt;/p&gt;
+&lt;p&gt;SUM2(1, a)      // -&amp;gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SUM2&lt;/code&gt; 把参数 &lt;code&gt;op&lt;/code&gt; 改用 &lt;code&gt;SUM_OP2&lt;/code&gt;，&lt;code&gt;SUM_OP2&lt;/code&gt; 里面会调用到 &lt;code&gt;SUM&lt;/code&gt;，而 &lt;code&gt;SUM&lt;/code&gt; 展开还会是 &lt;code&gt;PP_WHILE_1&lt;/code&gt;，相当于 &lt;code&gt;PP_WHILE_1&lt;/code&gt; 递归调用到了自身，预处理器停止展开。&lt;/p&gt;
+&lt;p&gt;为了解决这个问题，我们可以用一种自动推导递归的方法（Automatic Recursion）：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))&lt;/h1&gt;
+&lt;h1&gt;define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)&lt;/h1&gt;
+&lt;h1&gt;define PP_AUTO_REC_12(check) PP_IF(check(1), 1, 2)&lt;/h1&gt;
+&lt;h1&gt;define PP_AUTO_REC_34(check) PP_IF(check(3), 3, 4)&lt;/h1&gt;
+&lt;p&gt;#define PP_WHILE_PRED(n) \
+    PP_CONCAT(PP_WHILE_CHECK_, PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE))&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_FALSE(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_FALSE 1&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_1(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_2(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_3(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_4(...) 0&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_8(...) 0&lt;/h1&gt;
+&lt;p&gt;PP_AUTO_WHILE       // -&amp;gt; PP_WHILE_1&lt;/p&gt;
+&lt;p&gt;#define SUM3(max_num, origin_num) \
+    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))&lt;/p&gt;
+&lt;h1&gt;define SUM_OP4(xy_tuple) SUM_OP_OP_IMPL4 xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define SUM_OP_OP_IMPL4(x, y) (PP_DEC(x), y + SUM3(x, 0))&lt;/h1&gt;
+&lt;p&gt;#define SUM4(max_num, origin_num) \
+    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP4, (max_num, origin_num)))&lt;/p&gt;
+&lt;p&gt;SUM4(2, a)          // -&amp;gt; a + 0 + 2 + 1 + 0 + 1
+```&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PP_AUTO_WHILE&lt;/code&gt; 就是 &lt;code&gt;PP_WHILE&lt;/code&gt; 的自动推导递归版本，核心的宏是 &lt;code&gt;PP_AUTO_REC(PP_WHILE_PRED)&lt;/code&gt;，这个宏可以找出当前可用的 &lt;code&gt;PP_WHILE_N&lt;/code&gt; 版本的数字 &lt;code&gt;N&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;推导的原理很简单，就是搜索所有版本，找出能够正确展开的版本，返回该版本的数字，为了提升搜索的速度，一般的做法是使用二分查找，这就是 &lt;code&gt;PP_AUTO_REC&lt;/code&gt; 在做的事情。&lt;code&gt;PP_AUTO_REC&lt;/code&gt; 接受一个参数 &lt;code&gt;check&lt;/code&gt;，&lt;code&gt;check&lt;/code&gt; 负责检查版本可用性，这里给出的是支持搜索版本范围 &lt;code&gt;[1, 4]&lt;/code&gt;。&lt;code&gt;PP_AUTO_REC&lt;/code&gt; 会首先检查 &lt;code&gt;check(2)&lt;/code&gt;，如果 &lt;code&gt;check(2)&lt;/code&gt; 为真，则调用 &lt;code&gt;PP_AUTO_REC_12&lt;/code&gt; 搜索范围 &lt;code&gt;[1, 2]&lt;/code&gt;，否则用 &lt;code&gt;PP_AUTO_REC_34&lt;/code&gt; 搜索 &lt;code&gt;[3, 4]&lt;/code&gt;。&lt;code&gt;PP_AUTO_REC_12&lt;/code&gt; 检查 &lt;code&gt;check(1)&lt;/code&gt; 如果为真，说明版本 &lt;code&gt;1&lt;/code&gt; 可用，否则用版本 &lt;code&gt;2&lt;/code&gt;，&lt;code&gt;PP_AUTO_REC_34&lt;/code&gt; 同理。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;check&lt;/code&gt; 宏要怎么写才能知道版本是否可用呢？在这里，&lt;code&gt;PP_WHILE_PRED&lt;/code&gt; 会展开成两部分的拼接，我们来看后部分 &lt;code&gt;PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;：如果 &lt;code&gt;PP_WHILE_ ## n&lt;/code&gt; 可用，由于 &lt;code&gt;PP_WHILE_FALSE&lt;/code&gt; 固定返回 &lt;code&gt;0&lt;/code&gt;，这部分会展开得到 &lt;code&gt;val&lt;/code&gt; 参数的值，也就是 &lt;code&gt;PP_WHILE_FALSE&lt;/code&gt;；否则这部分宏会保持不变，依然是 &lt;code&gt;PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;把后部分的结果跟前部分 &lt;code&gt;PP_WHILE_CHECK_&lt;/code&gt; 拼接起来，得到两种结果：&lt;code&gt;PP_WHILE_CHECK_PP_WHILE_FALSE&lt;/code&gt; 或者 &lt;code&gt;PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;，于是我们让 &lt;code&gt;PP_WHILE_CHECK_PP_WHILE_FALSE&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt; 表明可用，&lt;code&gt;PP_WHILE_CHECK_PP_WHILE_n&lt;/code&gt; 返回 &lt;code&gt;0&lt;/code&gt; 表示不可用。至此，我们完成了自动推导递归的功能。&lt;/p&gt;
+&lt;h4&gt;算术比较&lt;/h4&gt;
+&lt;p&gt;不相等：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)&lt;/h1&gt;
+&lt;p&gt;#define PP_NOT_EQUAL_IMPL(x, y) \
+    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))&lt;/p&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL 1&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_0(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_1(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_2(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_3(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_4(...) 0&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_8(...) 0&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_0(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_1(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_2(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_3(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_4(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;p&gt;// ...&lt;/p&gt;
+&lt;h1&gt;define PP_NOT_EQUAL_8(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
+&lt;p&gt;PP_NOT_EQUAL(1, 1)          // -&amp;gt; 0
+PP_NOT_EQUAL(3, 1)          // -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;判断数值是否相等，用到了禁止递归重入的特性，把 &lt;code&gt;x&lt;/code&gt; 和 &lt;code&gt;y&lt;/code&gt; 递归拼接成 &lt;code&gt;PP_NOT_EQUAL_x PP_NOT_EQUAL_y&lt;/code&gt; 宏，如果 &lt;code&gt;x == y&lt;/code&gt;，则不会展开 &lt;code&gt;PP_NOT_EQUAL_y&lt;/code&gt; 宏，跟 &lt;code&gt;PP_NOT_EQUAL_CHECK_&lt;/code&gt; 拼接成 &lt;code&gt;PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y&lt;/code&gt; 返回 &lt;code&gt;0&lt;/code&gt;；反之，两次都成功展开最后得到 &lt;code&gt;PP_EQUAL_NIL&lt;/code&gt;，拼接得到 &lt;code&gt;PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;相等：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))&lt;/h1&gt;
+&lt;p&gt;PP_EQUAL(1, 1)              // -&amp;gt; 1
+PP_EQUAL(1, 3)              // -&amp;gt; 0&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+&lt;p&gt;小于等于：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))&lt;/h1&gt;
+&lt;p&gt;PP_LESS_EQUAL(2, 1)         // -&amp;gt; 0
+PP_LESS_EQUAL(1, 1)         // -&amp;gt; 1
+PP_LESS_EQUAL(1, 2)         // -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;小于：&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))&lt;/h1&gt;
+&lt;p&gt;PP_LESS(2, 1)               // -&amp;gt; 0
+PP_LESS(1, 2)               // -&amp;gt; 1
+PP_LESS(2, 2)               // -&amp;gt; 0
+```&lt;/p&gt;
+&lt;p&gt;另外还有大于，大于等于等等算术比较，这里不再赘述。&lt;/p&gt;
+&lt;h4&gt;算术运算&lt;/h4&gt;
+&lt;p&gt;利用 &lt;code&gt;PP_AUTO_WHILE&lt;/code&gt; 我们可以实现基础的算术运算了，而且支持嵌套运算。&lt;/p&gt;
+&lt;p&gt;加法：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_ADD(x, y) \
+    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))&lt;/p&gt;
+&lt;h1&gt;define PP_ADD_IMPL(x, y) x&lt;/h1&gt;
+&lt;h1&gt;define PP_ADD_PRED(xy_tuple) PP_ADD_PRED_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_ADD_PRED_IMPL(x, y) y&lt;/h1&gt;
+&lt;h1&gt;define PP_ADD_OP(xy_tuple) PP_ADD_OP_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_ADD_OP_IMPL(x, y) (PP_INC(x), PP_DEC(y))&lt;/h1&gt;
+&lt;p&gt;PP_ADD(1, 2)                  // -&amp;gt; 3
+PP_ADD(1, PP_ADD(1, 2))       // -&amp;gt; 4
+```&lt;/p&gt;
+&lt;p&gt;减法：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_SUB(x, y) \
+    PP_IDENTITY(PP_SUB_IMPL PP_AUTO_WHILE(PP_SUB_PRED, PP_SUB_OP, (x, y)))&lt;/p&gt;
+&lt;h1&gt;define PP_SUB_IMPL(x, y) x&lt;/h1&gt;
+&lt;h1&gt;define PP_SUB_PRED(xy_tuple) PP_SUB_PRED_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_SUB_PRED_IMPL(x, y) y&lt;/h1&gt;
+&lt;h1&gt;define PP_SUB_OP(xy_tuple) PP_SUB_OP_IMPL xy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_SUB_OP_IMPL(x, y) (PP_DEC(x), PP_DEC(y))&lt;/h1&gt;
+&lt;p&gt;PP_SUB(2, 1)                // -&amp;gt; 1
+PP_SUB(3, PP_ADD(2, 1))     // -&amp;gt; 0
+```&lt;/p&gt;
+&lt;p&gt;乘法：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_MUL(x, y) \
+    IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))&lt;/p&gt;
+&lt;h1&gt;define PP_MUL_IMPL(ret, x, y) ret&lt;/h1&gt;
+&lt;h1&gt;define PP_MUL_PRED(rxy_tuple) PP_MUL_PRED_IMPL rxy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_MUL_PRED_IMPL(ret, x, y) y&lt;/h1&gt;
+&lt;h1&gt;define PP_MUL_OP(rxy_tuple) PP_MUL_OP_IMPL rxy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_MUL_OP_IMPL(ret, x, y) (PP_ADD(ret, x), x, PP_DEC(y))&lt;/h1&gt;
+&lt;p&gt;PP_MUL(1, 1)                // -&amp;gt; 1
+PP_MUL(2, PP_ADD(0, 1))     // -&amp;gt; 2
+```&lt;/p&gt;
+&lt;p&gt;乘法实现这里增加了一个参数 &lt;code&gt;ret&lt;/code&gt;，初始值为 &lt;code&gt;0&lt;/code&gt;，每次迭代会执行 &lt;code&gt;ret = ret + x&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;除法：&lt;/p&gt;
+&lt;p&gt;``` cpp
+#define PP_DIV(x, y) \
+    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))&lt;/p&gt;
+&lt;h1&gt;define PP_DIV_IMPL(ret, x, y) ret&lt;/h1&gt;
+&lt;h1&gt;define PP_DIV_PRED(rxy_tuple) PP_DIV_PRED_IMPL rxy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_DIV_PRED_IMPL(ret, x, y) PP_LESS_EQUAL(y, x)&lt;/h1&gt;
+&lt;h1&gt;define PP_DIV_OP(rxy_tuple) PP_DIV_OP_IMPL rxy_tuple&lt;/h1&gt;
+&lt;h1&gt;define PP_DIV_OP_IMPL(ret, x, y) (PP_INC(ret), PP_SUB(x, y), y)&lt;/h1&gt;
+&lt;p&gt;PP_DIV(1, 2)                // -&amp;gt; 0
+PP_DIV(2, 1)                // -&amp;gt; 2
+PP_DIV(2, PP_ADD(1, 1))     // -&amp;gt; 1
+```&lt;/p&gt;
+&lt;p&gt;除法利用了 &lt;code&gt;PP_LESS_EQUAL&lt;/code&gt;，只有 &lt;code&gt;y &amp;lt;= x&lt;/code&gt; 的情况下才继续循环。&lt;/p&gt;
+&lt;h4&gt;数据结构&lt;/h4&gt;
+&lt;p&gt;宏也可以有数据结构，其实我们在前面的也稍微用到了一种数据结构 &lt;code&gt;tuple&lt;/code&gt;，&lt;code&gt;PP_REMOVE_PARENS&lt;/code&gt; 就是可以去掉 &lt;code&gt;tuple&lt;/code&gt; 的外层括号，返回里面的元素。我们这里就以 &lt;code&gt;tuple&lt;/code&gt; 为例子讨论相关的实现，其他的数据结构 &lt;code&gt;list, array&lt;/code&gt; 等有兴趣可以去看 &lt;code&gt;Boost&lt;/code&gt; 的实现。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tuple&lt;/code&gt; 定义为用括号包住的逗号分开的元素集合：&lt;code&gt;(a, b, c)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;``` cpp&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)&lt;/h1&gt;
+&lt;p&gt;// 获取指定下标的元素&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))&lt;/h1&gt;
+&lt;p&gt;// 吞掉整个 tuple 返回空&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_EAT() PP_EMPTY_EAT&lt;/h1&gt;
+&lt;p&gt;// 获取大小&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))&lt;/h1&gt;
+&lt;p&gt;// 添加元素
+#define PP_TUPLE_PUSH_BACK(elem, tuple) \
+    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)
+#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \
+    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)&lt;/p&gt;
+&lt;p&gt;// 插入元素
+#define PP_TUPLE_INSERT(i, elem, tuple) \
+    PP_TUPLE_ELEM( \
+        3, \
+        PP_AUTO_WHILE( \
+            PP_TUPLE_INSERT_PRED, \
+            PP_TUPLE_INSERT_OP, \
+            (0, i, elem, (), tuple) \
+        ) \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \
+    PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \
+    ( \
+    PP_IF(PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), PP_INC(curi), curi), \
+    i, elem, \
+    PP_TUPLE_PUSH_BACK(\
+        PP_IF( \
+            PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), \
+            PP_TUPLE_ELEM(curi, tuple), elem \
+        ), \
+        ret \
+    ), \
+    tuple \
+    )&lt;/p&gt;
+&lt;p&gt;// 删除末尾元素
+#define PP_TUPLE_POP_BACK(tuple) \
+    PP_TUPLE_ELEM( \
+        1, \
+        PP_AUTO_WHILE( \
+            PP_TUPLE_POP_BACK_PRED, \
+            PP_TUPLE_POP_BACK_OP, \
+            (0, (), tuple) \
+        ) \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \
+    PP_IF( \
+        PP_TUPLE_SIZE(tuple), \
+        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
+        0 \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \
+    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)&lt;/p&gt;
+&lt;p&gt;// 删除元素
+#define PP_TUPLE_REMOVE(i, tuple) \
+    PP_TUPLE_ELEM( \
+        2, \
+        PP_AUTO_WHILE( \
+            PP_TUPLE_REMOVE_PRED, \
+            PP_TUPLE_REMOVE_OP, \
+            (0, i, (), tuple) \
+        ) \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \
+    PP_IF( \
+        PP_TUPLE_SIZE(tuple), \
+        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
+        0 \
+    )&lt;/p&gt;
+&lt;h1&gt;define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args&lt;/h1&gt;
+&lt;p&gt;#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \
+    ( \
+    PP_INC(curi), \
+    i, \
+    PP_IF( \
+        PP_NOT_EQUAL(curi, i), \
+        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \
+        ret \
+    ), \
+    tuple \
+    )&lt;/p&gt;
+&lt;p&gt;PP_TUPLE_SIZE(())               // -&amp;gt; 0&lt;/p&gt;
+&lt;p&gt;PP_TUPLE_PUSH_BACK(2, (1))      // -&amp;gt; (1, 2)
+PP_TUPLE_PUSH_BACK(2, ())       // -&amp;gt; (2)&lt;/p&gt;
+&lt;p&gt;PP_TUPLE_INSERT(1, 2, (1, 3))   // -&amp;gt; (1, 2, 3)&lt;/p&gt;
+&lt;p&gt;PP_TUPLE_POP_BACK(())           // -&amp;gt; ()
+PP_TUPLE_POP_BACK((1))          // -&amp;gt; ()
+PP_TUPLE_POP_BACK((1, 2, 3))    // -&amp;gt; (1, 2)&lt;/p&gt;
+&lt;p&gt;PP_TUPLE_REMOVE(1, (1, 2, 3))   // -&amp;gt; (1, 3)
+PP_TUPLE_REMOVE(0, (1, 2, 3))   // -&amp;gt; (2, 3)
+```&lt;/p&gt;
+&lt;p&gt;这里稍微解释一下插入元素的实现，其他删除元素等操作也是通过类似的原理来实现的。&lt;code&gt;PP_TUPLE_INSERT(i, elem, tuple)&lt;/code&gt; 可以在 &lt;code&gt;tuple&lt;/code&gt; 的位置 &lt;code&gt;i&lt;/code&gt; 插入元素 &lt;code&gt;elem&lt;/code&gt;，为了完成这个操作，先把位置小于 &lt;code&gt;i&lt;/code&gt; 的元素都先用 &lt;code&gt;PP_TUPLE_PUSH_BACK&lt;/code&gt; 放到一个新的 &lt;code&gt;tuple&lt;/code&gt; 上（&lt;code&gt;ret&lt;/code&gt;），然后在位置 &lt;code&gt;i&lt;/code&gt; 放入元素 &lt;code&gt;elem&lt;/code&gt;，之后再把原 &lt;code&gt;tuple&lt;/code&gt; 位置大于等于 &lt;code&gt;i&lt;/code&gt; 的元素放到 &lt;code&gt;ret&lt;/code&gt; 后面，最后 &lt;code&gt;ret&lt;/code&gt; 就得到我们想要的结果。&lt;/p&gt;
+&lt;h2&gt;小结&lt;/h2&gt;
+&lt;p&gt;本文的目的是想要阐述清楚 C/C++ 宏编程的原理和基本实现，在记录我本人的一些理解和认识的同时，希望能够对其他人能带来一些解惑和启发。需要注意的是，尽管本文篇幅有点长，但还是有一些关于宏编程的技巧和用法是没有涉及到的，譬如 CHAOS_PP 提出的&lt;a href=&#34;https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression&#34;&gt;基于延迟展开的递归调用方法&lt;/a&gt;，BOOST_PP 里面的 &lt;code&gt;REPEAT&lt;/code&gt; 相关宏等等，有兴趣的可以自行查阅资料。&lt;/p&gt;
+&lt;p&gt;宏编程的调试是一个痛苦的过程，我们可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用 &lt;code&gt;-P -E&lt;/code&gt; 选项输出预处理结果；&lt;/li&gt;
+&lt;li&gt;用前面提到的我自己修改的 &lt;code&gt;clang&lt;/code&gt; 版本仔细研究展开过程；&lt;/li&gt;
+&lt;li&gt;把复杂的宏拆解，查看中间宏的展开结果；&lt;/li&gt;
+&lt;li&gt;屏蔽无关的头文件和宏；&lt;/li&gt;
+&lt;li&gt;最后就是要脑补宏展开的过程了，熟悉宏展开之后调试的效率也会提升。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文中的宏是我自己在理解了原理之后重新实现出来的，有部分宏借鉴了 &lt;code&gt;Boost&lt;/code&gt; 的实现和引用里面的文章，有任何错误之处，欢迎随时指正，也欢迎找我来讨论相关的问题。&lt;/p&gt;
+&lt;p&gt;本文的代码全部都在这里：&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/macros.cpp&#34;&gt;下载&lt;/a&gt;，&lt;a href=&#34;https://godbolt.org/z/coWvc5Pse&#34;&gt;在线演示&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;引用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/&#34;&gt;Boost.Preprocessor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art&#34;&gt;C/C++ 宏编程的艺术&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
+      <link>https://disenone.github.io/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sun, 14 Apr 2024 16:51:54 +0000</pubDate>
+      <source url="https://disenone.github.io/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://disenone.github.io/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/</guid>
       
     </item>
     
@@ -2472,928 +3394,6 @@ void FixedUpdate()
       <source url="https://disenone.github.io/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://disenone.github.io/unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/</guid>
-      
-    </item>
-    
-    <item>
-      <title>C/C++ 宏编程解析</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;C/C++ 宏编程解析&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;本文的目的是要讲清楚 C/C++ 的宏编程的规则和实现方法，让你不再惧怕看到代码里面的宏。我会首先说说 C++ 标准 14 里面提到的关于宏展开的规则，然后通过修改 Clang 的源码来观察宏展开，最后基于这些知识来聊聊宏编程的实现。&lt;/p&gt;
-&lt;p&gt;本文的代码全部都在这里：&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/macros.cpp&#34;&gt;下载&lt;/a&gt;，&lt;a href=&#34;https://godbolt.org/z/coWvc5Pse&#34;&gt;在线演示&lt;/a&gt;。&lt;/p&gt;
-&lt;h2&gt;引子&lt;/h2&gt;
-&lt;p&gt;我们可以通过执行命令 &lt;code&gt;gcc -P -E a.cpp -o a.cpp.i&lt;/code&gt; 来让编译器对文件 &lt;code&gt;a.cpp&lt;/code&gt; 只执行预处理并保存结果到 &lt;code&gt;a.cpp.i&lt;/code&gt; 中。&lt;/p&gt;
-&lt;p&gt;首先我们先来看一些例子:&lt;/p&gt;
-&lt;h4&gt;递归重入（Reentrancy）&lt;/h4&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define ITER(arg0, arg1) ITER(arg1, arg0)&lt;/h1&gt;
-&lt;p&gt;ITER(1, 2)          // -&amp;gt; ITER(2, 1)
-```&lt;/p&gt;
-&lt;p&gt;宏 &lt;code&gt;ITER&lt;/code&gt; 交换了 &lt;code&gt;arg0&lt;/code&gt;, &lt;code&gt;arg1&lt;/code&gt; 的位置。宏展开之后，得到的是 &lt;code&gt;ITER(2, 1)&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;可以看到，&lt;code&gt;arg0&lt;/code&gt; &lt;code&gt;arg1&lt;/code&gt; 的位置成功交换，在这里宏成功展开了一次，但也只展开了一次，不再递归重入。换言之，宏的展开过程中，是不可自身递归重入的，如果在递归的过程中发现相同的宏在之前的递归中已经展开过，则不再展开，这是宏展开的其中一条重要的规则。禁止递归重入的原因也很简单，就是为了避免无限递归。&lt;/p&gt;
-&lt;h4&gt;字符串拼接&lt;/h4&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;p&gt;CONCAT(Hello, World)                // -&amp;gt; HelloWorld
-CONCAT(Hello, CONCAT(World, !))     // -&amp;gt;　HelloCONCAT(World, !)
-```&lt;/p&gt;
-&lt;p&gt;宏 &lt;code&gt;CONCAT&lt;/code&gt; 目的是拼接 &lt;code&gt;arg0&lt;/code&gt; &lt;code&gt;arg1&lt;/code&gt;。宏展开之后，&lt;code&gt;CONCAT(Hello, World)&lt;/code&gt; 能够得到正确的结果 &lt;code&gt;HelloWorld&lt;/code&gt;。但是 &lt;code&gt;CONCAT(Hello, CONCAT(World, !))&lt;/code&gt; 却只展开了外层的宏，内层的 &lt;code&gt;CONCAT(World, !)&lt;/code&gt; 并没有展开而是直接跟 &lt;code&gt;Hello&lt;/code&gt; 拼接在一起了，这跟我们预想的不一样，我们真正想要的结果是 &lt;code&gt;HelloWorld!&lt;/code&gt;。这就是宏展开的另外一条重要的规则：跟在 &lt;code&gt;##&lt;/code&gt; 操作符后面的宏参数，不会执行展开，而是会直接跟前面的内容先拼接在一起。&lt;/p&gt;
-&lt;p&gt;通过上面两个例子可以看出来，宏展开的规则有一些是反直觉的，如果不清楚具体的规则，有可能写出来的宏跟我们想要的效果不一致。&lt;/p&gt;
-&lt;h2&gt;宏展开规则&lt;/h2&gt;
-&lt;p&gt;通过引子的两个例子，我们了解到了宏展开是有一套标准的规则的，这套规则定义在 C/C++ 标准里面，内容不多，建议先仔细读几遍，我这里顺带给下标准 n4296 版本的链接，宏展开在 16.3 节：&lt;a href=&#34;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf&#34;&gt;传送门&lt;/a&gt;。下面我挑出 n4296 版本中几条重要的规则，这些规则会决定如何正确编写宏（还是建议抽时间把标准里面的宏展开细读下）。&lt;/p&gt;
-&lt;h4&gt;参数分隔&lt;/h4&gt;
-&lt;p&gt;宏的参数要求是用逗号分隔，而且参数的个数需要跟宏定义的个数一致，传递给宏的参数中，额外用括号包住的内容视为一个参数，参数允许为空：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define ADD_COMMA(arg1, arg2) arg1, arg2&lt;/h1&gt;
-&lt;p&gt;ADD_COMMA(a, b)             // -&amp;gt; a, b
-ADD_COMMA(a)                // 报错 &#34;macro &#34;MACRO&#34; requires 2 arguments, but only 1 given&#34;
-ADD_COMMA((a, b), c)        // -&amp;gt; (a, b), c
-ADD_COMMA(, b)              // -&amp;gt; , b
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ADD_COMMA((a, b), c)&lt;/code&gt; 中 &lt;code&gt;(a, b)&lt;/code&gt; 视为第一个参数。&lt;code&gt;ADD_COMMA(, b)&lt;/code&gt; 中，第一个参数为空，于是展开为 &lt;code&gt;, b&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;宏参数展开&lt;/h4&gt;
-&lt;p&gt;在对宏进行展开的时候，如果宏的参数也是可以展开的宏，会先把参数完全展开，再展开宏，例如&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-ADD_COMMA(ADD_COMMA(1, 2), ADD_COMMA(3, 4))     // -&amp;gt; 1, 2, 3, 4&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;一般情况下的宏展开，都可以认为是先对参数求值，再对宏求值，除非遇到了 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt; 操作符。&lt;/p&gt;
-&lt;h4&gt;&lt;code&gt;#&lt;/code&gt; 操作符&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;#&lt;/code&gt; 操作符后面跟的宏参数，不会进行展开，会直接字符串化，例如：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define STRINGIZE(arg0) # arg0&lt;/h1&gt;
-&lt;p&gt;STRINGIZE(a)                // -&amp;gt; &#34;a&#34;
-STRINGIZE(STRINGIZE(a))     // -&amp;gt; &#34;STRINGIZE(a)&#34;
-```&lt;/p&gt;
-&lt;p&gt;根据这条规则 &lt;code&gt;STRINGIZE(STRINGIZE(a))&lt;/code&gt; 只能展开为 &lt;code&gt;&#34;STRINGIZE(a)&#34;&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;&lt;code&gt;##&lt;/code&gt; 操作符&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;##&lt;/code&gt; 操作符前后的宏参数，都不会进行展开，会先直接拼接起来，例如：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;p&gt;CONCAT(Hello, World)                        // -&amp;gt; HelloWorld
-CONCAT(Hello, CONCAT(World, !))             // -&amp;gt; HelloCONCAT(World, !)
-CONCAT(CONCAT(Hello, World) C, ONCAT(!))    // -&amp;gt; CONCAT(Hello, World) CONCAT(!)
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CONCAT(CONCAT(Hello, World) C, ONCAT(!))&lt;/code&gt; 只能是先拼接在一起，得到 &lt;code&gt;CONCAT(Hello, World) CONCAT(!)&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;重复扫描&lt;/h4&gt;
-&lt;p&gt;预处理器执行完一次宏展开之后，会重新扫描得到的内容，继续展开，直到没有可以展开的内容为止。&lt;/p&gt;
-&lt;p&gt;一次宏展开，可以理解为先把参数完全展开（除非遇到 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt;），再根据宏的定义，把宏和完全展开后的参数按照定义进行替换，再处理定义中的所有 &lt;code&gt;#&lt;/code&gt; 和 &lt;code&gt;##&lt;/code&gt; 操作符。&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;h1&gt;define STRINGIZE(arg0) # arg0&lt;/h1&gt;
-&lt;p&gt;CONCAT(STRING, IZE(Hello))        // -&amp;gt; STRINGIZE(Hello) -&amp;gt; &#34;Hello&#34;
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CONCAT(STRING, IZE(Hello))&lt;/code&gt; 第一次扫描展开得到 &lt;code&gt;STRINGIZE(Hello)&lt;/code&gt;，然后执行第二次扫描，发现 &lt;code&gt;STRINGIZE&lt;/code&gt; 可以继续展开，最后得到 &lt;code&gt;&#34;Hello&#34;&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;禁止递归重入&lt;/h4&gt;
-&lt;p&gt;在重复扫描的过程中，禁止递归展开相同的宏。可以把宏展开理解为树形的结构，根节点就是一开始要展开的宏，每个宏展开之后的内容作为该宏的子节点连接到树上，那么禁止递归就是在展开子节点的宏时，如果该宏跟任意祖先节点的宏相同，则禁止展开。来看一些例子：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;h1&gt;define CONCAT_SPACE(arg0, arg1) arg0 arg1&lt;/h1&gt;
-&lt;h1&gt;define IDENTITY(arg0) IDENTITY_IMPL(arg0)&lt;/h1&gt;
-&lt;h1&gt;define IDENTITY_IMPL(arg0) arg0&lt;/h1&gt;
-&lt;p&gt;CONCAT(CON, CAT(a, b))                  // -&amp;gt; CONCAT(a, b)
-IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))   // -&amp;gt; CONCAT(a, b)
-IDENTITY(CONCAT(CON, CAT(a, b)))        // -&amp;gt; IDENTITY_IMPL(CONCAT(a, b)) -&amp;gt; CONCAT(a, b)
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CONCAT(CON, CAT(a, b))&lt;/code&gt;：由于 &lt;code&gt;CONCAT&lt;/code&gt; 是用 &lt;code&gt;##&lt;/code&gt; 拼接两个参数，根据 &lt;code&gt;##&lt;/code&gt; 的规则，不会展开参数，直接拼接。所以第一次展开得到了 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，由于 &lt;code&gt;CONCAT&lt;/code&gt; 已经展开过了不会再递归展开，所以停止。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))&lt;/code&gt;：&lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 可以理解为对参数 &lt;code&gt;arg0&lt;/code&gt; 求值，这里的参数 &lt;code&gt;arg0&lt;/code&gt; 求值得到了 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，并由于递归被标记为了禁止重入，之后 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 展开完成，进行第二次扫描的时候，发现是禁止重入的 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，于是停止展开。在这里 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; 是由参数 &lt;code&gt;arg0&lt;/code&gt; 展开而得到的，但在后续展开的时候，也会保持禁止重入的标记，可以理解为父节点是参数 &lt;code&gt;arg0&lt;/code&gt;，一直保持着禁止重入的标记。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;IDENTITY(CONCAT(CON, CAT(a, b)))&lt;/code&gt;：这个例子主要是为了加强对父子节点的理解，参数自己展开的时候，是自身作为父节点，展开的内容作为子节点去判断递归，展开后的参数传到宏定义之后，禁止重入的标记会继续保留（如果传到宏定义之后没有改变参数展开后的宏）。可以把参数的展开过程看成是另外一棵树，参数的展开结果就是树的最底层子节点，这个子节点传给宏来执行展开的同时，依然是保留着禁止重入的特性。&lt;/p&gt;
-&lt;p&gt;例如这里，在第一次完全展开之后得到 &lt;code&gt;IDENTITY_IMPL(CONCAT(a, b))&lt;/code&gt;，&lt;code&gt;CONCAT(a, b)&lt;/code&gt; 被标记为禁止重入， 即使 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt; 是对参数求值的，但参数已经禁止展开，所以参数就原封不动的传到定义里，最后我们还是得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;以上我只是列出了一些我认为比较重要的，或者觉得不太好理解的规则，详细的宏展开规则，还是建议花点时间直接去看标准文档。&lt;/p&gt;
-&lt;h2&gt;通过 Clang 观察展开过程&lt;/h2&gt;
-&lt;p&gt;我们可以给 Clang 源码加上一些打印信息来观察宏展开的过程，我无意深入解释 Clang 的源码，在这里给一份修改过的文件 diff，有兴趣的可以自己编译 Clang 来研究。这里我是用的 llvm 版本 11.1.0 （&lt;a href=&#34;https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz&#34;&gt;传送门&lt;/a&gt;），修改过的文件（&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/clang-modify.zip&#34;&gt;传送门&lt;/a&gt;）。下面简单通过例子来验证我们之前介绍的宏展开规则：&lt;/p&gt;
-&lt;h4&gt;例子1&lt;/h4&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;p&gt;CONCAT(C, ONCAT(a, b))      // CONCAT(a, b)
-```&lt;/p&gt;
-&lt;p&gt;使用修改过的 Clang 来预处理以上代码： &lt;code&gt;clang -P -E a.cpp -o a.cpp.i&lt;/code&gt;，得到下面的打印信息：&lt;/p&gt;
-&lt;p&gt;``` text linenums=&#34;1&#34;
-HandleIdentifier: 
-MacroInfo 0x559e57496900
-    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
-Macro is ok to expand&lt;/p&gt;
-&lt;p&gt;EnterMacro: 0&lt;/p&gt;
-&lt;p&gt;Enter ExpandFunctionArguments: 
-MacroInfo 0x559e57496900 used
-    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
-Token: 0
-identifier: arg0
-Args: [identifier: C]
-Token: 1
-hashhash: 
-Token: 2
-identifier: arg1
-Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]&lt;/p&gt;
-&lt;p&gt;LeaveMacro: 0&lt;/p&gt;
-&lt;p&gt;HandleIdentifier: 
-MacroInfo 0x559e57496900 disabled used
-    #define &lt;macro&gt;&lt;a href=&#34;arg0, arg1&#34;&gt;2813:CONCAT&lt;/a&gt; arg0 ## arg1
-Macro is not ok to expand
-```&lt;/p&gt;
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-9-1&#34;&gt;1&lt;/a&gt; 行 &lt;code&gt;HandleIdentifier&lt;/code&gt; 遇到宏的时候会打印，接着打印宏的信息（第 &lt;a href=&#34;#__codelineno-9-2&#34;&gt;2-4&lt;/a&gt; 行），宏没有禁用，所以可以按照定义来展开 &lt;code&gt;Macro is ok to expand&lt;/code&gt;，之后进入宏 &lt;code&gt;EnterMacro&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;真正执行宏展开的函数是 &lt;code&gt;ExpandFunctionArguments&lt;/code&gt;，之后再次打印待展开的宏信息，注意到此时宏已经被标记为 &lt;code&gt;used&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-9-9&#34;&gt;9&lt;/a&gt; 行）。之后根据宏的定义，进行逐个 &lt;code&gt;Token&lt;/code&gt; 的展开 （&lt;code&gt;Token&lt;/code&gt; 是 &lt;code&gt;Clang&lt;/code&gt; 预处理里面的概念，这里不深入说明）。&lt;/p&gt;
-&lt;p&gt;第 0 个 &lt;code&gt;Token&lt;/code&gt; 是形参 &lt;code&gt;arg0&lt;/code&gt;, 对应的实参是 &lt;code&gt;C&lt;/code&gt;，判断不需要展开，于是直接复制到结果上（第 &lt;a href=&#34;#__codelineno-9-11&#34;&gt;11-13&lt;/a&gt; 行）。&lt;/p&gt;
-&lt;p&gt;第 1 个 &lt;code&gt;Token&lt;/code&gt; 是 &lt;code&gt;hashhash&lt;/code&gt;，也就是 &lt;code&gt;##&lt;/code&gt; 操作符，继续复制到结果上（第 &lt;a href=&#34;#__codelineno-9-14&#34;&gt;14-15&lt;/a&gt; 行）。&lt;/p&gt;
-&lt;p&gt;第 2 个 &lt;code&gt;Token&lt;/code&gt; 是形参 &lt;code&gt;arg1&lt;/code&gt;，对应的实参是 &lt;code&gt;ONCAT(a, b)&lt;/code&gt;，预处理器也会把实参处理成一个个的 &lt;code&gt;Token&lt;/code&gt;，所以可以看到打印的结果用中括号包住了实参的每个 &lt;code&gt;Token&lt;/code&gt;（第 18 行），由于 &lt;code&gt;##&lt;/code&gt; 的原因这个实参依然不需要展开，所以还是直接复制到结果上（第 &lt;a href=&#34;#__codelineno-9-16&#34;&gt;16-18&lt;/a&gt; 行）。&lt;/p&gt;
-&lt;p&gt;最后 &lt;code&gt;Leave ExpandFunctionArguments&lt;/code&gt; 打印本次扫描展开得到的结果（第 &lt;a href=&#34;#__codelineno-9-19&#34;&gt;19&lt;/a&gt; 行），把结果的 &lt;code&gt;Token&lt;/code&gt; 都翻译过来就是 &lt;code&gt;C ## ONCAT(a, b)&lt;/code&gt;，之后预处理器就执行 &lt;code&gt;##&lt;/code&gt; 操作符来生成新的内容。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;##&lt;/code&gt; 执行之后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，遇到宏 &lt;code&gt;CONCAT&lt;/code&gt;，预处理还是先进入 &lt;code&gt;HandleIdentifier&lt;/code&gt;，打印宏的信息，发现该宏状态是 &lt;code&gt;disable used&lt;/code&gt;，是已经展开过的，禁止再重入了，显示 &lt;code&gt;Macro is not ok to expand&lt;/code&gt;，预处理器不再展开，最终得到的结果就是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;例子2&lt;/h4&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;h1&gt;define IDENTITY(arg0) arg0&lt;/h1&gt;
-&lt;p&gt;IDENTITY(CONCAT(C, ONCAT(a, b)))
-```&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt; &lt;font&gt; Clang 打印信息（点击展开）：&lt;/font&gt; &lt;/summary&gt;
-``` test linenums=&#34;1&#34;
-HandleIdentifier: 
-MacroInfo 0x562a148f5a60
-    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
-Macro is ok to expand
-
-HandleIdentifier: 
-MacroInfo 0x562a148f5930
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-
-EnterMacro: 0
-
-Enter ExpandFunctionArguments: 
-MacroInfo 0x562a148f5a60 used
-    #define &lt;macro&gt;[2853:IDENTITY](arg0) arg0
-Token: 0
-identifier: arg0
-Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
-getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
-
-HandleIdentifier: 
-MacroInfo 0x562a148f5930
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is ok to expand
-
-EnterMacro: 1
-
-Enter ExpandFunctionArguments: 
-MacroInfo 0x562a148f5930 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Token: 0
-identifier: arg0
-Args: [identifier: C]
-Token: 1
-hashhash: 
-Token: 2
-identifier: arg1
-Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-
-LeaveMacro: 1
-
-HandleIdentifier: 
-MacroInfo 0x562a148f5930 disabled used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is not ok to expand
-ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-
-LeaveMacro: 0
-
-HandleIdentifier: 
-MacroInfo 0x562a148f5930 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is not ok to expand
-```
-
-&lt;/details&gt;
-
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-12&#34;&gt;12&lt;/a&gt; 行开始展开 &lt;code&gt;IDENTITY&lt;/code&gt;，发现参数 &lt;code&gt;Token 0&lt;/code&gt; 是 &lt;code&gt;CONCAT(...)&lt;/code&gt;，也是一个宏，于是先对该参数进行求值。&lt;/p&gt;
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-27&#34;&gt;27&lt;/a&gt; 行开始展开参数宏 &lt;code&gt;CONCAT(...)&lt;/code&gt;，跟例子 1 一样，多次扫描展开完成后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-11-46&#34;&gt;46&lt;/a&gt; 行）。&lt;/p&gt;
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-47&#34;&gt;47&lt;/a&gt; 结束对 &lt;code&gt;IDENTITY&lt;/code&gt; 的展开，得到的结果是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-11-51&#34;&gt;51&lt;/a&gt; 行重新扫描 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，发现虽然是宏，但在之前的参数展开过程中已经被设置成了 &lt;code&gt;used&lt;/code&gt;，不再递归展开，直接作为最终结果。&lt;/p&gt;
-&lt;h4&gt;例子 3&lt;/h4&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define CONCAT(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;h1&gt;define IDENTITY_IMPL(arg0) arg0&lt;/h1&gt;
-&lt;h1&gt;define IDENTITY(arg0) IDENTITY_IMPL(arg0)&lt;/h1&gt;
-&lt;p&gt;IDENTITY(CONCAT(C, ONCAT(a, b)))
-```&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt; &lt;font&gt;Clang 打印信息（点击展开）：&lt;/font&gt; &lt;/summary&gt;
-``` test linenums=&#34;1&#34;
-HandleIdentifier: 
-MacroInfo 0x55e824457a80
-    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
-
-HandleIdentifier: 
-MacroInfo 0x55e824457ba0
-    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
-Macro is ok to expand
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-
-EnterMacro: 0
-
-Enter ExpandFunctionArguments: 
-MacroInfo 0x55e824457ba0 used
-    #define &lt;macro&gt;[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
-Token: 0
-identifier: IDENTITY_IMPL
-Token: 1
-l_paren: 
-Token: 2
-identifier: arg0
-Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
-getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is ok to expand
-
-EnterMacro: 1
-
-Enter ExpandFunctionArguments: 
-MacroInfo 0x55e824457950 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Token: 0
-identifier: arg0
-Args: [identifier: C]
-Token: 1
-hashhash: 
-Token: 2
-identifier: arg1
-Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-
-LeaveMacro: 1
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950 disabled used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is not ok to expand
-ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Token: 3
-r_paren: 
-Leave ExpandFunctionArguments: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
-
-LeaveMacro: 0
-
-HandleIdentifier: 
-MacroInfo 0x55e824457a80
-    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
-Macro is ok to expand
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-
-EnterMacro: 2
-
-Enter ExpandFunctionArguments: 
-MacroInfo 0x55e824457a80 used
-    #define &lt;macro&gt;[2853:IDENTITY_IMPL](arg0) arg0
-Token: 0
-identifier: arg0
-Args: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][eof: ]
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is not ok to expand
-ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
-
-LeaveMacro: 2
-
-HandleIdentifier: 
-MacroInfo 0x55e824457950 used
-    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
-Macro is not ok to expand
-```
-
-&lt;/details&gt;
-
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;第 &lt;a href=&#34;#__codelineno-13-16&#34;&gt;16&lt;/a&gt; 行开始展开 &lt;code&gt;IDENTITY&lt;/code&gt;，同理预处理器看到 &lt;code&gt;Token 2&lt;/code&gt; （也即是 &lt;code&gt;arg0&lt;/code&gt;）是宏，于是先展开 &lt;code&gt;CONCAT(C, ONCAT(a, b))&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;展开 &lt;code&gt;arg0&lt;/code&gt; 后得到 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; （第 &lt;a href=&#34;#__codelineno-13-23&#34;&gt;23-54&lt;/a&gt; 行）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;IDENTITY&lt;/code&gt; 最终展开为 &lt;code&gt;IDENTITY_IMPL(CONCAT(a, b))&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-57&#34;&gt;57&lt;/a&gt; 行）&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;重新扫描，继续展开 &lt;code&gt;IDENTITY_IMPL&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-61&#34;&gt;61-72&lt;/a&gt; 行），发现此时的 &lt;code&gt;Token 0&lt;/code&gt; 是宏 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;，但处于 &lt;code&gt;used&lt;/code&gt; 状态，中止展开并返回（第 75-84行），最终得到的结果还是 &lt;code&gt;CONCAT(a, b)&lt;/code&gt;（第 &lt;a href=&#34;#__codelineno-13-85&#34;&gt;85&lt;/a&gt; 行）。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;重新扫描结果，发现宏 &lt;code&gt;CONCAT(a, b)&lt;/code&gt; 的状态是 &lt;code&gt;used&lt;/code&gt;，停止展开并得到最终的结果。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;通过以上三个简单的例子，我们可以大致的理解预处理器展开宏的过程，这里不再对预处理器进行更深入的探讨，有兴趣可以对照我提供的修改文件来研究。&lt;/p&gt;
-&lt;h2&gt;宏编程实现&lt;/h2&gt;
-&lt;p&gt;下面我们开始进入到了主题（前面那一大段目的是为了更好的理解宏展开规则），宏编程实现。&lt;/p&gt;
-&lt;h4&gt;基本符号&lt;/h4&gt;
-&lt;p&gt;首先可以先定义宏的特殊符号，做求值和拼接的时候会用到&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_LPAREN() (&lt;/h1&gt;
-&lt;h1&gt;define PP_RPAREN() )&lt;/h1&gt;
-&lt;h1&gt;define PP_COMMA() ,&lt;/h1&gt;
-&lt;h1&gt;define PP_EMPTY()&lt;/h1&gt;
-&lt;h1&gt;define PP_HASHHASH # ## #      // 表示 ## 字符串，但只是作为字符串，不会当作 ## 操作符来处理&lt;/h1&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;h4&gt;求值&lt;/h4&gt;
-&lt;p&gt;利用参数优先展开的规则，可以写出一个求值宏：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_IDENTITY(arg0) arg0&lt;/h1&gt;
-&lt;p&gt;PP_COMMA PP_LPAREN() PP_RPAREN()                // -&amp;gt; PP_COMMA ( )
-PP_IDENTITY(PP_COMMA PP_LPAREN() PP_RPAREN())   // -&amp;gt; PP_COMMA() -&amp;gt; ,
-```&lt;/p&gt;
-&lt;p&gt;如果只是写 &lt;code&gt;PP_COMMA PP_LPAREN() PP_RPAREN()&lt;/code&gt;，预处理器只会分别处理每个宏，对展开的结果不会再合并处理。加上 &lt;code&gt;PP_IDENTITY&lt;/code&gt; 之后，预处理器可以对展开得到的 &lt;code&gt;PP_COMMA()&lt;/code&gt; 再进行求值，得到 &lt;code&gt;,&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;拼接&lt;/h4&gt;
-&lt;p&gt;由于 &lt;code&gt;##&lt;/code&gt; 拼接的时候，是不会展开左右两边的参数，为了让参数可以先求值再拼接，可以这样写：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)&lt;/h1&gt;
-&lt;h1&gt;define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1&lt;/h1&gt;
-&lt;p&gt;PP_CONCAT(PP_IDENTITY(1), PP_IDENTITY(2))         // -&amp;gt; 12
-PP_CONCAT_IMPL(PP_IDENTITY(1), PP_IDENTITY(2))    // -&amp;gt; PP_IDENTITY(1)PP_IDENTITY(2) -&amp;gt; 报错
-```&lt;/p&gt;
-&lt;p&gt;这里 &lt;code&gt;PP_CONCAT&lt;/code&gt; 用到的方法叫做延迟拼接，在展开为 &lt;code&gt;PP_CONCAT_IMPL&lt;/code&gt; 的时候，&lt;code&gt;arg0&lt;/code&gt; 和 &lt;code&gt;arg1&lt;/code&gt; 都会先展开求值，之后再由 &lt;code&gt;PP_CONCAT_IMPL&lt;/code&gt; 执行真正的拼接操作。&lt;/p&gt;
-&lt;h4&gt;逻辑运算&lt;/h4&gt;
-&lt;p&gt;借助 &lt;code&gt;PP_CONCAT&lt;/code&gt; 可以实现逻辑运算。首先定义 &lt;code&gt;BOOL&lt;/code&gt; 值：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)&lt;/h1&gt;
-&lt;h1&gt;define PP_BOOL_0 0&lt;/h1&gt;
-&lt;h1&gt;define PP_BOOL_1 1&lt;/h1&gt;
-&lt;h1&gt;define PP_BOOL_2 1&lt;/h1&gt;
-&lt;h1&gt;define PP_BOOL_3 1&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_BOOL_256 1&lt;/h1&gt;
-&lt;p&gt;PP_BOOL(3)              // -&amp;gt; PP_BOOL_3 -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;用&lt;code&gt;PP_CONCAT&lt;/code&gt; 先把 &lt;code&gt;PP_BOOL_&lt;/code&gt; 和 &lt;code&gt;arg0&lt;/code&gt; 拼接在一起，再对拼接结果进行求值。这里的 &lt;code&gt;arg0&lt;/code&gt; 要求是求值之后得到 &lt;code&gt;[0, 256]&lt;/code&gt; 范围的数字，拼接在 &lt;code&gt;PP_BOOL_&lt;/code&gt; 后面求值，就能得到布尔值。与或非运算：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_0 1&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_1 0&lt;/h1&gt;
-&lt;h1&gt;define PP_AND(arg0, arg1) PP_CONCAT(PP_AND_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))&lt;/h1&gt;
-&lt;h1&gt;define PP_AND_00 0&lt;/h1&gt;
-&lt;h1&gt;define PP_AND_01 0&lt;/h1&gt;
-&lt;h1&gt;define PP_AND_10 0&lt;/h1&gt;
-&lt;h1&gt;define PP_AND_11 1&lt;/h1&gt;
-&lt;h1&gt;define PP_OR(arg0, arg1) PP_CONCAT(PP_OR_, PP_CONCAT(PP_BOOL(arg0), PP_BOOL(arg1)))&lt;/h1&gt;
-&lt;h1&gt;define PP_OR_00 0&lt;/h1&gt;
-&lt;h1&gt;define PP_OR_01 1&lt;/h1&gt;
-&lt;h1&gt;define PP_OR_10 1&lt;/h1&gt;
-&lt;h1&gt;define PP_OR_11 1&lt;/h1&gt;
-&lt;p&gt;PP_NOT(PP_BOOL(2))      // -&amp;gt; PP_CONCAT(PP_NOT_, 1) -&amp;gt; PP_NOT_1 -&amp;gt; 0
-PP_AND(2, 3)            // -&amp;gt; PP_CONCAT(PP_AND_, 11) -&amp;gt; PP_AND_11 -&amp;gt; 1
-PP_AND(2, 0)            // -&amp;gt; PP_CONCAT(PP_AND_, 10) -&amp;gt; PP_AND_10 -&amp;gt; 0
-PP_OR(2, 0)             // -&amp;gt; PP_CONCAT(PP_OR_, 10) -&amp;gt; PP_OR_10, -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;先用 &lt;code&gt;PP_BOOL&lt;/code&gt; 对参数求值，之后再根据 &lt;code&gt;0 1&lt;/code&gt; 的组合来拼接逻辑运算的结果。如果不用 &lt;code&gt;PP_BOOL&lt;/code&gt; 来求值，那么参数就只能支持 &lt;code&gt;0 1&lt;/code&gt; 两种数值，适用性大大降低。同理也可以写出异或，或非等操作，有兴趣可以自己尝试。&lt;/p&gt;
-&lt;h4&gt;条件选择&lt;/h4&gt;
-&lt;p&gt;利用 &lt;code&gt;PP_BOOL&lt;/code&gt; 和 &lt;code&gt;PP_CONCAT&lt;/code&gt;，还可以写出条件选择语句：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)&lt;/h1&gt;
-&lt;h1&gt;define PP_IF_1(then, else) then&lt;/h1&gt;
-&lt;h1&gt;define PP_IF_0(then, else) else&lt;/h1&gt;
-&lt;p&gt;PP_IF(1, 2, 3)      // -&amp;gt; PP_IF_1(2, 3) -&amp;gt; 2
-PP_IF(0, 2, 3)      // -&amp;gt; PP_IF_0(2, 3) -&amp;gt; 3
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;if&lt;/code&gt; 求值如果是 &lt;code&gt;1&lt;/code&gt;，用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接成 &lt;code&gt;PP_IF_1&lt;/code&gt;，最后展开为 &lt;code&gt;then&lt;/code&gt; 的值；同理若 &lt;code&gt;if&lt;/code&gt; 求值为 &lt;code&gt;0&lt;/code&gt;，得到 &lt;code&gt;PP_IF_0&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;递增递减&lt;/h4&gt;
-&lt;p&gt;整数递增递减：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)&lt;/h1&gt;
-&lt;h1&gt;define PP_INC_0 1&lt;/h1&gt;
-&lt;h1&gt;define PP_INC_1 2&lt;/h1&gt;
-&lt;h1&gt;define PP_INC_2 3&lt;/h1&gt;
-&lt;h1&gt;define PP_INC_3 4&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_INC_255 256&lt;/h1&gt;
-&lt;h1&gt;define PP_INC_256 256&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC(arg0) PP_CONCAT(PP_DEC_, arg0)&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC_0 0&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC_1 0&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC_2 1&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC_3 2&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_DEC_255 254&lt;/h1&gt;
-&lt;h1&gt;define PP_DEC_256 255&lt;/h1&gt;
-&lt;p&gt;PP_INC(2)                   // -&amp;gt; PP_INC_2 -&amp;gt; 3
-PP_DEC(3)                   // -&amp;gt; PP_DEC_3 -&amp;gt; 2
-```&lt;/p&gt;
-&lt;p&gt;跟 &lt;code&gt;PP_BOOL&lt;/code&gt; 类似，整数的递增递减也是有范围限制的，这里范围设置为 &lt;code&gt;[0, 256]&lt;/code&gt;，递增到 &lt;code&gt;256&lt;/code&gt; 之后，安全起见，&lt;code&gt;PP_INC_256&lt;/code&gt; 会返回自身 &lt;code&gt;256&lt;/code&gt; 作为边界，同理 &lt;code&gt;PP_DEC_0&lt;/code&gt; 也是返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;变长参数&lt;/h4&gt;
-&lt;p&gt;宏可以接受变长参数，格式是：&lt;/p&gt;
-&lt;p&gt;```cpp &lt;/p&gt;
-&lt;h1&gt;define LOG(format, ...) printf(&#34;log: &#34; format, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;p&gt;LOG(&#34;Hello %s\n&#34;, &#34;World&#34;)      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s\n&#34;, &#34;World&#34;);
-LOG(&#34;Hello World&#34;)              // -&amp;gt; printf(&#34;log: &#34; &#34;Hello World&#34;, ); 多了个逗号，编译报错
-```&lt;/p&gt;
-&lt;p&gt;由于变长参数有可能为空，空的情况下会导致编译失败，因此 C++ 20 引入了 &lt;code&gt;__VA_OPT__&lt;/code&gt;，如果变长参数是空，则返回空，否则返回原参数：&lt;/p&gt;
-&lt;p&gt;```cpp &lt;/p&gt;
-&lt;h1&gt;define LOG2(format, ...) printf(&#34;log: &#34; format &lt;strong&gt;VA_OPT&lt;/strong&gt;(,) &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;p&gt;LOG2(&#34;Hello %s\n&#34;, &#34;World&#34;)      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s\n&#34;, &#34;World&#34;);
-LOG2(&#34;Hello World&#34;)              // -&amp;gt; printf(&#34;log: &#34; &#34;Hello World&#34; ); 没有逗号，正常编译
-```&lt;/p&gt;
-&lt;p&gt;但可惜只有 C++ 20 以上标准才有这个宏，下文中我们将会给出 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的实现方法。&lt;/p&gt;
-&lt;h4&gt;惰性求值&lt;/h4&gt;
-&lt;p&gt;考虑这种情况：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-PP_IF(1, PP_COMMA(), PP_LPAREN())     // -&amp;gt; PP_IF_1(,,)) -&amp;gt; 报错 unterminated argument list invoking macro &#34;PP_IF_1&#34;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;我们知道，宏展开的时候会对先参数进行求值。&lt;code&gt;PP_COMMA()&lt;/code&gt; 和 &lt;code&gt;PP_LPAREN()&lt;/code&gt; 求值之后再传给 &lt;code&gt;PP_IF_1&lt;/code&gt;，得到 &lt;code&gt;PP_IF_1(,,))&lt;/code&gt;，导致预处理出错。此时，可以采用一种叫做惰性求值方法：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-PP_IF(1, PP_COMMA, PP_LPAREN)()       // -&amp;gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&amp;gt; PP_COMMA() -&amp;gt; ,&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;改成这种写法，只传宏的名字，让 &lt;code&gt;PP_IF&lt;/code&gt; 选出需要的宏名字之后，再跟括号 &lt;code&gt;()&lt;/code&gt; 拼接在一起组成完成的宏，最后再展开。惰性求值在宏编程里面也是很常见的。&lt;/p&gt;
-&lt;h4&gt;以括号开始&lt;/h4&gt;
-&lt;p&gt;判断变长参数是否以括号开始：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_IS_BEGIN_PARENS(...) \
-    PP_IS_BEGIN_PARENS_PROCESS( \
-        PP_IS_BEGIN_PARENS_CONCAT( \
-            PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT &lt;strong&gt;VA_ARGS&lt;/strong&gt; \
-        ) \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_PROCESS(...) PP_IS_BEGIN_PARENS_PROCESS_0(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_PROCESS_0(arg0, ...) arg0&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_CONCAT(arg0, ...) PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_CONCAT_IMPL(arg0, ...) arg0 ## &lt;strong&gt;VA_ARGS&lt;/strong&gt;&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_PRE_1 1,&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT 0,&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_BEGIN_PARENS_EAT(...) 1&lt;/h1&gt;
-&lt;p&gt;PP_IS_BEGIN_PARENS(())              // -&amp;gt; 1
-PP_IS_BEGIN_PARENS((()))            // -&amp;gt; 1
-PP_IS_BEGIN_PARENS(a, b, c)         // -&amp;gt; 0
-PP_IS_BEGIN_PARENS(a, ())           // -&amp;gt; 0
-PP_IS_BEGIN_PARENS(a())             // -&amp;gt; 0
-PP_IS_BEGIN_PARENS(()aa(bb()cc))    // -&amp;gt; 1
-PP_IS_BEGIN_PARENS(aa(bb()cc))      // -&amp;gt; 0
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt; 可以用来判断传入的参数是否以括号开始，在需要处理括号参数的时候会需要用到（譬如后面说到的 &lt;code&gt;__VA_OPT__&lt;/code&gt; 实现）。看上去有点复杂，核心思想就是构建出一个宏，若变长参数以括号开始，则可以跟括号连在一起求值得到一种结果，否则就另外求值得到另一种结果。我们来慢慢看：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS&lt;/code&gt; 和 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt; 组成的宏功能是先对传入的不定参数求值，然后取第 0 个参数。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)&lt;/code&gt; 是先对 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值，在把求值结果跟 &lt;code&gt;PP_IS_BEGIN_PARENS_PRE_&lt;/code&gt; 拼接在一起。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_BEGIN_PARENS_EAT(...)&lt;/code&gt; 宏会吞掉所有参数，返回1，如果上一步 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 中，&lt;code&gt;__VA_ARGS__&lt;/code&gt; 是以括号开始的，那么就会匹配到对 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT(...)&lt;/code&gt; 的求值，然后返回 &lt;code&gt;1&lt;/code&gt;；相反，如果不是以括号开始，则没有匹配上，&lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 会保留不变。&lt;/p&gt;
-&lt;p&gt;若 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值得到 &lt;code&gt;1&lt;/code&gt;，&lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&amp;gt; PP_IS_BEGIN_PARENS_PRE_1 -&amp;gt; 1,&lt;/code&gt;，注意 &lt;code&gt;1&lt;/code&gt; 后面是有个逗号的，把 &lt;code&gt;1,&lt;/code&gt; 传给 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt;，取第 0 个参数，最后得到 &lt;code&gt;1&lt;/code&gt;，表示参数是以括号开始。&lt;/p&gt;
-&lt;p&gt;若 &lt;code&gt;PP_IS_BEGIN_PARENS_EAT __VA_ARGS__&lt;/code&gt; 求值得到不是 &lt;code&gt;1&lt;/code&gt;，而是保持不变，则 &lt;code&gt;PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&amp;gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&amp;gt; 0, __VA_ARGS__&lt;/code&gt;，传给 &lt;code&gt;PP_IS_BEGIN_PARENS_PROCESS_0&lt;/code&gt; 得到的是 &lt;code&gt;0&lt;/code&gt;，表示参数不是以括号开始。&lt;/p&gt;
-&lt;h4&gt;变长参数空&lt;/h4&gt;
-&lt;p&gt;判断变长参数是否为空也是一个常用的宏，在实现 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的时候需要用到，我们在这里利用 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt;，可以先写出不完整的版本：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_IS_EMPTY_PROCESS(...) \
-    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT &lt;strong&gt;VA_ARGS&lt;/strong&gt; ())&lt;/p&gt;
-&lt;h1&gt;define PP_IS_EMPTY_PROCESS_EAT(...) ()&lt;/h1&gt;
-&lt;p&gt;PP_IS_EMPTY_PROCESS()       // -&amp;gt; 1
-PP_IS_EMPTY_PROCESS(1)      // -&amp;gt; 0
-PP_IS_EMPTY_PROCESS(1, 2)   // -&amp;gt; 0
-PP_IS_EMPTY_PROCESS(())     // -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 的作用是判断 &lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()&lt;/code&gt; 是否以括号开始。&lt;/p&gt;
-&lt;p&gt;如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 是空，&lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&amp;gt; PP_IS_EMPTY_PROCESS_EAT() -&amp;gt; ()&lt;/code&gt;，得到的是一对括号 &lt;code&gt;()&lt;/code&gt;，再传给 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt;，表示参数是空。&lt;/p&gt;
-&lt;p&gt;否则，&lt;code&gt;PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()&lt;/code&gt; 保持不变地传给 &lt;code&gt;PP_IS_BEGIN_PARENS&lt;/code&gt;，返回 0，表示非空。&lt;/p&gt;
-&lt;p&gt;留意第 4 个例子 &lt;code&gt;PP_IS_EMPTY_PROCESS(()) -&amp;gt; 1&lt;/code&gt;，&lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 不能正确处理以括号开始的变长参数，因为这时变长参数带来的括号会匹配 &lt;code&gt;PP_IS_EMPTY_PROCESS_EAT&lt;/code&gt; 导致求值得到 &lt;code&gt;()&lt;/code&gt;。为了解决这个问题，我们需要区别对待参数是否以括号开始的情况：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_IS_EMPTY(...) \
-    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)) \
-        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
-&lt;h1&gt;define PP_IS_EMPTY_IF(if) PP_CONCAT(PP_IS_EMPTY_IF_, if)&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_EMPTY_IF_1(then, else) then&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_EMPTY_IF_0(then, else) else&lt;/h1&gt;
-&lt;h1&gt;define PP_IS_EMPTY_ZERO(...) 0&lt;/h1&gt;
-&lt;p&gt;PP_IS_EMPTY()       // -&amp;gt; 1
-PP_IS_EMPTY(1)      // -&amp;gt; 0
-PP_IS_EMPTY(1, 2)   // -&amp;gt; 0
-PP_IS_EMPTY(())     // -&amp;gt; 0
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 根据 &lt;code&gt;if&lt;/code&gt; 条件来返回第 0 或者 第 1 个参数。 &lt;/p&gt;
-&lt;p&gt;如果传入的变长参数以括号开始，&lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 返回 &lt;code&gt;PP_IS_EMPTY_ZERO&lt;/code&gt;，最后返回 &lt;code&gt;0&lt;/code&gt;，表示变长参数非空。&lt;/p&gt;
-&lt;p&gt;反之 &lt;code&gt;PP_IS_EMPTY_IF&lt;/code&gt; 返回 &lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt;，最后由 &lt;code&gt;PP_IS_EMPTY_PROCESS&lt;/code&gt; 来判断变长参数是否非空。&lt;/p&gt;
-&lt;h4&gt;下标访问&lt;/h4&gt;
-&lt;p&gt;获取变长参数指定位置的元素：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_0(a0, ...) a0&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_1(a0, a1, ...) a1&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_2(a0, a1, a2, ...) a2&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_3(a0, a1, a2, a3, ...) a3&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_7(a0, a1, a2, a3, a4, a5, a6, a7, ...) a7&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_ELEM_8(a0, a1, a2, a3, a4, a5, a6, a7, a8, ...) a8&lt;/h1&gt;
-&lt;p&gt;PP_ARGS_ELEM(0, &#34;Hello&#34;, &#34;World&#34;)   // -&amp;gt; PP_ARGS_ELEM_0(&#34;Hello&#34;, &#34;World&#34;) -&amp;gt; &#34;Hello&#34;
-PP_ARGS_ELEM(1, &#34;Hello&#34;, &#34;World&#34;)   // -&amp;gt; PP_ARGS_ELEM_1(&#34;Hello&#34;, &#34;World&#34;) -&amp;gt; &#34;World&#34;
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 的第一个参数是元素下标 &lt;code&gt;I&lt;/code&gt;，后面是变长参数。利用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接 &lt;code&gt;PP_ARGS_ELEM_&lt;/code&gt; 和 &lt;code&gt;I&lt;/code&gt;，即可以得到返回相应位置元素的宏 &lt;code&gt;PP_ARGS_ELEM_0..8&lt;/code&gt;，再把变长参数传给该宏，展开返回下标对应位置的元素。&lt;/p&gt;
-&lt;h4&gt;PP_IS_EMPTY2&lt;/h4&gt;
-&lt;p&gt;利用 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 也可以实现另一版本的 &lt;code&gt;PP_IS_EMPTY&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_IS_EMPTY2(...) \
-    PP_AND( \
-        PP_AND( \
-            PP_NOT(PP_HAS_COMMA(&lt;strong&gt;VA_ARGS&lt;/strong&gt;)), \
-            PP_NOT(PP_HAS_COMMA(&lt;strong&gt;VA_ARGS&lt;/strong&gt;())) \
-        ), \
-        PP_AND( \
-            PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS &lt;strong&gt;VA_ARGS&lt;/strong&gt;)), \
-            PP_HAS_COMMA(PP_COMMA_ARGS &lt;strong&gt;VA_ARGS&lt;/strong&gt; ()) \
-        ) \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_HAS_COMMA(...) PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt;, 1, 1, 1, 1, 1, 1, 1, 0)&lt;/h1&gt;
-&lt;h1&gt;define PP_COMMA_ARGS(...) ,&lt;/h1&gt;
-&lt;p&gt;PP_IS_EMPTY2()              // -&amp;gt; 1
-PP_IS_EMPTY2(a)             // -&amp;gt; 0
-PP_IS_EMPTY2(a, b)          // -&amp;gt; 0
-PP_IS_EMPTY2(())            // -&amp;gt; 0
-PP_IS_EMPTY2(PP_COMMA)      // -&amp;gt; 0
-```&lt;/p&gt;
-&lt;p&gt;借用 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 实现判断参数是否含有逗号 &lt;code&gt;PP_HAS_COMMA&lt;/code&gt;。&lt;code&gt;PP_COMMA_ARGS&lt;/code&gt; 会吞掉传入的任意参数，返回一个逗号。&lt;/p&gt;
-&lt;p&gt;判断变长参数是否为空的基础逻辑是 &lt;code&gt;PP_COMMA_ARGS __VA_ARGS__ ()&lt;/code&gt; 返回一个逗号，也就是 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 为空，&lt;code&gt;PP_COMMA_ARGS&lt;/code&gt; 和 &lt;code&gt;()&lt;/code&gt; 拼接在一起求值，具体的写法就是 &lt;code&gt;PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;但是会有例外的情况：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;__VA_ARGS__&lt;/code&gt; 本身有可能会带来逗号；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;__VA_ARGS__ ()&lt;/code&gt; 拼接在一起发生求值带来逗号；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PP_COMMA_ARGS __VA_ARGS__&lt;/code&gt; 拼接在一起发生求值带来逗号；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;针对上面说到的三种例外情况，需要做排除，所以最后的写法等价于对以下 4 个条件执行与逻辑：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(__VA_ARGS__))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PP_NOT(PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__))&lt;/code&gt; &amp;amp;&amp;amp;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4&gt;&lt;code&gt;__VA_OPT__&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;利用 &lt;code&gt;PP_IS_EMPTY&lt;/code&gt; 终于可以来实现类似 &lt;code&gt;__VA_OPT__&lt;/code&gt; 的宏：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_REMOVE_PARENS_IMPL(...) &lt;strong&gt;VA_ARGS&lt;/strong&gt;&lt;/h1&gt;
-&lt;p&gt;#define PP_ARGS_OPT(data_tuple, empty_tuple, ...) \
-    PP_ARGS_OPT_IMPL(PP_IF(PP_IS_EMPTY(&lt;strong&gt;VA_ARGS&lt;/strong&gt;), empty_tuple, data_tuple))&lt;/p&gt;
-&lt;h1&gt;define PP_ARGS_OPT_IMPL(tuple) PP_REMOVE_PARENS(tuple)&lt;/h1&gt;
-&lt;p&gt;PP_ARGS_OPT((data), (empty))        // -&amp;gt; empty
-PP_ARGS_OPT((data), (empty), 1)     // -&amp;gt; data
-PP_ARGS_OPT((,), (), 1)             // -&amp;gt; ,
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 接受两个固定参数和变长参数，变长参数非空时返回 &lt;code&gt;data&lt;/code&gt;，否则返回 &lt;code&gt;empty&lt;/code&gt;。为了让 &lt;code&gt;data&lt;/code&gt; 和 &lt;code&gt;empty&lt;/code&gt; 支持逗号，要求两者都要用括号包住实际的参数，最后用 &lt;code&gt;PP_REMOVE_PARENS&lt;/code&gt; 来移除外层的括号。&lt;/p&gt;
-&lt;p&gt;有了 &lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 可以实现 &lt;code&gt;LOG3&lt;/code&gt; 来模拟 &lt;code&gt;LOG2&lt;/code&gt; 实现的功能：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define LOG3(format, ...) \
-    printf(&#34;log: &#34; format PP_ARGS_OPT((,), (), &lt;strong&gt;VA_ARGS&lt;/strong&gt;) &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
-&lt;p&gt;LOG3(&#34;Hello&#34;);                  // -&amp;gt; printf(&#34;log: &#34; &#34;Hello&#34; );
-LOG3(&#34;Hello %s&#34;, &#34;World&#34;);      // -&amp;gt; printf(&#34;log: &#34; &#34;Hello %s&#34; , &#34;World&#34;);
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;data_tuple&lt;/code&gt; 是 &lt;code&gt;(,)&lt;/code&gt;，如果变长参数非空，则会返回 &lt;code&gt;data_tuple&lt;/code&gt; 里面的所有元素，在这里就是逗号 &lt;code&gt;,&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;求参数个数&lt;/h4&gt;
-&lt;p&gt;获取变长参数的个数：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_ARGS_SIZE_IMCOMPLETE(...) \
-    PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt;, 8, 7, 6, 5, 4, 3, 2, 1, 0)&lt;/p&gt;
-&lt;p&gt;PP_ARGS_SIZE_IMCOMPLETE(a)             // -&amp;gt; 1
-PP_ARGS_SIZE_IMCOMPLETE(a, b)          // -&amp;gt; 2
-PP_ARGS_SIZE_IMCOMPLETE(PP_COMMA())    // -&amp;gt; 2
-PP_ARGS_SIZE_IMCOMPLETE()              // -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;计算变长参数的个数，是通过数参数的位置来获得的。&lt;code&gt;__VA_ARGS__&lt;/code&gt; 会导致后续的参数全体往右移动，用宏 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 来获取第 8 个位置的参数，如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 只有一个参数，则第 8 个参数等于 &lt;code&gt;1&lt;/code&gt;；同理如果 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 有两个参数，则第 8 个参数就变为 &lt;code&gt;2&lt;/code&gt;，刚好等于变长参数的个数。&lt;/p&gt;
-&lt;p&gt;这里给的例子只最高支持个数 8 的变长参数，这是依赖于 &lt;code&gt;PP_ARGS_ELEM&lt;/code&gt; 所能支持的最大长度。&lt;/p&gt;
-&lt;p&gt;但是这个宏还不完整，在变长参数为空的情况下，这个宏会错误返回 &lt;code&gt;1&lt;/code&gt;。如果需要处理空的变长参数，则需要用到我们前面说到的 &lt;code&gt;PP_ARGS_OPT&lt;/code&gt; 宏：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/h1&gt;
-&lt;h1&gt;define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, &lt;strong&gt;VA_ARGS&lt;/strong&gt; PP_COMMA_IF_ARGS(&lt;strong&gt;VA_ARGS&lt;/strong&gt;) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)&lt;/h1&gt;
-&lt;p&gt;PP_ARGS_SIZE(a)             // -&amp;gt; 1
-PP_ARGS_SIZE(a, b)          // -&amp;gt; 2
-PP_ARGS_SIZE(PP_COMMA())    // -&amp;gt; 2
-PP_ARGS_SIZE()              // -&amp;gt; 0
-PP_ARGS_SIZE(,,,)           // -&amp;gt; 4
-```&lt;/p&gt;
-&lt;p&gt;问题的关键就是逗号 &lt;code&gt;,&lt;/code&gt;，在 &lt;code&gt;__VA_ARGS__&lt;/code&gt; 为空的时候，把逗号隐去就能正确返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
-&lt;h4&gt;遍历访问&lt;/h4&gt;
-&lt;p&gt;类似 C++ 的 &lt;code&gt;for_each&lt;/code&gt;，我们可以实现宏的 &lt;code&gt;PP_FOR_EACH&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_FOR_EACH(macro, contex, ...) \
-    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(&lt;strong&gt;VA_ARGS&lt;/strong&gt;))(0, macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
-&lt;h1&gt;define PP_FOR_EACH_0(index, macro, contex, ...)&lt;/h1&gt;
-&lt;h1&gt;define PP_FOR_EACH_1(index, macro, contex, arg, ...) macro(index, contex, arg)&lt;/h1&gt;
-&lt;p&gt;#define PP_FOR_EACH_2(index, macro, contex, arg, ...) \
-    macro(index, contex, arg) \
-    PP_FOR_EACH_1(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
-&lt;p&gt;#define PP_FOR_EACH_3(index, macro, contex, arg, ...) \
-    macro(index, contex, arg) \
-    PP_FOR_EACH_2(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)
-// ...
-#define PP_FOR_EACH_8(index, macro, contex, arg, ...) \
-    macro(index, contex, arg) \
-    PP_FOR_EACH_7(PP_INC(index), macro, contex, &lt;strong&gt;VA_ARGS&lt;/strong&gt;)&lt;/p&gt;
-&lt;h1&gt;define DECLARE_EACH(index, contex, arg)    PP_IF(index, PP_COMMA, PP_EMPTY)() contex arg&lt;/h1&gt;
-&lt;p&gt;PP_FOR_EACH(DECLARE_EACH, int, x, y, z);    // -&amp;gt; int x, y, z;
-PP_FOR_EACH(DECLARE_EACH, bool, a, b);      // -&amp;gt; bool a, b;
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_FOR_EACH&lt;/code&gt; 接收两个固定参数： &lt;code&gt;macro&lt;/code&gt; 可以理解为遍历的时候调用的宏，&lt;code&gt;contex&lt;/code&gt; 可以作为固定值参数传给 &lt;code&gt;macro&lt;/code&gt;。&lt;code&gt;PP_FOR_EACH&lt;/code&gt; 先通过 &lt;code&gt;PP_ARGS_SIZE&lt;/code&gt; 获取变长参数的长度 &lt;code&gt;N&lt;/code&gt;，再用 &lt;code&gt;PP_CONCAT&lt;/code&gt; 拼接得到 &lt;code&gt;PP_FOR_EACH_N&lt;/code&gt;，之后 &lt;code&gt;PP_FOR_EACH_N&lt;/code&gt; 会迭代调用 &lt;code&gt;PP_FOR_EACH_N-1&lt;/code&gt; 来实现跟变长参数个数相同的遍历次数。&lt;/p&gt;
-&lt;p&gt;例子里我们声明了 &lt;code&gt;DECLARE_EACH&lt;/code&gt; 作为参数 &lt;code&gt;macro&lt;/code&gt;，&lt;code&gt;DECLARE_EACH&lt;/code&gt; 的作用就是返回 &lt;code&gt;contex arg&lt;/code&gt;，如果 &lt;code&gt;contex&lt;/code&gt; 是类型名字，&lt;code&gt;arg&lt;/code&gt; 是变量名字，&lt;code&gt;DECLARE_EACH&lt;/code&gt; 就可以用来声明变量。&lt;/p&gt;
-&lt;h4&gt;条件循环&lt;/h4&gt;
-&lt;p&gt;有了 &lt;code&gt;FOR_EACH&lt;/code&gt; 之后，我们还可以用类似的写法写出 &lt;code&gt;PP_WHILE&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE PP_WHILE_1&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_1_IMPL(cond, pred, op, val) \
-    PP_IF(cond, PP_WHILE_2, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_2(pred, op, val) PP_WHILE_2_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_2_IMPL(cond, pred, op, val) \
-    PP_IF(cond, PP_WHILE_3, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_3(pred, op, val) PP_WHILE_3_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_3_IMPL(cond, pred, op, val) \
-    PP_IF(cond, PP_WHILE_4, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_4(pred, op, val) PP_WHILE_4_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_4_IMPL(cond, pred, op, val) \
-    PP_IF(cond, PP_WHILE_5, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))
-// ...&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_8(pred, op, val) PP_WHILE_8_IMPL(PP_BOOL(pred(val)), pred, op, val)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_8_IMPL(cond, pred, op, val) \
-    PP_IF(cond, PP_WHILE_8, val PP_EMPTY_EAT)(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/p&gt;
-&lt;h1&gt;define PP_EMPTY_EAT(...)&lt;/h1&gt;
-&lt;h1&gt;define SUM_OP(xy_tuple) SUM_OP_OP_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define SUM_OP_OP_IMPL(x, y) (PP_DEC(x), y + x)&lt;/h1&gt;
-&lt;h1&gt;define SUM_PRED(xy_tuple) SUM_PRED_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define SUM_PRED_IMPL(x, y) x&lt;/h1&gt;
-&lt;p&gt;#define SUM(max_num, origin_num) \
-    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))&lt;/p&gt;
-&lt;h1&gt;define SUM_IMPL(ignore, ret) ret&lt;/h1&gt;
-&lt;p&gt;PP_WHILE(SUM_PRED, SUM_OP, (2, a))      // -&amp;gt; (0, a + 2 + 1)
-SUM(2, a)                               // -&amp;gt; a + 2 + 1
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_WHILE&lt;/code&gt; 接受三个参数： &lt;code&gt;pred&lt;/code&gt; 条件判断函数，&lt;code&gt;op&lt;/code&gt; 操作函数，&lt;code&gt;val&lt;/code&gt; 初始值；循环的过程中不断用 &lt;code&gt;pred(val)&lt;/code&gt; 来做循环终止判断，把 &lt;code&gt;op(val)&lt;/code&gt; 得到的值传给后续的宏，可以理解为执行以下代码：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cpp
-while (pred(val)) {
-    val = op(val);
-}&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_WHILE_N&lt;/code&gt; 首先用 &lt;code&gt;pred(val)&lt;/code&gt; 得到条件判断结果，把条件结果 &lt;code&gt;cond&lt;/code&gt; 和其余参数再传给 &lt;code&gt;PP_WHILE_N_IMPL&lt;/code&gt;。
-&lt;code&gt;PP_WHILE_N_IMPL&lt;/code&gt; 可以分两部分看：后半部分 &lt;code&gt;(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))&lt;/code&gt; 是作为前半部分的参数，&lt;code&gt;PP_IF(cond, op, PP_EMPTY_EAT)(val)&lt;/code&gt; 是如果 &lt;code&gt;cond&lt;/code&gt; 为真，则求值 &lt;code&gt;op(val)&lt;/code&gt;， 否则求值 &lt;code&gt;PP_EMPTY_EAT(val)&lt;/code&gt; 得到空。前半部分 &lt;code&gt;PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)&lt;/code&gt;，如果 &lt;code&gt;cond&lt;/code&gt; 为真，则返回 &lt;code&gt;PP_WHILE_N+1&lt;/code&gt;，结合后半部分的参数继续执行循环；否则返回 &lt;code&gt;val PP_EMPTY_EAT&lt;/code&gt;，此时 &lt;code&gt;val&lt;/code&gt; 就是最终的计算结果，而 &lt;code&gt;PP_EMPTY_EAT&lt;/code&gt; 会吞掉后半部分的结果。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SUM&lt;/code&gt; 实现 &lt;code&gt;N + N-1 + ... + 1&lt;/code&gt;。初始值 &lt;code&gt;(max_num, origin_num)&lt;/code&gt;；&lt;code&gt;SUM_PRED&lt;/code&gt; 取值的第一个元素 &lt;code&gt;x&lt;/code&gt;，判断是否大于 0；&lt;code&gt;SUM_OP&lt;/code&gt; 对 &lt;code&gt;x&lt;/code&gt; 执行递减操作 &lt;code&gt;x = x - 1&lt;/code&gt;，对 &lt;code&gt;y&lt;/code&gt; 执行 &lt;code&gt;+ x&lt;/code&gt; 操作 &lt;code&gt;y = y + x&lt;/code&gt;。直接用 &lt;code&gt;SUM_PRED&lt;/code&gt; 和 &lt;code&gt;SUM_OP&lt;/code&gt; 传给 &lt;code&gt;PP_WHILE&lt;/code&gt;，返回的结果是一个元组，我们真正想要的结果是元组的第 2 个元素，于是再用 &lt;code&gt;SUM&lt;/code&gt; 取第 2 个元素的值。&lt;/p&gt;
-&lt;h4&gt;递归重入&lt;/h4&gt;
-&lt;p&gt;到目前为止，我们的遍历访问和条件循环都运作的很好，结果符合预期。还记得我们在讲宏展开规则的时候提到的禁止递归重入么，当我们想要执行两重循环的时候就不幸遇到到了禁止递归重入：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))&lt;/h1&gt;
-&lt;p&gt;#define SUM2(max_num, origin_num) \
-    PP_IDENTITY(SUM_IMPL PP_WHILE(SUM_PRED, SUM_OP2, (max_num, origin_num)))&lt;/p&gt;
-&lt;p&gt;SUM2(1, a)      // -&amp;gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SUM2&lt;/code&gt; 把参数 &lt;code&gt;op&lt;/code&gt; 改用 &lt;code&gt;SUM_OP2&lt;/code&gt;，&lt;code&gt;SUM_OP2&lt;/code&gt; 里面会调用到 &lt;code&gt;SUM&lt;/code&gt;，而 &lt;code&gt;SUM&lt;/code&gt; 展开还会是 &lt;code&gt;PP_WHILE_1&lt;/code&gt;，相当于 &lt;code&gt;PP_WHILE_1&lt;/code&gt; 递归调用到了自身，预处理器停止展开。&lt;/p&gt;
-&lt;p&gt;为了解决这个问题，我们可以用一种自动推导递归的方法（Automatic Recursion）：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))&lt;/h1&gt;
-&lt;h1&gt;define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)&lt;/h1&gt;
-&lt;h1&gt;define PP_AUTO_REC_12(check) PP_IF(check(1), 1, 2)&lt;/h1&gt;
-&lt;h1&gt;define PP_AUTO_REC_34(check) PP_IF(check(3), 3, 4)&lt;/h1&gt;
-&lt;p&gt;#define PP_WHILE_PRED(n) \
-    PP_CONCAT(PP_WHILE_CHECK_, PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE))&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_FALSE(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_FALSE 1&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_1(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_2(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_3(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_4(...) 0&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_WHILE_CHECK_PP_WHILE_8(...) 0&lt;/h1&gt;
-&lt;p&gt;PP_AUTO_WHILE       // -&amp;gt; PP_WHILE_1&lt;/p&gt;
-&lt;p&gt;#define SUM3(max_num, origin_num) \
-    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP, (max_num, origin_num)))&lt;/p&gt;
-&lt;h1&gt;define SUM_OP4(xy_tuple) SUM_OP_OP_IMPL4 xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define SUM_OP_OP_IMPL4(x, y) (PP_DEC(x), y + SUM3(x, 0))&lt;/h1&gt;
-&lt;p&gt;#define SUM4(max_num, origin_num) \
-    PP_IDENTITY(SUM_IMPL PP_AUTO_WHILE(SUM_PRED, SUM_OP4, (max_num, origin_num)))&lt;/p&gt;
-&lt;p&gt;SUM4(2, a)          // -&amp;gt; a + 0 + 2 + 1 + 0 + 1
-```&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PP_AUTO_WHILE&lt;/code&gt; 就是 &lt;code&gt;PP_WHILE&lt;/code&gt; 的自动推导递归版本，核心的宏是 &lt;code&gt;PP_AUTO_REC(PP_WHILE_PRED)&lt;/code&gt;，这个宏可以找出当前可用的 &lt;code&gt;PP_WHILE_N&lt;/code&gt; 版本的数字 &lt;code&gt;N&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;推导的原理很简单，就是搜索所有版本，找出能够正确展开的版本，返回该版本的数字，为了提升搜索的速度，一般的做法是使用二分查找，这就是 &lt;code&gt;PP_AUTO_REC&lt;/code&gt; 在做的事情。&lt;code&gt;PP_AUTO_REC&lt;/code&gt; 接受一个参数 &lt;code&gt;check&lt;/code&gt;，&lt;code&gt;check&lt;/code&gt; 负责检查版本可用性，这里给出的是支持搜索版本范围 &lt;code&gt;[1, 4]&lt;/code&gt;。&lt;code&gt;PP_AUTO_REC&lt;/code&gt; 会首先检查 &lt;code&gt;check(2)&lt;/code&gt;，如果 &lt;code&gt;check(2)&lt;/code&gt; 为真，则调用 &lt;code&gt;PP_AUTO_REC_12&lt;/code&gt; 搜索范围 &lt;code&gt;[1, 2]&lt;/code&gt;，否则用 &lt;code&gt;PP_AUTO_REC_34&lt;/code&gt; 搜索 &lt;code&gt;[3, 4]&lt;/code&gt;。&lt;code&gt;PP_AUTO_REC_12&lt;/code&gt; 检查 &lt;code&gt;check(1)&lt;/code&gt; 如果为真，说明版本 &lt;code&gt;1&lt;/code&gt; 可用，否则用版本 &lt;code&gt;2&lt;/code&gt;，&lt;code&gt;PP_AUTO_REC_34&lt;/code&gt; 同理。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;check&lt;/code&gt; 宏要怎么写才能知道版本是否可用呢？在这里，&lt;code&gt;PP_WHILE_PRED&lt;/code&gt; 会展开成两部分的拼接，我们来看后部分 &lt;code&gt;PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;：如果 &lt;code&gt;PP_WHILE_ ## n&lt;/code&gt; 可用，由于 &lt;code&gt;PP_WHILE_FALSE&lt;/code&gt; 固定返回 &lt;code&gt;0&lt;/code&gt;，这部分会展开得到 &lt;code&gt;val&lt;/code&gt; 参数的值，也就是 &lt;code&gt;PP_WHILE_FALSE&lt;/code&gt;；否则这部分宏会保持不变，依然是 &lt;code&gt;PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;把后部分的结果跟前部分 &lt;code&gt;PP_WHILE_CHECK_&lt;/code&gt; 拼接起来，得到两种结果：&lt;code&gt;PP_WHILE_CHECK_PP_WHILE_FALSE&lt;/code&gt; 或者 &lt;code&gt;PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)&lt;/code&gt;，于是我们让 &lt;code&gt;PP_WHILE_CHECK_PP_WHILE_FALSE&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt; 表明可用，&lt;code&gt;PP_WHILE_CHECK_PP_WHILE_n&lt;/code&gt; 返回 &lt;code&gt;0&lt;/code&gt; 表示不可用。至此，我们完成了自动推导递归的功能。&lt;/p&gt;
-&lt;h4&gt;算术比较&lt;/h4&gt;
-&lt;p&gt;不相等：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)&lt;/h1&gt;
-&lt;p&gt;#define PP_NOT_EQUAL_IMPL(x, y) \
-    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))&lt;/p&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL 1&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_0(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_1(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_2(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_3(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_4(...) 0&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_8(...) 0&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_0(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_1(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_2(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_3(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_4(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;p&gt;// ...&lt;/p&gt;
-&lt;h1&gt;define PP_NOT_EQUAL_8(cond, y) PP_IF(cond, PP_EQUAL_NIL, y(1, PP_EQUAL_NIL))&lt;/h1&gt;
-&lt;p&gt;PP_NOT_EQUAL(1, 1)          // -&amp;gt; 0
-PP_NOT_EQUAL(3, 1)          // -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;判断数值是否相等，用到了禁止递归重入的特性，把 &lt;code&gt;x&lt;/code&gt; 和 &lt;code&gt;y&lt;/code&gt; 递归拼接成 &lt;code&gt;PP_NOT_EQUAL_x PP_NOT_EQUAL_y&lt;/code&gt; 宏，如果 &lt;code&gt;x == y&lt;/code&gt;，则不会展开 &lt;code&gt;PP_NOT_EQUAL_y&lt;/code&gt; 宏，跟 &lt;code&gt;PP_NOT_EQUAL_CHECK_&lt;/code&gt; 拼接成 &lt;code&gt;PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y&lt;/code&gt; 返回 &lt;code&gt;0&lt;/code&gt;；反之，两次都成功展开最后得到 &lt;code&gt;PP_EQUAL_NIL&lt;/code&gt;，拼接得到 &lt;code&gt;PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL&lt;/code&gt; 返回 &lt;code&gt;1&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;相等：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))&lt;/h1&gt;
-&lt;p&gt;PP_EQUAL(1, 1)              // -&amp;gt; 1
-PP_EQUAL(1, 3)              // -&amp;gt; 0&lt;/p&gt;
-&lt;p&gt;```&lt;/p&gt;
-&lt;p&gt;小于等于：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))&lt;/h1&gt;
-&lt;p&gt;PP_LESS_EQUAL(2, 1)         // -&amp;gt; 0
-PP_LESS_EQUAL(1, 1)         // -&amp;gt; 1
-PP_LESS_EQUAL(1, 2)         // -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;小于：&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))&lt;/h1&gt;
-&lt;p&gt;PP_LESS(2, 1)               // -&amp;gt; 0
-PP_LESS(1, 2)               // -&amp;gt; 1
-PP_LESS(2, 2)               // -&amp;gt; 0
-```&lt;/p&gt;
-&lt;p&gt;另外还有大于，大于等于等等算术比较，这里不再赘述。&lt;/p&gt;
-&lt;h4&gt;算术运算&lt;/h4&gt;
-&lt;p&gt;利用 &lt;code&gt;PP_AUTO_WHILE&lt;/code&gt; 我们可以实现基础的算术运算了，而且支持嵌套运算。&lt;/p&gt;
-&lt;p&gt;加法：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_ADD(x, y) \
-    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))&lt;/p&gt;
-&lt;h1&gt;define PP_ADD_IMPL(x, y) x&lt;/h1&gt;
-&lt;h1&gt;define PP_ADD_PRED(xy_tuple) PP_ADD_PRED_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_ADD_PRED_IMPL(x, y) y&lt;/h1&gt;
-&lt;h1&gt;define PP_ADD_OP(xy_tuple) PP_ADD_OP_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_ADD_OP_IMPL(x, y) (PP_INC(x), PP_DEC(y))&lt;/h1&gt;
-&lt;p&gt;PP_ADD(1, 2)                  // -&amp;gt; 3
-PP_ADD(1, PP_ADD(1, 2))       // -&amp;gt; 4
-```&lt;/p&gt;
-&lt;p&gt;减法：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_SUB(x, y) \
-    PP_IDENTITY(PP_SUB_IMPL PP_AUTO_WHILE(PP_SUB_PRED, PP_SUB_OP, (x, y)))&lt;/p&gt;
-&lt;h1&gt;define PP_SUB_IMPL(x, y) x&lt;/h1&gt;
-&lt;h1&gt;define PP_SUB_PRED(xy_tuple) PP_SUB_PRED_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_SUB_PRED_IMPL(x, y) y&lt;/h1&gt;
-&lt;h1&gt;define PP_SUB_OP(xy_tuple) PP_SUB_OP_IMPL xy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_SUB_OP_IMPL(x, y) (PP_DEC(x), PP_DEC(y))&lt;/h1&gt;
-&lt;p&gt;PP_SUB(2, 1)                // -&amp;gt; 1
-PP_SUB(3, PP_ADD(2, 1))     // -&amp;gt; 0
-```&lt;/p&gt;
-&lt;p&gt;乘法：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_MUL(x, y) \
-    IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))&lt;/p&gt;
-&lt;h1&gt;define PP_MUL_IMPL(ret, x, y) ret&lt;/h1&gt;
-&lt;h1&gt;define PP_MUL_PRED(rxy_tuple) PP_MUL_PRED_IMPL rxy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_MUL_PRED_IMPL(ret, x, y) y&lt;/h1&gt;
-&lt;h1&gt;define PP_MUL_OP(rxy_tuple) PP_MUL_OP_IMPL rxy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_MUL_OP_IMPL(ret, x, y) (PP_ADD(ret, x), x, PP_DEC(y))&lt;/h1&gt;
-&lt;p&gt;PP_MUL(1, 1)                // -&amp;gt; 1
-PP_MUL(2, PP_ADD(0, 1))     // -&amp;gt; 2
-```&lt;/p&gt;
-&lt;p&gt;乘法实现这里增加了一个参数 &lt;code&gt;ret&lt;/code&gt;，初始值为 &lt;code&gt;0&lt;/code&gt;，每次迭代会执行 &lt;code&gt;ret = ret + x&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;除法：&lt;/p&gt;
-&lt;p&gt;``` cpp
-#define PP_DIV(x, y) \
-    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))&lt;/p&gt;
-&lt;h1&gt;define PP_DIV_IMPL(ret, x, y) ret&lt;/h1&gt;
-&lt;h1&gt;define PP_DIV_PRED(rxy_tuple) PP_DIV_PRED_IMPL rxy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_DIV_PRED_IMPL(ret, x, y) PP_LESS_EQUAL(y, x)&lt;/h1&gt;
-&lt;h1&gt;define PP_DIV_OP(rxy_tuple) PP_DIV_OP_IMPL rxy_tuple&lt;/h1&gt;
-&lt;h1&gt;define PP_DIV_OP_IMPL(ret, x, y) (PP_INC(ret), PP_SUB(x, y), y)&lt;/h1&gt;
-&lt;p&gt;PP_DIV(1, 2)                // -&amp;gt; 0
-PP_DIV(2, 1)                // -&amp;gt; 2
-PP_DIV(2, PP_ADD(1, 1))     // -&amp;gt; 1
-```&lt;/p&gt;
-&lt;p&gt;除法利用了 &lt;code&gt;PP_LESS_EQUAL&lt;/code&gt;，只有 &lt;code&gt;y &amp;lt;= x&lt;/code&gt; 的情况下才继续循环。&lt;/p&gt;
-&lt;h4&gt;数据结构&lt;/h4&gt;
-&lt;p&gt;宏也可以有数据结构，其实我们在前面的也稍微用到了一种数据结构 &lt;code&gt;tuple&lt;/code&gt;，&lt;code&gt;PP_REMOVE_PARENS&lt;/code&gt; 就是可以去掉 &lt;code&gt;tuple&lt;/code&gt; 的外层括号，返回里面的元素。我们这里就以 &lt;code&gt;tuple&lt;/code&gt; 为例子讨论相关的实现，其他的数据结构 &lt;code&gt;list, array&lt;/code&gt; 等有兴趣可以去看 &lt;code&gt;Boost&lt;/code&gt; 的实现。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;tuple&lt;/code&gt; 定义为用括号包住的逗号分开的元素集合：&lt;code&gt;(a, b, c)&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;``` cpp&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)&lt;/h1&gt;
-&lt;p&gt;// 获取指定下标的元素&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))&lt;/h1&gt;
-&lt;p&gt;// 吞掉整个 tuple 返回空&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_EAT() PP_EMPTY_EAT&lt;/h1&gt;
-&lt;p&gt;// 获取大小&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))&lt;/h1&gt;
-&lt;p&gt;// 添加元素
-#define PP_TUPLE_PUSH_BACK(elem, tuple) \
-    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)
-#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \
-    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)&lt;/p&gt;
-&lt;p&gt;// 插入元素
-#define PP_TUPLE_INSERT(i, elem, tuple) \
-    PP_TUPLE_ELEM( \
-        3, \
-        PP_AUTO_WHILE( \
-            PP_TUPLE_INSERT_PRED, \
-            PP_TUPLE_INSERT_OP, \
-            (0, i, elem, (), tuple) \
-        ) \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \
-    PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \
-    ( \
-    PP_IF(PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), PP_INC(curi), curi), \
-    i, elem, \
-    PP_TUPLE_PUSH_BACK(\
-        PP_IF( \
-            PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), \
-            PP_TUPLE_ELEM(curi, tuple), elem \
-        ), \
-        ret \
-    ), \
-    tuple \
-    )&lt;/p&gt;
-&lt;p&gt;// 删除末尾元素
-#define PP_TUPLE_POP_BACK(tuple) \
-    PP_TUPLE_ELEM( \
-        1, \
-        PP_AUTO_WHILE( \
-            PP_TUPLE_POP_BACK_PRED, \
-            PP_TUPLE_POP_BACK_OP, \
-            (0, (), tuple) \
-        ) \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \
-    PP_IF( \
-        PP_TUPLE_SIZE(tuple), \
-        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
-        0 \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \
-    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)&lt;/p&gt;
-&lt;p&gt;// 删除元素
-#define PP_TUPLE_REMOVE(i, tuple) \
-    PP_TUPLE_ELEM( \
-        2, \
-        PP_AUTO_WHILE( \
-            PP_TUPLE_REMOVE_PRED, \
-            PP_TUPLE_REMOVE_OP, \
-            (0, i, (), tuple) \
-        ) \
-    )&lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \
-    PP_IF( \
-        PP_TUPLE_SIZE(tuple), \
-        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
-        0 \
-    )    &lt;/p&gt;
-&lt;h1&gt;define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args&lt;/h1&gt;
-&lt;p&gt;#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \
-    ( \
-    PP_INC(curi), \
-    i, \
-    PP_IF( \
-        PP_NOT_EQUAL(curi, i), \
-        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \
-        ret \
-    ), \
-    tuple \
-    )&lt;/p&gt;
-&lt;p&gt;PP_TUPLE_SIZE(())               // -&amp;gt; 0&lt;/p&gt;
-&lt;p&gt;PP_TUPLE_PUSH_BACK(2, (1))      // -&amp;gt; (1, 2)
-PP_TUPLE_PUSH_BACK(2, ())       // -&amp;gt; (2)&lt;/p&gt;
-&lt;p&gt;PP_TUPLE_INSERT(1, 2, (1, 3))   // -&amp;gt; (1, 2, 3)&lt;/p&gt;
-&lt;p&gt;PP_TUPLE_POP_BACK(())           // -&amp;gt; ()
-PP_TUPLE_POP_BACK((1))          // -&amp;gt; ()
-PP_TUPLE_POP_BACK((1, 2, 3))    // -&amp;gt; (1, 2)&lt;/p&gt;
-&lt;p&gt;PP_TUPLE_REMOVE(1, (1, 2, 3))   // -&amp;gt; (1, 3)
-PP_TUPLE_REMOVE(0, (1, 2, 3))   // -&amp;gt; (2, 3)
-```&lt;/p&gt;
-&lt;p&gt;这里稍微解释一下插入元素的实现，其他删除元素等操作也是通过类似的原理来实现的。&lt;code&gt;PP_TUPLE_INSERT(i, elem, tuple)&lt;/code&gt; 可以在 &lt;code&gt;tuple&lt;/code&gt; 的位置 &lt;code&gt;i&lt;/code&gt; 插入元素 &lt;code&gt;elem&lt;/code&gt;，为了完成这个操作，先把位置小于 &lt;code&gt;i&lt;/code&gt; 的元素都先用 &lt;code&gt;PP_TUPLE_PUSH_BACK&lt;/code&gt; 放到一个新的 &lt;code&gt;tuple&lt;/code&gt; 上（&lt;code&gt;ret&lt;/code&gt;），然后在位置 &lt;code&gt;i&lt;/code&gt; 放入元素 &lt;code&gt;elem&lt;/code&gt;，之后再把原 &lt;code&gt;tuple&lt;/code&gt; 位置大于等于 &lt;code&gt;i&lt;/code&gt; 的元素放到 &lt;code&gt;ret&lt;/code&gt; 后面，最后 &lt;code&gt;ret&lt;/code&gt; 就得到我们想要的结果。&lt;/p&gt;
-&lt;h2&gt;小结&lt;/h2&gt;
-&lt;p&gt;本文的目的是想要阐述清楚 C/C++ 宏编程的原理和基本实现，在记录我本人的一些理解和认识的同时，希望能够对其他人能带来一些解惑和启发。需要注意的是，尽管本文篇幅有点长，但还是有一些关于宏编程的技巧和用法是没有涉及到的，譬如 CHAOS_PP 提出的&lt;a href=&#34;https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression&#34;&gt;基于延迟展开的递归调用方法&lt;/a&gt;，BOOST_PP 里面的 &lt;code&gt;REPEAT&lt;/code&gt; 相关宏等等，有兴趣的可以自行查阅资料。&lt;/p&gt;
-&lt;p&gt;宏编程的调试是一个痛苦的过程，我们可以：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;用 &lt;code&gt;-P -E&lt;/code&gt; 选项输出预处理结果；&lt;/li&gt;
-&lt;li&gt;用前面提到的我自己修改的 &lt;code&gt;clang&lt;/code&gt; 版本仔细研究展开过程；&lt;/li&gt;
-&lt;li&gt;把复杂的宏拆解，查看中间宏的展开结果；&lt;/li&gt;
-&lt;li&gt;屏蔽无关的头文件和宏；&lt;/li&gt;
-&lt;li&gt;最后就是要脑补宏展开的过程了，熟悉宏展开之后调试的效率也会提升。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;本文中的宏是我自己在理解了原理之后重新实现出来的，有部分宏借鉴了 &lt;code&gt;Boost&lt;/code&gt; 的实现和引用里面的文章，有任何错误之处，欢迎随时指正，也欢迎找我来讨论相关的问题。&lt;/p&gt;
-&lt;p&gt;本文的代码全部都在这里：&lt;a href=&#34;assets/img/2021-3-31-cpp-preprocess/macors.cpp&#34;&gt;下载&lt;/a&gt;，&lt;a href=&#34;https://godbolt.org/z/coWvc5Pse&#34;&gt;在线演示&lt;/a&gt;。&lt;/p&gt;
-&lt;h2&gt;引用&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/&#34;&gt;Boost.Preprocessor&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art&#34;&gt;C/C++ 宏编程的艺术&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;--8&amp;lt;-- &#34;footer.md&#34;&lt;/p&gt;</description>
-      <link>https://disenone.github.io/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 02 Dec 2023 05:04:22 +0000</pubDate>
-      <source url="https://disenone.github.io/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://disenone.github.io/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/</guid>
       
     </item>
     
