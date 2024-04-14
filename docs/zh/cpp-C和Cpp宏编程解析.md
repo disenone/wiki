@@ -23,7 +23,7 @@ figures: []
 #### 递归重入（Reentrancy）
 
 ``` cpp
-#define ITER(arg0, arg1) ITER(arg1, arg0) 
+#define ITER(arg0, arg1) ITER(arg1, arg0)
 
 ITER(1, 2)          // -> ITER(2, 1)
 ```
@@ -156,21 +156,21 @@ CONCAT(C, ONCAT(a, b))      // CONCAT(a, b)
 使用修改过的 Clang 来预处理以上代码： `clang -P -E a.cpp -o a.cpp.i`，得到下面的打印信息：
 
 ``` text linenums="1"
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x559e57496900
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is ok to expand
 
 EnterMacro: 0
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x559e57496900 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Token: 0
 identifier: arg0
 Args: [identifier: C]
 Token: 1
-hashhash: 
+hashhash:
 Token: 2
 identifier: arg1
 Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
@@ -178,7 +178,7 @@ Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_
 
 LeaveMacro: 0
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x559e57496900 disabled used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -210,18 +210,18 @@ IDENTITY(CONCAT(C, ONCAT(a, b)))
 <details>
 <summary> <font> Clang 打印信息（点击展开）：</font> </summary>
 ``` test linenums="1"
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x562a148f5a60
     #define <macro>[2853:IDENTITY](arg0) arg0
 Macro is ok to expand
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x562a148f5930
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 
 EnterMacro: 0
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x562a148f5a60 used
     #define <macro>[2853:IDENTITY](arg0) arg0
 Token: 0
@@ -229,21 +229,21 @@ identifier: arg0
 Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
 getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x562a148f5930
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is ok to expand
 
 EnterMacro: 1
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x562a148f5930 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Token: 0
 identifier: arg0
 Args: [identifier: C]
 Token: 1
-hashhash: 
+hashhash:
 Token: 2
 identifier: arg1
 Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
@@ -251,7 +251,7 @@ Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_
 
 LeaveMacro: 1
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x562a148f5930 disabled used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -260,7 +260,7 @@ Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][co
 
 LeaveMacro: 0
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x562a148f5930 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -289,48 +289,48 @@ IDENTITY(CONCAT(C, ONCAT(a, b)))
 <details>
 <summary> <font>Clang 打印信息（点击展开）：</font> </summary>
 ``` test linenums="1"
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457a80
     #define <macro>[2853:IDENTITY_IMPL](arg0) arg0
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457ba0
     #define <macro>[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
 Macro is ok to expand
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 
 EnterMacro: 0
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x55e824457ba0 used
     #define <macro>[2886:IDENTITY](arg0) IDENTITY_IMPL(arg0)
 Token: 0
 identifier: IDENTITY_IMPL
 Token: 1
-l_paren: 
+l_paren:
 Token: 2
 identifier: arg0
 Args: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
 getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: C][comma: ][identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ][eof: ]
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is ok to expand
 
 EnterMacro: 1
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Token: 0
 identifier: arg0
 Args: [identifier: C]
 Token: 1
-hashhash: 
+hashhash:
 Token: 2
 identifier: arg1
 Args: [identifier: ONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
@@ -338,29 +338,29 @@ Leave ExpandFunctionArguments: [identifier: C][hashhash: ][identifier: ONCAT][l_
 
 LeaveMacro: 1
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950 disabled used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
 ResultArgToks: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 Token: 3
-r_paren: 
+r_paren:
 Leave ExpandFunctionArguments: [identifier: IDENTITY_IMPL][l_paren: ][identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][r_paren: ]
 
 LeaveMacro: 0
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457a80
     #define <macro>[2853:IDENTITY_IMPL](arg0) arg0
 Macro is ok to expand
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 
 EnterMacro: 2
 
-Enter ExpandFunctionArguments: 
+Enter ExpandFunctionArguments:
 MacroInfo 0x55e824457a80 used
     #define <macro>[2853:IDENTITY_IMPL](arg0) arg0
 Token: 0
@@ -368,7 +368,7 @@ identifier: arg0
 Args: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ]
 getPreExpArgument: [identifier: CONCAT][l_paren: ][identifier: a][comma: ][identifier: b][r_paren: ][eof: ]
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -377,7 +377,7 @@ Leave ExpandFunctionArguments: [identifier: CONCAT][l_paren: ][identifier: a][co
 
 LeaveMacro: 2
 
-HandleIdentifier: 
+HandleIdentifier:
 MacroInfo 0x55e824457950 used
     #define <macro>[2813:CONCAT](arg0, arg1) arg0 ## arg1
 Macro is not ok to expand
@@ -409,7 +409,7 @@ Macro is not ok to expand
 #define PP_LPAREN() (
 #define PP_RPAREN() )
 #define PP_COMMA() ,
-#define PP_EMPTY() 
+#define PP_EMPTY()
 #define PP_HASHHASH # ## #      // 表示 ## 字符串，但只是作为字符串，不会当作 ## 操作符来处理
 ```
 
@@ -533,7 +533,7 @@ PP_DEC(3)                   // -> PP_DEC_3 -> 2
 
 宏可以接受变长参数，格式是：
 
-```cpp 
+```cpp
 #define LOG(format, ...) printf("log: " format, __VA_ARGS__)
 
 LOG("Hello %s\n", "World")      // -> printf("log: " "Hello %s\n", "World");
@@ -542,7 +542,7 @@ LOG("Hello World")              // -> printf("log: " "Hello World", ); 多了个
 
 由于变长参数有可能为空，空的情况下会导致编译失败，因此 C++ 20 引入了 `__VA_OPT__`，如果变长参数是空，则返回空，否则返回原参数：
 
-```cpp 
+```cpp
 #define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)
 
 LOG2("Hello %s\n", "World")      // -> printf("log: " "Hello %s\n", "World");
@@ -641,7 +641,7 @@ PP_IS_EMPTY_PROCESS(())     // -> 1
 #define PP_IS_EMPTY_IF(if) PP_CONCAT(PP_IS_EMPTY_IF_, if)
 #define PP_IS_EMPTY_IF_1(then, else) then
 #define PP_IS_EMPTY_IF_0(then, else) else
-    
+
 #define PP_IS_EMPTY_ZERO(...) 0
 
 PP_IS_EMPTY()       // -> 1
@@ -650,7 +650,7 @@ PP_IS_EMPTY(1, 2)   // -> 0
 PP_IS_EMPTY(())     // -> 0
 ```
 
-`PP_IS_EMPTY_IF` 根据 `if` 条件来返回第 0 或者 第 1 个参数。 
+`PP_IS_EMPTY_IF` 根据 `if` 条件来返回第 0 或者 第 1 个参数。
 
 如果传入的变长参数以括号开始，`PP_IS_EMPTY_IF` 返回 `PP_IS_EMPTY_ZERO`，最后返回 `0`，表示变长参数非空。
 
@@ -1109,7 +1109,7 @@ PP_DIV(2, PP_ADD(1, 1))     // -> 1
             (0, i, elem, (), tuple) \
         ) \
     )
-#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args 
+#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args
 #define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \
     PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))
 #define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args
@@ -1164,7 +1164,7 @@ PP_DIV(2, PP_ADD(1, 1))     // -> 1
         PP_TUPLE_SIZE(tuple), \
         PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \
         0 \
-    )    
+    )
 #define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args
 #define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \
     ( \
@@ -1209,7 +1209,7 @@ PP_TUPLE_REMOVE(0, (1, 2, 3))   // -> (2, 3)
 
 本文中的宏是我自己在理解了原理之后重新实现出来的，有部分宏借鉴了 `Boost` 的实现和引用里面的文章，有任何错误之处，欢迎随时指正，也欢迎找我来讨论相关的问题。
 
-本文的代码全部都在这里：[下载](assets/img/2021-3-31-cpp-preprocess/macors.cpp)，[在线演示](https://godbolt.org/z/coWvc5Pse)。
+本文的代码全部都在这里：[下载](assets/img/2021-3-31-cpp-preprocess/macros.cpp)，[在线演示](https://godbolt.org/z/coWvc5Pse)。
 
 ## 引用
 
