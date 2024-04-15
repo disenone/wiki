@@ -13,6 +13,8 @@ try:
 except:
     pass
 
+translater_folder = os.path.dirname(__file__)
+
 # 日志
 LOG_LEVEL = logging.INFO
 
@@ -31,7 +33,7 @@ dir_translate_to = {"en": "docs/en", }
 
 # 不进行翻译的文件列表
 exclude_list = ['baidu_verify_codeva-S4d2IcuRUu.html']  # 不进行翻译的文件列表
-processed_dict_file = "tools/processed_dict.txt"  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
+processed_dict_file = os.path.join(translater_folder, "processed_dict.txt")  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
 only_list = [         # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
     # 'test2.md',
     # 'cpp-C和Cpp宏编程解析.md',

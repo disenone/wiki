@@ -1,0 +1,37 @@
+name: PushBaidu
+
+on:
+  push:
+  schedule:
+    - cron: '0 4 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+permissions:
+    contents: write
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest # 运行环境为最新版的Ubuntu
+    steps:
+      - name: CheckOut Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Run Push
+        env:
+          ### push token:
+          PUSH_BAIDU_TOKEN: ${{ secrets.PUSH_BAIDU_TOKEN }}
+        run: |
+          pip install -r tools/push_baidu/requirements.txt
+          python tools/push_baidu/push_baidu.py || true
+      - name: Commit translated
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+          git add .
+          git commit -a -m "Commit PushBaidu Result" || true

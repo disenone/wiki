@@ -34,8 +34,8 @@ jobs:
           ### API KEY:
           CHATGPT_API_KEY: ${{ secrets.CHATGPT_API_KEY }} #x
         run: |
-          pip install -r tools/requirements.txt
-          python tools/auto_translater.py || true
+          pip install -r tools/translater/requirements.txt
+          python tools/translater/auto_translater.py || true
       - name: Commit translated
         run: |
           git config user.name ${{ github.actor }}
