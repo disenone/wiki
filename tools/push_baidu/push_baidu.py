@@ -64,7 +64,7 @@ def Run():
         if url in processed_dict:
             continue
         print('pushing url:', url)
-        ret = requests.post(push_url, data='\n'.join(urls), headers={'ContentType': 'text/plain'}, timeout=10)
+        ret = requests.post(push_url, data=url, headers={'ContentType': 'text/plain'}, timeout=10)
 
         print('push result:', ret.content)
         if ret.status_code != 200:
