@@ -2,7 +2,7 @@
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
-> Original: <https://disenone.github.io/en>
+> Original: <https://wiki.disenone.site/en>
 
 > This post is protected by [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) agreement, should be reproduced with attribution.
 
