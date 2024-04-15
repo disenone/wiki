@@ -11,7 +11,7 @@ permissions:
     contents: write
 
 jobs:
-  bot:
+  push_baidu:
     runs-on: ubuntu-latest # 运行环境为最新版的Ubuntu
     steps:
       - name: CheckOut Code
@@ -22,14 +22,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: Run Push
+      - name: Push
         env:
           ### push token:
           PUSH_BAIDU_TOKEN: ${{ secrets.PUSH_BAIDU_TOKEN }}
         run: |
           pip install -r tools/push_baidu/requirements.txt
           python tools/push_baidu/push_baidu.py || true
-      - name: Commit translated
+      - name: Commit
         run: |
           git config user.name ${{ github.actor }}
           git config user.email ${{ github.actor }}@users.noreply.github.com
