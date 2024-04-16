@@ -394,4 +394,4 @@ Based on UE reflection, it is convenient to view various types of member informa
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/disenone.github.io/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

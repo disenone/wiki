@@ -1232,4 +1232,4 @@ All the code for this document is available here: [Download](assets/img/2021-3-3
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/disenone.github.io/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.

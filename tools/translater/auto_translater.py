@@ -46,9 +46,9 @@ skip_line_startswith = [code_flag, '<detail>', '</detail>', '<meta property']  #
 
 # 由 ChatGPT 翻译的提示
 tips_translated_by_chatgpt = {
-    "en": "\n\n> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/disenone.github.io/issues/new) if any omissions.\n",
-    "es": "\n\n> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/disenone.github.io/issues/new) si hay alguna omisión.\n",
-    "ar": "\n\n> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى [**تزويدنا بتعليقاتكم**](https://github.com/disenone/disenone.github.io/issues/new) إذا كانت هناك أي حذف أو إهمال.\n"
+    "en": "\n\n> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.\n",
+    "es": "\n\n> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki/issues/new) si hay alguna omisión.\n",
+    "ar": "\n\n> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى [**تزويدنا بتعليقاتكم**](https://github.com/disenone/wiki/issues/new) إذا كانت هناك أي حذف أو إهمال.\n"
 }
 
 # 文章使用英文撰写的提示，避免本身为英文的文章被重复翻译为英文

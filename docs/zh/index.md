@@ -9,8 +9,8 @@ hide:
 
 # Disenone's Wiki
 
-[![badge](https://github.com/disenone/disenone.github.io/actions/workflows/Build.yml/badge.svg?label=Build&style=flat-square){ loading=lazy }](https://github.com/disenone/disenone.github.io/actions)
-[![badge](https://img.shields.io/github/last-commit/disenone/disenone.github.io?color=FCD734&label=Last%20commit&style=flat-square){ loading=lazy }](https://github.com/disenone/disenone.github.io/commits/main)
+[![badge](https://github.com/disenone/wiki/actions/workflows/Build.yml/badge.svg?label=Build&style=flat-square){ loading=lazy }](https://github.com/disenone/wiki/actions)
+[![badge](https://img.shields.io/github/last-commit/disenone/wiki?color=FCD734&label=Last%20commit&style=flat-square){ loading=lazy }](https://github.com/disenone/wiki/commits/main)
 [![badge](https://img.shields.io/badge/Contact%20%26%20Subscribe-me-34ABE0?&style=flat-square){ loading=lazy }](contact-and-subscribe)
 
 > 无止境
