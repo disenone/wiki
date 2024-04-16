@@ -20,7 +20,7 @@
 
 <!-- 评论 -->
 <script src="https://giscus.app/client.js"
-        data-repo="disenone/disenone.github.io"
+        data-repo="disenone/wiki"
         data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
         data-category="Announcements"
         data-category-id="DIC_kwDOAQz-AM4CT6GS"
