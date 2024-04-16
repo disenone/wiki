@@ -21,9 +21,9 @@
 <!-- 评论 -->
 <script src="https://giscus.app/client.js"
         data-repo="disenone/wiki"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkxNzYyODY3Mg=="
+        data-repo-id="R_kgDOKz9PQg"
         data-category="Announcements"
-        data-category-id="DIC_kwDOAQz-AM4CT6GS"
+        data-category-id="DIC_kwDOKz9PQs4Cbbvv"
         data-mapping="og:title"
         data-strict="1"
         data-reactions-enabled="1"
