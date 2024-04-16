@@ -9,12 +9,12 @@
 
     
     <managingEditor>Disenone</managingEditor>
-    <docs>https://github.com/disenone/disenone.github.io</docs>
+    <docs>https://github.com/disenone/wiki</docs>
     <language>zh</language>
 
     
-    <pubDate>Tue, 16 Apr 2024 19:21:40 -0000</pubDate>
-    <lastBuildDate>Tue, 16 Apr 2024 19:21:40 -0000</lastBuildDate>
+    <pubDate>Tue, 16 Apr 2024 19:27:30 -0000</pubDate>
+    <lastBuildDate>Tue, 16 Apr 2024 19:27:30 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 16 Apr 2024 19:21:51 +0000</pubDate>
+      <pubDate>Tue, 16 Apr 2024 19:27:42 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 16 Apr 2024 19:21:38 +0000</pubDate>
+      <pubDate>Tue, 16 Apr 2024 19:27:28 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -1323,8 +1323,8 @@ if (!String.IsNullOrEmpty(CachePath))
       <description>&lt;!-- no translate --&gt;
 
 &lt;h1&gt;Disenone&#39;s Wiki&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/disenone.github.io/actions&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://github.com/disenone/disenone.github.io/actions/workflows/Build.yml/badge.svg?label=Build&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
-&lt;a href=&#34;https://github.com/disenone/disenone.github.io/commits/main&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/github/last-commit/disenone/disenone.github.io?color=FCD734&amp;amp;label=Last%20commit&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/wiki/actions&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://github.com/disenone/wiki/actions/workflows/Build.yml/badge.svg?label=Build&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
+&lt;a href=&#34;https://github.com/disenone/wiki/commits/main&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/github/last-commit/disenone/wiki?color=FCD734&amp;amp;label=Last%20commit&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;
 &lt;a href=&#34;contact-and-subscribe&#34;&gt;&lt;img alt=&#34;badge&#34; src=&#34;https://img.shields.io/badge/Contact%20%26%20Subscribe-me-34ABE0?&amp;amp;style=flat-square&#34;&gt;{ loading=lazy }&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;无止境&lt;/p&gt;
