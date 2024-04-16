@@ -50,7 +50,7 @@ jobs:
         run: mkdocs gh-deploy --force
       - name: Prepare for cn version
         run: |
-            cp docs/ext/footer_nocomment.md docs/ext/footer.md
-            cp docs/ext/footer_en_nocomment.md docs/ext/footer_en.md
-      - name:
+            cp docs/assets/ext/footer_nocomment.md docs/assets/ext/footer.md
+            cp docs/assets/ext/footer_en_nocomment.md docs/assets/ext/footer_en.md
+      - name: Deploy cn version
         run: mkdocs gh-deploy --force --remote-branch gh-pages-cn
