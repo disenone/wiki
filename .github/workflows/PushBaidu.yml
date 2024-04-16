@@ -1,7 +1,6 @@
 name: PushBaidu
 
 on:
-  push:
   schedule:
     - cron: '0 4 * * *'
     - cron: '0 12 * * *'
