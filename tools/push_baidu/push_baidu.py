@@ -25,7 +25,7 @@ def LoadProcessed():
 def SaveProcessed(processed_dict):
     file_name = os.path.join(ToolFolder, ProcessFile)
     with open(file_name, 'w') as output:
-        json.dump(processed_dict, output)
+        json.dump(processed_dict, output, indent=2, ensure_ascii=False)
 
 
 def Run():
