@@ -109,7 +109,7 @@ player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
 
 ```
 
-- - - 
+- - -
 
 ###Euler Angle Gimbal Lock###
 Up until now, the camera rotation is almost complete, but there is one more thing to be aware of: Euler Angle Gimbal Lock. I won't go into detail about the theory here, but those who are interested can search for it on their own. In the case of the camera here, when the camera rotates up or down to align with the upward direction of the character, the camera's perspective undergoes a sudden change. This is because when the camera reaches the top or bottom of the character, the camera's upward direction experiences a sudden change (since the Y value of the camera's upward direction needs to be greater than zero). Therefore, we need to limit the range of the camera's up and down rotation to prevent gimbal lock from occurring. The operation is very simple, just restrict the angle between the camera's forward direction and the character's upward direction.
@@ -147,7 +147,7 @@ Vector3 RotateIt(Vector3 oldForward, Vector3 up, Vector3 right, Transform player
             // mouse RB, character rotate together
             if (Input.GetMouseButton(1))
             {
-                player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, 
+                player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0,
                     oldForward.z));
             }
         }
@@ -171,4 +171,4 @@ Vector3 RotateIt(Vector3 oldForward, Vector3 up, Vector3 right, Transform player
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

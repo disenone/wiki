@@ -2,7 +2,7 @@ site_name: Disenone's Wiki
 site_url: https://wiki.disenone.site
 site_author: Disenone
 site_description: 无止境
-repo_url: https://github.com/disenone/wiki
+repo_url: https://github.com/disenone/wiki_blog
 repo_name: GitHub
 copyright: Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
 edit_uri: edit/main/docs/ # 编辑按钮的url

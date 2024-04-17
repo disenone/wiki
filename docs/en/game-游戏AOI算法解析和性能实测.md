@@ -60,7 +60,7 @@ struct Sensor {
 };
 
 struct PlayerAoi {
-  // ...    
+  // ...
   Nuid nuid;
   SquareId square_id;
   int square_index;
@@ -410,7 +410,7 @@ As we analyze, the cross-linked list takes more time in `Add Player` and `Update
 
 Looking at the `Tick` operation of the Cross-chain, the overall performance is indeed better than that of the Nine-grid. In the best case, the time consumed is approximately only half of the Nine-grid's time (`0.8ms` for Cross-chain with `1000, [-1000, 1000]`, and `1.8ms` for Nine-grid), but in the worst case, the performance of the Cross-chain will degrade to be close to that of the Nine-grid (`3.7s` for Cross-chain with `10000, [-10000, 10000]`, and `3.8s` for Nine-grid). This is because, due to the small scene, players are all within each other's AOI range, and the number of `candidates` traversed by the Cross-chain `Tick` is actually very close to that of the Nine-grid.
 
-The Cross-Chain needs to achieve better performance than the Nine-Grid when used. This requires some stronger assumptions, such as `player_num = 1000, map_size = [-1000, 1000]`. In this case, the Cross-Chain takes 0.8ms for `Tick`, while the Nine-Grid takes 1.8ms; for `Update Pos`, the Cross-Chain takes 0.3ms and the Nine-Grid takes 0.18ms (note that the test time for `Update Pos` is the sum of the time for 10 executions). In order for the Cross-Chain to be faster than the Nine-Grid in terms of the total time of `Tick + Update Pos`, the number of `Update Pos` operations cannot exceed 8 times the number of `Tick` operations, or in other words, the number of `Update Pos` operations between two `Tick` operations needs to be less than 8 times. 
+The Cross-Chain needs to achieve better performance than the Nine-Grid when used. This requires some stronger assumptions, such as `player_num = 1000, map_size = [-1000, 1000]`. In this case, the Cross-Chain takes 0.8ms for `Tick`, while the Nine-Grid takes 1.8ms; for `Update Pos`, the Cross-Chain takes 0.3ms and the Nine-Grid takes 0.18ms (note that the test time for `Update Pos` is the sum of the time for 10 executions). In order for the Cross-Chain to be faster than the Nine-Grid in terms of the total time of `Tick + Update Pos`, the number of `Update Pos` operations cannot exceed 8 times the number of `Tick` operations, or in other words, the number of `Update Pos` operations between two `Tick` operations needs to be less than 8 times.
 
 Furthermore, due to the significant time consumption of `Add Player` in the Cross-Chain, it is not suitable for scenarios where players frequently enter and exit scenes within a short period of time or when there is large-scale teleportation within the scene. Additionally, if a large number of players enter the scene within a short period of time, it can easily lead to performance degradation and consume a significant amount of CPU resources.
 
@@ -429,8 +429,8 @@ Finally, here is a comparative bar graph of the two:
 
 In this article, we introduce the principles and basic implementations of two AOI algorithms (grid-based and cross-linked), and analyze the performance pros and cons of these two algorithms through empirical data. We hope that this will provide some assistance or inspiration to the readers.
 
-In general, the Nine-grid method is easy to implement and has balanced performance. It is very suitable for games that are not performance-intensive, such as AOI. The performance fluctuation range of the Nine-grid method is within the expected range, with a relatively high performance lower limit, making it less likely to become a bottleneck. However, on the other hand, the optimization space is not large, and the time complexity is relatively fixed. 
-On the contrary, the Cross-chain method has a more complex implementation and a lower performance lower limit compared to the Nine-grid method. However, if certain assumptions and prerequisites can be met, the Cross-chain method can offer higher optimization space, in other words, the upper limit can be higher. 
+In general, the Nine-grid method is easy to implement and has balanced performance. It is very suitable for games that are not performance-intensive, such as AOI. The performance fluctuation range of the Nine-grid method is within the expected range, with a relatively high performance lower limit, making it less likely to become a bottleneck. However, on the other hand, the optimization space is not large, and the time complexity is relatively fixed.
+On the contrary, the Cross-chain method has a more complex implementation and a lower performance lower limit compared to the Nine-grid method. However, if certain assumptions and prerequisites can be met, the Cross-chain method can offer higher optimization space, in other words, the upper limit can be higher.
 These two methods have their own advantages and disadvantages. Different game engines in the gaming industry have chosen one of them. It's a matter of personal preference and needs.
 
 I have limited ability, and the content of this text only represents my own thoughts. If there are any deficiencies or inappropriate aspects, please feel free to leave a comment for discussion.
@@ -438,4 +438,4 @@ I have limited ability, and the content of this text only represents my own thou
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

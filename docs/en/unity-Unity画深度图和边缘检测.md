@@ -60,9 +60,9 @@ This method is actually using an example from the Unity Reference: [Rendering wi
 Create a Shader:
 
 ```glsl
-Shader "Custom/DepthByReplaceShader" 
+Shader "Custom/DepthByReplaceShader"
 {
-SubShader 
+SubShader
 {
     Tags { "RenderType"="Opaque" }
     Pass {
@@ -153,12 +153,12 @@ inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth
 	// do not bother decoding normals - there's no need here
 	half2 diff = abs(centerNormal - sampleNormal);
 	half isSameNormal = (diff.x + diff.y) < 0.5;
-	
+
 	// difference in depth
 	float zdiff = abs(centerDepth-sampleDepth);
 	// scale the required threshold by the distance
 	half isSameDepth = (zdiff < 0.09 * centerDepth) || (centerDepth < 0.1);
-	
+
 	// return:
 	// 1 - if normals and depth are similar enough
 	// 0 - otherwise
@@ -171,12 +171,12 @@ The complete Shader is as follows:
 ```glsl
 Shader "Custom/DepthColorEdge" {
 
-Properties 
+Properties
 {
 	_DepthTex ("Depth Tex", 2D) = "white" {}
 	_ColorMap ("Color Map", 2D) = "white" {}
 }
-	SubShader 
+	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 200
@@ -194,8 +194,8 @@ Properties
 			sampler2D _ColorMap;
 			float _ZNear;
 			float _ZFar;
-			
-			struct v2f 
+
+			struct v2f
 			{
 			    float4 pos : SV_POSITION;
 			    float2 uv[3] : TEXCOORD0;
@@ -218,24 +218,24 @@ Properties
 				// do not bother decoding normals - there's no need here
 				half2 diff = abs(centerNormal - sampleNormal);
 				half isSameNormal = (diff.x + diff.y) < 0.5;
-				
+
 				// difference in depth
 				float zdiff = abs(centerDepth-sampleDepth);
 				// scale the required threshold by the distance
 				half isSameDepth = (zdiff < 0.09 * centerDepth) || (centerDepth < 0.1);
-				
+
 				// return:
 				// 1 - if normals and depth are similar enough
 				// 0 - otherwise
 				return isSameNormal * isSameDepth;
 			}
 
-			half4 frag(v2f i) : COLOR 
+			half4 frag(v2f i) : COLOR
 			{
 				// get color based on depth
 			    float depth = tex2D (_DepthTex, i.uv[0]).r;
 			    half4 color = tex2D(_ColorMap, float2(saturate(1-depth), 0.5));
-			    
+
 			    // detect normal diff
 			    half2 centerNormal = tex2D(_CameraDepthNormalsTexture, i.uv[0]).xy;
 			    half2 sampleNormal1 = tex2D (_CameraDepthNormalsTexture, i.uv[1]).xy;
@@ -272,7 +272,7 @@ Shader "Custom/ColorMixDepth" {
 	SubShader {
 		Tags { "RenderType"="Opaque" }
 		LOD 200
-		
+
 		CGPROGRAM
 		#pragma surface surf Lambert
 
@@ -292,7 +292,7 @@ Shader "Custom/ColorMixDepth" {
 			o.Alpha = 1;
 		}
 		ENDCG
-	} 
+	}
 	FallBack "Diffuse"
 }
 ```
@@ -328,4 +328,4 @@ The code files are a bit long, so I have placed them here: [depth-minimap](asset
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

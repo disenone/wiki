@@ -53,7 +53,7 @@ void FEditorPlusMenuBar::Register(FMenuBarBuilder& MenuBarBuilder)
 		GetFriendlyName(),
 		GetFriendlyTips(),
         // Delegate to call Register
-		FEditorPlusMenuManager::GetDelegate<FNewMenuDelegate>(GetUniqueId()),       
+		FEditorPlusMenuManager::GetDelegate<FNewMenuDelegate>(GetUniqueId()),
 		Hook);
 }
 
@@ -117,7 +117,7 @@ The interface call format can be very concise:
 ```cpp
 const FString Path = "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action";
 FEditorPlusPath::RegisterPathAction(
-	Path, 
+	Path,
     FExecuteAction::CreateLambda([]
     {
         // do action
@@ -150,7 +150,7 @@ Of course, the path format itself and the custom-generated menu are the same, an
 
 ```cpp
 FEditorPlusPath::RegisterPath(
-    "/<MenuBar>BarTest/<SubMenu>SubMenu/<Command>Action1", 
+    "/<MenuBar>BarTest/<SubMenu>SubMenu/<Command>Action1",
     EP_NEW_MENU(FEditorPlusCommand)("Action1")
     ->BindAction(FExecuteAction::CreateLambda([]
         {
@@ -159,7 +159,7 @@ FEditorPlusPath::RegisterPath(
 );
 
 FEditorPlusPath::RegisterPath(
-    "/<MenuBar>BarTest/<SubMenu>SubMenu/<Command>Action2", 
+    "/<MenuBar>BarTest/<SubMenu>SubMenu/<Command>Action2",
     EP_NEW_MENU(FEditorPlusCommand)("Action2")
     ->BindAction(FExecuteAction::CreateLambda([]
         {
@@ -180,4 +180,4 @@ FEditorPlusPath::GetNodeByPath("/<MenuBar>BarTest")->SetFriendlyName(LOCTEXT("Me
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

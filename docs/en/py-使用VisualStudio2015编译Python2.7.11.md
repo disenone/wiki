@@ -138,7 +138,7 @@ static void __cdecl _silent_invalid_parameter_handler(
     wchar_t const* function,
     wchar_t const* file,
     unsigned int line,
-	uintptr_t pReserved) 
+	uintptr_t pReserved)
 {}
 
 _invalid_parameter_handler _Py_silent_invalid_parameter_handler = _silent_invalid_parameter_handler;
@@ -184,4 +184,4 @@ So it's best to pay attention when using it.
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

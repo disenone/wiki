@@ -92,32 +92,32 @@ bool RealDetector::patchImport(
 
 	assert(exportModuleName != NULL);
 
-	idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
+	idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule,
 		TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
-	if (idte == NULL) 
+	if (idte == NULL)
 	{
 		logMessage("patchImport failed: idte == NULL\n");
 		return false;
 	}
-	while (idte->FirstThunk != 0x0) 
+	while (idte->FirstThunk != 0x0)
 	{
-		if (strcmp((PCHAR)R2VA(importModule, idte->Name), exportModuleName) == 0) 
+		if (strcmp((PCHAR)R2VA(importModule, idte->Name), exportModuleName) == 0)
 		{
 			break;
 		}
 		idte++;
 	}
-	if (idte->FirstThunk == 0x0) 
+	if (idte->FirstThunk == 0x0)
 	{
 		logMessage("patchImport failed: idte->FirstThunk == 0x0\n");
 		return false;
 	}
 
-	if (exportModulePath != NULL) 
+	if (exportModulePath != NULL)
 	{
 		exportmodule = GetModuleHandleA(exportModulePath);
 	}
-	else 
+	else
 	{
 		exportmodule = GetModuleHandleA(exportModuleName);
 	}
@@ -126,14 +126,14 @@ bool RealDetector::patchImport(
 	assert(import != NULL);
 
 	iate = (IMAGE_THUNK_DATA*)R2VA(importModule, idte->FirstThunk);
-	while (iate->u1.Function != 0x0) 
+	while (iate->u1.Function != 0x0)
 	{
-		if (iate->u1.Function == (DWORD_PTR)import) 
+		if (iate->u1.Function == (DWORD_PTR)import)
 		{
-			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function), 
+			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function),
 				PAGE_READWRITE, &protect);
 			iate->u1.Function = (DWORD_PTR)replacement;
-			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function), 
+			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function),
 				protect, &protect);
 			return true;
 		}
@@ -148,7 +148,7 @@ bool RealDetector::patchImport(
 Let's analyze this function, as the comment says, the purpose of this function is to change the address of a certain function in the IAT to the address of another function. Let's take a look at lines 34-35:
 
 ``` cpp
-idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
+idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule,
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```
 
@@ -249,4 +249,4 @@ Also, I want to say that "The Self-Cultivation of Programmers: Linking, Loading,
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

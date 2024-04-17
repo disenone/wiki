@@ -33,7 +33,7 @@ The standard library provides us with a function `getenv`. Literally, this funct
 #include <stdio.h>
 
 //char *getenv( const char *name );
-//GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
+//GETENV_ADD=abc GETENV_NUM=2 ./getenv_test
 
 int main (int argc, char **argv)
 {
@@ -63,11 +63,11 @@ set GETENV_ADD=abc & set GETENV_NUM=1 & .\getenv_test.exe
 
 Under Linux:
 
- 
+
 
 
 ``` shell
-GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
+GETENV_ADD=abc GETENV_NUM=2 ./getenv_test
 ```
 
 Output:
@@ -392,4 +392,4 @@ This time we summarized three methods for handling command line arguments in C/C
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

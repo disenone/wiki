@@ -276,9 +276,9 @@ After the completion of the `ikcp_send` invocation, the data will be placed in t
 ```cpp
 //---------------------------------------------------------------------
 // ikcp_update is an interface that needs to be called regularly by the upper layer to update the state of KCP and send data.
-// update state (call it repeatedly, every 10ms-100ms), or you can ask 
+// update state (call it repeatedly, every 10ms-100ms), or you can ask
 // ikcp_check when to call it again (without ikcp_input/_send calling).
-// 'current' - current timestamp in millisec. 
+// 'current' - current timestamp in millisec.
 //---------------------------------------------------------------------
 void ikcp_update(ikcpcb *kcp, IUINT32 current)
 {
@@ -353,7 +353,7 @@ void ikcp_flush(ikcpcb *kcp)
     //...
 
     // Move packets from snd_queue to snd_buf
-    // The movement is subject to the condition that the sending window size is met. If the sending window is full, the movement will stop. 
+    // The movement is subject to the condition that the sending window size is met. If the sending window is full, the movement will stop.
     // The data placed in snd_buf can be directly passed to the kcp_output function to be sent to the peer.
     while (_itimediff(kcp->snd_nxt, kcp->snd_una + cwnd) < 0) {
         IKCPSEG *newseg;
@@ -507,7 +507,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 
 // Check data packet type
         if (cmd != IKCP_CMD_PUSH && cmd != IKCP_CMD_ACK &&
-            cmd != IKCP_CMD_WASK && cmd != IKCP_CMD_WINS) 
+            cmd != IKCP_CMD_WASK && cmd != IKCP_CMD_WINS)
             return -3;
 
         kcp->rmt_wnd = wnd;
@@ -1052,4 +1052,4 @@ This article provides a simple analysis of the source code for KCP and discusses
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

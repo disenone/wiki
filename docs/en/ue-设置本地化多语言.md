@@ -149,11 +149,11 @@ Translate these text into English language:
 The target name of the translation cannot contain the symbols `.`, and the directory name under `Content\Localization\` cannot contain `.`. UE will only take the name before the `.`. This may cause UE to fail to read the translation text due to incorrect names.
 For editor plugins, it is necessary to check if it is in command line mode using `IsRunningCommandlet()`. If it is, then menus and SlateUI should not be generated because there is no Slate module in command line mode, which can lead to an error when collecting text: `Assertion failed: CurrentApplication.IsValid()`. If you encounter a similar error, you can try adding this check. Specific error information:
 
-    > Assertion failed: CurrentApplication.IsValid() [File:E:\UE\ue5.3_git\Engine\Source\Runtime\Slate\Public\Framework\Application\SlateApplication.h] [Line: 255] 
+    > Assertion failed: CurrentApplication.IsValid() [File:E:\UE\ue5.3_git\Engine\Source\Runtime\Slate\Public\Framework\Application\SlateApplication.h] [Line: 255]
 
     ![](assets/img/2023-ue-localization/tool_error.png)
 
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

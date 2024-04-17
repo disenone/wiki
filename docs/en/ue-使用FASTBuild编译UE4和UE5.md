@@ -246,7 +246,7 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 <Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
     <ProjectFileGenerator>
 <!-- Specify VS version -->
-        <Format>VisualStudio2022</Format>   
+        <Format>VisualStudio2022</Format>
     </ProjectFileGenerator>
     <BuildConfiguration>
 <!-- Enable FASTBuild -->
@@ -280,4 +280,4 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

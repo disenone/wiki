@@ -138,10 +138,10 @@ Meet the ground and rotate around oneself up and down.
 This functionality is a bit complicated to implement. It is necessary because our previous assumption that the camera is always pointed at the character no longer holds true. At this point, we need to split it into two vectors: the camera's orientation (`desireForward`) and the direction from the character to the camera (`cameraToPlayer`). We calculate the values for these two vectors separately. The former determines the camera's orientation, while the latter determines the camera's position. For convenience, we have divided the rotation function from the previous episode into two parts: X rotation (`RotateX`) and Y rotation (`RotateY`). Therefore, when calculating `RotateY` for `cameraToPlayer`, we add a condition:
 
 ```c#
-if ((!isHitGround) || 
+if ((!isHitGround) ||
     (isHitGround && transform.forward.y <= cameraToPlayer.y && yAngle > 0))
 {
-    cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up, 
+    cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up,
         transform.right, yAngle);
 }
 ```
@@ -178,7 +178,7 @@ Complete code:
 
 def hello_world():
     print("Hello, world!")
-    
+
 hello_world()
 
 Output:
@@ -198,32 +198,32 @@ public class MyThirdPersonCamera : MonoBehaviour {
     public int mouseWheelZoomMin = 2;       // min distance
     public int mouseWheelZoomMax = 10;      // max distance
 
-    public float rotateSpeed = 5F;          // speed of rotate around player    
-    public float autoZoomOutSpeed = 10F;    // speed of auto zoom out, camera will auto zoom out 
+    public float rotateSpeed = 5F;          // speed of rotate around player
+    public float autoZoomOutSpeed = 10F;    // speed of auto zoom out, camera will auto zoom out
                                             // to pre distance when stop colliding object
     float curDistance = 5F;                 // distance to player
-    float desiredDistance = 5F;             // distance should be      
+    float desiredDistance = 5F;             // distance should be
     bool isHitGround = false;               // hit ground flag
     bool isHitObject = false;               // hit object(except ground) flag
-    
+
     // Use this for initialization
     void Awake ()
     {
         playerTransform = transform.parent;
     }
 
-    void Start () 
+    void Start ()
     {
-        transform.position = playerTransform.position - playerTransform.forward 
+        transform.position = playerTransform.position - playerTransform.forward
             * curDistance;
         transform.LookAt(playerTransform);
-        
+
     }
-    
+
     // Update is called once per frame
-    void Update () 
+    void Update ()
     {
-        Vector3 cameraToPlayer = 
+        Vector3 cameraToPlayer =
             (playerTransform.position - transform.position).normalized;
 
         Vector3 desireForward = transform.forward;
@@ -248,7 +248,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         }
 
         // rotate camera by y-axis, if camera is not on ground or camera is going to leave ground
-        if ((!isHitGround) 
+        if ((!isHitGround)
         || (isHitGround && transform.forward.y <= cameraToPlayer.y && yAngle > 0))
         {
             cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up, transform.
@@ -256,7 +256,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         }
 
         // detect collision of camera to rigid body, get the distance camera should be
-        float newDistance = DealWithCollision(playerTransform.position, 
+        float newDistance = DealWithCollision(playerTransform.position,
             -cameraToPlayer, desiredDistance,ref isHitGround, ref isHitObject);
 
         // check the distance
@@ -267,7 +267,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         else
         {
             // now moving to farther position, use a speed to move it
-            curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, 
+            curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed,
                 newDistance);
         }
 
@@ -356,7 +356,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
     }
 
     // return distance if no collision, else return distance to rigid body
-    float DealWithCollision(Vector3 origin, Vector3 direction, float distance, 
+    float DealWithCollision(Vector3 origin, Vector3 direction, float distance,
         ref bool ishitGround, ref bool ishitObject)
     {
         // collision detection
@@ -389,4 +389,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

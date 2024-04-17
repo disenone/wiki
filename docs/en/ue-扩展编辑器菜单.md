@@ -119,8 +119,8 @@ Submenus are similar to menus and need to be defined inside Lambda:
 
 ```cpp
 MenuBuilder.AddSubMenu(
-    FText::FromName("MenuTestSub"),	
-    FText::FromName("MenuTestSub"),	
+    FText::FromName("MenuTestSub"),
+    FText::FromName("MenuTestSub"),
     FNewMenuDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
     {
         MenuBuilder.AddMenuEntry(
@@ -148,7 +148,7 @@ MenuBuilder.AddWidget(
             .MinDesiredWidth(50)
             .Text(FText::FromName("MenuTestWidget"))
         ]
-        
+
         + SHorizontalBox::Slot()
         .AutoWidth()
         .Padding(5, 0, 0, 0)
@@ -285,4 +285,4 @@ void BuildTestMenu()
 
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.

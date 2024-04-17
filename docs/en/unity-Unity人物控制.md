@@ -45,7 +45,7 @@ The input consists of up, down, left, right, and jump commands. The direction ne
 
 ```c#
 // get movement from input
-var direction = new Vector3(Input.GetAxis("Horizontal"), 0, 
+var direction = new Vector3(Input.GetAxis("Horizontal"), 0,
 	Input.GetAxis("Vertical"));
 if (direction != Vector3.zero)
 {
@@ -61,7 +61,7 @@ person.inputJump = Input.GetButton("Jump");
 ## Describing Movement and Jumping
 We need to use some variables to describe the character's actions, such as movement speed, jumping speed, etc. Movement is described using the following variable:
 
-```c#    
+```c#
 [System.Serializable]
 public class Movement
 {
@@ -76,7 +76,7 @@ public Movement movement = new Movement();
 
 ```c#
 [System.Serializable]
-public class Jumping 
+public class Jumping
 {
     public bool enable = true;      // true if can jump
     public float jumpSpeed = 5F;    // original speed when jump
@@ -115,7 +115,7 @@ Jumping is a bit troublesome as it requires determining the current status of th
 ```c#
 if (!isOnGround)
 {
-    yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
+    yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime,
     	-jumping.maxFallSpeed);
 }
 else
@@ -161,12 +161,12 @@ public class MyThirdPersonInput : MonoBehaviour {
     {
         person = GetComponent<MyThirdPersonController>();
     }
-	
+
 	// Update is called once per frame
-	void Update () 
+	void Update ()
     {
         // get movement from input
-        var direction = new Vector3(Input.GetAxis("Horizontal"), 0, 
+        var direction = new Vector3(Input.GetAxis("Horizontal"), 0,
         	Input.GetAxis("Vertical"));
 
         if (direction != Vector3.zero)
@@ -182,7 +182,7 @@ public class MyThirdPersonInput : MonoBehaviour {
 
         person.inputMoveDirction = direction;
         person.inputJump = Input.GetButton("Jump");
-        
+
     }
 }
 
@@ -214,13 +214,13 @@ public class MyThirdPersonController : MonoBehaviour {
         public float sidewardSpeed = 5F;
     }
     public Movement movement = new Movement();
-    
+
     [System.Serializable]
-    public class Jumping 
+    public class Jumping
     {
         public bool enable = true;      // true if can jump
         public float jumpSpeed = 5F;    // original speed when jump
-        public float gravity = 10F;     
+        public float gravity = 10F;
         public float maxFallSpeed = 20F;
         public bool jumping = false;    // true if now in the air
     }
@@ -230,13 +230,13 @@ public class MyThirdPersonController : MonoBehaviour {
     private Vector3 velocity = Vector3.zero;
     private bool isOnGround = true;
 	// Use this for initialization
-	void Start () 
+	void Start ()
     {
         controller = GetComponent<CharacterController>();
 	}
-	
+
 	// Update is called once per frame
-    void FixedUpdate() 
+    void FixedUpdate()
     {
         // move to new position
         var collisionFlag = controller.Move(velocity * Time.deltaTime);
@@ -261,7 +261,7 @@ public class MyThirdPersonController : MonoBehaviour {
         // y velocity
         if (!isOnGround)
         {
-            yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime, 
+            yVelocity = Math.Max(yVelocity - jumping.gravity * Time.deltaTime,
             	-jumping.maxFallSpeed);
         }
         else
@@ -283,4 +283,4 @@ public class MyThirdPersonController : MonoBehaviour {
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki/issues/new) if any omissions.
+> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
