@@ -10,11 +10,11 @@
     
     <managingEditor>Disenone</managingEditor>
     <docs>https://github.com/disenone/wiki_blog</docs>
-    <language>zh</language>
+    <language>en</language>
 
     
-    <pubDate>Wed, 17 Apr 2024 18:42:13 -0000</pubDate>
-    <lastBuildDate>Wed, 17 Apr 2024 18:42:13 -0000</lastBuildDate>
+    <pubDate>Fri, 19 Apr 2024 10:02:45 -0000</pubDate>
+    <lastBuildDate>Fri, 19 Apr 2024 10:02:45 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -38,8 +38,23 @@
       
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
+      <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Fri, 19 Apr 2024 10:02:47 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      
+      
+      
+      
+      <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 17 Apr 2024 18:42:15 +0000</pubDate>
+      <pubDate>Fri, 19 Apr 2024 10:02:33 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -54,7 +69,7 @@
       
       <description>&lt;h1&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 17 Apr 2024 18:42:00 +0000</pubDate>
+      <pubDate>Fri, 19 Apr 2024 10:02:19 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -1038,8 +1053,6 @@ FModuleManager::LoadModuleChecked&amp;lt;FLevelEditorModule&amp;gt;(&#34;LevelEd
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;使用 FASTBuild 编译 UE4 和 UE5&#34; /&gt;&lt;/p&gt;
-&lt;!-- no translate --&gt;
-
 &lt;blockquote&gt;
 &lt;p&gt;本文方法经测试支持 UE4.27 - UE5.3，其他版本未测试过，可以尝试。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1233,7 +1246,7 @@ if (!String.IsNullOrEmpty(CachePath))
 &lt;p&gt;&lt;Configuration xmlns=&#34;https://www.unrealengine.com/BuildConfiguration&#34;&gt;
     &lt;ProjectFileGenerator&gt;
         &lt;!-- 指定vs版本 --&gt;
-        &lt;Format&gt;VisualStudio2022&lt;/Format&gt; &lt;br&gt;
+        &lt;Format&gt;VisualStudio2022&lt;/Format&gt;
     &lt;/ProjectFileGenerator&gt;
     &lt;BuildConfiguration&gt;
         &lt;!-- 开启 FASTBuild --&gt;
