@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The native support for FASTBuild in UE is not quite perfect. In order to ensure flawless FASTBuild support for both UE4 and UE5, we need to make some configuration and source code modifications. Let me guide you through them one by one.">
+        <meta name="description" content="The native support of FASTBuild in UE is not very complete. In order to perfectly support FASTBuild in both UE4 and UE5, we need to make some configurations and source code modifications. Let me explain them to you one by one.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Compile UE4 and UE5 using FASTBuild. - Disenone's Wiki</title>
+        <title>Build UE4 and UE5 using FASTBuild. - Disenone's Wiki</title>
       
     
     
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Compile UE4 and UE5 using FASTBuild.
+              Build UE4 and UE5 using FASTBuild.
             
           </span>
         </div>
@@ -180,6 +180,12 @@
           <li class="md-select__item">
             <a href="./" hreflang="en" class="md-select__link">
               English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="es" class="md-select__link">
+              Español
             </a>
           </li>
         
@@ -918,7 +924,7 @@
           
   
   <span class="md-ellipsis">
-    Compile UE4 and UE5 using FASTBuild.
+    Build UE4 and UE5 using FASTBuild.
   </span>
   
 
@@ -929,7 +935,7 @@
         
   
   <span class="md-ellipsis">
-    Compile UE4 and UE5 using FASTBuild.
+    Build UE4 and UE5 using FASTBuild.
   </span>
   
 
@@ -958,13 +964,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#easy-configuration" class="md-nav__link">
+  <a href="#easy-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Easy Configuration
+      Easy Setup
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Easy Configuration">
+    <nav class="md-nav" aria-label="Easy Setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1028,27 +1034,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fbuild-more-options" class="md-nav__link">
+  <a href="#more-options" class="md-nav__link">
     <span class="md-ellipsis">
-      FBuild More Options
+      More Options
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#modify-the-built-in-fastbuildcs-in-ue" class="md-nav__link">
+  <a href="#modify-the-fastbuildcs-file-that-comes-with-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Modify the built-in FASTBuild.cs in UE
+      Modify the FASTBuild.cs file that comes with UE.
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#advanced-configuration-of-buildconfigurationxml" class="md-nav__link">
+  <a href="#buildconfigurationxml-advanced-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Advanced Configuration of BuildConfiguration.xml
+      BuildConfiguration.xml Advanced Configuration
     </span>
   </a>
   
@@ -1390,13 +1396,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#easy-configuration" class="md-nav__link">
+  <a href="#easy-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Easy Configuration
+      Easy Setup
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Easy Configuration">
+    <nav class="md-nav" aria-label="Easy Setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1460,27 +1466,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fbuild-more-options" class="md-nav__link">
+  <a href="#more-options" class="md-nav__link">
     <span class="md-ellipsis">
-      FBuild More Options
+      More Options
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#modify-the-built-in-fastbuildcs-in-ue" class="md-nav__link">
+  <a href="#modify-the-fastbuildcs-file-that-comes-with-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Modify the built-in FASTBuild.cs in UE
+      Modify the FASTBuild.cs file that comes with UE.
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#advanced-configuration-of-buildconfigurationxml" class="md-nav__link">
+  <a href="#buildconfigurationxml-advanced-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Advanced Configuration of BuildConfiguration.xml
+      BuildConfiguration.xml Advanced Configuration
     </span>
   </a>
   
@@ -1514,20 +1520,22 @@
   
 
 
-  <h1>Compile UE4 and UE5 using FASTBuild.</h1>
+  <h1>Build UE4 and UE5 using FASTBuild.</h1>
 
 <div><p><meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5"></p>
+<blockquote>
 <p>This method has been tested and supports UE4.27 - UE5.3. Other versions have not been tested, but you can give it a try.</p>
+</blockquote>
 <h2 id="preface">Preface</h2>
-<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a> is a free and open-source distributed compilation tool. The compilation process of UE itself is quite time-consuming, but by using FASTBuild, it is possible to significantly reduce the time required.</p>
-<p>Starting from UE 4.x, it is able to support FASTBuild. The official source code comes with a modified version of FASTBuild tool, based on version 0.99 of FASTBuild. Its location is <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>. UE5.3 also uses this version. However, this is a relatively old version. As of the creation time of this article, the latest official version of FASTBuild is 1.11, which provides more new features and bug fixes. This article focuses on how to use version 1.11 to support both UE4 and UE5 simultaneously.</p>
-<h2 id="easy-configuration">Easy Configuration</h2>
-<p>To achieve the goal, we need to make some modifications to FASTBuild 1.11 and the UE source code. Here, in fact, I have already made all the modifications, so we can directly use the version I have modified.</p>
-<p>Download the executable files FBuild.exe, FBuildCoordinator.exe, and FBuildWorker.exe from the <a href="https://github.com/disenone/fastbuild/releases">latest version</a> that I submitted. In order to better illustrate, the machine that uses FBuild.exe for programming will be referred to as <code>local machine</code>, while the remote machines that provide CPU participation for editing will be referred to as <code>remote machines</code>.</p>
+<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>FASTBuild is a free and open-source distributed compilation tool. The compilation process of UE itself is quite time-consuming. By using FASTBuild, it is possible to significantly reduce the time spent.</p>
+<p>UE 4.x and later versions can support FASTBuild. The official source code comes with a modified version of FASTBuild tools, based on version 0.99 of FASTBuild. It is located in <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>. UE5.3 also uses this version. However, this is a relatively old version. As of the time of writing this article, the latest official version of FASTBuild is 1.11, which provides more new features and bug fixes. This article focuses on how to use version 1.11 to support both UE4 and UE5 at the same time.</p>
+<h2 id="easy-setup">Easy Setup</h2>
+<p>To achieve our goal, we need to make some modifications to FASTBuild 1.11 and UE source code. Here, I have already made all the necessary modifications, so we can directly use the version that I have modified.</p>
+<p>Download the <a href="https://github.com/disenone/fastbuild/releases">latest version</a>Inside are the executable files FBuild.exe, FBuildCoordinator.exe, and FBuildWorker.exe. For clarity, we will refer to the machine that uses FBuild.exe for programming as "local machine," and the remote machines that provide CPU involvement in the editing process as "remote machines."</p>
 <h3 id="local-configuration">Local Configuration</h3>
-<p>Add the directory where FBuild.exe is located to the system environment variable <code>Path</code>, to ensure that FBuild.exe can be executed directly in the <code>cmd</code> command prompt.</p>
-<p>Configure Cache Shared Directory (If Cache generation is not needed, this configuration can be skipped): Set an empty directory as a shared path and ensure that the remote machine has access to it.</p>
-<p>Open the source code project of your local UE4/UE5. Modify the compilation configuration file Engine\Saved\UnrealBuildTool\BuildConfiguration.xml as follows:</p>
+<p>Add the directory where FBuild.exe is located to the system environment variable Path to ensure that FBuild.exe can be executed directly in the cmd.</p>
+<p>Configure the shared directory for Cache (If Cache generation is not needed, it can be left unconfigured): Set an empty directory as the shared path and ensure that the remote machine has access to it.</p>
+<p>Open the source code project for UE4 / UE5 on this machine and modify the compilation configuration file Engine\Saved\UnrealBuildTool\BuildConfiguration.xml as follows:</p>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
@@ -1541,16 +1549,20 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">&lt;/Configuration&gt;</span>
 </code></pre></div>
-<p>Run the downloaded FBuildCoordinator.exe on this machine.</p>
+<p>Download the FBuildCoordinator.exe that was previously run on this machine.</p>
 <h3 id="remote-machine-configuration">Remote Machine Configuration</h3>
-<p>With the same configuration as Cache, only the IP needs to be set to the local IP, assuming it is 192.168.1.100.
-  - FASTBUILD_CACHE_PATH: \192.168.1.100\Cache
-  - FASTBUILD_CACHE_MODE: rw</p>
-<p>[Same configuration Coordinator IP]
-  - FASTBUILD_COORDINATOR: 192.168.1.100</p>
-<p>After configuring, it should look like the following image.</p>
+<p>When configuring Cache with the same settings, just specify the IP address to be the local IP address, assuming it is 192.168.1.100.</p>
+<ul>
+<li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
+<li>FASTBUILD_CACHE_MODE: rw</li>
+</ul>
+<p>Configure the Coordinator IP in the same manner.</p>
+<ul>
+<li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
+</ul>
+<p>Configured as shown in the following figure.</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-fastbuild/remote_vars.png"></a></p>
-<p>Run FBuildWorker.exe on the remote machine. If the configuration is successful, logs will be printed on the FBuildCoordinator.exe of the local machine (here, 192.168.1.101 is the IP address of the remote machine):</p>
+<p>Run FBuildWorker.exe on a remote machine. If the configuration is successful, logs will be printed on FBuildCoordinator.exe on your local machine (where 192.168.1.101 is the IP address of the remote machine).</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>FBuildCoordinator - v1.11-UE
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[2023-12-01-20:06:38] Listening on port 31392
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[2023-12-01-20:06:38] current [0] workers: []
@@ -1558,73 +1570,73 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 </code></pre></div>
 <h3 id="test-ue-compilation">Test UE Compilation</h3>
-<p>Open the UE source code project sln with VisualStudio, select a C++ project, and click Rebuild. If the configuration is correct, you will see logs similar to the following:</p>
+<p>Open the UE source code project sln using VisualStudio, select a C++ project, and click on Rebuild. If the configuration is correct, you should see logs similar to the following:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>11&gt;FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>11&gt;FBuild Executable: 'd:\libs\FASTBuild\bin\FBuild.exe
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>11&gt;FBuild Coordinator: '127.0.0.1
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>11&gt;FBuild BrokeragePath: '\\127.0.0.1\Brokerage\
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>11&gt;FBuild CachePath: '\\127.0.0.1\Cache\
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>11&gt;BFF file 'E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff' has changed (reparsing will occur).
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>11&gt;Using Coordinator: 192.168.88.187
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>11&gt;Using Coordinator: 127.0.0.1
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>11&gt;Requesting worker list from Corrdinator
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>11&gt;Get Worker List from Coordinator.
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>11&gt;2 workers in payload: [192.168.1.101]
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>11&gt;Worker list received: 1 workers
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11&gt;Distributed Compilation : 1 Workers in pool '127.0.0.1'
 </code></pre></div>
-<p>FASTBuild can find the IP address of the remote machine and start sending the compilation tasks to it. On the FBuildWorker of the remote machine, you can also see that there are currently compilation tasks being executed.</p>
+<p>FASTBuild can find the IP address of the remote machine and start sending the compilation to the remote machine. The FBuildWorker on the remote machine can also see that there is currently a compilation task being executed.</p>
 <h2 id="advanced-configuration">Advanced Configuration</h2>
 <h3 id="support-for-older-versions-of-ue">Support for older versions of UE</h3>
-<p>If you find that your UE doesn't have the FASTBuild tool (Engine\Extras\ThirdPartyNotUE\FASTBuild), and there is no FASTBuild.cs file in the UnrealBuildTool project, it's highly likely that your UE version does not support FASTBuild yet.</p>
-<p>So you need to refer to the source code of UE4.27 and create a similar FASTBuild.cs file, and make the necessary modifications to other related code. No further details will be provided here.</p>
+<p>If you find that your UE does not have the FASTBuild tool (Engine\Extras\ThirdPartyNotUE\FASTBuild), and there is no FASTBuild.cs file in the UnrealBuildTool project, it is highly likely that your UE version does not yet support FASTBuild.</p>
+<p>Then you need to refer to the UE4.27 source code and create a similar FASTBuild.cs file, and make the necessary modifications to other related code. I won't go into detail here.</p>
 <h3 id="compile-your-own-fastbuild">Compile your own FASTBuild</h3>
 <p>If you are also interested in FASTBuild itself, or want to make some modifications, you can try using FASTBuild to compile FASTBuild.</p>
 <ul>
-<li>Download my <a href="https://github.com/disenone/fastbuild/releases">latest source code</a> and unzip it.</li>
-<li>Modify External\SDK\VisualStudio\VS2019.bff, change .VS2019_BasePath and .VS2019_Version to the corresponding values on your machine. You can find the Version in the .VS2019_BasePath\Tools\MSVC directory, for example...
+<li>Download my <a href="https://github.com/disenone/fastbuild/releases">latest source code</a>, and decompress</li>
+<li>Modify External\SDK\VisualStudio\VS2019.bff, and change .VS2019_BasePath and .VS2019_Version to the corresponding content on your local machine. You can find the Version in the .VS2019_BasePath\Tools\MSVC directory, for example:
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // &lt;-- Set path here
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.VS2019_Version         = '14.29.30133' // &lt;-- Set version here
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>.VS2019_MSC_VER         = '1929' // &lt;-- Set MSC_VER here
 </code></pre></div></li>
 </ul>
 <ul>
-<li>Modify the .Windows10_SDKBasePath and .Windows10_SDKVersion in External\SDK\Windows\Windows10SDK.bff file. The version can be found inside .Windows10_SDKBasePath/bin folder.
+<li>Update the <code>.Windows10_SDKBasePath</code> and <code>.Windows10_SDKVersion</code> in <code>External\SDK\Windows\Windows10SDK.bff</code>, you can check the version in <code>.Windows10_SDKBasePath/bin</code>.
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
 </code></pre></div></li>
 </ul>
 <ul>
-<li>Update the <code>.Clang11_BasePath</code> and <code>.Clang11_Version</code> in <code>External\SDK\Clang\Windows\Clang11.bff</code>, the path is located in <code>.VS2019_BasePath\Tools\Tools/LLVM/x64</code>.
+<li>Update the .Clang11_BasePath and .Clang11_Version in External\SDK\Clang\Windows\Clang11.bff file, the path is in .VS2019_BasePath\Tools\LLVM\x64.
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = '12.x.x'
 </code></pre></div></li>
 </ul>
 <ul>
-<li>Go to the Code directory and execute <code>FBuild.exe All-x64-Release</code> in the cmd. If the configuration is correct, you should see a successful compilation. You can find the FBuild.exe in tmp\x64-Release\Tools\FBuild\FBuild.</li>
+<li>Enter the Code directory and execute <code>FBuild.exe All-x64-Release</code> in the command prompt. If the configuration is correct, you should see a successful compilation. You can find FBuild.exe in tmp\x64-Release\Tools\FBuild\FBuild.</li>
 </ul>
-<p>The command <code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> enables distributed compilation.</p>
-<h3 id="fbuild-more-options">FBuild More Options</h3>
-<p>The FBuild I provide itself supports the following commonly used options:</p>
+<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> enables distributed compilation.</p>
+<h3 id="more-options">More Options</h3>
+<p>The FBuild that I provide supports the following commonly used options:</p>
 <ul>
-<li>coordinator: Specify the Coordinator IP address (can override the value of system environment variables)</li>
-<li>brokerage: Specify the Brokerage address (can override the value of system environment variables)</li>
-<li>nocache: Force to not use cache</li>
+<li>coordinator: Specify the Coordinator IP address (can override the value of the system's environment variable)</li>
+<li>brokerage: Specifies the address of the brokerage (which can override the value of the system environment variable)</li>
+<li>nocache: Force not to use cache</li>
 <li>dist: Enable distributed compilation</li>
-<li>forceremote: Force to compile on a remote machine</li>
-<li>summary: Output a statistical report after editing is finished</li>
+<li>forceremote: Force compilation on the remote machine.</li>
+<li>summary: After editing, output a summary report.</li>
 </ul>
-<p>Wait, you can run <code>FBuild.exe -help</code> to see more options.</p>
+<p>Wait a moment, for more options you can run <code>FBuild.exe -help</code> to check.</p>
 <p>The commonly used options for FBuildWorker are:</p>
 <ul>
-<li>coordinator: Specify the Coordinator IP address (can override the value of the system environment variable).</li>
-<li>brokerage: Specify the Brokerage address (can override the value of the system environment variable).</li>
-<li>nocache: Forcefully disable the use of cache.</li>
-<li>cpus: Specify the number of cores to allocate for compilation.</li>
+<li>coordinator: Specify the Coordinator IP address (can override the value of system environment variables)</li>
+<li>brokerage: Specify the Brokerage address (can override the value of system environment variables).</li>
+<li>nocache: Force to not use cache.</li>
+<li>cpus: Specify the number of cores allocated for compilation.</li>
 </ul>
 <p>To see more options, you can run <code>FBuildWorder.exe -help</code>.</p>
-<h3 id="modify-the-built-in-fastbuildcs-in-ue">Modify the built-in FASTBuild.cs in UE</h3>
-<p>The built-in FASTBuild.cs provided by UE does not handle system environment variables well in relation to the parameters specified in BuildConfiguration.xml. Many parameters prioritize reading system environment variables, which clearly contradicts the logic of using BuildConfiguration.xml.</p>
-<p>To do this, you can modify the relevant code like this, taking UE5.3 as an example here:</p>
+<h3 id="modify-the-fastbuildcs-file-that-comes-with-ue">Modify the FASTBuild.cs file that comes with UE.</h3>
+<p>The built-in FASTBuild.cs in UE does not handle system environment variables very well in relation to the parameters specified in BuildConfiguration.xml. Many parameters prioritize reading the system environment variables, which clearly contradicts the logic of using BuildConfiguration.xml.</p>
+<p>To do this, you can modify the relevant code like this, using UE5.3 as an example:</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">private</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ExecuteBffFile</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">BffFilePath</span><span class="p">,</span><span class="w"> </span><span class="n">ILogger</span><span class="w"> </span><span class="n">Logger</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
@@ -1697,7 +1709,7 @@
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="p">...</span>
 </code></pre></div>
-<h3 id="advanced-configuration-of-buildconfigurationxml">Advanced Configuration of BuildConfiguration.xml</h3>
+<h3 id="buildconfigurationxml-advanced-configuration"><strong>BuildConfiguration.xml</strong> Advanced Configuration</h3>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&lt;ProjectFileGenerator&gt;</span>
@@ -1707,9 +1719,9 @@
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="cm">&lt;!-- Enable FASTBuild --&gt;</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="cm">&lt;!-- Specify the number of CPU cores that will participate in the compilation on the local machine --&gt;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="cm">&lt;!-- Specifies the number of CPU cores used for compilation on the local machine --&gt;</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">&lt;MaxParallelActions&gt;</span>12<span class="nt">&lt;/MaxParallelActions&gt;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Disable Incredibuild --&gt;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Close Incredibuild --&gt;</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="nt">&lt;bAllowXGE&gt;</span>false<span class="nt">&lt;/bAllowXGE&gt;</span>
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
@@ -1723,10 +1735,10 @@
 <a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
 <a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="cm">&lt;!-- Enable cache --&gt;</span>
 <a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- cache read/write permissions Read/Write/ReadWrite --&gt;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- Cache read and write permissions: Read/Write/ReadWrite --&gt;</span>
 <a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- Specify coordinator ip --&gt;</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>192.168.88.187<span class="nt">&lt;/FBuildCoordinator&gt;</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- Specify coordinator IP --&gt;</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
 <a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- Force remote compilation --&gt;</span>
 <a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
 <a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
@@ -1781,7 +1793,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-18</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-19</span>
   </span>
 
     
