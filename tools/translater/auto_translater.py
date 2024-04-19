@@ -8,6 +8,7 @@ import json
 import git
 import logging
 import functools
+import argparse
 try:
     import env
 except:
@@ -29,7 +30,10 @@ max_length = 1800
 
 # 设置翻译的路径
 dir_to_translate = "docs/zh"
-dir_translate_to = {"en": "docs/en", }
+dir_translate_to = {
+    "en": "docs/en",        # 英语
+    "es": "docs/es",        # 西班牙语
+}
 
 # 不进行翻译的文件列表
 exclude_list = ['baidu_verify_codeva-S4d2IcuRUu.html']  # 不进行翻译的文件列表
@@ -84,7 +88,8 @@ replace_rules = [
         # snippet
         "orginal_text": '--8<-- "footer.md"',
         "replaced_text": {
-            "en": '--8<-- "footer_en.md"'
+            "en": '--8<-- "footer_en.md"',
+            "es": '--8<-- "footer_en.md"',
         }
     }
 ]
@@ -431,7 +436,8 @@ def CreateProcessInfo(input_file):
     info['mtime'] = os.stat(input_file).st_mtime
     return info
 
-def NeedProcess(precessed_dict, input_file, lang):
+
+def NeedProcess(working_folder, precessed_dict, input_file, lang):
     if lang not in dir_translate_to:
         return False
 
@@ -439,6 +445,10 @@ def NeedProcess(precessed_dict, input_file, lang):
         return False
 
     filename = os.path.basename(input_file)
+
+    output_filename = os.path.join(working_folder, dir_translate_to[lang], filename)
+
+    log(f"Checking [{input_file}] to [{lang}], output [{output_filename}]")
 
     if only_list:
         return filename in only_list
@@ -451,6 +461,12 @@ def NeedProcess(precessed_dict, input_file, lang):
         log(f"Pass the post with content {marker_no_translate}: {filename}")
         sys.stdout.flush()
         return False
+
+    if marker_written_in_en in md_content:  # 翻译为除英文之外的语言
+        log(f"Pass the en-en translation: {filename}")
+        sys.stdout.flush()
+        if lang == 'en':
+            return False
 
     if marker_force_translate in md_content:  # 如果有强制翻译的标识，则执行这部分的代码
         if marker_written_in_en in md_content:  # 翻译为除英文之外的语言
@@ -467,7 +483,7 @@ def NeedProcess(precessed_dict, input_file, lang):
         sys.stdout.flush()
         return False
 
-    elif filename in precessed_dict:
+    elif filename in precessed_dict and os.path.exists(output_filename):
         # 以前翻译过，判断是否有更新
         # 优先判断 git_ref，如果没有 git_ref，则判断修改时间
         processed_info = precessed_dict[filename]
@@ -479,20 +495,18 @@ def NeedProcess(precessed_dict, input_file, lang):
             mtime = os.stat(input_file).st_mtime
             if mtime != processed_info.get('mtime'):
                 return True
-        log(f"Pass the post in processed_list: {filename}")
+        log(f"Pass the post in processed_list [{filename}] to [{lang}]")
         sys.stdout.flush()
-
-    elif marker_written_in_en in md_content:  # 翻译为除英文之外的语言
-        log(f"Pass the en-en translation: {filename}")
-        sys.stdout.flush()
-        if lang != 'en':
-            return True
 
     else:  # 翻译为所有语言
         return True
 
 
 def run(working_folder):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--list', action='store_true', default=False, help='only list files, not translate')
+    args = parser.parse_args()
+
     # 按文件名称顺序排序
     dir_to_translate_abs = os.path.abspath(os.path.join(working_folder, dir_to_translate))
     file_list = os.listdir(dir_to_translate_abs)
@@ -515,18 +529,20 @@ def run(working_folder):
     # 遍历目录下的所有.md文件，并进行翻译
     for input_file in file_list:
         for lang in dir_translate_to.keys():
-            if NeedProcess(processed_dict, input_file, lang):
+            if NeedProcess(working_folder, processed_dict, input_file, lang):
                 log('find file translate to [%s]: %s' % (lang, input_file))
                 log('old processed_info: %s' % (processed_dict.get(os.path.basename(input_file)), ))
                 new_info = CreateProcessInfo(input_file)
                 log('new processed_info: %s' % (new_info, ))
-                translate_file(working_folder, input_file, lang)
-                processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
+                if not args.list:
+                    translate_file(working_folder, input_file, lang)
+                    processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
 
-    with open(processed_dict_file, 'wb') as f:
-        f.write(json.dumps(processed_dict, indent=2, ensure_ascii=False).encode('utf-8'))
+    if not args.list:
+        with open(processed_dict_file, 'wb') as f:
+            f.write(json.dumps(processed_dict, indent=2, ensure_ascii=False).encode('utf-8'))
 
     # 所有任务完成的提示
     log("Congratulations! All files processed done.")

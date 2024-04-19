@@ -70,6 +70,14 @@ plugins:
             编程技术: Programming
             游戏开发: Game Dev
             基础: Basic
+        - locale: es
+          name: Español
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: Programming
+            游戏开发: Game Dev
+            基础: Basic
   - search
   - macros
   - blog:
@@ -82,8 +90,10 @@ plugins:
       exclude:
         - zh/index.md
         - en/index.md
+        - es/index.md
         - zh/contact-and-subscribe.md
         - en/contact-and-subscribe.md
+        - es/contact-and-subscribe.md
       custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content

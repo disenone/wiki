@@ -10,7 +10,6 @@ description: |
 figures: []
 ---
 <meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5" />
-<!-- no translate -->
 
 > 本文方法经测试支持 UE4.27 - UE5.3，其他版本未测试过，可以尝试。
 
@@ -243,7 +242,7 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 <Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
     <ProjectFileGenerator>
         <!-- 指定vs版本 -->
-        <Format>VisualStudio2022</Format>   
+        <Format>VisualStudio2022</Format>
     </ProjectFileGenerator>
     <BuildConfiguration>
         <!-- 开启 FASTBuild -->
