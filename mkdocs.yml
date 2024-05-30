@@ -9,6 +9,7 @@ edit_uri: edit/main/docs/ # 编辑按钮的url
 
 theme:
   name: material
+  custom_dir: overrides/
   language: zh
   font: #false # 国内网络访问 Google 源可能会有问题
     text: "Noto Sans SC - local"
