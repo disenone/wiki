@@ -80,7 +80,11 @@
     "mtime": 1713518636.3958228
   },
   "ue-编辑器插件-EditorPlus.md": {
-    "git_ref": "e3be9e5",
-    "mtime": 1713518636.3998227
+    "git_ref": "9185003",
+    "mtime": 1722786969.284074
+  },
+  "ue-插件-AIChatPlus.md": {
+    "git_ref": "9d49c3c",
+    "mtime": 1722786969.284074
   }
 }
