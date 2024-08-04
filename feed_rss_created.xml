@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Sun, 04 Aug 2024 16:02:04 -0000</pubDate>
-    <lastBuildDate>Sun, 04 Aug 2024 16:02:04 -0000</lastBuildDate>
+    <pubDate>Sun, 04 Aug 2024 16:22:17 -0000</pubDate>
+    <lastBuildDate>Sun, 04 Aug 2024 16:22:17 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:02:16 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:22:29 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:00:20 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:20:33 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:00:06 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:20:19 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -405,25 +405,23 @@
     </item>
     
     <item>
-      <title>UE 编辑器插件 UE.EditorPlus 说明文档</title>
+      <title>UE 插件 AIChatPlus 说明文档</title>
       
       
       
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
 &lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
-&lt;h2 id=&#34;_1&#34;&gt;介绍视频&lt;/h2&gt;
-&lt;p&gt;&lt;img alt=&#34;type:video&#34; src=&#34;&#34; /&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_2&#34;&gt;公共仓库&lt;/h2&gt;
+&lt;h2 id=&#34;_1&#34;&gt;公共仓库&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_3&#34;&gt;插件获取&lt;/h2&gt;
+&lt;h2 id=&#34;_2&#34;&gt;插件获取&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_4&#34;&gt;插件简介&lt;/h2&gt;
+&lt;h2 id=&#34;_3&#34;&gt;插件简介&lt;/h2&gt;
 &lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
 &lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
 &lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
-&lt;h2 id=&#34;_5&#34;&gt;使用说明&lt;/h2&gt;
-&lt;h3 id=&#34;_6&#34;&gt;编辑器聊天工具&lt;/h3&gt;
+&lt;h2 id=&#34;_4&#34;&gt;使用说明&lt;/h2&gt;
+&lt;h3 id=&#34;_5&#34;&gt;编辑器聊天工具&lt;/h3&gt;
 &lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
@@ -450,7 +448,7 @@
 &lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;图像查看器：&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_7&#34;&gt;核心代码介绍&lt;/h3&gt;
+&lt;h3 id=&#34;_6&#34;&gt;核心代码介绍&lt;/h3&gt;
 &lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
 &lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
 &lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
