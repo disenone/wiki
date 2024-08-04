@@ -528,6 +528,7 @@ def run(working_folder):
 
     # 遍历目录下的所有.md文件，并进行翻译
     for input_file in file_list:
+        has_translated = False
         for lang in dir_translate_to.keys():
             if NeedProcess(working_folder, processed_dict, input_file, lang):
                 log('find file translate to [%s]: %s' % (lang, input_file))
@@ -536,9 +537,13 @@ def run(working_folder):
                 log('new processed_info: %s' % (new_info, ))
                 if not args.list:
                     translate_file(working_folder, input_file, lang)
-                    processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
+                    has_translated = True
+
             # 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程
             sys.stdout.flush()
+
+        if not args.list and has_translated:
+            processed_dict[os.path.basename(input_file)] = CreateProcessInfo(input_file)
 
     if not args.list:
         with open(processed_dict_file, 'wb') as f:

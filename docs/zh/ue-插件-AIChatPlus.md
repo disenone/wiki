@@ -41,7 +41,7 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 ![image chat](assets/img/2024-ue-aichatplus/chat_tool.png)
 
-主要功能包括：
+#### 主要功能
 
 * 文本聊天：点击左下角的 `New Chat` 按钮，创建新的文本聊天会话。
 
@@ -70,6 +70,7 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
 修改聊天内容：
+
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
 图像查看器：
