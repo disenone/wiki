@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Sun, 04 Aug 2024 16:24:43 -0000</pubDate>
-    <lastBuildDate>Sun, 04 Aug 2024 16:24:43 -0000</lastBuildDate>
+    <pubDate>Sun, 04 Aug 2024 16:33:48 -0000</pubDate>
+    <lastBuildDate>Sun, 04 Aug 2024 16:33:48 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:24:45 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:33:50 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:24:32 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:33:37 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:24:18 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:33:23 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -413,13 +413,29 @@
 &lt;p&gt;主要功能包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;全局设置：&lt;/p&gt;
