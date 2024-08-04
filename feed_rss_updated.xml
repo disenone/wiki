@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Sun, 04 Aug 2024 16:04:31 -0000</pubDate>
-    <lastBuildDate>Sun, 04 Aug 2024 16:04:31 -0000</lastBuildDate>
+    <pubDate>Sun, 04 Aug 2024 16:24:43 -0000</pubDate>
+    <lastBuildDate>Sun, 04 Aug 2024 16:24:43 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:04:33 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:24:45 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:04:20 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:24:32 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,10 +69,68 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:04:05 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:24:18 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 插件 AIChatPlus 说明文档</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
+&lt;h2 id=&#34;_1&#34;&gt;公共仓库&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_2&#34;&gt;插件获取&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;插件简介&lt;/h2&gt;
+&lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
+&lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
+&lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
+&lt;h2 id=&#34;_4&#34;&gt;使用说明&lt;/h2&gt;
+&lt;h3 id=&#34;_5&#34;&gt;编辑器聊天工具&lt;/h3&gt;
+&lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
+&lt;p&gt;工具的界面大致为：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;主要功能包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
+&lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
+&lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
+&lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
+&lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
+&lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
+&lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
+&lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;全局设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;会话设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;session settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/session_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;修改聊天内容：
+&lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;图像查看器：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;_6&#34;&gt;核心代码介绍&lt;/h3&gt;
+&lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
+&lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
+&lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
+&lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
+&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sun, 04 Aug 2024 16:16:57 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
       
     </item>
     
@@ -383,66 +441,6 @@
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
-      
-    </item>
-    
-    <item>
-      <title>UE 编辑器插件 UE.EditorPlus 说明文档</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
-&lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
-&lt;h2 id=&#34;_1&#34;&gt;介绍视频&lt;/h2&gt;
-&lt;p&gt;&lt;img alt=&#34;type:video&#34; src=&#34;&#34; /&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_2&#34;&gt;公共仓库&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_3&#34;&gt;插件获取&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_4&#34;&gt;插件简介&lt;/h2&gt;
-&lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
-&lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
-&lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
-&lt;h2 id=&#34;_5&#34;&gt;使用说明&lt;/h2&gt;
-&lt;h3 id=&#34;_6&#34;&gt;编辑器聊天工具&lt;/h3&gt;
-&lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
-&lt;p&gt;工具的界面大致为：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;主要功能包括：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
-&lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
-&lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
-&lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
-&lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
-&lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
-&lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
-&lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;全局设置：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;会话设置：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;session settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/session_setting.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;修改聊天内容：
-&lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;图像查看器：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_7&#34;&gt;核心代码介绍&lt;/h3&gt;
-&lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
-&lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
-&lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
-&lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
-&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;</description>
-      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 15:49:54 +0000</pubDate>
-      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
       
     </item>
     
