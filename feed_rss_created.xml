@@ -13,12 +13,12 @@
     <language>en</language>
 
     
-    <pubDate>Fri, 31 May 2024 08:35:21 -0000</pubDate>
-    <lastBuildDate>Fri, 31 May 2024 08:35:21 -0000</lastBuildDate>
+    <pubDate>Sun, 04 Aug 2024 16:04:31 -0000</pubDate>
+    <lastBuildDate>Sun, 04 Aug 2024 16:04:31 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.12.2</generator>
+    <generator>MkDocs RSS plugin - v1.15.0</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 31 May 2024 08:35:23 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:04:33 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 31 May 2024 08:35:10 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:04:20 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 31 May 2024 08:34:56 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 16:04:05 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -88,25 +88,27 @@
 &lt;p&gt;&lt;img alt=&#34;type:video&#34; src=&#34;../assets/img/2024-ue-editorplus/market/video.mp4&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_2&#34;&gt;插件源码&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;商城下载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/editorplus&#34;&gt;EditorPlus&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;eueditorplus&#34;&gt;项目添加源码插件 EU.EditorPlus&lt;/h2&gt;
 &lt;p&gt;参考文档：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;中文：&lt;a href=&#34;https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE 通过插件源码添加插件&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;English: &lt;a href=&#34;https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/&#34;&gt;UE adds plugins through the plugin source code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;_3&#34;&gt;插件说明&lt;/h2&gt;
+&lt;h2 id=&#34;_4&#34;&gt;插件说明&lt;/h2&gt;
 &lt;p&gt;UE.EditorPlus 是一个 UE 编辑器插件，提供了一种方便的方式来扩展编辑器菜单，并支持高级方式来扩展，同时包含了一些实用的编辑器工具。本插件支持 UE5.3+。&lt;/p&gt;
-&lt;h2 id=&#34;_4&#34;&gt;扩展编辑器菜单&lt;/h2&gt;
+&lt;h2 id=&#34;_5&#34;&gt;扩展编辑器菜单&lt;/h2&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-editorplus/menu.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-editorplus/toolbar.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_5&#34;&gt;说明&lt;/h3&gt;
+&lt;h3 id=&#34;_6&#34;&gt;说明&lt;/h3&gt;
 &lt;p&gt;支持多种方式扩展编辑器菜单：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;路径方式：&lt;code&gt;RegisterPathAction(&#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;实例化方式：&lt;code&gt;EP_NEW_MENU(FEditorPlusMenuBar)(&#34;Bar&#34;)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;混合方式：&lt;code&gt;RegisterPath(&#34;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&#34;,EP_NEW_MENU(FEditorPlusCommand)(&#34;Action&#34;)&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;_6&#34;&gt;路径方式&lt;/h3&gt;
+&lt;h3 id=&#34;_7&#34;&gt;路径方式&lt;/h3&gt;
 &lt;p&gt;可以通过这样的方式来注册一个编辑器菜单指令：&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RegisterPathAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
 &lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
@@ -130,7 +132,7 @@
 &lt;/ul&gt;
 &lt;p&gt;更简易的路径形式：&lt;code&gt;/BarName/SubMenuName1/SubMenuName2/CommandName&lt;/code&gt;，如果不指定类型，默认路径的第一个是 &lt;code&gt;&amp;lt;MenuBar&amp;gt;&lt;/code&gt;，中间的是 &lt;code&gt;&amp;lt;SubMenu&amp;gt;&lt;/code&gt;，最后的是 &lt;code&gt;&amp;lt;Command&amp;gt;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;如果没有指定 &lt;code&gt;&amp;lt;Hook&amp;gt;&lt;/code&gt; 则自动最前面加上 &lt;code&gt;&amp;lt;Hook&amp;gt;Help&lt;/code&gt;，表示在 Help 菜单后面添加菜单栏。&lt;/p&gt;
-&lt;h3 id=&#34;_7&#34;&gt;实例化方式&lt;/h3&gt;
+&lt;h3 id=&#34;_8&#34;&gt;实例化方式&lt;/h3&gt;
 &lt;p&gt;路径方式是自动把所有节点根据类型和默认参数实例化出来，我们也可以自己控制实例化，可以更细致控制扩展的内容。&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-1-1&#34; name=&#34;__codelineno-1-1&#34; href=&#34;#__codelineno-1-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;EP_NEW_MENU&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusMenuBar&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOCTEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOCTEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBarTips&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;MyBarTips&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
 &lt;a id=&#34;__codelineno-1-2&#34; name=&#34;__codelineno-1-2&#34; href=&#34;#__codelineno-1-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RegisterPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
@@ -146,7 +148,7 @@
 &lt;a id=&#34;__codelineno-1-12&#34; name=&#34;__codelineno-1-12&#34; href=&#34;#__codelineno-1-12&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;实例化 &lt;code&gt;MyBar&lt;/code&gt; 的时候可以传入 Hook 名字，本地化名字，本地化提示参数（&lt;code&gt;&#34;MyBar&#34;, LOCTEXT(&#34;MyBar&#34;, &#34;MyBar&#34;), LOCTEXT(&#34;MyBarTips&#34;, &#34;MyBarTips&#34;)&lt;/code&gt;）。上面代码就相当于路径方式 &lt;code&gt;/&amp;lt;Hook&amp;gt;Help/&amp;lt;MenuBar&amp;gt;MyBar/&amp;lt;SubMenu&amp;gt;MySubMenu/&amp;lt;Command&amp;gt;MyAction&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;_8&#34;&gt;混合方式&lt;/h3&gt;
+&lt;h3 id=&#34;_9&#34;&gt;混合方式&lt;/h3&gt;
 &lt;p&gt;当然还可以两种方式混合使用：&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-2-1&#34; name=&#34;__codelineno-2-1&#34; href=&#34;#__codelineno-2-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusPath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RegisterPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
 &lt;a id=&#34;__codelineno-2-2&#34; name=&#34;__codelineno-2-2&#34; href=&#34;#__codelineno-2-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;/&amp;lt;MenuBar&amp;gt;Bar/&amp;lt;SubMenu&amp;gt;SubMenu/&amp;lt;Command&amp;gt;Action&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
@@ -158,7 +160,7 @@
 &lt;a id=&#34;__codelineno-2-8&#34; name=&#34;__codelineno-2-8&#34; href=&#34;#__codelineno-2-8&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;这种情况下，插件会自动实例化中间路径的节点，最后的路径使用用户自己实例化的节点。&lt;/p&gt;
-&lt;h3 id=&#34;_9&#34;&gt;更多用例&lt;/h3&gt;
+&lt;h3 id=&#34;_10&#34;&gt;更多用例&lt;/h3&gt;
 &lt;p&gt;头文件:&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-3-1&#34; name=&#34;__codelineno-3-1&#34; href=&#34;#__codelineno-3-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;EditorPlusPath.h&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -206,7 +208,7 @@
 &lt;a id=&#34;__codelineno-11-4&#34; name=&#34;__codelineno-11-4&#34; href=&#34;#__codelineno-11-4&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BindAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(...)&lt;/span&gt;
 &lt;a id=&#34;__codelineno-11-5&#34; name=&#34;__codelineno-11-5&#34; href=&#34;#__codelineno-11-5&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_10&#34;&gt;接口说明&lt;/h3&gt;
+&lt;h3 id=&#34;_11&#34;&gt;接口说明&lt;/h3&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-12-1&#34; name=&#34;__codelineno-12-1&#34; href=&#34;#__codelineno-12-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nc&#34;&gt;EDITORPLUS_API&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusPath&lt;/span&gt;
 &lt;a id=&#34;__codelineno-12-2&#34; name=&#34;__codelineno-12-2&#34; href=&#34;#__codelineno-12-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;a id=&#34;__codelineno-12-3&#34; name=&#34;__codelineno-12-3&#34; href=&#34;#__codelineno-12-3&#34;&gt;&lt;/a&gt;&lt;span class=&#34;k&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
@@ -260,7 +262,7 @@
 &lt;a id=&#34;__codelineno-13-18&#34; name=&#34;__codelineno-13-18&#34; href=&#34;#__codelineno-13-18&#34;&gt;&lt;/a&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nc&#34;&gt;EDITORPLUS_API&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusWidget&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TEditorPlusMenuBaseLeaf&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;更多样例和接口说明请参考源码 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus&#34;&gt;UE.EditorPlus&lt;/a&gt;，测试用例 &lt;a href=&#34;https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp&#34;&gt;MenuTest.cpp&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_11&#34;&gt;模块化管理&lt;/h3&gt;
+&lt;h3 id=&#34;_12&#34;&gt;模块化管理&lt;/h3&gt;
 &lt;p&gt;UE.EditorPlus 还提供了一个模块化管理扩展菜单的框架，支持插件加载和卸载的时候，自动加载和卸载扩展的菜单&lt;/p&gt;
 &lt;p&gt;让菜单类继承 &lt;code&gt;IEditorPlusToolInterface&lt;/code&gt;，并覆写 &lt;code&gt;OnStartup&lt;/code&gt; 和 &lt;code&gt;OnShutdown&lt;/code&gt; 函数。&lt;code&gt;OnStartup&lt;/code&gt; 负责创建菜单，&lt;code&gt;OnShutdown&lt;/code&gt; 负责调用节点的 &lt;code&gt;Destroy&lt;/code&gt; 函数清理菜单。单节点的引用数归0，则会执行自动清理。&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-14-1&#34; name=&#34;__codelineno-14-1&#34; href=&#34;#__codelineno-14-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nc&#34;&gt;FMenuTest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IEditorPlusToolInterface&lt;/span&gt;
@@ -316,9 +318,9 @@
 &lt;a id=&#34;__codelineno-16-10&#34; name=&#34;__codelineno-16-10&#34; href=&#34;#__codelineno-16-10&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;完成以上适配，则可以自动在加载和卸载插件的时候，自动加载和卸载扩展的菜单。&lt;/p&gt;
-&lt;h2 id=&#34;_12&#34;&gt;编辑器工具&lt;/h2&gt;
+&lt;h2 id=&#34;_13&#34;&gt;编辑器工具&lt;/h2&gt;
 &lt;p&gt;UE.EditorPlus 还提供了一些实用的编辑器工具&lt;/p&gt;
-&lt;h2 id=&#34;_13&#34;&gt;创建编辑器窗口&lt;/h2&gt;
+&lt;h2 id=&#34;_14&#34;&gt;创建编辑器窗口&lt;/h2&gt;
 &lt;p&gt;使用 EditorPlus，可以很简单的创建一个新的编辑器窗口&lt;/p&gt;
 &lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-17-1&#34; name=&#34;__codelineno-17-1&#34; href=&#34;#__codelineno-17-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;c1&#34;&gt;// register spawn tab&lt;/span&gt;
 &lt;a id=&#34;__codelineno-17-2&#34; name=&#34;__codelineno-17-2&#34; href=&#34;#__codelineno-17-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;Tab&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MakeShared&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FEditorPlusTab&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOCTEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;ClassBrowser&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;ClassBrowser&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOCTEXT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;ClassBrowserTip&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;Open the ClassBrowser&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
@@ -377,10 +379,70 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 13 Jan 2024 03:55:10 +0000</pubDate>
+      <pubDate>Sun, 04 Aug 2024 15:51:52 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 编辑器插件 UE.EditorPlus 说明文档</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
+&lt;h2 id=&#34;_1&#34;&gt;介绍视频&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;type:video&#34; src=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_2&#34;&gt;公共仓库&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;插件获取&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_4&#34;&gt;插件简介&lt;/h2&gt;
+&lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
+&lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
+&lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
+&lt;h2 id=&#34;_5&#34;&gt;使用说明&lt;/h2&gt;
+&lt;h3 id=&#34;_6&#34;&gt;编辑器聊天工具&lt;/h3&gt;
+&lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
+&lt;p&gt;工具的界面大致为：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;主要功能包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
+&lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
+&lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
+&lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
+&lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
+&lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
+&lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
+&lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;全局设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;会话设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;session settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/session_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;修改聊天内容：
+&lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;图像查看器：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;_7&#34;&gt;核心代码介绍&lt;/h3&gt;
+&lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
+&lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
+&lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
+&lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
+&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sun, 04 Aug 2024 15:49:54 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
       
     </item>
     
