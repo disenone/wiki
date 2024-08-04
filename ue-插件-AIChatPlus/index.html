@@ -1131,10 +1131,25 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="编辑器聊天工具">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要功能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       核心代码介绍
     </span>
@@ -1409,10 +1424,25 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="编辑器聊天工具">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要功能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       核心代码介绍
     </span>
@@ -1466,7 +1496,7 @@
 <p>工具的界面大致为：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_tool2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="text chat" src="../assets/img/2024-ue-aichatplus/chat_tool2.png"></a></p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image chat" src="../assets/img/2024-ue-aichatplus/chat_tool.png"></a></p>
-<p>主要功能包括：</p>
+<h4 id="_6">主要功能</h4>
 <ul>
 <li>文本聊天：点击左下角的 <code>New Chat</code> 按钮，创建新的文本聊天会话。</li>
 </ul>
@@ -1498,11 +1528,11 @@
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/global_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="global settings" src="../assets/img/2024-ue-aichatplus/global_setting.png"></a></p>
 <p>会话设置：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/session_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="session settings" src="../assets/img/2024-ue-aichatplus/session_setting.png"></a></p>
-<p>修改聊天内容：
-<a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_edit.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="chat edit" src="../assets/img/2024-ue-aichatplus/chat_edit.png"></a></p>
+<p>修改聊天内容：</p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_edit.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="chat edit" src="../assets/img/2024-ue-aichatplus/chat_edit.png"></a></p>
 <p>图像查看器：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/image_viewer.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image viewer" src="../assets/img/2024-ue-aichatplus/image_viewer.png"></a></p>
-<h3 id="_6">核心代码介绍</h3>
+<h3 id="_7">核心代码介绍</h3>
 <p>目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。</p>
 <p>AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。</p>
 <p>具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。</p>
