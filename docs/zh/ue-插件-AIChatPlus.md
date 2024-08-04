@@ -1,17 +1,12 @@
 ---
 layout: post
-title: UE 编辑器插件 UE.EditorPlus 说明文档
+title: UE 插件 AIChatPlus 说明文档
 tags: [dev, game, UE, UnreanEngine, UE4, UE5, Editor, Editor Plus, Editor Plugin, AI Chat, Chatbot, Image Generation, OpenAI, Azure, Claude, Gemini]
-description: UE 编辑器插件  UE.EditorPlus 说明文档
+description: UE 插件 AIChatPlus 说明文档
 ---
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
 # UE 插件 AIChatPlus 说明文档
-
-
-## 介绍视频
-
-![type:video]()
 
 ## 公共仓库
 
