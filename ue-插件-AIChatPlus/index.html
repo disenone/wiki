@@ -1157,6 +1157,30 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新日志
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新日志">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v100" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0.0
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1450,6 +1474,30 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新日志
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新日志">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v100" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0.0
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1483,7 +1531,7 @@
 <h2 id="_1">公共仓库</h2>
 <p><a href="https://github.com/disenone/UE.AIChatPlus.Public">UE.AIChatPlus.Public</a></p>
 <h2 id="_2">插件获取</h2>
-<p><a href="">AIChatPlus</a></p>
+<p><a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
 <h2 id="_3">插件简介</h2>
 <p>本插件支持 UE5.2+。</p>
 <p>UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。</p>
@@ -1507,6 +1555,9 @@
 <li>图像分析：<code>New Chat</code> 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。</li>
 </ul>
 <ul>
+<li>支持蓝图 (Blueprint)：支持蓝图创建 API 请求，完成文本聊天，图像生成等功能。</li>
+</ul>
+<ul>
 <li>设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。</li>
 </ul>
 <ul>
@@ -1524,6 +1575,8 @@
 <ul>
 <li>图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images</code>。</li>
 </ul>
+<p>蓝图：</p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/blueprint.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="blueprint" src="../assets/img/2024-ue-aichatplus/blueprint.png"></a></p>
 <p>全局设置：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/global_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="global settings" src="../assets/img/2024-ue-aichatplus/global_setting.png"></a></p>
 <p>会话设置：</p>
@@ -1537,7 +1590,15 @@
 <p>AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。</p>
 <p>具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。</p>
 <p>发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。</p>
-<p>更多源码细节可在 UE 商城获取：<a href="">AIChatPlus</a></p></div>
+<p>更多源码细节可在 UE 商城获取：<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
+<h3 id="_8">更新日志</h3>
+<h4 id="v100">v1.0.0</h4>
+<ul>
+<li>基础完整功能</li>
+<li>支持 OpenAI， Azure，Claude，Gemini</li>
+<li>支持蓝图</li>
+<li>自带功能完善编辑器聊天工具</li>
+</ul></div>
 
 
 
@@ -1560,7 +1621,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-05</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-07</span>
   </span>
 
     

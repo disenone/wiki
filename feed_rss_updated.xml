@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Sun, 04 Aug 2024 17:06:48 -0000</pubDate>
-    <lastBuildDate>Sun, 04 Aug 2024 17:06:48 -0000</lastBuildDate>
+    <pubDate>Tue, 06 Aug 2024 17:58:43 -0000</pubDate>
+    <lastBuildDate>Tue, 06 Aug 2024 17:58:43 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 17:06:50 +0000</pubDate>
+      <pubDate>Tue, 06 Aug 2024 17:58:45 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 17:06:37 +0000</pubDate>
+      <pubDate>Tue, 06 Aug 2024 17:58:32 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 17:06:23 +0000</pubDate>
+      <pubDate>Tue, 06 Aug 2024 17:58:18 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -87,7 +87,7 @@
 &lt;h2 id=&#34;_1&#34;&gt;公共仓库&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_2&#34;&gt;插件获取&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_3&#34;&gt;插件简介&lt;/h2&gt;
 &lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
 &lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
@@ -111,6 +111,9 @@
 &lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ul&gt;
+&lt;li&gt;支持蓝图 (Blueprint)：支持蓝图创建 API 请求，完成文本聊天，图像生成等功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ul&gt;
@@ -128,6 +131,8 @@
 &lt;ul&gt;
 &lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;蓝图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;blueprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/blueprint.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;全局设置：&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;会话设置：&lt;/p&gt;
@@ -141,9 +146,17 @@
 &lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
 &lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
 &lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
-&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;_8&#34;&gt;更新日志&lt;/h3&gt;
+&lt;h4 id=&#34;v100&#34;&gt;v1.0.0&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;基础完整功能&lt;/li&gt;
+&lt;li&gt;支持 OpenAI， Azure，Claude，Gemini&lt;/li&gt;
+&lt;li&gt;支持蓝图&lt;/li&gt;
+&lt;li&gt;自带功能完善编辑器聊天工具&lt;/li&gt;
+&lt;/ul&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 04 Aug 2024 16:58:49 +0000</pubDate>
+      <pubDate>Tue, 06 Aug 2024 17:50:10 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
