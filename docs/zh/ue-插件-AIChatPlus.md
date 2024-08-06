@@ -14,7 +14,7 @@ description: UE 插件 AIChatPlus 说明文档
 
 ## 插件获取
 
-[AIChatPlus]()
+[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 ## 插件简介
 
@@ -49,6 +49,8 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 * 图像分析：`New Chat` 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。
 
+* 支持蓝图 (Blueprint)：支持蓝图创建 API 请求，完成文本聊天，图像生成等功能。
+
 * 设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。
 
 * 清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。
@@ -60,6 +62,10 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 * 聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）
 
 * 图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`。
+
+蓝图：
+
+![blueprint](assets/img/2024-ue-aichatplus/blueprint.png)
 
 全局设置：
 
@@ -87,4 +93,14 @@ AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEdito
 
 发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。
 
-更多源码细节可在 UE 商城获取：[AIChatPlus]()
+更多源码细节可在 UE 商城获取：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+
+
+### 更新日志
+
+#### v1.0.0
+
+* 基础完整功能
+* 支持 OpenAI， Azure，Claude，Gemini
+* 支持蓝图
+* 自带功能完善编辑器聊天工具
