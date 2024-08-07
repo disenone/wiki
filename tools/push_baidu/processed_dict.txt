@@ -241,5 +241,14 @@
   },
   "https://wiki.disenone.site/es/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/": {
     "time": 1722802800.7886684
+  },
+  "https://wiki.disenone.site/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/": {
+    "time": 1723061996.437429
+  },
+  "https://wiki.disenone.site/en/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/": {
+    "time": 1723061997.6540635
+  },
+  "https://wiki.disenone.site/es/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/": {
+    "time": 1723061998.6427414
   }
 }
