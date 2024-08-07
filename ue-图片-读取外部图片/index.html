@@ -1,42 +1,38 @@
 
 <!doctype html>
-<html lang="es" class="no-js">
+<html lang="zh" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Voy a hacer un breve registro sobre cómo agregar un complemento a UE cuando se tiene el código fuente del complemento.">
+        <meta name="description" content="UE 实现读取本地系统图片">
       
       
         <meta name="author" content="Disenone">
       
       
-        <link rel="canonical" href="https://wiki.disenone.site/es/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/">
+        <link rel="canonical" href="https://wiki.disenone.site/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/">
       
       
-        <link rel="prev" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
       
       
-        <link rel="next" href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/">
+        <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../feed_rss_updated.xml">
       
-      
-        <link rel="alternate" type="application/rss+xml" title="Fuente RSS" href="../../feed_rss_created.xml">
-        <link rel="alternate" type="application/rss+xml" title="Fuente RSS de contenido actualizado" href="../../feed_rss_updated.xml">
-      
-      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <link rel="icon" href="../assets/favicon/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
     
     
       
-        <title>UE permite agregar complementos mediante el código fuente del complemento. - Disenone's Wiki</title>
+        <title>UE 实现读取本地系统图片 - Disenone's Wiki</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -55,9 +51,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/css/style.css">
+      <link rel="stylesheet" href="../assets/css/style.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -65,7 +61,7 @@
     
     
 
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -74,7 +70,7 @@
     .gdesc-inner { font-size: 0.75rem; }
     body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
     body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -93,8 +89,8 @@
     <div data-md-component="skip">
       
         
-        <a href="#ue-unreal-engine-permite-agregar-complementos-mediante-el-codigo-fuente-del-complemento" class="md-skip">
-          Saltar a contenido
+        <a href="#ue-utexture2d" class="md-skip">
+          跳转至
         </a>
       
     </div>
@@ -106,10 +102,10 @@
       
 
 <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
       
-  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+  <img src="../assets/favicon/android-chrome-512x512.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -126,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE permite agregar complementos mediante el código fuente del complemento.
+              UE 实现读取本地系统图片
             
           </span>
         </div>
@@ -166,26 +162,26 @@
       <div class="md-header__option">
   <div class="md-select">
     
-    <button class="md-header__button md-icon" aria-label="Seleccionar idioma">
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
     </button>
     <div class="md-select__inner">
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="../../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" hreflang="zh" class="md-select__link">
+            <a href="./" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="../../en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" hreflang="en" class="md-select__link">
+            <a href="../en/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="./" hreflang="es" class="md-select__link">
+            <a href="../es/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/" hreflang="es" class="md-select__link">
               Español
             </a>
           </li>
@@ -204,16 +200,16 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="Buscar">
+      <nav class="md-search__options" aria-label="查找">
         
-        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
@@ -226,7 +222,7 @@
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Inicializando búsqueda
+            正在初始化搜索引擎
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -237,7 +233,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/disenone/wiki_blog" title="Ir al repositorio" class="md-source" data-md-component="source">
+        <a href="https://github.com/disenone/wiki_blog" title="前往仓库" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
@@ -258,7 +254,7 @@
         
           
             
-<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
       
@@ -267,7 +263,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
     
@@ -297,7 +293,7 @@
   
     
   
-  Programming
+  编程技术
 
         </a>
       </li>
@@ -311,26 +307,22 @@
         
   
   
-    
-  
   
     
     
       
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
           
   
     
   
-  Game Dev
+  游戏开发
 
         </a>
       </li>
@@ -361,18 +353,18 @@
   
 
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+    <a href=".." title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
       
-  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+  <img src="../assets/favicon/android-chrome-512x512.png" alt="logo">
 
     </a>
     Disenone's Wiki
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/disenone/wiki_blog" title="Ir al repositorio" class="md-source" data-md-component="source">
+      <a href="https://github.com/disenone/wiki_blog" title="前往仓库" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
@@ -392,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -437,7 +429,7 @@
             
   
   <span class="md-ellipsis">
-    Programming
+    编程技术
   </span>
   
 
@@ -447,7 +439,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            Programming
+            编程技术
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -512,7 +504,7 @@
         
   
   <span class="md-ellipsis">
-    Resumen del manejo de los argumentos de línea de comandos en C/C++
+    C/C++ 的命令行参数处理总结
   </span>
   
 
@@ -533,7 +525,7 @@
         
   
   <span class="md-ellipsis">
-    Análisis de programación macro en C/C++
+    C/C++ 宏编程解析
   </span>
   
 
@@ -554,7 +546,7 @@
         
   
   <span class="md-ellipsis">
-    Escribir un Detector de Fugas de Memoria para Windows.
+    编写 Windows 下的 Memory Leak Detector
   </span>
   
 
@@ -575,7 +567,7 @@
         
   
   <span class="md-ellipsis">
-    KCP Analysis of Source Code
+    KCP 源码剖析
   </span>
   
 
@@ -652,7 +644,7 @@
         
   
   <span class="md-ellipsis">
-    Usa Visual Studio 2015 para compilar Python 2.7.11.
+    使用 Visual Studio 2015 编译 Python 2.7.11
   </span>
   
 
@@ -673,7 +665,7 @@
         
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - Explorando __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -694,7 +686,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chit-Chat 2 - Actualización en caliente de Python3.12
+    Python 杂谈 2 - Python3.12 热更新
   </span>
   
 
@@ -723,10 +715,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -739,36 +729,33 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Game Dev
+    游戏开发
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Game Dev
+            游戏开发
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -788,24 +775,21 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
         
           
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Basic
+    基础
   </span>
   
 
@@ -815,7 +799,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
-            Basic
+            基础
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -830,7 +814,7 @@
         
   
   <span class="md-ellipsis">
-    "Análisis y prueba de rendimiento del algoritmo AOI de juegos"
+    游戏 AOI 算法解析和性能实测
   </span>
   
 
@@ -852,10 +836,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -877,21 +859,18 @@
     
       
       
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -902,7 +881,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             UE
@@ -920,7 +899,7 @@
         
   
   <span class="md-ellipsis">
-    Utilizar FASTBuild para compilar UE4 y UE5
+    使用 FASTBuild 编译 UE4 和 UE5
   </span>
   
 
@@ -934,28 +913,18 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    UE permite agregar complementos mediante el código fuente del complemento.
+    UE 通过插件源码添加插件
   </span>
   
 
       </a>
-      
     </li>
   
 
@@ -972,7 +941,7 @@
         
   
   <span class="md-ellipsis">
-    UE Extender el menú del editor
+    UE 扩展编辑器菜单
   </span>
   
 
@@ -993,7 +962,7 @@
         
   
   <span class="md-ellipsis">
-    UE utiliza la extensión de menú en forma de ruta.
+    UE 使用路径形式扩展菜单
   </span>
   
 
@@ -1014,7 +983,7 @@
         
   
   <span class="md-ellipsis">
-    UE (Unreal Engine) permite la configuración de localización y soporte para múltiples idiomas.
+    UE 设置本地化多语言
   </span>
   
 
@@ -1035,7 +1004,7 @@
         
   
   <span class="md-ellipsis">
-    Extension del Editor UE.EditorPlus - Documentación
+    UE 编辑器插件 UE.EditorPlus 说明文档
   </span>
   
 
@@ -1056,7 +1025,7 @@
         
   
   <span class="md-ellipsis">
-    Documento de instrucciones del complemento UE AIChatPlus.
+    UE 插件 AIChatPlus 说明文档
   </span>
   
 
@@ -1098,20 +1067,17 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1140,7 +1106,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona de Unity (Parte 1)
+    Unity第三人称相机构建(上)
   </span>
   
 
@@ -1161,7 +1127,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona en Unity (Parte 2)
+    Unity第三人称相机构建(下)
   </span>
   
 
@@ -1182,7 +1148,7 @@
         
   
   <span class="md-ellipsis">
-    Control de personajes en Unity
+    Unity人物控制
   </span>
   
 
@@ -1203,7 +1169,7 @@
         
   
   <span class="md-ellipsis">
-    Unity genera mapas de profundidad ("Depth Map") y realiza detección de bordes ("Edge Detection").
+    Unity画深度图(Depth Map)和边缘检测(Edge Detection)
   </span>
   
 
@@ -1224,7 +1190,7 @@
         
   
   <span class="md-ellipsis">
-    Unity realiza la dispersión de luz volumétrica (Volumetric Light Scattering, luz de brechas en las nubes)
+    Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)
   </span>
   
 
@@ -1262,12 +1228,47 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+<nav class="md-nav md-nav--secondary" aria-label="目录">
   
   
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      通用方法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      编辑器专用方法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      源码
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1282,7 +1283,7 @@
                   
 
   
-    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/es/ue-通过插件源码添加插件.md" title="Editar esta página" class="md-content__button md-icon">
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/zh/ue-图片-读取外部图片.md" title="编辑此页" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1290,40 +1291,65 @@
   
 
 
-<div><p><meta property="og:title" content="UE 通过插件源码添加插件"></p>
-<h1 id="ue-unreal-engine-permite-agregar-complementos-mediante-el-codigo-fuente-del-complemento">UE (Unreal Engine) permite agregar complementos mediante el código fuente del complemento.</h1>
-<h1 id="agregar-complemento"><strong>Agregar complemento</strong></h1>
+<div><p><meta property="og:title" content="UE 实现读取本地系统图片"></p>
+<h1 id="ue-utexture2d">UE 实现读取本地系统图片为 UTexture2D</h1>
 <blockquote>
-<p>Registra brevemente cómo agregar un complemento cuando dispones del código fuente del mismo.</p>
+<p>以下代码都是以 UE5.3 版本为例。</p>
 </blockquote>
-<p>以插件 [UE.EditorPlus]</p>
-<p>Utilizando el complemento [UE.EditorPlus], se puede mejorar la funcionalidad de tu editor de Unreal Engine. Este complemento proporciona características adicionales y herramientas que te permiten optimizar y personalizar tu flujo de trabajo de desarrollo de juegos. Con <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a>Para ilustrar</p>
-<ul>
-<li>Coloca el código fuente en el directorio de Plugins.</li>
-<li>（Esta etapa es opcional）Modifica el archivo .uproject del proyecto, agrega lo siguiente en el campo Plugins:
-    <div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">"Plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EditorPlus"</span><span class="p">,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">"Enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">"TargetAllowList"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="s2">"Editor"</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
-</code></pre></div></li>
-<li>Haz clic derecho en el archivo uproject, selecciona "Generate Visual Studio Project Files" y actualiza el archivo del proyecto sln.</li>
-<li>Abrir el archivo sln y compilar el proyecto.</li>
-</ul>
-<h1 id="configuracion-de-multiples-idiomas"><strong>Configuración de múltiples idiomas</strong></h1>
-<p>Modificar el archivo de configuración del proyecto <code>DefaultEditor.ini</code>, añadir la nueva ruta:</p>
-<div class="language-ini highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[Internationalization]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">+LocalizationPaths</span><span class="o">=</span><span class="s">%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools</span>
+<h2 id="_1">通用方法</h2>
+<p>本方法在 编辑器 和 GamePlay 模式下都可行，支持的图片文件格式有 PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA，基本能覆盖大部分的常用图片类型。</p>
+<p>代码也很简洁：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ImageUtils.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="nf">LoadImage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InLoadPath</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">FImage</span><span class="w"> </span><span class="n">ImageInfo</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">LoadImage</span><span class="p">(</span><span class="o">*</span><span class="n">InLoadPath</span><span class="p">,</span><span class="w"> </span><span class="n">ImageInfo</span><span class="p">);</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">CreateTexture2DFromImage</span><span class="p">(</span><span class="n">ImageInfo</span><span class="p">);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
+<p>返回的即是 UTexture2D。</p>
+<h2 id="_2">编辑器专用方法</h2>
+<p>本方法可以额外支持更多的图片类型：UDIM 纹理贴图、IES 文件、PCX 、PSD。</p>
+<p>代码实现上会更复杂一些：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/FileHelper.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/Paths.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;UObject/UObjectGlobals.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="cp">#if WITH_EDITOR</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="nf">LoadImage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InLoadPath</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">{</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">TArray64</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Buffer</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">FFileHelper</span><span class="o">::</span><span class="n">LoadFileToArray</span><span class="p">(</span><span class="n">Buffer</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">InLoadPath</span><span class="p">))</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="w"> </span><span class="n">TextureName</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="w"> </span><span class="n">Extension</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FPaths</span><span class="o">::</span><span class="n">GetExtension</span><span class="p">(</span><span class="n">InLoadPath</span><span class="p">).</span><span class="n">ToLower</span><span class="p">();</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">uint8</span><span class="o">*</span><span class="w"> </span><span class="n">BufferPtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Buffer</span><span class="p">.</span><span class="n">GetData</span><span class="p">();</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">TextureFact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NewObject</span><span class="o">&lt;</span><span class="n">UTextureFactory</span><span class="o">&gt;</span><span class="p">();</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">Ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cast</span><span class="o">&lt;</span><span class="n">UTexture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TextureFact</span><span class="o">-&gt;</span><span class="n">FactoryCreateBinary</span><span class="p">(</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">        </span><span class="n">UTexture2D</span><span class="o">::</span><span class="n">StaticClass</span><span class="p">(),</span><span class="w"> </span><span class="n">GetTransientPackage</span><span class="p">(),</span><span class="w"> </span><span class="o">*</span><span class="n">TextureName</span><span class="p">,</span><span class="w"> </span><span class="n">RF_Transient</span><span class="p">,</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">        </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">Extension</span><span class="p">,</span><span class="w"> </span><span class="n">BufferPtr</span><span class="p">,</span><span class="w"> </span><span class="n">BufferPtr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Buffer</span><span class="p">.</span><span class="n">Num</span><span class="p">(),</span><span class="w"> </span><span class="n">GWarn</span><span class="p">));</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Ret</span><span class="p">;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="cp">#endif</span>
+</code></pre></div>
+<p>实现是使用了 UTextureFactory 的 FactoryCreateBinary 函数，这个函数能够读取前面提到的额外文件类型。</p>
+<h2 id="_3">源码</h2>
+<p>更多源码细节可在 UE 商城获取插件：<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
 <blockquote>
-<p>Original: <a href="https://wiki.disenone.site/en">https://wiki.disenone.site/en</a></p>
-<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+<p>原文地址：<a href="https://wiki.disenone.site">https://wiki.disenone.site</a></p>
+<p>本篇文章受 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议保护，转载请注明出处。</p>
 </blockquote>
 <!-- 转载 -->
 <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
@@ -1339,7 +1365,6 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este post está traducido usando ChatGPT, por favor <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a> si hay alguna omisión.</p>
 </blockquote></div>
 
 
@@ -1360,20 +1385,20 @@
     
       
   <span class="md-source-file__fact">
-    <span class="md-icon" title="Última actualización">
+    <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-08</span>
   </span>
 
     
     
       
   <span class="md-source-file__fact">
-    <span class="md-icon" title="Creado">
+    <span class="md-icon" title="创建日期">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-08</span>
   </span>
 
     
@@ -1396,51 +1421,13 @@
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
-  Volver al principio
+  回到页面顶部
 </button>
         
       </main>
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Pie" >
-        
-          
-          <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Utilizar FASTBuild para compilar UE4 y UE5">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Anterior
-              </span>
-              <div class="md-ellipsis">
-                Utilizar FASTBuild para compilar UE4 y UE5
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: UE Extender el menú del editor">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Siguiente
-              </span>
-              <div class="md-ellipsis">
-                UE Extender el menú del editor
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -1469,10 +1456,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
