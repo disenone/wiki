@@ -1,7 +1,6 @@
 ---
 layout: post
-title: 'Traduce el texto al español: "Documentación de instrucciones del complemento
-  de UE AIChatPlus"'
+title: Documento de instrucciones del complemento UE AIChatPlus.
 tags:
 - dev
 - game
@@ -19,7 +18,8 @@ tags:
 - Azure
 - Claude
 - Gemini
-description: Documento de instrucciones del complemento UE AIChatPlus
+description: Por favor traduzca el texto completo para poder brindarle la traducción
+  requerida.
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
@@ -38,20 +38,20 @@ description: Documento de instrucciones del complemento UE AIChatPlus
 
 Este complemento es compatible con UE5.2+.
 
-UE.AIChatPlus es un complemento de UnrealEngine que permite la comunicación con varios servicios de chat de inteligencia artificial GPT. Actualmente, admite servicios como OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude y Google Gemini. En el futuro, se agregarán más proveedores de servicios. Su implementación se basa en solicitudes REST asincrónicas, lo que garantiza un rendimiento eficiente y facilita a los desarrolladores de UnrealEngine acceder a estos servicios de chat de inteligencia artificial.
+UE.AIChatPlus es un complemento para UnrealEngine que permite la comunicación con diversos servicios de chat de inteligencia artificial GPT. Actualmente admite servicios como OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude y Google Gemini. En el futuro se agregarán más proveedores de servicios. Su implementación se basa en solicitudes REST asíncronas, lo que garantiza un rendimiento eficiente y facilita la integración de estos servicios de chat de IA para desarrolladores de UE.
 
-UE.AIChatPlus también incluye una herramienta de edición que te permite utilizar directamente los servicios de chat de inteligencia artificial en el editor para generar texto e imágenes, analizar imágenes, entre otras funciones.
+Al mismo tiempo, UE.AIChatPlus también incluye una herramienta de edición que te permite utilizar directamente estos servicios de chat de inteligencia artificial en el editor para generar texto e imágenes, y analizar imágenes, entre otras funciones.
 
 ##Instrucciones de uso
 
 ###Herramienta de chat del editor
 
-El menú Tools -> AIChatPlus -> AIChat abre la herramienta de chat del editor proporcionada por el complemento.
+La barra de menú Herramientas -> AIChatPlus -> AIChat abre la herramienta de chat del editor proporcionada por el complemento.
 
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-La herramienta admite la generación de texto, chat de texto, generación de imágenes y análisis de imágenes.
+El software permite generar texto, chatear por texto, generar imágenes y analizar imágenes.
 
 La interfaz de la herramienta es aproximadamente:
 
@@ -61,31 +61,35 @@ La interfaz de la herramienta es aproximadamente:
 
 ####Función principal
 
-* Chat de texto: haz clic en el botón `New Chat` en la esquina inferior izquierda para crear una nueva sesión de chat de texto.
+Traducción al español:
 
-* Generación de imagen: Haga clic en el botón `Nuevo chat de imagen` en la esquina inferior izquierda para crear una nueva sesión de generación de imagen.
+* Chat de texto: haz clic en el botón `Nuevo Chat` en la esquina inferior izquierda para crear una nueva conversación de chat de texto.
 
-* Análisis de imagen: Algunos servicios de chat en la sección `New Chat` admiten el envío de imágenes, como Claude, Google Gemini. Simplemente haz clic en los botones 🖼️ o 🎨 sobre la casilla de entrada para cargar la imagen que deseas enviar.
+* Generación de imágenes: haz clic en el botón `Nueva imagen de chat` en la esquina inferior izquierda para crear una nueva sesión de generación de imágenes.
 
-* Soporte de Blueprint: admite la creación de solicitudes de API de Blueprint para funciones como chat de texto, generación de imágenes, entre otros.
+Análisis de imágenes: Algunos servicios de chat en la función "New Chat" admiten el envío de imágenes, como Claude, Google Gemini. Haz clic en los botones 🖼️ o 🎨 ubicados encima del cuadro de texto para cargar la imagen que deseas enviar.
 
-Establecer el rol actual de chat: el menú desplegable en la parte superior de la ventana de chat se puede utilizar para seleccionar el rol actual para enviar mensajes de texto, permitiendo simular diferentes roles para ajustar la conversación con la IA.
+* Soporte para Blueprint: Soporte para la creación de peticiones de API de Blueprint, completando funciones como chat de texto, generación de imágenes, entre otros.
 
-Eliminar conversación: El botón ❌ en la parte superior de la ventana de chat permite borrar el historial de mensajes de la conversación actual.
+Establecer el rol actual de la conversación: el menú desplegable en la parte superior del cuadro de chat puede definir el personaje actual que envía el texto, permitiendo simular diferentes roles para ajustar el chat de IA.
 
-* Configuración general: Al hacer clic en el botón `Setting` en la esquina inferior izquierda, se abrirá la ventana de configuración general. Puedes establecer el chat de texto predeterminado, el servicio de API para generar imágenes y configurar los parámetros específicos de cada servicio de API. La configuración se guardará automáticamente en la ruta del proyecto `$(ProjectFolder)/Saved/AIChatPlusEditor`.
+Borrar conversación: El botón ❌ en la parte superior de la ventana de chat permite borrar el historial de mensajes de la conversación actual.
 
-* **Configuración de la conversación:** Haz clic en el botón de configuración en la parte superior de la ventana de chat para abrir la ventana de configuración de la conversación actual. Permite modificar el nombre de la conversación, cambiar el servicio de API utilizado en la conversación, y ajustar los parámetros específicos de API para cada conversación de forma independiente. La configuración de la conversación se guarda automáticamente en `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`
+Translate these text into Spanish language:
 
-Modificar contenido del chat: Al pasar el ratón sobre el contenido del chat, aparecerá un botón de configuración para ese contenido en particular, que permitirá regenerar, modificar, copiar o borrar el contenido, así como regenerar contenido debajo (para contenido generado por el usuario).
+* Global settings: Click on the `Setting` button in the bottom left corner to open the global settings window. Here you can set default text chat, API services for image generation, and specify parameters for each type of API service. The settings will be automatically saved in the project's path `$(ProjectFolder)/Saved/AIChatPlusEditor`.
 
-* Visor de imágenes: En cuanto a la generación de imágenes, hacer clic en una imagen abrirá la ventana de visualización de imágenes (ImageViewer), que permite guardar la imagen como PNG/Textura UE, las texturas se pueden ver directamente en el explorador de contenidos (Content Browser), facilitando así su uso en el editor. Además, también se pueden eliminar imágenes, regenerarlas, generar más imágenes, entre otras funciones. Para los editores en Windows, también es posible copiar imágenes y pegarlas directamente en el portapapeles para facilitar su uso. Las imágenes generadas en la sesión se guardarán automáticamente en la carpeta de cada sesión, por lo general en la ruta `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
+* Configuración de la conversación: Haz clic en el botón de configuración en la parte superior de la ventana de chat para abrir la ventana de configuración de la conversación actual. Permite cambiar el nombre de la conversación, modificar los servicios de API utilizados en la conversación, y configurar parámetros específicos de API para cada conversación de forma independiente. La configuración de la conversación se guarda automáticamente en `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`
+
+Modificar contenido de chat: Al pasar el ratón sobre el contenido del chat, aparecerá un botón de configuración para ese contenido de chat en particular, que permitirá regenerar, modificar, copiar o eliminar el contenido, así como regenerar contenido debajo (para los mensajes de los usuarios).
+
+* Visualización de imágenes: Para la generación de imágenes, al hacer clic en una imagen se abrirá la ventana de visualización de imágenes (ImageViewer), con soporte para guardar la imagen como PNG/Textura UE, las texturas se pueden ver directamente en el Explorador de contenido (Content Browser), facilitando así su uso dentro del editor. Además, se permite eliminar imágenes, regenerarlas, continuar generando más imágenes, entre otras funciones. Para el editor en Windows, también se admite copiar imágenes, pudiendo pegarlas directamente en el portapapeles para un uso más conveniente. Las imágenes generadas en la sesión se guardarán automáticamente en la carpeta de cada sesión, generalmente en la ruta `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
 
 Plan:
 
 ![blueprint](assets/img/2024-ue-aichatplus/blueprint.png)
 
-Ajustes generales:
+Configuración global:
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
@@ -93,7 +97,7 @@ Configuración de la conversación:
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
-Modificar el contenido del chat:
+Modifica el contenido del chat:
 
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
@@ -101,29 +105,31 @@ Visor de imágenes:
 
 ![image viewer](assets/img/2024-ue-aichatplus/image_viewer.png)
 
-###Introducción al código central
+###Presentación del código central
 
-En este momento, el complemento se divide en dos módulos: AIChatPlusCommon (Tiempo de ejecución) y AIChatPlusEditor (Editor).
+En la actualidad, el complemento se divide en dos módulos: AIChatPlusCommon (Tiempo de ejecución) y AIChatPlusEditor (Editor).
 
-AIChatPlusCommon se encarga de manejar el envío de solicitudes y analizar el contenido de las respuestas; AIChatPlusEditor se encarga de implementar la herramienta de chat de inteligencia artificial del editor.
+AIChatPlusCommon se encarga de manejar el envío de solicitudes y analizar el contenido de las respuestas; AIChatPlusEditor es responsable de implementar el editor de la herramienta de chat de IA.
 
-Traduce este texto al español:
+Traduce el siguiente texto al idioma Español:
 
-La UClass responsable específicamente de enviar solicitudes es FAIChatPlus_xxxChatRequest; cada servicio de API tiene su propia UClass de solicitud independiente. Las respuestas a las solicitudes se obtienen a través de dos UClass diferentes: UAIChatPlus_ChatHandlerBase y UAIChatPlus_ImageHandlerBase; solo es necesario registrar los delegados de devolución de llamada correspondientes.
+El UClass responsable específico de enviar las solicitudes es FAIChatPlus_xxxChatRequest, cada servicio API tiene su propio UClass de solicitud independiente. Las respuestas a las solicitudes se obtienen a través de dos tipos de UClass: UAIChatPlus_ChatHandlerBase y UAIChatPlus_ImageHandlerBase, solo es necesario registrar los delegados de devolución de llamada correspondientes.
 
-Antes de enviar la solicitud, es necesario configurar los parámetros de la API y el mensaje a enviar, esto se hace a través de FAIChatPlus_xxxChatRequestBody. El contenido específico de la respuesta también se analiza en FAIChatPlus_xxxChatResponseBody, y al recibir la devolución se puede obtener el ResponseBody a través de una interfaz específica.
+Antes de enviar la solicitud, es necesario configurar los parámetros de la API y el mensaje a enviar. Esto se hace a través de FAIChatPlus_xxxChatRequestBody. El contenido específico de la respuesta también se analiza en FAIChatPlus_xxxChatResponseBody, que se puede obtener a través de una interfaz específica al recibir una devolución de llamada.
 
-Puedes obtener más detalles del código fuente en la tienda de Epic Games: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+Puedes encontrar más detalles del código fuente en la tienda UE: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 
-###**Registro de actualizaciones**
+###Registro de actualizaciones
 
-#### v1.0.0
+#### v1.0.0 - 2024.08.07
 
-* Funcionalidad básica completa
+Funcionalidad básica completa
 Apoyo a OpenAI, Azure, Claude, Gemini
-Apoyar el plan proporicionado.
-* Herramienta de chat con editor integrado y funciones completas. 
+Favor de apoyar el plan.
+* Herramienta de chat con editor integrado y funciones completas.
+
+--8<-- "footer_en.md"
 
 
 > Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
