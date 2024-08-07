@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Tue, 06 Aug 2024 17:56:16 -0000</pubDate>
-    <lastBuildDate>Tue, 06 Aug 2024 17:56:16 -0000</lastBuildDate>
+    <pubDate>Wed, 07 Aug 2024 18:09:52 -0000</pubDate>
+    <lastBuildDate>Wed, 07 Aug 2024 18:09:52 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 06 Aug 2024 17:56:28 +0000</pubDate>
+      <pubDate>Wed, 07 Aug 2024 18:10:04 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 06 Aug 2024 17:54:31 +0000</pubDate>
+      <pubDate>Wed, 07 Aug 2024 18:07:56 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,10 +69,117 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 06 Aug 2024 17:54:17 +0000</pubDate>
+      <pubDate>Wed, 07 Aug 2024 18:07:42 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 实现读取本地系统图片</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 实现读取本地系统图片&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ue-utexture2d&#34;&gt;UE 实现读取本地系统图片为 UTexture2D&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下代码都是以 UE5.3 版本为例。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;_1&#34;&gt;通用方法&lt;/h2&gt;
+&lt;p&gt;本方法在 编辑器 和 GamePlay 模式下都可行，支持的图片文件格式有 PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA，基本能覆盖大部分的常用图片类型。&lt;/p&gt;
+&lt;p&gt;代码也很简洁：&lt;/p&gt;
+&lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;Engine/Texture2D.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;ImageUtils.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-0-4&#34; name=&#34;__codelineno-0-4&#34; href=&#34;#__codelineno-0-4&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;UTexture2D&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;LoadImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InLoadPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-5&#34; name=&#34;__codelineno-0-5&#34; href=&#34;#__codelineno-0-5&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-6&#34; name=&#34;__codelineno-0-6&#34; href=&#34;#__codelineno-0-6&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FImage&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ImageInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-7&#34; name=&#34;__codelineno-0-7&#34; href=&#34;#__codelineno-0-7&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FImageUtils&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LoadImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InLoadPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ImageInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-8&#34; name=&#34;__codelineno-0-8&#34; href=&#34;#__codelineno-0-8&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FImageUtils&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CreateTexture2DFromImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ImageInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;a id=&#34;__codelineno-0-9&#34; name=&#34;__codelineno-0-9&#34; href=&#34;#__codelineno-0-9&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;返回的即是 UTexture2D。&lt;/p&gt;
+&lt;h2 id=&#34;_2&#34;&gt;编辑器专用方法&lt;/h2&gt;
+&lt;p&gt;本方法可以额外支持更多的图片类型：UDIM 纹理贴图、IES 文件、PCX 、PSD。&lt;/p&gt;
+&lt;p&gt;代码实现上会更复杂一些：&lt;/p&gt;
+&lt;div class=&#34;language-cpp highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-1-1&#34; name=&#34;__codelineno-1-1&#34; href=&#34;#__codelineno-1-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;Engine/Texture2D.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-2&#34; name=&#34;__codelineno-1-2&#34; href=&#34;#__codelineno-1-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;Misc/FileHelper.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-3&#34; name=&#34;__codelineno-1-3&#34; href=&#34;#__codelineno-1-3&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;Misc/Paths.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-4&#34; name=&#34;__codelineno-1-4&#34; href=&#34;#__codelineno-1-4&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;UObject/UObjectGlobals.h&amp;gt;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-5&#34; name=&#34;__codelineno-1-5&#34; href=&#34;#__codelineno-1-5&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-1-6&#34; name=&#34;__codelineno-1-6&#34; href=&#34;#__codelineno-1-6&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#if WITH_EDITOR&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-7&#34; name=&#34;__codelineno-1-7&#34; href=&#34;#__codelineno-1-7&#34;&gt;&lt;/a&gt;&lt;span class=&#34;n&#34;&gt;UTexture2D&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;LoadImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InLoadPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-8&#34; name=&#34;__codelineno-1-8&#34; href=&#34;#__codelineno-1-8&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-9&#34; name=&#34;__codelineno-1-9&#34; href=&#34;#__codelineno-1-9&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-1-10&#34; name=&#34;__codelineno-1-10&#34; href=&#34;#__codelineno-1-10&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TArray64&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uint8&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-11&#34; name=&#34;__codelineno-1-11&#34; href=&#34;#__codelineno-1-11&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FFileHelper&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LoadFileToArray&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InLoadPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-12&#34; name=&#34;__codelineno-1-12&#34; href=&#34;#__codelineno-1-12&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-13&#34; name=&#34;__codelineno-1-13&#34; href=&#34;#__codelineno-1-13&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;nullptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-14&#34; name=&#34;__codelineno-1-14&#34; href=&#34;#__codelineno-1-14&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-15&#34; name=&#34;__codelineno-1-15&#34; href=&#34;#__codelineno-1-15&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-1-16&#34; name=&#34;__codelineno-1-16&#34; href=&#34;#__codelineno-1-16&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TextureName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-17&#34; name=&#34;__codelineno-1-17&#34; href=&#34;#__codelineno-1-17&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FString&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Extension&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FPaths&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GetExtension&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;InLoadPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ToLower&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-18&#34; name=&#34;__codelineno-1-18&#34; href=&#34;#__codelineno-1-18&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;uint8&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BufferPtr&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GetData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-19&#34; name=&#34;__codelineno-1-19&#34; href=&#34;#__codelineno-1-19&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-1-20&#34; name=&#34;__codelineno-1-20&#34; href=&#34;#__codelineno-1-20&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;auto&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TextureFact&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NewObject&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UTextureFactory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-21&#34; name=&#34;__codelineno-1-21&#34; href=&#34;#__codelineno-1-21&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UTexture2D&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ret&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Cast&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UTexture2D&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TextureFact&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FactoryCreateBinary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-22&#34; name=&#34;__codelineno-1-22&#34; href=&#34;#__codelineno-1-22&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UTexture2D&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;StaticClass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GetTransientPackage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TextureName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RF_Transient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-23&#34; name=&#34;__codelineno-1-23&#34; href=&#34;#__codelineno-1-23&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Extension&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BufferPtr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BufferPtr&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Num&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GWarn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-24&#34; name=&#34;__codelineno-1-24&#34; href=&#34;#__codelineno-1-24&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-1-25&#34; name=&#34;__codelineno-1-25&#34; href=&#34;#__codelineno-1-25&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-26&#34; name=&#34;__codelineno-1-26&#34; href=&#34;#__codelineno-1-26&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;a id=&#34;__codelineno-1-27&#34; name=&#34;__codelineno-1-27&#34; href=&#34;#__codelineno-1-27&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#endif&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;实现是使用了 UTextureFactory 的 FactoryCreateBinary 函数，这个函数能够读取前面提到的额外文件类型。&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;源码&lt;/h2&gt;
+&lt;p&gt;更多源码细节可在 UE 商城获取插件：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 转载声明 &amp;&amp; visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- 转载 --&gt;
+&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
+    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 评论 --&gt;
+&lt;script src=&#34;https://giscus.app/client.js&#34;
+        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo-id=&#34;R_kgDOKz9PQg&#34;
+        data-category=&#34;Announcements&#34;
+        data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
+        data-mapping=&#34;og:title&#34;
+        data-strict=&#34;1&#34;
+        data-reactions-enabled=&#34;1&#34;
+        data-emit-metadata=&#34;0&#34;
+        data-input-position=&#34;top&#34;
+        data-theme=&#34;preferred_color_scheme&#34;
+        data-lang=&#34;zh-CN&#34;
+        data-loading=&#34;lazy&#34;
+        crossorigin=&#34;anonymous&#34;
+        async&gt;
+&lt;/script&gt;
+
+&lt;!-- visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Wed, 07 Aug 2024 17:58:32 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E5%9B%BE%E7%89%87-%E8%AF%BB%E5%8F%96%E5%A4%96%E9%83%A8%E5%9B%BE%E7%89%87/</guid>
       
     </item>
     
@@ -476,13 +583,53 @@
 &lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
 &lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;_8&#34;&gt;更新日志&lt;/h3&gt;
-&lt;h4 id=&#34;v100&#34;&gt;v1.0.0&lt;/h4&gt;
+&lt;h4 id=&#34;v100-20240807&#34;&gt;v1.0.0 - 2024.08.07&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;基础完整功能&lt;/li&gt;
 &lt;li&gt;支持 OpenAI， Azure，Claude，Gemini&lt;/li&gt;
 &lt;li&gt;支持蓝图&lt;/li&gt;
 &lt;li&gt;自带功能完善编辑器聊天工具&lt;/li&gt;
-&lt;/ul&gt;</description>
+&lt;/ul&gt;
+&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 转载声明 &amp;&amp; visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- 转载 --&gt;
+&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
+    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 评论 --&gt;
+&lt;script src=&#34;https://giscus.app/client.js&#34;
+        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo-id=&#34;R_kgDOKz9PQg&#34;
+        data-category=&#34;Announcements&#34;
+        data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
+        data-mapping=&#34;og:title&#34;
+        data-strict=&#34;1&#34;
+        data-reactions-enabled=&#34;1&#34;
+        data-emit-metadata=&#34;0&#34;
+        data-input-position=&#34;top&#34;
+        data-theme=&#34;preferred_color_scheme&#34;
+        data-lang=&#34;zh-CN&#34;
+        data-loading=&#34;lazy&#34;
+        crossorigin=&#34;anonymous&#34;
+        async&gt;
+&lt;/script&gt;
+
+&lt;!-- visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
       <pubDate>Sun, 04 Aug 2024 15:49:54 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
