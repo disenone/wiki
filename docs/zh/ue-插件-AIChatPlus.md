@@ -98,9 +98,11 @@ AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEdito
 
 ### 更新日志
 
-#### v1.0.0
+#### v1.0.0 - 2024.08.07
 
 * 基础完整功能
 * 支持 OpenAI， Azure，Claude，Gemini
 * 支持蓝图
 * 自带功能完善编辑器聊天工具
+
+--8<-- "footer.md"
