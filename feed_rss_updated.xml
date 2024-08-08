@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Wed, 07 Aug 2024 18:09:52 -0000</pubDate>
-    <lastBuildDate>Wed, 07 Aug 2024 18:09:52 -0000</lastBuildDate>
+    <pubDate>Thu, 08 Aug 2024 02:03:22 -0000</pubDate>
+    <lastBuildDate>Thu, 08 Aug 2024 02:03:22 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 07 Aug 2024 18:10:04 +0000</pubDate>
+      <pubDate>Thu, 08 Aug 2024 02:03:34 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 07 Aug 2024 18:07:56 +0000</pubDate>
+      <pubDate>Thu, 08 Aug 2024 02:01:26 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 07 Aug 2024 18:07:42 +0000</pubDate>
+      <pubDate>Thu, 08 Aug 2024 02:01:12 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -155,7 +155,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -282,7 +282,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -610,7 +610,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -888,7 +888,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -2119,7 +2119,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -2200,7 +2200,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -2510,7 +2510,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -2963,7 +2963,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -3236,7 +3236,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -3376,7 +3376,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -3566,7 +3566,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -3872,7 +3872,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -4193,7 +4193,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -4485,7 +4485,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -5052,7 +5052,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -6073,7 +6073,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -6481,7 +6481,7 @@
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -6651,7 +6651,7 @@ MSVCRT90.dll.
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -6952,7 +6952,7 @@ MSVCRT90.dll.
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -7121,7 +7121,7 @@ MSVCRT90.dll.
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
@@ -7489,7 +7489,7 @@ MSVCRT90.dll.
 
 &lt;!-- 评论 --&gt;
 &lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki_blog&#34;
+        data-repo=&#34;disenone/wiki&#34;
         data-repo-id=&#34;R_kgDOKz9PQg&#34;
         data-category=&#34;Announcements&#34;
         data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
