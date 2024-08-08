@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
-tags: [dev, game, UE, UnreanEngine, UE4, UE5, UE Editor, UE Plugin, UE Image, UE Load Image, UE Load File]
+tags: [dev, game, UE, UnreanEngine, UE4, UE5, UE Editor, UE Plugin, UE Image, UE Load Image, UE Load File, Copy, Save, Clipboard]
 description: UE 实现读取本地系统图片
 ---
 <meta property="og:title" content="UE 实现读取本地系统图片" />
