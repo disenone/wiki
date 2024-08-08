@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="UE 实现读取本地系统图片">
+        <meta name="description" content="Read local system images implemented by UE.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...） - Disenone's Wiki</title>
+        <title>Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...). - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ue-utexture2d" class="md-skip">
+        <a href="#realization-of-various-operations-on-images-utexture2d-reading-saving-copying-clipboard" class="md-skip">
           Skip to content
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
+              Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
             
           </span>
         </div>
@@ -1036,7 +1036,7 @@
           
   
   <span class="md-ellipsis">
-    UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
+    Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
   </span>
   
 
@@ -1047,7 +1047,7 @@
         
   
   <span class="md-ellipsis">
-    UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
+    Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
   </span>
   
 
@@ -1069,37 +1069,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#source-code" class="md-nav__link">
     <span class="md-ellipsis">
-      源码
+      Source code
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_1" class="md-nav__link">
+  <a href="#read-ue-realize-reading-local-system-pictures-as-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      读取：UE 实现读取本地系统图片为 UTexture2D
+      Read: UE realize reading local system pictures as UTexture2D
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="读取：UE 实现读取本地系统图片为 UTexture2D">
+    <nav class="md-nav" aria-label="Read: UE realize reading local system pictures as UTexture2D">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#general-method" class="md-nav__link">
     <span class="md-ellipsis">
-      通用方法
+      General method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#editor-specific-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      编辑器专用方法
+      Editor specific methods
     </span>
   </a>
   
@@ -1111,73 +1111,73 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_2" class="md-nav__link">
+  <a href="#copy-how-to-implement-copying-of-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      复制：UE 实现复制 UTexture2D
+      Copy: How to implement copying of UTexture2D
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_3" class="md-nav__link">
+  <a href="#save-ue-achieves-saving-utexture2d-to-a-file" class="md-nav__link">
     <span class="md-ellipsis">
-      保存：UE 实现保存 UTexture2D 到文件
+      Save: UE achieves saving UTexture2D to a file
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d-asset" class="md-nav__link">
+  <a href="#save-ue-achieve-the-save-of-utexture2d-to-asset" class="md-nav__link">
     <span class="md-ellipsis">
-      保存：UE 实现保存 UTexture2D 到 Asset
+      Save: UE achieve the save of UTexture2D to Asset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d-windows-clipboard" class="md-nav__link">
+  <a href="#clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
     <span class="md-ellipsis">
-      剪贴板：UE 实现复制图片 (UTexture2D) 到 Windows 剪贴板 (Clipboard)
+      Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="剪贴板：UE 实现复制图片 (UTexture2D) 到 Windows 剪贴板 (Clipboard)">
+    <nav class="md-nav" aria-label="Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
+  <a href="#windows-related-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Windows 相关函数
+      Windows related functions
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#clipboard-image-format" class="md-nav__link">
     <span class="md-ellipsis">
-      剪贴板的图片格式
+      Clipboard image format
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#utexture2d" class="md-nav__link">
+  <a href="#set-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      UTexture2D 设置
+      Set UTexture2D
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#specific-code" class="md-nav__link">
     <span class="md-ellipsis">
-      具体代码
+      Specific Code
     </span>
   </a>
   
@@ -1449,37 +1449,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#source-code" class="md-nav__link">
     <span class="md-ellipsis">
-      源码
+      Source code
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_1" class="md-nav__link">
+  <a href="#read-ue-realize-reading-local-system-pictures-as-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      读取：UE 实现读取本地系统图片为 UTexture2D
+      Read: UE realize reading local system pictures as UTexture2D
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="读取：UE 实现读取本地系统图片为 UTexture2D">
+    <nav class="md-nav" aria-label="Read: UE realize reading local system pictures as UTexture2D">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#general-method" class="md-nav__link">
     <span class="md-ellipsis">
-      通用方法
+      General method
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#editor-specific-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      编辑器专用方法
+      Editor specific methods
     </span>
   </a>
   
@@ -1491,73 +1491,73 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_2" class="md-nav__link">
+  <a href="#copy-how-to-implement-copying-of-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      复制：UE 实现复制 UTexture2D
+      Copy: How to implement copying of UTexture2D
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d_3" class="md-nav__link">
+  <a href="#save-ue-achieves-saving-utexture2d-to-a-file" class="md-nav__link">
     <span class="md-ellipsis">
-      保存：UE 实现保存 UTexture2D 到文件
+      Save: UE achieves saving UTexture2D to a file
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d-asset" class="md-nav__link">
+  <a href="#save-ue-achieve-the-save-of-utexture2d-to-asset" class="md-nav__link">
     <span class="md-ellipsis">
-      保存：UE 实现保存 UTexture2D 到 Asset
+      Save: UE achieve the save of UTexture2D to Asset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ue-utexture2d-windows-clipboard" class="md-nav__link">
+  <a href="#clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
     <span class="md-ellipsis">
-      剪贴板：UE 实现复制图片 (UTexture2D) 到 Windows 剪贴板 (Clipboard)
+      Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="剪贴板：UE 实现复制图片 (UTexture2D) 到 Windows 剪贴板 (Clipboard)">
+    <nav class="md-nav" aria-label="Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
+  <a href="#windows-related-functions" class="md-nav__link">
     <span class="md-ellipsis">
-      Windows 相关函数
+      Windows related functions
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#clipboard-image-format" class="md-nav__link">
     <span class="md-ellipsis">
-      剪贴板的图片格式
+      Clipboard image format
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#utexture2d" class="md-nav__link">
+  <a href="#set-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      UTexture2D 设置
+      Set UTexture2D
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#specific-code" class="md-nav__link">
     <span class="md-ellipsis">
-      具体代码
+      Specific Code
     </span>
   </a>
   
@@ -1583,7 +1583,7 @@
                   
 
   
-    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/zh/ue-图片-各种图片操作.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/en/ue-图片-各种图片操作.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1592,16 +1592,16 @@
 
 
 <div><p><meta property="og:title" content="UE 实现读取本地系统图片"></p>
-<h1 id="ue-utexture2d">UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）</h1>
+<h1 id="realization-of-various-operations-on-images-utexture2d-reading-saving-copying-clipboard">Realization of various operations on images (UTexture2D) (reading, saving, copying, clipboard...).</h1>
 <blockquote>
-<p>以下代码都是以 UE5.3 版本为例。</p>
+<p>The following code examples are based on version UE5.3.</p>
 </blockquote>
-<h2 id="_1">源码</h2>
-<p>更多源码细节可在 UE 商城获取插件：<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
-<h2 id="ue-utexture2d_1">读取：UE 实现读取本地系统图片为 UTexture2D</h2>
-<h3 id="_2">通用方法</h3>
-<p>本方法在 编辑器 和 GamePlay 模式下都可行，支持的图片文件格式有 PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA，基本能覆盖大部分的常用图片类型。</p>
-<p>代码也很简洁：</p>
+<h2 id="source-code">Source code</h2>
+<p>For more source code details, you can get the plugin on the UE marketplace: <a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
+<h2 id="read-ue-realize-reading-local-system-pictures-as-utexture2d">Read: UE realize reading local system pictures as UTexture2D</h2>
+<h3 id="general-method">General method</h3>
+<p>This method works in both the Editor and GamePlay modes, supporting image file formats such as PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, covering most common image types.</p>
+<p>The code is also very concise:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ImageUtils.h&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1612,10 +1612,10 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">CreateTexture2DFromImage</span><span class="p">(</span><span class="n">ImageInfo</span><span class="p">);</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
-<p>返回的即是 UTexture2D。</p>
-<h3 id="_3">编辑器专用方法</h3>
-<p>本方法可以额外支持更多的图片类型：UDIM 纹理贴图、IES 文件、PCX 、PSD。</p>
-<p>代码实现上会更复杂一些：</p>
+<p>The returned value is UTexture2D.</p>
+<h3 id="editor-specific-methods">Editor specific methods</h3>
+<p>This method can also support more types of images: UDIM texture maps, IES files, PCX, PSD.</p>
+<p>The implementation of the code will be more complex.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/FileHelper.h&gt;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/Paths.h&gt;</span>
@@ -1644,9 +1644,9 @@
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="cp">#endif</span>
 </code></pre></div>
-<p>实现是使用了 UTextureFactory 的 FactoryCreateBinary 函数，这个函数能够读取前面提到的额外文件类型。</p>
-<h2 id="ue-utexture2d_2">复制：UE 实现复制 UTexture2D</h2>
-<p>有的时候需要复制一个 UTexture2D 出来，再对这个复制出来的图片进行修改，复制图片需要使用到引擎自带的函数 <code>FImageCore::CopyImage</code>，只要设置好两个图片的参数，调用这个接口即可</p>
+<p>The implementation uses the <code>FactoryCreateBinary</code> function of <code>UTextureFactory</code>, which can read the additional file types mentioned earlier.</p>
+<h2 id="copy-how-to-implement-copying-of-utexture2d">Copy: How to implement copying of UTexture2D</h2>
+<p>Sometimes it is necessary to duplicate a UTexture2D, then make modifications to this duplicated image. Copying the image requires using the engine's built-in function <code>FImageCore::CopyImage</code>. As long as the parameters of the two images are set correctly, simply call this interface.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="nf">CopyTexture2D</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">,</span><span class="w"> </span><span class="n">UObject</span><span class="o">*</span><span class="w"> </span><span class="n">Outer</span><span class="p">,</span><span class="w"> </span><span class="n">FName</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">EObjectFlags</span><span class="w"> </span><span class="n">Flags</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1">// src texture info, src ImageView</span>
@@ -1699,8 +1699,8 @@
 <a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">NewTexture</span><span class="p">;</span>
 <a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="ue-utexture2d_3">保存：UE 实现保存 UTexture2D 到文件</h2>
-<p>核心是使用引擎函数 <code>FImageUtils::SaveImageAutoFormat</code>，实现起来比较简单，不过需要注意失败重试的情况</p>
+<h2 id="save-ue-achieves-saving-utexture2d-to-a-file">Save: UE achieves saving UTexture2D to a file</h2>
+<p>The key is to use the engine function <code>FImageUtils::SaveImageAutoFormat</code>, which is relatively simple to implement, but you need to be aware of the situation of retrying in case of failure.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SaveImage</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InImage</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InSavePath</span><span class="p">)</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InImage</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1728,9 +1728,9 @@
 <a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="ue-utexture2d-asset">保存：UE 实现保存 UTexture2D 到 Asset</h2>
-<p>保存内存中的 UTexture2D 到 Asset 中，并可以在资源浏览器 (Content Browser) 中查看。</p>
-<p>核心函数需要用到上面实现的 <code>CopyTexture2D</code>，我们需要先复制出来一个新的图片，然后再调用 <code>UPackage::SavePackage</code> 把图片所在的 <code>Package</code> 保存成 Asset。</p>
+<h2 id="save-ue-achieve-the-save-of-utexture2d-to-asset">Save: UE achieve the save of UTexture2D to Asset</h2>
+<p>Save the UTexture2D in memory to an Asset and view it in the Content Browser.</p>
+<p>The core function needs to use the <code>CopyTexture2D</code> implemented above. We need to first duplicate a new image, and then call <code>UPackage::SavePackage</code> to save the <code>Package</code> where the image is stored as an Asset.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SaveTextureToAsset</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InTexture</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1789,24 +1789,24 @@
 <a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="ue-utexture2d-windows-clipboard">剪贴板：UE 实现复制图片 (UTexture2D) 到 Windows 剪贴板 (Clipboard)</h2>
-<h3 id="windows">Windows 相关函数</h3>
-<p>我们会用到以下 Windows 操作剪贴板的相关函数：</p>
+<h2 id="clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard">Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard</h2>
+<h3 id="windows-related-functions">Windows related functions</h3>
+<p>We will use the following functions related to the Windows clipboard operation:</p>
 <ul>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard">OpenClipboard</a>：打开剪贴板，获取剪贴板的 Handler 。</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard">EmptyClipboard</a>：清空剪贴板，并把剪贴板的所有权分配给当前的窗口。</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata">SetClipboardData</a>：设置剪贴板的数据，图片的数据是通过这个接口发送给剪贴板。</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard">CloseClipboard</a>：设置好数据之后，关闭剪贴板。</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard">OpenClipboard</a>Open the clipboard and obtain the Handler of the clipboard.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard">EmptyClipboard</a>Empty the clipboard, and assign ownership of the clipboard to the current window.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata">SetClipboardData</a>To set the data of the clipboard, the data of the image is sent to the clipboard through this interface.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard">CloseClipboard</a>After setting up the data, turn off the clipboard.</li>
 </ul>
-<h3 id="_4">剪贴板的图片格式</h3>
-<p><a href="https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats">标准剪贴板格式</a> 里面介绍了可用的剪贴板格式，其中 <code>CF_DIBV5</code> 即可以用来设置图片。</p>
-<p>CF_DIBV5 要求的格式具体定义 <a href="https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header">BITMAPV5HEADER 结构</a>，在这里我们选用以下配置</p>
+<h3 id="clipboard-image-format">Clipboard image format</h3>
+<p>(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)It introduces available clipboard formats, among which <code>CF_DIBV5</code> can be used to set images.</p>
+<p>The specific definition of the format required by CF_DIBV5 <a href="https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header">BITMAPV5HEADER structure</a>Here we choose the following configuration</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">BITMAPV5HEADER</span><span class="w"> </span><span class="n">Header</span><span class="p">;</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Header</span><span class="p">.</span><span class="n">bV5CSType</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">LCS_sRGB</span><span class="p">;</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Header</span><span class="p">.</span><span class="n">bV5Compression</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">BI_BITFIELDS</span><span class="p">;</span>
 </code></pre></div>
-<h3 id="utexture2d">UTexture2D 设置</h3>
-<p>我们在上面选择了剪贴板图片的颜色空间是 <code>LCS_sRGB</code>，即 sRGB 颜色空间，那么 UTexture2D 也需要先设置到对应的格式：</p>
+<h3 id="set-utexture2d">Set UTexture2D</h3>
+<p>We have selected the color space of the clipboard image as <code>LCS_sRGB</code> above, which is the sRGB color space. Therefore, UTexture2D also needs to be set to the corresponding format first:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">ConvertTextureToStandard</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">CompressionSettings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">TC_VectorDisplacementmap</span><span class="p">)</span>
@@ -1825,8 +1825,8 @@
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
 </code></pre></div>
-<p>ConvertTextureToStandard 就是负责把 UTexture2D 转换成标准格式：TC_VectorDisplacementmap (RGBA8) 和 SRGB 颜色空间。对齐了 UTexture2D 和 Windows 剪贴板的图片格式之后，我们就可以把图片的数据复制到剪贴板上。</p>
-<h3 id="_5">具体代码</h3>
+<p><strong>ConvertTextureToStandard</strong> is responsible for converting <strong>UTexture2D</strong> to the standard format: <strong>TC_VectorDisplacementmap</strong> (RGBA8) and the SRGB color space. Once we align the image format of <strong>UTexture2D</strong> and the Windows clipboard, we can then copy the image data to the clipboard.</p>
+<h3 id="specific-code">Specific Code</h3>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">CopyTexture2DToClipboard</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InTexture</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1920,8 +1920,8 @@
 
 <!-- 转载声明 && visit -->
 <blockquote>
-<p>原文地址：<a href="https://wiki.disenone.site">https://wiki.disenone.site</a></p>
-<p>本篇文章受 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议保护，转载请注明出处。</p>
+<p>Original: <a href="https://wiki.disenone.site/en">https://wiki.disenone.site/en</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
 </blockquote>
 <!-- 转载 -->
 <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
@@ -1935,12 +1935,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>This post is translated using ChatGPT, please <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a> if any omissions.</p>
 </blockquote></div>
 
 
@@ -1964,7 +1965,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-08</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-09</span>
   </span>
 
     
