@@ -375,4 +375,42 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 }
 ```
 
+### UTexture2D 跟 Base64 之间的转换
+
+这个实现起来比较简单，直接上代码
+
+```cpp
+#include <Misc/Base64.h>
+#include <ImageUtils.h>
+
+UTexture2D* B64ToImage(const FString& B64)
+{
+	TArray<uint8> Data;
+	FBase64::Decode(B64, Data);
+	return FImageUtils::ImportBufferAsTexture2D(Data);
+}
+
+FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
+{
+	FTextureMipDataLockGuard InTextureGuard(InTexture);
+
+	uint8* MipData = InTextureGuard.Lock(LOCK_READ_ONLY);
+	check(MipData != nullptr);
+
+	const FImageView InImage(
+		MipData, InTexture->GetSizeX(), InTexture->GetSizeY(), 1,
+		GetRawImageFormat(InTexture->GetPixelFormat()), InTexture->GetGammaSpace());
+
+	TArray64<uint8> Buffer;
+	FString Ret;
+	if (FImageUtils::CompressImage(Buffer, TEXT("png"), InImage, InQuality))
+	{
+		Ret = FBase64::Encode(Buffer.GetData(), Buffer.Num());
+	}
+	return Ret;
+}
+
+```
+
+
 --8<-- "footer.md"
