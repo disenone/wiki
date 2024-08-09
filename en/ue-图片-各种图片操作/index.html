@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Read local system images implemented by UE.">
+        <meta name="description" content="Implement reading local system images in UE.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...). - Disenone's Wiki</title>
+        <title>implements various image (UTexture2D) operations (read, save, copy, clipboard...) - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#realization-of-various-operations-on-images-utexture2d-reading-saving-copying-clipboard" class="md-skip">
+        <a href="#realize-various-operations-on-images-utexture2d-read-save-copy-clipboard" class="md-skip">
           Skip to content
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
+              implements various image (UTexture2D) operations (read, save, copy, clipboard...)
             
           </span>
         </div>
@@ -1036,7 +1036,7 @@
           
   
   <span class="md-ellipsis">
-    Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
+    implements various image (UTexture2D) operations (read, save, copy, clipboard...)
   </span>
   
 
@@ -1047,7 +1047,7 @@
         
   
   <span class="md-ellipsis">
-    Achieve various operations on images (UTexture2D) in UE (such as reading, saving, copying, clipboard...).
+    implements various image (UTexture2D) operations (read, save, copy, clipboard...)
   </span>
   
 
@@ -1078,13 +1078,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#read-ue-realize-reading-local-system-pictures-as-utexture2d" class="md-nav__link">
+  <a href="#read-ue-realizes-reading-local-system-images-as-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      Read: UE realize reading local system pictures as UTexture2D
+      Read: UE realizes reading local system images as UTexture2D
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Read: UE realize reading local system pictures as UTexture2D">
+    <nav class="md-nav" aria-label="Read: UE realizes reading local system images as UTexture2D">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1099,7 +1099,7 @@
           <li class="md-nav__item">
   <a href="#editor-specific-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Editor specific methods
+      Editor-specific methods
     </span>
   </a>
   
@@ -1111,40 +1111,40 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#copy-how-to-implement-copying-of-utexture2d" class="md-nav__link">
+  <a href="#copy-ue-achieves-copying-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      Copy: How to implement copying of UTexture2D
+      Copy: UE achieves copying UTexture2D
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#save-ue-achieves-saving-utexture2d-to-a-file" class="md-nav__link">
+  <a href="#save-ue-achieves-saving-utexture2d-to-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Save: UE achieves saving UTexture2D to a file
+      Save: UE achieves saving UTexture2D to file
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#save-ue-achieve-the-save-of-utexture2d-to-asset" class="md-nav__link">
+  <a href="#save-implement-saving-utexture2d-to-asset" class="md-nav__link">
     <span class="md-ellipsis">
-      Save: UE achieve the save of UTexture2D to Asset
+      Save: Implement saving UTexture2D to Asset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
+  <a href="#clipboard-ue-implement-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
     <span class="md-ellipsis">
-      Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard
+      Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard">
+    <nav class="md-nav" aria-label="Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1166,9 +1166,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-utexture2d" class="md-nav__link">
+  <a href="#utexture2d-setting" class="md-nav__link">
     <span class="md-ellipsis">
-      Set UTexture2D
+      UTexture2D Setting
     </span>
   </a>
   
@@ -1177,7 +1177,16 @@
           <li class="md-nav__item">
   <a href="#specific-code" class="md-nav__link">
     <span class="md-ellipsis">
-      Specific Code
+      Specific code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversion-between-utexture2d-and-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conversion between UTexture2D and Base64
     </span>
   </a>
   
@@ -1458,13 +1467,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#read-ue-realize-reading-local-system-pictures-as-utexture2d" class="md-nav__link">
+  <a href="#read-ue-realizes-reading-local-system-images-as-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      Read: UE realize reading local system pictures as UTexture2D
+      Read: UE realizes reading local system images as UTexture2D
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Read: UE realize reading local system pictures as UTexture2D">
+    <nav class="md-nav" aria-label="Read: UE realizes reading local system images as UTexture2D">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1479,7 +1488,7 @@
           <li class="md-nav__item">
   <a href="#editor-specific-methods" class="md-nav__link">
     <span class="md-ellipsis">
-      Editor specific methods
+      Editor-specific methods
     </span>
   </a>
   
@@ -1491,40 +1500,40 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#copy-how-to-implement-copying-of-utexture2d" class="md-nav__link">
+  <a href="#copy-ue-achieves-copying-utexture2d" class="md-nav__link">
     <span class="md-ellipsis">
-      Copy: How to implement copying of UTexture2D
+      Copy: UE achieves copying UTexture2D
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#save-ue-achieves-saving-utexture2d-to-a-file" class="md-nav__link">
+  <a href="#save-ue-achieves-saving-utexture2d-to-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Save: UE achieves saving UTexture2D to a file
+      Save: UE achieves saving UTexture2D to file
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#save-ue-achieve-the-save-of-utexture2d-to-asset" class="md-nav__link">
+  <a href="#save-implement-saving-utexture2d-to-asset" class="md-nav__link">
     <span class="md-ellipsis">
-      Save: UE achieve the save of UTexture2D to Asset
+      Save: Implement saving UTexture2D to Asset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
+  <a href="#clipboard-ue-implement-copying-images-utexture2d-to-windows-clipboard" class="md-nav__link">
     <span class="md-ellipsis">
-      Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard
+      Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard">
+    <nav class="md-nav" aria-label="Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1546,9 +1555,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#set-utexture2d" class="md-nav__link">
+  <a href="#utexture2d-setting" class="md-nav__link">
     <span class="md-ellipsis">
-      Set UTexture2D
+      UTexture2D Setting
     </span>
   </a>
   
@@ -1557,7 +1566,16 @@
           <li class="md-nav__item">
   <a href="#specific-code" class="md-nav__link">
     <span class="md-ellipsis">
-      Specific Code
+      Specific code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversion-between-utexture2d-and-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conversion between UTexture2D and Base64
     </span>
   </a>
   
@@ -1592,16 +1610,16 @@
 
 
 <div><p><meta property="og:title" content="UE 实现读取本地系统图片"></p>
-<h1 id="realization-of-various-operations-on-images-utexture2d-reading-saving-copying-clipboard">Realization of various operations on images (UTexture2D) (reading, saving, copying, clipboard...).</h1>
+<h1 id="realize-various-operations-on-images-utexture2d-read-save-copy-clipboard">Realize various operations on images (UTexture2D) (read, save, copy, clipboard...)</h1>
 <blockquote>
 <p>The following code examples are based on version UE5.3.</p>
 </blockquote>
 <h2 id="source-code">Source code</h2>
-<p>For more source code details, you can get the plugin on the UE marketplace: <a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
-<h2 id="read-ue-realize-reading-local-system-pictures-as-utexture2d">Read: UE realize reading local system pictures as UTexture2D</h2>
+<p>More source code details can be obtained from the UE Marketplace plugin: <a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
+<h2 id="read-ue-realizes-reading-local-system-images-as-utexture2d">Read: UE realizes reading local system images as UTexture2D</h2>
 <h3 id="general-method">General method</h3>
-<p>This method works in both the Editor and GamePlay modes, supporting image file formats such as PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, covering most common image types.</p>
-<p>The code is also very concise:</p>
+<p>This method is feasible in both Editor and GamePlay modes, supporting image file formats including PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, covering most common image types.</p>
+<p>The code is also very clean:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ImageUtils.h&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1612,10 +1630,10 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">CreateTexture2DFromImage</span><span class="p">(</span><span class="n">ImageInfo</span><span class="p">);</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
-<p>The returned value is UTexture2D.</p>
-<h3 id="editor-specific-methods">Editor specific methods</h3>
-<p>This method can also support more types of images: UDIM texture maps, IES files, PCX, PSD.</p>
-<p>The implementation of the code will be more complex.</p>
+<p>The returned is UTexture2D.</p>
+<h3 id="editor-specific-methods">Editor-specific methods</h3>
+<p>This method can additionally support more image types: UDIM texture maps, IES files, PCX, PSD.</p>
+<p>The implementation of the code will be more complex:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Engine/Texture2D.h&gt;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/FileHelper.h&gt;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/Paths.h&gt;</span>
@@ -1644,9 +1662,9 @@
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="cp">#endif</span>
 </code></pre></div>
-<p>The implementation uses the <code>FactoryCreateBinary</code> function of <code>UTextureFactory</code>, which can read the additional file types mentioned earlier.</p>
-<h2 id="copy-how-to-implement-copying-of-utexture2d">Copy: How to implement copying of UTexture2D</h2>
-<p>Sometimes it is necessary to duplicate a UTexture2D, then make modifications to this duplicated image. Copying the image requires using the engine's built-in function <code>FImageCore::CopyImage</code>. As long as the parameters of the two images are set correctly, simply call this interface.</p>
+<p>The implementation uses the FactoryCreateBinary function of UTextureFactory, which is able to read the additional file types mentioned earlier.</p>
+<h2 id="copy-ue-achieves-copying-utexture2d">Copy: UE achieves copying UTexture2D</h2>
+<p>Sometimes you need to duplicate a UTexture2D and then modify the duplicated image. Copying the image requires using the engine's built-in function <code>FImageCore::CopyImage</code>. Just set the parameters for the two images and call this interface.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="nf">CopyTexture2D</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">,</span><span class="w"> </span><span class="n">UObject</span><span class="o">*</span><span class="w"> </span><span class="n">Outer</span><span class="p">,</span><span class="w"> </span><span class="n">FName</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">EObjectFlags</span><span class="w"> </span><span class="n">Flags</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1">// src texture info, src ImageView</span>
@@ -1699,8 +1717,8 @@
 <a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">NewTexture</span><span class="p">;</span>
 <a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="save-ue-achieves-saving-utexture2d-to-a-file">Save: UE achieves saving UTexture2D to a file</h2>
-<p>The key is to use the engine function <code>FImageUtils::SaveImageAutoFormat</code>, which is relatively simple to implement, but you need to be aware of the situation of retrying in case of failure.</p>
+<h2 id="save-ue-achieves-saving-utexture2d-to-file">Save: UE achieves saving UTexture2D to file</h2>
+<p>The key is to use the engine function <code>FImageUtils::SaveImageAutoFormat</code>, which is relatively simple to implement, but it is important to pay attention to the situation of retrying in case of failure.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SaveImage</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InImage</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InSavePath</span><span class="p">)</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InImage</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1728,9 +1746,9 @@
 <a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="save-ue-achieve-the-save-of-utexture2d-to-asset">Save: UE achieve the save of UTexture2D to Asset</h2>
-<p>Save the UTexture2D in memory to an Asset and view it in the Content Browser.</p>
-<p>The core function needs to use the <code>CopyTexture2D</code> implemented above. We need to first duplicate a new image, and then call <code>UPackage::SavePackage</code> to save the <code>Package</code> where the image is stored as an Asset.</p>
+<h2 id="save-implement-saving-utexture2d-to-asset">Save: Implement saving UTexture2D to Asset</h2>
+<p>Save the UTexture2D in memory to an Asset, and be able to view it in the Content Browser.</p>
+<p>The core function needs to use the <code>CopyTexture2D</code> implemented above. We need to first duplicate a new image, and then call <code>UPackage::SavePackage</code> to save the <code>Package</code> where the image is located as an Asset.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SaveTextureToAsset</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InTexture</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1789,24 +1807,24 @@
 <a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="clipboard-ue-implementation-of-copying-images-utexture2d-to-windows-clipboard">Clipboard: UE implementation of copying images (UTexture2D) to Windows Clipboard</h2>
+<h2 id="clipboard-ue-implement-copying-images-utexture2d-to-windows-clipboard">Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard</h2>
 <h3 id="windows-related-functions">Windows related functions</h3>
-<p>We will use the following functions related to the Windows clipboard operation:</p>
+<p>We will use the following functions related to the Windows clipboard operations:</p>
 <ul>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard">OpenClipboard</a>Open the clipboard and obtain the Handler of the clipboard.</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard">EmptyClipboard</a>Empty the clipboard, and assign ownership of the clipboard to the current window.</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata">SetClipboardData</a>To set the data of the clipboard, the data of the image is sent to the clipboard through this interface.</li>
-<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard">CloseClipboard</a>After setting up the data, turn off the clipboard.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard">OpenClipboard</a>Open the clipboard to obtain the clipboard's handler.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard">EmptyClipboard</a>Empty the clipboard and assign ownership of the clipboard to the current window.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata">SetClipboardData</a>Set the data of the clipboard. Image data is sent to the clipboard through this interface.</li>
+<li><a href="https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard">CloseClipboard</a>After setting up the data, close the clipboard.</li>
 </ul>
 <h3 id="clipboard-image-format">Clipboard image format</h3>
-<p>(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)It introduces available clipboard formats, among which <code>CF_DIBV5</code> can be used to set images.</p>
-<p>The specific definition of the format required by CF_DIBV5 <a href="https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header">BITMAPV5HEADER structure</a>Here we choose the following configuration</p>
+<p>(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Inside, there are introductions to available clipboard formats, among which <code>CF_DIBV5</code> can be used to set images.</p>
+<p>The specific definition of the format required by CF_DIBV5 <a href="https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header">BITMAPV5HEADER structure</a>Here we have selected the following configuration.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">BITMAPV5HEADER</span><span class="w"> </span><span class="n">Header</span><span class="p">;</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Header</span><span class="p">.</span><span class="n">bV5CSType</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">LCS_sRGB</span><span class="p">;</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Header</span><span class="p">.</span><span class="n">bV5Compression</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">BI_BITFIELDS</span><span class="p">;</span>
 </code></pre></div>
-<h3 id="set-utexture2d">Set UTexture2D</h3>
-<p>We have selected the color space of the clipboard image as <code>LCS_sRGB</code> above, which is the sRGB color space. Therefore, UTexture2D also needs to be set to the corresponding format first:</p>
+<h3 id="utexture2d-setting">UTexture2D Setting</h3>
+<p>We selected the color space of the clipboard image as <code>LCS_sRGB</code>, which is the sRGB color space above, so the UTexture2D also needs to be set to the corresponding format first:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">ConvertTextureToStandard</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">CompressionSettings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">TC_VectorDisplacementmap</span><span class="p">)</span>
@@ -1825,8 +1843,8 @@
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
 </code></pre></div>
-<p><strong>ConvertTextureToStandard</strong> is responsible for converting <strong>UTexture2D</strong> to the standard format: <strong>TC_VectorDisplacementmap</strong> (RGBA8) and the SRGB color space. Once we align the image format of <strong>UTexture2D</strong> and the Windows clipboard, we can then copy the image data to the clipboard.</p>
-<h3 id="specific-code">Specific Code</h3>
+<p>ConvertTextureToStandard is responsible for converting UTexture2D to standard format: TC_VectorDisplacementmap (RGBA8) and SRGB color space. Once aligning the image format of UTexture2D and Windows clipboard, we can copy the image data to the clipboard.</p>
+<h3 id="specific-code">Specific code</h3>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">CopyTexture2DToClipboard</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">)</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">InTexture</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
@@ -1916,6 +1934,38 @@
 <a id="__codelineno-7-87" name="__codelineno-7-87" href="#__codelineno-7-87"></a><span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="n">DstMip</span><span class="p">;</span>
 <a id="__codelineno-7-88" name="__codelineno-7-88" href="#__codelineno-7-88"></a><span class="p">}</span>
 </code></pre></div>
+<h3 id="conversion-between-utexture2d-and-base64">Conversion between UTexture2D and Base64</h3>
+<p>This is relatively easy to implement, let's dive into the code.</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Misc/Base64.h&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ImageUtils.h&gt;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="nf">B64ToImage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">B64</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">{</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">TArray</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Data</span><span class="p">;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="n">FBase64</span><span class="o">::</span><span class="n">Decode</span><span class="p">(</span><span class="n">B64</span><span class="p">,</span><span class="w"> </span><span class="n">Data</span><span class="p">);</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">ImportBufferAsTexture2D</span><span class="p">(</span><span class="n">Data</span><span class="p">);</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">}</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">FString</span><span class="w"> </span><span class="nf">ImageToB64</span><span class="p">(</span><span class="n">UTexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">InTexture</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">int32</span><span class="w"> </span><span class="n">InQuality</span><span class="p">)</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">{</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="n">FTextureMipDataLockGuard</span><span class="w"> </span><span class="n">InTextureGuard</span><span class="p">(</span><span class="n">InTexture</span><span class="p">);</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="n">uint8</span><span class="o">*</span><span class="w"> </span><span class="n">MipData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">InTextureGuard</span><span class="p">.</span><span class="n">Lock</span><span class="p">(</span><span class="n">LOCK_READ_ONLY</span><span class="p">);</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="n">check</span><span class="p">(</span><span class="n">MipData</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">FImageView</span><span class="w"> </span><span class="n">InImage</span><span class="p">(</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">        </span><span class="n">MipData</span><span class="p">,</span><span class="w"> </span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">GetSizeX</span><span class="p">(),</span><span class="w"> </span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">GetSizeY</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">        </span><span class="n">GetRawImageFormat</span><span class="p">(</span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">GetPixelFormat</span><span class="p">()),</span><span class="w"> </span><span class="n">InTexture</span><span class="o">-&gt;</span><span class="n">GetGammaSpace</span><span class="p">());</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="n">TArray64</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Buffer</span><span class="p">;</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">    </span><span class="n">FString</span><span class="w"> </span><span class="n">Ret</span><span class="p">;</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">FImageUtils</span><span class="o">::</span><span class="n">CompressImage</span><span class="p">(</span><span class="n">Buffer</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"png"</span><span class="p">),</span><span class="w"> </span><span class="n">InImage</span><span class="p">,</span><span class="w"> </span><span class="n">InQuality</span><span class="p">))</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">        </span><span class="n">Ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FBase64</span><span class="o">::</span><span class="n">Encode</span><span class="p">(</span><span class="n">Buffer</span><span class="p">.</span><span class="n">GetData</span><span class="p">(),</span><span class="w"> </span><span class="n">Buffer</span><span class="p">.</span><span class="n">Num</span><span class="p">());</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Ret</span><span class="p">;</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="p">}</span>
+</code></pre></div>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1961,7 +2011,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-09</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-08-10</span>
   </span>
 
     
