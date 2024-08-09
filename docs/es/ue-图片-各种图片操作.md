@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Realiza diversas operaciones en imágenes (UTexture2D) de la UE (Unreal Engine)
-  (como leer, guardar, copiar, pegar...).
+title: Lograr varias operaciones de imágenes (UTexture2D) en el Unreal Engine (UE)
+  como leer, guardar, copiar, y pegar desde/hacia el portapapeles...
 tags:
 - dev
 - game
@@ -17,28 +17,28 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: Lograr leer imágenes del sistema local.
+description: UE logra la lectura de imágenes del sistema local.
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#UE realiza varias operaciones con imágenes (UTexture2D) (como leer, guardar, copiar, pegar en el portapapeles...).
+#Realizar diversas operaciones de imágenes (UTexture2D) en UE (Unreal Engine) (leer, guardar, copiar, portapapeles...).
 
-> Las siguientes líneas de código se basan en la versión 5.3 de UE.
+> Las siguientes líneas de código están basadas en la versión 5.3 de UE.
 
 ##Código fuente
 
-Obtén más detalles del código fuente en la tienda de Epic Games: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+Se pueden encontrar más detalles del código fuente en la tienda de UE mediante el complemento: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Traducción:
+##Traducción al español:
 
-Leer: UE logra leer imágenes del sistema local como UTexture2D
+Leer: UE implementa la lectura de imágenes del sistema local como UTexture2D
 
 ###Método genérico
 
-Este método es válido tanto en el modo Editor como en el modo de Juego, y admite formatos de archivo de imagen como PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, lo que cubre la mayoría de los tipos de imagen comunes.
+Este método es viable tanto en el modo editor como en el modo de juego, admite los formatos de archivo de imagen PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, y puede manejar la mayoría de los tipos de imágenes comunes.
 
-El código también es muy claro:
+El código también es muy limpio:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -53,11 +53,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-El retorno es UTexture2D.
+La salida es UTexture2D.
 
 ###Método exclusivo del editor
 
-Esta técnica puede además admitir más tipos de imágenes: texturas UDIM, archivos IES, PCX, PSD.
+Esta metodología puede ofrecer soporte adicional para más tipos de imágenes: texturas UDIM, archivos IES, PCX, PSD.
 
 La implementación del código será un poco más complicada:
 
@@ -91,13 +91,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-La implementación se realizó utilizando la función FactoryCreateBinary de UTextureFactory, esta función es capaz de leer los tipos de archivos adicionales mencionados anteriormente.
+La implementación se realizó utilizando la función FactoryCreateBinary de UTextureFactory, la cual puede leer el tipo de archivo adicional mencionado anteriormente.
 
-##Traduce este texto al español:
+##Copia: UE realiza la copia de UTexture2D
 
-Copiar: UE implementa la copia de UTexture2D
-
-A veces es necesario duplicar un UTexture2D para luego modificar la imagen duplicada. Para copiar la imagen, es necesario utilizar la función incorporada del motor `FImageCore::CopyImage`. Simplemente configurar los parámetros de ambas imágenes y llamar a esta interfaz será suficiente.
+A veces es necesario hacer una copia de un UTexture2D y luego modificar esta imagen duplicada. Para copiar la imagen, es necesario utilizar la función incorporada del motor `FImageCore::CopyImage`. Solo hay que configurar los parámetros de ambas imágenes y llamar a esta interfaz.
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -153,9 +151,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##Guardar: La UE logra guardar UTexture2D en un archivo
+##Guardar: Realizar la acción de guardar un UTexture2D en un archivo
 
-El meollo está en utilizar la función del motor `FImageUtils::SaveImageAutoFormat`, es bastante fácil de implementar, pero hay que tener cuidado con los casos de reintentos fallidos.
+El punto clave es utilizar la función del motor `FImageUtils::SaveImageAutoFormat`, es relativamente sencillo de implementar, pero es importante tener en cuenta los casos de reintento en caso de fallo
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -186,13 +184,15 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##Guardar: UE logra guardar UTexture2D en Asset
+##Traduce este texto al español:
 
-Guardar el UTexture2D en la memoria en un Asset y poder verlo en el explorador de recursos (Content Browser).
+Guardar: La UE logra guardar UTexture2D como Asset.
+
+Guardar el UTexture2D en la memoria en un Asset, y poder verlo en el explorador de recursos (Content Browser).
 
 Traduce este texto al idioma español:
 
-Las funciones principales necesitan utilizar `CopyTexture2D` implementada anteriormente. Primero debemos copiar una nueva imagen y luego llamar a `UPackage::SavePackage` para guardar el paquete en el que se encuentra la imagen como un recurso.
+Las funciones principales requieren el uso de `CopyTexture2D` implementada anteriormente. Primero necesitamos copiar una nueva imagen y luego llamar a `UPackage::SavePackage` para guardar el `Package` donde se encuentra la imagen como un activo.
 
 ```cpp
 
@@ -255,24 +255,24 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##Portapapeles: UE implementa copia de imagen (UTexture2D) al portapapeles de Windows (Clipboard)
+##Portapapeles: Copia de imágenes (UTexture2D) a Windows Clipboard implementada por UE
 
 ###Funciones relacionadas con Windows
 
-Utilizaremos las funciones relacionadas con el portapapeles de Windows siguientes:
+Vamos a utilizar las funciones relacionadas con el portapapeles de Windows siguientes:
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Abra el portapapeles y obtenga el manipulador del portapapeles.
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Vacíe el portapapeles y asigne la propiedad del portapapeles a la ventana actual.
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Abra el portapapeles y obtenga el controlador del portapapeles.
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Por favor, vacíe el portapapeles y asígnele la propiedad del mismo a la ventana actual.
 * [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Establecer los datos del portapapeles, los datos de la imagen se envían al portapapeles a través de esta interfaz.
-* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)Después de configurar los datos, cierre el portapapeles.
+* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)Una vez establecidos los datos, cierre el portapapeles.
 
-###Formato de imagen del portapapeles
+###Formato de imagen en el portapapeles
 
-Translada este texto al idioma español:
+Traduce este texto al idioma español:
 
-[Formato estándar del portapapeles](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Se describen los formatos disponibles en el portapapeles, entre los cuales `CF_DIBV5` se utiliza para establecer imágenes.
+[Formato estándar del portapapeles](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Se describen los formatos disponibles en el portapapeles, siendo `CF_DIBV5` uno de ellos que se utiliza para establecer imágenes.
 
-CF_DIBV5 requiere la definición específica del formato [estructura BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)En este lugar, hemos seleccionado la siguiente configuración
+CF_DIBV5 especifica el formato requerido definido concretamente [estructura BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)En este lugar, optamos por la siguiente configuración
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -280,9 +280,9 @@ Header.bV5CSType        = LCS_sRGB;
 Header.bV5Compression   = BI_BITFIELDS;
 ```
 
-###Establecer UTexture2D
+###Configuración de UTexture2D
 
-Seleccionamos el espacio de color de la imagen del portapapeles como `LCS_sRGB` arriba, es decir, el espacio de color sRGB, por lo que UTexture2D también necesita configurarse primero en el formato correspondiente:
+Hemos seleccionado el espacio de color de la imagen del portapapeles como `LCS_sRGB`, es decir, el espacio de color sRGB, por lo tanto, UTexture2D también debe configurarse primero en el formato correspondiente:
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -304,11 +304,9 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard es responsable de convertir UTexture2D a formato estándar: TC_VectorDisplacementmap (RGBA8) y espacio de color SRGB. Una vez alineados los formatos de imagen de UTexture2D y el portapapeles de Windows, podemos copiar los datos de la imagen al portapapeles.
+ConvertTextureToStandard es responsable de convertir UTexture2D a un formato estándar: TC_VectorDisplacementmap (RGBA8) y espacio de color SRGB. Una vez alineados los formatos de imagen de UTexture2D y el portapapeles de Windows, podemos copiar los datos de la imagen al portapapeles.
 
-###Traduce este texto al idioma español:
-
- Código concreto
+###Código específico
 
 ```cpp
 void CopyTexture2DToClipboard(UTexture2D* InTexture)
@@ -400,6 +398,44 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 	delete DstMip;
 }
 ```
+
+###Traducción de UTexture2D a Base64
+
+Este proyecto es bastante sencillo de implementar, así que vamos directo al código.
+
+```cpp
+#include <Misc/Base64.h>
+#include <ImageUtils.h>
+
+UTexture2D* B64ToImage(const FString& B64)
+{
+	TArray<uint8> Data;
+	FBase64::Decode(B64, Data);
+	return FImageUtils::ImportBufferAsTexture2D(Data);
+}
+
+FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
+{
+	FTextureMipDataLockGuard InTextureGuard(InTexture);
+
+	uint8* MipData = InTextureGuard.Lock(LOCK_READ_ONLY);
+	check(MipData != nullptr);
+
+	const FImageView InImage(
+		MipData, InTexture->GetSizeX(), InTexture->GetSizeY(), 1,
+		GetRawImageFormat(InTexture->GetPixelFormat()), InTexture->GetGammaSpace());
+
+	TArray64<uint8> Buffer;
+	FString Ret;
+	if (FImageUtils::CompressImage(Buffer, TEXT("png"), InImage, InQuality))
+	{
+		Ret = FBase64::Encode(Buffer.GetData(), Buffer.Num());
+	}
+	return Ret;
+}
+
+```
+
 
 --8<-- "footer_en.md"
 
