@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Tue, 20 Aug 2024 13:08:34 -0000</pubDate>
-    <lastBuildDate>Tue, 20 Aug 2024 13:08:34 -0000</lastBuildDate>
+    <pubDate>Tue, 20 Aug 2024 13:21:11 -0000</pubDate>
+    <lastBuildDate>Tue, 20 Aug 2024 13:21:11 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 20 Aug 2024 13:08:46 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:21:23 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 20 Aug 2024 13:06:34 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:19:13 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 20 Aug 2024 13:06:20 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:18:58 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -890,6 +890,8 @@
 &lt;h4 id=&#34;v120-20240820&#34;&gt;v1.2.0 - 2024.08.20&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;支持 OpenAI Image Edit/Image Variation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;支持 Ollama API，支持自动获取 Ollama 支持的模型列表&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;v110-20240807&#34;&gt;v1.1.0 - 2024.08.07&lt;/h4&gt;
@@ -899,7 +901,11 @@
 &lt;h4 id=&#34;v100-20240805&#34;&gt;v1.0.0 - 2024.08.05&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;基础完整功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;支持 OpenAI， Azure，Claude，Gemini&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;自带功能完善编辑器聊天工具&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
