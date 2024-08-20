@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Fri, 09 Aug 2024 17:46:49 -0000</pubDate>
-    <lastBuildDate>Fri, 09 Aug 2024 17:46:49 -0000</lastBuildDate>
+    <pubDate>Tue, 20 Aug 2024 13:08:34 -0000</pubDate>
+    <lastBuildDate>Tue, 20 Aug 2024 13:08:34 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 09 Aug 2024 17:47:01 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:08:46 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 09 Aug 2024 17:44:49 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:06:34 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,10 +69,145 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 09 Aug 2024 17:44:35 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2024 13:06:20 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>UE 插件 AIChatPlus 说明文档</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
+&lt;h2 id=&#34;_1&#34;&gt;公共仓库&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_2&#34;&gt;插件获取&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;插件简介&lt;/h2&gt;
+&lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
+&lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
+&lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
+&lt;h2 id=&#34;_4&#34;&gt;使用说明&lt;/h2&gt;
+&lt;h3 id=&#34;_5&#34;&gt;编辑器聊天工具&lt;/h3&gt;
+&lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
+&lt;p&gt;工具的界面大致为：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
+&lt;h4 id=&#34;_6&#34;&gt;主要功能&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;支持蓝图 (Blueprint)：支持蓝图创建 API 请求，完成文本聊天，图像生成等功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;蓝图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;blueprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/blueprint.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;全局设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;会话设置：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;session settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/session_setting.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;修改聊天内容：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;图像查看器：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;_7&#34;&gt;核心代码介绍&lt;/h3&gt;
+&lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
+&lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
+&lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
+&lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
+&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;_8&#34;&gt;更新日志&lt;/h3&gt;
+&lt;h4 id=&#34;v120-20240820&#34;&gt;v1.2.0 - 2024.08.20&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持 OpenAI Image Edit/Image Variation&lt;/li&gt;
+&lt;li&gt;支持 Ollama API，支持自动获取 Ollama 支持的模型列表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;v110-20240807&#34;&gt;v1.1.0 - 2024.08.07&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持蓝图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;v100-20240805&#34;&gt;v1.0.0 - 2024.08.05&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;基础完整功能&lt;/li&gt;
+&lt;li&gt;支持 OpenAI， Azure，Claude，Gemini&lt;/li&gt;
+&lt;li&gt;自带功能完善编辑器聊天工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 转载声明 &amp;&amp; visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- 转载 --&gt;
+&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
+    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 评论 --&gt;
+&lt;script src=&#34;https://giscus.app/client.js&#34;
+        data-repo=&#34;disenone/wiki&#34;
+        data-repo-id=&#34;R_kgDOKz9PQg&#34;
+        data-category=&#34;Announcements&#34;
+        data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
+        data-mapping=&#34;og:title&#34;
+        data-strict=&#34;1&#34;
+        data-reactions-enabled=&#34;1&#34;
+        data-emit-metadata=&#34;0&#34;
+        data-input-position=&#34;top&#34;
+        data-theme=&#34;preferred_color_scheme&#34;
+        data-lang=&#34;zh-CN&#34;
+        data-loading=&#34;lazy&#34;
+        crossorigin=&#34;anonymous&#34;
+        async&gt;
+&lt;/script&gt;
+
+&lt;!-- visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Tue, 20 Aug 2024 12:59:30 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
       
     </item>
     
@@ -484,133 +619,6 @@
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/</guid>
-      
-    </item>
-    
-    <item>
-      <title>UE 插件 AIChatPlus 说明文档</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 说明文档&#34; /&gt;&lt;/p&gt;
-&lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 说明文档&lt;/h1&gt;
-&lt;h2 id=&#34;_1&#34;&gt;公共仓库&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/disenone/UE.AIChatPlus.Public&#34;&gt;UE.AIChatPlus.Public&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_2&#34;&gt;插件获取&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;_3&#34;&gt;插件简介&lt;/h2&gt;
-&lt;p&gt;本插件支持 UE5.2+。&lt;/p&gt;
-&lt;p&gt;UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。&lt;/p&gt;
-&lt;p&gt;同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。&lt;/p&gt;
-&lt;h2 id=&#34;_4&#34;&gt;使用说明&lt;/h2&gt;
-&lt;h3 id=&#34;_5&#34;&gt;编辑器聊天工具&lt;/h3&gt;
-&lt;p&gt;菜单栏 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat 可打开插件提供的编辑器聊天工具&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool3.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;工具支持文本生成、文本聊天、图像生成，图像分析。&lt;/p&gt;
-&lt;p&gt;工具的界面大致为：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
-&lt;h4 id=&#34;_6&#34;&gt;主要功能&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;文本聊天：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;图像生成：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;图像分析：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;支持蓝图 (Blueprint)：支持蓝图创建 API 请求，完成文本聊天，图像生成等功能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;设置当前聊天角色：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;全局设置：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;聊天内容修改：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;图像浏览：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;蓝图：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;blueprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/blueprint.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;全局设置：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;会话设置：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;session settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/session_setting.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;修改聊天内容：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;chat edit&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_edit.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;图像查看器：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;image viewer&#34; src=&#34;../assets/img/2024-ue-aichatplus/image_viewer.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_7&#34;&gt;核心代码介绍&lt;/h3&gt;
-&lt;p&gt;目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。&lt;/p&gt;
-&lt;p&gt;AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。&lt;/p&gt;
-&lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
-&lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
-&lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_8&#34;&gt;更新日志&lt;/h3&gt;
-&lt;h4 id=&#34;v100-20240807&#34;&gt;v1.0.0 - 2024.08.07&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;基础完整功能&lt;/li&gt;
-&lt;li&gt;支持 OpenAI， Azure，Claude，Gemini&lt;/li&gt;
-&lt;li&gt;支持蓝图&lt;/li&gt;
-&lt;li&gt;自带功能完善编辑器聊天工具&lt;/li&gt;
-&lt;/ul&gt;
-&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
-
-&lt;!-- 转载声明 &amp;&amp; visit --&gt;
-&lt;blockquote&gt;
-&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;!-- 转载 --&gt;
-&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
-    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
-
-&lt;!-- 评论 --&gt;
-&lt;script src=&#34;https://giscus.app/client.js&#34;
-        data-repo=&#34;disenone/wiki&#34;
-        data-repo-id=&#34;R_kgDOKz9PQg&#34;
-        data-category=&#34;Announcements&#34;
-        data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
-        data-mapping=&#34;og:title&#34;
-        data-strict=&#34;1&#34;
-        data-reactions-enabled=&#34;1&#34;
-        data-emit-metadata=&#34;0&#34;
-        data-input-position=&#34;top&#34;
-        data-theme=&#34;preferred_color_scheme&#34;
-        data-lang=&#34;zh-CN&#34;
-        data-loading=&#34;lazy&#34;
-        crossorigin=&#34;anonymous&#34;
-        async&gt;
-&lt;/script&gt;
-
-&lt;!-- visit --&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 07 Aug 2024 17:58:32 +0000</pubDate>
-      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
       
     </item>
     
