@@ -98,11 +98,19 @@ AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEdito
 
 ### 更新日志
 
-#### v1.0.0 - 2024.08.07
+#### v1.2.0 - 2024.08.20
+
+* 支持 OpenAI Image Edit/Image Variation
+* 支持 Ollama API，支持自动获取 Ollama 支持的模型列表
+
+#### v1.1.0 - 2024.08.07
+
+* 支持蓝图
+
+#### v1.0.0 - 2024.08.05
 
 * 基础完整功能
 * 支持 OpenAI， Azure，Claude，Gemini
-* 支持蓝图
 * 自带功能完善编辑器聊天工具
 
 --8<-- "footer.md"
