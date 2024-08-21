@@ -1,8 +1,10 @@
 # wiki
 
-my blog built with MkDocs
+My Blog Built with MkDocs
 
 [wiki.disenone.site](https://wiki.disenone.site/)
+
+Currently Support Three Languages: 中文/English/Español
 
 ![wiki](https://github.com/user-attachments/assets/b7f16993-7054-4b87-b359-feec4436e895)
 
