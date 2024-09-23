@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UE 插件 AIChatPlus 说明文档
-tags: [dev, game, UE, UnreanEngine, UE4, UE5, Editor, Editor Plus, Editor Plugin, AI Chat, Chatbot, Image Generation, OpenAI, Azure, Claude, Gemini]
+tags: [dev, game, UE, UnreanEngine, UE4, UE5, Editor, Editor Plus, Editor Plugin, AI Chat, Chatbot, Image Generation, OpenAI, Azure, Claude, Gemini, Ollama]
 description: UE 插件 AIChatPlus 说明文档
 ---
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
@@ -20,7 +20,7 @@ description: UE 插件 AIChatPlus 说明文档
 
 本插件支持 UE5.2+。
 
-UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。
+UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, llama.cpp 本地离线。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。
 
 同时 UE.AIChatPlus 还包含了一个编辑器工具，可以直接在编辑器中使用这些 AI 聊天服务，生成文本和图像，分析图像等。
 
@@ -42,6 +42,8 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 ![image chat](assets/img/2024-ue-aichatplus/chat_tool.png)
 
 #### 主要功能
+
+* 离线大模型：整合了 llama.cpp 库，支持本地离线执行大模型
 
 * 文本聊天：点击左下角的 `New Chat` 按钮，创建新的文本聊天会话。
 
@@ -85,9 +87,15 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 ### 核心代码介绍
 
-目前插件分成两个模块： AIChatPlusCommon (Runtime) 和 AIChatPlusEditor (Editor) 两个模块。
+目前插件分成以下几个模块：
 
-AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEditor 负责实现编辑器 AI 聊天工具。
+* AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。
+
+* AIChatPlusEditor: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。
+
+* AIChatPlusCllama: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型
+
+* Thirdparty/LLAMACpp: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。
 
 具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。
 
@@ -97,6 +105,12 @@ AIChatPlusCommon 负责处理发送请求和解析回复内容；AIChatPlusEdito
 
 
 ### 更新日志
+
+### v1.3.0 - 2024.9.23
+
+重磅更新
+
+* 整合了 llama.cpp，支持本地离线执行大模型
 
 #### v1.2.0 - 2024.08.20
 
