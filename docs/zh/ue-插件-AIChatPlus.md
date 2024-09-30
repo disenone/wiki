@@ -57,6 +57,8 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 * 清空会话：聊天框上方的 ❌ 按可以清空当前会话的历史消息。
 
+* 对话模版：内置几百种对话设置模版，方便处理常用的问题。
+
 * 全局设置：点击左下角的 `Setting` 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 `$(ProjectFolder)/Saved/AIChatPlusEditor` 下。
 
 * 会话设置：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`
@@ -85,6 +87,14 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 ![image viewer](assets/img/2024-ue-aichatplus/image_viewer.png)
 
+使用离线大模型
+
+![offline model](assets/img/2024-ue-aichatplus/offline_model.png)
+
+对话模版
+
+![system template](assets/img/2024-ue-aichatplus/system_template.png)
+
 ### 核心代码介绍
 
 目前插件分成以下几个模块：
@@ -105,6 +115,18 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 
 ### 更新日志
+
+#### v1.3.1 - 2024.9.30
+
+* 增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版
+
+##### Bugfix
+
+* 修复从商城下载的插件，llama.cpp 找不到链接库
+* 修复 LLAMACpp 路径过长问题
+* 修复 windows 打包后的链接 llama.dll 错误
+* 修复 ios/android 读取文件路径问题
+* 修复 Cllame 设置名字错误
 
 #### v1.3.0 - 2024.9.23
 
