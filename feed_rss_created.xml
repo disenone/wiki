@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Mon, 30 Sep 2024 16:06:38 -0000</pubDate>
-    <lastBuildDate>Mon, 30 Sep 2024 16:06:38 -0000</lastBuildDate>
+    <pubDate>Wed, 09 Oct 2024 12:45:31 -0000</pubDate>
+    <lastBuildDate>Wed, 09 Oct 2024 12:45:31 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 30 Sep 2024 16:06:50 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2024 12:45:43 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 30 Sep 2024 16:04:27 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2024 12:43:30 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 30 Sep 2024 16:04:12 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2024 12:43:17 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -907,7 +907,36 @@
 &lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
 &lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
 &lt;p&gt;更多源码细节可在 UE 商城获取：&lt;a href=&#34;https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini&#34;&gt;AIChatPlus&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_8&#34;&gt;更新日志&lt;/h3&gt;
+&lt;h3 id=&#34;_8&#34;&gt;使用指南&lt;/h3&gt;
+&lt;h4 id=&#34;llamacpp&#34;&gt;编辑器工具使用离线模式 llama.cpp&lt;/h4&gt;
+&lt;p&gt;以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先，从 HuggingFace 网站下载离线模型：&lt;a href=&#34;https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf&#34;&gt;Qwen1.5-1.8B-Chat-Q8_0.gguf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下&lt;div class=&#34;language-shell highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;E:/UE/projects/FP_Test1/Content/LLAMA
+&lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ls
+&lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;qwen1.5-1_8b-chat-q8_0.gguf*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;打开 AIChatPlus 编辑器工具：Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat，新建聊天会话，并打开会话设置页面&lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_1.png&#34; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型&lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_2.png&#34; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;开始聊天！！&lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_3.png&#34; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;llamacpp_1&#34;&gt;代码使用离线模型 llama.cpp&lt;/h4&gt;
+&lt;p&gt;todo&lt;/p&gt;
+&lt;h4 id=&#34;llamacpp_2&#34;&gt;蓝图使用离线模型 llama.cpp&lt;/h4&gt;
+&lt;p&gt;todo&lt;/p&gt;
+&lt;h3 id=&#34;_9&#34;&gt;更新日志&lt;/h3&gt;
 &lt;h4 id=&#34;v131-2024930&#34;&gt;v1.3.1 - 2024.9.30&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版&lt;/li&gt;
