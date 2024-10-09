@@ -1180,7 +1180,12 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       使用指南
@@ -1221,8 +1226,8 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       更新日志
@@ -1289,11 +1294,6 @@
       v1.0.0 - 2024.08.05
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1590,7 +1590,12 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       使用指南
@@ -1631,8 +1636,8 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       更新日志
@@ -1699,11 +1704,6 @@
       v1.0.0 - 2024.08.05
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1821,19 +1821,19 @@
 <p>具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。</p>
 <p>发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。</p>
 <p>更多源码细节可在 UE 商城获取：<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
-<h3 id="_8">使用指南</h3>
-<h4 id="llamacpp">编辑器工具使用离线模型 llama.cpp</h4>
+<h2 id="_8">使用指南</h2>
+<h3 id="llamacpp">编辑器工具使用离线模型 llama.cpp</h3>
 <p>以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp</p>
 <ul>
 <li>首先，从 HuggingFace 网站下载离线模型：<a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></li>
 </ul>
 <ul>
-<li>把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA
+<li>把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下</li>
+</ul>
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&gt;<span class="w"> </span>ls
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>qwen1.5-1_8b-chat-q8_0.gguf*
 </code></pre></div>
-</li>
-</ul>
 <ul>
 <li>打开 AIChatPlus 编辑器工具：Tools -&gt; AIChatPlus -&gt; AIChat，新建聊天会话，并打开会话设置页面</li>
 </ul>
@@ -1846,13 +1846,15 @@
 <li>开始聊天！！</li>
 </ul>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
-<h4 id="llamacpp_1">代码使用离线模型 llama.cpp</h4>
+<h3 id="llamacpp_1">代码使用离线模型 llama.cpp</h3>
 <p>以下说明如何在代码中使用离线模型 llama.cpp</p>
 <ul>
 <li>首先，同样需要下载模型文件到 Content/LLAMA 下</li>
 </ul>
 <ul>
-<li>修改代码添加一条命令，并在命令里面给离线模型发送消息<div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
+<li>修改代码添加一条命令，并在命令里面给离线模型发送消息</li>
+</ul>
+<div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">AddTestCommand</span><span class="p">()</span>
@@ -1908,20 +1910,41 @@
 <a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">    </span><span class="p">);</span>
 <a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="p">}</span>
 </code></pre></div>
-</li>
-</ul>
 <ul>
 <li>重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果</li>
 </ul>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
-<h4 id="llamacpp_2">蓝图使用离线模型 llama.cpp</h4>
-<p>todo</p>
-<h3 id="_9">更新日志</h3>
-<h4 id="v131-2024930">v1.3.1 - 2024.9.30</h4>
+<h3 id="llamacpp_2">蓝图使用离线模型 llama.cpp</h3>
+<p>以下说明如何在蓝图中使用离线模型 llama.cpp</p>
+<ul>
+<li>在蓝图中右键创建一个节点 <code>Send Cllama Chat Request</code></li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_1.png"></a></p>
+<ul>
+<li>创建 Options 节点，并设置 <code>Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"</code></li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_2.png"></a></p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_3.png"></a></p>
+<ul>
+<li>创建 Messages，分别添加一条 System Message 和 User Message</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_4.png"></a></p>
+<ul>
+<li>创建 Delegate 接受模型输出的信息，并打印在屏幕上</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_5.png"></a></p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_6.png"></a></p>
+<ul>
+<li>完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_7.png"></a></p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_blueprint_8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_blueprint_8.png"></a></p>
+<h2 id="_9">更新日志</h2>
+<h3 id="v131-2024930">v1.3.1 - 2024.9.30</h3>
 <ul>
 <li>增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版</li>
 </ul>
-<h5 id="bugfix">Bugfix</h5>
+<h4 id="bugfix">Bugfix</h4>
 <ul>
 <li>修复从商城下载的插件，llama.cpp 找不到链接库</li>
 <li>修复 LLAMACpp 路径过长问题</li>
@@ -1929,23 +1952,23 @@
 <li>修复 ios/android 读取文件路径问题</li>
 <li>修复 Cllame 设置名字错误</li>
 </ul>
-<h4 id="v130-2024923">v1.3.0 - 2024.9.23</h4>
+<h3 id="v130-2024923">v1.3.0 - 2024.9.23</h3>
 <p>重磅更新</p>
 <ul>
 <li>整合了 llama.cpp，支持本地离线执行大模型</li>
 </ul>
-<h4 id="v120-20240820">v1.2.0 - 2024.08.20</h4>
+<h3 id="v120-20240820">v1.2.0 - 2024.08.20</h3>
 <ul>
 <li>支持 OpenAI Image Edit/Image Variation</li>
 </ul>
 <ul>
 <li>支持 Ollama API，支持自动获取 Ollama 支持的模型列表</li>
 </ul>
-<h4 id="v110-20240807">v1.1.0 - 2024.08.07</h4>
+<h3 id="v110-20240807">v1.1.0 - 2024.08.07</h3>
 <ul>
 <li>支持蓝图</li>
 </ul>
-<h4 id="v100-20240805">v1.0.0 - 2024.08.05</h4>
+<h3 id="v100-20240805">v1.0.0 - 2024.08.05</h3>
 <ul>
 <li>基础完整功能</li>
 </ul>
@@ -2003,7 +2026,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-10-09</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-10-10</span>
   </span>
 
     
