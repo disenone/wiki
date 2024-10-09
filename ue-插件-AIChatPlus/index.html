@@ -1193,7 +1193,7 @@
           <li class="md-nav__item">
   <a href="#llamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      编辑器工具使用离线模式 llama.cpp
+      编辑器工具使用离线模型 llama.cpp
     </span>
   </a>
   
@@ -1603,7 +1603,7 @@
           <li class="md-nav__item">
   <a href="#llamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      编辑器工具使用离线模式 llama.cpp
+      编辑器工具使用离线模型 llama.cpp
     </span>
   </a>
   
@@ -1822,7 +1822,7 @@
 <p>发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。</p>
 <p>更多源码细节可在 UE 商城获取：<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
 <h3 id="_8">使用指南</h3>
-<h4 id="llamacpp">编辑器工具使用离线模式 llama.cpp</h4>
+<h4 id="llamacpp">编辑器工具使用离线模型 llama.cpp</h4>
 <p>以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp</p>
 <ul>
 <li>首先，从 HuggingFace 网站下载离线模型：<a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></li>
@@ -1835,19 +1835,85 @@
 </li>
 </ul>
 <ul>
-<li>打开 AIChatPlus 编辑器工具：Tools -&gt; AIChatPlus -&gt; AIChat，新建聊天会话，并打开会话设置页面<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_1.png"></a></p>
-</li>
+<li>打开 AIChatPlus 编辑器工具：Tools -&gt; AIChatPlus -&gt; AIChat，新建聊天会话，并打开会话设置页面</li>
 </ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_1.png"></a></p>
 <ul>
-<li>设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_2.png"></a></p>
-</li>
+<li>设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型</li>
 </ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_2.png"></a></p>
 <ul>
-<li>开始聊天！！<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
-</li>
+<li>开始聊天！！</li>
 </ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
 <h4 id="llamacpp_1">代码使用离线模型 llama.cpp</h4>
-<p>todo</p>
+<p>以下说明如何在代码中使用离线模型 llama.cpp</p>
+<ul>
+<li>首先，同样需要下载模型文件到 Content/LLAMA 下</li>
+</ul>
+<ul>
+<li>修改代码添加一条命令，并在命令里面给离线模型发送消息<div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">AddTestCommand</span><span class="p">()</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">IConsoleManager</span><span class="o">::</span><span class="n">Get</span><span class="p">().</span><span class="n">RegisterConsoleCommand</span><span class="p">(</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"AIChatPlus.TestChat"</span><span class="p">),</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"Test Chat."</span><span class="p">),</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="n">FConsoleCommandDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">FModuleManager</span><span class="o">::</span><span class="n">GetModulePtr</span><span class="o">&lt;</span><span class="n">FAIChatPlusCommon</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TEXT</span><span class="p">(</span><span class="s">"AIChatPlusCommon"</span><span class="p">)))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">            </span><span class="n">TWeakObjectPtr</span><span class="o">&lt;</span><span class="n">UAIChatPlus_ChatHandlerBase</span><span class="o">&gt;</span><span class="w"> </span><span class="n">HandlerObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UAIChatPlus_ChatHandlerBase</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">            </span><span class="c1">// Cllama</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">            </span><span class="n">FAIChatPlus_CllamaChatRequestOptions</span><span class="w"> </span><span class="n">Options</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">ModelPath</span><span class="p">.</span><span class="n">FilePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FPaths</span><span class="o">::</span><span class="n">ProjectContentDir</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">"LLAMA"</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">"qwen1.5-1_8b-chat-q8_0.gguf"</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">NumPredict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">400</span><span class="p">;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">bStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">            </span><span class="c1">// Options.StopSequences.Emplace(TEXT("json"));</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">RequestPtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UAIChatPlus_CllamaChatRequest</span><span class="o">::</span><span class="n">CreateWithOptionsAndMessages</span><span class="p">(</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">                </span><span class="n">Options</span><span class="p">,</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">                </span><span class="p">{</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                    </span><span class="p">{</span><span class="s">"You are a chat bot"</span><span class="p">,</span><span class="w"> </span><span class="n">EAIChatPlus_ChatRole</span><span class="o">::</span><span class="n">System</span><span class="p">},</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">                    </span><span class="p">{</span><span class="s">"who are you"</span><span class="p">,</span><span class="w"> </span><span class="n">EAIChatPlus_ChatRole</span><span class="o">::</span><span class="n">User</span><span class="p">}</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">                </span><span class="p">});</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">BindChatRequest</span><span class="p">(</span><span class="n">RequestPtr</span><span class="p">);</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">FName</span><span class="w"> </span><span class="n">ApiName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TEnumTraits</span><span class="o">&lt;</span><span class="n">EAIChatPlus_ChatApiProvider</span><span class="o">&gt;::</span><span class="n">ToName</span><span class="p">(</span><span class="n">RequestPtr</span><span class="o">-&gt;</span><span class="n">GetApiProvider</span><span class="p">());</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnMessage</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">Message</span><span class="p">)</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] Message: [%s]"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="o">*</span><span class="n">Message</span><span class="p">);</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnStarted</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">]()</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestStarted"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnFailed</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseErrorBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InError</span><span class="p">)</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestFailed: %s "</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="o">*</span><span class="n">InError</span><span class="p">.</span><span class="n">GetDescription</span><span class="p">());</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnUpdated</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseBodyBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ResponseBody</span><span class="p">)</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestUpdated"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnFinished</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseBodyBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ResponseBody</span><span class="p">)</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestFinished"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="w">            </span><span class="n">RequestPtr</span><span class="o">-&gt;</span><span class="n">SendRequest</span><span class="p">();</span>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">        </span><span class="p">}),</span>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="w">        </span><span class="n">ECVF_Default</span>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="p">}</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li>重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
 <h4 id="llamacpp_2">蓝图使用离线模型 llama.cpp</h4>
 <p>todo</p>
 <h3 id="_9">更新日志</h3>
