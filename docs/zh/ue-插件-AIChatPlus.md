@@ -113,9 +113,9 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 更多源码细节可在 UE 商城获取：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-### 使用指南
+## 使用指南
 
-#### 编辑器工具使用离线模型 llama.cpp
+### 编辑器工具使用离线模型 llama.cpp
 
 以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp
 
@@ -123,11 +123,11 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 * 把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下
 
-	```shell
-	E:/UE/projects/FP_Test1/Content/LLAMA
-	> ls
-	qwen1.5-1_8b-chat-q8_0.gguf*
-	```
+```shell
+E:/UE/projects/FP_Test1/Content/LLAMA
+> ls
+qwen1.5-1_8b-chat-q8_0.gguf*
+```
 
 * 打开 AIChatPlus 编辑器工具：Tools -> AIChatPlus -> AIChat，新建聊天会话，并打开会话设置页面
 
@@ -141,7 +141,7 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-#### 代码使用离线模型 llama.cpp
+### 代码使用离线模型 llama.cpp
 
 以下说明如何在代码中使用离线模型 llama.cpp
 
@@ -149,79 +149,105 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 * 修改代码添加一条命令，并在命令里面给离线模型发送消息
 
-	```c++
-	#include "Common/AIChatPlus_Log.h"
-	#include "Common_Cllama/AIChatPlus_CllamaChatRequest.h"
+```c++
+#include "Common/AIChatPlus_Log.h"
+#include "Common_Cllama/AIChatPlus_CllamaChatRequest.h"
 
-	void AddTestCommand()
-	{
-		IConsoleManager::Get().RegisterConsoleCommand(
-			TEXT("AIChatPlus.TestChat"),
-			TEXT("Test Chat."),
-			FConsoleCommandDelegate::CreateLambda([]()
+void AddTestCommand()
+{
+	IConsoleManager::Get().RegisterConsoleCommand(
+		TEXT("AIChatPlus.TestChat"),
+		TEXT("Test Chat."),
+		FConsoleCommandDelegate::CreateLambda([]()
+		{
+			if (!FModuleManager::GetModulePtr<FAIChatPlusCommon>(TEXT("AIChatPlusCommon"))) return;
+
+			TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> HandlerObject = UAIChatPlus_ChatHandlerBase::New();
+			// Cllama
+			FAIChatPlus_CllamaChatRequestOptions Options;
+			Options.ModelPath.FilePath = FPaths::ProjectContentDir() / "LLAMA" / "qwen1.5-1_8b-chat-q8_0.gguf";
+			Options.NumPredict = 400;
+			Options.bStream = true;
+			// Options.StopSequences.Emplace(TEXT("json"));
+			auto RequestPtr = UAIChatPlus_CllamaChatRequest::CreateWithOptionsAndMessages(
+				Options,
+				{
+					{"You are a chat bot", EAIChatPlus_ChatRole::System},
+					{"who are you", EAIChatPlus_ChatRole::User}
+				});
+
+			HandlerObject->BindChatRequest(RequestPtr);
+			const FName ApiName = TEnumTraits<EAIChatPlus_ChatApiProvider>::ToName(RequestPtr->GetApiProvider());
+
+			HandlerObject->OnMessage.AddLambda([ApiName](const FString& Message)
 			{
-				if (!FModuleManager::GetModulePtr<FAIChatPlusCommon>(TEXT("AIChatPlusCommon"))) return;
+				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] Message: [%s]"), *ApiName.ToString(), *Message);
+			});
+			HandlerObject->OnStarted.AddLambda([ApiName]()
+			{
+				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestStarted"), *ApiName.ToString());
+			});
+			HandlerObject->OnFailed.AddLambda([ApiName](const FAIChatPlus_ResponseErrorBase& InError)
+			{
+				UE_LOG(AIChatPlus_Internal, Error, TEXT("TestChat[%s] RequestFailed: %s "), *ApiName.ToString(), *InError.GetDescription());
+			});
+			HandlerObject->OnUpdated.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
+			{
+				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestUpdated"), *ApiName.ToString());
+			});
+			HandlerObject->OnFinished.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
+			{
+				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestFinished"), *ApiName.ToString());
+			});
 
-				TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> HandlerObject = UAIChatPlus_ChatHandlerBase::New();
-				// Cllama
-				FAIChatPlus_CllamaChatRequestOptions Options;
-				Options.ModelPath.FilePath = FPaths::ProjectContentDir() / "LLAMA" / "qwen1.5-1_8b-chat-q8_0.gguf";
-				Options.NumPredict = 400;
-				Options.bStream = true;
-				// Options.StopSequences.Emplace(TEXT("json"));
-				auto RequestPtr = UAIChatPlus_CllamaChatRequest::CreateWithOptionsAndMessages(
-					Options,
-					{
-						{"You are a chat bot", EAIChatPlus_ChatRole::System},
-						{"who are you", EAIChatPlus_ChatRole::User}
-					});
-
-				HandlerObject->BindChatRequest(RequestPtr);
-				const FName ApiName = TEnumTraits<EAIChatPlus_ChatApiProvider>::ToName(RequestPtr->GetApiProvider());
-
-				HandlerObject->OnMessage.AddLambda([ApiName](const FString& Message)
-				{
-					UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] Message: [%s]"), *ApiName.ToString(), *Message);
-				});
-				HandlerObject->OnStarted.AddLambda([ApiName]()
-				{
-					UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestStarted"), *ApiName.ToString());
-				});
-				HandlerObject->OnFailed.AddLambda([ApiName](const FAIChatPlus_ResponseErrorBase& InError)
-				{
-					UE_LOG(AIChatPlus_Internal, Error, TEXT("TestChat[%s] RequestFailed: %s "), *ApiName.ToString(), *InError.GetDescription());
-				});
-				HandlerObject->OnUpdated.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-				{
-					UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestUpdated"), *ApiName.ToString());
-				});
-				HandlerObject->OnFinished.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-				{
-					UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestFinished"), *ApiName.ToString());
-				});
-
-				RequestPtr->SendRequest();
-			}),
-			ECVF_Default
-		);
-	}
-	```
+			RequestPtr->SendRequest();
+		}),
+		ECVF_Default
+	);
+}
+```
 
 * 重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
-#### 蓝图使用离线模型 llama.cpp
+### 蓝图使用离线模型 llama.cpp
 
-todo
+以下说明如何在蓝图中使用离线模型 llama.cpp
 
-### 更新日志
+* 在蓝图中右键创建一个节点 `Send Cllama Chat Request`
 
-#### v1.3.1 - 2024.9.30
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
+
+* 创建 Options 节点，并设置 `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
+
+* 创建 Messages，分别添加一条 System Message 和 User Message
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
+
+* 创建 Delegate 接受模型输出的信息，并打印在屏幕上
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
+
+* 完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
+
+## 更新日志
+
+### v1.3.1 - 2024.9.30
 
 * 增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版
 
-##### Bugfix
+#### Bugfix
 
 * 修复从商城下载的插件，llama.cpp 找不到链接库
 * 修复 LLAMACpp 路径过长问题
@@ -229,23 +255,23 @@ todo
 * 修复 ios/android 读取文件路径问题
 * 修复 Cllame 设置名字错误
 
-#### v1.3.0 - 2024.9.23
+### v1.3.0 - 2024.9.23
 
 重磅更新
 
 * 整合了 llama.cpp，支持本地离线执行大模型
 
-#### v1.2.0 - 2024.08.20
+### v1.2.0 - 2024.08.20
 
 * 支持 OpenAI Image Edit/Image Variation
 
 * 支持 Ollama API，支持自动获取 Ollama 支持的模型列表
 
-#### v1.1.0 - 2024.08.07
+### v1.1.0 - 2024.08.07
 
 * 支持蓝图
 
-#### v1.0.0 - 2024.08.05
+### v1.0.0 - 2024.08.05
 
 * 基础完整功能
 
