@@ -114,6 +114,42 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 更多源码细节可在 UE 商城获取：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 
+### 使用指南
+
+#### 编辑器工具使用离线模式 llama.cpp
+
+以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp
+
+* 首先，从 HuggingFace 网站下载离线模型：[Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+
+* 把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下
+
+	```shell
+	E:/UE/projects/FP_Test1/Content/LLAMA
+	> ls
+	qwen1.5-1_8b-chat-q8_0.gguf*
+	```
+
+* 打开 AIChatPlus 编辑器工具：Tools -> AIChatPlus -> AIChat，新建聊天会话，并打开会话设置页面
+
+	![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
+
+* 设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型
+
+	![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
+
+* 开始聊天！！
+
+	![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
+
+#### 代码使用离线模型 llama.cpp
+
+todo
+
+#### 蓝图使用离线模型 llama.cpp
+
+todo
+
 ### 更新日志
 
 #### v1.3.1 - 2024.9.30
