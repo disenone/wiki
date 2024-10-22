@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE Plugin AIChatPlus Documentation
+title: UE plugin AIChatPlus Instructions Document
 tags:
 - dev
 - game
@@ -19,41 +19,41 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: UE Plugin AIChatPlus User Manual
+description: UE Plugin AIChatPlus Documentation
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#UE Plugin AIChatPlus Documentation
+#Documentation for UE plugin AIChatPlus
 
-##Public repository
+##Public warehouse
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##Plugin Acquisition
+##Obtain Plugin
 
 [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Introduction to the Plugin
+##Introduction to the plugin
 
 This plugin supports UE5.2+.
 
-UE.AIChatPlus is a UnrealEngine plugin that enables communication with various GPT AI chat services. Currently supported services include OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, and local offline llama.cpp. In the future, more service providers will continue to be supported. Its implementation is based on asynchronous REST requests, ensuring high performance and facilitating access to these AI chat services for Unreal Engine developers.
+UE.AIChatPlus is a UnrealEngine plugin that enables communication with various GPT AI chat services. Currently, it supports services such as OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, and local offline llama.cpp. In the future, it will continue to support more service providers. Its implementation is based on asynchronous REST requests, ensuring high performance and making it convenient for UE developers to integrate these AI chat services.
 
-At the same time, UE.AIChatPlus also includes an editor tool that allows you to use these AI chat services directly in the editor to generate text and images, analyze images, and more.
+At the same time, UE.AIChatPlus also includes an editor tool that allows you to directly use these AI chat services in the editor to generate text and images, analyze images, and so on.
 
 ##Instructions for use
 
-###Chat tool for text editors
+###Editor chat tool
 
-Menu bar Tools -> AIChatPlus -> AIChat can open the editor chat tool provided by the plugin
+Menu bar: Tools -> AIChatPlus -> AIChat can open the chat tool editor provided by the plugin.
 
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-The tool supports text generation, text chatting, image generation, and image analysis.
+The tool supports text generation, text chat, image generation, and image analysis.
 
-The interface of the tool is roughly:
+The interface of the tool is roughly as follows:
 
 ![text chat](assets/img/2024-ue-aichatplus/chat_tool2.png)
 
@@ -61,29 +61,29 @@ The interface of the tool is roughly:
 
 ####Main Functions
 
-Offline Large Model: Integrated the llama.cpp library, supporting local offline execution of large models.
+Offline Large Models: integrated the llama.cpp library, supporting local offline execution of large models
 
 Text Chat: Click the `New Chat` button in the bottom left corner to start a new text chat session.
 
 Image Generation: Click on the `New Image Chat` button in the bottom left corner to start a new image generation session.
 
-Image Analysis: Some chat services in `New Chat` support sending images, such as Claude, Google Gemini. Click the 🖼️ or 🎨 button above the input box to load the image you want to send.
+Image Analysis: Some chat services provided by `New Chat` support sending images, such as Claude, Google Gemini. Simply click the 🖼️ or 🎨 button above the input box to load the image you want to send.
 
-Support Blueprint: Support Blueprint to create API requests, complete text chatting, image generation, and other functions.
+Support Blueprint: Support Blueprint to create API requests, complete text chats, image generation, and other functions.
 
-Set the current chat character: The dropdown box at the top of the chat box can be used to set the current character for sending text, allowing you to adjust AI chat by simulating different characters.
+Set the current chat character: The dropdown menu at the top of the chat box can be used to set the current character for sending text, allowing you to adjust AI chat by simulating different characters.
 
-Clear chat: Clicking on the ❌ above the chat box clears the history of the current conversation.
+Clear conversation: The ❌ button on the top of the chat box can clear the history of the current conversation.
 
-Dialogue Template: Built-in hundreds of dialogue setting templates, making it convenient to handle common issues.
+Dialogue Template: Built-in hundreds of dialogue setting templates, making it easy to handle common issues.
 
-Global Settings: Click the `Setting` button in the bottom left corner to open the global settings window. You can configure default text chat, image generation API services, and specific parameters for each API service. The settings will be automatically saved in the project's path `$(ProjectFolder)/Saved/AIChatPlusEditor`.
+Global Settings: Click the `Setting` button in the bottom left corner to open the global settings window. You can set default text chat, image generation API services, and specify parameters for each API service. The settings will be automatically saved in the project's path `$(ProjectFolder)/Saved/AIChatPlusEditor`.
 
-Conversation Settings: Click on the settings button at the top of the chat box to open the settings window for the current conversation. You can modify the conversation's name, change the API service used in the conversation, and independently adjust specific parameters for each API used in the conversation. Conversation settings are automatically saved in `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`.
+Conversation Settings: Click the settings button at the top of the chat box to open the settings window for the current conversation. You can change the conversation name, edit the API service used in the conversation, and independently set specific parameters for each conversation's API. Conversation settings are automatically saved in `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`.
 
-Modify chat content: When hovering the mouse over the chat content, a settings button for each chat content will appear, supporting options like regenerating content, modifying content, copying content, deleting content, and regenerating content below (for content authored by users).
+Edit chat content: When hovering the mouse over a chat message, a settings button for that specific message will appear, supporting options to regenerate content, edit content, copy content, delete content, and regenerate content below (for content authored by users).
 
-* Image Browsing: For image generation, clicking on an image will open the Image Viewer window, supporting saving images as PNG/UE Texture. Textures can be directly viewed in the Content Browser, facilitating their use within the editor. Additionally, it supports functions such as deleting images, regenerating images, and continuing to generate more images. For editors on Windows, image copying is also supported, allowing images to be copied directly to the clipboard for convenient use. Images generated during sessions will also be automatically saved in each session folder, usually located at `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
+* Image browsing: For image generation, clicking on an image will open the Image Viewer, supporting image saving as PNG/UE Texture. Textures can be viewed directly in the Content Browser, making it convenient for image usage within the editor. Additionally, functions such as deleting images, regenerating images, and generating more images are supported. For editors on Windows, image copying is also supported, allowing images to be copied directly to the clipboard for easy use. Images generated during the session will be automatically saved under each session folder, typically located at `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
 
 Blueprint:
 
@@ -93,7 +93,7 @@ Global Settings:
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
-Conversation Settings:
+Conversation settings:
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
@@ -113,33 +113,33 @@ Dialogue Template
 
 ![system template](assets/img/2024-ue-aichatplus/system_template.png)
 
-###Introduction to Core Code
+###Introduction to the core code
 
-Currently, the plugin is divided into the following modules:
+The plug-in is currently divided into the following modules:
 
-* AIChatPlusCommon: Runtime module, responsible for handling various AI API interface request sending and response content parsing.
+AIChatPlusCommon: Runtime module, responsible for handling various AI API interface requests and parsing response content.
 
-AIChatPlusEditor: The editor module is responsible for implementing the AI chatting tool editor.
+* AIChatPlusEditor: Editor module, responsible for implementing the AI chat tool editor.
 
-* AIChatPlusCllama: Runtime module responsible for encapsulating the interface and parameters of llama.cpp, achieving offline execution of large models
+AIChatPlusCllama: Runtime module, responsible for encapsulating the interface and parameters of llama.cpp, implementing offline execution of large models
 
 * Thirdparty/LLAMACpp: Runtime third-party module, integrating llama.cpp dynamic library and header files.
 
-The UClass responsible for sending requests specifically is FAIChatPlus_xxxChatRequest, each type of API service has its own independent Request UClass. The response to the request is obtained through two UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase UClass, you only need to register the corresponding callback delegate.
+The UClass responsible for sending requests is FAIChatPlus_xxxChatRequest specifically. Each API service has its own independent Request UClass. Replies to the requests are obtained through two types of UClass, UAIChatPlus_ChatHandlerBase and UAIChatPlus_ImageHandlerBase, requiring only the registration of the corresponding callback delegates.
 
-Before sending a request, you need to set the parameters of the API and the message to be sent. This is done by setting FAIChatPlus_xxxChatRequestBody. The specific reply is also parsed into FAIChatPlus_xxxChatResponseBody. When receiving a callback, you can obtain the ResponseBody through a specific interface.
+Before sending a request, you need to set up the parameters and the message to be sent for the API, which is done through setting up FAIChatPlus_xxxChatRequestBody. The specific content of the reply is also parsed into FAIChatPlus_xxxChatResponseBody. When receiving the callback, you can retrieve the ResponseBody through a specific interface.
 
 More source code details are available on the UE Marketplace: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##User Manual
+##User Guide
 
 ###Use the offline model llama.cpp in the editor tool.
 
 The following explains how to use the offline model llama.cpp in the AIChatPlus editor tool.
 
-First, download the offline model from the HuggingFace website: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+Firstly, download the offline model from the HuggingFace website: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-Put the model in a certain folder, such as placing it in the Content/LLAMA directory of the game project.
+Put the model in a specific folder, for example, place it in the Content/LLAMA directory of the game project.
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA
@@ -151,7 +151,7 @@ Open the AIChatPlus editor tool: Tools -> AIChatPlus -> AIChat, create a new cha
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
 
-Set the API to Cllama, enable Custom API Settings, add model search paths, and select the model.
+Set the API to Cllama, enable Custom API Settings, add model search paths, and select models.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
 
@@ -159,13 +159,13 @@ Start chatting!!
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-###The code uses the offline model llama.cpp.
+###The code uses the offline model llama.cpp
 
 The following explains how to use the offline model llama.cpp in the code.
 
-First, you also need to download the model file to Content/LLAMA.
+First, you also need to download the model files to Content/LLAMA.
 
-Modify the code to add a new command and send a message to the offline model within the command.
+Modify the code to add a command, and send a message to the offline model inside the command.
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -225,15 +225,15 @@ void AddTestCommand()
 }
 ```
 
-After recompiling, you can use commands in the Cmd editor to see the output results of large models in the OutputLog.
+After recompiling, you can use commands in the editor Cmd to see the output results of the large model in the log OutputLog.
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
-###Use the offline model llama.cpp in the blueprint.
+###Blueprint uses offline model llama.cpp
 
 The following explains how to use the offline model llama.cpp in the blueprint.
 
-Right-click in the blueprint to create a node called `Send Cllama Chat Request`.
+Create a node `Send Cllama Chat Request` in the blueprint by right-clicking.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
@@ -243,33 +243,41 @@ Create an Options node, and set `Stream=true, ModelPath="E:\UE\projects\FP_Test1
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
 
-Create Messages, add a System Message and a User Message respectively.
+* Create Messages, add a System Message and a User Message respectively.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-* Create a Delegate to receive the model's output information and print it on the screen
+* Create a Delegate that accepts model output information and prints it on the screen
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-The complete blueprint looks like this, run the blueprint, and you will see the message returned to the game screen when printing the large model.
+The complete blueprint looks like this, simply run the blueprint, and you will see the message printed on the game screen returning the large model.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
-##Release Notes
+##Update Log
 
-### v1.3.1 - 2024.9.30
-
-Add a SystemTemplateViewer that allows you to view and utilize hundreds of system setting templates.
+### v1.3.2 - 2024.10.10
 
 #### Bugfix
 
-Fix the plugin downloaded from the mall, llama.cpp can't find the link library
-Fix LLAMACpp long path issue
-Fix the llama.dll error after packaging Windows.
+Fix crash when manually stopping request in cllama.
+Fix the issue of not being able to find ggml.dll and llama.dll files when packaging the Win version of the mall for download.
+When creating a request, check if it is in the GameThread.
+
+### v1.3.1 - 2024.9.30
+
+Add a SystemTemplateViewer, which allows you to browse and use hundreds of system setting templates.
+
+#### Bugfix
+
+Fix the plugin downloaded from the app store, llama.cpp cannot find the linking library.
+Fix the issue of LLAMACpp path being too long
+Fix the llama.dll error in windows after packaging.
 Fix iOS/Android file path reading issue
 Fix Cllame setting name error
 
@@ -287,13 +295,13 @@ Support Ollama API, support automatically obtaining the list of models supported
 
 ### v1.1.0 - 2024.08.07
 
-Support the blueprint
+Support Blueprint
 
 ### v1.0.0 - 2024.08.05
 
-Basic Complete Features
+Complete basic functionality
 
-Support OpenAI, Azure, Claude, Gemini.
+Support OpenAI, Azure, Claude, Gemini
 
 Built-in feature-rich editor chat tool
 
