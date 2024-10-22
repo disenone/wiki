@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Wed, 09 Oct 2024 17:14:04 -0000</pubDate>
-    <lastBuildDate>Wed, 09 Oct 2024 17:14:04 -0000</lastBuildDate>
+    <pubDate>Tue, 22 Oct 2024 12:50:08 -0000</pubDate>
+    <lastBuildDate>Tue, 22 Oct 2024 12:50:08 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 09 Oct 2024 17:14:06 +0000</pubDate>
+      <pubDate>Tue, 22 Oct 2024 12:50:10 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 09 Oct 2024 17:13:52 +0000</pubDate>
+      <pubDate>Tue, 22 Oct 2024 12:49:55 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Wed, 09 Oct 2024 17:13:37 +0000</pubDate>
+      <pubDate>Tue, 22 Oct 2024 12:49:40 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -990,11 +990,18 @@
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_blueprint_7.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_blueprint_8.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_9&#34;&gt;更新日志&lt;/h2&gt;
+&lt;h3 id=&#34;v132-20241010&#34;&gt;v1.3.2 - 2024.10.10&lt;/h3&gt;
+&lt;h4 id=&#34;bugfix&#34;&gt;Bugfix&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;修复 手动停止 request 的时候 cllama 崩溃&lt;/li&gt;
+&lt;li&gt;修复商城下载版本 win 打包找不到 ggml.dll llama.dll 文件的问题&lt;/li&gt;
+&lt;li&gt;创建请求时检查是否在 GameThread 中，CreateRequest check in game thread&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;v131-2024930&#34;&gt;v1.3.1 - 2024.9.30&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;bugfix&#34;&gt;Bugfix&lt;/h4&gt;
+&lt;h4 id=&#34;bugfix_1&#34;&gt;Bugfix&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;修复从商城下载的插件，llama.cpp 找不到链接库&lt;/li&gt;
 &lt;li&gt;修复 LLAMACpp 路径过长问题&lt;/li&gt;
