@@ -243,6 +243,14 @@ void AddTestCommand()
 
 ## 更新日志
 
+### v1.3.2 - 2024.10.10
+
+#### Bugfix
+
+* 修复 手动停止 request 的时候 cllama 崩溃
+* 修复商城下载版本 win 打包找不到 ggml.dll llama.dll 文件的问题
+* 创建请求时检查是否在 GameThread 中，CreateRequest check in game thread
+
 ### v1.3.1 - 2024.9.30
 
 * 增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版
