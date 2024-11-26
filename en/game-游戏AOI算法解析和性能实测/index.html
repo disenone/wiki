@@ -25,7 +25,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
       
       <link rel="icon" href="../../assets/favicon/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1192,7 +1192,7 @@
         
   
   <span class="md-ellipsis">
-    UE plugin AIChatPlus Instructions Document
+    UE Plugin AIChatPlus Documentation
   </span>
   
 
@@ -1705,7 +1705,7 @@
 <p>All operations of the cross-linked list are to continuously maintain the entities <code>candidates</code> within the square area. The operations performed by the <code>Tick</code> in the cross-linked list are almost identical to those of the 9-grid, except that the calculation of the AOI <code>candidates</code> in the traversal is different. The <code>candidates</code> in the 9-grid are the entities covered by the circular AOI area in the grid, while the cross-linked list is the entities in the square area defined by the left and right nodes of the <code>Sensor</code> with a side length of <code>2r</code>. Qualitatively speaking, the <code>candidates</code> in the cross-linked list are generally fewer than those in the 9-grid, so the number of traversals in the <code>Tick</code> is smaller, resulting in better performance. However, the cross-linked list also has a lot of additional performance overhead on maintaining the list. The overall performance of these two approaches remains to be tested.</p>
 <h3 id="performance-testing">Performance Testing</h3>
 <p>I have separately tested the time consumption of the player joining the scene (<code>Add Player</code>), calculating AOI enter and exit events (<code>Tick</code>), and updating player coordinates (<code>Update Pos</code>).</p>
-<p>The player's initial position is randomly generated within the map range, and then the player is added to the scene. <code>player_num</code> represents the number of players, and <code>map_size</code> denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a <code>Sensor</code> with a radius of 100, which is used for AOI (Area of Interest). The boost:<img alt="⏲" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/23f2.svg" title=":timer:">:cpu_timer is used for time calculation. The <code>player_num</code> field includes three scenarios: 100, 1000, and 10000, while the <code>map_size</code> field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].</p>
+<p>The player's initial position is randomly generated within the map range, and then the player is added to the scene. <code>player_num</code> represents the number of players, and <code>map_size</code> denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a <code>Sensor</code> with a radius of 100, which is used for AOI (Area of Interest). The boost:<img alt="⏲" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/23f2.svg" title=":timer:">:cpu_timer is used for time calculation. The <code>player_num</code> field includes three scenarios: 100, 1000, and 10000, while the <code>map_size</code> field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].</p>
 <p>Updating player position will make the player move in a fixed random direction at a speed of <code>6m/s</code>.</p>
 <p>The current test environment is:</p>
 <ul>

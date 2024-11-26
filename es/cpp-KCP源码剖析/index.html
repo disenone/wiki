@@ -25,7 +25,7 @@
         <link rel="alternate" type="application/rss+xml" title="Fuente RSS de contenido actualizado" href="../../feed_rss_updated.xml">
       
       <link rel="icon" href="../../assets/favicon/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1231,7 +1231,7 @@
         
   
   <span class="md-ellipsis">
-    Documentación sobre el complemento de UE AIChatPlus.
+    Documento de instrucciones del complemento AIChatPlus de la UE.
   </span>
   
 
@@ -1759,7 +1759,7 @@
 </details>
 
 <h3 id="traduccion">Traducción</h3>
-<p>Vamos a comentar cada campo en la estructura KCP uno por uno. Al hacerlo, podemos tener una primera impresión de que el protocolo KCP en su totalidad no es demasiado complicado. Si analizamos detenidamente el código, tanto tú como yo podemos leer y comprender el protocolo KCP. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:"></p>
+<p>Vamos a comentar cada campo en la estructura KCP uno por uno. Al hacerlo, podemos tener una primera impresión de que el protocolo KCP en su totalidad no es demasiado complicado. Si analizamos detenidamente el código, tanto tú como yo podemos leer y comprender el protocolo KCP. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f604.svg" title=":smile:"></p>
 <h2 id="implementacion-de-arq-en-kcp">Implementación de ARQ en KCP</h2>
 <p>KCP básicamente es un protocolo ARQ (Auto Repeat-reQuest, repetición automática de solicitudes) cuyo objetivo es garantizar una transmisión confiable. Entonces, primero podemos centrarnos en la parte fundamental de ARQ de KCP y cómo logra dicha transmisión confiable.</p>
 <p>ARQ, como su nombre indica, reenvía automáticamente los paquetes de datos cuando creemos que han fallado en ser recibidos por el destinatario. Esto se logra mediante dos mecanismos: la confirmación de recepción y la retransmisión por tiempo de espera, con el objetivo de lograr una transmisión confiable. En cuanto a la implementación de código específica, KCP asigna a cada paquete de datos (llamado <code>SEGMENT</code> en la sección anterior) un identificador único llamado <code>sn</code>. Una vez que el destinatario ha recibido el paquete de datos, envía un paquete ACK (también un <code>SEGMENT</code>), cuyo <code>sn</code> coincide con el <code>sn</code> del paquete de datos recibido, notificando que el paquete ha sido recibido exitosamente. Además, el <code>SEGMENT</code> tiene un campo llamado <code>una</code>, que indica el número del siguiente paquete de datos esperado. En otras palabras, todos los paquetes de datos con un número inferior a este ya han sido recibidos, equivaliendo a un paquete ACK completo. Esto permite que el remitente pueda actualizar rápidamente su búfer de envío y ventana de envío.</p>

@@ -13,12 +13,12 @@
     <language>en</language>
 
     
-    <pubDate>Tue, 22 Oct 2024 12:47:21 -0000</pubDate>
-    <lastBuildDate>Tue, 22 Oct 2024 12:47:21 -0000</lastBuildDate>
+    <pubDate>Tue, 26 Nov 2024 03:19:11 -0000</pubDate>
+    <lastBuildDate>Tue, 26 Nov 2024 03:19:11 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.15.0</generator>
+    <generator>MkDocs RSS plugin - v1.16.0</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 22 Oct 2024 12:47:33 +0000</pubDate>
+      <pubDate>Tue, 26 Nov 2024 03:19:23 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 22 Oct 2024 12:45:18 +0000</pubDate>
+      <pubDate>Tue, 26 Nov 2024 03:17:10 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 22 Oct 2024 12:45:04 +0000</pubDate>
+      <pubDate>Tue, 26 Nov 2024 03:16:56 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -287,6 +287,10 @@
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_blueprint_7.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_blueprint_8.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_9&#34;&gt;更新日志&lt;/h2&gt;
+&lt;h3 id=&#34;v133-20241125&#34;&gt;v1.3.3 - 2024.11.25&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;支持 UE-5.5&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;v132-20241010&#34;&gt;v1.3.2 - 2024.10.10&lt;/h3&gt;
 &lt;h4 id=&#34;bugfix&#34;&gt;Bugfix&lt;/h4&gt;
 &lt;ul&gt;
@@ -373,7 +377,7 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 22 Oct 2024 12:39:55 +0000</pubDate>
+      <pubDate>Tue, 26 Nov 2024 03:12:14 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
@@ -5725,7 +5729,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/details&gt;
 
-&lt;p&gt;逐一把 KCP 结构里面的字段注释上，可以初步感觉到，整套 KCP 的协议不太复杂，细细去分析代码，你我都能读懂并理解 KCP 协议 &lt;img alt=&#34;😄&#34; class=&#34;twemoji&#34; src=&#34;https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg&#34; title=&#34;:smile:&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;逐一把 KCP 结构里面的字段注释上，可以初步感觉到，整套 KCP 的协议不太复杂，细细去分析代码，你我都能读懂并理解 KCP 协议 &lt;img alt=&#34;😄&#34; class=&#34;twemoji&#34; src=&#34;https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f604.svg&#34; title=&#34;:smile:&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;kcp-arq&#34;&gt;KCP 的 ARQ 实现&lt;/h2&gt;
 &lt;p&gt;KCP 本质上是一个 ARQ (Auto Repeat-reQuest，自动重传) 协议，最基本的是要保证可靠的传输。那么我们可以先来关注 KCP 的基本 ARQ 部分，KCP 是怎么实现可靠传输的。&lt;/p&gt;
 &lt;p&gt;ARQ 顾名思义，当我们认为对端接收数据包失败时，自动重新发送对应的数据包，它是通过确认接收和超时重传两个机制，来实现可靠传输。具体的代码实现上， KCP 给每个数据包（就是上一节提到的 &lt;code&gt;SEGMENT&lt;/code&gt; ） 分配唯一的 &lt;code&gt;sn&lt;/code&gt; 标识符，一旦对端接收到数据包，会回复一个 ACK 包（同样是 &lt;code&gt;SEGMENT&lt;/code&gt;），ACK 包的 &lt;code&gt;sn&lt;/code&gt; 跟接收到的数据包 &lt;code&gt;sn&lt;/code&gt; 相同，通知接收到此数据包已经接收成功。&lt;code&gt;SEGMENT&lt;/code&gt; 上还有一个 &lt;code&gt;una&lt;/code&gt; 字段，表示下一个期待接收的数据包的编号，换句话说，即是所有在该编号之前的数据包都已经接收完，相当于一个全量的 ACK 包，发送端可以更快的更新发送缓冲和发送窗口。&lt;/p&gt;
