@@ -26,7 +26,7 @@
         <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../feed_rss_updated.xml">
       
       <link rel="icon" href="../assets/favicon/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
     
     
       
@@ -34,7 +34,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1725,7 +1725,7 @@
 </code></pre></div>
 </details>
 
-<p>逐一把 KCP 结构里面的字段注释上，可以初步感觉到，整套 KCP 的协议不太复杂，细细去分析代码，你我都能读懂并理解 KCP 协议 <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:"></p>
+<p>逐一把 KCP 结构里面的字段注释上，可以初步感觉到，整套 KCP 的协议不太复杂，细细去分析代码，你我都能读懂并理解 KCP 协议 <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f604.svg" title=":smile:"></p>
 <h2 id="kcp-arq">KCP 的 ARQ 实现</h2>
 <p>KCP 本质上是一个 ARQ (Auto Repeat-reQuest，自动重传) 协议，最基本的是要保证可靠的传输。那么我们可以先来关注 KCP 的基本 ARQ 部分，KCP 是怎么实现可靠传输的。</p>
 <p>ARQ 顾名思义，当我们认为对端接收数据包失败时，自动重新发送对应的数据包，它是通过确认接收和超时重传两个机制，来实现可靠传输。具体的代码实现上， KCP 给每个数据包（就是上一节提到的 <code>SEGMENT</code> ） 分配唯一的 <code>sn</code> 标识符，一旦对端接收到数据包，会回复一个 ACK 包（同样是 <code>SEGMENT</code>），ACK 包的 <code>sn</code> 跟接收到的数据包 <code>sn</code> 相同，通知接收到此数据包已经接收成功。<code>SEGMENT</code> 上还有一个 <code>una</code> 字段，表示下一个期待接收的数据包的编号，换句话说，即是所有在该编号之前的数据包都已经接收完，相当于一个全量的 ACK 包，发送端可以更快的更新发送缓冲和发送窗口。</p>

@@ -25,7 +25,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
       
       <link rel="icon" href="../../assets/favicon/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1216,7 +1216,7 @@
         
   
   <span class="md-ellipsis">
-    UE plugin AIChatPlus Instructions Document
+    UE Plugin AIChatPlus Documentation
   </span>
   
 
@@ -1734,7 +1734,7 @@
 </code></pre></div>
 </details>
 
-<p>Annotate each field in the KCP structure one by one. You can have a preliminary feeling that the entire KCP protocol is not too complicated. By carefully analyzing the code, both you and I can read and understand the KCP protocol. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f604.svg" title=":smile:"></p>
+<p>Annotate each field in the KCP structure one by one. You can have a preliminary feeling that the entire KCP protocol is not too complicated. By carefully analyzing the code, both you and I can read and understand the KCP protocol. <img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f604.svg" title=":smile:"></p>
 <h2 id="kcps-arq-implementation">KCP's ARQ Implementation</h2>
 <p>KCP is essentially an ARQ (Auto Repeat-reQuest) protocol that primarily focuses on ensuring reliable transmission. So, let's first pay attention to the basic ARQ component of KCP and how KCP achieves reliable transmission.</p>
 <p>ARQ, as the name implies, automatically retransmits the corresponding data packet when we believe that the recipient has failed to receive it. This is achieved through two mechanisms: acknowledgement (ACK) and retransmission upon timeout. In terms of specific code implementation, KCP assigns a unique identifier, <code>sn</code>, to each data packet (referred to as <code>SEGMENT</code> in the previous section). Once the recipient receives a data packet, it responds with an ACK packet (also a <code>SEGMENT</code>) that has the same <code>sn</code> as the received data packet, indicating successful reception. The <code>SEGMENT</code> also includes a field called <code>una</code>, which represents the sequence number of the next expected data packet. In other words, it signifies that all data packets with a sequence number lower than <code>una</code> have been successfully received. It is equivalent to a full ACK packet, allowing the sender to update the send buffer and send window more efficiently.</p>
