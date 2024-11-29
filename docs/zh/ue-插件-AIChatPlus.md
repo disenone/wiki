@@ -241,18 +241,48 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
+### 蓝图使用 OpenAI 模型
+
+* 在蓝图中右键创建一个节点 `Send OpenAI Chat Request In World`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png)
+
+* 创建 Options 节点，并设置 `Stream=true, Api Key="you api key from OpenAI"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png)
+
+* 创建 Messages，分别添加一条 System Message 和 User Message
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
+
+* 创建 Delegate 接受模型输出的信息，并打印在屏幕上
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
+
+* 完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png)
+
 ## 更新日志
 
 ### v1.3.3 - 2024.11.25
 
 * 支持 UE-5.5
 
+* **Bugfix**: 修复部分蓝图不生效问题
+
 ### v1.3.2 - 2024.10.10
 
 #### Bugfix
 
 * 修复 手动停止 request 的时候 cllama 崩溃
+
 * 修复商城下载版本 win 打包找不到 ggml.dll llama.dll 文件的问题
+
 * 创建请求时检查是否在 GameThread 中，CreateRequest check in game thread
 
 ### v1.3.1 - 2024.9.30
@@ -262,9 +292,13 @@ void AddTestCommand()
 #### Bugfix
 
 * 修复从商城下载的插件，llama.cpp 找不到链接库
+
 * 修复 LLAMACpp 路径过长问题
+
 * 修复 windows 打包后的链接 llama.dll 错误
+
 * 修复 ios/android 读取文件路径问题
+
 * 修复 Cllame 设置名字错误
 
 ### v1.3.0 - 2024.9.23
