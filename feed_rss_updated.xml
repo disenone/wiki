@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Fri, 29 Nov 2024 15:39:57 -0000</pubDate>
-    <lastBuildDate>Fri, 29 Nov 2024 15:39:57 -0000</lastBuildDate>
+    <pubDate>Sat, 30 Nov 2024 16:57:01 -0000</pubDate>
+    <lastBuildDate>Sat, 30 Nov 2024 16:57:01 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 29 Nov 2024 15:40:09 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 16:57:13 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 29 Nov 2024 15:37:56 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 16:55:00 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 29 Nov 2024 15:37:42 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 16:54:47 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -309,6 +309,45 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;claude&#34;&gt;蓝图使用 Claude 分析图片&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在蓝图中右键创建一个节点 &lt;code&gt;Send Claude Chat Request&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 Options 节点，并设置 &lt;code&gt;Stream=true, Api Key=&#34;you api key from Clude&#34;, Max Output Tokens=1024&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 Messages，从文件创建 Texture2D，并从 Texture2D 创建 AIChatPlusTexture，把 AIChatPlusTexture 添加到 Message 中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跟上述教程一样，创建 Event 并把信息打印到游戏屏幕上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;openai_1&#34;&gt;蓝图使用 OpenAI 创建图片&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在蓝图中右键创建一个节点 &lt;code&gt;Send OpenAI Image Request&lt;/code&gt;，并设置 &lt;code&gt;In Prompt=&#34;a beautiful butterfly&#34;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建 Options 节点，并设置 &lt;code&gt;Api Key=&#34;you api key from OpenAI&#34;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;绑定 On Images 事件，并把图片保存到本地硬盘上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_9&#34;&gt;更新日志&lt;/h2&gt;
 &lt;h3 id=&#34;v133-20241125&#34;&gt;v1.3.3 - 2024.11.25&lt;/h3&gt;
 &lt;ul&gt;
@@ -415,7 +454,7 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 29 Nov 2024 15:32:58 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 16:49:54 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
