@@ -305,9 +305,9 @@ void AddTestCommand()
 
 * 完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png)
 
 ## 更新日志
 
