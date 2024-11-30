@@ -13,8 +13,8 @@
     <language>en</language>
 
     
-    <pubDate>Sat, 30 Nov 2024 16:59:46 -0000</pubDate>
-    <lastBuildDate>Sat, 30 Nov 2024 16:59:46 -0000</lastBuildDate>
+    <pubDate>Sat, 30 Nov 2024 17:12:31 -0000</pubDate>
+    <lastBuildDate>Sat, 30 Nov 2024 17:12:31 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 16:59:48 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 17:12:33 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 16:59:33 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 17:12:19 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 16:59:17 +0000</pubDate>
+      <pubDate>Sat, 30 Nov 2024 17:12:03 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -1049,8 +1049,8 @@
 &lt;ul&gt;
 &lt;li&gt;完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_9&#34;&gt;更新日志&lt;/h2&gt;
 &lt;h3 id=&#34;v133-20241125&#34;&gt;v1.3.3 - 2024.11.25&lt;/h3&gt;
 &lt;ul&gt;
