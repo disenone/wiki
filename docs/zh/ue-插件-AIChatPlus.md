@@ -267,6 +267,28 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png)
 
+### 蓝图使用 Claude 分析图片
+
+* 在蓝图中右键创建一个节点 `Send OpenAI Chat Request In World`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png)
+
+* 创建 Options 节点，并设置 `Stream=true, Api Key="you api key from Clude", Max Output Tokens=1024`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png)
+
+* 创建 Messages，从文件创建 Texture2D，并从 Texture2D 创建 AIChatPlusTexture，把 AIChatPlusTexture 添加到 Message 中
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png)
+
+* 跟上述教程一样，创建 Event 并把信息打印到游戏屏幕上
+
+* 完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png)
+
 ## 更新日志
 
 ### v1.3.3 - 2024.11.25
