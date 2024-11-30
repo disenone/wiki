@@ -269,7 +269,7 @@ void AddTestCommand()
 
 ### 蓝图使用 Claude 分析图片
 
-* 在蓝图中右键创建一个节点 `Send OpenAI Chat Request In World`
+* 在蓝图中右键创建一个节点 `Send Claude Chat Request`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png)
 
@@ -284,6 +284,26 @@ void AddTestCommand()
 * 跟上述教程一样，创建 Event 并把信息打印到游戏屏幕上
 
 * 完整的蓝图看起来是这样的，运行蓝图，即可看到游戏屏幕在打印大模型返回的消息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png)
+
+### 蓝图使用 OpenAI 创建图片
+
+* 在蓝图中右键创建一个节点 `Send OpenAI Image Request`，并设置 `In Prompt="a beautiful butterfly"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
+
+* 创建 Options 节点，并设置 `Api Key="you api key from OpenAI"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
+
+* 绑定 On Images 事件，并把图片保存到本地硬盘上
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
+
+* 完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
 
