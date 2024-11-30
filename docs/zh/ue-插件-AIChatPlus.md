@@ -323,7 +323,7 @@ void AddTestCommand()
 
 ### v1.3.2 - 2024.10.10
 
-#### 新功能
+#### 问题修复
 
 * 修复 手动停止 request 的时候 cllama 崩溃
 
