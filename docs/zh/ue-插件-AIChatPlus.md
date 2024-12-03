@@ -311,6 +311,16 @@ void AddTestCommand()
 
 ## 更新日志
 
+### v1.3.4 - 2024.12.05
+
+#### 新功能
+
+* OpenAI 支持 vision api
+
+#### 问题修复
+
+* 修复 OpenAI stream=false 时的错误
+
 ### v1.3.3 - 2024.11.25
 
 #### 新功能
