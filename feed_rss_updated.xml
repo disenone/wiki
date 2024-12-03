@@ -13,12 +13,12 @@
     <language>en</language>
 
     
-    <pubDate>Sat, 30 Nov 2024 18:02:46 -0000</pubDate>
-    <lastBuildDate>Sat, 30 Nov 2024 18:02:46 -0000</lastBuildDate>
+    <pubDate>Tue, 03 Dec 2024 19:27:14 -0000</pubDate>
+    <lastBuildDate>Tue, 03 Dec 2024 19:27:14 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.16.0</generator>
+    <generator>MkDocs RSS plugin - v1.17.0</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 18:02:57 +0000</pubDate>
+      <pubDate>Tue, 03 Dec 2024 19:27:26 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 18:00:45 +0000</pubDate>
+      <pubDate>Tue, 03 Dec 2024 19:25:13 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 18:00:31 +0000</pubDate>
+      <pubDate>Tue, 03 Dec 2024 19:24:58 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -349,17 +349,26 @@
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_9&#34;&gt;更新日志&lt;/h2&gt;
-&lt;h3 id=&#34;v133-20241125&#34;&gt;v1.3.3 - 2024.11.25&lt;/h3&gt;
+&lt;h3 id=&#34;v134-20241205&#34;&gt;v1.3.4 - 2024.12.05&lt;/h3&gt;
 &lt;h4 id=&#34;_10&#34;&gt;新功能&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;OpenAI 支持 vision api&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;_11&#34;&gt;问题修复&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;修复 OpenAI stream=false 时的错误&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;v133-20241125&#34;&gt;v1.3.3 - 2024.11.25&lt;/h3&gt;
+&lt;h4 id=&#34;_12&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;支持 UE-5.5&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;_11&#34;&gt;问题修复&lt;/h4&gt;
+&lt;h4 id=&#34;_13&#34;&gt;问题修复&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;修复部分蓝图不生效问题&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v132-20241010&#34;&gt;v1.3.2 - 2024.10.10&lt;/h3&gt;
-&lt;h4 id=&#34;_12&#34;&gt;问题修复&lt;/h4&gt;
+&lt;h4 id=&#34;_14&#34;&gt;问题修复&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;修复 手动停止 request 的时候 cllama 崩溃&lt;/li&gt;
 &lt;/ul&gt;
@@ -370,11 +379,11 @@
 &lt;li&gt;创建请求时检查是否在 GameThread 中，CreateRequest check in game thread&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v131-2024930&#34;&gt;v1.3.1 - 2024.9.30&lt;/h3&gt;
-&lt;h4 id=&#34;_13&#34;&gt;新功能&lt;/h4&gt;
+&lt;h4 id=&#34;_15&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;增加一个 SystemTemplateViewer，可以查看和使用几百个 system 设置模版&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;_14&#34;&gt;问题修复&lt;/h4&gt;
+&lt;h4 id=&#34;_16&#34;&gt;问题修复&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;修复从商城下载的插件，llama.cpp 找不到链接库&lt;/li&gt;
 &lt;/ul&gt;
@@ -391,12 +400,12 @@
 &lt;li&gt;修复 Cllame 设置名字错误&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v130-2024923&#34;&gt;v1.3.0 - 2024.9.23&lt;/h3&gt;
-&lt;h4 id=&#34;_15&#34;&gt;重大新功能&lt;/h4&gt;
+&lt;h4 id=&#34;_17&#34;&gt;重大新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;整合了 llama.cpp，支持本地离线执行大模型&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v120-20240820&#34;&gt;v1.2.0 - 2024.08.20&lt;/h3&gt;
-&lt;h4 id=&#34;_16&#34;&gt;新功能&lt;/h4&gt;
+&lt;h4 id=&#34;_18&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;支持 OpenAI Image Edit/Image Variation&lt;/li&gt;
 &lt;/ul&gt;
@@ -404,12 +413,12 @@
 &lt;li&gt;支持 Ollama API，支持自动获取 Ollama 支持的模型列表&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v110-20240807&#34;&gt;v1.1.0 - 2024.08.07&lt;/h3&gt;
-&lt;h4 id=&#34;_17&#34;&gt;新功能&lt;/h4&gt;
+&lt;h4 id=&#34;_19&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;支持蓝图&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;v100-20240805&#34;&gt;v1.0.0 - 2024.08.05&lt;/h3&gt;
-&lt;h4 id=&#34;_18&#34;&gt;新功能&lt;/h4&gt;
+&lt;h4 id=&#34;_20&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;基础完整功能&lt;/li&gt;
 &lt;/ul&gt;
@@ -460,7 +469,7 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 30 Nov 2024 17:55:47 +0000</pubDate>
+      <pubDate>Tue, 03 Dec 2024 19:19:45 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>
