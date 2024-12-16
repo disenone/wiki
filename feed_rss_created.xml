@@ -13,12 +13,12 @@
     <language>en</language>
 
     
-    <pubDate>Tue, 03 Dec 2024 19:30:02 -0000</pubDate>
-    <lastBuildDate>Tue, 03 Dec 2024 19:30:02 -0000</lastBuildDate>
+    <pubDate>Mon, 16 Dec 2024 18:00:00 -0000</pubDate>
+    <lastBuildDate>Mon, 16 Dec 2024 18:00:00 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
-    <generator>MkDocs RSS plugin - v1.17.0</generator>
+    <generator>MkDocs RSS plugin - v1.17.1</generator>
 
     
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 03 Dec 2024 19:30:04 +0000</pubDate>
+      <pubDate>Mon, 16 Dec 2024 18:00:02 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 03 Dec 2024 19:29:49 +0000</pubDate>
+      <pubDate>Mon, 16 Dec 2024 17:59:47 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Tue, 03 Dec 2024 19:29:33 +0000</pubDate>
+      <pubDate>Mon, 16 Dec 2024 17:59:31 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
