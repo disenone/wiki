@@ -319,21 +319,21 @@ void AddTestCommand()
 
 * 在蓝图中右键创建一个节点 `Send OpenAI Image Request`，并设置 `In Prompt="a beautiful butterfly"`
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
 
 * 创建 Options 节点，并设置 `Api Key="you api key from OpenAI"`
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
 
 * 绑定 On Images 事件，并把图片保存到本地硬盘上
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
 
 * 完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_4.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_5.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png)
 
 ## Azure
 
@@ -455,6 +455,16 @@ void AddTestCommand()
 
 
 ## 更新日志
+
+### v1.4.1 - 2025.01.04
+
+#### 问题修复
+
+* 聊天工具支持只发图片不发信息
+
+* 修复 OpenAI 接口发送图片问题失败文图
+
+* 修复 OpanAI、Azure 聊天工具设置遗漏了参数 Quality、Style、ApiVersion 问题=
 
 ### v1.4.0 - 2024.12.30
 
