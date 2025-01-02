@@ -113,9 +113,9 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 更多源码细节可在 UE 商城获取：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-## 使用指南
+## Cllama(llama.cpp)
 
-### 编辑器工具使用离线模型 llama.cpp
+### 编辑器工具使用离线模型 Cllama(llama.cpp)
 
 以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp
 
@@ -141,7 +141,19 @@ qwen1.5-1_8b-chat-q8_0.gguf*
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-### 代码使用离线模型 llama.cpp
+### 编辑器工具使用离线模型 Cllama(llama.cpp) 处理图片
+
+* 从 HuggingFace 网站下载离线模型 MobileVLM_V2-1.7B-GGUF 同样放到目录 Content/LLAMA 下：[ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf) 和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)。
+
+* 设置会话的模型：
+
+![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png)
+
+* 发送图片开始聊天
+
+![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png)
+
+### 代码使用离线模型 Cllama(llama.cpp)
 
 以下说明如何在代码中使用离线模型 llama.cpp
 
@@ -241,7 +253,43 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
-### 蓝图使用 OpenAI 模型
+## OpenAI
+
+### 编辑器使用 OpenAI 聊天
+
+* 打开聊天工具 Tools -> AIChatPlus -> AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置 <api_key>
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
+
+* 开始聊天：
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
+
+* 切换模型为 gpt-4o / gpt-4o-mini，可以使用 OpenAI 的视觉功能分析图片
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
+
+### 编辑器使用 OpenAI 处理图片（创建/修改/变种）
+
+* 在聊天恐惧创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置 <api_key>
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
+
+* 创建图片
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png)
+
+* 修改图片，把会话 Image Chat Type 修改为 Edit，并上传两张图片，一张是原图片，一张是 mask 其中透明的位置（alpha 通道为 0）表示需要修改的地方
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
+
+* 图片变种，把会话 Image Chat Type 修改为 Edit，并上传一张图片，OpenAI 会返回一张原图片的变种
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
+
+### 蓝图使用 OpenAI 模型聊天
 
 * 在蓝图中右键创建一个节点 `Send OpenAI Chat Request In World`
 
@@ -267,7 +315,77 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png)
 
-### 蓝图使用 Claude 分析图片
+### 蓝图使用 OpenAI 创建图片
+
+* 在蓝图中右键创建一个节点 `Send OpenAI Image Request`，并设置 `In Prompt="a beautiful butterfly"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
+
+* 创建 Options 节点，并设置 `Api Key="you api key from OpenAI"`
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
+
+* 绑定 On Images 事件，并把图片保存到本地硬盘上
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
+
+* 完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_4.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_5.png)
+
+## Azure
+
+### 编辑器使用 Azure
+
+* 新建会话（New Chat），把 ChatApi 改为 Azure，并设置 Azure 的 Api 参数
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png)
+
+* 开始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png)
+
+### 编辑器使用 Azure 创建图片
+
+* 新建图片会话（New Image Chat），把 ChatApi 改为Azure，并设置 Azure 的 Api 参数，注意，如果是 dall-e-2 模型，需要把参数 Quality 和 Stype 设置成 not_use
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png)
+
+* 开始聊天，让 Azure 创建图片
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png)
+
+### 蓝图使用 Azure 聊天
+
+创建如下蓝图，设置好 Azure Options，点击运行，即可看到屏幕上打印 Azure 返回的聊天信息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png)
+
+### 蓝图使用 Azure 创建图片
+
+创建如下蓝图，设置好 Azure Options，点击运行，如果创建图片成功，会在屏幕上看到信息 "Create Image Done"
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png)
+
+根据上面蓝图的设置，图片会保存在路径 D:\Dwnloads\butterfly.png
+
+## Claude
+
+### 编辑器使用 Claude 聊天和分析图片
+
+* 新建会话（New Chat），把 ChatApi 改为 Claude，并设置 Claude 的 Api 参数
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png)
+
+* 开始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png)
+
+### 蓝图使用 Claude 聊天和分析图片
 
 * 在蓝图中右键创建一个节点 `Send Claude Chat Request`
 
@@ -289,27 +407,62 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png)
 
-### 蓝图使用 OpenAI 创建图片
+## Ollama
 
-* 在蓝图中右键创建一个节点 `Send OpenAI Image Request`，并设置 `In Prompt="a beautiful butterfly"`
+### 获取 Ollama
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
+* 可以通过 Ollama 官网获取安装包本地安装：[ollama.com](https://ollama.com/)
 
-* 创建 Options 节点，并设置 `Api Key="you api key from OpenAI"`
+* 可以通过其他人提供的 Ollama 接口使用 Ollama。
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
+### 编辑器使用 Ollama 聊天和分析图片
 
-* 绑定 On Images 事件，并把图片保存到本地硬盘上
+* 新建会话（New Chat），把 ChatApi 改为 Ollama，并设置 Ollama 的 Api 参数。如果是文本聊天，则设置模型为文本模型，如 llama3.1；如果需要处理图片，则设置模型为支持 vision 的模型，例如 moondream。
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png)
 
-* 完整的蓝图看起来是这样的，运行蓝图，即可看到图片保存在指定的位置上
+* 开始聊天
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png)
+### 蓝图使用 Ollama 聊天和分析图片
+
+创建如下蓝图，设置好 Ollama Options，点击运行，即可看到屏幕上打印 Ollama 返回的聊天信息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_2.png)
+
+## Gemini
+
+### 编辑器使用 Gemini
+
+* 新建会话（New Chat），把 ChatApi 改为 Gemini，并设置 Gemini 的 Api 参数。
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png)
+
+* 开始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
+
+### 蓝图使用 Gemini 聊天
+
+创建如下蓝图，设置好 Gemini Options，点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
+
 
 ## 更新日志
+
+### v1.4.0 - 2024.12.30
+
+#### 新功能
+
+* （实验性功能）Cllama(llama.cpp) 支持多模态模型，可以处理图片
+
+* 所有的蓝图类型参数都加上了详细提示
 
 ### v1.3.4 - 2024.12.05
 
