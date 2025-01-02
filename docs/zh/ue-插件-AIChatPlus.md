@@ -257,7 +257,7 @@ void AddTestCommand()
 
 ### 编辑器使用 OpenAI 聊天
 
-* 打开聊天工具 Tools -> AIChatPlus -> AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置 <api_key>
+* 打开聊天工具 Tools -> AIChatPlus -> AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置接口参数
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
 
@@ -271,7 +271,7 @@ void AddTestCommand()
 
 ### 编辑器使用 OpenAI 处理图片（创建/修改/变种）
 
-* 在聊天恐惧创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置 <api_key>
+* 在聊天工具中创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置参数
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
 
@@ -285,7 +285,7 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
 
-* 图片变种，把会话 Image Chat Type 修改为 Edit，并上传一张图片，OpenAI 会返回一张原图片的变种
+* 图片变种，把会话 Image Chat Type 修改为 Variation，并上传一张图片，OpenAI 会返回一张原图片的变种
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
 
@@ -443,7 +443,7 @@ void AddTestCommand()
 
 * 开始聊天
 
-![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
 ### 蓝图使用 Gemini 聊天
 
