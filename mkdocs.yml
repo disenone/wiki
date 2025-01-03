@@ -63,6 +63,14 @@ plugins:
           default: true
           name: 简体中文
           build: true
+        - locale: tc
+          name: 繁體中文
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: 編程技術
+            游戏开发: 遊戲開發
+            基础: 基礎
         - locale: en
           name: English
           build: true
@@ -76,9 +84,42 @@ plugins:
           build: true
           nav_translations:
             Home: Home
-            编程技术: Programming
-            游戏开发: Game Dev
-            基础: Basic
+            编程技术: Tecnología de programación
+            游戏开发: Desarrollo de juegos
+            基础: Fundamentos
+        - locale: ja
+          name: 日本語
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: プログラミング技術
+            游戏开发: ゲーム開発
+            基础: 基礎
+        - locale: de
+          name: Deutsch
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: Programmiertechniken
+            游戏开发: Spieleentwicklung
+            基础: Grundlagen
+        - locale: fr
+          name: Français
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: Techniques de programmation
+            游戏开发: Développement de jeux
+            基础: Fondamentaux
+        - locale: ar
+          name: العربية
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: تقنيات البرمجة
+            游戏开发: تطوير الألعاب
+            基础: الأساسيات
+
   - search
   - macros
   - blog:
@@ -90,11 +131,21 @@ plugins:
       enable_creation_date: true
       exclude:
         - zh/index.md
+        - tc/index.md
         - en/index.md
         - es/index.md
+        - ja/index.md
+        - de/index.md
+        - fr/index.md
+        - ar/index.md
         - zh/contact-and-subscribe.md
+        - tc/contact-and-subscribe.md
         - en/contact-and-subscribe.md
         - es/contact-and-subscribe.md
+        - ja/contact-and-subscribe.md
+        - de/contact-and-subscribe.md
+        - fr/contact-and-subscribe.md
+        - ar/contact-and-subscribe.md
       custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content
