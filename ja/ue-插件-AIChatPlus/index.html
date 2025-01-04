@@ -1,0 +1,3094 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="UE プラグイン AIChatPlus 説明書">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/ja/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/">
+      
+      
+        <link rel="prev" href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/">
+      
+      
+        <link rel="next" href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="新しいページのRSSフィード" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="更新されたページのRSSフィード" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>UEプラグインAIChatPlusの説明書 - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ue-aichatplus" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              UEプラグインAIChatPlusの説明書
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh-Hant/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  プログラミング技術
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  ゲーム開発
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    プログラミング技術
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            プログラミング技術
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++のコマンドライン引数の処理についてまとめました。
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ マクロプログラミング解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows対応のメモリーリーク検出ツールの作成
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP マスタリングソースコード
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visual Studio 2015を使用してPython 2.7.11をコンパイル
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python の雑談 1 - \_\_builtins\_\_ の探求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Chat 2 - Python3.12 Hot Update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ゲーム開発
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            ゲーム開発
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    基礎
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            基礎
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ゲームAOIアルゴリズムの解析とパフォーマンステスト
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 FASTBuild 编译 UE4 和 UE5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE は、プラグインのソースコードを追加してプラグインを追加します。
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 拡張エディタメニュー
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 使用パス形式でメニューを拡張します
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 设置本地化多语言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE でさまざまな画像（UTexture2D）操作（読み込み、保存、コピー、クリップボード...）を実現します。
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE エディタープラグイン UE.EditorPlus 説明書
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    UEプラグインAIChatPlusの説明書
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    UEプラグインAIChatPlusの説明書
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      公共倉庫
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      プラグインの取得
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      プラグインの紹介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用説明
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用説明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディター・チャットツール
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="エディター・チャットツール">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要な機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      コアコードの紹介
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cllamallamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cllama(llama.cpp)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cllama(llama.cpp)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターツールは、オフラインモデル Cllama(llama.cpp) を使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターツールは、オフラインモデルCllama(llama.cpp)を使用して画像を処理します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      コードはオフラインモデルCllama（llama.cpp）を使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      青写真使用离线模型 llama.cpp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#openai_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはOpenAIのチャットを使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターがOpenAIを使用して画像を処理します（作成/編集/変更）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ブループリントは OpenAI モデルチャットを使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAIを使用して画像を生成する設計図
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#azure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはAzureを使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターを使用してAzureで画像を作成します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      設計図を使った Azure チャット
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azureを使用して設計図に画像を作成する
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude" class="md-nav__link">
+    <span class="md-ellipsis">
+      Claude
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターは、Claudeを使用してチャットして画像を分析します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      設計図を使用して、クロードは画像を分析しています。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ollama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollamaを取得
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollama_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはOllamaを使ってチャットし、画像を分析します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollama_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollamaを使ってブループリントを使ってチャットや画像の分析を行います。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gemini" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gemini
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gemini">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはジェミニを使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ブループリントを使用してGeminiでチャットする
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新履歴
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新履歴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v141-20250104" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.4.1 - 2025.01.04
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.4.1 - 2025.01.04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修正
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v140-20241230" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.4.0 - 2024.12.30
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.4.0 - 2024.12.30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v134-20241205" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.4 - 2024.12.05
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.4 - 2024.12.05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v133-20241125" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.3 - 2024.11.25
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.3 - 2024.11.25">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v132-20241010" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.2 - 2024.10.10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.2 - 2024.10.10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v131-2024930" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.1 - 2024.9.30
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.1 - 2024.9.30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      新功能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v130-2024923" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.0 - 2024.9.23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.0 - 2024.9.23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      重要な新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v120-20240820" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.2.0 - 2024.08.20
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.2.0 - 2024.08.20">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v110-20240807" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.1.0 - 2024.08.07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.1.0 - 2024.08.07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v100-20240805" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0.0 - 2024.08.05
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.0.0 - 2024.08.05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity第三人称相机构建(上)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unityの第三人称カメラの構築（下）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unityのキャラクターコントロール
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity が深度マップ(Depth Map)とエッジ検出(Edge Detection)を行います。
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity におけるボリューメトリック・ライト・スキャッタリング（Volumetric Light Scattering、雲隙光）の実装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      公共倉庫
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      プラグインの取得
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      プラグインの紹介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用説明
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用説明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディター・チャットツール
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="エディター・チャットツール">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要な機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      コアコードの紹介
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cllamallamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cllama(llama.cpp)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cllama(llama.cpp)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターツールは、オフラインモデル Cllama(llama.cpp) を使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターツールは、オフラインモデルCllama(llama.cpp)を使用して画像を処理します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cllamallamacpp_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      コードはオフラインモデルCllama（llama.cpp）を使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      青写真使用离线模型 llama.cpp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#openai_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはOpenAIのチャットを使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターがOpenAIを使用して画像を処理します（作成/編集/変更）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ブループリントは OpenAI モデルチャットを使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAIを使用して画像を生成する設計図
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#azure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはAzureを使用しています。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターを使用してAzureで画像を作成します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      設計図を使った Azure チャット
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azureを使用して設計図に画像を作成する
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude" class="md-nav__link">
+    <span class="md-ellipsis">
+      Claude
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターは、Claudeを使用してチャットして画像を分析します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      設計図を使用して、クロードは画像を分析しています。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ollama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollamaを取得
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollama_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはOllamaを使ってチャットし、画像を分析します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ollama_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ollamaを使ってブループリントを使ってチャットや画像の分析を行います。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gemini" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gemini
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gemini">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディターはジェミニを使用します。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ブループリントを使用してGeminiでチャットする
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      更新履歴
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="更新履歴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v141-20250104" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.4.1 - 2025.01.04
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.4.1 - 2025.01.04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修正
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v140-20241230" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.4.0 - 2024.12.30
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.4.0 - 2024.12.30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v134-20241205" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.4 - 2024.12.05
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.4 - 2024.12.05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v133-20241125" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.3 - 2024.11.25
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.3 - 2024.11.25">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v132-20241010" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.2 - 2024.10.10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.2 - 2024.10.10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v131-2024930" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.1 - 2024.9.30
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.1 - 2024.9.30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      新功能
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      問題修復
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v130-2024923" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.3.0 - 2024.9.23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.3.0 - 2024.9.23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      重要な新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v120-20240820" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.2.0 - 2024.08.20
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.2.0 - 2024.08.20">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v110-20240807" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.1.0 - 2024.08.07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.1.0 - 2024.08.07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      新しい機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v100-20240805" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0.0 - 2024.08.05
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1.0.0 - 2024.08.05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      新機能
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/ja/ue-插件-AIChatPlus.md" title="編集" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<div><p><meta property="og:title" content="UE 插件 AIChatPlus 说明文档"></p>
+<h1 id="ue-aichatplus">UE プラグイン AIChatPlus の説明書</h1>
+<h2 id="_1">公共倉庫</h2>
+<p><a href="https://github.com/disenone/UE.AIChatPlus.Public">UE.AIChatPlus.Public</a></p>
+<h2 id="_2">プラグインの取得</h2>
+<p><a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AIChatPlus</a></p>
+<h2 id="_3">プラグインの紹介</h2>
+<p>This plugin supports UE5.2+.</p>
+<p>UE.AIChatPlusはUnrealEngineのプラグインであり、様々なGPT AIチャットサービスとの通信を実現しています。現在サポートされているサービスにはOpenAI(ChatGPT, DALL-E)、Azure OpenAI(ChatGPT, DALL-E)、Claude、Google Gemini、Ollama、llama.cppローカルオフラインがあります。将来はさらに多くのサービスプロバイダーをサポートする予定です。実装は非同期RESTリクエストに基づいており、性能が高く、UE開発者がこれらのAIチャットサービスに簡単にアクセスできるようになっています。</p>
+<p>UE.AIChatPlusには、エディターツールも含まれており、このツールを使用してAIチャットサービスを直接エディター内で利用し、テキストや画像を生成し、画像を解析することができます。</p>
+<h2 id="_4">使用説明</h2>
+<h3 id="_5">エディター・チャットツール</h3>
+<p>メニューバーのTools -&gt; AIChatPlus -&gt; AIChatをクリックすると、プラグインが提供するチャットツールのエディタが開きます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/chat_tool3.png"></a></p>
+<p>ツールサポートテキスト生成、テキストチャット、画像生成、画像分析。</p>
+<p>ツールのインターフェースはおおよそ次のようになります：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="text chat" src="../../assets/img/2024-ue-aichatplus/chat_tool2.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image chat" src="../../assets/img/2024-ue-aichatplus/chat_tool.png"></a></p>
+<h4 id="_6">主要な機能</h4>
+<p>オフラインビッグモデル：llama.cppライブラリを統合し、ローカルでのオフラインビッグモデルの実行をサポート</p>
+<p>テキストチャット：左下の <code>New Chat</code> ボタンをクリックして、新しいテキストチャットセッションを作成します。</p>
+<p>画像生成：左下の <code>New Image Chat</code> ボタンをクリックして、新しい画像生成セッションを作成します。</p>
+<p>画像解析：<code>New Chat</code> の一部チャットサービスは、画像の送信をサポートしています。例えば、Claude、Google Gemini。送信する画像を読み込むには、入力ボックスの上にある 🖼️ または 🎨 ボタンをクリックしてください。</p>
+<p>サポート ブループリント（Blueprint）：サポート ブループリントの作成 API リクエストを使用して、テキスト チャット、画像生成などの機能を実現します。</p>
+<p>現在のチャットキャラクターを設定する：チャットボックスの上にあるドロップダウンメニューを使用して、テキストを送信する現在のキャラクターを設定できます。 AIチャットを調整するために異なるキャラクターを模倣できます。</p>
+<p>セッションのクリア：チャットボックス上の❌ ボタンをタップすると、現在のセッションの履歴メッセージを削除できます。</p>
+<p>対話テンプレート: 数百種類の対話設定テンプレートが内蔵されており、よくある問題を簡単に処理できます。</p>
+<p>全局設定：左下の <code>Setting</code> ボタンをクリックすると、全体設定ウィンドウが開きます。デフォルトのテキストチャット、画像生成の API サービスを設定し、各 API サービスの具体的なパラメータを設定できます。設定はプロジェクトフォルダのパス <code>$(ProjectFolder)/Saved/AIChatPlusEditor</code> に自動的に保存されます。</p>
+<p>会話設定：チャットボックスの上にある設定ボタンをクリックすると、現在の会話の設定ウィンドウが開きます。会話名を変更したり、会話で使用するAPIサービスを変更したり、各会話ごとにAPIの具体的なパラメータを個別に設定することができます。会話設定は自動的に「$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions」に保存されます。</p>
+<p>チャット内容の編集: マウスをチャット内容の上にホバーすると、そのチャット内容に対する設定ボタンが表示されます。コンテンツの再生成、編集、コピー、削除、または下に新しいコンテンツを生成することができます（ユーザーのコンテンツに対して）。</p>
+<ul>
+<li>画像閲覧：画像生成に関して、画像をクリックすると画像ビューアーウィンドウ（ImageViewer）が開き、画像の PNG/UE テクスチャとして保存できます。テクスチャはコンテンツブラウザー（Content Browser）で直接確認可能で、エディター内での画像使用を容易にします。さらに、画像の削除、再生成、追加生成などの機能をサポートしています。Windows用エディターでは、画像のコピーもサポートされており、画像をクリップボードに直接コピーして簡単に利用できます。セッション生成された画像は各セッションフォルダーに自動保存され、通常のパスは <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images</code> です。</li>
+</ul>
+<p>設計図：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/blueprint.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="blueprint" src="../../assets/img/2024-ue-aichatplus/blueprint.png"></a></p>
+<p>全体の設定：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/global_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="global settings" src="../../assets/img/2024-ue-aichatplus/global_setting.png"></a></p>
+<p>会話設定:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/session_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="session settings" src="../../assets/img/2024-ue-aichatplus/session_setting.png"></a></p>
+<p>チャット内容の修正：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_edit.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="chat edit" src="../../assets/img/2024-ue-aichatplus/chat_edit.png"></a></p>
+<p>画像ビューア：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/image_viewer.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image viewer" src="../../assets/img/2024-ue-aichatplus/image_viewer.png"></a></p>
+<p>オフラインで大規模なモデルを使用します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/offline_model.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="offline model" src="../../assets/img/2024-ue-aichatplus/offline_model.png"></a></p>
+<p>対話テンプレート</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/system_template.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="system template" src="../../assets/img/2024-ue-aichatplus/system_template.png"></a></p>
+<h3 id="_7">コアコードの紹介</h3>
+<p>現在のプラグインは、以下のモジュールに分かれています：</p>
+<p>AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。<br>
+AIChatPlusCommon:ランタイムモジュールは、さまざまなAI APIインターフェースからのリクエストの送信および応答内容の解析を担当しています。</p>
+<p>AIChatPlusEditor: エディターモジュール（Editor），は、エディターAIチャットツールを実装する責任があります。</p>
+<p>AIChatPlusCllama: The runtime module that encapsulates the interface and parameters of llama.cpp to achieve offline execution of large models.</p>
+<ul>
+<li>Thirdparty/LLAMACpp: ランタイムサードパーティモジュールで、llama.cppのダイナミックライブラリとヘッダファイルを統合しています。</li>
+</ul>
+<p>UClass、それはFAIChatPlus_xxxChatRequestという要求を送信するための具体的なクラスです。各APIサービスには、個別のRequest UClassがあります。要求の応答は、UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBaseという2種類のUClassを使用して取得され、対応するコールバックデリゲートを登録するだけです。</p>
+<p>リクエストを送信する前に、APIのパラメータと送信メッセージを設定する必要があります。これには、FAIChatPlus_xxxChatRequestBodyを使用して設定します。返信の具体的な内容は、FAIChatPlus_xxxChatResponseBodyに解析され、コールバックを受け取った際には、特定のインタフェースを通じてResponseBodyを取得できます。</p>
+<p>UE マーケットプレイスで<a href="https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini">AICheatPlus</a></p>
+<h2 id="cllamallamacpp">Cllama(llama.cpp)</h2>
+<h3 id="cllamallamacpp_1">エディターツールは、オフラインモデル Cllama(llama.cpp) を使用します。</h3>
+<p>AIChatPlusエディターツールでオフラインモデル llama.cpp を使用する方法についての説明です。</p>
+<p>最初に、HuggingFaceウェブサイトからオフラインモデルをダウンロードしてください：<a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
+<p>特定のフォルダにモデルを保存します。たとえば、ゲームプロジェクトの Content/LLAMA ディレクトリに保存します。</p>
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&gt;<span class="w"> </span>ls
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>qwen1.5-1_8b-chat-q8_0.gguf*
+</code></pre></div>
+<p>AIChatPlusのエディターツールを開く：ツール -&gt; AIChatPlus -&gt; AIChat、新しいチャットセッションを作成して、セッション設定ページを開きます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_1.png"></a></p>
+<p>ApiをCllamaに設定し、カスタムApi設定を有効にして、モデル検索パスを追加し、モデルを選択してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_2.png"></a></p>
+<p>チャットを開始しましょう！！</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
+<h3 id="cllamallamacpp_2">エディターツールは、オフラインモデルCllama(llama.cpp)を使用して画像を処理します。</h3>
+<p>HuggingFace ウェブサイトからオフラインモデル MobileVLM_V2-1.7B-GGUF をダウンロードし、Content/LLAMA ディレクトリに配置してください：<a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf">ggml-model-q4_k.gguf</a>(https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)申し訳ありませんが、そのテキストを翻訳することはできません。</p>
+<p>会話モデルの設定：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png"></a></p>
+<p>画像を送ってチャットを始める</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png"></a></p>
+<h3 id="cllamallamacpp_3">コードはオフラインモデルCllama（llama.cpp）を使用しています。</h3>
+<p>こちらは、コード内でオフラインモデル llama.cpp を使用する方法についての説明です。</p>
+<p>最初に、Content/LLAMA フォルダにモデルファイルをダウンロードする必要があります。</p>
+<p>コードを修正して1つのコマンドを追加し、コマンド内でオフラインモデルにメッセージを送信します。</p>
+<div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">AddTestCommand</span><span class="p">()</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">IConsoleManager</span><span class="o">::</span><span class="n">Get</span><span class="p">().</span><span class="n">RegisterConsoleCommand</span><span class="p">(</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"AIChatPlus.TestChat"</span><span class="p">),</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"Test Chat."</span><span class="p">),</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="n">FConsoleCommandDelegate</span><span class="o">::</span><span class="n">CreateLambda</span><span class="p">([]()</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">FModuleManager</span><span class="o">::</span><span class="n">GetModulePtr</span><span class="o">&lt;</span><span class="n">FAIChatPlusCommon</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TEXT</span><span class="p">(</span><span class="s">"AIChatPlusCommon"</span><span class="p">)))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">            </span><span class="n">TWeakObjectPtr</span><span class="o">&lt;</span><span class="n">UAIChatPlus_ChatHandlerBase</span><span class="o">&gt;</span><span class="w"> </span><span class="n">HandlerObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UAIChatPlus_ChatHandlerBase</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">            </span><span class="c1">// Cllama</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">            </span><span class="n">FAIChatPlus_CllamaChatRequestOptions</span><span class="w"> </span><span class="n">Options</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">ModelPath</span><span class="p">.</span><span class="n">FilePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FPaths</span><span class="o">::</span><span class="n">ProjectContentDir</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">"LLAMA"</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s">"qwen1.5-1_8b-chat-q8_0.gguf"</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">NumPredict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">400</span><span class="p">;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">            </span><span class="n">Options</span><span class="p">.</span><span class="n">bStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">            </span><span class="c1">// Options.StopSequences.Emplace(TEXT("json"));</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">RequestPtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UAIChatPlus_CllamaChatRequest</span><span class="o">::</span><span class="n">CreateWithOptionsAndMessages</span><span class="p">(</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">                </span><span class="n">Options</span><span class="p">,</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">                </span><span class="p">{</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                    </span><span class="p">{</span><span class="s">"You are a chat bot"</span><span class="p">,</span><span class="w"> </span><span class="n">EAIChatPlus_ChatRole</span><span class="o">::</span><span class="n">System</span><span class="p">},</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">                    </span><span class="p">{</span><span class="s">"who are you"</span><span class="p">,</span><span class="w"> </span><span class="n">EAIChatPlus_ChatRole</span><span class="o">::</span><span class="n">User</span><span class="p">}</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">                </span><span class="p">});</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">BindChatRequest</span><span class="p">(</span><span class="n">RequestPtr</span><span class="p">);</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="n">FName</span><span class="w"> </span><span class="n">ApiName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TEnumTraits</span><span class="o">&lt;</span><span class="n">EAIChatPlus_ChatApiProvider</span><span class="o">&gt;::</span><span class="n">ToName</span><span class="p">(</span><span class="n">RequestPtr</span><span class="o">-&gt;</span><span class="n">GetApiProvider</span><span class="p">());</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnMessage</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FString</span><span class="o">&amp;</span><span class="w"> </span><span class="n">Message</span><span class="p">)</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] Message: [%s]"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="o">*</span><span class="n">Message</span><span class="p">);</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnStarted</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">]()</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestStarted"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnFailed</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseErrorBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">InError</span><span class="p">)</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestFailed: %s "</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">(),</span><span class="w"> </span><span class="o">*</span><span class="n">InError</span><span class="p">.</span><span class="n">GetDescription</span><span class="p">());</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnUpdated</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseBodyBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ResponseBody</span><span class="p">)</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestUpdated"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">            </span><span class="n">HandlerObject</span><span class="o">-&gt;</span><span class="n">OnFinished</span><span class="p">.</span><span class="n">AddLambda</span><span class="p">([</span><span class="n">ApiName</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">FAIChatPlus_ResponseBodyBase</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ResponseBody</span><span class="p">)</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">                </span><span class="n">UE_LOG</span><span class="p">(</span><span class="n">AIChatPlus_Internal</span><span class="p">,</span><span class="w"> </span><span class="n">Display</span><span class="p">,</span><span class="w"> </span><span class="n">TEXT</span><span class="p">(</span><span class="s">"TestChat[%s] RequestFinished"</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="n">ApiName</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">            </span><span class="p">});</span>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="w">            </span><span class="n">RequestPtr</span><span class="o">-&gt;</span><span class="n">SendRequest</span><span class="p">();</span>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">        </span><span class="p">}),</span>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="w">        </span><span class="n">ECVF_Default</span>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="p">}</span>
+</code></pre></div>
+<p>再コンパイルした後、エディターのCmdでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
+<h3 id="llamacpp">青写真使用离线模型 llama.cpp</h3>
+<p>青写真でオフラインモデル llama.cpp を使用する方法について説明します。</p>
+<p>ブループリントでノード「Send Cllama Chat Request」を右クリックして作成してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png"></a></p>
+<p>Options ノードを作成し、<code>Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"</code> を設定してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png"></a></p>
+<p>Messages を作成し、System Message と User Message をそれぞれ追加してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png"></a></p>
+<p>Delegateを作成し、モデルの出力情報を受け取り、画面に表示します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png"></a></p>
+<p>完全なブループリントはこのように見えます。ブループリントを実行すると、ゲーム画面に大きなモデルが印刷されたメッセージが表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png"></a></p>
+<h2 id="openai">OpenAI</h2>
+<h3 id="openai_1">エディターはOpenAIのチャットを使用しています。</h3>
+<p>チャットツールを開いて Tools -&gt; AIChatPlus -&gt; AIChat に移動し、新しいチャットセッション New Chat を作成し、セッションを ChatApi に設定してください。OpenAI とインターフェースパラメーターを設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png"></a></p>
+<p>チャットを始める：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png"></a></p>
+<p>gpt-4o / gpt-4o-mini のモデルに切り替えると、OpenAI のビジョン機能を使用して画像を解析できます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png"></a></p>
+<h3 id="openai_2">エディターがOpenAIを使用して画像を処理します（作成/編集/変更）</h3>
+<p>チャットツールで新しい画像チャットを作成し、会話設定をOpenAIに変更してパラメータを設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png"></a></p>
+<p>画像を作成します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png"></a></p>
+<p>画像を編集して、「会話 Image Chat Type」を「編集」に変更し、元の画像と、透明な部分（アルファチャンネルが0）が修正が必要な場所を示すマスク画像の2つをアップロードしてください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png"></a></p>
+<p>画像を変更して、会話イメージタイプを「変異」に変更し、画像をアップロードします。OpenAIは元の画像の変異を返します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png"></a></p>
+<h3 id="openai_3">ブループリントは OpenAI モデルチャットを使用します。</h3>
+<p>青写真で「Send OpenAI Chat Request In World」というノードを作成するには、右クリックしてください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png"></a></p>
+<p>Options ノードを作成して、<code>Stream=true, Api Key="you api key from OpenAI"</code> を設定してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png"></a></p>
+<p>Messagesを作成し、System MessageとUser Messageをそれぞれ追加してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png"></a></p>
+<p>Delegate を作成して、モデルの出力情報を受け取り、画面に表示します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png"></a></p>
+<p>完璧な設計図はこういう見た目だ。この設計図を稼働させると、ゲーム画面に大きなモデルがプリントされたメッセージが表示される。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png"></a></p>
+<h3 id="openai_4">OpenAIを使用して画像を生成する設計図</h3>
+<p>青写真でノード「Send OpenAI Image Request」を右クリックして作成し、「In Prompt="a beautiful butterfly"」を設定してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png"></a></p>
+<p>Options ノードを作成し、<code>Api Key="OpenAI から取得したあなたの API キー"</code> を設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png"></a></p>
+<p>画像に On Images イベントをバインドし、画像をローカルディスクに保存します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png"></a></p>
+<p>完璧な設計図はこう見える。この設計図を実行すると、画像は指定された場所に保存される。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_5.png"></a></p>
+<h2 id="azure">Azure</h2>
+<h3 id="azure_1">エディターはAzureを使用しています。</h3>
+<p>新しいチャットを作成して、ChatApiをAzureに変更し、AzureのAPIパラメータを設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png"></a></p>
+<p>チャットを開始します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png"></a></p>
+<h3 id="azure_2">エディターを使用してAzureで画像を作成します。</h3>
+<p>新しい画像チャットセッション（New Image Chat）に移行し、ChatApi をAzureに変更し、AzureのAPIパラメータを設定します。ただし、dall-e-2モデルの場合は、パラメータQualityとStypeをnot_useに設定する必要があります。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png"></a></p>
+<p>チャットを開始し、Azureに画像を作成させる</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png"></a></p>
+<h3 id="azure_3">設計図を使った Azure チャット</h3>
+<p>以下の手順に従い、Azureオプションを設定し、実行をクリックしてください。そうすると、Azureから返されたチャット情報が画面に表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png"></a></p>
+<h3 id="azure_4">Azureを使用して設計図に画像を作成する</h3>
+<p>以下のブループリントを作成し、Azure Optionsを設定して、「実行」ボタンをクリックします。画像の作成に成功した場合、画面に「Create Image Done」というメッセージが表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png"></a></p>
+<p>上記の設定に基づいて、画像はパス D:\Dwnloads\butterfly.png に保存されます。</p>
+<h2 id="claude">Claude</h2>
+<h3 id="claude_1">エディターは、Claudeを使用してチャットして画像を分析します。</h3>
+<p>「新規チャット（New Chat）」を作成し、ChatApiをClaudeに変更して、ClaudeのAPIパラメータを設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png"></a></p>
+<p>チャットを始める</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png"></a></p>
+<h3 id="_8">設計図を使用して、クロードは画像を分析しています。</h3>
+<p>青写真で、ノード「Send Claude Chat Request」を右クリックして作成してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png"></a></p>
+<p>Options ノードを作成し、<code>Stream=true、Api Key="Clude からの API キー", Max Output Tokens=1024</code> と設定してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png"></a></p>
+<p>Messagesを作成し、ファイルからTexture2Dを作成し、Texture2DからAIChatPlusTextureを作成し、AIChatPlusTextureをMessageに追加します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png"></a></p>
+<p>Create an event just like the tutorial above and print the information on the game screen.</p>
+<p>詳細な設計図は次のようになります。この設計図を実行すると、ゲーム画面に大きなモデルが表示されるメッセージが表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_blueprint_5.png"></a></p>
+<h2 id="ollama">Ollama</h2>
+<h3 id="ollama_1">Ollamaを取得</h3>
+<p>Ollama公式ウェブサイトからインストーラーをローカルにダウンロードしてインストールできます：<a href="https://ollama.com/">ollama.com</a></p>
+<p>Ollama を他の人から提供された Ollama インターフェースを通じて利用することができます。</p>
+<h3 id="ollama_2">エディターはOllamaを使ってチャットし、画像を分析します。</h3>
+<p>新しいチャットを作成して、ChatApiをOllamaに変更し、OllamaのAPIパラメータを設定します。テキストチャットの場合はllama3.1などのテキストモデルにモデルを設定し、画像を処理する場合はvisionをサポートするモデル（moondreamなど）に設定します。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png"></a></p>
+<p>話を始める</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png"></a></p>
+<h3 id="ollama_3">Ollamaを使ってブループリントを使ってチャットや画像の分析を行います。</h3>
+<p>以下のブループリントを作成し、Ollama Optionsを設定し、実行をクリックすると、Ollamaが返信したチャット情報が画面に表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_2.png"></a></p>
+<h2 id="gemini">Gemini</h2>
+<h3 id="_9">エディターはジェミニを使用します。</h3>
+<p>新規チャットを開始し、ChatApiをGeminiに変更してGeminiのApiパラメータを設定してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png"></a></p>
+<p>チャットを開始する</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png"></a></p>
+<h3 id="gemini_1">ブループリントを使用してGeminiでチャットする</h3>
+<p>以下の手順に従い、Gemini Optionsを設定し、実行ボタンをクリックすると、Geminiからのチャット情報が画面に表示されます。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png"></a></p>
+<h2 id="_10">更新履歴</h2>
+<h3 id="v141-20250104">v1.4.1 - 2025.01.04</h3>
+<h4 id="_11">問題修正</h4>
+<p>チャットツールは、画像のみ送信できる機能をサポートしています。</p>
+<p>OpenAI のインターフェースの画像送信問題を修正できなかった文書の図を翻訳してください。</p>
+<p>OpanAIとAzureのチャットツール設定で見落とされていたQuality、Style、ApiVersionパラメータの問題を修正しました。</p>
+<h3 id="v140-20241230">v1.4.0 - 2024.12.30</h3>
+<h4 id="_12">新機能</h4>
+<p>（実験的機能）Cllama（llama.cpp）は、マルチモードモデルをサポートし、画像を処理できます。</p>
+<p>すべてのブループリントのタイプのパラメーターには詳細なヒントが追加されました。</p>
+<h3 id="v134-20241205">v1.3.4 - 2024.12.05</h3>
+<h4 id="_13">新機能</h4>
+<p>OpenAIはVision APIをサポートしています。</p>
+<h4 id="_14">問題修復</h4>
+<p>OpenAI stream=false のエラーを修正します</p>
+<h3 id="v133-20241125">v1.3.3 - 2024.11.25</h3>
+<h4 id="_15">新しい機能</h4>
+<ul>
+<li>Support for UE-5.5</li>
+</ul>
+<h4 id="_16">問題修復</h4>
+<p>一部藍写真が機能しない問題を修正します。</p>
+<h3 id="v132-20241010">v1.3.2 - 2024.10.10</h3>
+<h4 id="_17">問題修復</h4>
+<p>手動停止リクエスト時の cllama のクラッシュを修正</p>
+<p>商城のダウンロードバージョンwinの問題を修正する：ggml.dll、llama.dllファイルが見つからない問題。</p>
+<p>GameThread 中进行的 CreateRequest 检查</p>
+<h3 id="v131-2024930">v1.3.1 - 2024.9.30</h3>
+<h4 id="_18">新功能</h4>
+<p>システムテンプレートビューアーを追加しました。数百ものシステム設定テンプレートを閲覧および使用できます。</p>
+<h4 id="_19">問題修復</h4>
+<p>商城からダウンロードしたプラグインを修復すると、llama.cpp でリンクライブラリが見つかりません。</p>
+<p>LLAMACpp のパスが長すぎる問題を修正</p>
+<p>Windows パッケージング後のリンク llama.dll エラーを修正します。</p>
+<p>iOSおよびAndroidのファイルパスの読み取り問題を修正します。</p>
+<p>Cllameの設定名の修正</p>
+<h3 id="v130-2024923">v1.3.0 - 2024.9.23</h3>
+<h4 id="_20">重要な新機能</h4>
+<p>llama.cpp has been integrated to support offline execution of large models locally.</p>
+<h3 id="v120-20240820">v1.2.0 - 2024.08.20</h3>
+<h4 id="_21">新しい機能</h4>
+<p>OpenAI Image Edit/Image Variationのサポート</p>
+<p>Ollama APIをサポートし、Ollamaがサポートするモデルリストを自動的に取得する。</p>
+<h3 id="v110-20240807">v1.1.0 - 2024.08.07</h3>
+<h4 id="_22">新しい機能</h4>
+<p>支持ブループリント</p>
+<h3 id="v100-20240805">v1.0.0 - 2024.08.05</h3>
+<h4 id="_23">新機能</h4>
+<p>基礎完備の機能</p>
+<p>OpenAI、Azure、Claude、Gemini をサポートします。</p>
+<p>組み込みされた高機能エディタ付きチャットツール</p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://wiki.disenone.site/ja">https://wiki.disenone.site/ja</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="ja" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>この投稿はChatGPTを使用して翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反響</strong></a>中指出任何遗漏之处。 
+Translate this text into Japanese language:
+どんな見落としがあったか教えてください。 </p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最終更新日">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="作成日">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="フッター" >
+        
+          
+          <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-footer__link md-footer__link--prev" aria-label="前: UE エディタープラグイン UE.EditorPlus 説明書">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                前
+              </span>
+              <div class="md-ellipsis">
+                UE エディタープラグイン UE.EditorPlus 説明書
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-footer__link md-footer__link--next" aria-label="次: Unity第三人称相机构建(上)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                次
+              </span>
+              <div class="md-ellipsis">
+                Unity第三人称相机构建(上)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
