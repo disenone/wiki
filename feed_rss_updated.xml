@@ -13,8 +13,8 @@
     <language>fr</language>
 
     
-    <pubDate>Sat, 04 Jan 2025 12:52:50 -0000</pubDate>
-    <lastBuildDate>Sat, 04 Jan 2025 12:52:50 -0000</lastBuildDate>
+    <pubDate>Sat, 04 Jan 2025 16:59:01 -0000</pubDate>
+    <lastBuildDate>Sat, 04 Jan 2025 16:59:01 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ar/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:55:31 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 17:01:41 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ar/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/fr/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:50:52 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:57:01 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/fr/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/de/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:48:10 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:54:19 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/de/blog/</guid>
@@ -84,7 +84,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ja/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:45:26 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:51:35 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ja/blog/</guid>
@@ -99,7 +99,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:42:39 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:48:48 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -114,7 +114,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:39:53 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:46:03 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -129,7 +129,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/zh-Hant/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:37:12 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:43:23 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/zh-Hant/blog/</guid>
@@ -144,7 +144,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sat, 04 Jan 2025 12:36:25 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:42:36 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -539,6 +539,20 @@
 &lt;p&gt;创建如下蓝图，设置好 Gemini Options，点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png&#34; /&gt;&lt;/p&gt;
+&lt;h2 id=&#34;deepseek&#34;&gt;Deepseek&lt;/h2&gt;
+&lt;h3 id=&#34;deepseek_1&#34;&gt;編輯器使用 Deepseek&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开始聊天&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
+&lt;h3 id=&#34;deepseek_2&#34;&gt;蓝图使用 Deepseek 聊天&lt;/h3&gt;
+&lt;p&gt;创建如下蓝图，设置好 Deepseek 相关的 Request Options，包括 Model、Base Url、End Point Url、ApiKey 等参数。点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_8&#34;&gt;更新日志&lt;/h2&gt;
 &lt;h3 id=&#34;v141-20250104&#34;&gt;v1.4.1 - 2025.01.04&lt;/h3&gt;
 &lt;h4 id=&#34;_9&#34;&gt;问题修复&lt;/h4&gt;
@@ -679,7 +693,7 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 02 Jan 2025 20:56:31 +0000</pubDate>
+      <pubDate>Sat, 04 Jan 2025 16:26:23 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus/</guid>

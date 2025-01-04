@@ -1477,6 +1477,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deepseek
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deepseek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deepseek_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      編輯器使用 Deepseek
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deepseek_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      蓝图使用 Deepseek 聊天
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       更新日志
@@ -2313,6 +2346,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deepseek
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deepseek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deepseek_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      編輯器使用 Deepseek
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deepseek_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      蓝图使用 Deepseek 聊天
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       更新日志
@@ -2999,6 +3065,20 @@
 <p>创建如下蓝图，设置好 Gemini Options，点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png"></a></p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png"></a></p>
+<h2 id="deepseek">Deepseek</h2>
+<h3 id="deepseek_1">編輯器使用 Deepseek</h3>
+<ul>
+<li>新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png"></a></p>
+<ul>
+<li>开始聊天</li>
+</ul>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png"></a></p>
+<h3 id="deepseek_2">蓝图使用 Deepseek 聊天</h3>
+<p>创建如下蓝图，设置好 Deepseek 相关的 Request Options，包括 Model、Base Url、End Point Url、ApiKey 等参数。点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息</p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png"></a></p>
+<p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png"></a></p>
 <h2 id="_8">更新日志</h2>
 <h3 id="v141-20250104">v1.4.1 - 2025.01.04</h3>
 <h4 id="_9">问题修复</h4>
@@ -3146,7 +3226,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-03</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-05</span>
   </span>
 
     
