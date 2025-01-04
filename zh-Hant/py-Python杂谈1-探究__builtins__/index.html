@@ -6,8 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="__builtin__ 跟 __builtins__ 有什么区别？__builtins__ 在 main 模块跟其他模块是不同的？为什么会设定成不同？__builtins__ 是在哪里定义的？本文我们来探讨一下关于 __builtins__ 的冷知识，并且还有一些引申的内容，不容错过。
-">
+        <meta name="description" content="__builtins__ 與 __builtins__ 有什麼區別？__builtins__ 在 main 模組跟其他模組是不同的？為什麼會設定成不同？__builtins__ 是在哪裡定義的？本文我們來探討一下關於 __builtins__ 的冷知識，並且還有一些引申的內容，不容錯過。">
       
       
         <meta name="author" content="Disenone">
@@ -30,7 +29,7 @@
     
     
       
-        <title>Python 杂谈 1 - 探究 __builtins__ - Disenone's Wiki</title>
+        <title>Python 閒談 1 - 探究 __builtins__ - Disenone's Wiki</title>
       
     
     
@@ -127,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Python 杂谈 1 - 探究 __builtins__
+              Python 閒談 1 - 探究 __builtins__
             
           </span>
         </div>
@@ -551,7 +550,7 @@
         
   
   <span class="md-ellipsis">
-    C/C++ 的命令行参数处理总结
+    C/C++ 的命令列參數處理總結
   </span>
   
 
@@ -572,7 +571,7 @@
         
   
   <span class="md-ellipsis">
-    C/C++ 宏编程解析
+    C/C++ 宏編程解析
   </span>
   
 
@@ -593,7 +592,7 @@
         
   
   <span class="md-ellipsis">
-    编写 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的 Memory Leak Detector
   </span>
   
 
@@ -614,7 +613,7 @@
         
   
   <span class="md-ellipsis">
-    KCP 源码剖析
+    KCP 源碼剖析
   </span>
   
 
@@ -696,7 +695,7 @@
         
   
   <span class="md-ellipsis">
-    使用 Visual Studio 2015 编译 Python 2.7.11
+    使用 Visual Studio 2015 編譯 Python 2.7.11
   </span>
   
 
@@ -724,7 +723,7 @@
           
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - 探究 __builtins__
+    Python 閒談 1 - 探究 __builtins__
   </span>
   
 
@@ -735,7 +734,7 @@
         
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - 探究 __builtins__
+    Python 閒談 1 - 探究 __builtins__
   </span>
   
 
@@ -757,7 +756,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      引子
+      前言
     </span>
   </a>
   
@@ -793,7 +792,7 @@
         <li class="md-nav__item">
   <a href="#__builtins___1" class="md-nav__link">
     <span class="md-ellipsis">
-      __builtins__ 的传递
+      __builtins__ 的傳遞
     </span>
   </a>
   
@@ -802,20 +801,20 @@
         <li class="md-nav__item">
   <a href="#__main__" class="md-nav__link">
     <span class="md-ellipsis">
-      指定 __main__ 模块执行
+      指定 __main__ 模組執行
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      再论 Restricted Execution
+      再探討 限制執行
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="再论 Restricted Execution">
+    <nav class="md-nav" aria-label="再探討 限制執行">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -830,7 +829,7 @@
           <li class="md-nav__item">
   <a href="#rexec_1" class="md-nav__link">
     <span class="md-ellipsis">
-      rexec 的失败
+      rexec 的失敗
     </span>
   </a>
   
@@ -842,18 +841,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Restricted Execution 出路在哪
+      受限制的執行，出路在哪？
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      总结
+      總結
     </span>
   </a>
   
@@ -879,7 +878,7 @@
         
   
   <span class="md-ellipsis">
-    Python 杂谈 2 - Python3.12 热更新
+    Python 筆記 2 - Python 3.12 熱更新
   </span>
   
 
@@ -1007,7 +1006,7 @@
         
   
   <span class="md-ellipsis">
-    游戏 AOI 算法解析和性能实测
+    遊戲 AOI 演算法解析和性能實測
   </span>
   
 
@@ -1094,7 +1093,7 @@
         
   
   <span class="md-ellipsis">
-    使用 FASTBuild 编译 UE4 和 UE5
+    使用 FASTBuild 編譯 UE4 和 UE5
   </span>
   
 
@@ -1115,7 +1114,7 @@
         
   
   <span class="md-ellipsis">
-    UE 通过插件源码添加插件
+    透過插件原始碼導入UE插件
   </span>
   
 
@@ -1136,7 +1135,7 @@
         
   
   <span class="md-ellipsis">
-    UE 扩展编辑器菜单
+    UE 擴展編輯器選單
   </span>
   
 
@@ -1157,7 +1156,7 @@
         
   
   <span class="md-ellipsis">
-    UE 使用路径形式扩展菜单
+    UE 使用路徑形式擴展選單
   </span>
   
 
@@ -1178,7 +1177,7 @@
         
   
   <span class="md-ellipsis">
-    UE 设置本地化多语言
+    UE 設置本地化多語言
   </span>
   
 
@@ -1199,7 +1198,7 @@
         
   
   <span class="md-ellipsis">
-    UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
+    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1220,7 +1219,7 @@
         
   
   <span class="md-ellipsis">
-    UE 编辑器插件 UE.EditorPlus 说明文档
+    UE 編輯器插件 UE.EditorPlus 說明文件
   </span>
   
 
@@ -1241,7 +1240,7 @@
         
   
   <span class="md-ellipsis">
-    UE 插件 AIChatPlus 说明文档
+    UE 插件 AIChatPlus 說明文件
   </span>
   
 
@@ -1385,7 +1384,7 @@
         
   
   <span class="md-ellipsis">
-    Unity画深度图(Depth Map)和边缘检测(Edge Detection)
+    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
   </span>
   
 
@@ -1406,7 +1405,7 @@
         
   
   <span class="md-ellipsis">
-    Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)
+    Unity實現體積光照散射（Volumetric Light Scattering，雲隙光）
   </span>
   
 
@@ -1458,7 +1457,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      引子
+      前言
     </span>
   </a>
   
@@ -1494,7 +1493,7 @@
         <li class="md-nav__item">
   <a href="#__builtins___1" class="md-nav__link">
     <span class="md-ellipsis">
-      __builtins__ 的传递
+      __builtins__ 的傳遞
     </span>
   </a>
   
@@ -1503,20 +1502,20 @@
         <li class="md-nav__item">
   <a href="#__main__" class="md-nav__link">
     <span class="md-ellipsis">
-      指定 __main__ 模块执行
+      指定 __main__ 模組執行
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      再论 Restricted Execution
+      再探討 限制執行
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="再论 Restricted Execution">
+    <nav class="md-nav" aria-label="再探討 限制執行">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1531,7 +1530,7 @@
           <li class="md-nav__item">
   <a href="#rexec_1" class="md-nav__link">
     <span class="md-ellipsis">
-      rexec 的失败
+      rexec 的失敗
     </span>
   </a>
   
@@ -1543,18 +1542,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Restricted Execution 出路在哪
+      受限制的執行，出路在哪？
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      总结
+      總結
     </span>
   </a>
   
@@ -1575,7 +1574,7 @@
                   
 
   
-    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/zh/py-Python杂谈1-探究__builtins__.md" title="編輯此頁" class="md-content__button md-icon">
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/zh-Hant/py-Python杂谈1-探究__builtins__.md" title="編輯此頁" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1583,20 +1582,20 @@
   
 
 
-  <h1>Python 杂谈 1 - 探究 __builtins__</h1>
+  <h1>Python 閒談 1 - 探究 __builtins__</h1>
 
 <div><p><meta property="og:title" content="Python 杂谈 1 - 探究 __builtins__ - Disenone"></p>
-<h2 id="_1">引子</h2>
-<p>我们知道，<code>__builtins__</code> 本身是在全局命名空间中就有的一个对象，是 <code>Python</code> 故意暴露出来给代码层的，在代码的任意地方都可以直接使用。但是有点冷的知识是，<code>__builtins__</code> 在 <code>main</code> 模块（也就是 <code>__main__</code>，指的都是同一个模块，后文可能会混用）里面是 <code>__builtin__</code> 这个模块，但在其他模块里面，它表示的是 <code>__builtin__.__dict__</code>，这就有点让人莫名其妙了。虽然官方不推荐直接使用 <code>__builtins__</code>，但你给我搞两种情况是怎么回事？本文我们就来盘一盘这个设定的由来，在这个过程中，我们还可以找到这些问题的答案：<code>__builtin__</code> 跟 <code>__builtins__</code> 有什么区别？<code>__builtins__</code> 在 <code>main</code> 模块跟其他模块为什么会设定成不同？<code>__builtins__</code> 是在哪里定义的？</p>
+<h2 id="_1">前言</h2>
+<p>我們知道，<code>__builtins__</code> 本身就是全域命名空間中的一個物件，是 <code>Python</code> 故意曝露出來給程式碼層級使用的，在程式的任何地方都可以直接使用。但有點冷門的資訊是，<code>__builtins__</code> 在 <code>main</code> 模組（也就是 <code>__main__</code>，指的都是同一個模組，後文可能會混用）裡面是 <code>__builtin__</code> 這個模組，但在其他模組裡面，它代表的是 <code>__builtin__.__dict__</code>，這點有點令人摸不著頭腦。雖然官方不建議直接使用 <code>__builtins__</code>，但你給我搞兩種情況是怎麼回事？本文我們就來盤一盤這個設定的由來，在這個過程中，我們還可以找到這些問題的答案：<code>__builtin__</code> 跟 <code>__builtins__</code> 有什麼區別？<code>__builtins__</code> 在 <code>main</code> 模組跟其他模組為什麼會設定成不同？<code>__builtins__</code> 是在哪裡定義的？</p>
 <h2 id="__builtin__"><code>__builtin__</code></h2>
-<p>在探讨 <code>__builtins__</code> 之前，我们需要先看看 <code>__builtin__</code> 是什么。<code>__builtin__</code> 是存放所有内建对象的模块，我们平常可以直接使用的 <code>Python</code> 内建对象，本质上都是 <code>__builtin__</code> 模块里的对象，即放在 <code>__builtin__.__dict__</code> 里，对应着的是 <code>Python</code> 的内建名字空间。记住这个关键知识点：<code>__buintin__</code> 是一个模块 <code>module</code>。我们可以在 <code>Python</code> 源码中找到 <code>__builtin__</code> 模块的定义和使用（注意，下文提到的 <code>Python</code> 源码，都是指 CPython-2.7.18 源码）：</p>
+<p>在討論 <code>__builtins__</code> 之前，我們需要先看看 <code>__builtin__</code> 是什麼。<code>__builtin__</code> 是存放所有內建物件的模組，我們平常可以直接使用的 Python 內建物件，本質上都是 <code>__builtin__</code> 模組裡的物件，即放在 <code>__builtin__.__dict__</code> 裡，對應著的是 Python 的內建命名空間。記住這個關鍵知識點：<code>__builtin__</code> 是一個模組 module。我們可以在 Python 源碼中找到 <code>__builtin__</code> 模組的定義和使用（注意，下文提到的 Python 源碼，都是指 CPython-2.7.18 源碼）：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// pythonrun.c</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">void</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nf">Py_InitializeEx</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">install_sigs</span><span class="p">)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">PyInterpreterState</span><span class="w"> </span><span class="o">*</span><span class="n">interp</span><span class="p">;</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// 初始化 __builtin__</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">初始化</span><span class="w"> </span><span class="n">__builtin__</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_PyBuiltin_Init</span><span class="p">();</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="c1">// interp-&gt;builtins = __builtin__.__dict__</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">interp</span><span class="o">-&gt;</span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
@@ -1615,14 +1614,14 @@
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">mod</span><span class="p">);</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="c1">// 给 dict 加上内建的对象</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="n">為</span><span class="w"> </span><span class="n">dict</span><span class="w"> </span><span class="n">添加內置對象</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">}</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1">// ceval.c</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="c1">// 获取 builtins</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="n">獲取內建功能</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="nf">PyEval_GetBuiltins</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="n">PyEval_GetBuiltins</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">{</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">    </span><span class="n">PyFrameObject</span><span class="w"> </span><span class="o">*</span><span class="n">current_frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_GetFrame</span><span class="p">();</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current_frame</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
@@ -1631,17 +1630,17 @@
 <a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">current_frame</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>Python</code> 初始化的时候会调用 <code>_PyBuiltin_Init</code> 来创建 <code>__builtin__</code> 模块，并在里面添加上内建的对象，解释器本身会引用住 <code>interp-&gt;builtins = __buintin__.__dict__</code>，当前执行的栈帧结构同时也会引用一份 <code>current_frame-&gt;f_builtins</code>。那么很自然地，当执行代码需要根据名字寻找对象的时候，<code>Python</code> 会去 <code>current_frame-&gt;f_builtins</code> 里面来找，自然就能拿到所有的内建对象：</p>
+<p>Python 初始化時會呼叫 <code>_PyBuiltin_Init</code> 來建立 <code>__builtin__</code> 模組，並在其中加入內建的物件，直譯器本身會參考 <code>interp-&gt;builtins = __buintin__.__dict__</code>，目前執行的堆疊框架結構同時也會參考一份 <code>current_frame-&gt;f_builtins</code>。因此，當執行程式碼需要根據名稱尋找物件時，Python 就會查找 <code>current_frame-&gt;f_builtins</code> ，自然就能取得所有的內建物件：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ceval.c</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">LOAD_NAME</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">// 先在 f-&gt;f_locals 名字空间里面找</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// 優先在 f-&gt;f_locals 命名空間中尋找</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="c1">// 再找找全局空间</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">// 尋找全域空間</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">            </span><span class="c1">// 这里就去内建空间找</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">請到內部空間尋找</span><span class="err">。</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                </span><span class="n">format_exc_check_arg</span><span class="p">(</span>
@@ -1656,12 +1655,12 @@
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">DISPATCH</span><span class="p">();</span>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
 </code></pre></div>
-<p>最后，由于 <code>__builtin__</code> 这个名字实在是太有迷惑性了，<code>Python3</code> 中已经改名为 <code>builtins</code>。</p>
+<p>最後，由於 <code>__builtin__</code> 這個名字實在是太具誤導性，<code>Python3</code> 中已經更名為 <code>builtins</code>。</p>
 <h2 id="__builtins__"><code>__builtins__</code></h2>
-<p><code>__builtins__</code> 的表现是有点奇怪的：
-* 在 <code>main</code> 模块中（<code>main</code> 模块，或者叫<code>最高层级代码运行所在环境</code>，是用户指定最先启动运行的 <code>Python</code> 模块，也就是通常我们在命令行执行 <code>python xxx.py</code> 时，<code>xxx.py</code> 这个模块），<code>__builtins__ = __builtin__</code>；
-* 在其他模块中 <code>__builtins__ = __builtin__.__dict__</code>。</p>
-<p>相同的名字，但在不同的模块下表现却是不相同的，这样的设定很容易让人疑惑。不过只要知道这个设定，就足够支持你在 <code>Python</code> 中使用 <code>__builtins__</code>，疑惑并不会影响你写出足够安全的代码，诸如：</p>
+<p><code>__builtins__</code> 的表現有點奇怪：
+在 <code>main</code> 模組中（<code>main</code> 模組，或者叫<code>最高層級程式碼執行所在環境</code>，是使用者指定最先啟動執行的 <code>Python</code> 模組，也就是通常我們在命令列執行 <code>python xxx.py</code> 時，<code>xxx.py</code> 這個模組），<code>__builtins__ = __builtin__</code>；
+在其他模塊中 <code>__builtins__ = __builtin__.__dict__</code>。</p>
+<p>相同的名字，在不同的模組裡卻表現出不同的特性，這樣的安排常讓人感到疑惑。但只要理解了這個機制，就能夠安心在 <code>Python</code> 中使用 <code>__builtins__</code>，疑惑並不會影響你寫出足夠安全的程式碼，舉例如下：</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">SetBuiltins</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="n">builtins</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
@@ -1670,20 +1669,20 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">SetBuiltins</span><span class="p">(</span><span class="n">__builtins__</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
-<p>需要注意，其实并不建议使用 <code>__builtins__</code>：</p>
+<p>需要注意，實際上並不建議使用 <code>__builtins__</code>：</p>
 <blockquote>
-<p><strong>CPython implementation detail</strong>: Users should not touch <code>__builtins__</code>; it is strictly an implementation detail. Users wanting to override values in the builtins namespace should import the <code>__builtin__</code> (no ‘s’) module and modify its attributes appropriately.</p>
+<p>CPython 實作細節：使用者不應該觸碰 <code>__builtins__</code>；這僅是一個實作細節。想要覆蓋內建命名空間中的數值的使用者應該導入 <code>__builtin__</code>（無 's'）模組並適當修改其屬性。</p>
 </blockquote>
-<p>当然，这样的疑惑，总有一天会让你心痒难耐，我这里就决定继续探究下去，也因为这样，才有了这篇文章。我们下面的内容会深入到 <strong>CPython implementation detail</strong> 中去。</p>
+<p>當然，這樣的疑惑，總有一天會讓你心癢難耐，我這裡就決定繼續探究下去，也因為這樣，才有了這篇文章。我們接下來的內容會深入到 <strong>CPython implementation detail</strong> 中去。</p>
 <h2 id="restricted-execution">Restricted Execution</h2>
-<p>Restricted Execution 可以理解为有限制地执行不安全的代码，所谓有限制，可以是限制网络、io 等等，把代码限制在一定的执行环境中，控制代码的执行权限，防止代码影响到外部的环境和系统。常见的用例就是一些在线代码执行网站，譬如这个：<a href="https://pythonsandbox.dev/">pythonsandbox</a>。</p>
-<p>跟你猜想的一样，<code>Python</code> 对 <code>__builtins__</code> 的设定是跟 Restricted Execution 有关。<code>Python</code> 在 2.3 版本之前，曾经提供过类似的功能 <a href="https://docs.python.org/2.7/library/restricted.html">Restricted Execution</a>，只是由于后来被证实为不可行的，只好把这个功能作废了，但代码在 2.7.18 版本还保留着，所以我们可以来考古。</p>
-<p>首先来看 <code>Python</code> 源码里面对 <code>__builtins__</code> 的设置：</p>
+<p>受限執行可視為有限制地執行不安全的程式碼，限制可能包括網絡、輸入輸出等，將程式碼限制在特定的執行環境中，控制程式執行權限，防止程式影響外部環境和系統。常見的使用案例是一些線上程式執行網站，例如這個：<a href="https://pythonsandbox.dev/">pythonsandbox</a>I cannot translate the characters because they do not contain any meaningful content.</p>
+<p>與你推測的一樣，<code>Python</code> 對 <code>__builtins__</code> 的設定與受限制執行有關。在 <code>Python</code> 2.3 版本之前，曾經提供過類似功能 <a href="https://docs.python.org/2.7/library/restricted.html">Restricted Execution</a>由於後來確認是不可行的，這項功能只好停用，但在 2.7.18 版本中仍保留著代碼，因此我們可以對其進行考古。</p>
+<p>首先看看Python源碼中對<code>__builtins__</code>設置的部分：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// pythonrun.c</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initmain</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">{</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">d</span><span class="p">;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// 获取 __main__ 模块</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">獲取</span><span class="w"> </span><span class="n">__main__</span><span class="w"> </span><span class="n">模組</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't create __main__ module"</span><span class="p">);</span>
@@ -1691,7 +1690,7 @@
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="c1">// d = __main__.__dict__</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="c1">// 设置 __main__.__dict__['__builtins__']，如果已有，则跳过</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">設置</span><span class="w"> </span><span class="n">__main__</span><span class="p">.</span><span class="n">__dict__</span><span class="p">[</span><span class="err">'</span><span class="n">__builtins__</span><span class="err">'</span><span class="p">]</span><span class="err">，</span><span class="n">如果已有</span><span class="err">，</span><span class="n">則跳過</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_ImportModule</span><span class="p">(</span><span class="s">"__builtin__"</span><span class="p">);</span>
 <a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bimod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span>
@@ -1701,17 +1700,17 @@
 <a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
 </code></pre></div>
-<p>在 <code>initmain</code> 中，<code>Python</code> 会给 <code>__main__</code> 模块设置 <code>__builtins__</code> 属性，默认等于 <code>__builtin__</code> 模块，但如果已有，则跳过不会重新设置。利用这个特点，我们就可以通过修改 <code>__main__.__builtins__</code> 来修改内建的一些功能，以达到限制代码执行权限的目的，具体的方法先按下不表，我们看看 <code>__builtins__</code> 是怎么被传递的。</p>
-<h2 id="__builtins___1"><code>__builtins__</code> 的传递</h2>
-<p>在创建新的栈帧的时候：</p>
+<p>在<code>initmain</code>中，<code>Python</code>會給<code>__main__</code>模塊設置<code>__builtins__</code>屬性，默認等於<code>__builtin__</code>模塊，但如果已有，則跳過不會重新設置。利用這個特點，我們就可以通過修改<code>__main__.__builtins__</code>來修改內建的一些功能，以達到限制程式碼執行權限的目的，具體的方法先按下不表，我們看看<code>__builtins__</code>是怎麼被傳遞的。</p>
+<h2 id="__builtins___1"><code>__builtins__</code> 的傳遞</h2>
+<p>在建立新的堆疊框架時：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">PyFrameObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nf">PyFrame_New</span><span class="p">(</span><span class="n">PyThreadState</span><span class="w"> </span><span class="o">*</span><span class="n">tstate</span><span class="p">,</span><span class="w"> </span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">            </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">{</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">back</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">globals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="c1">// 取 globals['__builtins__'] 作为新栈帧的 __builtins__</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="c1">// builtin_object 就是字符串 '__builtins__'</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">// 以 globals['__builtins__'] 為新 stack frame 的 __builtins__</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">// 內建物件就是字串 '__builtins__'</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_object</span><span class="p">);</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">builtins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyModule_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -1727,7 +1726,7 @@
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="cm">/* If we share the globals, we share the builtins.</span>
 <a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="cm">           Save a lookup and a call. */</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="c1">// 或者直接继承上一层栈帧的 f_builtins</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="n">或者直接繼承上一層堆疊框架的</span><span class="w"> </span><span class="n">f_builtins</span>
 <a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
 <a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">builtins</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">PyDict_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">));</span>
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">        </span><span class="n">Py_INCREF</span><span class="p">(</span><span class="n">builtins</span><span class="p">);</span>
@@ -1737,8 +1736,8 @@
 <a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
 <a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span>
 </code></pre></div>
-<p>创建新的栈帧时，对于 <code>__builtins__</code> 的处理主要有两种情况：一种是没有上层栈帧的情况下，取 <code>globals['__builtins__']</code>；另一种是直接取上层栈帧的 <code>f_builtins</code>。联合起来看的话，可以理解为，一般情况下，在 <code>__main__</code> 中设置好的 <code>__builtins__</code>，会一直继承给后面的栈帧，相当于共用同一份。</p>
-<p><code>import</code> 模块时：</p>
+<p>在創建新的函數框架時，對於 <code>__builtins__</code> 的處理主要有兩種情況：一種是沒有上層函數框架的情況下，會取 <code>globals['__builtins__']</code>；另一種是直接取上層函數框架的 <code>f_builtins</code>。綜合來看，可以理解為，一般情況下，在 <code>__main__</code> 中設置的 <code>__builtins__</code>，會一直被後續的函數框架所繼承，相當於共用同一份。</p>
+<p>當導入 <code>import</code> 模組時：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nf">load_compiled_module</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">cpathname</span><span class="p">,</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">)</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">{</span>
@@ -1762,7 +1761,7 @@
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="c1">// d = m.__dict__</span>
 <a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
 <a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span><span class="c1">// 在这里设置新加载模块的 __builtins__ 属性</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">在這裡設置新載入模組的</span><span class="w"> </span><span class="n">__builtins__</span><span class="w"> </span><span class="n">屬性</span>
 <a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span>
 <a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">                                 </span><span class="n">PyEval_GetBuiltins</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
@@ -1785,32 +1784,32 @@
 <a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">                      </span><span class="nb">NULL</span><span class="p">);</span>
 <a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>import</code> 其他模块的时候，会把该模块的 <code>__builtins__</code> 设置为 <code>PyEval_GetBuiltins()</code> 的返回结果，这个函数我们已经说过，大部分情况下相当于 <code>current_frame-&gt;f_builtins</code>。对于 <code>__main__</code> 模块的里面的 <code>import</code>，<code>current_frame</code> 就是 <code>__main__</code> 模块的栈帧，<code>current_frame-&gt;f_builtins = __main__.__dict__['__builtins__']</code>（上文 <code>PyFrame_New</code> 的第一种情况）。</p>
-<p>加载的新模块，会使用 <code>PyEval_EvalCode</code> 来执行新模块中的代码，可以看到，传给 <code>PyEval_EvalCode</code> 的参数 <code>globals</code>、<code>locals</code> 其实都是模块自身的 <code>__dict__</code>，并且模块 <code>m.__dict__['__builtins__'] = PyEval_GetBuiltins()</code> 。</p>
-<p>综合来看，我们可以得知，从 <code>__main__</code> 模块开始 <code>import</code> 的模块，也会继承 <code>__main__</code> 中的 <code>__builtins__</code>，并会在内部的 <code>import</code> 中传递下去，这样就可以确保，所有从 <code>__main__</code> 加载的模块和子模块，都能共用同一份来自 <code>__main__</code> 的 <code>__builtins__</code>。</p>
-<p>那么如果是在模块中调用的函数呢？对于模块中的函数，创建和调用时：</p>
+<p>在<code>import</code>其他模塊時，會將該模塊的<code>__builtins__</code>設置為<code>PyEval_GetBuiltins()</code>的返回結果，這個函數我們已經提到過，大部分情況下相當於<code>current_frame-&gt;f_builtins</code>。對於<code>__main__</code>模塊裡的<code>import</code>，<code>current_frame</code>就是<code>__main__</code>模塊的棧幀，<code>current_frame-&gt;f_builtins = __main__.__dict__['__builtins__']</code>（上文<code>PyFrame_New</code>的第一種情況）。</p>
+<p>新加載的模組將使用 <code>PyEval_EvalCode</code> 執行其中的程式碼。可以看到，傳遞給 <code>PyEval_EvalCode</code> 的 <code>globals</code> 和 <code>locals</code> 參數實際上是模組自身的 <code>__dict__</code>，而且模組 <code>m.__dict__['__builtins__'] = PyEval_GetBuiltins()</code>。</p>
+<p>綜合來看，我們可以得知，從<code>__main__</code>模組開始<code>import</code>的模組，也會繼承<code>__main__</code>中的<code>__builtins__，並會在內部的</code>import<code>中傳遞下去，這樣就可以確保，所有從</code><strong>main</strong><code>加載的模組和子模組，都能共用同一份來自</code><strong>main</strong><code>的</code><strong>builtins</strong>`。</p>
+<p>那麼如果是在模組中調用的函數呢？對於模組中的函數，創建和調用時：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// ceval.c</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// 创建函数</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">MAKE_FUNCTION</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">建立函數</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nf">TARGET</span><span class="p">(</span><span class="n">MAKE_FUNCTION</span><span class="p">)</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">{</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">POP</span><span class="p">();</span><span class="w"> </span><span class="cm">/* code object */</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="c1">// 这里的 f-&gt;f_globals，相当于模块自身的 globals，由上文可知，也相当于 m.__dict__</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">在這裡</span><span class="err">，</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="n">相當於模組自身的全域變數</span><span class="err">，</span><span class="n">根據上下文可知</span><span class="err">，</span><span class="n">也相當於</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">__dict__</span><span class="err">。</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_New</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">);</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
 <a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">PyFunction_New</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">)</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nf">PyFunction_New</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">)</span>
 <a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="p">{</span>
 <a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="n">PyFunctionObject</span><span class="w"> </span><span class="o">*</span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyObject_GC_New</span><span class="p">(</span><span class="n">PyFunctionObject</span><span class="p">,</span>
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                                        </span><span class="o">&amp;</span><span class="n">PyFunction_Type</span><span class="p">);</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="c1">// 这里相当于 op-&gt;func_globals = globals = f-&gt;f_globals</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1">// 這裡相當於 op-&gt;func_globals = globals = f-&gt;f_globals</span>
 <a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
 <a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">}</span>
 <a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1">// 调用函数</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">呼叫函數</span>
 <a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">fast_function</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">***</span><span class="n">pp_stack</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">na</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nk</span><span class="p">)</span>
 <a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">{</span>
@@ -1818,17 +1817,17 @@
 <a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="c1">// globals = func-&gt;func_globals</span>
 <a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_GET_GLOBALS</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
 <a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">    </span><span class="c1">// globals 传给 PyEval_EvalCodeEx，里面就会传给 PyFrame_New 来创建新的栈帧</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="n">全局變數會被傳遞給</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="err">，</span><span class="n">然後這些變數會被傳給</span><span class="w"> </span><span class="n">PyFrame_New</span><span class="w"> </span><span class="n">來建立新的堆疊框架</span><span class="err">。</span>
 <a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span>
 <a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">                             </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="p">,</span>
 <a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">                             </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="mi">-2</span><span class="o">*</span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">nd</span><span class="p">,</span>
 <a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">                             </span><span class="n">PyFunction_GET_CLOSURE</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
 <a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="p">}</span>
 </code></pre></div>
-<p>创建函数时，会把 <code>f-&gt;f_globals</code> 存到函数结构体变量 <code>func_globals</code> 里面，而对于模块 <code>m</code>，<code>f-&gt;f_globals = m.__dict__</code>。函数执行的时候，传给 <code>PyFrame_New</code> 的 <code>globals</code> 参数，就是创建时候保存起来的 <code>func_globals</code>，<code>__builtins__</code> 自然就可以在 <code>func_globals</code> 中获取。</p>
-<p>至此，<code>__builtins__</code> 的传递是能保证一致性的，所有模块、子模块 、函数，栈帧等都能引用到同一个，也就是拥有相同的内建名字空间。</p>
-<h2 id="__main__">指定 <code>__main__</code> 模块执行</h2>
-<p>我们已经知道 <code>__main__</code> 模块自身的 <code>__builtins__</code> 可以传递给所有子模块、函数和栈帧，而在命令行执行 <code>python a.py</code> 时，Python 会把 <code>a.py</code> 作为 <code>__main__</code> 模块来执行，那这是如何做到的呢：</p>
+<p>在創建函數時，會將 <code>f-&gt;f_globals</code> 存到函數結構體變量 <code>func_globals</code> 裡面，而對於模塊 <code>m</code>，<code>f-&gt;f_globals = m.__dict__</code>。函數執行的時候，傳給 <code>PyFrame_New</code> 的 <code>globals</code> 參數，就是創建時保存起來的 <code>func_globals</code>，<code>__builtins__</code> 自然就可以在 <code>func_globals</code> 中獲取。</p>
+<p>迄今為止，<code>__builtins__</code> 的傳遞已經確保了一致性，所有的模組、子模組、函數，堆疊框架等都能引用到同一個，也就是擁有相同的內建命名空間。</p>
+<h2 id="__main__">指定 <code>__main__</code> 模組執行</h2>
+<p>我們已經知道 <code>__main__</code> 模塊自身的 <code>__builtins__</code> 可以傳遞給所有子模塊、函數和堆疊幀，而在命令行執行 <code>python a.py</code> 時，Python 會把 <code>a.py</code> 作為 <code>__main__</code> 模塊來執行，那這是如何做到的呢：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// python.c</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
@@ -1842,12 +1841,12 @@
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nf">Py_Main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">{</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="c1">// 尝试用模块的 importer 来执行代码</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">嘗試使用模組的</span><span class="w"> </span><span class="n">importer</span><span class="w"> </span><span class="n">來執行程式碼</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">        </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RunMainFromImporter</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="c1">// 一般我们自己的 py 文件，会使用这个来执行</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1">// 通常我們自己的 py 檔案會使用這個來執行</span>
 <a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span>
 <a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">            </span><span class="n">fp</span><span class="p">,</span>
 <a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"&lt;stdin&gt;"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span>
@@ -1874,7 +1873,7 @@
 <a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
 <a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
 <a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="w">    </span><span class="c1">// 设置 __file__ 属性</span>
+<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="n">設置</span><span class="w"> </span><span class="n">__file__</span><span class="w"> </span><span class="n">屬性</span>
 <a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__file__"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="w">        </span><span class="p">...</span>
 <a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">    </span><span class="p">}</span>
@@ -1889,19 +1888,19 @@
 <a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="w">             </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">,</span><span class="w"> </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
 <a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="p">{</span>
 <a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="w">    </span><span class="c1">// 从 pyc 文件读取代码对象 co ，并执行代码</span>
-<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="w">    </span><span class="c1">// PyEval_EvalCode 里面也同样会调用 PyFrame_New 创建新栈帧</span>
+<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="n">從</span><span class="w"> </span><span class="n">pyc</span><span class="w"> </span><span class="n">檔案讀取代碼物件</span><span class="w"> </span><span class="n">co</span><span class="err">，</span><span class="n">並執行代碼</span>
+<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="c1">// PyEval_EvalCode will also call PyFrame_New to create a new frame inside.</span>
 <a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">locals</span><span class="p">);</span>
 <a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a><span class="p">}</span>
 </code></pre></div>
-<p>当执行 <code>python a.py</code> 时，一般情况下会走到 <code>PyRun_SimpleFileExFlags</code>，<code>PyRun_SimpleFileExFlags</code> 里面会取出来 <code>__main__.__dict__</code>，作为代码执行时的 <code>globals</code> 和 <code>locals</code>，最终也会传到 <code>PyFrame_New</code> 中创建新的栈帧来执行 <code>a.py</code>。结合我们上文提到的 <code>__builtins__</code> 在模块和函数中传递，就可以让后续执行的代码都能共用同一份 <code>current_frame-&gt;f_builtins = __main__.__builtins__.__dict__</code>。</p>
-<h2 id="restricted-execution_1">再论 Restricted Execution</h2>
-<p><code>Python</code> 在 2.3 版本之前，曾经提供过的 <a href="https://docs.python.org/2.7/library/restricted.html">Restricted Execution</a>，就是基于 <code>__builtins__</code> 的特性来制作的。或者可以认为，<code>__builtins__</code> 之所以设计成在 <code>__main__</code> 模块中是一个模块对象，而在其他模块中是一个 <code>dict</code> 对象，就是为了可以实现 <strong>Restricted Execution</strong>。</p>
-<p>考虑这种情况：如果我们可以自由定制自己的 <code>__builtin__</code> 模块，并设置成 <code>__main__.__builtins__</code>，那就相当于后续所有执行的代码，都会使用我们定制的模块，我们可以定制特定版本的 <code>open</code>、<code>__import__</code>、<code>file</code> 等内建函数和类型，更进一步，这种方式是不是可以帮助我们限制执行代码的权限，防止代码做一些不安全的函数调用，或者访问一些不安全的文件？</p>
-<p><code>Python</code> 当时就做过这种尝试，实现这个功能的模块就叫做: <code>rexec</code>。</p>
+<p>執行 <code>python a.py</code> 時，通常會進入 <code>PyRun_SimpleFileExFlags</code> 函數，在這裡會存取 <code>__main__.__dict__</code>，並用作程式碼執行時的 <code>globals</code> 和 <code>locals</code>，最終會傳遞到 <code>PyFrame_New</code> 中以建立新的堆疊框架來執行 <code>a.py</code>。藉由前文提到的 <code>__builtins__</code> 在模組和函式間的傳遞，後續執行的程式碼都能共用 <code>current_frame-&gt;f_builtins = __main__.__builtins__.__dict__</code>。</p>
+<h2 id="_2">再探討 限制執行</h2>
+<p><code>Python</code> 在 2.3 版本之前，曾經提供過的 <a href="https://docs.python.org/2.7/library/restricted.html">Restricted Execution</a>這個標誌是基於 <code>__builtins__</code> 的功能而製作的。或者可以認為，<code>__builtins__</code> 之所以被設計成在 <code>__main__</code> 模組中是一個模組物件，在其他模組中是一個 <code>dict</code> 物件，這樣就可以實現限制執行。</p>
+<p>考慮這種情況：如果我們能夠自由定製我們自己的 <code>__builtin__</code> 模塊，並設置為 <code>__main__.__builtins__</code>，那就相當於後續所有執行的程式碼，都會使用我們定製的模塊，我們可以定製特定版本的 <code>open</code>、<code>__import__</code>、<code>file</code> 等內建函數和類型，更進一步，這種方式是不是可以幫助我們限制執行程式碼的權限，防止程式碼執行一些不安全的函數調用，或者訪問一些不安全的檔案？</p>
+<p><code>Python</code> 當時就做過這種嘗試，實現這個功能的模組就叫做: <code>rexec</code>。</p>
 <h3 id="rexec"><code>rexec</code></h3>
-<p>我无意太深入讲解 <code>rexec</code> 的实现，因为原理其实上文已经讲清楚了，并且这个模块本身就已经废弃，我这些仅简单做一些关键代码的摘要，方便查阅。</p>
+<p>我無意太深入講解 <code>rexec</code> 的實現，因為原理其實上文已經講清楚了，並且這個模組本身就已經廢棄，我這些僅簡單做一些關鍵代碼的摘要，方便查閱。</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># rexec.py</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">class</span> <span class="nc">RExec</span><span class="p">(</span><span class="n">ihooks</span><span class="o">.</span><span class="n">_Verbose</span><span class="p">):</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="o">...</span>
@@ -1942,54 +1941,53 @@
 <a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
 <a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="n">execfile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 </code></pre></div>
-<p><code>r_execfile</code> 函数会把文件当作 <code>__main__</code> 模块来执行，只是 <code>__main__</code> 是定制过的。<code>self.add_module('__main__')</code> 里面，会设置模块的 <code>m.__builtins__ = self.modules['__builtin__']</code>，这个 <code>__builtin__</code> 是由 <code>make_builtin</code> 来定制生成的，在里面替换了 <code>__import__</code>、<code>reload</code>、<code>open</code> 函数，并删除了 <code>file</code> 类型。这样，我们就能控制要执行的代码对内建命名空间的访问了。</p>
-<p>对于一些内建模块，<code>rexec</code> 也做了定制，保护不安全的访问，譬如 <code>sys</code> 模块，只保留了一部分的对象，并且通过定制的 <code>self.loader</code>、<code>self.importer</code>，来实现 <code>import</code> 的时候，优先加载定制的模块。</p>
-<p>如果对代码细节感兴趣，请自行查阅相关源码。</p>
-<h3 id="rexec_1"><code>rexec</code> 的失败</h3>
-<p>上文提到，<code>Python 2.3</code> 之后，<code>rexec</code> 就已经废弃了，因为这种方式已经被证实为不可行。带着好奇心，我们来简单溯源一下：</p>
-<ul>
-<li>在社区有人报告了 <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>，并引发了开发者之间的讨论：<blockquote>
-<p>it's never going to be safe, and I doubt it's very useful as long as it's not safe.</p>
-<p>Every change is a potential security hole.</p>
-<p>it's hard to predict what change is going to break it.</p>
-<p>I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.</p>
-<p>this is only a useful occupation if you expect to eventually reach a point where you expect that there aren't any security flaws left.  Jeremy &amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you <em>can't</em> make it safe, don't waste time trying).</p>
-<p>I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.</p>
-<p>The code will still be in older versions if someone decides to pick it up and work on it as a separate project.</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>该 Bug 的起因是 <code>Python</code> 引入了新式类（new-style class） <code>object</code>，导致 <code>rexec</code> 不能正常工作。于是开发者表示，在可预见的未来，这种情况都很难避免，任意的修改都会可能导致 <code>rexec</code> 出现漏洞，不能正常工作，或者被突破权限的限制，基本上无法实现没有漏洞地去提供一个安全环境的愿景，开发者需要不断地修修补补，浪费大量的时间。最终，<code>rexec</code> 这个模块就被废弃掉了，<code>Python</code> 也没有再提供类似的功能。但关于 <code>__builtins__</code> 的设定，由于兼容性等问题，就继续保留下来了。</li>
-</ul>
-<p>后面在大概 2010 年的时候，有位程序员推出了 <a href="https://github.com/vstinner/pysandbox">pysandbox</a>，致力于提供可以替代 <code>rexec</code> 的 <code>Python</code> 沙盒环境。但是 3 年后，作者主动放弃了这个项目，并详细说明了为什么作者认为这个项目是失败的：<a href="https://mail.python.org/pipermail/python-dev/2013-November/130132.html">The pysandbox project is broken</a>，也有其他作者撰文总结了这个项目的失败：<a href="https://lwn.net/Articles/574215/">The failure of pysandbox</a>。如果感兴趣的话，可以具体去翻翻原文，我这里也给一些摘要来帮助了解：</p>
+<p><code>r_execfile</code> 函數會將檔案當作 <code>__main__</code> 模塊來執行，只是 <code>__main__</code> 是定制過的。<code>self.add_module('__main__')</code> 裡面，會設置模塊的 <code>m.__builtins__ = self.modules['__builtin__']</code>，這個 <code>__builtin__</code> 是由 <code>make_builtin</code> 來定制生成的，在裡面替換了 <code>__import__</code>、<code>reload</code>、<code>open</code> 函數，並刪除了 <code>file</code> 類型。這樣，我們就能控制要執行的程式碼對內建命名空間的存取了。</p>
+<p>對於一些內建模組，<code>rexec</code> 也做了定制，保護不安全的訪問，譬如 <code>sys</code> 模組，只保留了一部分的對象，並且透過定制的 <code>self.loader</code>、<code>self.importer</code>，來實現 <code>import</code> 的時候，優先加載定制的模組。</p>
+<p>如果你對程式碼細節感興趣，請自行查閱相關原始碼。</p>
+<h3 id="rexec_1"><code>rexec</code> 的失敗</h3>
+<p>前文提到，自 <code>Python 2.3</code> 以後，<code>rexec</code> 功能早已廢棄，因其被證實為不可行。讓我們滿懷好奇，簡單來追溯一下：</p>
+<p>在社區中有人報告了 <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>並引發了開發者之間的討論：</p>
+<div class="language-text highlight"><pre><span></span><code>&gt; it's never going to be safe, and I doubt it's very useful as long as it's not safe.
+
+&gt; Every change is a potential security hole.
+
+&gt; it's hard to predict what change is going to break it.
+
+&gt; I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.
+
+&gt;  this is only a useful occupation if you expect to eventually reach a point where you expect that there aren't any security flaws left.  Jeremy &amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you *can't* make it safe, don't waste time trying).
+
+&gt; I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.
+
+&gt; The code will still be in older versions if someone decides to pick it up and work on it as a separate project.
+</code></pre></div>
+<p>這個 Bug 的來源是因為 <code>Python</code> 引入了新式類型 <code>object</code>，導致 <code>rexec</code> 無法正常運作。因此開發者表示，在可預見的未來，很難避免這種情況，任何更改都有可能導致 <code>rexec</code> 出現漏洞，無法正常運作，或者被破解權限的限制，基本上無法實現一個沒有漏洞的安全環境。開發者需要不斷修正，花費大量時間。最終，<code>rexec</code> 這個模組就被廢棄了，<code>Python</code> 也沒有再提供類似的功能。但是關於 <code>__builtins__</code> 的設定，因為兼容性等問題，就繼續保留下來了。</p>
+<p>在大概2010年的時候，有位程式設計師推出了<a href="https://github.com/vstinner/pysandbox">pysandbox</a>致力於提供能夠替代 <code>rexec</code> 的 <code>Python</code> 沙盒環境。然而 3 年後，作者主動放棄了這個項目，並詳細說明了為何作者認為這個項目失敗了：<a href="https://mail.python.org/pipermail/python-dev/2013-November/130132.html">The pysandbox project is broken</a>也有其他作者撰文總結了這個項目的失敗：<a href="https://lwn.net/Articles/574215/">The failure of pysandbox</a>如果您對此感興趣，可以具體參考原文，我這裡也提供了一些摘要以協助理解：</p>
 <blockquote>
 <p>After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.</p>
 <p>I now agree that putting a sandbox in CPython is the wrong design. There are too many ways to escape the untrusted namespace using the various introspection features of the Python language. To guarantee the [safety] of a security product, the code should be [carefully] audited and the code to review must be as small as possible. Using pysandbox, the "code" is the whole Python core which is a really huge code base. For example, the Python and Objects directories of Python 3.4 contain more than 126,000 lines of C code.</p>
 <p>The security of pysandbox is the security of its weakest part. A single bug is enough to escape the whole sandbox.</p>
 <p>pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like "del dict[key]" are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating "1+(2*3)", pysandbox cannot be used in practice, because of all these protections.</p>
 </blockquote>
-<p><strong>pysandbox</strong> 的作者认为，在 <code>Python</code> 里面放一个沙盒环境是错误的设计，有太多的方式可以从沙盒中逃逸出去，<code>Python</code> 提供的语言特性很丰富，<code>CPython</code> 源码的代码量很大，基本不可能保证有足够的安全性。而 <strong>pysandbox</strong> 的开发过程就是在不断地打补丁，补丁太多，限制太多，以至于作者认为 <strong>pysandbox</strong> 已经没法实际使用，因为很多的语法特性和功能都被限制不能使用了，譬如简单的 <code>del dict[key]</code>。</p>
-<h2 id="restricted-execution_2">Restricted Execution 出路在哪</h2>
-<p>既然 <code>rexec</code> 和 <strong>pysandbox</strong> 这种通过 Patch Python 来提供沙盒环境的方法（这里姑且把这种方法称作 Patch Python）已经走不通了，那我不禁好奇：要怎么才能给 Python 提供一个能用的沙盒环境？</p>
-<p>在这里我继续收集了一些其他的实现方法或者案例，方便参考和查阅：</p>
+<p><strong>pysandbox</strong> 的作者認為，在 <code>Python</code> 裡面放一個沙盒環境是錯誤的設計，有太多的方式可以從沙盒中逃逸出去，<code>Python</code> 提供的語言特性很豐富，<code>CPython</code> 源碼的程式碼量很大，基本不可能保證有足夠的安全性。而 <strong>pysandbox</strong> 的開發過程就是在不斷地打補丁，補丁太多，限制太多，以至於作者認為 <strong>pysandbox</strong> 已經沒法實際使用，因為很多的語法特性和功能都被限制不能使用了，譬如簡單的 <code>del dict[key]</code>。</p>
+<h2 id="_3">受限制的執行，出路在哪？</h2>
+<p>既然 <code>rexec</code> 和 <strong>pysandbox</strong> 這種透過 Patch Python 來提供沙盒環境的方法已經行不通了，那我不禁好奇：要怎麼樣才能為 Python 提供一個可用的沙盒環境呢？</p>
+<p>我在這裡繼續收集了一些其他的實現方法或者案例，方便參考和查閱：</p>
 <ul>
-<li><a href="https://doc.pypy.org/en/latest/sandbox.html">PyPy</a> 有一个<a href="https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2">分支</a>提供了沙盒的功能，结合额外的 <a href="https://foss.heptapod.net/pypy/sandboxlib">sandboxlib</a>，可以自行编译出带沙盒环境版本的 PyPy。如果感兴趣，可以尝试自行配置，参考这里的一些<a href="https://foss.heptapod.net/pypy/pypy/-/issues/3192">说明</a>。PyPy 实现的原理是创建一个子进程，子进程的所有输入输出和系统调用，都会重定向到外部进程，由外部进程控制这些权限，另外也可以控制内存和 CPU 的使用量。需要注意的是，这个分支也有段时间没有新的提交了，请谨慎使用。</li>
+<li><a href="https://doc.pypy.org/en/latest/sandbox.html">PyPy</a>(https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2)提供了沙盒的功能，结合额外的 <a href="https://foss.heptapod.net/pypy/sandboxlib">sandboxlib</a>可以自行編譯出帶沙盒環境版本的 PyPy。如果感興趣，可以嘗試自行配置，參考這裡的一些<a href="https://foss.heptapod.net/pypy/pypy/-/issues/3192">說明</a>PyPy 實現的原理是創建一個子進程，子進程的所有輸入輸出和系統調用，都會重定向到外部進程，由外部進程控制這些權限，另外也可以控制記憶體和 CPU 的使用量。需要注意的是，這個分支也有段時間沒有新的提交了，請謹慎使用。</li>
 </ul>
+<p>利用操作系统所提供的沙盒環境工具。<a href="https://en.wikipedia.org/wiki/Seccomp">seccomp</a>是由Linux內核提供的安全計算工具，<a href="https://github.com/seccomp/libseccomp/tree/main/src/python">libseccomp</a>提供了 Python 綁定，可以內嵌到程式碼中使用；或者使用基於 seccomp 實現的工具來執行程式碼，譬如 <a href="https://firejail.wordpress.com/">Firejail</a>(https://apparmor.net/)這是一個 Linux 內核安全模組，讓管理者能夠控制程式可以存取的系統資源和功能，以保護作業系統。<a href="https://github.com/openedx/codejail">codejail</a>這是基於 AppArmor 實現的 Python 沙盒環境，有興趣可以嘗試。還有許多類似的工具，這裡就不一一列舉了。</p>
 <ul>
-<li>借助操作系统提供的沙盒环境工具。<a href="https://en.wikipedia.org/wiki/Seccomp">seccomp</a> 是 Linux 内核提供的计算安全工具，<a href="https://github.com/seccomp/libseccomp/tree/main/src/python">libsecoomp</a> 提供了 Python 绑定，可以内嵌到代码里面使用；或者使用基于 seccomp 实现的工具来执行代码，譬如 <a href="https://firejail.wordpress.com/">Firejail</a>。<a href="https://apparmor.net/">AppArmor</a> 是一个 Linux 内核安全模块，允许管理员控制程序能访问的系统资源和功能，保护操作系统。<a href="https://github.com/openedx/codejail">codejail</a> 是基于 AppArmor 实现的 Python 沙盒环境，有兴趣可以尝试。还有很多类似的工具，这里不一一列举。</li>
+<li>使用沙盒虛擬環境或容器。<a href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">Windows 沙盒</a>，<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://www.docker.com/">Docker</a>抱歉，我無法繼續提供翻譯。</li>
 </ul>
-<ul>
-<li>使用沙盒虚拟环境或者容器。<a href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">Windows 沙盒</a>，<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://www.docker.com/">Docker</a> 等等，这里不再详述。</li>
-</ul>
-<h2 id="_2">总结</h2>
-<p>本文篇幅有点长，感谢看到这里，文章一开始所列出的疑问，相信都已经解答完毕。</p>
+<h2 id="_4">總結</h2>
+<p>這篇文章有點長，謝謝您閱讀到這裡，相信文章一開始所提出的問題都已經得到了解答。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
 <blockquote>
-<p>原文地址：<a href="https://wiki.disenone.site">https://wiki.disenone.site</a></p>
-<p>本篇文章受 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议保护，转载请注明出处。</p>
+<p>Original: <a href="https://wiki.disenone.site/tc">https://wiki.disenone.site/tc</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
 </blockquote>
 <!-- 转载 -->
 <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
@@ -2002,9 +2000,14 @@
 </div>
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>這篇帖子是由 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -2014,37 +2017,8 @@
 
 
   
-    
-  
-  
-    
   
 
-
-  <aside class="md-source-file">
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="最後更新">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-01-12</span>
-  </span>
-
-    
-    
-      
-  <span class="md-source-file__fact">
-    <span class="md-icon" title="建立日期">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
-    </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-01</span>
-  </span>
-
-    
-    
-    
-  </aside>
 
 
 
@@ -2073,7 +2047,7 @@
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 使用 Visual Studio 2015 编译 Python 2.7.11">
+          <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 使用 Visual Studio 2015 編譯 Python 2.7.11">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2083,20 +2057,20 @@
                 上一頁
               </span>
               <div class="md-ellipsis">
-                使用 Visual Studio 2015 编译 Python 2.7.11
+                使用 Visual Studio 2015 編譯 Python 2.7.11
               </div>
             </div>
           </a>
         
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="下一頁: Python 杂谈 2 - Python3.12 热更新">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="下一頁: Python 筆記 2 - Python 3.12 熱更新">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一頁
               </span>
               <div class="md-ellipsis">
-                Python 杂谈 2 - Python3.12 热更新
+                Python 筆記 2 - Python 3.12 熱更新
               </div>
             </div>
             <div class="md-footer__button md-icon">
