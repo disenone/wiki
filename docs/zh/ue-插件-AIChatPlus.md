@@ -453,6 +453,25 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
 
+## Deepseek
+
+### 編輯器使用 Deepseek
+
+* 新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png)
+
+* 开始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png)
+
+### 蓝图使用 Deepseek 聊天
+
+创建如下蓝图，设置好 Deepseek 相关的 Request Options，包括 Model、Base Url、End Point Url、ApiKey 等参数。点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png)
 
 ## 更新日志
 
