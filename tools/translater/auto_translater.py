@@ -11,7 +11,7 @@ import functools
 import argparse
 import copy
 try:
-	import env
+	import env	# noqa
 except:
 	pass
 
@@ -103,7 +103,7 @@ TranslateType_Config = {
 	TranslateType_MainBody: {
 		'model': 'gpt-3.5-turbo',
 		'messages': [
-			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not explain them."},
+			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not explain them."},	# noqa
 			{"role": "user", "content": "Translate these text into {lang_name} language:\n\n{text}\n"},
 		]
 	},
@@ -112,7 +112,7 @@ TranslateType_Config = {
 	TranslateType_FrontMater: {
 		'model': 'gpt-3.5-turbo',
 		'messages': [
-			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets. You must translate the punctuation."},
+			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets. You must translate the punctuation."},	# noqa
 			{"role": "user", "content": "Translate these text into {lang_name} language:\n\n{text}\n"},
 		]
 	}
@@ -120,8 +120,12 @@ TranslateType_Config = {
 
 # 不进行翻译的文件列表
 exclude_list = ['baidu_verify_codeva-S4d2IcuRUu.html']  # 不进行翻译的文件列表
-processed_dict_file = os.path.join(translater_folder, "processed_dict.txt")  # 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
-only_list = [		 # 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
+
+# 已处理的 Markdown 文件名的列表，会自动生成，格式 {{file_name: {modify_time:xxx, git_ref:xxx}}}，优先判断 git_ref，如果没有 git_ref，则判断修改时间
+processed_dict_file = os.path.join(translater_folder, "processed_dict.txt")
+
+# 强制指定翻译的文件，其他文件都不翻译，方便对某文件测试
+only_list = [
 	# 'test2.md',
 	# 'cpp-C和Cpp宏编程解析.md',
 	# 'cpp-编写Windows下的MemoryLeakDetector.md',
@@ -162,52 +166,56 @@ front_matter_translation_rules = {
 # Front Matter 固定字段替换规则。
 front_matter_replace_rules = [
 	# {
-	#	 "orginal_text": "类别 1",
-	#	 "replaced_text": {
-	#		 "en": "Categories 1",
-	#		 "es": "Categorías 1",
-	#		 "ar": "الفئة 1",
-	#	 }
+	# 	"orginal_text": "类别 1",
+	# 	"replaced_text": {
+	# 		"en": "Categories 1",
+	# 		"es": "Categorías 1",
+	# 		"ar": "الفئة 1",
+	# 	}
 	# },
 	# {
-	#	 "orginal_text": "类别 2",
-	#	 "replaced_text": {
-	#		 "en": "Categories 2",
-	#		 "es": "Categorías 2",
-	#		 "ar": "الفئة 2",
-	#	 }
+	# 	"orginal_text": "类别 2",
+	# 	"replaced_text": {
+	# 		"en": "Categories 2",
+	# 		"es": "Categorías 2",
+	# 		"ar": "الفئة 2",
+	# 	}
 	# },
 	# {
-	#	 "orginal_text": "标签 1",
-	#	 "replaced_text": {
-	#		 "en": "Tags 1",
-	#		 "es": "Etiquetas 1",
-	#		 "ar": "بطاقة 1",
-	#	 }
+	# 	"orginal_text": "标签 1",
+	# 	"replaced_text": {
+	# 		"en": "Tags 1",
+	# 		"es": "Etiquetas 1",
+	# 		"ar": "بطاقة 1",
+	# 	}
 	# },
 	# {
-	#	 "orginal_text": "标签 2",
-	#	 "replaced_text": {
-	#		 "en": "Tags 2",
-	#		 "es": "Etiquetas 2",
-	#		 "ar": "بطاقة 2",
-	#	 }
+	# 	"orginal_text": "标签 2",
+	# 	"replaced_text": {
+	# 		"en": "Tags 2",
+	# 		"es": "Etiquetas 2",
+	# 		"ar": "بطاقة 2",
+	# 	}
 	# },
 ]
 
 ##############################
 
+
 def get_output_path(lang):
 	return 'docs/' + lang
 
+
 LOG_CONFIGED = False
+
+
 def log(*msg, level=logging.INFO):
 	global LOG_CONFIGED
 	if not LOG_CONFIGED:
 		logging.basicConfig(
-			level	= LOG_LEVEL,
-			format   = '[%(asctime)s] %(message)s',
-			datefmt  = '%Y-%m-%d %H:%M:%S',
+			level=LOG_LEVEL,
+			format='[%(asctime)s] %(message)s',
+			datefmt='%Y-%m-%d %H:%M:%S',
 		)
 		LOG_CONFIGED = True
 
@@ -285,10 +293,10 @@ def translate_text(text, lang, type):
 					raise RuntimeError('index marker_no_translate_end <= marker_no_translate_begin: %s' % text)
 
 				output_text += translate_text(text[:begin], lang, type)
-				if output_text.endswith('\n') and text[begin-1] != '\n':
+				if output_text.endswith('\n') and text[begin - 1] != '\n':
 					output_text = output_text[:-1]
-				output_text += text[begin:end+len(marker_no_translate_end)]
-				text = text[end+len(marker_no_translate_end):]
+				output_text += text[begin:end + len(marker_no_translate_end)]
+				text = text[end + len(marker_no_translate_end):]
 			else:
 				output_text += translate_text(text, lang, type)
 				text = ''
@@ -337,6 +345,7 @@ def translate_text(text, lang, type):
 
 	sys.stdout.flush()
 	return output_text
+
 
 # Front Matter 处理规则
 def translate_front_matter(front_matter, lang):
@@ -467,7 +476,7 @@ def translate_file(working_folder, input_file, lang):
 
 def GetGitRef(input_file):
 	repo = git.Repo('.')
-	git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd","summary":"%s"}')
+	git_log = repo.git.log(input_file, date='format:%Y%m%d', max_count=1, pretty='format:{"commit":"%h","date":"%cd","summary":"%s"}')	# noqa
 	if not git_log:
 		return
 	log(git_log, level=logging.DEBUG)
@@ -552,7 +561,7 @@ def run(working_folder):
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--list', action='store_true', default=False, help='only list files, not translate')
 	parser.add_argument('--files', type=str, nargs='+', help='translate specific multi files')
-	parser.add_argument('--langs', type=str, nargs='+', help='translate files into specific langs', choices=Translate_Into.keys())
+	parser.add_argument('--langs', type=str, nargs='+', help='translate files into specific langs', choices=Translate_Into.keys())	# noqa
 	args = parser.parse_args()
 
 	# 按文件名称顺序排序
