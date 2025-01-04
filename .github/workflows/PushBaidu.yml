@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: Push
+      - name: Push Baidu
         env:
           ### push token:
           PUSH_BAIDU_TOKEN: ${{ secrets.PUSH_BAIDU_TOKEN }}
