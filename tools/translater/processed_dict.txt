@@ -84,8 +84,8 @@
     "mtime": 1735979063.2907908
   },
   "ue-插件-AIChatPlus.md": {
-    "git_ref": "8cece80",
-    "mtime": 1735979063.2907908
+    "git_ref": "7fa59d9",
+    "mtime": 1736008008.4840853
   },
   "ue-图片-读取外部图片.md": {
     "git_ref": "7b0a21d",

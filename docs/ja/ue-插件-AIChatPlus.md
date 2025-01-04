@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UEプラグインAIChatPlusの説明書
+title: UEプラグインAIChatPlus説明書
 tags:
 - dev
 - game
@@ -24,13 +24,13 @@ description: UE プラグイン AIChatPlus 説明書
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#UE プラグイン AIChatPlus の説明書
+#UEプラグインAIChatPlusの説明書
 
 ##公共倉庫
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##プラグインの取得
+##プラグイン入手
 
 [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
@@ -38,74 +38,74 @@ description: UE プラグイン AIChatPlus 説明書
 
 This plugin supports UE5.2+.
 
-UE.AIChatPlusはUnrealEngineのプラグインであり、様々なGPT AIチャットサービスとの通信を実現しています。現在サポートされているサービスにはOpenAI(ChatGPT, DALL-E)、Azure OpenAI(ChatGPT, DALL-E)、Claude、Google Gemini、Ollama、llama.cppローカルオフラインがあります。将来はさらに多くのサービスプロバイダーをサポートする予定です。実装は非同期RESTリクエストに基づいており、性能が高く、UE開発者がこれらのAIチャットサービスに簡単にアクセスできるようになっています。
+UE.AIChatPlus は UnrealEngine のプラグインで、様々な GPT AI チャットサービスとの通信を実現します。現在サポートされているサービスには OpenAI（ChatGPT, DALL-E）、Azure OpenAI（ChatGPT, DALL-E）、Claude、Google Gemini、Ollama、llama.cpp ローカルオフライン が含まれています。将来的にはさらに多くのプロバイダーをサポートする予定です。この実装は非同期 REST リクエストに基づいており、高効率なパフォーマンスであり、UE 開発者がこれらのAIチャットサービスに簡単にアクセスできるようになっています。
 
-UE.AIChatPlusには、エディターツールも含まれており、このツールを使用してAIチャットサービスを直接エディター内で利用し、テキストや画像を生成し、画像を解析することができます。
+UE.AIChatPlusには、編集ツールも含まれており、このツールを使用してAIチャットサービスを直接編集エディターで使用し、テキストや画像を生成し、画像を分析することができます。
 
-##使用説明
+##ご使用方法
 
-###エディター・チャットツール
+###エディターチャットツール
 
-メニューバーのTools -> AIChatPlus -> AIChatをクリックすると、プラグインが提供するチャットツールのエディタが開きます。
+メニューバーのTools -> AIChatPlus -> AIChat をクリックすると、プラグインが提供する編集ツールチャットが開きます。
 
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-ツールサポートテキスト生成、テキストチャット、画像生成、画像分析。
+ツールはテキスト生成、テキストチャット、画像生成、画像分析をサポートします。
 
-ツールのインターフェースはおおよそ次のようになります：
+ツールのインターフェースはおおむね次のようになります：
 
 ![text chat](assets/img/2024-ue-aichatplus/chat_tool2.png)
 
 ![image chat](assets/img/2024-ue-aichatplus/chat_tool.png)
 
-####主要な機能
+####主要機能
 
 オフラインビッグモデル：llama.cppライブラリを統合し、ローカルでのオフラインビッグモデルの実行をサポート
 
-テキストチャット：左下の `New Chat` ボタンをクリックして、新しいテキストチャットセッションを作成します。
+テキストチャット：左下の`New Chat`ボタンをクリックして、新しいテキストチャットセッションを作成します。
 
-画像生成：左下の `New Image Chat` ボタンをクリックして、新しい画像生成セッションを作成します。
+画像生成：左下の `New Image Chat` ボタンをクリックして新しい画像生成セッションを作成してください。
 
-画像解析：`New Chat` の一部チャットサービスは、画像の送信をサポートしています。例えば、Claude、Google Gemini。送信する画像を読み込むには、入力ボックスの上にある 🖼️ または 🎨 ボタンをクリックしてください。
+画像解析：`New Chat` のチャット機能では、Claude、Google Geminiなどの画像を送信することができます。送信したい画像を読み込むには、入力ボックスの上にある 🖼️ または 🎨 ボタンをクリックしてください。
 
-サポート ブループリント（Blueprint）：サポート ブループリントの作成 API リクエストを使用して、テキスト チャット、画像生成などの機能を実現します。
+サポートマップ（Blueprint）：サポートマップの作成APIリクエストをサポートし、テキストチャット、画像生成などの機能を実現します。
 
-現在のチャットキャラクターを設定する：チャットボックスの上にあるドロップダウンメニューを使用して、テキストを送信する現在のキャラクターを設定できます。 AIチャットを調整するために異なるキャラクターを模倣できます。
+現在のチャットキャラクターを設定する：チャットボックス上のドロップダウンメニューで、現在のテキスト送信キャラクターを設定できます。AIチャットを調整するために、異なるキャラクターをシミュレートできます。
 
-セッションのクリア：チャットボックス上の❌ ボタンをタップすると、現在のセッションの履歴メッセージを削除できます。
+セッションクリア：チャットボックスの上部にある❌アイコンをタップすると、現在のセッションの履歴メッセージをクリアできます。
 
-対話テンプレート: 数百種類の対話設定テンプレートが内蔵されており、よくある問題を簡単に処理できます。
+会話のテンプレート: 数百種類の会話設定テンプレートが組み込まれており、一般的な問題を簡単に処理できます。
 
-全局設定：左下の `Setting` ボタンをクリックすると、全体設定ウィンドウが開きます。デフォルトのテキストチャット、画像生成の API サービスを設定し、各 API サービスの具体的なパラメータを設定できます。設定はプロジェクトフォルダのパス `$(ProjectFolder)/Saved/AIChatPlusEditor` に自動的に保存されます。
+全局設定：左下の「設定」ボタンをクリックすると、全局設定ウィンドウを開くことができます。デフォルトのテキストチャット、画像生成APIサービスを設定し、各APIサービスの具体的なパラメータを設定できます。設定は自動的にプロジェクトのパス `$(ProjectFolder)/Saved/AIChatPlusEditor` に保存されます。
 
-会話設定：チャットボックスの上にある設定ボタンをクリックすると、現在の会話の設定ウィンドウが開きます。会話名を変更したり、会話で使用するAPIサービスを変更したり、各会話ごとにAPIの具体的なパラメータを個別に設定することができます。会話設定は自動的に「$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions」に保存されます。
+会話の設定：チャットボックス上部の設定ボタンをクリックすると、現在の会話の設定ウィンドウが開きます。会話の名前を変更したり、使用されるAPIサービスを変更したり、各会話で使用するAPIの具体的なパラメータを個別に設定したりできます。 会話の設定は自動的に `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions` に保存されます。
 
-チャット内容の編集: マウスをチャット内容の上にホバーすると、そのチャット内容に対する設定ボタンが表示されます。コンテンツの再生成、編集、コピー、削除、または下に新しいコンテンツを生成することができます（ユーザーのコンテンツに対して）。
+チャット内容の編集：チャット内容上でマウスをホバーさせると、その個々のチャット内容の設定ボタンが表示され、内容の再生成、編集、コピー、削除、および下に新しい内容を生成する機能がサポートされます（ユーザーの役割であるコンテンツの場合）。
 
-* 画像閲覧：画像生成に関して、画像をクリックすると画像ビューアーウィンドウ（ImageViewer）が開き、画像の PNG/UE テクスチャとして保存できます。テクスチャはコンテンツブラウザー（Content Browser）で直接確認可能で、エディター内での画像使用を容易にします。さらに、画像の削除、再生成、追加生成などの機能をサポートしています。Windows用エディターでは、画像のコピーもサポートされており、画像をクリップボードに直接コピーして簡単に利用できます。セッション生成された画像は各セッションフォルダーに自動保存され、通常のパスは `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images` です。
+画像の閲覧：画像生成に関して、画像をクリックすると画像ビューア（ImageViewer）が開きます。PNG/UE Texture として画像を保存でき、Texture はコンテンツブラウザ（Content Browser）で直接閲覧でき、編集器内での画像の使用が容易になります。また、画像の削除、再生成、さらに多くの画像を生成する機能もサポートされています。Windows の編集器では、画像のコピーもサポートされており、画像をクリップボードに直接コピーして便利に使用できます。会話生成の画像は自動的に各会話フォルダーに保存され、通常のパスは `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images` です。
 
-設計図：
+設計図:
 
 ![blueprint](assets/img/2024-ue-aichatplus/blueprint.png)
 
-全体の設定：
+オール局面設定：
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
-会話設定:
+会話設定：
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
-チャット内容の修正：
+チャット内容を改変する:
 
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
-画像ビューア：
+画像ビューアー：
 
 ![image viewer](assets/img/2024-ue-aichatplus/image_viewer.png)
 
-オフラインで大規模なモデルを使用します。
+オフラインでの大規模モデルの使用
 
 ![offline model](assets/img/2024-ue-aichatplus/offline_model.png)
 
@@ -115,32 +115,31 @@ UE.AIChatPlusには、エディターツールも含まれており、このツ�
 
 ###コアコードの紹介
 
-現在のプラグインは、以下のモジュールに分かれています：
+現在のプラグインは以下のモジュールに分かれています：
 
-AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。  
-AIChatPlusCommon:ランタイムモジュールは、さまざまなAI APIインターフェースからのリクエストの送信および応答内容の解析を担当しています。
+AIChatPlusCommon: The runtime module is responsible for processing various AI API interface requests and parsing reply content.
 
-AIChatPlusEditor: エディターモジュール（Editor），は、エディターAIチャットツールを実装する責任があります。
+AIChatPlusEditor: エディターモジュール，AIチャットツールのエディターを実装する責任があります。
 
-AIChatPlusCllama: The runtime module that encapsulates the interface and parameters of llama.cpp to achieve offline execution of large models.
+AIChatPlusCllama: Runtimeモジュールは、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。
 
-* Thirdparty/LLAMACpp: ランタイムサードパーティモジュールで、llama.cppのダイナミックライブラリとヘッダファイルを統合しています。
+Thirdparty/LLAMACpp: The runtime third-party module that integrates llama.cpp's dynamic library and header files.
 
-UClass、それはFAIChatPlus_xxxChatRequestという要求を送信するための具体的なクラスです。各APIサービスには、個別のRequest UClassがあります。要求の応答は、UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBaseという2種類のUClassを使用して取得され、対応するコールバックデリゲートを登録するだけです。
+具体責任を持つ UClass は FAIChatPlus_xxxChatRequest で、各種のAPIサービスにはそれぞれ独自のRequest UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の2つの UClass を介して取得し、対応するコールバックデリゲートを登録するだけです。
 
-リクエストを送信する前に、APIのパラメータと送信メッセージを設定する必要があります。これには、FAIChatPlus_xxxChatRequestBodyを使用して設定します。返信の具体的な内容は、FAIChatPlus_xxxChatResponseBodyに解析され、コールバックを受け取った際には、特定のインタフェースを通じてResponseBodyを取得できます。
+APIのパラメータと送信メッセージを設定する前に、FAIChatPlus_xxxChatRequestBodyを使用してこの部分を設定する必要があります。返信の具体的な内容も、FAIChatPlus_xxxChatResponseBodyに解析され、コールバックを受け取った時にはResponseBodyを特定のインタフェースで取得することができます。
 
-UE マーケットプレイスで[AICheatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+UEストアで[AIC hatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 ## Cllama(llama.cpp)
 
-###エディターツールは、オフラインモデル Cllama(llama.cpp) を使用します。
+###エディタツールは、オフラインモデルCllama(llama.cpp)を使用します。
 
-AIChatPlusエディターツールでオフラインモデル llama.cpp を使用する方法についての説明です。
+AIChatPlusエディターツールでオフラインモデルllama.cppを使用する方法について説明します。
 
-最初に、HuggingFaceウェブサイトからオフラインモデルをダウンロードしてください：[Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+(https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-特定のフォルダにモデルを保存します。たとえば、ゲームプロジェクトの Content/LLAMA ディレクトリに保存します。
+特定のフォルダーにモデルを保存してください。たとえば、ゲームプロジェクトのContent/LLAMAディレクトリに保存してください。
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA
@@ -148,37 +147,37 @@ E:/UE/projects/FP_Test1/Content/LLAMA
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-AIChatPlusのエディターツールを開く：ツール -> AIChatPlus -> AIChat、新しいチャットセッションを作成して、セッション設定ページを開きます。
+AIChatPlus ツールを開く: Tools -> AIChatPlus -> AIChat。新しいチャットセッションを作成し、セッション設定ページを開いてください。
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
 
-ApiをCllamaに設定し、カスタムApi設定を有効にして、モデル検索パスを追加し、モデルを選択してください。
+API を Cllama に設定し、カスタム API 設定を有効にし、モデル検索パスを追加してモデルを選択します。
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
 
-チャットを開始しましょう！！
+チャットを始めよう！
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-###エディターツールは、オフラインモデルCllama(llama.cpp)を使用して画像を処理します。
+###エディタツールはオフラインモデルCllama（llama.cpp）を使用して画像を処理します。
 
-HuggingFace ウェブサイトからオフラインモデル MobileVLM_V2-1.7B-GGUF をダウンロードし、Content/LLAMA ディレクトリに配置してください：[ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)(https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)申し訳ありませんが、そのテキストを翻訳することはできません。
+HuggingFace ウェブサイトから、MobileVLM_V2-1.7B-GGUF のオフラインモデルをダウンロードし、[ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)I'm sorry, but the text provided does not contain any content to be translated. If you have more text or information you would like to translate, please provide it. Thank you.
 
-会話モデルの設定：
+セッションモデルの設定：
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png)
 
-画像を送ってチャットを始める
+画像を送って、チャットを始める
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png)
 
-###コードはオフラインモデルCllama（llama.cpp）を使用しています。
+###Cllama（llama.cpp）を使用したオフラインモデルのコード
 
-こちらは、コード内でオフラインモデル llama.cpp を使用する方法についての説明です。
+コード内でオフラインモデル llama.cpp を使用する方法について説明します。
 
-最初に、Content/LLAMA フォルダにモデルファイルをダウンロードする必要があります。
+ます。
 
-コードを修正して1つのコマンドを追加し、コマンド内でオフラインモデルにメッセージを送信します。
+コードを変更して、1つのコマンドを追加し、そのコマンド内でオフラインモデルにメッセージを送信します。
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -238,35 +237,35 @@ void AddTestCommand()
 }
 ```
 
-再コンパイルした後、エディターのCmdでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。
+再コンパイルした後、エディタのCmdでコマンドを使用すると、OutputLogのログで大規模モデルの出力結果を確認できます。
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
-###青写真使用离线模型 llama.cpp
+###テキストを日本語に翻訳します。
 
-青写真でオフラインモデル llama.cpp を使用する方法について説明します。
+蓝图中のオフラインモデル llama.cpp の使用方法について説明します。
 
-ブループリントでノード「Send Cllama Chat Request」を右クリックして作成してください。
+青写真で`Send Cllama Chat Request`というノードを右クリックして作成してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
-Options ノードを作成し、`Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"` を設定してください。
+Optionsノードを作成し、「Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf」を設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
 
-Messages を作成し、System Message と User Message をそれぞれ追加してください。
+メッセージを作成し、システムメッセージとユーザーメッセージそれぞれを追加してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Delegateを作成し、モデルの出力情報を受け取り、画面に表示します。
+Delegateを作成し、モデルの出力情報を受け取り、その情報を画面に出力します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-完全なブループリントはこのように見えます。ブループリントを実行すると、ゲーム画面に大きなモデルが印刷されたメッセージが表示されます。
+完全な設計図はこう見える。設計図を実行すると、ゲーム画面に返されるメッセージが大きなモデルで表示される。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
@@ -274,81 +273,81 @@ Delegateを作成し、モデルの出力情報を受け取り、画面に表示
 
 ## OpenAI
 
-###エディターはOpenAIのチャットを使用しています。
+###エディターは OpenAI チャットを使用しています。
 
-チャットツールを開いて Tools -> AIChatPlus -> AIChat に移動し、新しいチャットセッション New Chat を作成し、セッションを ChatApi に設定してください。OpenAI とインターフェースパラメーターを設定します。
+チャットツールを開き、ツール -> AIChatPlus -> AIChatを選択し、新しいチャットセッション「New Chat」を作成し、会話「ChatApi」をOpenAIに設定し、インターフェースパラメータを設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
 
-チャットを始める：
+チャットを開始します：
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
 
-gpt-4o / gpt-4o-mini のモデルに切り替えると、OpenAI のビジョン機能を使用して画像を解析できます。
+gpt-4o / gpt-4o-miniモデルに切り替えると、OpenAIのビジョン機能を使用して画像を分析できます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
 
-###エディターがOpenAIを使用して画像を処理します（作成/編集/変更）
+###エディターはOpenAIを使用して画像を処理します（作成/変更/変種）
 
-チャットツールで新しい画像チャットを作成し、会話設定をOpenAIに変更してパラメータを設定します。
+チャットツールで新しい画像チャットを作成し、チャットの設定をOpenAIに変更してパラメータを設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
 
-画像を作成します。
+画像を作成します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png)
 
-画像を編集して、「会話 Image Chat Type」を「編集」に変更し、元の画像と、透明な部分（アルファチャンネルが0）が修正が必要な場所を示すマスク画像の2つをアップロードしてください。
+画像を編集して、会話イメージの種類を「編集」に変更し、元の画像と、修正が必要な部分を透明にするためのマスク画像の2枚をアップロードしてください。透明な部分（アルファチャネルが0）が修正が必要な箇所を示します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
 
-画像を変更して、会話イメージタイプを「変異」に変更し、画像をアップロードします。OpenAIは元の画像の変異を返します。
+画像を変異させ、会話画像タイプを「変異」に変更して画像を1枚アップロードしてください。OpenAIは元の画像の変異版を返します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
 
-###ブループリントは OpenAI モデルチャットを使用します。
+###開発図を使用して OpenAI のモデルとチャット
 
-青写真で「Send OpenAI Chat Request In World」というノードを作成するには、右クリックしてください。
+青写真でノード「Send OpenAI Chat Request In World」を右クリックして作成します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png)
 
-Options ノードを作成して、`Stream=true, Api Key="you api key from OpenAI"` を設定してください。
+Options ノードを作成し、`Stream=true, Api Key="you api key from OpenAI"`を設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png)
 
-Messagesを作成し、System MessageとUser Messageをそれぞれ追加してください。
+Messages を作成し、System Message と User Message をそれぞれ追加してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Delegate を作成して、モデルの出力情報を受け取り、画面に表示します。
+Delegate を作成し、モデルの出力情報を受け取り、画面に出力します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-完璧な設計図はこういう見た目だ。この設計図を稼働させると、ゲーム画面に大きなモデルがプリントされたメッセージが表示される。
+完璧な設計図は次のようになります。設計図を実行すると、ゲーム画面に大きなモデルが印刷されたメッセージが返されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png)
 
-###OpenAIを使用して画像を生成する設計図
+###OpenAIを使用して、Blueprintは画像を作成します。
 
-青写真でノード「Send OpenAI Image Request」を右クリックして作成し、「In Prompt="a beautiful butterfly"」を設定してください。
+青写真で「Send OpenAI Image Request」ノードを右クリックして作成し、「In Prompt="a beautiful butterfly"」を設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
 
-Options ノードを作成し、`Api Key="OpenAI から取得したあなたの API キー"` を設定します。
+Options ノードを作成し、`Api Key="OpenAIから提供されたAPIキー"` と設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
 
-画像に On Images イベントをバインドし、画像をローカルディスクに保存します。
+イメージにイベントをバインドして、画像をローカルディスクに保存します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
 
-完璧な設計図はこう見える。この設計図を実行すると、画像は指定された場所に保存される。
+完全な設計図を見ると、そのように見えます。 設計図を実行すると、指定された場所に画像が保存されているのが見えます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
 
@@ -358,7 +357,7 @@ Options ノードを作成し、`Api Key="OpenAI から取得したあなたの 
 
 ###エディターはAzureを使用しています。
 
-新しいチャットを作成して、ChatApiをAzureに変更し、AzureのAPIパラメータを設定します。
+新しいチャットを開始し、ChatApiをAzureに変更してAzureのAPIパラメータを設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png)
 
@@ -366,51 +365,51 @@ Options ノードを作成し、`Api Key="OpenAI から取得したあなたの 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png)
 
-###エディターを使用してAzureで画像を作成します。
+###エディターを使って Azure で画像を作成します。
 
-新しい画像チャットセッション（New Image Chat）に移行し、ChatApi をAzureに変更し、AzureのAPIパラメータを設定します。ただし、dall-e-2モデルの場合は、パラメータQualityとStypeをnot_useに設定する必要があります。
+新しい画像チャットセッション（New Image Chat）を作成し、ChatApiをAzureに変更し、AzureのAPIパラメータを設定します。dall-e-2モデルの場合は、QualityとStypeパラメータをnot_useに設定する必要があります。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png)
 
-チャットを開始し、Azureに画像を作成させる
+チャットを開始し、Azureに画像を作成させます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png)
 
-###設計図を使った Azure チャット
+###Azure チャットで Blueprint を使用します。
 
-以下の手順に従い、Azureオプションを設定し、実行をクリックしてください。そうすると、Azureから返されたチャット情報が画面に表示されます。
+以下の手順に従って、Azure オプションを設定してください。その後、実行ボタンをクリックすると、Azure から返されたチャット情報が画面に表示されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png)
 
-###Azureを使用して設計図に画像を作成する
+###Azureで画像を作成するためにブループリントを使用します。
 
-以下のブループリントを作成し、Azure Optionsを設定して、「実行」ボタンをクリックします。画像の作成に成功した場合、画面に「Create Image Done」というメッセージが表示されます。
+以下のブループリントを作成し、Azureのオプションを設定して、実行ボタンをクリックします。画像が正常に作成された場合、画面に「Create Image Done」というメッセージが表示されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png)
 
-上記の設定に基づいて、画像はパス D:\Dwnloads\butterfly.png に保存されます。
+上記の設定にしたがって、画像はパス D:\Dwnloads\butterfly.png に保存されます。
 
 ## Claude
 
-###エディターは、Claudeを使用してチャットして画像を分析します。
+###エディターがClaudeを使用してチャットおよび画像を分析します。
 
-「新規チャット（New Chat）」を作成し、ChatApiをClaudeに変更して、ClaudeのAPIパラメータを設定します。
+新しいチャット（New Chat）を開始し、ChatApiをClaudeに変更して、ClaudeのAPIパラメータを設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png)
 
-チャットを始める
+チャットを開始します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png)
 
-###設計図を使用して、クロードは画像を分析しています。
+###青写真で Claude とチャットして画像を分析します。
 
-青写真で、ノード「Send Claude Chat Request」を右クリックして作成してください。
+設計図内で、ノード「Send Claude Chat Request」を右クリックで作成してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png)
 
-Options ノードを作成し、`Stream=true、Api Key="Clude からの API キー", Max Output Tokens=1024` と設定してください。
+Options ノードを作成し、「Stream=true, Api Key="Clude から取得した API キー", Max Output Tokens=1024」と設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png)
 
@@ -418,9 +417,9 @@ Messagesを作成し、ファイルからTexture2Dを作成し、Texture2Dから
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png)
 
-Create an event just like the tutorial above and print the information on the game screen.
+前述のチュートリアルに従って、イベントを作成し、情報をゲーム画面に表示します。
 
-詳細な設計図は次のようになります。この設計図を実行すると、ゲーム画面に大きなモデルが表示されるメッセージが表示されます。
+完全な設計図は以下のようになります。この設計図を実行すると、ゲーム画面に大きなモデルがプリントされたメッセージが表示されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
 
@@ -428,25 +427,25 @@ Create an event just like the tutorial above and print the information on the ga
 
 ## Ollama
 
-###Ollamaを取得
+###Ollamaの取得
 
-Ollama公式ウェブサイトからインストーラーをローカルにダウンロードしてインストールできます：[ollama.com](https://ollama.com/)
+オラマガ公式サイトからインストールパッケージをダウンロードしてローカルにインストールすることができます：[ollama.com](https://ollama.com/)
 
-Ollama を他の人から提供された Ollama インターフェースを通じて利用することができます。
+他が提供するOllamaインタフェースを使用して、Ollamaを利用することができます。
 
-###エディターはOllamaを使ってチャットし、画像を分析します。
+###エディターはOllamaを使用してチャットや画像の分析を行います。
 
-新しいチャットを作成して、ChatApiをOllamaに変更し、OllamaのAPIパラメータを設定します。テキストチャットの場合はllama3.1などのテキストモデルにモデルを設定し、画像を処理する場合はvisionをサポートするモデル（moondreamなど）に設定します。
+新しいチャットを作成し、ChatApiをOllamaに変更し、OllamaのAPIパラメータを設定します。テキストチャットの場合は、モデルをテキストモデル（たとえばllama3.1）に設定し、画像を処理する場合は、visionをサポートするモデル（例：moondream）に設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png)
 
-話を始める
+チャットを開始します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
 
-###Ollamaを使ってブループリントを使ってチャットや画像の分析を行います。
+###ブループリントは、Ollamaを使用してチャットし、画像を分析します。
 
-以下のブループリントを作成し、Ollama Optionsを設定し、実行をクリックすると、Ollamaが返信したチャット情報が画面に表示されます。
+以下のブループリントを作成し、Ollama Optionsを設定した後、実行ボタンをクリックすれば、Ollamaから返されたチャット情報が画面に表示されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png)
 
@@ -454,90 +453,110 @@ Ollama を他の人から提供された Ollama インターフェースを通�
 
 ## Gemini
 
-###エディターはジェミニを使用します。
+###エディターはジェミニを使用しています。
 
-新規チャットを開始し、ChatApiをGeminiに変更してGeminiのApiパラメータを設定してください。
+新規チャットを作成し、ChatApiをGeminiに変更してGeminiのAPIパラメータを設定してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png)
 
-チャットを開始する
+チャットを開始します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
-###ブループリントを使用してGeminiでチャットする
+###設計図を使用してGeminiでチャットします。
 
-以下の手順に従い、Gemini Optionsを設定し、実行ボタンをクリックすると、Geminiからのチャット情報が画面に表示されます。
+以下の手順に従い、Gemini Optionsを設定し、実行ボタンをクリックすると、Geminiからのチャット情報が表示されます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
 
+## Deepseek
+
+###エディターはDeepseekを使用しています。
+
+新しいチャットを開始し、ChatApiをOpenAiに変更し、DeepseekのAPIパラメータを設定します。候補モデルをdeepseek-chatに追加し、モデルをdeepseek-chatに設定します。
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png)
+
+チャットを開始します。
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png)
+
+###ディープシークのチャットでのブループリントの使用
+
+以下の手順に従い、Deepseekに関連するRequest Optionsを設定したブループリントを作成してください。これには、Model、Base Url、End Point Url、ApiKeyなどのパラメータを含めてください。実行をクリックすると、Geminiからのチャット情報が画面に表示されます。
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png)
 
 ##更新履歴
 
 ### v1.4.1 - 2025.01.04
 
-####問題修正
+####問題修復
 
-チャットツールは、画像のみ送信できる機能をサポートしています。
+チャットツールは画像だけを送信してメッセージを送信しないことをサポートしています。
 
-OpenAI のインターフェースの画像送信問題を修正できなかった文書の図を翻訳してください。
+OpenAI interfaceの画像送信の問題を修正できませんでした。
 
-OpanAIとAzureのチャットツール設定で見落とされていたQuality、Style、ApiVersionパラメータの問題を修正しました。
+OpanAI、Azure チャットツールの設定で Quality、Style、ApiVersion パラメーターが抜けている問題を修正する。
 
 ### v1.4.0 - 2024.12.30
 
 ####新機能
 
-（実験的機能）Cllama（llama.cpp）は、マルチモードモデルをサポートし、画像を処理できます。
+（試験的機能）Cllama (llama.cpp) は多モードモデルをサポートし、画像を処理することができます。
 
-すべてのブループリントのタイプのパラメーターには詳細なヒントが追加されました。
+すべての設計図のタイプパラメータには詳細なヒントが追加されました。
 
 ### v1.3.4 - 2024.12.05
 
 ####新機能
 
-OpenAIはVision APIをサポートしています。
+OpenAIはビジョンAPIをサポートしています。
 
-####問題修復
+####問題を修正
 
-OpenAI stream=false のエラーを修正します
+OpenAI ストリーム=false のエラーを修正します。
 
 ### v1.3.3 - 2024.11.25
 
-####新しい機能
+####新機能
 
-* Support for UE-5.5
+* Support UE-5.5
+* UE-5.5をサポート
 
-####問題修復
+####問題の修正
 
-一部藍写真が機能しない問題を修正します。
+一部分の設計図の不具合を修正します。
 
 ### v1.3.2 - 2024.10.10
 
 ####問題修復
 
-手動停止リクエスト時の cllama のクラッシュを修正
+手動停止リクエストの修正時に、`cllama`がクラッシュする問題を修正しました。
 
-商城のダウンロードバージョンwinの問題を修正する：ggml.dll、llama.dllファイルが見つからない問題。
+商城のダウンロード版Winパッケージでggml.dllやllama.dllファイルが見つからない問題を修正します。
 
-GameThread 中进行的 CreateRequest 检查
+ゲームスレッド内でCreateRequestを確認します。
 
 ### v1.3.1 - 2024.9.30
 
-####新功能
+####新しい機能
 
-システムテンプレートビューアーを追加しました。数百ものシステム設定テンプレートを閲覧および使用できます。
+SystemTemplateViewerを追加し、数百のsystem設定テンプレートを表示および使用できるようにしました。
 
 ####問題修復
 
-商城からダウンロードしたプラグインを修復すると、llama.cpp でリンクライブラリが見つかりません。
+商城からダウンロードしたプラグインを修正すると、llama.cpp でリンクライブラリが見つかりません。
 
-LLAMACpp のパスが長すぎる問題を修正
+LLAMACpp パスの長さの問題を修正
 
-Windows パッケージング後のリンク llama.dll エラーを修正します。
+Windows パッケージング後のリンク llama.dll のエラーを修正します。
 
-iOSおよびAndroidのファイルパスの読み取り問題を修正します。
+iOS/Android のファイルパス読み込みの問題を修正
 
 Cllameの設定名の修正
 
@@ -545,35 +564,33 @@ Cllameの設定名の修正
 
 ####重要な新機能
 
-llama.cpp has been integrated to support offline execution of large models locally.
+llama.cpp が統合され、大規模モデルのローカルオフライン実行をサポートします。
 
 ### v1.2.0 - 2024.08.20
 
-####新しい機能
+####新機能
 
-OpenAI Image Edit/Image Variationのサポート
+OpenAI Image Edit/Image Variationをサポートします。
 
-Ollama APIをサポートし、Ollamaがサポートするモデルリストを自動的に取得する。
+Ollama APIに対応し、Ollamaサポートモデルのリストを自動的に取得する。
 
 ### v1.1.0 - 2024.08.07
 
-####新しい機能
+####新機能
 
-支持ブループリント
+サポートプラン
 
 ### v1.0.0 - 2024.08.05
 
 ####新機能
 
-基礎完備の機能
+基礎完整機能
 
-OpenAI、Azure、Claude、Gemini をサポートします。
+OpenAI、Azure、Claude、Gemini を支持します。
 
-組み込みされた高機能エディタ付きチャットツール
+組み込みの優れたエディター付きチャットツール
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**反響**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
-Translate this text into Japanese language:
-どんな見落としがあったか教えてください。 
+> この投稿はChatGPTを使って翻訳されています。ご意見や[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。→ どのような見落としも指摘してください。 
