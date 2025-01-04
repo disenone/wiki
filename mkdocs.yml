@@ -129,6 +129,7 @@ plugins:
       type: custom
       timezone: Asia/Shanghai
       enable_creation_date: true
+      custom_format: "%Y-%m-%d"
       exclude:
         - zh/index.md
         - zh/contact-and-subscribe.md
@@ -145,7 +146,6 @@ plugins:
         - ar/index.md
         - ar/contact-and-subscribe.md
         - zh-Hant/*.md
-      custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content
       #categories:
