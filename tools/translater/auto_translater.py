@@ -38,7 +38,7 @@ Tips = '此帖子是使用 ChatGPT 翻译的，请在[**反馈**](https://github
 
 Translate_Into = {
 	# 繁体中文
-	'tc': {
+	'zh-Hant': {
 		'name': 'Traditional Chinese',
 		'replace_rules': {
 			'--8<-- "footer.md"': '--8<-- "footer_tc.md"',
