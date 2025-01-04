@@ -289,5 +289,35 @@
   },
   "https://wiki.disenone.site/zh-Hant/assets/ext/footer_en/": {
     "time": 1735964240.1701148
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_en_nocomment/": {
+    "time": 1736022038.4079368
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_es/": {
+    "time": 1736022039.505916
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_fr/": {
+    "time": 1736022040.1485384
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_ja/": {
+    "time": 1736022041.002856
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_nocomment/": {
+    "time": 1736022041.8492103
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_tc/": {
+    "time": 1736022042.9474015
+  },
+  "https://wiki.disenone.site/zh-Hant/blog/": {
+    "time": 1736022043.5868888
+  },
+  "https://wiki.disenone.site/zh-Hant/": {
+    "time": 1736022044.6788898
+  },
+  "https://wiki.disenone.site/zh-Hant/contact-and-subscribe/": {
+    "time": 1736022045.9427712
+  },
+  "https://wiki.disenone.site/zh-Hant/cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/": {
+    "time": 1736022046.740772
   }
 }
