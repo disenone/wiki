@@ -132,7 +132,7 @@ plugins:
       enable_creation_date: true
       exclude:
         - zh/index.md
-        - tc/index.md
+        - zh-Hant/index.md
         - en/index.md
         - es/index.md
         - ja/index.md
@@ -140,7 +140,7 @@ plugins:
         - fr/index.md
         - ar/index.md
         - zh/contact-and-subscribe.md
-        - tc/contact-and-subscribe.md
+        - zh-Hant/contact-and-subscribe.md
         - en/contact-and-subscribe.md
         - es/contact-and-subscribe.md
         - ja/contact-and-subscribe.md
