@@ -259,5 +259,35 @@
   },
   "https://wiki.disenone.site/es/ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/": {
     "time": 1723148452.6414154
+  },
+  "https://wiki.disenone.site/assets/ext/footer_ar/": {
+    "time": 1735964231.5985436
+  },
+  "https://wiki.disenone.site/assets/ext/footer_de/": {
+    "time": 1735964232.3378053
+  },
+  "https://wiki.disenone.site/assets/ext/footer_es/": {
+    "time": 1735964233.4483335
+  },
+  "https://wiki.disenone.site/assets/ext/footer_fr/": {
+    "time": 1735964234.5631142
+  },
+  "https://wiki.disenone.site/assets/ext/footer_ja/": {
+    "time": 1735964235.3632097
+  },
+  "https://wiki.disenone.site/assets/ext/footer_tc/": {
+    "time": 1735964236.502585
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer/": {
+    "time": 1735964237.2821727
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_ar/": {
+    "time": 1735964237.94146
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_de/": {
+    "time": 1735964239.0627913
+  },
+  "https://wiki.disenone.site/zh-Hant/assets/ext/footer_en/": {
+    "time": 1735964240.1701148
   }
 }
