@@ -1,0 +1,2072 @@
+
+<!doctype html>
+<html lang="zh-Hant" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="本文讨论九宫格和十字链两种算法，并给出两种算法的实测性能分析，让你用起来心中有数，遇事不慌。
+">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/zh-Hant/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/">
+      
+      
+        <link rel="prev" href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/">
+      
+      
+        <link rel="next" href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="簡易資訊聚合" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="更新之部分的簡易資訊聚合" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>游戏 AOI 算法解析和性能实测 - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳轉至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="頁首">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              游戏 AOI 算法解析和性能实测
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="選擇語言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ja/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜尋" placeholder="搜尋" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="搜尋">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空" aria-label="清空" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜尋引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="標籤頁" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  編程技術
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  遊戲開發
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="導航" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    編程技術
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            編程技術
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 的命令行参数处理总结
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 宏编程解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    编写 Windows 下的 Memory Leak Detector
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP 源码剖析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 Visual Studio 2015 编译 Python 2.7.11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 1 - 探究 __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 杂谈 2 - Python3.12 热更新
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    遊戲開發
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            遊戲開發
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    基礎
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            基礎
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    游戏 AOI 算法解析和性能实测
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    游戏 AOI 算法解析和性能实测
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      引子
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格的实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表的实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      性能实测
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="性能实测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格实测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表实测
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 FASTBuild 编译 UE4 和 UE5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 通过插件源码添加插件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 扩展编辑器菜单
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 使用路径形式扩展菜单
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 设置本地化多语言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 实现各种图片 (UTexture2D) 操作 （读取、保存、复制、剪贴板...）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 编辑器插件 UE.EditorPlus 说明文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 插件 AIChatPlus 说明文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity第三人称相机构建(上)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity第三人称相机构建(下)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity人物控制
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity画深度图(Depth Map)和边缘检测(Edge Detection)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      引子
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格的实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表的实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      性能实测
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="性能实测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      九宫格实测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      十字链表实测
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/zh/game-游戏AOI算法解析和性能实测.md" title="編輯此頁" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>游戏 AOI 算法解析和性能实测</h1>
+
+<div><p><meta property="og:title" content="游戏 AOI 算法解析和性能实测"></p>
+<h3 id="_1">引子</h3>
+<p><code>AOI</code> (Area Of Interest) 在多人在线游戏中是很基本的功能，玩家需要接收进入视野范围内的其他玩家或者实体 (Entity) 的信息。计算玩家视野范围内存在哪些实体，有哪些实体进入或离开视野的算法，我们一般称之为 <code>AOI</code> 算法。</p>
+<p>本文讨论九宫格和十字链两种 <code>AOI</code> 算法，并给出两种算法的实测性能分析，让你用起来心中有数，遇事不慌。</p>
+<p>文中会提到玩家和实体两种词，实体是游戏中物体的概念，玩家是拥有 AOI 的实体。</p>
+<p>文中代码可在这里找到：<a href="https://github.com/disenone/AoiTesting">AoiTesting</a>。</p>
+<h3 id="_2">九宫格</h3>
+<p>所谓九宫格，是把场景内所有实体的位置按照格子划分，譬如划分成边长 200 的正方形，要找出中心玩家 AOI 范围内的其他实体，就把这个范围内涉及到的格子内的玩家都做一遍比较。</p>
+<p>例如场景每 100 毫秒会 Tick 一次，在 Tick 中我们可以这样更新玩家的 AOI：</p>
+<ul>
+<li>以玩家位置为中心，AOI 半径计算涉及到的格子集合</li>
+<li>对格子集合中的实体逐个计算跟玩家的距离</li>
+<li>距离小于 AOI 半径的实体集合则是玩家的新的 AOI</li>
+</ul>
+<p>九宫格算法做起来很简单，算法用几句话就能描述清楚了，具体的性能分析我们留到后面，先来看看十字链表算法。</p>
+<h3 id="_3">十字链表</h3>
+<p>对于 3D 游戏，我们一般会给 X 轴和 Z 轴坐标分别构建有序的链表，每个实体在链表上都有一个节点，存放的是该坐标轴值，按照值递增的顺序来存放。但如果只是存放实体本身的坐标点，这两个链表做查询的效率依然很低。</p>
+<p>真正关键的是，我们在链表上还会给拥有 AOI 的每个玩家增加左右两个哨兵节点。两个哨兵的坐标值跟玩家本身坐标正好相差了 AOI 半径，譬如玩家 <code>P</code> 坐标为 <code>(a, b, c)</code>，AOI 半径为 <code>r</code> ，那么在 X 轴上会有两个哨兵 <code>left_x, right_x</code>，坐标值分别为 <code>a - r</code> 和 <code>a + r</code>。由于有哨兵的存在，我们通过跟踪哨兵跟其他实体节点的移动来更新 AOI。继续前面的例子，一个实体 <code>E</code> 移动导致在 X 轴上的节点从 <code>left_x</code> 的右边想左跨过 <code>left_x</code> 来到 <code>left_x</code> 的左边，那么说明 <code>E</code> 肯定是离开了 <code>P</code> 的 AOI；同理如果向右跨过了 <code>right_x</code> 也是离开了 AOI。相反，如果是向右跨过 <code>left_x</code>，或者向左跨过 <code>right_x</code>，说明有可能会进入到 <code>P</code> 的 AOI 中。</p>
+<p>可以看到，十字链表算法要比九宫格复杂得多，我们需要维护两条有序的链表，并且在每个实体坐标更新的时候，同步移动链表上的节点，并且在移动跨过其他节点时更新 AOI。</p>
+<h3 id="_4">九宫格的实现</h3>
+<p>因为涉及到实测的性能，所以我们先来稍微深入一点九宫格算法的实现细节：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">aoi_players</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">struct</span><span class="w"> </span><span class="nc">PlayerAoi</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1">// ...    </span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="n">SquareId</span><span class="w"> </span><span class="n">square_id</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">square_index</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">last_pos</span><span class="p">;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>PlayerAoi</code> 存放玩家的数据，其中有一个 <code>sensors</code> 数组，<code>sensors</code> 就是用来计算一定范围内的实体，每次 <code>Tick</code> 之后把计算出来的实体计划放在 <code>aoi_players</code>。<code>aoi_players</code> 是存放了两个数组，用于上一次 <code>Tick</code> 结果做比较，求出进入和离开玩家。 <code>Tick</code> 的大致流程是这样：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="nf">SquareAoi::Tick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">remove_list</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="c1">// 对有 sensors 的玩家计算 Aoi</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">player</span><span class="p">.</span><span class="n">sensors</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">update_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_UpdatePlayerAoi</span><span class="p">(</span><span class="n">cur_aoi_map_idx_</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">player</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">update_infos</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">update_info</span><span class="p">.</span><span class="n">nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">update_info</span><span class="p">));</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="c1">// 记录玩家上次的位置</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">player</span><span class="p">.</span><span class="n">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="n">cur_aoi_map_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cur_aoi_map_idx_</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>Tick</code> 做的事情很简单，遍历有 <code>sensors</code> 的玩家，逐个计算 <code>sensor</code> 范围内的实体，即为 AOI。<code>last_pos</code> 是用来参与判断实体是否有进入或者离开 AOI，<code>_UpdatePlayerAoi</code> 的代码如下：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="nf">SquareAoi::_UpdatePlayerAoi</span><span class="p">(</span><span class="n">Uint32</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="w"> </span><span class="n">pptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">nuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">new_aoi_map_idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">sensors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">old_aoi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">aoi_players</span><span class="p">[</span><span class="n">cur_aoi_map_idx</span><span class="p">];</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">new_aoi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">aoi_players</span><span class="p">[</span><span class="n">new_aoi_map_idx</span><span class="p">];</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;*</span><span class="n">calc_aoi_players_func_</span><span class="p">)(</span><span class="o">*</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">sensor</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_aoi</span><span class="p">);</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">SensorUpdateInfo</span><span class="w"> </span><span class="n">update_info</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">enters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_info</span><span class="p">.</span><span class="n">enters</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">leaves</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update_info</span><span class="p">.</span><span class="n">leaves</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">_CheckLeave</span><span class="p">(</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">radius_square</span><span class="p">,</span><span class="w"> </span><span class="n">old_aoi</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">leaves</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="n">_CheckEnter</span><span class="p">(</span><span class="n">pptr</span><span class="p">,</span><span class="w"> </span><span class="n">radius_square</span><span class="p">,</span><span class="w"> </span><span class="n">new_aoi</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">enters</span><span class="p">);</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enters</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">leaves</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensor</span><span class="p">.</span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">update_info</span><span class="p">));</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>old_aoi</code> 是上一个 <code>Tick</code> 计算出来的 AOI，<code>new_aoi</code> 是本次 <code>Tick</code> 需要计算的 AOI。<code>new_aoi</code> 通过遍历 AOI 范围内的所有格子的实体，选出跟玩家距离小于 AOI 半径来获得。之后用 <code>_CheckLeave</code> 和 <code>_CheckEnter</code> 两个函数，计算本次 <code>Tick</code> 离开和进入 AOI 的实体，譬如如果 <code>new_aoi</code> 中的实体 <code>last_pos</code> 不在 AOI范围内，说明该实体是在本次 <code>Tick</code> 进入到了 AOI 范围。具体的代码可以看源文件，这里不再赘述。</p>
+<h3 id="_5">十字链表的实现</h3>
+<p>相比起九宫格，十字链表实现起来更复杂，先来看基本的数据结构：</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">CoordNode</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="n">Uint8</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="n">PlayerAoi</span><span class="w"> </span><span class="o">*</span><span class="n">pplayer</span><span class="p">;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="n">Sensor</span><span class="w"> </span><span class="o">*</span><span class="n">psensor</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">};</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">KHASH_MAP_INIT_INT64</span><span class="p">(</span><span class="n">SensorHashMap</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="p">);</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">radius_square</span><span class="p">;</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="n">PlayerAoi</span><span class="w"> </span><span class="o">*</span><span class="n">pplayer</span><span class="p">;</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">left_x</span><span class="p">;</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">right_x</span><span class="p">;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">left_z</span><span class="p">;</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">right_z</span><span class="p">;</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">aoi_players</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">khash_t</span><span class="p">(</span><span class="n">SensorHashMap</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="n">aoi_player_candidates</span><span class="p">;</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="p">};</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="k">struct</span><span class="w"> </span><span class="nc">PlayerAoi</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="c1">// ...</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">nuid</span><span class="p">;</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">  </span><span class="n">Pos</span><span class="w"> </span><span class="n">last_pos</span><span class="p">;</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">  </span><span class="n">Uint32</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">node_x</span><span class="p">;</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">  </span><span class="n">CoordNode</span><span class="w"> </span><span class="n">node_z</span><span class="p">;</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">boost</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">detected_by</span><span class="p">;</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>Sensor</code> 和 <code>PlayerAoi</code> 跟九宫格有部分相似，不过多了链表相关的节点结构 <code>CoordNode</code>。<code>CoordNode</code> 就是链表上的一个节点，记录了本身节点的类型和数值，类型有三种：玩家节点，<code>Sensor</code> 左节点，<code>Sensor</code> 右节点。</p>
+<p>十字链表的大部分工作都是在维持链表的有序：</p>
+<ul>
+<li>玩家加入时需要把玩家节点移动到有序的位置上，并且在移动玩家节点的同时，处理进入或者离开其他玩家 AOI 事件。</li>
+<li>玩家移动到正确的位置后，<code>Sensor</code> 左右节点从玩家前后位置出发，移动到正确的位置，并处理跨过其他玩家节点时触发的进入和离开事件。</li>
+<li>玩家移动时，更新玩家的坐标，并移动玩家节点和 <code>Sensor</code> 左右节点，处理 AOI 进入离开。</li>
+</ul>
+<p>移动节点的代码如下，每跨过一个节点，都会调用一次 <code>MoveCross</code> 函数，由 <code>MoveCross</code> 函数根据移动方向，移动节点和跨过节点的类型来决定是进入还是离开 AOI。</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ListUpdateNode</span><span class="p">(</span><span class="n">CoordNode</span><span class="w"> </span><span class="o">**</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">pnode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="c1">// move right</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="n">MoveCross</span><span class="p">(</span><span class="n">MOVE_DIRECTION_RIGHT</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">);</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">ListRemove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="n">ListInsertAfter</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="c1">// move left</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">      </span><span class="n">MoveCross</span><span class="p">(</span><span class="n">MOVE_DIRECTION_LEFT</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">);</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">      </span><span class="n">cur_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur_node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="n">ListRemove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="n">ListInsertBefore</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">cur_node</span><span class="p">,</span><span class="w"> </span><span class="n">pnode</span><span class="p">);</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">}</span>
+</code></pre></div>
+<p>链表的移动很慢，是 <code>O(n)</code> 的复杂度，特别是在玩家新加入场景时，玩家需要从无穷远的地方，逐步移动到正确的位置上，为此需要大量遍历的节点，消耗很大。为了优化性能，我们可以在场景中固定位置放置灯塔，这种灯塔处理上跟玩家大致相同，只是比玩家多记录了一份 <code>detected_by</code> 数据，<code>detected_by</code> 是用来记录该哨兵实体处在哪些 <code>Sensor</code> 范围内。玩家首次进入场景时，不再从最远处开始移动，而是找到一个最近的灯塔，把节点插入到灯塔旁边，并通过灯塔身上的 <code>detected_by</code> 数据，快速进入到跟灯塔一致的其他玩家的 AOI 范围内，然后开始移动到正确的位置上，当然移动的时候也要处理进入和离开。同理，对于 <code>Sensor</code>，也可以通过先继承灯塔的数据，然后从灯塔的位置上移动到正确位置上。通过这两种优化能够提升一倍以上的插入玩家性能。</p>
+<p><code>Sensor</code> 身上还有一个名叫 <code>aoi_player_candidates</code> 的 <code>HashMap</code>（这里为了性能，使用了<a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a>）。节点移动触发的 AOI 事件，其实只能检测到 X-Z 坐标轴上边长为 <code>2r</code> 的正方形区域，不是我们严格意义上的圆形区域的 AOI，这个正方形的区域内的实体都被记录在 <code>aoi_player_candidates</code> 上，并在 <code>Tick</code> 中遍历计算圆形区域内的 AOI 范围，所以称为 <code>candidates</code>。</p>
+<p>所有十字链表的操作都是为了一直维护正方形区域内的实体 <code>candidates</code>，十字链表中 <code>Tick</code> 做的操作跟九宫格几乎一致，只是遍历计算 AOI 的 <code>candidates</code> 不相同。九宫格的 <code>candidates</code> 是 AOI 圆形区域所覆盖到的格子的实体，而十字链表则是由 <code>Sensor</code> 左右节点所界定的边长为 <code>2r</code> 的正方形区域中的实体。定性的来说，十字链表的 <code>candidates</code> 一般都要比九宫格少，所以在 <code>Tick</code> 中的遍历次数少，性能更优，只是十字链表还有大量额外的性能消耗在了维护链表上，这两者整体的性能到底孰优孰劣，我们接下来实测看看。</p>
+<h3 id="_6">性能实测</h3>
+<p>我这里分别测了玩家加入场景（<code>Add Player</code>），计算 AOI 进出事件（<code>Tick</code>），玩家更新坐标位置（<code>Update Pos</code>）三种情况的时间消耗。</p>
+<p>玩家初始位置在地图范围内随机生成，然后把玩家加入场景。<code>player_num</code> 是玩家数量，<code>map_size</code> 则是地图 X-Z 坐标轴范围，玩家的位置在此范围内均匀随机生成，每个玩家都有一个半径 <code>100</code> 的 <code>Sensor</code> 作为 AOI，计算时间用的是 <code>boost::timer::cpu_timer</code>。<code>player_num</code> 分别选了 <code>100, 1000, 10000</code> 三种情况，而 <code>map_size</code> 则选了 <code>[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]</code> 四种情况。</p>
+<p>更新玩家位置会让玩家固定随机方向，以 <code>6m/s</code> 的速度移动。</p>
+<p>本次测试环境为：</p>
+<ul>
+<li>CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz</li>
+<li>系统: Debian GNU/Linux 10 (buster)</li>
+<li>gcc 版本: gcc version 8.3.0 (Debian 8.3.0-6)</li>
+<li>boost 版本: boost_1_75_0</li>
+</ul>
+<h4 id="_7">九宫格实测</h4>
+<p>九宫格的测试结果如下：</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000081</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000452</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000230</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000070</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000338</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000185</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000084</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000103</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000187</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000084</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000080</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000185</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000673</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.035298</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">85.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001841</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000664</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.025806</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">116.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001842</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000721</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001793</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001849</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">540.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000885</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000804</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001855</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006454</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">154.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">3.822028</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">3.800000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">3.820000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018402</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">108.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>
+<a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006439</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">2.805551</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">2.760000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">2.800000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018489</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">54.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a>
+<a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006698</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">149.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.093759</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">106.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.018350</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">54.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a>
+<a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-5-68" name="__codelineno-5-68" href="#__codelineno-5-68"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.009046</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">110.6</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-69" name="__codelineno-5-69" href="#__codelineno-5-69"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.012091</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">82.7</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019033</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">105.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+</code></pre></div>
+<p>九宫格在玩家数量 <code>100</code> 时，三种操作耗时都很小，极限情况 <code>map_size = [-50, 50]</code>，所有玩家互相都处于 AOI 范围内，<code>Tick</code> 耗时大概 <code>0.4ms</code>。玩家加入场景和更新坐标都是线性复杂度 <code>O(player_num)</code>，性能表现都不错。在 <code>player_num = 10000, map_size = [-50, 50]</code> 玩家人数达到 1 万的时候，<code>Add Player</code> 和 <code>Update Pos</code> 由于都是线性，几毫秒内就能完成，但 <code>Tick</code> 耗时就去到 <code>3.8s</code>，需要消耗大量 CPU，属于不可用了。人数 1 万，地图大小 <code>[-1000, 1000]</code>，情况下，<code>Tick</code> 时间消耗大概 <code>94ms</code>，如果能够降低 <code>Tick</code> 频率的话，譬如一秒两次，还是勉强属于可用的范围内。</p>
+<h4 id="_8">十字链表实测</h4>
+<p>十字链表的测试结果如下：</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.002057</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000330</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000232</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.001201</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000222</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000272</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000288</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000048</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000200</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000194</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000041</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000192</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.130766</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.130000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.130000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.4</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.028091</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">71.2</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.005369</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">186.2</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.103015</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.100000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">97.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019545</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">102.3</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.009208</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">108.6</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.010150</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">98.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000845</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.003023</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.004950</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">202.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000427</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.002234</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">21.606402</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">21.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">21.610000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">3.696885</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">3.680000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.030000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">3.710000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.4</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.434396</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.430000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.430000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a>
+<a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">100.000000</span><span class="p">,</span> <span class="mf">100.000000</span><span class="p">)</span>
+<a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">18.499235</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">18.470000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">18.490000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">2.292608</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">2.290000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">2.290000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">1.522617</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">1.530000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">1.530000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">100.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a>
+<a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1000.000000</span><span class="p">,</span> <span class="mf">1000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">1.642519</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">1.640000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">1.640000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042767</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.050000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.050000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">116.9</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.202949</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.200000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.200000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">98.5</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+<a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a>
+<a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">10000.000000</span><span class="p">,</span> <span class="mf">10000.000000</span><span class="p">)</span>
+<a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.571257</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.570000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">99.8</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.006325</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.010000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">158.1</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042568</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">94.0</span><span class="o">%</span><span class="p">)</span>
+<a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
+</code></pre></div>
+<p>如我们分析一致，十字链表在 <code>Add Player</code> 和 <code>Update Pos</code> 上耗时更长，特别是 <code>Add Player</code>，相比九宫格性能差了几百甚至上万倍（<code>100, [-50, 50]</code> 十字链耗时 <code>2ms</code>，而九宫格只有 <code>0.08ms</code>；<code>10000, [-50, 50]</code> 十字链 <code>21.6s</code>，九宫格只有 <code>6ms</code>。<code>Update Pos</code> 的耗时也最多会有百倍的差距，<code>10000, [-100, 100]</code> 十字链更新玩家位置耗时 <code>1.5s</code>，而九宫格是 <code>18ms</code>。可以看出，十字链在 <code>Add Player</code> 和 <code>Update Pos</code> 耗时的上下限范围比九宫格要大，受人数和地图大小影响更大，在玩家密集的区域，这两个操作的性能会急速下降，直至不可用。</p>
+<p>反观十字链的 <code>Tick</code> 操作，整体性能确实是比九宫格好，最好的情况耗时大概只有九宫格的一半左右（ <code>1000, [-1000, 1000]</code> 下十字链耗时 <code>0.8ms</code>，九宫格 <code>1.8ms</code>），但是最差的情况十字链会退化到跟九宫格的性能接近（<code>10000, [-10000, 10000]</code> 下十字链耗时 <code>3.7s</code>，九宫格 <code>3.8s</code>。这是因为由于场景小，玩家互相都在彼此的 AOI 范围内，十字链 <code>Tick</code> 遍历的 <code>candidates</code> 数量, 其实已经跟九宫格很接近了。</p>
+<p>十字链使用起来要达到比九宫格性能更优，需要一些更强的假设，譬如 <code>player_num = 1000, map_size = [-1000, 1000]</code> 情况下，<code>Tick</code> 耗时十字链为 <code>0.8ms</code> 九宫格 <code>1.8ms</code>，<code>Update Pos</code> 十字链为 <code>0.3ms</code> 九宫格 <code>0.18ms</code>（注意测试 <code>Update Pos</code> 时间为执行了 10 次的时间总和）。<code>Tick + Update Pos</code> 总时间下，十字链如果要比九宫格更少，那 <code>Update Pos</code> 的次数不能超过 <code>Tick</code> 的 <code>8</code> 倍，或者说两个 <code>Tick</code> 之间，<code>Update Pos</code> 的次数需要小于 <code>8</code> 次。另外因为十字链 <code>Add Player</code> 耗时巨大，不适用于玩家短时间频繁出入场景或者在场景内大范围传送的情况，另外如果短时间内有大量玩家进入场景，也很容易导致性能下降，大量占用 CPU。</p>
+<p>对于十字链表，在一个前提之下还能做一个优化：干掉 <code>Tick</code>，前提是游戏能接受正方形的 AOI，并且需要实测正方形 AOI 带来的其他诸如网络等消耗是能接受的。其实前提是比较苛刻的，因为在游戏中 AOI 计费能占用的 CPU 通常占比是不大的，但把圆形 AOI 改成方形 AOI 导致 AOI 范围面积增大，范围内的玩家数量也增多，均匀分布下玩家数量可能会增多到原来的 <code>1.27</code> 倍。但是，一旦能满足前提，十字链表可以做到不需要 <code>Tick</code> 来定期更新 AOI 事件，因为实现上十字链表的 <code>candidates</code> 就维护了一份方形下 AOI，原来只是为了计算圆形 AOI，而不得不在 <code>Tick</code> 中再遍历计算距离。在这种情况下，十字链是有可能能够达到很好的性能，因为十字链表 <code>Update Pos</code> 的性能可以跟 <code>Tick</code> 相差几倍到几十倍。</p>
+<p>最后给出两者的对比柱状图：</p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png"></a></p>
+<h3 id="_9">总结</h3>
+<p>本文我们介绍了两种 AOI 算法（九宫格和十字链）的原理和基本实现，并通过实测的数据分析了这两种算法的性能优劣，希望能够给读者带来一些帮助或者启发。</p>
+<p>总的来说，九宫格法实现简单，性能均衡不容易拉胯，非常适合 AOI 不是性能瓶颈的游戏来使用，九宫格法的性能波动范围是在可预期的范围内，性能下限比较高，也不容易导致瓶颈，但另一方面可优化空间也不大，时间复杂度比较固定。反观十字链法，实现要更复杂，性能下限比九宫格法低，但是如果能够满足一些假设和前提，十字链可优化空间更高，换句话说是上限是可以更高。这两种方法各有优劣，游戏业界内也有不同的引擎分别选择了两者之一，各取所需，见仁见智。</p>
+<p>本人能力有限，文中内容仅代表本人想法，如有不足不妥之处欢迎留言讨论。</p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>原文地址：<a href="https://wiki.disenone.site">https://wiki.disenone.site</a></p>
+<p>本篇文章受 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议保护，转载请注明出处。</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最後更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-02</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="建立日期">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2023-12-01</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到頂部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="頁脚" >
+        
+          
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Python 杂谈 2 - Python3.12 热更新">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一頁
+              </span>
+              <div class="md-ellipsis">
+                Python 杂谈 2 - Python3.12 热更新
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 使用 FASTBuild 编译 UE4 和 UE5">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一頁
+              </span>
+              <div class="md-ellipsis">
+                使用 FASTBuild 编译 UE4 和 UE5
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "\u5df2\u62f7\u8c9d", "clipboard.copy": "\u62f7\u8c9d", "search.result.more.one": "\u6b64\u9801\u5c1a\u6709 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.more.other": "\u6b64\u9801\u5c1a\u6709 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.none": "\u6c92\u6709\u627e\u5230\u7b26\u5408\u689d\u4ef6\u7684\u7d50\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u689d\u4ef6\u7684\u7d50\u679c", "search.result.other": "\u627e\u5230 # \u500b\u7b26\u5408\u689d\u4ef6\u7684\u7d50\u679c", "search.result.placeholder": "\u9375\u5165\u4ee5\u958b\u59cb\u6aa2\u7d22", "search.result.term.missing": "\u7f3a\u5931", "select.version": "\u9078\u64c7\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

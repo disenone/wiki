@@ -1,0 +1,1982 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="UE native support for FASTBuild is not very complete. In order to make UE4 and UE5 fully compatible with FASTBuild, we need to make some configuration and source code modifications. Let me guide you through the process.">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/fr/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/">
+      
+      
+        <link rel="prev" href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/">
+      
+      
+        <link rel="next" href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="Flux RSS" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="Flux RSS du contenu mis à jour" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Utiliser FASTBuild pour compiler UE4 et UE5 - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#preface" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Utiliser FASTBuild pour compiler UE4 et UE5
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh-Hant/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ja/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  Techniques de programmation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  Développement de jeux
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Techniques de programmation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Techniques de programmation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résumé du traitement des arguments de ligne de commande en C/C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analyse de la programmation de macros en C/C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rédiger un détecteur de fuites de mémoire pour Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analyse du code source de KCP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utiliser Visual Studio 2015 pour compiler Python 2.7.11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Chatter 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Discussions 2 - Mise à jour en direct de Python 3.12
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Développement de jeux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Développement de jeux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Fondamentaux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Fondamentaux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analyse algorithmique et tests de performance du jeu AOI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Utiliser FASTBuild pour compiler UE4 et UE5
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Utiliser FASTBuild pour compiler UE4 et UE5
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Préface.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-legere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration légère
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration légère">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-de-cet-appareil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration de cet appareil.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-a-distance-de-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration à distance de la machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-de-la-compilation-de-lue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la compilation de l'UE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration avancée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration avancée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#soutenir-des-versions-plus-anciennes-due" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soutenir des versions plus anciennes d'UE.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compiler-votre-propre-fastbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compiler votre propre FASTBuild.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afficher-plus-doptions-sur-fbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afficher plus d'options sur FBuild.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-le-fastbuildcs-integre-a-lue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier le FASTBuild.cs intégré à l'UE.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-fichier-buildconfigurationxml-est-une-configuration-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le fichier BuildConfiguration.xml est une configuration avancée.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE peut ajouter des plugins en utilisant le code source du plugin.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Élargir le menu de l'éditeur UE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE utilise le chemin pour étendre le menu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE met en place une localisation multilingue
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Réaliser diverses opérations sur les images (UTexture2D) dans l'UE (lecture, sauvegarde, copie, presse-papiers...).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugin de l'éditeur UE.EditorPlus de l'UE - Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Document d'instructions du plug-in UE AIChatPlus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unité construction de caméra à la troisième personne (Partie 1)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity Third Person Camera Setup Part 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contrôle des personnages Unity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity crée des cartes de profondeur (Depth Map) et détecte les bords (Edge Detection).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity réalise la dispersion de la lumière volumétrique (Volumetric Light Scattering, crepuscular rays)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Préface.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-legere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration légère
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration légère">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-de-cet-appareil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration de cet appareil.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-a-distance-de-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration à distance de la machine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-de-la-compilation-de-lue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la compilation de l'UE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration avancée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration avancée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#soutenir-des-versions-plus-anciennes-due" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soutenir des versions plus anciennes d'UE.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compiler-votre-propre-fastbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compiler votre propre FASTBuild.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#afficher-plus-doptions-sur-fbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Afficher plus d'options sur FBuild.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-le-fastbuildcs-integre-a-lue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier le FASTBuild.cs intégré à l'UE.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-fichier-buildconfigurationxml-est-une-configuration-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le fichier BuildConfiguration.xml est une configuration avancée.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/fr/ue-使用FASTBuild编译UE4和UE5.md" title="Editer cette page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>Utiliser FASTBuild pour compiler UE4 et UE5</h1>
+
+<div><p><meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5"></p>
+<blockquote>
+<p>Ce texte a été testé avec succès sur UE4.27 - UE5.3, les autres versions n'ont pas été testées, mais peuvent être essayées.</p>
+</blockquote>
+<h2 id="preface">Préface.</h2>
+<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>C'est un outil de compilation distribuée open source gratuit. Le processus de compilation de l'UE consomme beaucoup de temps, mais avec FASTBuild, on peut grandement réduire ce temps.</p>
+<p>À partir de la version 4.x, l'UE prend en charge FASTBuild. Le code source officiel contient un outil FASTBuild modifié, basé sur la version 0.99 de FASTBuild, situé dans <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>. UE5.3 utilise également cette version. C'est une version assez ancienne maintenant. Au moment de la rédaction de cet article, la dernière version officielle de FASTBuild est la 1.11, offrant de nouvelles fonctionnalités et correctifs de bugs. Cet article se concentre sur la manière d'utiliser la version 1.11 pour prendre en charge à la fois UE4 et UE5.</p>
+<h2 id="configuration-legere">Configuration légère</h2>
+<p>Pour atteindre notre objectif, nous devons apporter quelques modifications au FASTBuild 1.11 et au code source d'UE. En fait, j'ai déjà effectué toutes les modifications nécessaires ici, donc nous pouvons utiliser directement la version modifiée que j'ai préparée.</p>
+<p>Téléchargez le <a href="https://github.com/disenone/fastbuild/releases">dernière version</a>Les fichiers exécutables à l'intérieur sont FBuild.exe, FBuildCoordinator.exe, FBuildWorker.exe. Pour clarifier, ci-dessous, l'utilisation de FBuild.exe pour la programmation est appelée "l'hôte local", tandis que les autres machines distantes qui fournissent une assistance CPU pour l'édition sont appelées "machines distantes".</p>
+<h3 id="configuration-de-cet-appareil">Configuration de cet appareil.</h3>
+<p>Ajoutez le répertoire où se trouve FBuild.exe au chemin d'accès de l'environnement système (Path) pour vous assurer que vous pouvez exécuter directement FBuild.exe dans l'invite de commandes (cmd).</p>
+<p>Configurer le répertoire de cache partagé (si le cache n'est pas nécessaire, vous pouvez ne pas le configurer) : définir un répertoire vide comme chemin partagé et vérifier que la machine distante peut y accéder.</p>
+<p>Ouvrez le projet source de UE4 / UE5 sur cette machine et modifiez le fichier de configuration de compilation Engine\Saved\UnrealBuildTool\BuildConfiguration.xml comme suit :</p>
+<div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="nt">&lt;bEnableDistribution&gt;</span>true<span class="nt">&lt;/bEnableDistribution&gt;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">&lt;/Configuration&gt;</span>
+</code></pre></div>
+<p>Exécuter le fichier FBuildCoordinator.exe téléchargé précédemment sur cette machine.</p>
+<h3 id="configuration-a-distance-de-la-machine">Configuration à distance de la machine</h3>
+<p>Configurez la même mémoire cache, mais spécifiez l'adresse IP vers l'adresse IP locale, supposons ici qu'elle soit 192.168.1.100.</p>
+<ul>
+<li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
+<li>FASTBUILD_CACHE_MODE: rw</li>
+</ul>
+<p>Configurer de manière identique l'adresse IP du coordinateur</p>
+<ul>
+<li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
+</ul>
+<p>Configurer comme indiqué dans l'image ci-dessous.</p>
+<p><a class="glightbox" href="../../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-fastbuild/remote_vars.png"></a></p>
+<p>Exécutez FBuildWorker.exe sur la machine distante. Si la configuration est réussie, vous verrez des journaux imprimés sur FBuildCoordinator.exe de votre machine locale (où l'adresse IP de la machine distante est 192.168.1.101) :</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>FBuildCoordinator - v1.11-UE
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[2023-12-01-20:06:38] Listening on port 31392
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[2023-12-01-20:06:38] current [0] workers: []
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[2023-12-01-20:06:42] New worker available: 192.168.1.101
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
+</code></pre></div>
+<h3 id="verification-de-la-compilation-de-lue">Vérification de la compilation de l'UE</h3>
+<p>Ouvrez le projet source UE avec VisualStudio en ouvrant le fichier sln, sélectionnez un projet C++, puis cliquez sur Rebuild. Si la configuration est correcte, vous devriez voir des journaux similaires à ceux-ci.</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>11&gt;FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>11&gt;FBuild Executable: 'd:\libs\FASTBuild\bin\FBuild.exe
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>11&gt;FBuild Coordinator: '127.0.0.1
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>11&gt;FBuild BrokeragePath: '\\127.0.0.1\Brokerage\
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>11&gt;FBuild CachePath: '\\127.0.0.1\Cache\
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>11&gt;BFF file 'E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff' has changed (reparsing will occur).
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>11&gt;Using Coordinator: 127.0.0.1
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>11&gt;Requesting worker list from Corrdinator
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>11&gt;Get Worker List from Coordinator.
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>11&gt;2 workers in payload: [192.168.1.101]
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>11&gt;Worker list received: 1 workers
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11&gt;Distributed Compilation : 1 Workers in pool '127.0.0.1'
+</code></pre></div>
+<p>FASTBuild peut trouver l'adresse IP de la machine distante et commencer à envoyer le processus de compilation à distance. Sur le FBuildWorker de la machine distante, on peut également voir qu'une tâche de compilation est en cours.</p>
+<h2 id="configuration-avancee">Configuration avancée</h2>
+<h3 id="soutenir-des-versions-plus-anciennes-due">Soutenir des versions plus anciennes d'UE.</h3>
+<p>Si vous constatez que votre UE ne dispose pas de l'outil FASTBuild (Engine\Extras\ThirdPartyNotUE\FASTBuild) et qu'il n'y a pas de fichier FASTBuild.cs dans le projet UnrealBuildTool, il est très probable que la version de votre UE ne prend pas encore en charge FASTBuild.</p>
+<p>Alors, vous devez vous référer au code source de l'UE4.27, créer également un fichier FASTBuild.cs similaire, et apporter les modifications nécessaires au reste du code. Je n'entrerai pas dans les détails ici.</p>
+<h3 id="compiler-votre-propre-fastbuild">Compiler votre propre FASTBuild.</h3>
+<p>Si FASTBuild t'intéresse également, ou si tu souhaites apporter des modifications, tu peux essayer de compiler FASTBuild avec FASTBuild.</p>
+<p>Téléchargez mon <a href="https://github.com/disenone/fastbuild/releases">dernier code source</a>Et décompresser
+Modifier le fichier External\SDK\VisualStudio\VS2019.bff en remplaçant les valeurs de .VS2019_BasePath et .VS2019_Version par celles correspondant à votre machine locale. Vous pouvez trouver la version dans le répertoire .VS2019_BasePath\Tools\MSVC, par exemple.
+    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // &lt;-- Set path here
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.VS2019_Version         = '14.29.30133' // &lt;-- Set version here
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>.VS2019_MSC_VER         = '1929' // &lt;-- Set MSC_VER here
+</code></pre></div>
+<p>Veuillez modifier les valeurs de .Windows10_SDKBasePath et .Windows10_SDKVersion dans External\SDK\Windows\Windows10SDK.bff. Vous pouvez trouver la version dans .Windows10_SDKBasePath/bin.
+    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
+</code></pre></div>
+<p>Veuillez modifier les valeurs de .Clang11_BasePath et .Clang11_Version dans External\SDK\Clang\Windows\Clang11.bff, situées dans le chemin .VS2019_BasePath\Tools\Tools/LLVM/x64.
+    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = '12.x.x'
+</code></pre></div>
+<p>Allez dans le répertoire Code, puis exécutez <code>FBuild.exe All-x64-Release</code> dans cmd. Si la configuration est correcte, vous devriez voir une compilation réussie. Vous pourrez trouver FBuild.exe dans tmp\x64-Release\Tools\FBuild\FBuild.</p>
+<ul>
+<li><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> allows you to enable distributed compilation.</li>
+</ul>
+<h3 id="afficher-plus-doptions-sur-fbuild">Afficher plus d'options sur FBuild.</h3>
+<p>Je propose des options couramment utilisées prises en charge par FBuild :</p>
+<ul>
+<li>coordinate: Specify the Coordinator IP address (which can override the value of system environment variables)</li>
+<li>brokerage: Adresse de courtage spécifiée (pouvant remplacer les valeurs des variables d'environnement du système)</li>
+<li>nocache: force à ne pas utiliser le cache</li>
+<li>dist: Activer la compilation distribuée
+forceremote: obligé à compiler sur la machine distante
+résumé: Émettre un rapport statistique après l'édition.</li>
+</ul>
+<p>Attendez, pour plus d'options, vous pouvez exécuter <code>FBuild.exe -help</code> pour les consulter.</p>
+<p>Les options couramment utilisées par FBuildWorker sont:</p>
+<ul>
+<li>coordinate: Assigner l'adresse IP du coordinateur (pouvant remplacer la valeur des variables d'environnement du système)</li>
+<li>courtage: Adresse de courtage spécifiée (pouvant écraser les valeurs des variables d'environnement du système)
+nocache: force à ne pas utiliser le cache</li>
+<li>cpus: spécifie le nombre de cœurs à utiliser pour la compilation</li>
+</ul>
+<p>Plus d'options peuvent être consultées en exécutant <code>FBuildWorder.exe -help</code>.</p>
+<h3 id="modifier-le-fastbuildcs-integre-a-lue">Modifier le FASTBuild.cs intégré à l'UE.</h3>
+<p>Le fichier FASTBuild.cs fourni par l'UE ne gère pas correctement les variables d'environnement système par rapport aux paramètres spécifiés dans BuildConfiguration.xml. De nombreux paramètres sont d'abord lus à partir des variables d'environnement système, ce qui va à l'encontre de la logique d'utilisation de BuildConfiguration.xml.</p>
+<p>Pour ce faire, vous pouvez modifier le code pertinent comme ceci, en prenant UE5.3 comme exemple :</p>
+<div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">private</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ExecuteBffFile</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">BffFilePath</span><span class="p">,</span><span class="w"> </span><span class="n">ILogger</span><span class="w"> </span><span class="n">Logger</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bEnableCaching</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">CacheMode</span><span class="p">)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">FASTBuildCacheMode</span><span class="p">.</span><span class="n">ReadOnly</span><span class="p">:</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">                </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"-cacheread"</span><span class="p">;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">FASTBuildCacheMode</span><span class="p">.</span><span class="n">WriteOnly</span><span class="p">:</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">                </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"-cachewrite"</span><span class="p">;</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">FASTBuildCacheMode</span><span class="p">.</span><span class="n">ReadWrite</span><span class="p">:</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"-cache"</span><span class="p">;</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="k">else</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">        </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"-nocache"</span><span class="p">;</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">DistArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bEnableDistribution</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"-dist"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">ForceRemoteArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bForceRemote</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"-forceremote"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">NoStopOnErrorArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bStopOnError</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"-nostoponerror"</span><span class="p">;</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">IDEArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IsApple</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"-ide"</span><span class="p">;</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">MaxProcesses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"-j"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">ParallelExecutor</span><span class="p">)</span><span class="n">LocalExecutor</span><span class="p">).</span><span class="n">NumParallelProcesses</span><span class="p">;</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="c1">// Interesting flags for FASTBuild:</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">    </span><span class="c1">// -nostoponerror, -verbose, -monitor (if FASTBuild Monitor Visual Studio Extension is installed!)</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">    </span><span class="c1">// Yassine: The -clean is to bypass the FASTBuild internal</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">    </span><span class="c1">// dependencies checks (cached in the fdb) as it could create some conflicts with UBT.</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="w">    </span><span class="c1">// Basically we want FB to stupidly compile what UBT tells it to.</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">FBCommandLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$"-monitor -summary {DistArgument} {CacheArgument} {IDEArgument} {MaxProcesses} -clean -config \"{BffFilePath}\" {NoStopOnErrorArgument} {ForceRemoteArgument}"</span><span class="p">;</span>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="w">    </span><span class="n">Logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">"FBuild Command Line Arguments: '{FBCommandLine}"</span><span class="p">,</span><span class="w"> </span><span class="n">FBCommandLine</span><span class="p">);</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">FBExecutable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetExecutablePath</span><span class="p">()</span><span class="o">!</span><span class="p">;</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="w">    </span><span class="n">Logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">"FBuild Executable: '{FBExecutable}"</span><span class="p">,</span><span class="w"> </span><span class="n">FBExecutable</span><span class="p">);</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">WorkingDirectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Path</span><span class="p">.</span><span class="n">GetFullPath</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Unreal</span><span class="p">.</span><span class="n">EngineDirectory</span><span class="p">.</span><span class="n">MakeRelativeTo</span><span class="p">(</span><span class="n">DirectoryReference</span><span class="p">.</span><span class="n">GetCurrentDirectory</span><span class="p">()),</span><span class="w"> </span><span class="s">"Source"</span><span class="p">));</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="w">    </span><span class="n">ProcessStartInfo</span><span class="w"> </span><span class="n">FBStartInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProcessStartInfo</span><span class="p">(</span><span class="n">FBExecutable</span><span class="p">,</span><span class="w"> </span><span class="n">FBCommandLine</span><span class="p">);</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="w">    </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">UseShellExecute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="w">    </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">WorkingDirectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WorkingDirectory</span><span class="p">;</span>
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="w">    </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">RedirectStandardError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="w">    </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">RedirectStandardOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a>
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a><span class="w">    </span><span class="kt">string?</span><span class="w"> </span><span class="n">Coordinator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetCoordinator</span><span class="p">();</span>
+<a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">String</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">Coordinator</span><span class="p">))</span>
+<a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a><span class="w">        </span><span class="n">Logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">"FBuild Coordinator: '{Coordinator}"</span><span class="p">,</span><span class="w"> </span><span class="n">Coordinator</span><span class="p">);</span>
+<a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a><span class="w">        </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">EnvironmentVariables</span><span class="p">[</span><span class="s">"FASTBUILD_COORDINATOR"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Coordinator</span><span class="p">;</span>
+<a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a>
+<a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a><span class="w">    </span><span class="kt">string?</span><span class="w"> </span><span class="n">BrokeragePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetBrokeragePath</span><span class="p">();</span>
+<a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">String</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">BrokeragePath</span><span class="p">))</span>
+<a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a><span class="w">        </span><span class="n">Logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">"FBuild BrokeragePath: '{BrokeragePath}"</span><span class="p">,</span><span class="w"> </span><span class="n">BrokeragePath</span><span class="p">);</span>
+<a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a><span class="w">        </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">EnvironmentVariables</span><span class="p">[</span><span class="s">"FASTBUILD_BROKERAGE_PATH"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BrokeragePath</span><span class="p">;</span>
+<a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a>
+<a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a><span class="w">    </span><span class="kt">string?</span><span class="w"> </span><span class="n">CachePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetCachePath</span><span class="p">();</span>
+<a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">String</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">CachePath</span><span class="p">))</span>
+<a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a><span class="w">        </span><span class="n">Logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">"FBuild CachePath: '{CachePath}"</span><span class="p">,</span><span class="w"> </span><span class="n">CachePath</span><span class="p">);</span>
+<a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a><span class="w">        </span><span class="n">FBStartInfo</span><span class="p">.</span><span class="n">EnvironmentVariables</span><span class="p">[</span><span class="s">"FASTBUILD_CACHE_PATH"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CachePath</span><span class="p">;</span>
+<a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="p">...</span>
+</code></pre></div>
+<h3 id="le-fichier-buildconfigurationxml-est-une-configuration-avancee">Le fichier BuildConfiguration.xml est une configuration avancée.</h3>
+<div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&lt;ProjectFileGenerator&gt;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cm">&lt;!-- Spécifier la version de Visual Studio --&gt;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="nt">&lt;Format&gt;</span>VisualStudio2022<span class="nt">&lt;/Format&gt;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">&lt;/ProjectFileGenerator&gt;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="cm">&lt;!-- Activer FASTBuild --&gt;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="cm">&lt;!-- Spécifie le nombre de cœurs CPU utilisés pour la compilation sur cette machine locale --&gt;</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">&lt;MaxParallelActions&gt;</span>12<span class="nt">&lt;/MaxParallelActions&gt;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Fermer Incredibuild --&gt;</span><span class="w">  </span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="nt">&lt;bAllowXGE&gt;</span>false<span class="nt">&lt;/bAllowXGE&gt;</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="cm">&lt;!-- Spécifier le chemin FBuild --&gt;</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">        </span><span class="nt">&lt;FBuildExecutablePath&gt;</span>d:\libs\FASTBuild\bin\FBuild.exe<span class="nt">&lt;/FBuildExecutablePath&gt;</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="cm">&lt;!-- Activer la compilation distribuée --&gt;</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="nt">&lt;bEnableDistribution&gt;</span>true<span class="nt">&lt;/bEnableDistribution&gt;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- Spécifiez le chemin du courtage --&gt;</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">        </span><span class="nt">&lt;FBuildBrokeragePath&gt;</span>\\127.0.0.1\Brokerage\<span class="nt">&lt;/FBuildBrokeragePath&gt;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="cm">&lt;!-- Spécifie le chemin du cache --&gt;</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="cm">&lt;!-- Activer le cache --&gt;</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- Droits de lecture/écriture/droit de lecture-écriture du cache --&gt;</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- Specify the coordinator IP --&gt;</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- Compilation distante forcée --&gt;</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="nt">&lt;/Configuration&gt;</span>
+</code></pre></div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://wiki.disenone.site/fr">https://wiki.disenone.site/fr</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="fr" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>(https://github.com/disenone/wiki_blog/issues/new)S'il vous plaît signaler tout oubli. </p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Dernière mise à jour">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Créé">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
+        
+          
+          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Analyse algorithmique et tests de performance du jeu AOI">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Analyse algorithmique et tests de performance du jeu AOI
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="Suivant: UE peut ajouter des plugins en utilisant le code source du plugin.">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                UE peut ajouter des plugins en utilisant le code source du plugin.
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
