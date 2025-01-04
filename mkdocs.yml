@@ -125,29 +125,27 @@ plugins:
   - blog:
       post_readtime: true
       post_date_format: full
-  # - git-revision-date-localized:
-  #     type: custom
-  #     timezone: Asia/Shanghai
-  #     locale: en
-  #     enable_creation_date: true
-  #     exclude:
-  #       - zh/index.md
-  #       - zh-Hant/index.md
-  #       - en/index.md
-  #       - es/index.md
-  #       - ja/index.md
-  #       - de/index.md
-  #       - fr/index.md
-  #       - ar/index.md
-  #       - zh/contact-and-subscribe.md
-  #       - zh-Hant/contact-and-subscribe.md
-  #       - en/contact-and-subscribe.md
-  #       - es/contact-and-subscribe.md
-  #       - ja/contact-and-subscribe.md
-  #       - de/contact-and-subscribe.md
-  #       - fr/contact-and-subscribe.md
-  #       - ar/contact-and-subscribe.md
-  #     custom_format: "%Y-%m-%d"
+  - git-revision-date-localized:
+      type: custom
+      timezone: Asia/Shanghai
+      enable_creation_date: true
+      exclude:
+        - zh/index.md
+        - zh/contact-and-subscribe.md
+        - en/index.md
+        - en/contact-and-subscribe.md
+        - es/index.md
+        - es/contact-and-subscribe.md
+        - ja/index.md
+        - ja/contact-and-subscribe.md
+        - de/index.md
+        - de/contact-and-subscribe.md
+        - fr/index.md
+        - fr/contact-and-subscribe.md
+        - ar/index.md
+        - ar/contact-and-subscribe.md
+        - zh-Hant/*.md
+      custom_format: "%Y-%m-%d"
   - rss:
       abstract_chars_count: -1 # -1 for full content
       #categories:
