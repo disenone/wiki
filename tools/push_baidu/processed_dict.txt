@@ -379,5 +379,35 @@
   },
   "https://wiki.disenone.site/zh-Hant/unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/": {
     "time": 1736194862.0495322
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_ar/": {
+    "time": 1736281352.1461983
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_de/": {
+    "time": 1736281352.5845847
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_es/": {
+    "time": 1736281352.927042
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_fr/": {
+    "time": 1736281353.5138354
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_ja/": {
+    "time": 1736281354.2400951
+  },
+  "https://wiki.disenone.site/en/assets/ext/footer_tc/": {
+    "time": 1736281354.8324482
+  },
+  "https://wiki.disenone.site/es/assets/ext/footer_ar/": {
+    "time": 1736281355.653322
+  },
+  "https://wiki.disenone.site/es/assets/ext/footer_de/": {
+    "time": 1736281356.3827484
+  },
+  "https://wiki.disenone.site/es/assets/ext/footer_es/": {
+    "time": 1736281357.12353
+  },
+  "https://wiki.disenone.site/es/assets/ext/footer_fr/": {
+    "time": 1736281357.7182715
   }
 }
