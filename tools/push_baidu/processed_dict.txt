@@ -799,5 +799,29 @@
   },
   "https://wiki.disenone.site/ar/assets/ext/footer_en_nocomment/": {
     "time": 1737404459.5524416
+  },
+  "https://wiki.disenone.site/ar/assets/ext/footer_es/": {
+    "time": 1737490930.7369301
+  },
+  "https://wiki.disenone.site/ar/assets/ext/footer_fr/": {
+    "time": 1737490931.624658
+  },
+  "https://wiki.disenone.site/ar/assets/ext/footer_ja/": {
+    "time": 1737490932.297152
+  },
+  "https://wiki.disenone.site/ar/assets/ext/footer_nocomment/": {
+    "time": 1737490932.743599
+  },
+  "https://wiki.disenone.site/ar/assets/ext/footer_tc/": {
+    "time": 1737490933.293305
+  },
+  "https://wiki.disenone.site/ar/blog/": {
+    "time": 1737490933.8349316
+  },
+  "https://wiki.disenone.site/ar/": {
+    "time": 1737490934.9164295
+  },
+  "https://wiki.disenone.site/ar/contact-and-subscribe/": {
+    "time": 1737490935.4526007
   }
 }
