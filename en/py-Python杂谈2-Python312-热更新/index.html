@@ -25,7 +25,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
       
       <link rel="icon" href="../../assets/favicon/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1485,12 +1485,12 @@
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># hotfix code</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># hotfix data</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span> <span class="nn">weapon_data</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">weapon_data</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">weapon_data</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">damage</span> <span class="o">=</span> <span class="mi">100</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># hotfix func</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kn">import</span> <span class="nn">player</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">def</span> <span class="nf">new_fire_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">player</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">new_fire_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">target</span><span class="o">.</span><span class="n">health</span> <span class="o">-=</span> <span class="n">weapon_data</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">damage</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="c1"># ...</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span> <span class="o">=</span> <span class="n">new_fire_func</span>
@@ -1501,7 +1501,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">player_fire</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">def</span> <span class="nf">player_attack_by_gun</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">player_attack_by_gun</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">player_fire</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="c1"># ...</span>
 </code></pre></div>
@@ -1510,7 +1510,7 @@
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># hotfix code</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># ...</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">import</span> <span class="nn">attack</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">attack</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">attack</span><span class="o">.</span><span class="n">player_fire</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span>
 </code></pre></div>
 <p>After modifying the data/function core with a hotfix, make additional modifications to the places where it is referenced. These additional modifications are easily overlooked, so we still recommend avoiding the practice of multiple references as much as possible from the code specification perspective.</p>
@@ -1572,11 +1572,11 @@ If there is a large amount of data/functions that need to be hotfixed, then the 
 <span class="normal"><a href="#__codelineno-3-38">38</a></span>
 <span class="normal"><a href="#__codelineno-3-39">39</a></span>
 <span class="normal"><a href="#__codelineno-3-40">40</a></span>
-<span class="normal"><a href="#__codelineno-3-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">class</span> <span class="nc">MetaFinder</span><span class="p">:</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloader</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-3-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MetaFinder</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloader</span><span class="p">):</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_reloader</span> <span class="o">=</span> <span class="n">reloader</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="k">def</span> <span class="nf">find_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6"></a>        <span class="c1"># find source file</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7"></a>        <span class="n">finder</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">PathFinder</span><span class="p">()</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8"></a>        <span class="n">spec</span> <span class="o">=</span> <span class="n">finder</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -1602,14 +1602,14 @@ If there is a large amount of data/functions that need to be hotfixed, then the 
 <a id="__codelineno-3-28" name="__codelineno-3-28"></a>        <span class="k">return</span> <span class="n">import_util</span><span class="o">.</span><span class="n">spec_from_loader</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="n">MetaLoader</span><span class="p">(</span><span class="n">module</span><span class="p">))</span>
 <a id="__codelineno-3-29" name="__codelineno-3-29"></a>
 <a id="__codelineno-3-30" name="__codelineno-3-30"></a>
-<a id="__codelineno-3-31" name="__codelineno-3-31"></a><span class="k">class</span> <span class="nc">MetaLoader</span><span class="p">:</span>
-<a id="__codelineno-3-32" name="__codelineno-3-32"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31"></a><span class="k">class</span><span class="w"> </span><span class="nc">MetaLoader</span><span class="p">:</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
 <a id="__codelineno-3-33" name="__codelineno-3-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="n">module</span>
 <a id="__codelineno-3-34" name="__codelineno-3-34"></a>
-<a id="__codelineno-3-35" name="__codelineno-3-35"></a>    <span class="k">def</span> <span class="nf">create_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
 <a id="__codelineno-3-36" name="__codelineno-3-36"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span>
 <a id="__codelineno-3-37" name="__codelineno-3-37"></a>
-<a id="__codelineno-3-38" name="__codelineno-3-38"></a>    <span class="k">def</span> <span class="nf">exec_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">exec_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
 <a id="__codelineno-3-39" name="__codelineno-3-39"></a>        <span class="c1"># restore __spec__</span>
 <a id="__codelineno-3-40" name="__codelineno-3-40"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_spec__'</span><span class="p">)</span>
 <a id="__codelineno-3-41" name="__codelineno-3-41"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_loader__'</span><span class="p">)</span>
@@ -1664,14 +1664,14 @@ If there is a large amount of data/functions that need to be hotfixed, then the 
 <span class="normal"><a href="#__codelineno-4-46">46</a></span>
 <span class="normal"><a href="#__codelineno-4-47">47</a></span>
 <span class="normal"><a href="#__codelineno-4-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># ...</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="k">def</span> <span class="nf">ReloadModule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">ReloadModule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="n">old_module_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old_module_infos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">old_module_info</span><span class="p">:</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5"></a>        <span class="k">return</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">ReloadDict</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">old_module_info</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8"></a>
-<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="k">def</span> <span class="nf">ReloadDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">old_dict</span><span class="p">,</span> <span class="n">new_dict</span><span class="p">,</span> <span class="n">_reload_all_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_del_func</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">ReloadDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">old_dict</span><span class="p">,</span> <span class="n">new_dict</span><span class="p">,</span> <span class="n">_reload_all_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_del_func</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="n">dels</span> <span class="o">=</span> <span class="p">[]</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11"></a>
 <a id="__codelineno-4-12" name="__codelineno-4-12"></a>    <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">old_attr</span> <span class="ow">in</span> <span class="n">old_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1877,10 +1877,10 @@ If it's data and needs to be preserved, it will roll back <code>new_dict[attr_na
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
