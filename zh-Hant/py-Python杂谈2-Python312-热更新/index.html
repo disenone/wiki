@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="記錄如何在 Python3.12 中實現熱更新">
+        <meta name="description" content="記錄如何在 Python3.12 中實現熱更新。">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Python 筆記 2 - Python 3.12 熱更新 - Disenone's Wiki</title>
+        <title>Python 閒談 2 - Python 3.12 熱更新 - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Python 筆記 2 - Python 3.12 熱更新
+              Python 閒談 2 - Python 3.12 熱更新
             
           </span>
         </div>
@@ -592,7 +592,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -716,7 +716,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -746,7 +746,7 @@
           
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -757,7 +757,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -781,7 +781,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      即刻更新
+      熱更新
     </span>
   </a>
   
@@ -1058,7 +1058,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1079,7 +1079,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1142,7 +1142,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1163,7 +1163,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1265,7 +1265,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1286,7 +1286,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1328,7 +1328,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1403,7 +1403,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      即刻更新
+      熱更新
     </span>
   </a>
   
@@ -1469,19 +1469,20 @@
 
 
 <div><p><meta property="og:title" content="Python 杂谈 2 - Python3.12 热更新"></p>
-<h1 id="python-2-python312">Python 談談 2 - Python3.12 熱更新</h1>
+<h1 id="python-2-python312">Python 談話 2 - Python3.12 熱更新</h1>
 <blockquote>
-<p>記錄如何在 Python 3.12 中實現熱更新</p>
+<p>記錄如何在 Python3.12 中實現熱更新</p>
 </blockquote>
-<h2 id="_1">即刻更新</h2>
+<h2 id="_1">熱更新</h2>
 <p>熱更新（Hot Reload）可以理解為在不需要重啟程序的情況下對其進行更新的技術。這項技術在遊戲行業有廣泛的應用，開發者對遊戲問題進行修復的時候，為了不對玩家造成影響，往往需要採用一些靜默更新的方式，也就是熱更新。</p>
 <h2 id="python">Python 熱更新</h2>
-<p>Python本身是一种动态语言，一切皆为对象，有能力进行热更新。我们可以将Python中需要进行热更新的对象粗略分为两种：数据和函数。</p>
-<p>數據，可以理解為遊戲中的數值或者設定，例如玩家的等級，裝備等等一些數據，部分數據是不應該熱更的（例如玩家當前等級，玩家身上擁有哪些裝備，這些數據的修改不應該通過熱更來實現），部分數據是我們想要熱更的（例如裝備的基礦數值設定，技能的基礎數值設定，UI 上的文字等等）。</p>
-<p>函數，可以理解為遊戲邏輯，這基本都是我們想要熱更的，邏輯錯誤基本都需要通過熱更新函數來實現。</p>
-<p>讓我們進一步探討一下有哪些方法可以對 Python3.12 進行熱更新。</p>
+<p>Python 本身是動態語言，一切皆是對象，是有能力做到熱更新的。我們可以粗略把 Python 中的需要熱更的對象分成兩種：數據 和 函數。</p>
+<p>數據，可以理解成遊戲中的數值或者設定，例如玩家的等級、裝備等等一些數據，部分數據是不應該熱更的（例如玩家當前等級、玩家身上擁有哪些裝備，這些數據的修改不應該通過熱更來實現），部分數據是我們想要熱更的（例如裝備的基礎數值設定、技能的基礎數值設定、UI上的文字等等）。</p>
+<p>函數，可以理解為遊戲邏輯，這基本上都是我們想要熱更的，邏輯錯誤基本上都需要通過熱更新函數來實現。</p>
+<p>讓我們深入探討一下，有哪些方法可以對 Python3.12 進行熱更新。</p>
 <h2 id="hotfix">Hotfix</h2>
-<p>第一种方法我們稱為 Hotfix，透過讓程式（客戶端程式 / 伺服端程式都可以）執行一段特定的 Python 代碼，實現對資料和函數的熱更新。一段簡單的 Hotfix 代碼可能是這樣：</p>
+<p>我們將這段文字翻譯為繁體中文：</p>
+<p>第一種方法我們稱為 Hotfix，通過讓程式（客戶端程式 / 服務端程式都可以）執行一段特定的 Python 代碼，實現對數據和函數的熱更新。一段簡單的 Hotfix 代碼可能是這樣：</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># hotfix code</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># hotfix data</span>
@@ -1495,8 +1496,8 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="c1"># ...</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span> <span class="o">=</span> <span class="n">new_fire_func</span>
 </code></pre></div>
-<p>以上程式碼簡單展示了 Hotfix 的撰寫方式，當資料 / 函數被修改後，程式在後續訪問時將會讀取新的資料 / 函數並進行執行。</p>
-<p>如果您比较细致，您可能会有一个疑问：那如果其他代码里面引用这些需要修改的数据和函数，会发生什么事情？</p>
+<p>以上程式碼簡單展示了 Hotfix 的撰寫方式，當資料 / 函數被修改後，程式在後續存取時會讀取到新的資料 / 函數來執行。</p>
+<p>如果你比較細緻，你可能會有一個疑問：那如果其他代碼裡面引用了這些需要修改的數據和函數，會發生什麼事情？</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># attack.py module</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">player_fire</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span>
@@ -1505,29 +1506,31 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">player_fire</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="c1"># ...</span>
 </code></pre></div>
-<p>答案是，前面的 Hotfix 對這種情況是不生效的，<code>fire_func</code> 這個函數相當於在其他模組多了一份副本，該模組中呼叫的是函數的副本，我們修改函數本體對副本不生效。</p>
-<p>因此需要留意，一般程式碼中盡量減少模組層級的資料引用和函數引用，避免出現這種熱修補無效的情況，如果程式碼已經是這樣寫的，熱修補就需要多做一些工作：</p>
+<p>答案是，前面的 Hotfix 對這種情況是不生效的，<code>fire_func</code> 這個函數相當於在其他模塊多了一份副本，該模塊中調用的是函數的副本，我們修改函數本體對副本不生效。</p>
+<p>所以需要注意，一般代碼中儘量減少模塊級別的數據引用和函數引用，避免出現這種 Hotfix 不生效的情況，如果代碼已經是這樣寫的，Hotfix 需要多做一些工作：</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># hotfix code</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># ...</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">attack</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">attack</span><span class="o">.</span><span class="n">player_fire</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">Player</span><span class="o">.</span><span class="n">fire_func</span>
 </code></pre></div>
-<p>在對資料 / 函數本體 Hotfix 修改之後，再額外對引用的地方進行修改。這些額外的修改很容易被遺漏，所以我們還是建議，從程式碼規範上來盡量避免多處引用的寫法。</p>
-<p>總結以上，Hotfix 能夠滿足熱更新的基本需求，同時存在以下問題：</p>
-<p>如果數據/函數被其他模塊明確引用住，需要額外對這些模塊的引用進行緊急修復。
-如果有大量的資料/函數需要緊急修補，那麼緊急修補的程式碼會變得非常龐大，維護困難度上升，也更容易出錯。</p>
+<p>在對數據 / 函數本體 Hotfix 修改之後，再額外對引用的地方進行修改。這些額外的修改很容易被遺漏，所以我們還是建議，從代碼規範上來儘量避免多處引用的寫法。</p>
+<p>綜上所述，Hotfix 能滿足熱更的基本需求，同時存在以下問題：</p>
+<p>如果資料/函數被其他模組明確引用，需要額外對這些模組的引用進行緊急修補。
+如果有大量的資料/函數需要立即修正，那麼這些修正的程式碼會變得非常龐大，讓維護變得更難，也更容易出錯。</p>
 <h2 id="reload">Reload</h2>
-<p>本章節源碼可從這裡獲取：<a href="https://github.com/disenone/python_reloader">python_reloader</a></p>
-<p>我們更希望的是自動熱更新，不需要額外寫 Hotfix，只需要更新程式碼檔案，讓程式執行 Reload 函數則會自動替換新的函數和數據。我們稱這個自動熱更新的功能為 Reload。</p>
-<p>Python 3.12 提供了 importlib.reload 函式，可以重新載入模組，但卻是全量載入，並回傳新的模組物件，對於其他模組中的參照並不能自動修改，也就是其他模組如果 import 了 reload 的模組，那麼存取的依然是舊的模組物件。這個功能比起我們的 Hotfix 好不了多少，更何況是全量重新載入模組，我們無法掌控哪些資料應該被保留。我們想要自行實現一個 Reload 功能，滿足這些要求：</p>
-<p>自動替換函數，同時舊函數的引用依然有效，並會執行新函數的內容。
+<p>本章的源碼可從這裡獲得：<a href="https://github.com/disenone/python_reloader">python_reloader</a></p>
+<p>我們更希望的是自動熱更新，不需要額外編寫 Hotfix，只需更新程式碼文件，讓程序執行一個 Reload 函數即可自動替換新的函數和新的數據。我們將這個自動熱更新的功能稱為 Reload。</p>
+<p>Python3.12 提供了 importlib.reload 函數，可以重新加載模組，但是卻是全量加載，並且返回新的模組物件，對於其他模組中的引用，並不能自動修改，也就是其他模組如果 import 了 reload 的模組，那麼訪問的依然是舊的模組物件。這個功能比我們的 Hotfix 好不了多少，更何況是全量 reload 模組，不能由我們控制哪些資料應該保留。我們想要自己實現一個 Reload 功能，滿足這些要求：</p>
+<ul>
+<li>自動替換函數，同時舊函數的引用依然有效，並會執行新函數的內容
 自動替換數據，同時可控制部分替換
-保留舊模組的引用，通過舊模組就能訪問到新的內容。
-需要重新加載的模組可控</p>
-<p>要完成這些要求，我們需要借助 Python 中的 meta_path 機制，詳細介紹可以參考官方文檔 <a href="https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path">the-meta-path</a>抱歉，這個指令無法翻譯成中文。</p>
-<p>sys.meta_path 可以定義我們的元路徑查找器物件，例如我們將用於 Reload 的查找器稱為 reload_finder，reload_finder 需要實現一個函數 find_spec 並返回 spec 物件。Python 獲得 spec 物件後，將依次執行 spec.loader.create_module 和 spec.loader.exec_module 完成模組的匯入。</p>
-<p>如果我們在這個過程中，執行新的模組程式碼，並將新模組裡面的函數和需要的資料複製到舊模組中，則可以達到 Reload 的目的：</p>
+保留舊模組的引用，透過舊模組就能存取到新的內容。
+需要 Reload 的模組可控</li>
+</ul>
+<p>要完成這些要求，我們需要借助 Python 內部 meta_path 的機制，詳細的介紹可以參考官方文檔 <a href="https://docs.python.org/zh-cn/3/reference/import.html?highlight=meta_path#the-meta-path">the-meta-path</a>這些文字翻譯成繁體中文語言：</p>
+<p>sys.meta_path 中可以定義我們的元路徑查找器物件，例如我們將用於 Reload 的查找器稱為 reload_finder，reload_finder 需要實現一個函數 find_spec 並返回 spec 物件。Python 收到 spec 物件後，將依次執行 spec.loader.create_module 和 spec.loader.exec_module 完成模組的匯入。</p>
+<p>如果我們在這個過程中，執行新的模組代碼，並將新的模組裡面的函數和需要的數據複製到舊模組中，則可以達到 Reload 的目的：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
@@ -1610,8 +1613,8 @@
 <a id="__codelineno-3-40" name="__codelineno-3-40"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__spec__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_spec__'</span><span class="p">)</span>
 <a id="__codelineno-3-41" name="__codelineno-3-41"></a>        <span class="n">module</span><span class="o">.</span><span class="n">__loader__</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'__backup_loader__'</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-<p>依樣，<code>find_spec</code> 加載最新的模塊源碼，並在舊模塊的 <code>__dict__</code> 裡面執行新模塊的程式碼，之後我們呼叫<code>ReloadModule</code>來處理類/函數/資料的引用和替換。<code>MetaLoader</code>的目的是適配meta_path機制，給Python虛擬機返回我們處理過的模塊對象。</p>
-<p>處理完載入的流程，再來看 <code>ReloadModule</code> 的大致實現。</p>
+<p>如上，<code>find_spec</code> 會加載最新的模塊源碼，並在舊模塊的 <code>__dict__</code> 裡面執行新模塊的代碼，之後我們調用 <code>ReloadModule</code> 來處理類 / 函數 / 數據的引用和替換。<code>MetaLoader</code> 的目的是適配 meta_path 機制，給 Python 虛擬機返回我們處理過的模塊對象。</p>
+<p>處理完載入的流程後，再來看 <code>ReloadModule</code> 的大致實現。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
@@ -1708,16 +1711,16 @@
 <a id="__codelineno-4-47" name="__codelineno-4-47"></a>            <span class="n">old_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 <a id="__codelineno-4-48" name="__codelineno-4-48"></a><span class="c1"># ...</span>
 </code></pre></div></td></tr></table></div>
-<p><code>ReloadDict</code> 會區分處理不同類型的物件。</p>
-<p>如果是 class，则調用 <code>ReloadClass</code>，會返回舊模組的引用，並更新 class 的成員
-如果是 function / method，則呼叫 <code>ReloadFunction</code>，會返回舊模塊的引用，並更新函數的內部資料
-- 如果是資料，並且需要保留，則會回滾 <code>new_dict[attr_name] = old_attr</code>
+<p><code>ReloadDict</code> 裡面會區分處理不同類型的對象。</p>
+<p>如果是 class，則調用 <code>ReloadClass</code>，會返回舊模塊的引用，並更新 class 的成員
+- 如果是 function / method，則調用 <code>ReloadFunction</code>，會返回舊模塊的引用，並更新函數的內部數據
+- 如果是數據，並且需要保留，則會回滾 <code>new_dict[attr_name] = old_attr</code>
 其餘的都保持新的引用
 刪除不存在於新模組中的函數</p>
-<p>"ReloadClass"，"ReloadFunction" 的具體程式碼這裡不再展開分析，有興趣可以直接看<a href="https://github.com/disenone/python_reloader">源碼</a>抱歉，我不能提供翻譯未指定的內容。</p>
-<p>Reload 的整個過程可以總結為：舊瓶裝新酒。為了保持模塊/模塊的函數/模塊的類/模塊的數據有效，我們需要保留原來這些對象的引用（軀殼），轉而去更新它們內部的具體數據，例如對於函數，更新 '<strong>code</strong>'，'<strong>dict</strong>' 等數據，函數執行時，就會轉而執行新的代碼。</p>
+<p><code>ReloadClass</code>，<code>ReloadFunction</code> 的具體程式碼這裡不再展開分析，有興趣可以直接看<a href="https://github.com/disenone/python_reloader">源碼</a>抱歉，我無法翻譯沒有內容的文字。您可以提供更多需要翻譯的文字嗎?</p>
+<p>整個 Reload 的過程，可以概括為：舊瓶裝新酒。為了保持模組/模組的函數/模組的類/模組的數據有效，我們需要保留原來這些對象的引用（躯壳），轉而去更新它們內部的具體數據，例如對於函數，更新 <code>__code__</code>，<code>__dict__</code> 等數據，函數執行的時候，就會轉而執行新的代碼。</p>
 <h2 id="_2">總結</h2>
-<p>該文詳細介紹了 Python3 的兩種熱更新方式，每種都適用於不同的應用場景，希望能對您有所幫助。如有任何疑問，歡迎隨時交流。</p>
+<p>本文詳細介紹了 Python3 的兩種熱更新方式，每種都有相應的應用場景，希望能對你有幫助。有任何疑問歡迎隨時交流。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1743,7 +1746,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>這篇貼文是使用 ChatGPT 翻譯的，請在 <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此帖子是使用 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1783,7 +1786,7 @@
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Python 閒談 1 - 探究 __builtins__">
+          <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Python 杂谈 1 - 探究 __builtins__">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1793,7 +1796,7 @@
                 上一頁
               </span>
               <div class="md-ellipsis">
-                Python 閒談 1 - 探究 __builtins__
+                Python 杂谈 1 - 探究 __builtins__
               </div>
             </div>
           </a>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Ce texte discute de deux algorithmes, le carré magique et la chaîne de croix, et fournit une analyse des performances pratiques des deux algorithmes pour que vous puissiez les utiliser en toute connaissance de cause et ne pas paniquer en cas de problème.">
+        <meta name="description" content="Cet article discute de deux algorithmes, le carré magique et la chaîne croisée, et présente une analyse des performances mesurées de ces deux algorithmes, afin que vous soyez à l'aise lors de leur utilisation et que vous ne soyez pas pris au dépourvu en cas de problème.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Analyse algorithmique et tests de performance du jeu AOI - Disenone's Wiki</title>
+        <title>Analyse et test de performance de l'algorithme AOI de jeu. - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prelude" class="md-skip">
+        <a href="#introduction" class="md-skip">
           Aller au contenu
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Analyse algorithmique et tests de performance du jeu AOI
+              Analyse et test de performance de l'algorithme AOI de jeu.
             
           </span>
         </div>
@@ -542,7 +542,7 @@
         
   
   <span class="md-ellipsis">
-    Résumé du traitement des arguments de ligne de commande en C/C++
+    C/C++ : résumé de la gestion des paramètres de ligne de commande
   </span>
   
 
@@ -563,7 +563,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse de la programmation de macros en C/C++
+    Analyse de la programmation des macros en C/C++
   </span>
   
 
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    Rédiger un détecteur de fuites de mémoire pour Windows
+    Rédigez un détecteur de fuites de mémoire pour Windows.
   </span>
   
 
@@ -605,7 +605,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse du code source de KCP
+    Analyse du code source KCP
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chatter 1 - Exploring __builtins__
+    Python Discussions 1 - Exploration de __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python Discussions 2 - Mise à jour en direct de Python 3.12
+    Python Discussions 2 - Python3.12 Mise à jour à chaud
   </span>
   
 
@@ -869,7 +869,7 @@
           
   
   <span class="md-ellipsis">
-    Analyse algorithmique et tests de performance du jeu AOI
+    Analyse et test de performance de l'algorithme AOI de jeu.
   </span>
   
 
@@ -880,7 +880,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse algorithmique et tests de performance du jeu AOI
+    Analyse et test de performance de l'algorithme AOI de jeu.
   </span>
   
 
@@ -900,73 +900,73 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prelude" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Prélude
+      Introduction
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#neuf-carres" class="md-nav__link">
+  <a href="#carre-magique" class="md-nav__link">
     <span class="md-ellipsis">
-      Neuf carrés.
+      Carré magique
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#liste-chainee-croisee" class="md-nav__link">
+  <a href="#liste-doublement-chainee" class="md-nav__link">
     <span class="md-ellipsis">
-      Liste chaînée croisée
+      Liste doublement chaînée
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#la-mise-en-uvre-du-carre-magique" class="md-nav__link">
+  <a href="#la-realisation-du-carre-magique" class="md-nav__link">
     <span class="md-ellipsis">
-      La mise en œuvre du carré magique.
+      La réalisation du carré magique
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-de-liste-chainee-croisee" class="md-nav__link">
+  <a href="#implementation-de-la-liste-chainee-croisee" class="md-nav__link">
     <span class="md-ellipsis">
-      Implémentation de liste chaînée croisée
+      Implémentation de la liste chaînée croisée
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-de-performance" class="md-nav__link">
+  <a href="#performances-mesurees" class="md-nav__link">
     <span class="md-ellipsis">
-      Test de performance
+      Performances mesurées
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Test de performance">
+    <nav class="md-nav" aria-label="Performances mesurées">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#test-de-grille-en-neuf-cases" class="md-nav__link">
+  <a href="#test-reel-de-la-grille-a-neuf-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      Test de grille en neuf cases
+      Test réel de la grille à neuf cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#liste-croisee-verifiee-en-pratique" class="md-nav__link">
+  <a href="#liste-croisee-testee-en-pratique" class="md-nav__link">
     <span class="md-ellipsis">
-      Liste croisée vérifiée en pratique
+      Liste croisée testée en pratique
     </span>
   </a>
   
@@ -1096,7 +1096,7 @@
         
   
   <span class="md-ellipsis">
-    UE peut ajouter des plugins en utilisant le code source du plugin.
+    UE ajoute des plugins via le code source du plugin.
   </span>
   
 
@@ -1117,7 +1117,7 @@
         
   
   <span class="md-ellipsis">
-    Élargir le menu de l'éditeur UE
+    UE Étendre le menu de l'éditeur
   </span>
   
 
@@ -1138,7 +1138,7 @@
         
   
   <span class="md-ellipsis">
-    UE utilise le chemin pour étendre le menu
+    UE utilise le chemin d'accès pour étendre le menu
   </span>
   
 
@@ -1159,7 +1159,7 @@
         
   
   <span class="md-ellipsis">
-    UE met en place une localisation multilingue
+    UE configure la localisation multilingue
   </span>
   
 
@@ -1180,7 +1180,7 @@
         
   
   <span class="md-ellipsis">
-    Réaliser diverses opérations sur les images (UTexture2D) dans l'UE (lecture, sauvegarde, copie, presse-papiers...).
+    UE réalise diverses opérations sur les images (UTexture2D) (lecture, sauvegarde, copie, presse-papiers...)
   </span>
   
 
@@ -1201,7 +1201,7 @@
         
   
   <span class="md-ellipsis">
-    Plugin de l'éditeur UE.EditorPlus de l'UE - Documentation
+    UE éditeur plugin UE.EditorPlus documentation explicative
   </span>
   
 
@@ -1222,7 +1222,7 @@
         
   
   <span class="md-ellipsis">
-    Documentation sur le plugin UE AIChatPlus
+    Document d'instructions du plug-in UE AIChatPlus
   </span>
   
 
@@ -1306,7 +1306,7 @@
         
   
   <span class="md-ellipsis">
-    Unité construction de caméra à la troisième personne (Partie 1)
+    Construction du système de caméra à la troisième personne dans Unity (Partie 1)
   </span>
   
 
@@ -1327,7 +1327,7 @@
         
   
   <span class="md-ellipsis">
-    Unity Third Person Camera Setup Part 2
+    Construction d'un système de caméra à la troisième personne dans Unity (partie 2)
   </span>
   
 
@@ -1369,7 +1369,7 @@
         
   
   <span class="md-ellipsis">
-    Unity crée des cartes de profondeur (Depth Map) et détecte les bords (Edge Detection).
+    Unity crée une carte de profondeur (Depth Map) et une détection de contours (Edge Detection)
   </span>
   
 
@@ -1390,7 +1390,7 @@
         
   
   <span class="md-ellipsis">
-    Unity réalise la dispersion de la lumière volumétrique (Volumetric Light Scattering, crepuscular rays)
+    Unity implements volumetric light scattering (Volumetric Light Scattering, Cloud Gaps Light)
   </span>
   
 
@@ -1440,73 +1440,73 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prelude" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Prélude
+      Introduction
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#neuf-carres" class="md-nav__link">
+  <a href="#carre-magique" class="md-nav__link">
     <span class="md-ellipsis">
-      Neuf carrés.
+      Carré magique
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#liste-chainee-croisee" class="md-nav__link">
+  <a href="#liste-doublement-chainee" class="md-nav__link">
     <span class="md-ellipsis">
-      Liste chaînée croisée
+      Liste doublement chaînée
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#la-mise-en-uvre-du-carre-magique" class="md-nav__link">
+  <a href="#la-realisation-du-carre-magique" class="md-nav__link">
     <span class="md-ellipsis">
-      La mise en œuvre du carré magique.
+      La réalisation du carré magique
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-de-liste-chainee-croisee" class="md-nav__link">
+  <a href="#implementation-de-la-liste-chainee-croisee" class="md-nav__link">
     <span class="md-ellipsis">
-      Implémentation de liste chaînée croisée
+      Implémentation de la liste chaînée croisée
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#test-de-performance" class="md-nav__link">
+  <a href="#performances-mesurees" class="md-nav__link">
     <span class="md-ellipsis">
-      Test de performance
+      Performances mesurées
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Test de performance">
+    <nav class="md-nav" aria-label="Performances mesurées">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#test-de-grille-en-neuf-cases" class="md-nav__link">
+  <a href="#test-reel-de-la-grille-a-neuf-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      Test de grille en neuf cases
+      Test réel de la grille à neuf cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#liste-croisee-verifiee-en-pratique" class="md-nav__link">
+  <a href="#liste-croisee-testee-en-pratique" class="md-nav__link">
     <span class="md-ellipsis">
-      Liste croisée vérifiée en pratique
+      Liste croisée testée en pratique
     </span>
   </a>
   
@@ -1549,28 +1549,29 @@
   
 
 
-  <h1>Analyse algorithmique et tests de performance du jeu AOI</h1>
+  <h1>Analyse et test de performance de l'algorithme AOI de jeu.</h1>
 
 <div><p><meta property="og:title" content="游戏 AOI 算法解析和性能实测"></p>
-<h3 id="prelude">Prélude</h3>
-<p><code>AOI</code> (Area Of Interest) is a fundamental feature in multiplayer online games where players need to receive information about other players or entities entering their field of vision. Calculating which entities are within a player's field of view and the algorithms determining which entities enter or leave the field of view are generally referred to as the <code>AOI</code> algorithms.</p>
-<p>Ce texte discute deux algorithmes AOI, le carré magique et la chaîne en croix, et fournit une analyse de performance expérimentale des deux algorithmes pour que vous puissiez les utiliser en toute confiance et rester calme en cas de problème.</p>
-<p>Le texte mentionnera les termes "joueur" et "entité". Une entité est le concept d'un objet dans le jeu, tandis qu'un joueur est une entité possédant une AOI.</p>
-<p>Le code mentionné dans le texte peut être trouvé ici : <a href="https://github.com/disenone/AoiTesting">AoiTesting</a>I am sorry, but there is nothing to translate in the text you provided. </p>
-<h3 id="neuf-carres">Neuf carrés.</h3>
-<p>Le "grid" de neuf cases consiste à diviser les positions de toutes les entités dans une scène en cases. Par exemple, si on divise en carrés de 200 de côté, pour trouver les autres entités à l'intérieur de la zone d'intérêt (AOI) du joueur central, il suffit de comparer tous les joueurs présents dans les cases concernées par cette zone.</p>
-<p>Par exemple, à chaque intervalle de 100 millisecondes, il y aura un "tick". Pendant ce "tick", nous pouvons mettre à jour la zone d'intérêt du joueur de la manière suivante :</p>
-<p>Calcul de l'ensemble des cases en relation avec le rayon AOI centré sur la position du joueur.
-Calculer la distance entre chaque entité du groupe de cellules et le joueur.
-L'ensemble des entités dont la distance est inférieure au rayon de l'AOI est le nouvel AOI du joueur.</p>
-<p>L'algorithme de la grille 9x9 est assez simple à mettre en œuvre, il peut être décrit en quelques phrases, nous laisserons l'analyse de ses performances pour plus tard, commençons d'abord par examiner l'algorithme de la liste croisée.</p>
-<h3 id="liste-chainee-croisee">Liste chaînée croisée</h3>
-<p>Pour les jeux en 3D, nous avons l'habitude de construire des listes chaînées ordonnées pour les coordonnées des axes X et Z. Chaque entité a un nœud dans la liste contenant la valeur de l'axe correspondant, classé par ordre croissant. Cependant, si nous stockons uniquement les coordonnées des entités, l'efficacité de recherche de ces deux listes reste très faible.</p>
-<p>Ce qui est vraiment crucial, c'est que nous ajoutons à chaque joueur possédant un AOI deux nœuds sentinelles à gauche et à droite de la liste chaînée. Les coordonnées des deux sentinelles diffèrent exactement du rayon AOI par rapport aux coordonnées du joueur lui-même. Par exemple, si les coordonnées du joueur <code>P</code> sont <code>(a, b, c)</code> et que le rayon AOI est <code>r</code>, alors sur l'axe des X, il y aura deux sentinelles, <code>left_x</code> et <code>right_x</code>, avec des coordonnées respectives <code>a - r</code> et <code>a + r</code>. 
-En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacements des sentinelles par rapport aux autres entités. Reprenons l'exemple précédent : si une entité <code>E</code> se déplace et traverse de la droite vers la gauche au-delà de <code>left_x</code> sur l'axe X pour passer à gauche de <code>left_x</code>, cela signifie que <code>E</code> quitte sûrement l'AOI de <code>P</code> ; de même, si elle traverse de la droite à la gauche de <code>right_x</code>, c'est aussi qu'elle sort de l'AOI. En revanche, si elle franchit de la droite à la gauche de <code>left_x</code>, ou de la gauche à la droite de <code>right_x</code>, cela signifie qu'elle pourrait entrer dans l'AOI de <code>P</code>.</p>
-<p>On peut observer que l'algorithme de la liste en croix est beaucoup plus complexe que la grille en neufs cases. Nous devons maintenir deux listes ordonnées, et lors de chaque mise à jour des coordonnées d'une entité, déplacer synchroniquement les nœuds des listes, et mettre à jour la zone d'intérêt (AOI) lors du déplacement au-dessus d'autres nœuds.</p>
-<h3 id="la-mise-en-uvre-du-carre-magique">La mise en œuvre du carré magique.</h3>
-<p>En raison de la performance liée aux mesures réelles, commençons par gratter un peu la surface des détails de mise en œuvre de l'algorithme de grille de neuf.</p>
+<h3 id="introduction">Introduction</h3>
+<p>"AOI" (Area Of Interest) is a fundamental feature in multiplayer online games, where players need to receive information about other players or entities (Entities) entering their field of view. The algorithms that determine which entities are within a player's field of view and which ones enter or leave it are commonly referred to as AOI algorithms.</p>
+<p>Ce texte discute de deux algorithmes AOI : le carré magique et la croix, et donne une analyse de performance expérimentale des deux algorithmes pour que vous puissiez les utiliser en toute confiance et ne pas paniquer face aux problèmes.</p>
+<p>Le texte mentionnera deux termes : "joueur" et "entité". Une entité est une notion d'objet dans le jeu, tandis qu'un joueur est une entité ayant une zone d'intérêt (AOI).</p>
+<p>Le code mentionné dans le texte peut être trouvé ici : <a href="https://github.com/disenone/AoiTesting">AoiTesting</a>.</p>
+<h3 id="carre-magique">Carré magique</h3>
+<p>Le concept de grille en neuf parties consiste à diviser les positions de toutes les entités dans un scénario en cases, en les regroupant par exemple en carrés de 200 unités de côté. Pour repérer les autres entités à l'intérieur de la zone d'intérêt de AOI, il faut comparer tous les joueurs présents dans les cases incluses dans cette zone.</p>
+<p>Par exemple, la scène tick toutes les 100 millisecondes, et dans chaque tick, nous pouvons mettre à jour l'AOI du joueur de cette manière :</p>
+<ul>
+<li>Ensemble de cases impliquées dans le calcul du rayon AOI centré sur la position du joueur</li>
+<li>Calculer la distance de chaque entité dans l'ensemble de grilles par rapport au joueur.</li>
+<li>L'ensemble des entités dont la distance est inférieure au rayon de l'AOI constitue le nouvel AOI du joueur.</li>
+</ul>
+<p>Le "Nine-Grid Algorithm" est assez simple à mettre en œuvre, il peut être décrit en quelques phrases. Nous garderons l'analyse de performance spécifique pour plus tard, commençons par examiner l'algorithme de "Cross-List".</p>
+<h3 id="liste-doublement-chainee">Liste doublement chaînée</h3>
+<p>Pour les jeux en 3D, nous avons tendance à construire des listes chaînées ordonnées séparées pour les coordonnées X et Z. Chaque entité du jeu possède un nœud dans ces listes contenant sa valeur sur l'axe correspondant, classé par ordre croissant. Cependant, si nous stockons uniquement les points de coordonnées des entités, l'efficacité de recherche reste toujours faible pour ces deux listes.</p>
+<p>Ce qui est vraiment crucial, c'est qu'on ajoute à chaque joueur qui possède l'AOI deux nœuds sentinelles de chaque côté de la liste chaînée. Les coordonnées des deux sentinelles diffèrent exactement du rayon de l'AOI par rapport aux coordonnées du joueur lui-même. Par exemple, si les coordonnées du joueur <code>P</code> sont <code>(a, b, c)</code>, et que le rayon de l'AOI est <code>r</code>, il y aura deux sentinelles sur l'axe des X, <code>left_x</code> et <code>right_x</code>, avec des coordonnées respectives de <code>a - r</code> et <code>a + r</code>. En raison de la présence des sentinelles, nous mettons à jour l'AOI en suivant les déplacements des sentinelles par rapport aux autres nœuds entités. Prenons l'exemple précédent, si une entité <code>E</code> se déplace de manière à traverser de droite à gauche la sentinelle <code>left_x</code>, c'est-à-dire en passant de la droite de <code>left_x</code> à la gauche de <code>left_x</code>, alors cela signifie que <code>E</code> a certainement quitté l'AOI de <code>P</code>; de même, si elle traverse <code>right_x</code> de droite à gauche, elle a quitté l'AOI. En revanche, si elle traverse <code>left_x</code> de droite à gauche ou <code>right_x</code> de gauche à droite, cela signifie qu'il est possible qu'elle entre dans l'AOI de <code>P</code>.</p>
+<p>On peut observer que l'algorithme de liste en croix est beaucoup plus complexe que la grille en neuf cases. Il faut maintenir deux listes ordonnées, synchroniser le déplacement des nœuds des listes à chaque mise à jour des coordonnées entités, et mettre à jour la zone d'intérêt des objets lors du déplacement au-dessus des autres nœuds.</p>
+<h3 id="la-realisation-du-carre-magique">La réalisation du carré magique</h3>
+<p>Parce qu'il s'agit de performances mesurées, examinons d'abord plus en détail les aspects de l'implémentation de l'algorithme du carré magique :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">// ...</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
@@ -1590,7 +1591,7 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">};</span>
 </code></pre></div>
-<p>Le fichier <code>PlayerAoi</code> stocke les données des joueurs, incluant un tableau <code>sensors</code> qui sert à calculer les entités dans une certaine zone. Après chaque <code>Tick</code>, les entités calculées sont placées dans <code>aoi_players</code>. Ce dernier contient deux tableaux permettant de comparer les résultats du dernier <code>Tick</code> pour déterminer les entrées et sorties de joueurs. Le processus général de <code>Tick</code> est le suivant:</p>
+<p>Le <code>PlayerAoi</code> stocke les données des joueurs, comprenant un tableau <code>sensors</code> utilisé pour calculer les entités dans une certaine plage. Après chaque <code>Tick</code>, les entités calculées sont placées dans <code>aoi_players</code>. <code>aoi_players</code> contient deux tableaux pour comparer les résultats entre deux <code>Ticks</code> successifs, permettant de déterminer les entrées et sorties des joueurs. Le processus approximatif du <code>Tick</code> est le suivant:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="nf">SquareAoi::Tick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">remove_list</span><span class="p">;</span>
@@ -1598,7 +1599,7 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// ...</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">Calcul</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">Aoi</span><span class="w"> </span><span class="n">pour</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">joueurs</span><span class="w"> </span><span class="n">ayant</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">capteurs</span><span class="p">.</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">// Calculer Aoi pour les joueurs avec des capteurs</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">player</span><span class="p">.</span><span class="n">sensors</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">update_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_UpdatePlayerAoi</span><span class="p">(</span><span class="n">cur_aoi_map_idx_</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">player</span><span class="p">);</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
@@ -1609,7 +1610,7 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="c1">// ...</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">Enregistrer</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">dernière</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">joueur</span><span class="p">.</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">// Enregistrer la dernière position du joueur</span>
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">player</span><span class="p">.</span><span class="n">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
@@ -1618,7 +1619,7 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
 </code></pre></div>
-<p>La tâche effectuée par <code>Tick</code> est assez simple : parcourir les joueurs équipés de <code>capteurs</code>, calculer un par un les entités présentes dans la portée du <code>capteur</code>, c'est-à-dire la zone d'intérêt active (AOI). <code>last_pos</code> est utilisé pour déterminer si une entité est entrée ou sortie de l'AOI. Voici le code de <code>_UpdatePlayerAoi</code>: ...</p>
+<p>Les actions effectuées par la fonction <code>Tick</code> sont simples : elle parcourt les joueurs ayant des capteurs, calcule un par un les entités se trouvant dans la portée du capteur (c'est-à-dire dans sa zone d'intérêt, ou AOI). <code>last_pos</code> est utilisé pour déterminer si une entité est entrée dans la zone d'intérêt (AOI) ou en est sortie. Voici le code de la fonction <code>_UpdatePlayerAoi</code> :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="nf">SquareAoi::_UpdatePlayerAoi</span><span class="p">(</span><span class="n">Uint32</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="w"> </span><span class="n">pptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">nuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">nuid</span><span class="p">;</span>
@@ -1649,9 +1650,9 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
 <a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>old_aoi</code> represents the AOI calculated in the previous <code>Tick</code>, while <code>new_aoi</code> is the AOI to be calculated in the current <code>Tick</code>. To determine <code>new_aoi</code>, all entities within the AOI range are traversed, selecting those with a distance from the player smaller than the AOI radius. Subsequently, the functions <code>_CheckLeave</code> and <code>_CheckEnter</code> are used to calculate the entities leaving and entering the AOI in this <code>Tick</code>. For instance, if an entity's <code>last_pos</code> in <code>new_aoi</code> is outside the AOI range, it indicates that the entity has entered the AOI in this <code>Tick</code>. Please refer to the source file for specific code implementation, as it won't be elaborated here.</p>
-<h3 id="implementation-de-liste-chainee-croisee">Implémentation de liste chaînée croisée</h3>
-<p>Par rapport à la grille en neuf cases, la liste en croix est plus complexe à mettre en place. Regardons d'abord les structures de données de base :</p>
+<p><code>old_aoi</code> est l'AOI calculé lors du dernier <code>Tick</code>, tandis que <code>new_aoi</code> est l'AOI à calculer pour ce <code>Tick</code>. <code>new_aoi</code> est déterminé en parcourant les entités de toutes les cellules dans la plage de l'AOI, en sélectionnant celles qui sont à une distance du joueur inférieure au rayon de l'AOI. Ensuite, avec les fonctions <code>_CheckLeave</code> et <code>_CheckEnter</code>, nous calculons les entités qui sortent et qui entrent dans l'AOI pour ce <code>Tick</code>. Par exemple, si l'entité <code>last_pos</code> de <code>new_aoi</code> n'est pas dans la portée de l'AOI, cela signifie que cette entité est entrée dans la zone de l'AOI lors de ce <code>Tick</code>. Le code détaillé peut être consulté dans le fichier source, nous n'en discuterons pas davantage ici.</p>
+<h3 id="implementation-de-la-liste-chainee-croisee">Implémentation de la liste chaînée croisée</h3>
+<p>Par rapport à la grille de Sudoku, la mise en œuvre de la liste croisée est plus complexe. Commençons par examiner la structure de données de base :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">CoordNode</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="c1">// ...</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="n">Uint8</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
@@ -1692,12 +1693,14 @@ En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacem
 <a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">boost</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">detected_by</span><span class="p">;</span>
 <a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">};</span>
 </code></pre></div>
-<p>Les mots <code>Sensor</code> et <code>PlayerAoi</code> sont en partie similaires à la grille neuf cases, mais ils incluent une structure de nœud de liste chaînée supplémentaire appelée <code>CoordNode</code>. <code>CoordNode</code> est un nœud sur la liste chaînée, qui enregistre le type et la valeur du nœud lui-même. Il y a trois types : nœud de joueur, nœud <code>Sensor</code> à gauche, nœud <code>Sensor</code> à droite.</p>
-<p>La majeure partie du travail de la liste chaînée double consiste à maintenir l'ordre de la liste :</p>
-<p>Lorsqu'un joueur rejoint, il doit déplacer le nœud du joueur à une position ordonnée, et en déplaçant le nœud du joueur, gérer les événements d'entrée ou de sortie des autres joueurs dans l'Aire d'Intérêt des Joueurs (AOI).
-Une fois que le joueur se déplace vers la bonne position, les nœuds <code>Sensor</code> de gauche et de droite se déplacent depuis l'avant et l'arrière du joueur jusqu'à la bonne position, et gèrent les événements d'entrée et de sortie déclenchés lorsqu'ils traversent les nœuds d'autres joueurs.
-Lorsque le joueur se déplace, mettez à jour ses coordonnées, déplacez le nœud du joueur et les nœuds gauche et droit du <code>Capteur</code>, tout en gérant les entrées et sorties de la zone d'intérêt active (AOI).</p>
-<p>Le code du nœud mobile est le suivant : chaque fois qu'il franchit un nœud, la fonction <code>MoveCross</code> est appelée. Dans <code>MoveCross</code>, en fonction de la direction du déplacement, du type de nœud franchi, il est décidé s'il faut entrer ou sortir de l'AOI.</p>
+<p>Les termes <code>Sensor</code> et <code>PlayerAoi</code> sont en partie similaires au Carré de Lo Shu, mais incluent une structure de noeud de liste chaînée supplémentaire appelée <code>CoordNode</code>. <code>CoordNode</code> est un noeud sur la liste chaînée, il enregistre le type et la valeur du noeud lui-même, il existe trois types de noeuds : nœud joueur, nœud <code>Sensor</code> à gauche, nœud <code>Sensor</code> à droite.</p>
+<p>La majeure partie du travail d'une liste chaînée est de maintenir la liste ordonnée :</p>
+<ul>
+<li>Lorsqu'un joueur rejoint, il doit déplacer son nœud de joueur à une position ordonnée, tout en gérant les événements d'entrée ou de sortie des zones d'intérêt (AOI) des autres joueurs pendant ce déplacement.</li>
+<li>Une fois que le joueur s'est déplacé vers la bonne position, les nœuds <code>Sensor</code> se déplacent de l'avant vers l'arrière du joueur vers la bonne position, et gèrent les événements d'entrée et de sortie déclenchés en traversant les nœuds d'autres joueurs.
+Lorsque le joueur se déplace, mettez à jour les coordonnées du joueur, déplacez le nœud du joueur et les nœuds gauche et droit du capteur, et gérez l'entrée et la sortie de l'AOI.</li>
+</ul>
+<p>Le code du nœud mobile est comme suit : chaque fois qu'un nœud est traversé, la fonction <code>MoveCross</code> est appelée. Celle-ci détermine, en fonction de la direction du mouvement et du type de nœud traversé, s'il faut entrer ou sortir de l'AOI.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ListUpdateNode</span><span class="p">(</span><span class="n">CoordNode</span><span class="w"> </span><span class="o">**</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">pnode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -1727,23 +1730,22 @@ Lorsque le joueur se déplace, mettez à jour ses coordonnées, déplacez le nœ
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">}</span>
 </code></pre></div>
-<p>Le déplacement des listes chaînées est très lent, avec une complexité de <code>O(n)</code>, notamment lorsque de nouveaux joueurs rejoignent la scène. Ils doivent se déplacer progressivement depuis une distance infinie jusqu'à la position correcte, ce qui nécessite une grande quantité de parcours de nœuds et entraîne une consommation élevée. Pour optimiser les performances, nous pouvons placer des phares à des emplacements fixes dans la scène. Ces phares ont un traitement similaire aux joueurs, mais avec une capacité en plus qui enregistre les données <code>détectées par</code>, indiquant quels capteurs l'entité sentinelle se trouve dans le champ. Lors de la première entrée d'un joueur dans la scène, il ne commence plus à se déplacer depuis le point le plus éloigné, mais trouve le phare le plus proche, insère le nœud à côté du phare et à travers les données <code>détectées par</code> du phare, il entre rapidement dans la plage d'AOI des autres joueurs alignés sur le phare, puis commence à se déplacer vers la position correcte. Bien entendu, pendant le déplacement, il faut également gérer les entrées et sorties. De même, pour les capteurs, il est possible d'optimiser en héritant d'abord des données des phares, puis en se déplaçant de leur position vers la position correcte. Ces deux types d'optimisation peuvent augmenter les performances des insertions de joueurs de plus de deux fois.</p>
-<p>Il y a aussi une <code>HashMap</code> appelée <code>aoi_player_candidates</code> sur le capteur (ici, pour des raisons de performance, <a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a>Les événements AOI déclenchés par le déplacement des nœuds ne peuvent en fait détecter qu'une zone carrée de côté <code>2r</code> sur les axes X-Z, et non une AOI circulaire stricte. Les entités à l'intérieur de cette zone carrée sont enregistrées dans <code>aoi_player_candidates</code>, puis parcourues dans <code>Tick</code> pour calculer la portée de l'AOI dans la zone circulaire, ce qui les désigne comme des <code>candidates</code>.</p>
-<p>Toutes les opérations sur les listes croisées sont destinées à maintenir en permanence les entités "candidates" à l'intérieur de la région carrée. Les opérations effectuées par la liste croisée sont presque identiques à celles de la grille de 9 cases, à la différence que le calcul des candidats AOI diffère. Les candidats de la grille de 9 cases sont les entités des cases couvertes par la zone ronde de l'AOI, tandis que la liste croisée est définie par les nœuds gauche et droit du "Capteur" et regroupe les entités de la région carrée de côté 2r. En termes qualitatifs, les candidats des listes croisées sont généralement moins nombreux que ceux de la grille de 9 cases, ce qui entraîne moins de passages dans "Tick", améliorant ainsi les performances. Cependant, les listes croisées consomment également des ressources supplémentaires pour leur maintenance. La performance globale de ces deux approches reste à déterminer, et nous allons le vérifier lors des tests à venir.</p>
-<h3 id="test-de-performance">Test de performance</h3>
-<p>J'ai mesuré séparément le temps pris par les joueurs pour rejoindre la scène (<code>Ajout de joueur</code>), pour les événements d'entrée et de sortie de la zone d'intérêt (<code>Tick</code>), ainsi que pour la mise à jour des coordonnées des joueurs (<code>Mise à jour de la position</code>).</p>
-<p>Les joueurs sont placés de façon aléatoire dans la plage de la carte et ajoutés à la scène. <code>player_num</code> représente le nombre de joueurs, tandis que <code>map_size</code> désigne la plage des coordonnées X-Z de la carte. Les positions des joueurs sont générées de manière aléatoire uniforme dans cette plage, chacun ayant un rayon de <code>100</code> pour son capteur d'AOI. Le temps de calcul est effectué à l'aide de <code>boost::timer::cpu_timer</code>. Trois scénarios ont été pris pour <code>player_num</code>, à savoir <code>100, 1000, 10000</code>, tandis que quatre cas ont été étudiés pour <code>map_size</code>, à savoir <code>[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]</code>.</p>
-<p>Actualisation de la position du joueur pour le faire se déplacer dans une direction aléatoire à une vitesse de <code>6m/s</code>.</p>
-<p>Le texte en français est : </p>
-<p>"本次测试环境为："</p>
+<p>Le déplacement des listes chaînées est très lent, avec une complexité de <code>O(n)</code>, surtout lorsque de nouveaux joueurs entrent dans la scène. Les joueurs doivent se déplacer progressivement depuis un point très éloigné jusqu'à la position correcte, ce qui nécessite une grande quantité de nœuds à parcourir, entraînant une forte consommation. Pour optimiser les performances, nous pouvons placer des phares à des emplacements fixes dans la scène. Ces phares fonctionnent de manière similaire aux joueurs, mais ils enregistrent un ensemble supplémentaire de données appelé <code>detected_by</code>, indiquant dans quels champs de capteurs l'entité sentinelle se trouve. Lorsqu'un joueur entre dans la scène pour la première fois, il ne commence plus son déplacement depuis le point le plus éloigné, mais recherche le phare le plus proche. En insérant le nœud à côté du phare et en utilisant les données <code>detected_by</code> du phare, le joueur peut rapidement entrer dans la zone AOI des autres joueurs correspondant au phare, puis se déplacer vers la position correcte. Bien sûr, lors du déplacement, il est également nécessaire de gérer les entrées et les sorties. De même, pour les capteurs, il est possible d'hériter d'abord des données du phare, puis de se déplacer depuis la position du phare vers la position correcte. Ces deux optimisations peuvent plus que doubler les performances d'insertion des joueurs.</p>
+<p><code>Sensor</code> comporte également un <code>HashMap</code> nommé <code>aoi_player_candidates</code> (ici, pour des raisons de performance, <a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a>L'événement AOI déclenché par le déplacement du nœud ne peut en réalité détecter qu'une zone carrée de longueur de côté <code>2r</code> sur les axes X-Z, ce n'est pas vraiment une zone AOI circulaire au sens strict. Les entités à l'intérieur de cette zone carrée sont enregistrées dans <code>aoi_player_candidates</code> et sont parcourues dans <code>Tick</code> pour calculer la portée de l'AOI dans la zone circulaire, d'où le terme <code>candidats</code>.</p>
+<p>Toutes les opérations sur les listes croisées sont menées pour maintenir en permanence les entités 'candidats' à l'intérieur de la région carrée. Les opérations effectuées par la liste croisée <code>Tick</code> sont presque identiques à celles de la grille 3x3, à la différence que le calcul et la traversée des <code>candidats</code> de la zone AOI diffèrent. Les <code>candidats</code> de la grille 3x3 sont les entités couvertes par la région circulaire AOI, tandis que la liste croisée est définie par les nœuds gauche et droit du <code>capteur</code> délimitant des entités dans la région carrée de côté <code>2r</code>. En termes qualitatifs, en général, les <code>candidats</code> de la liste croisée sont moins nombreux que ceux de la grille 3x3, ce qui se traduit par moins de traversées et des performances supérieures dans <code>Tick</code>. Cependant, la liste croisée impose également une charge de performance supplémentaire importante pour la maintenance de la liste. Il reste à déterminer quelle solution offre les meilleures performances dans l'ensemble, ce que nous vérifierons prochainement par des tests pratiques.</p>
+<h3 id="performances-mesurees">Performances mesurées</h3>
+<p>J'ai mesuré séparément le temps nécessaire pour que le joueur entre dans la scène (<code>Add Player</code>), pour traiter les événements d'entrée et de sortie de la zone d'intérêt (AOI) (<code>Tick</code>), et pour mettre à jour la position du joueur (<code>Update Pos</code>).</p>
+<p>Les joueurs sont générés aléatoirement dans la plage de la carte, puis ajoutés à la scène. <code>player_num</code> désigne le nombre de joueurs, <code>map_size</code> est la plage des coordonnées X-Z de la carte. Les positions des joueurs sont générées uniformément dans cette plage, et chaque joueur a un capteur de rayon de <code>100</code> en tant que AOI. Le temps de calcul utilise <code>boost::timer::cpu_timer</code>. Trois cas ont été choisis pour <code>player_num</code> : <code>100, 1000, 10000</code>, et quatre cas pour <code>map_size</code> : <code>[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]</code>.</p>
+<p>Mettre à jour la position du joueur fixera le joueur dans une direction aléatoire, se déplaçant à une vitesse de <code>6m/s</code>.</p>
+<p>L'environnement de test pour cette fois est :</p>
 <ul>
 <li>CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
 Système : Debian GNU/Linux 10 (buster)
 Version de gcc : gcc version 8.3.0 (Debian 8.3.0-6)
-Version boost : boost_1_75_0</li>
+Version de boost : boost_1_75_0</li>
 </ul>
-<h4 id="test-de-grille-en-neuf-cases">Test de grille en neuf cases</h4>
-<p>Les résultats du test de la grille de neuf cases sont les suivants :</p>
+<h4 id="test-reel-de-la-grille-a-neuf-cases">Test réel de la grille à neuf cases</h4>
+<p>Les résultats du test du carré magique sont les suivants :</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000081</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000452</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
@@ -1816,9 +1818,9 @@ Version boost : boost_1_75_0</li>
 <a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019033</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">105.1</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
 </code></pre></div>
-<p>Lorsque le nombre de joueurs dans une grille 3x3 atteint 100, les trois opérations ont un faible temps d'exécution, avec des conditions extrêmes où la taille de la carte est de -50 à 50 et tous les joueurs se trouvent dans la zone d'intérêt (AOI). Un cycle de traitement prend environ 0,4 millisecondes. L'ajout de joueurs et la mise à jour des coordonnées s'effectuent en complexité linéaire O(n) pour des performances satisfaisantes. Cependant, lorsque le nombre de joueurs atteint 10 000, et que la taille de la carte reste la même, l'opération Add Player et Update Pos, malgré leur complexité linéaire, prennent quelques millisecondes, tandis que le Tick prend environ 3,8 secondes, consommant ainsi beaucoup de ressources CPU et rendant le système inutilisable. Avec 10 000 joueurs et une carte de taille -1000 à 1000, le Tick prend environ 94 millisecondes. Réduire la fréquence du Tick à deux fois par seconde maintiendrait le système tout juste dans la plage d'utilisation acceptable.</p>
-<h4 id="liste-croisee-verifiee-en-pratique">Liste croisée vérifiée en pratique</h4>
-<p>Les résultats des tests de la liste chaînée en croix sont les suivants :</p>
+<p>Lorsque le nombre de joueurs est de <code>100</code> dans la grille 9x9, les trois opérations sont très rapides, même dans des conditions extrêmes avec <code>map_size = [-50, 50]</code>. Tous les joueurs sont à portée AOI les uns des autres, et chaque <code>Tick</code> prend environ <code>0.4ms</code>. L'ajout de joueurs et la mise à jour des coordonnées sont tous deux de complexité linéaire <code>O(nbre_joueurs)</code>, avec de bonnes performances. Lorsque le nombre de joueurs atteint 10 000 avec <code>map_size = [-50, 50]</code>, l'ajout de joueur et la mise à jour des positions prennent quelques millisecondes seulement, mais chaque <code>Tick</code> prend 3.8 secondes, nécessitant beaucoup de puissance CPU, ce qui le rend inutilisable. Avec 10 000 joueurs et une carte de taille <code>[-1000, 1000]</code>, chaque <code>Tick</code> prend environ 94ms. Si la fréquence de <code>Tick</code> peut être réduite, par exemple à deux fois par seconde, cela reste tout juste dans une plage d'utilisation acceptable.</p>
+<h4 id="liste-croisee-testee-en-pratique">Liste croisée testée en pratique</h4>
+<p>Les résultats des tests de la liste chaînée croisée sont les suivants :</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Add</span> <span class="n">Player</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.002057</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">Tick</span> <span class="p">(</span><span class="mi">1</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.000330</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">a</span><span class="o">%</span><span class="p">)</span>
@@ -1891,18 +1893,18 @@ Version boost : boost_1_75_0</li>
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042568</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">94.0</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
 </code></pre></div>
-<p>Si nous analysons en détail, les listes croisées prennent plus de temps pour les opérations <code>Ajouter joueur</code> et <code>Mettre à jour la position</code>, en particulier pour <code>Ajouter joueur</code>, la performance est inférieure de plusieurs centaines voire milliers de fois par rapport à la grille à neuf cases (<code>100, [-50, 50]</code> - listes croisées prennent <code>2ms</code>, tandis que la grille à neuf cases n'en prend que <code>0.08ms</code>; <code>10000, [-50, 50]</code> - listes croisées prennent <code>21.6s</code>, la grille à neuf cases uniquement <code>6ms</code>). Le temps nécessaire pour <code>Mettre à jour la position</code> peut également varier jusqu'à cent fois, pour <code>10000, [-100, 100]</code> les listes croisées pour mettre à jour la position d'un joueur prennent <code>1.5s</code>, alors que la grille à neuf cases ne prend que <code>18ms</code>. On remarque que les listes croisées ont une plage de temps plus large pour les opérations <code>Ajouter joueur</code> et <code>Mettre à jour la position</code> par rapport à la grille à neuf cases, elles sont plus sensibles au nombre de joueurs et à la taille de la carte. Dans les zones à forte densité de joueurs, les performances de ces deux opérations chuteront rapidement jusqu'à devenir inutilisables.</p>
-<p>En ce qui concerne l'opération <code>Tick</code> de la grille en croix, les performances globales sont en effet meilleures que celles de la grille en 9 carrés. Dans le meilleur des cas, le temps nécessaire est d'environ la moitié de celui de la grille en 9 carrés (<code>1000, [-1000, 1000]</code> - grille en croix : 0,8 ms, grille en 9 carrés : 1,8 ms). Cependant, dans le pire des cas, la performance de la grille en croix peut se dégrader pour être proche de celle de la grille en 9 carrés (<code>10000, [-10000, 10000]</code> - grille en croix : 3,7 s, grille en 9 carrés : 3,8 s). En effet, étant donné la petite taille de l'environnement où les joueurs se trouvent dans les AOI les uns des autres, le nombre de "candidates" traversé par le <code>Tick</code> de la grille en croix est en réalité très proche de celui de la grille en 9 carrés.</p>
-<p>Pour obtenir des performances supérieures à celle de la grille 9x9 en utilisant la grille en croix, il est nécessaire de faire des hypothèses plus fortes, comme par exemple avec <code>player_num = 1000, map_size = [-1000, 1000]</code>. Dans ce cas, le temps pris par un <code>Tick</code> avec la grille en croix est de <code>0,8ms</code> contre <code>1,8ms</code> pour la grille 9x9. Pour l'opération <code>Update Pos</code>, la grille en croix nécessite <code>0,3ms</code> contre <code>0,18ms</code> pour la grille 9x9 (il convient de noter que le temps de test de <code>Update Pos</code> est la somme des temps de 10 exécutions). Pour réduire le temps total de <code>Tick + Update Pos</code> par rapport à la grille 9x9, le nombre d'opérations <code>Update Pos</code> ne doit pas dépasser 8 fois le nombre de <code>Tick</code>, autrement dit, entre deux <code>Tick</code>, le nombre d'opérations <code>Update Pos</code> doit être inférieur à 8. De plus, étant donné que l'ajout de joueur sur la grille en croix est très chronophage, elle n'est pas adaptée aux situations où les joueurs entrent et sortent fréquemment du scénario dans un laps de temps court ou se téléportent sur une grande distance dans le scénario. Par ailleurs, l'arrivée massive de joueurs sur une période courte peut également entraîner une baisse des performances et une utilisation intensive du CPU.</p>
-<p>En ce qui concerne la liste en croix, il est possible d'optimiser en supprimant le "Tick", à condition que le jeu puisse accepter une zone d'intérêt (AOI) carrée, et que les autres coûts tels que ceux liés au réseau entraînés par l'utilisation d'une AOI carrée soient acceptables. Cette condition est assez stricte, car en général la consommation de CPU liée au calcul de l'AOI dans le jeu n'est pas très élevée. Cependant, le passage d'une AOI circulaire à une AOI carrée entraine une augmentation de la surface de la zone d'intérêt, ce qui peut conduire à une augmentation du nombre de joueurs à l'intérieur, potentiellement jusqu'à 1,27 fois plus. Une fois cette condition remplie, la liste en croix peut être mise à jour sans avoir besoin du "Tick" pour actualiser périodiquement les événements de l'AOI, car la liste en croix maintient déjà une version carrée de l'AOI, qui était antérieurement utilisée uniquement pour calculer l'AOI circulaire, nécessitant ainsi une nouvelle itération de calcul de distance dans le "Tick". Dans ce scénario, la liste en croix peut offrir d'excellentes performances, car les performances de la fonction "Mettre à jour la position" de la liste en croix peuvent être plusieurs fois, voire plusieurs dizaines de fois, plus élevées que celles du "Tick".</p>
-<p>Fournir enfin un diagramme en barres comparatif des deux.</p>
+<p>Comme nous l'avons analysé, la liste croisée prend plus de temps pour <code>Add Player</code> et <code>Update Pos</code>, en particulier pour <code>Add Player</code>, où sa performance est inférieure de plusieurs centaines, voire des milliers de fois par rapport à la grille (avec <code>100, [-50, 50]</code>, la liste croisée prend <code>2ms</code>, alors que la grille n'en prend que <code>0.08ms</code> ; avec <code>10000, [-50, 50]</code>, la liste croisée prend <code>21.6s</code>, alors que la grille n'en prend que <code>6ms</code>). Pour <code>Update Pos</code>, le temps d'exécution peut également varier d'une centaine de fois ; avec <code>10000, [-100, 100]</code>, la liste croisée met <code>1.5s</code> pour mettre à jour la position du joueur, alors que la grille ne prend que <code>18ms</code>. On peut constater que les limites de temps d'exécution de la liste croisée pour <code>Add Player</code> et <code>Update Pos</code> sont plus larges que celles de la grille. Cela est davantage influencé par le nombre de joueurs et la taille de la carte. Dans les zones densément peuplées, la performance de ces deux opérations chute rapidement jusqu'à devenir inutilisable.</p>
+<p>En ce qui concerne l'opération "Tick" du Cross List, sa performance globale est effectivement meilleure que celle de la grille en 9 sections. Dans le meilleur des cas, le temps nécessaire est environ la moitié de celui de la grille en 9 sections ("1000, [-1000, 1000]" le Cross List prend 0,8 ms, tandis que la grille en 9 sections prend 1,8 ms). Cependant, dans le pire des cas, le Cross List peut se dégrader pour atteindre des performances proches de celles de la grille en 9 sections ("10000, [-10000, 10000]" le Cross List prend 3,7 s, contre 3,8 s pour la grille en 9 sections). Cela est dû au fait que, en raison de la petite taille de l'environnement, les joueurs se trouvent tous à portée les uns des autres dans leur zone AOI respective, ce qui fait que la quantité de candidats parcourus par "Tick" dans le Cross List est en fait très proche de celle de la grille en 9 sections.</p>
+<p>La utilisation de la grille croisée doit être plus performante que la grille à neuf cases. Cela requiert des hypothèses plus solides, telles que <code>player_num = 1000, map_size = [-1000, 1000]</code>. Dans ce cas, le temps nécessaire pour <code>Tick</code> est de <code>0.8ms</code> pour la grille croisée et de <code>1.8ms</code> pour la grille à neuf cases. Quant à <code>Update Pos</code>, il est de <code>0.3ms</code> pour la grille croisée et de <code>0.18ms</code> pour la grille à neuf cases (notez que le temps de test de <code>Update Pos</code> est la somme du temps de 10 exécutions). En ce qui concerne le temps total de <code>Tick + Update Pos</code>, pour que la grille croisée soit plus rapide que la grille à neuf cases, le nombre d'occurrences de <code>Update Pos</code> ne doit pas dépasser 8 fois celui de <code>Tick</code>, ou en d'autres termes, entre deux <code>Tick</code>, le nombre d'occurrences de <code>Update Pos</code> doit être inférieur à 8 fois. De plus, en raison du temps considérable nécessaire pour ajouter un joueur à la grille croisée, cette méthodologie n'est pas adaptée pour les situations où les joueurs entrent et sortent fréquemment de la scène en peu de temps, ou lors de téléportations à grande échelle à l'intérieur de la scène. De plus, un grand nombre soudain de joueurs entrant dans la scène peut également entraîner une dégradation des performances et une utilisation intensive du processeur.</p>
+<p>Pour les listes de hachage croisées, une optimisation peut encore être réalisée sous une certaine condition : éliminer le <code>Tick</code>, à condition que le jeu puisse accepter des AOI carrés et que les autres consumptions, notamment réseau, induites par les AOI carrés soient acceptables. En réalité, cette condition est assez stricte, car dans le jeu, les coûts liés aux AOI n’occupent généralement qu'une part marginale du CPU, mais passer d'un AOI circulaire à un AOI carré entraîne une augmentation de la surface de l'AOI, ce qui accroît également le nombre de joueurs à l'intérieur de cette zone. Dans une distribution uniforme, le nombre de joueurs pourrait augmenter jusqu'à <code>1.27</code> fois par rapport à l'original. Cependant, dès que cette condition est satisfaite, la liste de hachage croisée peut fonctionner sans avoir besoin de <code>Tick</code> pour mettre à jour régulièrement les événements d'AOI, car dans son implémentation, les <code>candidates</code> de la liste de hachage croisée maintiennent déjà un ensemble d'AOI carrés, initialement prévu pour calculer des AOI circulaires, et nécessitant une traversée supplémentaire dans le <code>Tick</code> pour calculer les distances. Dans ce contexte, la liste de hachage croisée peut potentiellement atteindre de très bonnes performances, car les performances de <code>Update Pos</code> peuvent différer du <code>Tick</code> de plusieurs à plusieurs dizaines de fois.</p>
+<p>Fournir finalement un histogramme comparatif des deux.</p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png"></a></p>
 <h3 id="resume">Résumé</h3>
-<p>Dans ce texte, nous présentons les principes et la mise en œuvre de deux algorithmes AOI (grille de neuf et chaîne en croix), et analysons les performances de ces deux algorithmes à partir de données mesurées, en espérant offrir aux lecteurs une aide ou une inspiration.</p>
-<p>Dans l'ensemble, la méthode de la grille en carré est simple à implémenter, avec des performances équilibrées qui ne traînent pas en route, ce qui la rend très adaptée aux jeux qui ne sont pas limités en termes de performances par l'AOI. La plage de fluctuation des performances de la méthode de la grille en carré est dans une fourchette prévisible, avec une performance minimale relativement élevée, ce qui limite également les goulets d'étranglement. D'un autre côté, l'optimisation de l'espace n'est pas très importante, et la complexité temporelle est assez fixe. En revanche, la méthode de la chaîne en croix nécessite une mise en œuvre plus complexe et a une performance minimale inférieure à celle de la méthode de la grille en carré. Cependant, si certaines hypothèses et conditions préalables sont remplies, la méthode de la chaîne en croix peut offrir une meilleure optimisation de l'espace, c'est-à-dire un potentiel d'amélioration plus élevé. Ces deux méthodes ont leurs avantages et leurs inconvénients, et différents moteurs de jeux de l'industrie ont choisi l'une ou l'autre en fonction de leurs besoins respectifs, chacun choisissant ce qui lui convient le mieux, selon son jugement.</p>
-<p>Mes compétences sont limitées, le contenu ci-dessus ne représente que mes propres idées. Si des lacunes ou des erreurs sont présentes, n'hésitez pas à laisser un commentaire pour en discuter.</p>
+<p>Dans ce texte, nous présentons les principes et les mises en œuvre de deux algorithmes AOI (grille en neuf points et chaîne en croix) et analysons les performances de ces deux algorithmes à partir de données mesurées, espérant apporter un peu d'aide ou d'inspiration aux lecteurs.</p>
+<p>Dans l'ensemble, la méthode du carré magique est simple à mettre en œuvre, avec des performances équilibrées qui ne se dégradent pas facilement, ce qui en fait un choix idéal pour les jeux où l’AOI n'est pas un goulot d'étranglement. Les fluctuations de performances de la méthode du carré magique se situent dans une fourchette prévisible, avec un seuil de performance relativement élevé, et elle ne conduit pas facilement à des goulots d'étranglement. Cependant, d'un autre côté, l'espace d'optimisation est également limité, et la complexité temporelle est plutôt fixe. En revanche, la méthode de la chaîne croisée est plus complexe à mettre en œuvre, avec un seuil de performance inférieur à celui de la méthode du carré magique. Cependant, si certaines hypothèses et conditions sont satisfaites, l'espace d'optimisation de la chaîne croisée peut être plus important, en d'autres termes, son plafond peut être plus élevé. Les deux méthodes ont leurs avantages et inconvénients ; dans l'industrie du jeu, différentes engines choisissent l'une ou l'autre selon leurs besoins, chacun y trouvant son compte.</p>
+<p>Mes compétences sont limitées, le contenu du texte reflète uniquement mes opinions. Si vous remarquez des lacunes ou des erreurs, n'hésitez pas à laisser un commentaire pour en discuter.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1928,7 +1930,7 @@ Version boost : boost_1_75_0</li>
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Ce message a été traduit en utilisant ChatGPT, veuillez <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>donner votre avis</strong></a>Identifier toute omission éventuelle. </p>
+<p>Ce message a été traduit avec ChatGPT, merci de laisser un <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>retour</strong></a>Veuillez indiquer toute omission. </p>
 </blockquote></div>
 
 
@@ -1952,7 +1954,7 @@ Version boost : boost_1_75_0</li>
     <span class="md-icon" title="Dernière mise à jour">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -1997,7 +1999,7 @@ Version boost : boost_1_75_0</li>
       <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Python Discussions 2 - Mise à jour en direct de Python 3.12">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Python Discussions 2 - Python3.12 Mise à jour à chaud">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2007,7 +2009,7 @@ Version boost : boost_1_75_0</li>
                 Précédent
               </span>
               <div class="md-ellipsis">
-                Python Discussions 2 - Mise à jour en direct de Python 3.12
+                Python Discussions 2 - Python3.12 Mise à jour à chaud
               </div>
             </div>
           </a>

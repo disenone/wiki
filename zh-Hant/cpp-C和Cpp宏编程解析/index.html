@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="本文的目的是要講清楚 C/C++ 宏編程的規則和實現方法，讓你不再畏懼看到程式碼裡面的宏。">
+        <meta name="description" content="本文的目的是要講清楚 C/C++ 宏編程的規則和實現方法，讓你不再懼怕看到代碼裡面的宏。">
       
       
         <meta name="author" content="Disenone">
@@ -613,17 +613,17 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      前言
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="前言">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#reentrancy" class="md-nav__link">
     <span class="md-ellipsis">
-      递归重入（Reentrancy）
+      遞迴重入（Reentrancy）
     </span>
   </a>
   
@@ -632,7 +632,7 @@
           <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      字串串組合
+      字符串拼接
     </span>
   </a>
   
@@ -646,11 +646,11 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      擴展規則
+      宏展開規則
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="擴展規則">
+    <nav class="md-nav" aria-label="宏展開規則">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -674,7 +674,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      # 運算符
+      # 操作符
     </span>
   </a>
   
@@ -683,7 +683,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      ## 運算子
+      ## 操作符
     </span>
   </a>
   
@@ -701,7 +701,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      禁止遞迴重入
+      禁止递归重入
     </span>
   </a>
   
@@ -723,18 +723,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#example-1" class="md-nav__link">
     <span class="md-ellipsis">
-      例子1
+      Example 1
     </span>
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concata-b-concat-handleidentifier-disable-used-macro-is-not-ok-to-expand-concata-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      执行之后得到 CONCAT(a, b)，遇到宏 CONCAT，预处理器先进入 HandleIdentifier，打印宏的信息，发现该宏状态是 disable used，已被展开，禁止再重入，显示 Macro is not ok to expand，预处理器不再展开，最后得到的结果就是 CONCAT(a, b)。
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="执行之后得到 CONCAT(a, b)，遇到宏 CONCAT，预处理器先进入 HandleIdentifier，打印宏的信息，发现该宏状态是 disable used，已被展开，禁止再重入，显示 Macro is not ok to expand，预处理器不再展开，最后得到的结果就是 CONCAT(a, b)。">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      範例2
+      例子2
     </span>
   </a>
   
@@ -743,7 +758,7 @@
           <li class="md-nav__item">
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      範例 3
+      例子 3
     </span>
   </a>
   
@@ -776,7 +791,7 @@
           <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      求值
+      請問你有甚麼事需要幫忙？
     </span>
   </a>
   
@@ -839,7 +854,7 @@
           <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
-      從括號開始
+      開始以括號。
     </span>
   </a>
   
@@ -848,7 +863,7 @@
           <li class="md-nav__item">
   <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
-      可變參數空閒
+      可變長參數空
     </span>
   </a>
   
@@ -902,7 +917,7 @@
           <li class="md-nav__item">
   <a href="#_24" class="md-nav__link">
     <span class="md-ellipsis">
-      條件迴圈
+      條件循環
     </span>
   </a>
   
@@ -938,7 +953,7 @@
           <li class="md-nav__item">
   <a href="#_28" class="md-nav__link">
     <span class="md-ellipsis">
-      數據結構
+      資料結構
     </span>
   </a>
   
@@ -952,7 +967,7 @@
         <li class="md-nav__item">
   <a href="#_29" class="md-nav__link">
     <span class="md-ellipsis">
-      小結
+      結論
     </span>
   </a>
   
@@ -987,7 +1002,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -1109,7 +1124,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -1130,7 +1145,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -1366,7 +1381,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1387,7 +1402,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1450,7 +1465,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1471,7 +1486,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1573,7 +1588,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1594,7 +1609,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1636,7 +1651,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1709,17 +1724,17 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      前言
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="前言">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#reentrancy" class="md-nav__link">
     <span class="md-ellipsis">
-      递归重入（Reentrancy）
+      遞迴重入（Reentrancy）
     </span>
   </a>
   
@@ -1728,7 +1743,7 @@
           <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      字串串組合
+      字符串拼接
     </span>
   </a>
   
@@ -1742,11 +1757,11 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      擴展規則
+      宏展開規則
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="擴展規則">
+    <nav class="md-nav" aria-label="宏展開規則">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1770,7 +1785,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      # 運算符
+      # 操作符
     </span>
   </a>
   
@@ -1779,7 +1794,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      ## 運算子
+      ## 操作符
     </span>
   </a>
   
@@ -1797,7 +1812,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      禁止遞迴重入
+      禁止递归重入
     </span>
   </a>
   
@@ -1819,18 +1834,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#example-1" class="md-nav__link">
     <span class="md-ellipsis">
-      例子1
+      Example 1
     </span>
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concata-b-concat-handleidentifier-disable-used-macro-is-not-ok-to-expand-concata-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      执行之后得到 CONCAT(a, b)，遇到宏 CONCAT，预处理器先进入 HandleIdentifier，打印宏的信息，发现该宏状态是 disable used，已被展开，禁止再重入，显示 Macro is not ok to expand，预处理器不再展开，最后得到的结果就是 CONCAT(a, b)。
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="执行之后得到 CONCAT(a, b)，遇到宏 CONCAT，预处理器先进入 HandleIdentifier，打印宏的信息，发现该宏状态是 disable used，已被展开，禁止再重入，显示 Macro is not ok to expand，预处理器不再展开，最后得到的结果就是 CONCAT(a, b)。">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      範例2
+      例子2
     </span>
   </a>
   
@@ -1839,7 +1869,7 @@
           <li class="md-nav__item">
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      範例 3
+      例子 3
     </span>
   </a>
   
@@ -1872,7 +1902,7 @@
           <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      求值
+      請問你有甚麼事需要幫忙？
     </span>
   </a>
   
@@ -1935,7 +1965,7 @@
           <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
-      從括號開始
+      開始以括號。
     </span>
   </a>
   
@@ -1944,7 +1974,7 @@
           <li class="md-nav__item">
   <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
-      可變參數空閒
+      可變長參數空
     </span>
   </a>
   
@@ -1998,7 +2028,7 @@
           <li class="md-nav__item">
   <a href="#_24" class="md-nav__link">
     <span class="md-ellipsis">
-      條件迴圈
+      條件循環
     </span>
   </a>
   
@@ -2034,7 +2064,7 @@
           <li class="md-nav__item">
   <a href="#_28" class="md-nav__link">
     <span class="md-ellipsis">
-      數據結構
+      資料結構
     </span>
   </a>
   
@@ -2048,7 +2078,7 @@
         <li class="md-nav__item">
   <a href="#_29" class="md-nav__link">
     <span class="md-ellipsis">
-      小結
+      結論
     </span>
   </a>
   
@@ -2089,72 +2119,73 @@
   <h1>C/C++ 宏編程解析</h1>
 
 <div><p><meta property="og:title" content="C/C++ 宏编程解析"></p>
-<p>本文的目的是要說明 C/C++ 的巨集編程規則和實作方法，讓你不再害怕看到程式碼中的巨集。我將首先說明 C++ 標準 14 中關於巨集展開的規則，接著通過修改 Clang 的原始碼來觀察巨集展開，最後根據這些知識來討論巨集編程的實現。</p>
-<p>這裡是本文的所有程式碼：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">下載</a>，<a href="https://godbolt.org/z/coWvc5Pse">線上展示</a>抱歉，我無法為你提供翻譯。</p>
-<h2 id="_1">前言</h2>
-<p>我地可以透過執行指令 <code>gcc -P -E a.cpp -o a.cpp.i</code> 令編譯器只對文件 <code>a.cpp</code> 進行預處理並將結果保存到 <code>a.cpp.i</code>。</p>
-<p>首先讓我們來看一些例子：</p>
-<h4 id="reentrancy">递归重入（Reentrancy）</h4>
+<p>本文的目的是要講清楚 C/C++ 的宏編程的規則和實現方法，讓你不再懼怕看到程式碼裡面的宏。我會首先說說 C++ 標準 14 裡面提到的關於宏展開的規則，然後通過修改 Clang 的源碼來觀察宏展開，最後基於這些知識來聊聊宏編程的實現。</p>
+<p>這篇文章的程式碼都可以在這裡找到：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">下載</a>，<a href="https://godbolt.org/z/coWvc5Pse">線上展示</a>Sorry, already translated into Turnodinese.</p>
+<h2 id="_1">引子</h2>
+<p>我們可以藉由執行指令 <code>gcc -P -E a.cpp -o a.cpp.i</code> 讓編譯器對檔案 <code>a.cpp</code> 僅執行預處理並將結果保存到 <code>a.cpp.i</code> 中。</p>
+<p>首先我們先來看一些例子：</p>
+<h4 id="reentrancy">遞迴重入（Reentrancy）</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define ITER(arg0, arg1) ITER(arg1, arg0)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ITER</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; ITER(2, 1)</span>
 </code></pre></div>
-<p>這個巨集 <code>ITER</code> 交換了 <code>arg0</code> 和 <code>arg1</code> 的位置。展開這個巨集後，得到的結果是 <code>ITER(2, 1)</code>。</p>
-<p>可以看到，<code>arg0</code> <code>arg1</code> 的位置成功交換，在這裡巨集成功展開了一次，但也只展開了一次，不再遞歸重入。換言之，巨集的展開過程中，是不可自身遞歸重入的，如果在遞歸的過程中發現相同的巨集在之前的遞歸中已經展開過，則不再展開，這是巨集展開的其中一條重要的規則。禁止遞歸重入的原因也很簡單，就是為了避免無限遞歸。</p>
-<h4 id="_2">字串串組合</h4>
+<p>宏 <code>ITER</code> 交換了 <code>arg0</code>、<code>arg1</code> 的位置。宏展開之後，得到的是 <code>ITER(2, 1)</code>。</p>
+<p>您可以看到，<code>arg0</code> 和 <code>arg1</code> 的位置已成功交換。在這裡，巨集已成功展開一次，但僅限一次，不再進一步遞迴。換句話說，在巨集展開過程中，不可自我遞迴。若在遞迴過程中發現先前已展開過相同的巨集，則不會再次展開，這是巨集展開的其中一條重要規則。禁止遞迴遞迴的原因非常簡單，即避免無窮遞迴。</p>
+<h4 id="_2">字符串拼接</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; HelloWorld</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">結合</span><span class="p">(</span><span class="n">你好</span><span class="p">,</span><span class="w"> </span><span class="n">結合</span><span class="p">(</span><span class="n">世界</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　你好結合(世界, !)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">你好</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">世界</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　你好CONCAT(世界, !)</span>
 </code></pre></div>
-<p>宏 <code>CONCAT</code> 的目的是拼接 <code>arg0</code> <code>arg1</code>。展開之後，<code>CONCAT(Hello, World)</code> 可以得到正確的結果 <code>HelloWorld</code>。但是 <code>CONCAT(Hello, CONCAT(World, !))</code> 卻只展開了外層的宏，內層的 <code>CONCAT(World, !)</code> 並沒有展開，直接跟 <code>Hello</code> 拼接在一起，與預期不同，真正想要的結果應為 <code>HelloWorld!</code>。這就是展開宏的另一個重要規則：緊接在 <code>##</code> 操作符後面的宏參數不會被展開，而是直接與前面的內容拼接。</p>
-<p>通過上述兩個例子，我們可以看出，宏展開的規則中有一些是違反直覺的。如果不清楚具體的規則，有可能原本想要的效果與最後的宏定義結果不一致。</p>
-<h2 id="_3">擴展規則</h2>
-<p>透過引子裡的兩個例子，我們了解到巨集展開有一套標準的規則，這套規則定義在 C/C++ 標準裡面，內容不多，建議先仔細讀幾遍，我這裡順帶給下標準 n4296 版本的連結，巨集展開在 16.3 節：<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">傳送門</a>我挑出 n4296 版本中幾條重要的規則，這些規則會決定如何正確編寫巨集（還是建議抽時間把標準裡面的巨集展開細讀下）。</p>
+<p>宏 <code>CONCAT</code> 的用意是將 <code>arg0</code> 與 <code>arg1</code> 進行串接。宏展開後，<code>CONCAT(Hello, World)</code> 將正確得到 <code>HelloWorld</code> 的結果。然而，<code>CONCAT(Hello, CONCAT(World, !))</code> 則僅展開外層的宏，內層的 <code>CONCAT(World, !)</code> 並未展開，而是直接與 <code>Hello</code> 串接在一起。這與我們預期的不同，我們真正想要的結果是 <code>HelloWorld!</code>。這即是宏展開的另一重要規則：跟在 <code>##</code> 運算符後面的宏參數，不會被展開，而是直接與前面的內容進行串接。</p>
+<p>通過上述兩個例子可以看出，宏展開的規則有一些是反直覺的，如果不清楚具體的規則，有可能寫出來的宏跟我們想要的效果不一致。</p>
+<h2 id="_3">宏展開規則</h2>
+<p>透過引子的兩個例子，我們了解到了宏展開是有一套標準的規則的，這套規則定義在 C/C++ 標準裡面，內容不多，建議先仔細讀幾遍，我這裡順帶給下標準 n4296 版本的連結，宏展開在 16.3 節：<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">傳送門</a>在這裡，我挑出了 n4296 版本中幾條重要的規則。這些規則將決定如何正確編寫巨集（建議花時間展開閱讀標準中的巨集）。</p>
 <h4 id="_4">參數分隔</h4>
 <p>宏的參數要求是用逗號分隔，而且參數的個數需要跟宏定義的個數一致，傳遞給宏的參數中，額外用括號包住的內容視為一個參數，參數允許為空：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define ADD_COMMA(arg1, arg2) arg1, arg2</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; a, b</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="c1">// 錯誤：宏“MACRO”要求有2個參數，但只給出了1個。</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">新增逗號</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// 錯誤提示：宏 "MACRO" 需要 2 個引數，但只提供了 1 個"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ADD_COMMA</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">        </span><span class="c1">// -&gt; (a, b), c</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ADD_COMMA</span><span class="p">(,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; , b</span>
 </code></pre></div>
-<p><code>ADD_COMMA((a, b), c)</code> 中的<code>(a, b)</code>被視為第一個參數。在<code>ADD_COMMA(, b)</code>中，第一個參數為空，所以展開為<code>, b</code>。</p>
+<p>將這些文字翻譯為繁體中文：</p>
+<p>將 <code>ADD_COMMA((a, b), c)</code> 中的 <code>(a, b)</code> 視為第一個參數。而在 <code>ADD_COMMA(, b)</code> 中，第一個參數為空，因此展開為 <code>, b</code>。</p>
 <h4 id="_5">宏參數展開</h4>
-<p>在展開宏的時候，如果宏的參數也是可以展開的宏，會先將參數完全展開，再展開宏，例如</p>
+<p>在展開巨集時，如果巨集的參數也是可展開的巨集，將會先完全展開參數，然後再展開巨集，例如</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1, 2, 3, 4</span>
 </code></pre></div>
-<p>一般情況下的巨集展開，都可以認為是先對參數求值，再對巨集求值，除非遇到了 <code>#</code> 和 <code>##</code> 操作符。</p>
-<h4 id="_6"><code>#</code> 運算符</h4>
-<p><code>#</code> 符號後跟的巨集參數不會被展開，會直接轉換為字串，例如：</p>
+<p>一般情況下的巨集展開，都可以認為是先對參數求值，再對巨集求值，除非遇到了 <code>#</code> 和 <code>##</code> 運算符。</p>
+<h4 id="_6"><code>#</code> 操作符</h4>
+<p><code>#</code> 操作符後面跟的宏參數，不會進行展開，會直接字符串化，例如：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; "a"</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; "STRINGIZE(a)"</span>
 </code></pre></div>
-<p>根據這條規則 <code>STRINGIZE(STRINGIZE(a))</code> 只能展開為 <code>"STRINGIZE(a)"</code>。</p>
-<h4 id="_7"><code>##</code> 運算子</h4>
-<p><code>##</code>運算子前後的巨集參數不會被展開，而是直接拼接在一起，例如：</p>
+<p>根據這個規則 <code>STRINGIZE(STRINGIZE(a))</code> 只能展開為<code>"STRINGIZE(a)"</code>。</p>
+<h4 id="_7"><code>##</code> 操作符</h4>
+<p><code>##</code> 操作符前後的宏參數，都不會進行展開，會先直接拼接起來，例如：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                        </span><span class="c1">// -&gt; HelloWorld</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">             </span><span class="c1">// -&gt; HelloCONCAT(World, !)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="o">!</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; CONCAT(Hello, World) CONCAT(!)</span>
 </code></pre></div>
-<p>將這段文字翻譯為繁體中文:</p>
-<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> 它應該先連接在一起，得到 <code>CONCAT(Hello, World) CONCAT(!)</code>。</p>
+<p>將這段文字翻譯為繁體中文：</p>
+<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> 只能是先拼接在一起，得到 <code>CONCAT(Hello, World) CONCAT(!)</code>。</p>
 <h4 id="_8">重複掃描</h4>
-<p>預處理器執行完一次巨集展開後，會重新掃描獲得的內容，繼續展開，直到沒有可以展開的內容為止。</p>
+<p>預處理器執行完一次宏展開之後，會重新掃描得到的內容，繼續展開，直到沒有可以展開的內容為止。</p>
 <p>一次宏展開，可以理解為先把參數完全展開（除非遇到 <code>#</code> 和 <code>##</code>），再根據宏的定義，把宏和完全展開後的參數按照定義進行替換，再處理定義中的所有 <code>#</code> 和 <code>##</code> 操作符。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; "Hello"</span>
 </code></pre></div>
-<p><code>CONCAT(STRING, IZE(Hello))</code> 首次掃描展開得到 <code>STRINGIZE(Hello)</code>，然後執行第二次掃描，發現 <code>STRINGIZE</code> 可以繼續展開，最終得到 <code>"Hello"</code>。</p>
-<h4 id="_9">禁止遞迴重入</h4>
-<p>在重複掃描的過程中，禁止遞歸展開相同的巨集。可以將巨集展開理解為樹狀結構，根節點就是一開始要展開的巨集，每個巨集展開之後的內容作為該巨集的子節點連接到樹上，那麼禁止遞歸就是在展開子節點的巨集時，如果該巨集跟任意祖先節點的巨集相同，則禁止展開。來看一些例子：</p>
+<p><code>CONCAT(STRING, IZE(Hello))</code> 第一次掃描展開得到 <code>STRINGIZE(Hello)</code>，然後執行第二次掃描，發現 <code>STRINGIZE</code> 可以繼續展開，最後得到 <code>"Hello"</code>。</p>
+<h4 id="_9">禁止递归重入</h4>
+<p>在重複掃描的過程中，禁止遞歸展開相同的宏。可以把宏展開理解為樹形的結構，根節點就是一開始要展開的宏，每個宏展開之後的內容作為該宏的子節點連接到樹上，那麼禁止遞歸就是在展開子節點的宏時，如果該宏跟任意祖先節點的宏相同，則禁止展開。來看一些例子：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="cp">#define CONCAT_SPACE(arg0, arg1) arg0 arg1</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2164,19 +2195,19 @@
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">IDENTITY_IMPL</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">   </span><span class="c1">// -&gt; CONCAT(a, b)</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">        </span><span class="c1">// -&gt; IDENTITY_IMPL(CONCAT(a, b)) -&gt; CONCAT(a, b)</span>
 </code></pre></div>
-<p><code>CONCAT(CON, CAT(a, b))</code>：因為 <code>CONCAT</code> 是使用 <code>##</code> 連接兩個參數，根據 <code>##</code> 的規則，不會展開參數，直接連接。所以第一次展開得到了 <code>CONCAT(a, b)</code>，由於 <code>CONCAT</code> 已經展開過了不會再遞歸展開，所以停止。</p>
-<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>：<code>IDENTITY_IMPL</code> 可以視為對參數 <code>arg0</code> 進行求值，這裡的參數 <code>arg0</code> 求值後得到了 <code>CONCAT(a, b)</code>，並由於遞歸被標記為禁止重入，之後 <code>IDENTITY_IMPL</code> 展開完成，進行第二次掃描時，發現禁止重入的 <code>CONCAT(a, b)</code>，因此停止展開。在這裡 <code>CONCAT(a, b)</code> 是由參數 <code>arg0</code> 展開而得到的，但在後續展開時，也會保持禁止重入的標記，可以視為父節點是參數 <code>arg0</code>，一直保持著禁止重入的標記。</p>
-<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code>：這個例子主要是為了強化對父子節點的理解，當參數自己展開時，它自身作為父節點，展開的內容則作為子節點進行遞歸判斷。展開後的參數傳遞到巨集定義之後，禁止重入的標記將繼續保留（如果巨集定義後未更改展開後的參數）。可以將參數的展開過程視為另一顆樹，展開結果即為樹的最底層子節點，這子節點傳給巨集執行展開時，仍然保有禁止重入的特性。</p>
-<p>例如這裡，當第一次完全展開後獲得 <code>IDENTITY_IMPL(CONCAT(a, b))</code>，<code>CONCAT(a, b)</code> 被標記為禁止重入，即使 <code>IDENTITY_IMPL</code> 是對參數求值的，但參數已經禁止展開，所以參數就原封不動地傳到定義裡，最後我們還是得到 <code>CONCAT(a, b)</code>。</p>
-<p>我只列出一些我認為重要或是不太容易理解的規則，若要深入了解規則，建議花點時間直接閱讀標準文件。</p>
+<p><code>CONCAT(CON, CAT(a, b))</code>：由於 <code>CONCAT</code> 是用 <code>##</code> 拼接兩個參數，根據 <code>##</code> 的規則，不會展開參數，直接拼接。所以第一次展開得到了 <code>CONCAT(a, b)</code>，由於 <code>CONCAT</code> 已經展開過了不會再遞迴展開，所以停止。</p>
+<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>：<code>IDENTITY_IMPL</code> 可以理解為對參數 <code>arg0</code> 求值，這裡的參數 <code>arg0</code> 求值得到了 <code>CONCAT(a, b)</code>，並由於遞歸被標記為了禁止重入，之後 <code>IDENTITY_IMPL</code> 展開完成，進行第二次掃描的時候，發現是禁止重入的 <code>CONCAT(a, b)</code>，於是停止展開。在這裡 <code>CONCAT(a, b)</code> 是由參數 <code>arg0</code> 展開而得到的，但在後續展開的時候，也會保持禁止重入的標記，可以理解為父節點是參數 <code>arg0</code>，一直保持著禁止重入的標記。</p>
+<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code>: 這個範例的主要目的是加強對父子節點的理解。當參數自我展開時，它本身作為父節點，展開的內容則視為子節點進行遞迴判斷。展開後的參數傳遞到巨集定義後，禁止重入的標記將繼續保留（若展開後的巨集在傳遞到定義後未被更改）。可以將參數的展開過程視為另一棵樹，而展開的結果則是樹的最底層子節點。這個子節點在傳遞給巨集執行展開的同時，仍將保持禁止重入的特性。</p>
+<p>例如這裡，在第一次完全展開之後得到 <code>IDENTITY_IMPL(CONCAT(a, b))</code>，<code>CONCAT(a, b)</code> 被標記為禁止重入，即使 <code>IDENTITY_IMPL</code> 是對參數求值的，但參數已經禁止展開，所以參數就原封不動地傳到定義裡，最後我們還是得到 <code>CONCAT(a, b)</code>。</p>
+<p>我以上只列出一些我認為比較重要或較難理解的規則。若想要深入了解詳細內容，建議直接花點時間閱讀標準文件。</p>
 <h2 id="clang">通過 Clang 觀察展開過程</h2>
-<p>我哋可以喺 Clang 嘅原始碼度加啲印信息嚟觀察宏展開嘅過程，我無意深入解釋 Clang 嘅原始碼，喺呢度畀一份修改過嘅檔案 diff，有興趣嘅可以自己編譯 Clang 嚟研究。呢度我係用嘅 llvm 版本 11.1.0（<a href="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz">傳送門</a>），修改過的檔案（<a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">傳送門</a>）。下面簡單透過例子來驗證我們之前介紹的巨集展開規則：</p>
-<h4 id="1">例子1</h4>
+<p>我們可以給 Clang 源碼加上一些打印信息來觀察宏展開的過程，我無意深入解釋 Clang 的源碼，在這裡給一份修改過的文件 diff，有興趣的可以自己編譯 Clang 來研究。這裡我使用的 llvm 版本 11.1.0 （<a href="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz">傳送門</a>），修改過的檔案（<a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">傳送門</a>）。下面简单通过例子来验证我们之前介绍的宏展开规则：</p>
+<h4 id="example-1">Example 1</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">      </span><span class="c1">// CONCAT(a, b)</span>
 </code></pre></div>
-<p>使用修改過的 Clang 來預處理以上程式碼：<code>clang -P -E a.cpp -o a.cpp.i</code>，獲得以下的輸出訊息：</p>
+<p>使用修改過的 Clang 來預處理以上程式碼： <code>clang -P -E a.cpp -o a.cpp.i</code>，得到下面的印出資訊：</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
@@ -2229,21 +2260,21 @@
 <a id="__codelineno-9-25" name="__codelineno-9-25"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
 <a id="__codelineno-9-26" name="__codelineno-9-26"></a>Macro is not ok to expand
 </code></pre></div></td></tr></table></div>
-<p>(#__codelineno-9-1)當處理 <code>HandleIdentifier</code> 時遇到巨集時會列印，然後列印巨集的資訊（第<a href="#__codelineno-9-2">2-4</a>已解決。</p>
-<p>真正執行巨集展開的函數是 <code>ExpandFunctionArguments</code>，之後再次列印待展開的巨集資訊，注意到此時巨集已經被標記為 <code>used</code>（第 <a href="#__codelineno-9-9">9</a>根据宏的定義，依序展開每個「Token」（「Token」是在「Clang」預處理器中的概念，這裡不深入說明）。</p>
-<p>第 0 個「Token」為形參數「arg0」，對應的實參數是「C」，判斷不需要展開，因此直接複製到結果上（第 <a href="#__codelineno-9-11">11-13</a>行）。</p>
-<p>第 1 個 <code>Token</code> 是 <code>hashhash</code>，也就是 <code>##</code> 操作符，繼續複製到結果上（第 <a href="#__codelineno-9-14">14-15</a>請問您需要將這些文字翻譯成繁體中文嗎？</p>
-<p>第2個<code>Token</code>是形參<code>arg1</code>，對應的實參是<code>ONCAT(a, b)</code>，預處理器也會把實參處理成一個個的<code>Token</code>，所以可以看到列印的結果用中括號包住了實參的每個<code>Token</code>（第18行），由於<code>##</code>的原因這個實參依然不需要展開，所以還是直接複製到結果上（第<a href="#__codelineno-9-16">16-18</a>行）。</p>
-<p>最後 <code>Leave ExpandFunctionArguments</code> 印出此次掃描展開後得到的結果（第 <a href="#__codelineno-9-19">19</a>進行時，將結果中的 <code>Token</code> 都翻譯為 <code>C ## ONCAT(a, b)</code>，然後預處理器會執行 <code>##</code> 運算子來生成新的內容。</p>
-<p><code>##</code> 執行之後得到 <code>CONCAT(a, b)</code>，遇到巨集 <code>CONCAT</code>，預處理還是先進入 <code>HandleIdentifier</code>，打印巨集的資訊，發現該巨集狀態是 <code>disable used</code>，是已經展開過的，禁止再重入了，顯示 <code>Macro is not ok to expand</code>，預處理器不再展開，最終得到的結果就是 <code>CONCAT(a, b)</code>。</p>
-<h4 id="2">範例2</h4>
+<p>(#__codelineno-9-1)處理 <code>HandleIdentifier</code> 時遇到巨集時會印出，接著列印巨集資訊（第 <a href="#__codelineno-9-2">2-4</a>行），宏沒有禁用，所以可以按照定義來展開 <code>Macro is ok to expand</code>，之後進入宏 <code>EnterMacro</code>。</p>
+<p>真正執行宏展開的函數是 <code>ExpandFunctionArguments</code>，之後再次列印待展開的宏資訊，注意到此時宏已經被標記為 <code>used</code> （第 <a href="#__codelineno-9-9">9</a>行）。之後根據宏的定義，進行逐個 <code>Token</code> 的展開 （<code>Token</code> 是 <code>Clang</code> 預處理裡面的概念，這裡不深入說明）。</p>
+<p>第 0 個 <code>Token</code> 是形參 <code>arg0</code>，對應的實參是 <code>C</code>，判斷不需要展開，於是直接複製到結果上（第 <a href="#__codelineno-9-11">11-13</a>行）。</p>
+<p>第 1 個 <code>Token</code> 是 <code>hashhash</code>，也就是 <code>##</code> 操作符，繼續複製到結果上（第 <a href="#__codelineno-9-14">14-15</a>行）。</p>
+<p>第 2 個 <code>Token</code> 是形式參數 <code>arg1</code>，對應的實際參數是 <code>ONCAT(a, b)</code>，預處理器也會將實際參數處理成一個個的 <code>Token</code>，所以可以看到列印的結果用中括號包住了實際參數的每個 <code>Token</code>（第 18 行），由於 <code>##</code> 的原因這個實際參數依然不需要展開，所以還是直接複製到結果上（第 <a href="#__codelineno-9-16">16-18</a>請注明合適的訊息（本行）。</p>
+<p>最後 <code>Leave ExpandFunctionArguments</code> 印出本次掃描展開得到的結果（第 <a href="#__codelineno-9-19">19</a>行），把结果的 <code>Token</code> 都翻译过来就是 <code>C ## ONCAT(a, b)</code>，之後預處理器就執行 <code>##</code> 操作符來生成新的內容。</p>
+<h2 id="concata-b-concat-handleidentifier-disable-used-macro-is-not-ok-to-expand-concata-b">执行之后得到 <code>CONCAT(a, b)</code>，遇到宏 <code>CONCAT</code>，预处理器先进入 <code>HandleIdentifier</code>，打印宏的信息，发现该宏状态是 <code>disable used</code>，已被展开，禁止再重入，显示 <code>Macro is not ok to expand</code>，预处理器不再展开，最后得到的结果就是 <code>CONCAT(a, b)</code>。</h2>
+<h4 id="2">例子2</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="cp">#define IDENTITY(arg0) arg0</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
 </code></pre></div>
 <details>
-&lt;概要&gt; &lt;字體&gt; Clang 打印資訊（點擊展開）：字體&gt; 概要&gt;
+<summary> <font> Clang 打印資訊（點擊展開）：</font> </summary>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
@@ -2355,11 +2386,11 @@
 
 </details>
 
-<p>(#__codelineno-11-12)在開始擴展<code>IDENTITY</code>行時，發現參數<code>Token 0</code>是<code>CONCAT(...)</code>，同時也算是一個巨集，因此先對該參數進行求值。</p>
-<p>(#__codelineno-11-27)行开始展开参数宏 <code>CONCAT(...)</code>，跟例子 1 一样，多次扫描展开完成后得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-11-46">46</a>行）。</p>
+<p>第<a href="#__codelineno-11-12">12</a>行開始展開 <code>IDENTITY</code>，發現參數 <code>Token 0</code> 是 <code>CONCAT(...)</code>，也是一個宏，於是先對該參數進行求值。</p>
+<p>第 <a href="#__codelineno-11-27">27</a>行開始展開參數宏 <code>CONCAT(...)</code>，跟例子 1 一樣，多次掃描展開完成後得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-11-46">46</a>行）。</p>
 <p>第 <a href="#__codelineno-11-47">47</a>結束對 <code>IDENTITY</code> 的展開，得到的結果是 <code>CONCAT(a, b)</code>。</p>
-<p>第 <a href="#__codelineno-11-51">51</a>重新掃描 <code>CONCAT(a, b)</code> 行，發現雖然是巨集，但在先前的參數展開過程中已經被設置為 <code>used</code>，不再遞歸展開，直接作為最終結果。</p>
-<h4 id="3">範例 3</h4>
+<p>第 <a href="#__codelineno-11-51">51</a>重新掃描 <code>CONCAT(a, b)</code> 行時發現，儘管它是一個宏，但在先前的參數展開過程中已經設置為 <code>used</code>，因此不再進行遞迴展開，直接作為最終結果。</p>
+<h4 id="3">例子 3</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="cp">#define IDENTITY_IMPL(arg0) arg0</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2555,39 +2586,44 @@
 
 </details>
 
-<p>(#__codelineno-13-16)隨著 "IDENTITY" 開始展開，預處理器發現 "Token 2"（即為 arg0）是一個宏，因此先展開 CONCAT(C, ONCAT(a, b))。</p>
+<p>第 <a href="#__codelineno-13-16">16</a>行开始展开 <code>IDENTITY</code>，同理預處理器看到 <code>Token 2</code>（也即是 <code>arg0</code>）是宏，於是先展開 <code>CONCAT(C, ONCAT(a, b))</code>。</p>
 <ul>
-<li>展開 <code>arg0</code> 後獲得 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-13-23">23-54</a>行）</li>
+<li>展開 <code>arg0</code> 後得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-13-23">23-54</a>行）</li>
 </ul>
-<p><code>IDENTITY</code> 最終展開為 <code>IDENTITY_IMPL(CONCAT(a, b))</code>（第 <a href="#__codelineno-13-57">57</a>行）</p>
-<p>重新掃描，繼續展開 <code>IDENTITY_IMPL</code>（第 <a href="#__codelineno-13-61">61-72</a>(#__codelineno-13-85)行）。</p>
+<ul>
+<li><code>IDENTITY</code> 最終展開為 <code>IDENTITY_IMPL(CONCAT(a, b))</code>（第 <a href="#__codelineno-13-57">57</a>行）</li>
+</ul>
+<ul>
+<li>重新掃描，繼續展開 <code>IDENTITY_IMPL</code>（第 <a href="#__codelineno-13-61">61-72</a>根據以上內容進行翻譯：
+行），發現此時的 <code>Token 0</code> 是宏 <code>CONCAT(a, b)</code>，但處於<code>used</code>狀態，中止展開並返回（第 75-84 行），最終得到的結果還是<code>CONCAT(a, b)</code>（第 <a href="#__codelineno-13-85">85</a>行）。</li>
+</ul>
 <p>重新掃描結果，發現宏 <code>CONCAT(a, b)</code> 的狀態是 <code>used</code>，停止展開並得到最終的結果。</p>
-<p>通過以上三個簡單的例子，我們可以大致理解預處理器展開巨集的過程，這裡不再深入探討預處理器，有興趣的話可以參照我提供的修改文件來研究。</p>
+<p>透過以上三個簡單的例子，我們可以大致理解預處理器展開宏的過程，這裡不再對預處理器進行更深入的探討，有興趣可以對照我提供的修改文件來研究。</p>
 <h2 id="_10">宏編程實現</h2>
-<p>以下開始進入主題（前面那一大段目的是為了更好地理解宏展開規則），宏編程實現。</p>
+<p>下面我們開始進入主題（前面那一大段的目的是為了更好地理解宏展開規則），宏編程實現。</p>
 <h4 id="_11">基本符號</h4>
 <p>首先可以先定義宏的特殊符號，做求值和拼接的時候會用到。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">#define PP_LPAREN() (</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#define PP_RPAREN() )</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#define PP_COMMA() ,</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#define PP_EMPTY()</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#定義 PP_HASHHASH # ## #      </span><span class="c1">// 表示 ## 字串，但只是作為字串，不會當作 ## 運算子來處理</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#define PP_HASHHASH # ## #      </span><span class="c1">// 表示 ## 字符串，但只是作为字符串，不会当作 ## 操作符来处理</span>
 </code></pre></div>
-<h4 id="_12">求值</h4>
-<p>利用參數優先展開的規則，可以撰寫一個求值巨集：</p>
+<h4 id="_12">請問你有甚麼事需要幫忙？</h4>
+<p>利用參數優先展開的規則，可以寫出一個求值宏：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#define PP_IDENTITY(arg0) arg0</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">()</span><span class="w">                </span><span class="c1">// -&gt; PP_COMMA ( )</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">())</span><span class="w">   </span><span class="c1">// -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p>如果只寫 <code>PP_COMMA PP_LPAREN() PP_RPAREN()</code>，預處理器只會分別處理每個巨集，對展開的結果不會再合併處理。加上 <code>PP_IDENTITY</code> 之後，預處理器可以對展開得到的 <code>PP_COMMA()</code> 再進行求值，得到 <code>,</code>。</p>
+<p>如果只是寫 <code>PP_COMMA PP_LPAREN() PP_RPAREN()</code>，預處理器只會分別處理每個宏，對展開的結果不會再合併處理。加上 <code>PP_IDENTITY</code> 之後，預處理器可以對展開得到的 <code>PP_COMMA()</code> 再進行求值，得到 <code>,</code>。</p>
 <h4 id="_13">拼接</h4>
-<p>由於 <code>##</code> 拼接時，不會展開左右兩邊的參數，為了讓參數可以先求值再拼接，可以這樣寫：</p>
+<p>由於 <code>##</code> 拼接時，並不會展開左右兩邊的參數，為了讓參數可以先求值再拼接，可以這樣寫：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">#define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="cp">#define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">PP_CONCAT</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">         </span><span class="c1">// -&gt; 12</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; Error</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; 錯誤</span>
 </code></pre></div>
 <p>這裡 <code>PP_CONCAT</code> 用到的方法叫做延遲拼接，在展開為 <code>PP_CONCAT_IMPL</code> 的時候，<code>arg0</code> 和 <code>arg1</code> 都會先展開求值，之後再由 <code>PP_CONCAT_IMPL</code> 執行真正的拼接操作。</p>
 <h4 id="_14">邏輯運算</h4>
@@ -2602,7 +2638,7 @@
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">PP_BOOL</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; PP_BOOL_3 -&gt; 1</span>
 </code></pre></div>
-<p>使用 <code>PP_CONCAT</code> 先將 <code>PP_BOOL_</code> 與 <code>arg0</code> 拼接在一起，然後對拼接結果進行求值。這裡的 <code>arg0</code> 要求是求值之後得到 <code>[0, 256]</code> 範圍的數字，拼接在 <code>PP_BOOL_</code> 後面求值，就能得到布林值。與或非運算：</p>
+<p>用<code>PP_CONCAT</code>先把<code>PP_BOOL_</code>和<code>arg0</code>拼接在一起，再對拼接結果進行求值。這裡的<code>arg0</code>要求是求值之後得到<code>[0, 256]</code>範圍的數字，拼接在<code>PP_BOOL_</code>後面求值，就能得到布爾值。與或非運算：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#define PP_NOT_0 1</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="cp">#define PP_NOT_1 0</span>
@@ -2624,9 +2660,9 @@
 <a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="n">PP_AND</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">            </span><span class="c1">// -&gt; PP_CONCAT(PP_AND_, 10) -&gt; PP_AND_10 -&gt; 0</span>
 <a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="n">PP_OR</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; PP_CONCAT(PP_OR_, 10) -&gt; PP_OR_10, -&gt; 1</span>
 </code></pre></div>
-<p>先用 <code>PP_BOOL</code> 對參數求值，之後再根據 <code>0 1</code> 的組合來拼接邏輯運算的結果。如果不用 <code>PP_BOOL</code> 來求值，那麼參數就只能支持 <code>0 1</code> 兩種數值，適用性大大降低。同理也可以寫出異或、或非等操作，有興趣的話可以自己嘗試。</p>
+<p>先用 <code>PP_BOOL</code> 對參數求值，之後再根據 <code>0 1</code> 的組合來拼接邏輯運算的結果。如果不用 <code>PP_BOOL</code> 來求值，那麼參數就只能支持 <code>0 1</code> 兩種數值，適用性大大降低。同理也可以寫出異或、或非等操作，有興趣可以自己嘗試。</p>
 <h4 id="_15">條件選擇</h4>
-<p>利用 <code>PP_BOOL</code> 和 <code>PP_CONCAT</code>，還可以撰寫條件選擇語句：</p>
+<p>利用 <code>PP_BOOL</code> 和 <code>PP_CONCAT</code>，還可以寫出條件選擇語句：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="cp">#define PP_IF_1(then, else) then</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="cp">#define PP_IF_0(then, else) else</span>
@@ -2634,7 +2670,7 @@
 <a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_1(2, 3) -&gt; 2</span>
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_0(2, 3) -&gt; 3</span>
 </code></pre></div>
-<p>若<code>if</code>的值為<code>1</code>，則使用<code>PP_CONCAT</code>組合成<code>PP_IF_1</code>，最後展開為<code>then</code>的值；同樣地，如果<code>if</code>求值為<code>0</code>，則會得到<code>PP_IF_0</code>。</p>
+<p>如果 <code>if</code> 的求值是 <code>1</code>，則用 <code>PP_CONCAT</code> 拼接成 <code>PP_IF_1</code>，最後展開為 <code>then</code> 的值；同理若 <code>if</code> 的求值為 <code>0</code>，則得到 <code>PP_IF_0</code>。</p>
 <h4 id="_16">遞增遞減</h4>
 <p>整數遞增遞減：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">#define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)</span>
@@ -2658,13 +2694,13 @@
 <a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">PP_INC</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_INC_2 -&gt; 3</span>
 <a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="n">PP_DEC</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_DEC_3 -&gt; 2</span>
 </code></pre></div>
-<p>與 <code>PP_BOOL</code> 相似，整數的递增递减也是有範圍限制的，這裡範圍設定為 <code>[0, 256]</code>，递增到 <code>256</code> 之後，為了安全起見，<code>PP_INC_256</code> 會返回自身 <code>256</code> 作為邊界，同理 <code>PP_DEC_0</code> 也是返回 <code>0</code>。</p>
+<p>與 <code>PP_BOOL</code> 相似，整數的遞增遞減也有範圍限制，這裡範圍設定為 <code>[0, 256]</code>。在增加到 <code>256</code> 之後，為確保安全，<code>PP_INC_256</code> 會返回自身的 <code>256</code> 作為邊界，同樣地，<code>PP_DEC_0</code> 也會返回 <code>0</code>。</p>
 <h4 id="_17">可變參數</h4>
-<p>宏可以接受不定长参数，格式如下：</p>
+<p>宏可以接受不固定參數，格式為：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf("log: " format, __VA_ARGS__)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w"> </span><span class="c1">// -&gt; printf("log: " "Hello World", ); 多了個逗號，編譯報錯</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World", ); 多了個逗號，編譯報錯</span>
 </code></pre></div>
 <p>由於變長參數有可能為空，空的情況下會導致編譯失敗，因此 C++ 20 引入了 <code>__VA_OPT__</code>，如果變長參數是空，則返回空，否則返回原參數：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)</span>
@@ -2672,17 +2708,17 @@
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World" ); 沒有逗號，正常編譯</span>
 </code></pre></div>
-<p>可惜的是，只有 C++ 20 或更高版本的標準才包含這個巨集，在後文中我們將提供 <code>__VA_OPT__</code> 的實作方法。</p>
+<p>但可惜只有 C++ 20 以上標準才有這個宏，下文中我們將會給出 <code>__VA_OPT__</code> 的實現方法。</p>
 <h4 id="_18">惰性求值</h4>
-<p>考慮這種情況：</p>
+<p>考虑这种情况：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; 报错 unterminated argument list invoking macro "PP_IF_1"</span>
 </code></pre></div>
-<p>我們知道，當巨集展開時會對先參數進行求值。<code>PP_COMMA()</code> 和 <code>PP_LPAREN()</code> 求值之後再傳給 <code>PP_IF_1</code>，得到 <code>PP_IF_1(,,))</code>，導致預處理錯誤。此時，可以採用一種叫做惰性求值方法：</p>
+<p>我們知道，宏展開的時候會對先參數進行求值。<code>PP_COMMA()</code> 和 <code>PP_LPAREN()</code> 求值之後再傳給 <code>PP_IF_1</code>，得到 <code>PP_IF_1(,,))</code>，導致預處理出錯。此時，可以採用一種叫做惰性求值的方法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">,</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">)()</span><span class="w">       </span><span class="c1">// -&gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p>將這樣寫，僅傳遞宏的名稱，讓 <code>PP_IF</code> 選出所需的宏名後，再與括號 <code>()</code> 結合為完整的宏，最終再展開。在宏編程中，惰性評估也是相當常見的。</p>
-<h4 id="_19">從括號開始</h4>
-<p>判斷可變長參數是否以括號開始：</p>
+<p>改成這種寫法，只傳宏的名字，讓 <code>PP_IF</code> 選出需要的宏名字之後，再跟括號 <code>()</code> 拼接在一起組成完成的宏，最後再展開。惰性求值在宏編程裡面也是很常見的。</p>
+<h4 id="_19">開始以括號。</h4>
+<p>判斷可變參數是否以括號開頭：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="cp">#define PP_IS_BEGIN_PARENS(...) \</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="cp">    PP_IS_BEGIN_PARENS_PROCESS( \</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="cp">        PP_IS_BEGIN_PARENS_CONCAT( \</span>
@@ -2708,14 +2744,14 @@
 <a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(()</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-25-24" name="__codelineno-25-24" href="#__codelineno-25-24"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p><code>PP_IS_BEGIN_PARENS</code> 可以用來判斷傳入的參數是否以括號開始，在需要處理括號參數的時候會需要用到（譬如後面提到的 <code>__VA_OPT__</code> 實現）。看起來有點複雜，核心思想就是構建出一個巨集，若變長參數以括號開始，則可以跟括號連在一起求值得到一種結果，否則就另外求值得到另一種結果。讓我們來慢慢看：</p>
-<p>以 <code>PP_IS_BEGIN_PARENS_PROCESS</code> 和 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 所組成的巨集功能為先評估傳入的可變參數，接著取第 0 個參數。</p>
-<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code> 先對 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 進行求值，然後將該值與 <code>PP_IS_BEGIN_PARENS_PRE_</code> 結合在一起。</p>
-<p><code>PP_IS_BEGIN_PARENS_EAT(...)</code>宏會吞掉所有參數，返回1。如果在上一步<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>中，<code>__VA_ARGS__</code>是以括號開頭的，則會匹配到對<code>PP_IS_BEGIN_PARENS_EAT(...)</code>的求值，然後返回1；反之，如果不是以括號開頭，則沒有匹配上，<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>會保持不變。</p>
-<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到 <code>1</code>，<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1,</code>，注意 <code>1</code> 后面是有個逗號的，將 <code>1,</code> 傳給 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>，取第 0 個參數，最後得到 <code>1</code>，表示參數是以括號開始。</p>
-<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到不是 <code>1</code>，而是保持不變，則 <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code>，傳給 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 得到的是 <code>0</code>，表示參數不是以括號開始。</p>
-<h4 id="_20">可變參數空閒</h4>
-<p>判斷變長參數是否為空也是一個常用的巨集，在實現 <code>__VA_OPT__</code> 的時候需要用到，我們在這裡利用 <code>PP_IS_BEGIN_PARENS</code>，可以先寫出不完整的版本：</p>
+<p><code>PP_IS_BEGIN_PARENS</code> 可以用來判斷傳入的參數是否以括號開始，在需要處理括號參數的時候會需要用到（譬如後面說到的 <code>__VA_OPT__</code> 實現）。看起來有點複雜，核心思想就是構建出一個宏，若變長參數以括號開始，則可以跟括號連在一起求值得到一種結果，否則就另外求值得到另一種結果。我們來慢慢看：</p>
+<p><code>PP_IS_BEGIN_PARENS_PROCESS</code> 和 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 组成的宏功能是先對傳入的不定參數求值，然後取第 0 個參數。</p>
+<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code> 是先對 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值，再將求值結果與 <code>PP_IS_BEGIN_PARENS_PRE_</code> 拼接在一起。</p>
+<p><code>PP_IS_BEGIN_PARENS_EAT(...)</code> 宏會吞掉所有參數，返回1，如果上一步 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 中，<code>__VA_ARGS__</code> 以括號開始，那麼就會匹配到對 <code>PP_IS_BEGIN_PARENS_EAT(...)</code> 的求值，然後返回 <code>1</code>；相反，如果不是以括號開始，則沒有匹配上，<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 會保留不變。</p>
+<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到 <code>1</code>，<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1</code>，注意 <code>1</code> 後面是有個逗號的，把 <code>1,</code> 傳給 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>，取第 0 個參數，最後得到 <code>1</code>，表示參數是以括號開始。</p>
+<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到不是 <code>1</code>，而是保持不变，則 <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code>，傳給 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> 得到的是 <code>0</code>，表示參數不是以括號開始。</p>
+<h4 id="_20">可變長參數空</h4>
+<p>判斷可變長參數是否為空也是一個常見的巨集，在實現 <code>__VA_OPT__</code> 時需要使用，我們可以在這裡利用 <code>PP_IS_BEGIN_PARENS</code>，可以先撰寫出不完整的版本：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cp">#define PP_IS_EMPTY_PROCESS(...) \</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cp">    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ())</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="cp">#define PP_IS_EMPTY_PROCESS_EAT(...) ()</span>
@@ -2725,10 +2761,10 @@
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p><code>PP_IS_EMPTY_PROCESS</code> 的功能是檢查 <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code> 是否以括號開頭。</p>
+<p><code>PP_IS_EMPTY_PROCESS</code> 的功能是判斷 <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__()</code> 是否以括號開始。</p>
 <p>如果 <code>__VA_ARGS__</code> 是空，<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code>，得到的是一對括號 <code>()</code>，再傳給 <code>PP_IS_BEGIN_PARENS</code> 返回 <code>1</code>，表示參數是空。</p>
-<p>否則，<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code>會保持不變地傳遞給<code>PP_IS_BEGIN_PARENS</code>，並返回 0，表示非空。</p>
-<p>請注意第 4 個例子 <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>，<code>PP_IS_EMPTY_PROCESS</code> 不能正確處理以括號開始的可變參數，這是因為當可變參數以括號開始時，括號會被 <code>PP_IS_EMPTY_PROCESS_EAT</code> 消耗導致評估結果為 <code>()</code>。為了解決這個問題，我們需要區分參數是否以括號開始的情況：</p>
+<p>否則，<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code> 會保持不變地傳給 <code>PP_IS_BEGIN_PARENS</code>，返回 0，表示非空。</p>
+<p>留意第 4 個例子 <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>，<code>PP_IS_EMPTY_PROCESS</code> 不能正確處理以括號開始的變長參數，因為這時變長參數帶來的括號會匹配 <code>PP_IS_EMPTY_PROCESS_EAT</code>，導致求值得到 <code>()</code>。為了解決這個問題，我們需要區別對待參數是否以括號開始的情況：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">#define PP_IS_EMPTY(...) \</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(__VA_ARGS__)) \</span>
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(__VA_ARGS__)</span>
@@ -2746,7 +2782,7 @@
 </code></pre></div>
 <p><code>PP_IS_EMPTY_IF</code> 根據 <code>if</code> 條件來返回第 0 或者第 1 個參數。</p>
 <p>如果傳入的變長參數以括號開始，<code>PP_IS_EMPTY_IF</code> 返回 <code>PP_IS_EMPTY_ZERO</code>，最後返回 <code>0</code>，表示變長參數非空。</p>
-<p>若 <code>PP_IS_EMPTY_IF</code> 回傳 <code>PP_IS_EMPTY_PROCESS</code>，最終由 <code>PP_IS_EMPTY_PROCESS</code> 來判斷變長參數是否非空。</p>
+<p>反之 <code>PP_IS_EMPTY_IF</code> 返回 <code>PP_IS_EMPTY_PROCESS</code>，最後由 <code>PP_IS_EMPTY_PROCESS</code> 來判斷變長參數是否非空。</p>
 <h4 id="_21">下標訪問</h4>
 <p>獲取變長參數指定位置的元素：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="cp">#define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(__VA_ARGS__)</span>
@@ -2761,9 +2797,10 @@
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0("Hello", "World") -&gt; "Hello"</span>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1("Hello", "World") -&gt; "World"</span>
 </code></pre></div>
+<p>將文本翻譯成繁體中文：</p>
 <p><code>PP_ARGS_ELEM</code> 的第一個參數是元素下標 <code>I</code>，後面是變長參數。利用 <code>PP_CONCAT</code> 拼接 <code>PP_ARGS_ELEM_</code> 和 <code>I</code>，即可以得到返回相應位置元素的巨集 <code>PP_ARGS_ELEM_0..8</code>，再把變長參數傳給該巨集，展開返回下標對應位置的元素。</p>
 <h4 id="pp_is_empty2">PP_IS_EMPTY2</h4>
-<p>利用 <code>PP_ARGS_ELEM</code> 也可以實現另一版本的 <code>PP_IS_EMPTY</code>：</p>
+<p>利用“PP_ARGS_ELEM”也可以實現另一版本的“PP_IS_EMPTY”：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="cp">#define PP_IS_EMPTY2(...) \</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="cp">    PP_AND( \</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="cp">        PP_AND( \</span>
@@ -2785,13 +2822,15 @@
 <a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(())</span><span class="w">            </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>利用 <code>PP_ARGS_ELEM</code> 來實現判斷參數是否包含逗號的 <code>PP_HAS_COMMA</code>。<code>PP_COMMA_ARGS</code> 會接收任意傳入的參數，並返回一個逗號。</p>
+<p>利用 'PP_ARGS_ELEM' 實現判斷參數是否包含逗號 'PP_HAS_COMMA'。 'PP_COMMA_ARGS' 會吸收任何傳入的參數，並返回一個逗號。</p>
 <p>判斷變長參數是否為空的基礎邏輯是 <code>PP_COMMA_ARGS __VA_ARGS__ ()</code> 返回一個逗號，也就是 <code>__VA_ARGS__</code> 為空，<code>PP_COMMA_ARGS</code> 和 <code>()</code> 拼接在一起求值，具體的寫法就是 <code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code>。</p>
-<p>然而在某些情況下會有特例：</p>
-<p><code>__VA_ARGS__</code> itself may potentially bring commas;
-<code>__VA_ARGS__()</code> 放在一起時，會產生逗號引起的求值。
-<code>PP_COMMA_ARGS __VA_ARGS__</code> 組合在一起時會產生逗號的值求取；</p>
-<p>針對上述提及的三種例外情況，需要進行排除，因此最終的寫法相當於對以下 4 個條件執行「與」邏輯：</p>
+<p>但是會有例外的情況：</p>
+<ul>
+<li><code>__VA_ARGS__</code> 本身有可能會帶來逗號；
+<code>__VA_ARGS__()</code> 會將所有參數連接在一起，並在求值時加入逗號；
+<code>PP_COMMA_ARGS __VA_ARGS__</code> 拼接在一起時將產生一個包含逗號的表達式；</li>
+</ul>
+<p>針對上面提到的三種例外情況，需要進行排除，因此最後寫法等價於對以下四個條件執行與邏輯：</p>
 <ul>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__))</code> &amp;&amp;</li>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))</code> &amp;&amp;</li>
@@ -2799,7 +2838,7 @@
 <li><code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code></li>
 </ul>
 <h4 id="__va_opt__"><code>__VA_OPT__</code></h4>
-<p>透過 <code>PP_IS_EMPTY</code> 最終可以實現類似 <code>__VA_OPT__</code> 的巨集：</p>
+<p>利用<code>PP_IS_EMPTY</code>終於可以來實現類似<code>__VA_OPT__</code>的巨集：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="cp">#define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="cp">#define PP_REMOVE_PARENS_IMPL(...) __VA_ARGS__</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
@@ -2811,17 +2850,17 @@
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="n">PP_ARGS_OPT</span><span class="p">((</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">empty</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">     </span><span class="c1">// -&gt; data</span>
 <a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="n">PP_ARGS_OPT</span><span class="p">((,),</span><span class="w"> </span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; ,</span>
 </code></pre></div>
-<p><code>PP_ARGS_OPT</code> 接受兩個固定參數和可變參數，若可變參數非空則返回 <code>data</code>，否則返回 <code>empty</code>。為了讓 <code>data</code> 和 <code>empty</code> 支援逗號，要求兩者都需以括號包覆實際參數，最後使用 <code>PP_REMOVE_PARENS</code> 來移除外層的括號。</p>
-<p>憑借 <code>PP_ARGS_OPT</code> ，可以實現 <code>LOG3</code> 以模擬 <code>LOG2</code> 的功能：</p>
+<p><code>PP_ARGS_OPT</code> 接受兩個固定參數和變長參數，變長參數非空時返回 <code>data</code>，否則返回 <code>empty</code>。為了讓 <code>data</code> 和 <code>empty</code> 支持逗號，要求兩者都要用括號包住實際的參數，最後用 <code>PP_REMOVE_PARENS</code> 來移除外層的括號。</p>
+<p>使用 <code>PP_ARGS_OPT</code>，您可以實現類似於 <code>LOG2</code> 的功能來模擬 <code>LOG3</code> 的實現：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#define LOG3(format, ...) \</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf("log: " format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf("log: " "Hello" );</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello %s"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s" , "World");</span>
 </code></pre></div>
-<p><code>data_tuple</code> 是 <code>(,)</code>，如果變長參數非空，則會返回 <code>data_tuple</code> 裡面的所有元素，在這裡就是逗號 <code>,</code>。</p>
+<p><code>data_tuple</code> 是 <code>(,)</code>，如果变长参数非空，则会返回 <code>data_tuple</code> 里面的所有元素，在这里就是逗号 <code>,</code>。</p>
 <h4 id="_22">求參數個數</h4>
-<p>獲取可變長參數的個數：</p>
+<p>獲取變長參數的個數：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="cp">#define PP_ARGS_SIZE_IMCOMPLETE(...) \</span>
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="cp">    PP_ARGS_ELEM(8, __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
@@ -2830,9 +2869,9 @@
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">())</span><span class="w">    </span><span class="c1">// -&gt; 2</span>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>計算變長參數的個數，是通過數參數的位置來獲取的。<code>__VA_ARGS__</code> 會導致後續的參數全體往右移動，用宏 <code>PP_ARGS_ELEM</code> 來獲取第 8 個位置的參數，如果 <code>__VA_ARGS__</code> 只有一個參數，則第 8 個參數等於 <code>1</code>；同理如果 <code>__VA_ARGS__</code> 有兩個參數，則第 8 個參數就變為 <code>2</code>，剛好等於變長參數的個數。</p>
-<p>這裡提供的範例只支持最多 8 個變長參數，這是基於 <code>PP_ARGS_ELEM</code> 能夠支持的最大長度。</p>
-<p>這個宏還沒有完成，在變長參數為空的情況下，這個宏會錯誤地返回 <code>1</code>。如果需要處理空的變長參數，則需要使用我們之前提到的 <code>PP_ARGS_OPT</code> 宏：</p>
+<p>計算可變長參數的數量是通過索引位置來確定的。<code>__VA_ARGS__</code> 會導致後續參數整體右移，使用宏 <code>PP_ARGS_ELEM</code> 可以獲取第 8 個位置的參數。如果 <code>__VA_ARGS__</code> 只有一個參數，那麼第 8 個參數就等於 <code>1</code>；同樣地，如果 <code>__VA_ARGS__</code> 有兩個參數，那麼第 8 個參數就會變為 <code>2</code>，恰好等於可變長參數的數量。</p>
+<p>這裡給的例子只最高支持個數 8 的變長參數，這是依賴於 <code>PP_ARGS_ELEM</code> 所能支持的最大長度。</p>
+<p>但是這個宏還不完整，在變長參數為空的情況下，這個宏會錯誤返回 <code>1</code>。如果需要處理空的變長參數，則需要用到我們前面提到的 <code>PP_ARGS_OPT</code> 宏：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="cp">#define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), __VA_ARGS__)</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="cp">#define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, __VA_ARGS__ PP_COMMA_IF_ARGS(__VA_ARGS__) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
@@ -2842,9 +2881,9 @@
 <a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="n">PP_ARGS_SIZE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(,,,)</span><span class="w">           </span><span class="c1">// -&gt; 4</span>
 </code></pre></div>
-<p>問題的關鍵就是逗號「<code>,</code>」在 <code>__VA_ARGS__</code> 為空的時候，把逗號隱去就能正確返回 <code>0</code>。</p>
+<p>問題的關鍵就是逗號 <code>,</code>，在 <code>__VA_ARGS__</code> 為空的時候，把逗號隱去就能正確返回 <code>0</code>。</p>
 <h4 id="_23">遍歷訪問</h4>
-<p>類似C++的<code>for_each</code>，我們可以實現巨集的<code>PP_FOR_EACH</code>：</p>
+<p>類似 C++ 的 <code>for_each</code>，我們可以實現巨集的 <code>PP_FOR_EACH</code>：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="cp">#define PP_FOR_EACH(macro, contex, ...) \</span>
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="cp">    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(__VA_ARGS__))(0, macro, contex, __VA_ARGS__)</span>
 <a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
@@ -2868,10 +2907,10 @@
 <a id="__codelineno-34-21" name="__codelineno-34-21" href="#__codelineno-34-21"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span><span class="w">    </span><span class="c1">// -&gt; int x, y, z;</span>
 <a id="__codelineno-34-22" name="__codelineno-34-22" href="#__codelineno-34-22"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; bool a, b;</span>
 </code></pre></div>
-<p><code>PP_FOR_EACH</code> 接收兩個固定參數：<code>macro</code> 可以理解為在遍歷時呼叫的巨集，<code>contex</code> 可以作為固定值參數傳遞給 <code>macro</code>。<code>PP_FOR_EACH</code> 先通過 <code>PP_ARGS_SIZE</code> 獲取可變參數的長度 <code>N</code>，再用 <code>PP_CONCAT</code> 拼接得到 <code>PP_FOR_EACH_N</code>，之後 <code>PP_FOR_EACH_N</code> 會迭代呼叫 <code>PP_FOR_EACH_N-1</code> 來實現與可變參數數量相同的遍歷次數。</p>
-<p>在這個例子中，我們宣告了 <code>DECLARE_EACH</code> 作為 <code>macro</code> 的參數，<code>DECLARE_EACH</code> 的功能是返回 <code>contex arg</code>，如果 <code>contex</code> 是類型名稱，<code>arg</code> 是變數名稱，<code>DECLARE_EACH</code> 就可以用來宣告變數。</p>
-<h4 id="_24">條件迴圈</h4>
-<p>有了 <code>FOR_EACH</code> 之後，我們還可以用類似的寫法寫出 <code>PP_WHILE</code>：</p>
+<p><code>PP_FOR_EACH</code> 接收兩個固定參數： <code>macro</code> 可以理解為遍歷時候調用的宏，<code>contex</code> 可以作為固定值參數傳給 <code>macro</code>。<code>PP_FOR_EACH</code> 先通過 <code>PP_ARGS_SIZE</code> 獲取變長參數的長度 <code>N</code>，再用 <code>PP_CONCAT</code> 拼接得到 <code>PP_FOR_EACH_N</code>，之後 <code>PP_FOR_EACH_N</code> 會迭代調用 <code>PP_FOR_EACH_N-1</code> 來實現跟變長參數個數相同的遍歷次數。</p>
+<p>在這個範例中，我們定義了 <code>DECLARE_EACH</code> 作為 <code>macro</code> 函式的參數。<code>DECLARE_EACH</code> 的功能是返回 <code>contex arg</code>，如果 <code>contex</code> 是型別名，而 <code>arg</code> 是變數名，透過 <code>DECLARE_EACH</code> 就能夠宣告變數。</p>
+<h4 id="_24">條件循環</h4>
+<p>有了 <code>FOR_EACH</code> 之后，我们還可以用類似的寫法寫出 <code>PP_WHILE</code>：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="cp">#define PP_WHILE PP_WHILE_1</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>
 <a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="cp">#define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
@@ -2910,16 +2949,16 @@
 <a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a><span class="n">PP_WHILE</span><span class="p">(</span><span class="n">SUM_PRED</span><span class="p">,</span><span class="w"> </span><span class="n">SUM_OP</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (0, a + 2 + 1)</span>
 <a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a><span class="n">SUM</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">                               </span><span class="c1">// -&gt; a + 2 + 1</span>
 </code></pre></div>
-<p><code>PP_WHILE</code> 接受三個參數：<code>pred</code> 條件判斷函數，<code>op</code> 操作函數，<code>val</code> 初始值；循環的過程中不斷用 <code>pred(val)</code> 來做循環終止判斷，把 <code>op(val)</code> 得到的值傳給後續的宏，可以理解為執行以下代碼：</p>
+<p><code>PP_WHILE</code> 接受三個參數： <code>pred</code> 條件判斷函數，<code>op</code> 操作函數，<code>val</code> 初始值；在循環的過程中不斷用 <code>pred(val)</code> 來做循環終止判斷，把 <code>op(val)</code> 得到的值傳給後續的宏，可以理解為執行以下代碼：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">pred</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
 <a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="p">}</span>
 </code></pre></div>
-<p>首先使用 <code>pred(val)</code> 得到條件判斷結果，將條件結果 <code>cond</code> 和其他參數再傳遞給 <code>PP_WHILE_N_IMPL</code>。
-<code>PP_WHILE_N_IMPL</code> 可以分成兩個部分觀看：後半部分 <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> 被當作前半部分的參數，<code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> 如果 <code>cond</code> 為真則求值 <code>op(val)</code>，否則求值 <code>PP_EMPTY_EAT(val)</code> 會得到空。前半部分 <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code>，如果 <code>cond</code> 為真，則返回 <code>PP_WHILE_N+1</code>，並結合後半部分的參數繼續執行循環；否則返回 <code>val PP_EMPTY_EAT</code>，此時 <code>val</code> 就是最終的計算結果，而 <code>PP_EMPTY_EAT</code> 會吞掉後半部分的結果。</p>
+<p>首先使用 <code>pred(val)</code> 取得條件判斷結果，然後將條件結果 <code>cond</code> 和其餘參數再傳遞給 <code>PP_WHILE_N_IMPL</code>。
+<code>PP_WHILE_N_IMPL</code> 可以分為兩部分來看：後半部分 <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> 是作為前半部分的參數，<code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> 是如果 <code>cond</code> 為真，則求值 <code>op(val)</code>，否則求值 <code>PP_EMPTY_EAT(val)</code> 得到空。前半部分 <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code>，如果 <code>cond</code> 為真，則返回 <code>PP_WHILE_N+1</code>，結合後半部分的參數繼續執行循環；否則返回 <code>val PP_EMPTY_EAT</code>，此時 <code>val</code> 就是最終的計算結果，而 <code>PP_EMPTY_EAT</code> 會吞掉後半部分的結果。</p>
 <p><code>SUM</code> 實現 <code>N + N-1 + ... + 1</code>。初始值 <code>(max_num, origin_num)</code>；<code>SUM_PRED</code> 取值的第一個元素 <code>x</code>，判斷是否大於 0；<code>SUM_OP</code> 對 <code>x</code> 執行遞減操作 <code>x = x - 1</code>，對 <code>y</code> 執行 <code>+ x</code> 操作 <code>y = y + x</code>。直接用 <code>SUM_PRED</code> 和 <code>SUM_OP</code> 傳給 <code>PP_WHILE</code>，返回的結果是一個元組，我們真正想要的結果是元組的第 2 個元素，於是再用 <code>SUM</code> 取第 2 個元素的值。</p>
 <h4 id="_25">遞迴重入</h4>
-<p>迄今為止，我們的遍歷訪問和條件循環都運作得很好，結果符合預期。還記得我們在講宏展開規則的時候提到的禁止遞歸重入嗎，當我們想要執行兩重循環的時候就不幸遇到到了禁止遞歸重入：</p>
+<p>到目前為止，我們的遍歷訪問和條件循環都運作得很好，結果符合預期。還記得我們在講宏展開規則的時候提到的禁止遞歸重入嗎？當我們想要執行兩重循環的時候就不幸遇到了禁止遞歸重入：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="cp">#define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="cp">#define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))</span>
 <a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
@@ -2928,8 +2967,8 @@
 <a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
 <a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="n">SUM2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))</span>
 </code></pre></div>
-<p>將<code>SUM2</code>中的參數<code>op</code>改為<code>SUM_OP2</code>，<code>SUM_OP2</code>中述又會呼叫<code>SUM</code>，而<code>SUM</code>展開後將會是<code>PP_WHILE_1</code>，這相當於<code>PP_WHILE_1</code>遞迴地呼叫了它自己，預處理器展開停止。</p>
-<p>為了解決這個問題，我們可以使用一種自動遞歸的方法（Automatic Recursion）：</p>
+<p><code>SUM2</code> 把參數 <code>op</code> 改用 <code>SUM_OP2</code>，<code>SUM_OP2</code> 裡面會調用到 <code>SUM</code>，而 <code>SUM</code> 展開還會是 <code>PP_WHILE_1</code>，相當於 <code>PP_WHILE_1</code> 遞迴調用到了自身，預處理器停止展開。</p>
+<p>為了解決這個問題，我們可以用一種自動推導遞歸的方法（Automatic Recursion）：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="cp">#define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))</span>
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="cp">#define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)</span>
@@ -2962,12 +3001,12 @@
 <a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
 <a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="n">SUM4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; a + 0 + 2 + 1 + 0 + 1</span>
 </code></pre></div>
-<p><code>PP_AUTO_WHILE</code> 是 <code>PP_WHILE</code> 的自動推導遞歸版本，核心的巨集是 <code>PP_AUTO_REC(PP_WHILE_PRED)</code>，這個巨集可以找出當前可用的 <code>PP_WHILE_N</code> 版本的數字 <code>N</code>。</p>
-<p>推導的原理很簡單，就是搜索所有版本，找出能夠正確展開的版本，返回該版本的數字，為了提升搜索的速度，一般的做法是使用二分查找，這就是 <code>PP_AUTO_REC</code> 在做的事情。<code>PP_AUTO_REC</code> 接受一個參數 <code>check</code>，<code>check</code> 負責檢查版本可用性，這裡給出的是支持搜索版本範圍 <code>[1, 4]</code>。<code>PP_AUTO_REC</code> 會首先檢查 <code>check(2)</code>，如果 <code>check(2)</code> 為真，則調用 <code>PP_AUTO_REC_12</code> 搜索範圍 <code>[1, 2]</code>，否則用 <code>PP_AUTO_REC_34</code> 搜索 <code>[3, 4]</code>。<code>PP_AUTO_REC_12</code> 檢查 <code>check(1)</code> 如果為真，說明版本 <code>1</code> 可用，否則用版本 <code>2</code>，<code>PP_AUTO_REC_34</code> 同理。</p>
-<p>檢查 這裡的 <code>PP_WHILE_PRED</code> 要怎樣寫才能知道版本是否可用呢？在這裡，<code>PP_WHILE_PRED</code> 會展開成兩部分的拼接,接著再看後面的 <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>：如果 <code>PP_WHILE_ ## n</code> 可用, 由於 <code>PP_WHILE_FALSE</code> 固定返回 <code>0</code>, 這部分會展開得到 <code>val</code> 參數的值, 就是 <code>PP_WHILE_FALSE</code>; 否則這部分宏會保持不變, 依然是 <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>。</p>
-<p>將後半部份的結果與前半部份的 <code>PP_WHILE_CHECK_</code> 串接在一起，得到兩種結果：<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 或者 <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>，因此我們讓 <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 回傳 <code>1</code> 表示可用，<code>PP_WHILE_CHECK_PP_WHILE_n</code> 回傳 <code>0</code> 表示不可用。如此一來，我們成功完成自動推導遞迴的功能。</p>
+<p><code>PP_AUTO_WHILE</code> 是 <code>PP_WHILE</code> 的自動推導遞迴版本，核心的巨集是 <code>PP_AUTO_REC(PP_WHILE_PRED)</code>，這個巨集可以找出當前可用的 <code>PP_WHILE_N</code> 版本的數字 <code>N</code>。</p>
+<p>推導的原理很簡單，就是搜索所有版本，找出能夠正確展開的版本，返回該版本的數字。為了提升搜索的速度，一般的做法是使用二分查找，這就是 <code>PP_AUTO_REC</code> 在做的事情。<code>PP_AUTO_REC</code> 接受一個參數 <code>check</code>，<code>check</code> 負責檢查版本可用性，這裡給出的是支持搜索版本範圍 <code>[1, 4]</code>。<code>PP_AUTO_REC</code> 會首先檢查 <code>check(2)</code>，如果 <code>check(2)</code> 為真，則調用 <code>PP_AUTO_REC_12</code> 搜索範圍 <code>[1, 2]</code>，否則用 <code>PP_AUTO_REC_34</code> 搜索 <code>[3, 4]</code>。<code>PP_AUTO_REC_12</code> 檢查 <code>check(1)</code> 如果為真，說明版本 <code>1</code> 可用，否則用版本 <code>2</code>，<code>PP_AUTO_REC_34</code> 同理。</p>
+<p><code>check</code> 宏要怎麼寫才能知道版本是否可用呢？在這裡，<code>PP_WHILE_PRED</code> 會展開成兩部分的拼接，我們來看後部分 <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>：如果 <code>PP_WHILE_ ## n</code> 可用，由於 <code>PP_WHILE_FALSE</code> 固定返回 <code>0</code>，這部分會展開得到 <code>val</code> 參數的值，也就是 <code>PP_WHILE_FALSE</code>；否則這部分宏會保持不變，依然是 <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>。</p>
+<p>把後部分的結果跟前部分 <code>PP_WHILE_CHECK_</code> 拼接起來，得到兩種結果：<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 或者 <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>，於是我們讓 <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> 返回 <code>1</code> 表明可用，<code>PP_WHILE_CHECK_PP_WHILE_n</code> 返回 <code>0</code> 表示不可用。至此，我們完成了自動推導遞歸的功能。</p>
 <h4 id="_26">算術比較</h4>
-<p>不相等：Unequal:</p>
+<p>不相等：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="cp">#define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)</span>
 <a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="cp">#define PP_NOT_EQUAL_IMPL(x, y) \</span>
 <a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="cp">    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))</span>
@@ -2992,7 +3031,7 @@
 <a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>判斷數值是否相等時，利用了禁止遞迴重入的特性，將 <code>x</code> 和 <code>y</code> 遞迴拼接成 <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code> 巨集。若 <code>x == y</code>，則不會展開 <code>PP_NOT_EQUAL_y</code> 巨集，將其與 <code>PP_NOT_EQUAL_CHECK_</code> 拼接成 <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> 並返回 <code>0</code>；反之，兩者均成功展開最終獲得 <code>PP_EQUAL_NIL</code>，拼接而成 <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> 返回 <code>1</code>。</p>
+<p>判斷數值是否相等，使用了禁止遞歸重入的特性，將 <code>x</code> 和 <code>y</code> 遞歸拼接成 <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code> 宏，如果 <code>x == y</code>，則不會展開 <code>PP_NOT_EQUAL_y</code> 宏，與 <code>PP_NOT_EQUAL_CHECK_</code> 拼接成 <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> 返回 <code>0</code>；反之，兩次都成功展開最後得到 <code>PP_EQUAL_NIL</code>，拼接得到 <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> 返回 <code>1</code>。</p>
 <p>相等：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="cp">#define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))</span>
 <a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>
@@ -3013,10 +3052,10 @@
 <a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>另外還包括大於、大於等於等算術比較，這裡就不再贅述。</p>
+<p>另外還有大於、大於等於等等算術比較，這裡不再赘述。</p>
 <h4 id="_27">算術運算</h4>
-<p>透過 <code>PP_AUTO_WHILE</code>，我們可以實現基礎的算術運算，並支援巢狀運算。</p>
-<p>Addition:</p>
+<p>利用 <code>PP_AUTO_WHILE</code> 我們可以實現基礎的算術運算了，而且支持嵌套運算。</p>
+<p>加法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cp">#define PP_ADD(x, y) \</span>
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="cp">    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))</span>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="cp">#define PP_ADD_IMPL(x, y) x</span>
@@ -3058,7 +3097,7 @@
 <a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 2</span>
 </code></pre></div>
-<p>乘法實現這裡增加了一個參數 <code>ret</code>，初始值為 <code>0</code>，每次迭代會執行 <code>ret = ret + x</code>。</p>
+<p>乘法的實現這裡增加了一個參數 <code>ret</code>，初始值為 <code>0</code>，每次迭代會執行 <code>ret = ret + x</code>。</p>
 <p>除法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="cp">#define PP_DIV(x, y) \</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="cp">    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))</span>
@@ -3074,28 +3113,28 @@
 <a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 2</span>
 <a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>除法利用了 <code>PP_LESS_EQUAL</code>，只有 <code>y &lt;= x</code> 的情況下才繼續循環。</p>
-<h4 id="_28">數據結構</h4>
-<p>宏也可以有資料結構，其實我們在前面的也稍微用到了一種資料結構 <code>tuple</code>，<code>PP_REMOVE_PARENS</code> 就是可以去掉 <code>tuple</code> 的外層括號，返回裡面的元素。我們這裡就以 <code>tuple</code> 為例子討論相關的實現，其他的資料結構 <code>list, array</code> 等有興趣可以去看 <code>Boost</code> 的實現。</p>
-<p>"tuple" 定義為用括號包住的逗號分開的元素集合：<code>(a, b, c)</code>。 </p>
+<p>除法利用了 <code>PP_LESS_EQUAL</code>，只有 <code>y &lt;= x</code> 的情況下才繼續迴圈。</p>
+<h4 id="_28">資料結構</h4>
+<p>宏也可以有資料結構，事實上我們之前稍微使用了一種資料結構 <code>tuple</code>，<code>PP_REMOVE_PARENS</code> 就是可以去掉 <code>tuple</code> 的外層括號，並返回其中的元素。在這裡以 <code>tuple</code> 為例子討論相關的實作，對於其他資料結構如 <code>list, array</code> 等有興趣的話，可以去查看 <code>Boost</code> 的實作。</p>
+<p><code>tuple</code> 定義為用括號包住的逗號分開的元素集合：<code>(a, b, c)</code>。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="cp">#define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)</span>
 <a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>
 <a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="n">獲取指定索引的元素</span>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="cp">#define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="n">吞掉整個</span><span class="w"> </span><span class="n">tuple</span><span class="w"> </span><span class="n">返回空</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="c1">// 吞掉整個 tuple 返回空</span>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="cp">#define PP_TUPLE_EAT() PP_EMPTY_EAT</span>
 <a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>
-<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="n">獲取大小</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="c1">// 獲取大小</span>
 <a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="cp">#define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>
-<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="n">新增元素</span>
+<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="n">添加元素</span>
 <a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a><span class="cp">#define PP_TUPLE_PUSH_BACK(elem, tuple) \</span>
 <a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a><span class="cp">    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)</span>
 <a id="__codelineno-47-15" name="__codelineno-47-15" href="#__codelineno-47-15"></a><span class="cp">#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \</span>
 <a id="__codelineno-47-16" name="__codelineno-47-16" href="#__codelineno-47-16"></a><span class="cp">    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)</span>
 <a id="__codelineno-47-17" name="__codelineno-47-17" href="#__codelineno-47-17"></a>
-<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="n">插入元素</span>
+<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="c1">// 插入元素</span>
 <a id="__codelineno-47-19" name="__codelineno-47-19" href="#__codelineno-47-19"></a><span class="cp">#define PP_TUPLE_INSERT(i, elem, tuple) \</span>
 <a id="__codelineno-47-20" name="__codelineno-47-20" href="#__codelineno-47-20"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
 <a id="__codelineno-47-21" name="__codelineno-47-21" href="#__codelineno-47-21"></a><span class="cp">        3, \</span>
@@ -3123,7 +3162,7 @@
 <a id="__codelineno-47-43" name="__codelineno-47-43" href="#__codelineno-47-43"></a><span class="cp">    tuple \</span>
 <a id="__codelineno-47-44" name="__codelineno-47-44" href="#__codelineno-47-44"></a><span class="cp">    )</span>
 <a id="__codelineno-47-45" name="__codelineno-47-45" href="#__codelineno-47-45"></a>
-<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="n">刪除末尾元素</span>
+<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="c1">// 刪除末尾元素</span>
 <a id="__codelineno-47-47" name="__codelineno-47-47" href="#__codelineno-47-47"></a><span class="cp">#define PP_TUPLE_POP_BACK(tuple) \</span>
 <a id="__codelineno-47-48" name="__codelineno-47-48" href="#__codelineno-47-48"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
 <a id="__codelineno-47-49" name="__codelineno-47-49" href="#__codelineno-47-49"></a><span class="cp">        1, \</span>
@@ -3144,7 +3183,7 @@
 <a id="__codelineno-47-64" name="__codelineno-47-64" href="#__codelineno-47-64"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \</span>
 <a id="__codelineno-47-65" name="__codelineno-47-65" href="#__codelineno-47-65"></a><span class="cp">    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)</span>
 <a id="__codelineno-47-66" name="__codelineno-47-66" href="#__codelineno-47-66"></a>
-<a id="__codelineno-47-67" name="__codelineno-47-67" href="#__codelineno-47-67"></a><span class="n">刪除元素</span>
+<a id="__codelineno-47-67" name="__codelineno-47-67" href="#__codelineno-47-67"></a><span class="c1">// 刪除元素</span>
 <a id="__codelineno-47-68" name="__codelineno-47-68" href="#__codelineno-47-68"></a><span class="cp">#define PP_TUPLE_REMOVE(i, tuple) \</span>
 <a id="__codelineno-47-69" name="__codelineno-47-69" href="#__codelineno-47-69"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
 <a id="__codelineno-47-70" name="__codelineno-47-70" href="#__codelineno-47-70"></a><span class="cp">        2, \</span>
@@ -3189,20 +3228,20 @@
 <a id="__codelineno-47-109" name="__codelineno-47-109" href="#__codelineno-47-109"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (2, 3)</span>
 </code></pre></div>
 <p>這裡稍微解釋一下插入元素的實現，其他刪除元素等操作也是通過類似的原理來實現的。<code>PP_TUPLE_INSERT(i, elem, tuple)</code> 可以在 <code>tuple</code> 的位置 <code>i</code> 插入元素 <code>elem</code>，為了完成這個操作，先把位置小於 <code>i</code> 的元素都先用 <code>PP_TUPLE_PUSH_BACK</code> 放到一個新的 <code>tuple</code> 上（<code>ret</code>），然後在位置 <code>i</code> 放入元素 <code>elem</code>，之後再把原 <code>tuple</code> 位置大於等於 <code>i</code> 的元素放到 <code>ret</code> 後面，最後 <code>ret</code> 就得到我們想要的結果。</p>
-<h2 id="_29">小結</h2>
-<p>(https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression)在BOOST_PP中的<code>REPEAT</code>相關巨集等等，對此有興趣的人可以自行查閱相關資料。</p>
-<p>宏編程的除錯是一個痛苦的過程，我們可以：</p>
+<h2 id="_29">結論</h2>
+<p>這篇文章的目的是要清楚闡述 C/C++ 宏編程的原理和基本實現，同時記錄了一些我自己的理解和認識，希望能對其他人有所幫助和啟發。需要注意的是，雖然這篇文章有點長，但仍有一些關於宏編程的技巧和用法並未涉及到，比如 CHAOS_PP 提出的<a href="https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression">基於延遲展開的遞歸調用方法</a>，BOOST_PP 里面的 <code>REPEAT</code> 相關宏等等，有興趣的可以自行查閱資料。</p>
+<p>宏編程的調試是一個痛苦的過程，我們可以：</p>
 <p>使用 <code>-P -E</code> 選項輸出預處理結果；
-使用我之前修改過的 <code>clang</code> 版本，仔細研究展開過程。
-將複雜的巨集解構，查看中間巨集的展開結果；
-遮蔽不相關的標頭檔案和巨集；
+使用我自己修改過的 <code>clang</code> 版本，仔細研究展開過程。
+* 將複雜的宏拆解，查看中間宏的展開結果；
+過濾無關的標頭檔和巨集；
 最後就是要腦補宏展開的過程了，熟悉宏展開之後調試的效率也會提升。</p>
-<p>本文中的宏是我自己在理解了原理之後重新實現出來的，有部分宏借鑒了<code>Boost</code>的實現和引用裡面的文章，有任何錯誤之處，歡迎隨時指正，也歡迎找我來討論相關的問題。</p>
-<p>這篇文章的程式碼都可在這裡找到：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">下載</a>，<a href="https://godbolt.org/z/coWvc5Pse">線上示範</a>抱歉，我無法翻譯這句話，因為它沒有內容。</p>
+<p>本文中的宏是我自己在理解了原理之後重新實現出來的，有部分宏借鑒了 <code>Boost</code> 的實現和引用裡面的文章，有任何錯誤之處，歡迎隨時指正，也歡迎找我來討論相關的問題。</p>
+<p>這篇文章的程式碼都可以在這裡找到：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">下載</a>，<a href="https://godbolt.org/z/coWvc5Pse">線上演示</a>。</p>
 <h2 id="_30">引用</h2>
 <ul>
-<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a>
-(https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art)</li>
+<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a></li>
+<li><a href="https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art">C/C++ 宏編程的藝術</a></li>
 </ul>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -3229,7 +3268,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>這篇文章是由ChatGPT翻譯的，如果有任何<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遗漏之处。 </p>
+<p>這篇帖文是由 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -3286,13 +3325,13 @@
         
         
           
-          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 編寫 Windows 下的 Memory Leak Detector">
+          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 編寫 Windows 下的記憶體洩漏檢測工具">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一頁
               </span>
               <div class="md-ellipsis">
-                編寫 Windows 下的 Memory Leak Detector
+                編寫 Windows 下的記憶體洩漏檢測工具
               </div>
             </div>
             <div class="md-footer__button md-icon">

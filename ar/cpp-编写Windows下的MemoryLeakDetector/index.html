@@ -6,9 +6,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="ترجمتُ هذا النص إلى اللغة العربية:
+        <meta name="description" content="ترجم هذه النصوص إلى اللغة العربية:
 
-قرأت مؤخرًا "تنمية البرمجيات الذاتية للمبرمجين: الربط، والتحميل، والمكتبة" (المختصرة بـ "الربط" فيما بعد) واستفدت كثيرًا، وأنا أقوم بالتفكير في إمكانية إعداد بعض الشيفرات البرمجية الصغيرة ذات الصلة. لقد علمت عن أداة كشف تسريب الذاكرة في Windows تُدعى [Visual Leak Detector](https://vld.codeplex.com/)،هذه الأداة تتتبع تخصيص وإطلاق الذاكرة من خلال استبدال واجهات dll المسؤولة عن إدارة الذاكرة في نظام التشغيل Windows. لذلك قررت الاستفادة من Visual Leak Detector (يُشار إليه اختصارًا باسم VLD) لإنشاء أداة بسيطة لاكتشاف تسرب الذاكرة وفهم روابط الملفات dll.">
+في الوقت الحالي، انتهيت من قراءة "برمجيات التنمية الذاتية للمبرمجين: الروابط والتحميل والمكتبات" (يشار إليها فيما بعد باسم "الروابط")، وقد اكتسبت العديد من الفوائد، وأنا أفكر في إمكانية كتابة بعض الشفرات الصغيرة ذات الصلة. لقد اكتشفت بالصدفة أن هناك أداة لفحص تسرب الذاكرة في Windows تُعرف باسم [Visual Leak Detector](https://vld.codeplex.com/)يتم تتبع تخصيص الذاكرة وإطلاقها من خلال استبدال واجهات dll المسؤولة عن إدارة الذاكرة في Windows. لذا قررت الاستعانة بأداة الكشف البسيطة عن تسرب الذاكرة مستوحاة من Visual Leak Detector (يُشار إليها فيما بعد ب VLD)، حتى أفهم روابط ملفات dll.">
       
       
         <meta name="author" content="Disenone">
@@ -31,7 +31,8 @@
     
     
       
-        <title>كتابة كاشف تسرب الذاكرة في نظام Windows - Disenone's Wiki</title>
+        <title>编写 Windows 下的 Memory Leak Detector  
+كتابة كاشف تسرب الذاكرة في نظام ويندوز - Disenone's Wiki</title>
       
     
     
@@ -128,7 +129,8 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              كتابة كاشف تسرب الذاكرة في نظام Windows
+              编写 Windows 下的 Memory Leak Detector  
+كتابة كاشف تسرب الذاكرة في نظام ويندوز
             
           </span>
         </div>
@@ -554,7 +556,7 @@
         
   
   <span class="md-ellipsis">
-    ملخص معالجة معلمات سطر الأوامر في C/C++
+    ملخص معالجة معاملات سطر الأوامر في C/C++
   </span>
   
 
@@ -603,7 +605,8 @@
           
   
   <span class="md-ellipsis">
-    كتابة كاشف تسرب الذاكرة في نظام Windows
+    编写 Windows 下的 Memory Leak Detector  
+كتابة كاشف تسرب الذاكرة في نظام ويندوز
   </span>
   
 
@@ -614,7 +617,8 @@
         
   
   <span class="md-ellipsis">
-    كتابة كاشف تسرب الذاكرة في نظام Windows
+    编写 Windows 下的 Memory Leak Detector  
+كتابة كاشف تسرب الذاكرة في نظام ويندوز
   </span>
   
 
@@ -645,17 +649,17 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      معرفة مسبقة
+      الجاهزية الأولية
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="معرفة مسبقة">
+    <nav class="md-nav" aria-label="الجاهزية الأولية">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      جدول التصدير الرمزي
+      جدول تصدير الرموز
     </span>
   </a>
   
@@ -664,7 +668,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      الرموز جدول الاستيراد
+      جدول استيراد الرموز
     </span>
   </a>
   
@@ -697,7 +701,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      الموديولات وأسماء الدوال
+      اسماء الوحدات والوظائف
     </span>
   </a>
   
@@ -706,7 +710,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      تحليل استدعاء الكومة
+      تحليل مكدس الاستدعاءات
     </span>
   </a>
   
@@ -715,7 +719,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      فحص تسرب الذاكرة
+      كشف تسرب الذاكرة
     </span>
   </a>
   
@@ -724,7 +728,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      ختام
+      ختامية
     </span>
   </a>
   
@@ -755,7 +759,7 @@
         
   
   <span class="md-ellipsis">
-    KCP كود المصدر التحليل
+    KCP تحليل شفرة المصدر
   </span>
   
 
@@ -877,7 +881,7 @@
         
   
   <span class="md-ellipsis">
-    نقاشات متنوعة حول Python 2 - تحديث ساخن لـ Python 3.12
+    بايثون دردشة 2 - بايثون 3.12 تحديثات ساخنة
   </span>
   
 
@@ -1005,7 +1009,7 @@
         
   
   <span class="md-ellipsis">
-    تحليل واختبار أداء خوارزمية AOI للألعاب
+    تحليل خوارزمية AOI للألعاب واختبار أدائها
   </span>
   
 
@@ -1092,7 +1096,7 @@
         
   
   <span class="md-ellipsis">
-    استخدام FASTBuild لتجميع UE4 و UE5
+    استخدام FASTBuild في تجميع UE4 و UE5
   </span>
   
 
@@ -1113,7 +1117,7 @@
         
   
   <span class="md-ellipsis">
-    يرجى إضافة البرنامج التابع لـ UE عن طريق إضافة مصدر البرنامج إلى المكون الإضافي
+    UE تقوم بإضافة المكونات الإضافية من مصدر البرنامج المساعد
   </span>
   
 
@@ -1134,7 +1138,7 @@
         
   
   <span class="md-ellipsis">
-    توسيع قائمة محرر UE
+    UE توسيع قائمة محرر
   </span>
   
 
@@ -1155,7 +1159,7 @@
         
   
   <span class="md-ellipsis">
-    استخدام المسار لتوسيع القائمة UE
+    UE استخدام مسار شكل توسيع القائمة
   </span>
   
 
@@ -1176,7 +1180,9 @@
         
   
   <span class="md-ellipsis">
-    ضبط الـUE للغات المتعددة المحلية
+    ## UE 设置本地化多语言
+
+تعيين اللغة المحلية متعددة UE
   </span>
   
 
@@ -1197,7 +1203,7 @@
         
   
   <span class="md-ellipsis">
-    تحقيق مجموعة متنوعة من عمليات الصور (UTexture2D) (قراءة، حفظ، نسخ، الحافظة...)
+    يتم تحقيق تشغيل مختلف العمليات على الصور (UTexture2D) في UE (قراءة، حفظ، نسخ، الحافظة...)
   </span>
   
 
@@ -1218,7 +1224,7 @@
         
   
   <span class="md-ellipsis">
-    ملحقات محرر UE.EditorPlus لبرنامج UE - وثائق الشرح
+    UE محرر الإضافات UE.EditorPlus الوثائق التوضيحية
   </span>
   
 
@@ -1239,7 +1245,7 @@
         
   
   <span class="md-ellipsis">
-    UE ملحق AIChatPlus وثيقة الشرح
+    وثيقة شرح المكون الإضافي UE AIChatPlus
   </span>
   
 
@@ -1320,9 +1326,7 @@
         
   
   <span class="md-ellipsis">
-    ترجمة هذه النصوص إلى اللغة العربية:
-
-بناء كاميرا Unity الشخصية الثالثة (الجزء الأول)
+    تكامل بنية الكاميرا من شخصية ثالثة (الجزء العلوي)
   </span>
   
 
@@ -1343,7 +1347,7 @@
         
   
   <span class="md-ellipsis">
-    Unity تخطيط الكاميرا من شخصية الجهة الثالثة (الجزء الثاني)
+    بناء آلية الشخص الثالث في Unity (الجزء الثاني)
   </span>
   
 
@@ -1364,7 +1368,7 @@
         
   
   <span class="md-ellipsis">
-    Unity تحكم الشخصيات
+    تحكم شخصيات Unity
   </span>
   
 
@@ -1385,7 +1389,7 @@
         
   
   <span class="md-ellipsis">
-    قم بتوليف صورة العمق(depth map) وكشف الحواف (edge detection)
+    Unity رسم خريطة العمق (Depth Map) واكتشاف الحواف (Edge Detection)
   </span>
   
 
@@ -1406,7 +1410,7 @@
         
   
   <span class="md-ellipsis">
-    تنفيذ Unity لتشتت الضوء الحجمي (Volumetric Light Scattering، الضوء المتناثر في السحب)
+    يتم تنفيذ scattering الضوء الحجمي في Unity (تشتت الضوء الحجمي، ضوء الفجوة السحابية)
   </span>
   
 
@@ -1467,17 +1471,17 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      معرفة مسبقة
+      الجاهزية الأولية
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="معرفة مسبقة">
+    <nav class="md-nav" aria-label="الجاهزية الأولية">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      جدول التصدير الرمزي
+      جدول تصدير الرموز
     </span>
   </a>
   
@@ -1486,7 +1490,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      الرموز جدول الاستيراد
+      جدول استيراد الرموز
     </span>
   </a>
   
@@ -1519,7 +1523,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      الموديولات وأسماء الدوال
+      اسماء الوحدات والوظائف
     </span>
   </a>
   
@@ -1528,7 +1532,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      تحليل استدعاء الكومة
+      تحليل مكدس الاستدعاءات
     </span>
   </a>
   
@@ -1537,7 +1541,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      فحص تسرب الذاكرة
+      كشف تسرب الذاكرة
     </span>
   </a>
   
@@ -1546,7 +1550,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      ختام
+      ختامية
     </span>
   </a>
   
@@ -1580,36 +1584,39 @@
   
 
 
-  <h1>كتابة كاشف تسرب الذاكرة في نظام Windows</h1>
+  <h1>编写 Windows 下的 Memory Leak Detector  
+كتابة كاشف تسرب الذاكرة في نظام ويندوز</h1>
 
 <div><p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector"></p>
 <p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block"></a>
 <a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block"></a></p>
 <h2 id="_1">المقدمة</h2>
-<p>قرأت مؤخرًا "التطوير الشخصي للمبرمج: الربط، التحميل والمكتبة" (سنشير إليه فيما بعد باسم "الربط")، وقد استفدت كثيرًا منه، وأفكر في إمكانية كتابة بعض الشيفرات الصغيرة المتعلقة به. لقد عرفت بالصدفة أن هناك أداة في Windows لاكتشاف تسريب الذاكرة <a href="https://vld.codeplex.com/">Visual Leak Detector</a>، يتم تتبع تخصيص وإطلاق الذاكرة من خلال استبدال واجهات DLL المسؤولة عن إدارة الذاكرة في Windows. لذا تم اتخاذ قرار بالاستعانة بأداة Visual Leak Detector (المُختصرة بـVLD فيما بعد) كنموذج لأداة فحص تسريب الذاكرة البسيطة، لفهم روابط ملفات DLL.</p>
-<h2 id="_2">معرفة مسبقة</h2>
-<p>"الروابط" يفصيح كتاب عن مبادئ روابط الملفات التنفيذية في Linux وWindows، حيث يسمى شكل الملف التنفيذي في Windows بـ PE (Portable Executable). أما تفسير الملفات DLL هو كما يلي:</p>
+<p>لقد انتهيت مؤخرًا من قراءة "برمجية النمو الذاتي: الربط، والتحميل، والمكتبات" (اختصارها كـ "الربط") وكانت تجربة مفيدة. أنا أفكر في إنشاء بعض الشيفرات الصغيرة ذات الصلة. لدي معرفة بأن هناك أداة في Windows تُستخدم للكشف عن تسرّب الذاكرة، تدعى <a href="https://vld.codeplex.com/">Visual Leak Detector</a>هذه الأداة تتبع تخصيص وإطلاق الذاكرة عن طريق استبدال واجهات dll المسؤولة عن إدارة الذاكرة في نظام Windows. لذا تم اتخاذ قرار بالاستعانة بـ Visual Leak Detector (يشار إليه فيما بعد بـ VLD) لإنشاء أداة بسيطة للكشف عن تسرب الذاكرة وفهم روابط dll.</p>
+<h2 id="_2">الجاهزية الأولية</h2>
+<p>ترجمة النص إلى اللغة العربية:</p>
+<p>"الروابط" تفسر بالتفصيل مبدأ روابط الملفات التنفيذية في Linux و Windows، حيث يُشار إلى تنسيق الملفات التنفيذية في Windows بـ PE (Portable Executable). وأما تفسير ملفات DLL، فيكون على النحو التالي:</p>
 <blockquote>
-<p>ملفات DLL هي اختصار لمكتبات الربط الديناميكي، تعادل بمكتبات الأشياء المشتركة في نظام Linux. يعتمد النظام الويندوز بشكل كبير على آلية الـ DLL، حتى بنية نواة الويندوز تعتمد بشكل كبير على ذلك. يعتبر الملفات الـ DLL والملفات القابلة للتنفيذ (EXE) تقريبًا نفس المفهوم في ويندوز، فكليهما عبارة عن ملفات ثنائية بتنسيق PE، الاختلاف البسيط بينهما يكمن في وجود علامة في رأس ملف PE تشير إلى ما إذا كان الملف تنفيذيًا أم مكتبة ربط ديناميكية. عادة ما يكون امتداد الملفات الـ DLL .dll، ولكن يمكن أيضًا أن يكون مثلا .ocx (مراقبة OCX) أو .CPL (برنامج لوحة التحكم).</p>
+<p>مختصر DLL يُشير إلى مكتبة الروابط الديناميكية (Dynamic-Link Library)، وهي ما يعادل الكائن المشترك (Shared Object) بنظام Linux. يتم استخدام هذه الآلية بشكل كبير في نظام Windows، حتى هيكل نواة ويندوز يعتمد إلى حد كبير على آلية DLL. الملفات DLL وملفات EXE تحت نظام Windows في الواقع نفس المفهوم، حيث إنهما يكونان من الملفات الثنائية بتنسيق PE، الفرق البسيط هو أن رأس ملف PE يحتوي على رمز يُشير إلى ما إذا كان الملف ملف EXE أو DLL، وقد لا تنتهي اسماء ملفات DLL بالضرورة بـ .dll، بل يمكن أن تكون مثلاً .ocx (تحكم OCX) أو .CPL (برنامج لوحة التحكم).</p>
 </blockquote>
-<p>ثمَّ تيجأ صُناديق توسيع اللغات مثل Python مثل الملفات .pyd. بينما مفهوم الكشف عن تسرب الذاكرة هنا هو <strong>جدول التصدير والاستيراد الرمزي</strong> في ملفات DLL.</p>
-<h4 id="_3">جدول التصدير الرمزي</h4>
+<p>还有比如 Python 的扩展文件 .pyd。而 DLL 中有关我们这里内存泄露检测的概念是<strong>符号导出导入表</strong>。 </p>
+<p>وأيضًا مثل ملف توسيع بايثون .pyd. أما مفهوم كشف تسرب الذاكرة هنا في DLL فهو <strong>جدول تصدير واستيراد الرموز</strong>.</p>
+<h4 id="_3">جدول تصدير الرموز</h4>
 <blockquote>
-<p>عندما يحتاج ملف PE ما إلى توفير بعض الدوال أو المتغيرات لاستخدامها من قبل ملفات PE أخرى، نسمي هذا السلوك باسم <strong>تصدير الرموز (Symbol Exporting)</strong>.</p>
+<p>عندما يحتاج PE إلى تقديم بعض الدوال أو المتغيرات لاستخدامها بواسطة ملفات PE الأخرى، فإننا نسمي هذا السلوك <strong>تصدير الرموز (Symbol Exporting)</strong>.</p>
 </blockquote>
-<p>فهم ببساطة، في بيئة Windows PE، يتم تخزين جميع الرموز المصدرية المصدرة في هيكل يسمى جدول التصدير (Export Table)، حيث يوفر هذا الهيكل علاقة تعيين بين اسم الرمز وعنوان الرمز. والرموز التي تحتاج إلى تصديرها يجب أن تُضاف إليها المحدد "__declspec(dllexport)".</p>
-<h4 id="_4">الرموز جدول الاستيراد</h4>
-<p>جدول استيراد الرموز هو المفهوم الرئيسي هنا، وهو يقابل جدول تصدير الرموز، دعنا نلقي نظرة أولاً على شرح المفهوم:</p>
+<p>ببساطة، في Windows PE، يتم تخزين جميع الرموز المصدرة في هيكل يُسمى <strong>جدول التصدير (Export Table)</strong>، الذي يوفر علاقة بين أسماء الرموز وعناوينها. يجب إضافة المُعدِّل <code>__declspec(dllexport)</code> للرموز التي تحتاج إلى التصدير.</p>
+<h4 id="_4">جدول استيراد الرموز</h4>
+<p>الجدول المستورد للرموز هو المفهوم الرئيسي هنا، ويتوافق مع جدول التصدير للرموز، دعنا نلقي نظرة أولًا على شرح المفهوم:</p>
 <blockquote>
-<p>إذا استخدمنا في برنامج ما دوالاً أو متغيرات من ملف DLL ، فإننا نُسمي هذا السلوك <strong>استيراد الرموز (Symbol Importing)</strong>.</p>
+<p>إذا استخدمنا دالة أو متغير من DLL في برنامج معين، فإننا نسمي هذا السلوك <strong>استيراد الرموز (Symbol Importing)</strong>.</p>
 </blockquote>
-<p>يُطلق على الهيكل الذي يحتوي على رموز المتغيرات والدوال التي يجب استيرادها، بالإضافة إلى معلومات الموديول التي تحتوي عليها، والمحفوظ في نظام Windows PE باسم <strong>جدول الاستيراد (Import Table)</strong>. عندما يُحمّل ملف PE في نظام Windows، يقوم بتحديد عناوين جميع الدوال المطلوبة للاستيراد وضبط عناصر جدول الاستيراد إلى العناوين الصحيحة، ليتمكن البرنامج أثناء التشغيل من تحديد عنوان الدوال الفعلي عبر الاستعلام عن جدول الاستيراد واستدعائها. أهم هيكل في جدول الاستيراد هو <strong>جدول عناوين الاستيراد (Import Address Table، IAT)</strong>، حيث يتم تخزين عناوين الدوال المستوردة فيه.</p>
-<p>عند رؤية هذا المكان، هل لديكم فكرة عن كيفية إجراء الكشف عن تسرب الذاكرة الذي نريد تحقيقه :)؟ الإجابة الصحيحة هي اختراق جدول الاستيراد، بمعنى أنه يتم تغيير عناوين الدوال المسؤولة عن طلب وإطلاق الذاكرة في جدول الاستيراد للوحدات التي نحتاج إلى مراقبتها، ليتم تعيينها بدوال تم تعريفها من قبلنا. بهذه الطريقة، نحن قادرون على معرفة كيفية طلب وإطلاق الذاكرة في كل مرة لوحدة معينة، مما يتيح لنا إجراء الكشف الذي نريده بحرية.</p>
-<p>يمكنك العثور على معلومات أكثر تفصيلاً حول روابط ملفات DLL في "الربط" أو مصادر أخرى.</p>
+<p>عندما يُطلب من ويندوز PE أن يحتفظ بمعلومات الشخصيات والدوال التي يجب عليه استيرادها وأين توجد، يتم تسمية الهيكل الناتج عن ذلك باسم <strong>جدول الاستيراد (Import Table)</strong>. عندما يُحمّل ملف PE في نظام ويندوز، أحد الأمور التي يجب القيام بها هو تحديد عناوين جميع الدوال التي يجب استيرادها وضبط عناصر جدول الاستيراد إلى العناوين الصحيحة. يتيح ذلك للبرنامج، عند التشغيل، تحديد عناوين الدوال الفعلية عن طريق الاستعلام عن جدول الاستيراد والقيام بالاستدعاءات. أما أهم هيكل في جدول الاستيراد فهو <strong>جدول عناوين الاستيراد (Import Address Table، IAT)</strong>، حيث يتم تخزين عناوين الدوال المستوردة بشكل فعلي فيه.</p>
+<p>عند رؤية هذا المحتوى هل تعقد أنك قد تخمنت بالفعل كيف يتم اكتشاف تسرب الذاكرة الذي نريد تحقيقه :)؟ بالضبط، نعم، يتم ذلك عن طريق اختراق جدول الاستيراد، بمعنى أدق، هو تغيير عنوان وظائف طلب الذاكرة وإطلاقها في جدول الاستيراد للوحدات التي نريد فحصها بواسطة وظيفتنا المخصصة. وهكذا، يمكننا معرفة كل عملية طلب وإطلاق للذاكرة التي تتم في الوحدة، مما يسمح لنا بإجراء الفحوصات التي نرغب في تنفيذها بحرية.</p>
+<p>يمكنك الاطلاع على المزيد من المعلومات المفصلة حول روابط مكتبات دايناميكية (DLL) في كتاب "الروابط" أو في مصادر أخرى.</p>
 <h2 id="memory-leak-detector">Memory Leak Detector</h2>
-<p>بعد معرفة المبدأ، الخطوة التالية هي تنفيذ كشف تسرب الذاكرة بناءً على هذا المبدأ. سيستند شرح الخطوة التالية إلى التنفيذ الخاص بي، والذي نشرته على موقعي على Github: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>I am unable to translate the text as it does not contain any meaningful content. If you have any other text you would like me to translate, please provide it.</p>
+<p>عرفت المبدأ، الآن سأتحدث عن كيفية تنفيذ كشف تسرب الذاكرة استنادًا إلى هذا المبدأ. الشرح أدناه سيكون بناءً على تنفيذ الخاص بي، وقد وضعته على GitHub الخاص بي: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>。</p>
 <h4 id="_5">استبدال الدالة</h4>
-<p>الآن سنلقي نظرة على الدوال الحيوية، الموجودة في <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>I'm sorry, but I cannot provide a translation for this text as it does not contain any content to be translated. If you have more text to translate, please provide it so I can assist you.</p>
+<p>أولاً، دعنا نلقي نظرة على الدالة الرئيسية الموجودة في <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>يرجى تقديم النص الذي ترغب في ترجمته إلى العربية.</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -1692,21 +1699,21 @@
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
 <span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">قم</span><span class="w"> </span><span class="n">بتبديل</span><span class="w"> </span><span class="n">وظيفة</span><span class="w"> </span><span class="n">معينة</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">جدول</span><span class="w"> </span><span class="n">عناوين</span><span class="w"> </span><span class="n">الاستيراد</span><span class="w"> </span><span class="p">(</span><span class="n">IAT</span><span class="p">)</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="n">بوظيفة</span><span class="w"> </span><span class="n">أخرى</span><span class="p">.</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="n">importModule</span><span class="w"> </span><span class="n">سيستدعي</span><span class="w"> </span><span class="n">وظيفة</span><span class="err">ً</span><span class="w"> </span><span class="n">من</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">أخرى</span><span class="err">،</span><span class="w"> </span><span class="n">وهذه</span><span class="w"> </span><span class="n">الوظيفة</span><span class="w"> </span><span class="n">هي</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">تعديل</span><span class="p">.</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">ما</span><span class="w"> </span><span class="n">علينا</span><span class="w"> </span><span class="n">سوى</span><span class="w"> </span><span class="n">تحويل</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">استدعاء</span><span class="w"> </span><span class="n">وظيفتنا</span><span class="w"> </span><span class="n">المخصصة</span><span class="p">.</span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">قم</span><span class="w"> </span><span class="n">بتبديل</span><span class="w"> </span><span class="n">وظيفة</span><span class="w"> </span><span class="n">معينة</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">جدول</span><span class="w"> </span><span class="n">عناوين</span><span class="w"> </span><span class="n">الاستيراد</span><span class="w"> </span><span class="p">(</span><span class="n">IAT</span><span class="p">)</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="n">بوظيفة</span><span class="w"> </span><span class="n">أخرى</span><span class="err">،</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="n">سيقوم</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="n">باستدعاء</span><span class="w"> </span><span class="n">دالة</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">أخرى</span><span class="err">،</span><span class="w"> </span><span class="n">وهذه</span><span class="w"> </span><span class="n">الدالة</span><span class="w"> </span><span class="n">هي</span><span class="w"> </span><span class="n">الدالة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">التغيير</span><span class="err">،</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">ما</span><span class="w"> </span><span class="n">علينا</span><span class="w"> </span><span class="n">سوى</span><span class="w"> </span><span class="n">تعديل</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">لاستدعاء</span><span class="w"> </span><span class="n">وظيفتنا</span><span class="w"> </span><span class="n">المخصصة</span><span class="p">.</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="o">-</span><span class="w"> </span><span class="n">استيراد</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">يجب</span><span class="w"> </span><span class="n">معالجتها</span><span class="err">،</span><span class="w"> </span><span class="n">هذه</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">تستدعي</span><span class="w"> </span><span class="n">وظائف</span><span class="w"> </span><span class="n">يتعين</span><span class="w"> </span><span class="n">تعديلها</span><span class="w"> </span><span class="n">في</span><span class="w"> </span><span class="n">وحدات</span><span class="w"> </span><span class="n">أخرى</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">المعالجة</span><span class="err">،</span><span class="w"> </span><span class="n">وهذه</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">تستدعي</span><span class="w"> </span><span class="n">وظائف</span><span class="w"> </span><span class="n">من</span><span class="w"> </span><span class="n">وحدات</span><span class="w"> </span><span class="n">أخرى</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">تصحيح</span><span class="p">.</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="o">-</span><span class="w"> </span><span class="n">exportModuleName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">اسم</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تأتي</span><span class="w"> </span><span class="n">منها</span><span class="w"> </span><span class="n">الدوال</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">تعديل</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exportModuleName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">اسم</span><span class="w"> </span><span class="n">الوحدة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تأتي</span><span class="w"> </span><span class="n">منها</span><span class="w"> </span><span class="n">الدالة</span><span class="w"> </span><span class="n">التي</span><span class="w"> </span><span class="n">تحتاج</span><span class="w"> </span><span class="n">إلى</span><span class="w"> </span><span class="n">تصحيح</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">exportModulePath</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">مسار</span><span class="w"> </span><span class="n">وجود</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">التصدير</span><span class="err">،</span><span class="w"> </span><span class="n">يتم</span><span class="w"> </span><span class="n">محاولة</span><span class="w"> </span><span class="n">تحميل</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">التصدير</span><span class="w"> </span><span class="n">أولا</span><span class="err">ً</span><span class="w"> </span><span class="n">باستخدام</span><span class="w"> </span><span class="n">المسار</span><span class="err">،</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">إذا</span><span class="w"> </span><span class="n">فشل</span><span class="err">،</span><span class="w"> </span><span class="n">استخدم</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">للتحميل</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="o">-</span><span class="w"> </span><span class="n">اسم</span><span class="w"> </span><span class="n">الاستيراد</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">اسم</span><span class="w"> </span><span class="n">الوظيفة</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="o">-</span><span class="w"> </span><span class="n">exportModulePath</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">مسار</span><span class="w"> </span><span class="n">حيث</span><span class="w"> </span><span class="n">يتواجد</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">التصدير</span><span class="err">،</span><span class="w"> </span><span class="n">يتم</span><span class="w"> </span><span class="n">محاولة</span><span class="w"> </span><span class="n">تحميل</span><span class="w"> </span><span class="n">وحدة</span><span class="w"> </span><span class="n">التصدير</span><span class="w"> </span><span class="n">باستخدام</span><span class="w"> </span><span class="n">المسار</span><span class="w"> </span><span class="n">أولا</span><span class="err">ً،</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">إذا</span><span class="w"> </span><span class="n">فشلت</span><span class="w"> </span><span class="n">العملية</span><span class="err">،</span><span class="w"> </span><span class="n">استخدم</span><span class="w"> </span><span class="n">الاسم</span><span class="w"> </span><span class="n">للتحميل</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">importName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">اسم</span><span class="w"> </span><span class="n">الدالة</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="o">-</span><span class="w"> </span><span class="n">استبدال</span><span class="o">:</span><span class="w"> </span><span class="n">替代的函数指针</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">مؤش</span><span class="err">ّ</span><span class="n">ر</span><span class="w"> </span><span class="n">دالة</span><span class="w"> </span><span class="n">بديلة</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">قيمة</span><span class="w"> </span><span class="n">العودة</span><span class="o">:</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="n">إذا</span><span class="w"> </span><span class="n">نجحت</span><span class="err">،</span><span class="w"> </span><span class="n">وإلا</span><span class="w"> </span><span class="n">فإنها</span><span class="w"> </span><span class="n">تكون</span><span class="w"> </span><span class="nb">false</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">قيمة</span><span class="w"> </span><span class="n">العودة</span><span class="o">:</span><span class="w"> </span><span class="n">نجاح</span><span class="w"> </span><span class="n">صحيح</span><span class="err">،</span><span class="w"> </span><span class="n">خلاف</span><span class="w"> </span><span class="n">ذلك</span><span class="w"> </span><span class="n">خطأ</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="o">*/</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="kt">bool</span><span class="w"> </span><span class="n">RealDetector</span><span class="o">::</span><span class="n">patchImport</span><span class="p">(</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="n">HMODULE</span><span class="w"> </span><span class="n">importModule</span><span class="p">,</span>
@@ -1776,24 +1783,25 @@
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>لنحلل هذه الوظيفة، كما ورد في التعليق، فوظيفة هذه الوظيفة هي تغيير عنوان دالة معينة داخل IAT إلى عنوان دالة أخرى. دعونا نلقي نظرة على السطرين 34-35:</p>
+<p>دعونا نحلل هذه الوظيفة، كما هو مذكور في التعليق، وظيفة هذه الدالة هي تغيير عنوان وظيفة معينة داخل IAT إلى عنوان وظيفة أخرى. دعونا نراجع السطور 34-35 أولاً:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">idte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">IMAGE_IMPORT_DESCRIPTOR</span><span class="o">*</span><span class="p">)</span><span class="n">ImageDirectoryEntryToDataEx</span><span class="p">((</span><span class="n">PVOID</span><span class="p">)</span><span class="n">importModule</span><span class="p">,</span><span class="w"> </span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">IMAGE_DIRECTORY_ENTRY_IMPORT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">section</span><span class="p">);</span>
 </code></pre></div>
-<p>يمكن لوظيفة ImageDirectoryEntryToDataEx إرجاع عنوان هيكل معين في رأس الملف للوحدة، وبما أن IMAGE_DIRECTORY_ENTRY_IMPORT يحدد هيكل جدول الاستيراد الذي يجب استدعاؤه، فإن العائد idte سيشير مباشرة إلى جدول استيراد الوحدة.</p>
-<p>36-40 السطور هي للتحقق من صحة <code>idte</code>. السطر 41، <code>idte-&gt;FirstThunk</code> يشير فعلاً إلى IAT الفعلية. لذا، 41-48 السطور هي للبحث عن الوحدة النمطية التي تحتاج إلى استبدال وظائفها بناءً على اسم الوحدة النمطية. إذا تعذر العثور عليها، فهذا يعني أنه لم يتم استدعاء وظائف هذه الوحدة النمطية، ويجب فقط عرض رسالة خطأ والعودة.</p>
-<p>بمجرد العثور على الوحدة، بطبيعة الحال، نحن بحاجة إلى العثور على الدالة التي سيتم استبدالها، انتقل إلى السطر 55-62 لفتح الوحدة التابعة للدالة، ثم السطر 64 للعثور على عنوان الدالة. نظرًا لعدم حفظ IAT للاسم، فإنه من الضروري أولاً تحديد الدالة بناءً على عنوان الدالة الأصلي، ثم تعديل عنوان هذه الدالة، السطور 68-80 هي ببساطة تنفيذ هذه العملية. بعد العثور الناجح على الدالة، يتم تعديل العنوان ببساطة إلى عنوان "replacement".</p>
-<p>بهذا، تمكنا بنجاح من استبدال الدوال في IAT.</p>
-<h4 id="_6">الموديولات وأسماء الدوال</h4>
-<p>على الرغم من أننا قمنا بتنفيذ استبدال وظيفة IAT <code>patchImport</code>، إلا أن هذه الوظيفة تتطلب تحديد اسم الوحدة واسم الوظيفة، فكيف نعرف أي وحدة ووظيفة تم استخدامها لتخصيص وتحرير الذاكرة في البرنامج؟ لفهم هذه المشكلة، نحتاج إلى الاعتماد على أداة في Windows تدعى <a href="http://www.dependencywalker.com/">Dependency Walker</a>أنشئ مشروع جديد في Visual Studio، واستخدم الأمر <code>new</code> في دالة <code>main</code> لطلب تخصيص ذاكرة، ثم قم بتصحيح إصدار Debug. بعد ذلك، استخدم الأداة <code>depends.exe</code> لفتح ملف exe الذي تم تصحيحه. سترى واجهة مشابهة للتالية (باستخدام مشروعي <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a>وُجِبَتـْ تۤرجَمَه أو التحريـف الىِ اللغةِ العربيـة.</p>
+<p>تستطيع الدالة <code>ImageDirectoryEntryToDataEx</code> إرجاع عنوان لهيكل معين في رأس ملف الوحدة. يُحدد <code>IMAGE_DIRECTORY_ENTRY_IMPORT</code> الهيكل الذي يتعلق بجدول الاستيراد، لذا يشير <code>idte</code> المُرجع إلى جدول استيراد الوحدة.</p>
+<p>السطور من 36 إلى 40 هي للتحقق من صحة <code>idte</code>. السطر 41، <code>idte-&gt;FirstThunk</code>، يشير إلى جدول استيراد الوظائف الفعلي. لذلك، السطور من 41 إلى 48 هي للبحث عن الوحدة التي تحتوي على الوظائف التي يجب استبدالها باستخدام اسم الوحدة، وإذا لم يتم العثور، فإن ذلك يعني عدم استدعاء وظائف تلك الوحدة، لذا يتوجب إظهار رسالة الخطأ والعودة.</p>
+<p>بعد العثور على الوحدة، من الطبيعي أن نحتاج إلى تحديد الدالة البديلة. يتم فتح الوحدة التابعة للدالة بين السطور 55-62، وفي السطر 64 يتم العثور على عنوان الدالة. نظرًا لأن جدول عنوان الاستيراد (IAT) لا يحتفظ بالأسماء، يجب أولاً تحديد الدالة بناءً على عنوان الدالة الأصلية، ثم تعديل عنوان تلك الدالة. من السطور 68-80، يتم تنفيذ هذا الأمر. بعد العثور على الدالة بنجاح، يتم ببساطة تعديل العنوان ليصبح عنوان <code>replacement</code>.</p>
+<p>حتى الآن، لقد نجحنا في استبدال الدالة في IAT.</p>
+<h4 id="_6">اسماء الوحدات والوظائف</h4>
+<p>虽然我们已经实现了替换 IAT 函数 <code>patchImport</code>，但这个函数需要指定模块名字和函数名字呀，那我们怎么知道程序的内存分配和释放用了什么模块和函数呢？为了搞清楚这个问题，我们需要借助 Windows 下的工具 [Dependency Walker] </p>
+<p>على الرغم من أننا قد نفذنا استبدال دالة IAT <code>patchImport</code>، إلا أن هذه الدالة تتطلب تحديد اسم الوحدة واسم الوظيفة. كيف نعرف إذن ما هي الوحدات والوظائف التي تم استخدامها لتخصيص وإطلاق الذاكرة في البرنامج؟ لتوضيح هذه المسألة، نحتاج إلى الاستعانة بأداة <a href="http://www.dependencywalker.com/">Dependency Walker</a>في Visual Studio، قم بإنشاء مشروع جديد، واستخدم <code>new</code> في دالة <code>main</code> لطلب الذاكرة. قم بتجميع نسخة Debug، ثم استخدم <code>depends.exe</code> لفتح ملف exe الذي تم تجميعه، يمكنك رؤية واجهة مشابهة (بالاعتماد على مشروعي <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a>例如）:</p>
 <p><a class="glightbox" href="../../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png"></a></p>
-<p>يمكن رؤية أن LeakDetectorTest.exe استخدمت <code>malloc</code> و <code>_free_dbg</code> من داخل uscrtbased.dll (غير معروضة في الصورة)، هذين الدالتين هما اللذان يجب علينا استبدالهما. يجب الانتباه إلى أن أسماء الدوال الفعلية قد تختلف اعتمادًا على إصدار ويندوز وفيجوال ستوديو الخاص بك، أنا استخدم ويندوز 10 وفيجوال ستوديو 2015، كل ما عليك فعله هو استخدام depends.exe لمعرفة الدوال التي تم استدعاؤها فعليًا.</p>
-<h4 id="_7">تحليل استدعاء الكومة</h4>
-<p>تحتاج تسجيل تخصيص الذاكرة إلى تسجيل معلومات الكومة التي تم تحديدها في ذلك الوقت. هنا لا أنوي تقديم شرح مفصل حول كيفية الحصول على معلومات الكومة الحالية في نظام Windows. الوظيفة ذات الصلة هي <code>RtlCaptureStackBackTrace</code> وهناك العديد من الموارد عبر الإنترنت ذات الصلة التي يمكن الاطلاع عليها، يمكنك أيضًا النظر في الوظيفة داخل كودي <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp"><code>printTrace</code></a>I'm sorry, but the text you provided appears to be a punctuation mark and does not contain any content to be translated.</p>
-<h4 id="_8">فحص تسرب الذاكرة</h4>
-<p>حتى الآن، لقد جمعنا كل كرات التنين، الآن نحن نستدعي الطائر الأسطوري.</p>
-<p>أرغب في تنفيذ قدرة على اكتشاف تسرب الذاكرة محليًا (وهذا يختلف عن VLD، حيث يقوم VLD بالكشف عالميًا ويدعم عدة خيوط). لذا، في قمة الإحترافية قمت بتغليف كائن الاستبيان <code>LeakDetector</code> الذي يُعمل عن طريق استبدال الوظائف بطبقة أُخرى من البرمجة في كائن <code>RealDetector</code>، وقمت بعرض واجهة <code>LeakDetector</code> للمستخدمين. كل ما عليهم القيام به هو بناء <code>LeakDetector</code> عند الاستخدام، وستكتمل عملية استبدال الوظائف وبدء اكتشاف تسرب الذاكرة. عند تدمير <code>LeakDetector</code>، سيتم استعادة الوظائف الأصلية، وإيقاف اكتشاف تسرب الذاكرة، مع طباعة نتائج اكتشاف تسرب الذاكرة.</p>
-<p>استخدم الكود التالي لاختباره:</p>
+<p>يمكن أن نلاحظ أن LeakDetectorTest.exe يستخدم <code>malloc</code> و <code>_free_dbg</code> الموجودة في uscrtbased.dll (غير موضحة في الصورة)، وهذه الدالتان هما التي نحتاج إلى استبدالهما. يجب أن تكون حذرًا لأن أسماء الدوال الفعلية قد تختلف اعتمادًا على إصدار Windows وVisual Studio الذي تستخدمه. لدي إصدار Windows 10 وVisual Studio 2015، ما عليك سوى استخدام depends.exe لمعرفة الدالة التي يتم فعليًا استدعائها.</p>
+<h4 id="_7">تحليل مكدس الاستدعاءات</h4>
+<p>يجب تسجيل معلومات تخصيص الذاكرة من أجل تسجيل معلومات الوظيفة المستدعاة في ذلك الوقت. هنا، لا أنوي تقديم شرح مفصل حول كيفية الحصول على معلومات الوظيفة المستدعاة الحالية في Windows. الوظائف ذات الصلة هي <code>RtlCaptureStackBackTrace</code>، وهناك العديد من الموارد عبر الإنترنت تتعلق بذلك، ويمكنك أيضًا الاطلاع على الوظيفة الموجودة في كودي <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp"><code>printTrace</code></a>.</p>
+<h4 id="_8">كشف تسرب الذاكرة</h4>
+<p>حتى الآن، لقد جمعنا جميع كرات التنين، والآن سنستدعي زمردة الشينرو بشكل رسمي.</p>
+<p>أريد أن أصنع شيئًا يمكنه الكشف عن تسرب الذاكرة بشكل جزئي (وهذا هو الفرق مع VLD، حيث يقوم VLD بالكشف الشامل ويدعم تعدد الخيوط). لذلك، قمت بإضافة طبقة أخرى حول الفئة <code>RealDetector</code> التي تحل محل الدوال، وهي <code>LeakDetector</code>، وكشفت واجهة <code>LeakDetector</code> للمستخدمين. عند الاستخدام، كل ما عليك هو إنشاء <code>LeakDetector</code>، مما سيؤدي إلى استبدال الدالة والبدء في كشف تسرب الذاكرة، وعند تدمير <code>LeakDetector</code>، ستعود الدالة الأصلية، وتتوقف عملية الكشف عن تسرب الذاكرة، وتتم طباعة نتائج كشف تسرب الذاكرة.</p>
+<p>استخدم الكود أدناه للاختبار:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"LeakDetector.h"</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
@@ -1811,7 +1819,7 @@
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
 </code></pre></div>
-<p>أنشأ الكود ذاكرة جديدة مباشرةً باستخدام <code>new</code>، ولم يقم بتحريرها قبل الخروج مباشرةً، ونتيجة ذلك، طبع البرنامج:</p>
+<p>الكود مباشرة <code>new</code> بعض الذاكرة، ولم يتم تحريرها ثم خرج مباشرة، نتيجة البرنامج المطبوعة:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>============== LeakDetector::start ===============
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>LeakDetector init success.
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>============== LeakDetector::stop ================
@@ -1845,10 +1853,10 @@
 <a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 </code></pre></div>
-<p>يتم اكتشاف المكانين الذان لم يُفرج فيهما عن الذاكرة التي تم طلبها بشكل صحيح في البرنامج، وتُطبع معلومات كاملة عن مكدس الاستدعاء، لقد تم إتمام الوظيفة التي نحتاج إليها حتى الآن.</p>
-<h3 id="_9">ختام</h3>
-<p>عندما لا تزال غير ملم بالروابط البرمجية والتحميل والمكتبات، قد تجد صعوبة في فهم كيفية العثور على وظائف مكتبة روابط مشتركة، لا تتحدثوا عن استبدال وظائف مكتبة الروابط بالوظائف الخاصة بنا. هنا سنأخذ كشف تسرب الذاكرة كمثال، ونناقش كيفية استبدال وظائف ملفّات DLL في Windows، يمكنكم الرجوع إلى مصدر VLD للحصول على التفاصيل الأكثر تفصيلاً.</p>
-<p>ما أريد قوله هو أن "برمجة تطوير الذات: الارتباط، التحميل، والمكتبة" كتاب جيد حقًا، ويثير المشاعر بدون دعاية.</p>
+<p>程序正确地找出有两个地方申请的内存没有释放，并且打印出了完整的调用栈信息，我们需要的功能至此已经完成了。</p>
+<h3 id="_9">ختامية</h3>
+<p>عندما لا تزال غير ملم بربط البرامج وتحميلها ومكتباتها، ربما تشعر بالارتباك حول كيفية العثور على وظائف مكتبة الارتباط المشتركة، ولا تتحدث عن استبدال وظائف مكتبة الارتباط بوظائفنا الخاصة. سنأخذ كحالة على فحص تسرب الذاكرة، ونناقش كيفية استبدال وظائف ملفات DLL في ويندوز، ويمكنكم الرجوع إلى مصدر VLD للحصول على تفاصيل تنفيذ أكثر.</p>
+<p>ما أريد قوله هو أن "تحسين مهارات المبرمج: الربط، والتحميل، والمكتبة" هو كتاب جيد حقًا، إنها مجرد تعبير شخصي وليس إعلان ترويجي.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1874,7 +1882,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>هذا المنشور تمت ترجمته باستخدام ChatGPT، يرجى تقديم <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>ردود</strong></a>تحدث إذا وجدت أي شيء مفقودًا. </p>
+<p>هذه المشاركة تم ترجمتها باستخدام ChatGPT، يرجى تقديم <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>ردود فعل</strong></a>يرجى الإشارة إلى أي نقاط مفقودة. </p>
 </blockquote></div>
 
 
@@ -1898,7 +1906,7 @@
     <span class="md-icon" title="اخر تحديث">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -1960,13 +1968,13 @@
         
         
           
-          <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-footer__link md-footer__link--next" aria-label="التالية: KCP كود المصدر التحليل">
+          <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-footer__link md-footer__link--next" aria-label="التالية: KCP تحليل شفرة المصدر">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 التالية
               </span>
               <div class="md-ellipsis">
-                KCP كود المصدر التحليل
+                KCP تحليل شفرة المصدر
               </div>
             </div>
             <div class="md-footer__button md-icon">

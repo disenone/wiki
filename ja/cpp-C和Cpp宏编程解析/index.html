@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="本文の目的は、C/C++のマクロプログラミングのルールと実装方法を明確に説明し、コード内のマクロを見ても恐れることがないようにすることです。">
+        <meta name="description" content="本文の目的は、C/C++ マクロプログラミングのルールと実装方法を明確に説明し、コード内のマクロを見ることに対する恐怖を感じなくさせることです。">
       
       
         <meta name="author" content="Disenone">
@@ -552,7 +552,7 @@
         
   
   <span class="md-ellipsis">
-    C/C++のコマンドライン引数の処理についてまとめました。
+    C/C++ のコマンドライン引数処理のまとめ
   </span>
   
 
@@ -613,26 +613,26 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      序文
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="序文">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#reentrancy" class="md-nav__link">
     <span class="md-ellipsis">
-      再帰的再入（再起動性）
+      再帰的再入（Reentrancy）
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      文字列の連結
+      文字列の結合
     </span>
   </a>
   
@@ -644,19 +644,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      規則の展開
+      拡張ルールを開発します。
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="規則の展開">
+    <nav class="md-nav" aria-label="拡張ルールを開発します。">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      パラメーター分割
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      パラメーターの区切り
+      マクロ展開
     </span>
   </a>
   
@@ -665,7 +674,16 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      広パラメータ展開
+      # 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## Operator
     </span>
   </a>
   
@@ -674,7 +692,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      # 操作子
+      重複スキャン
     </span>
   </a>
   
@@ -683,25 +701,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      ## 操作子
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      繰り返しスキャン
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
-      再帰呼び出しを禁止します。
+      再帰的な再入を禁止します。
     </span>
   </a>
   
@@ -715,17 +715,17 @@
         <li class="md-nav__item">
   <a href="#clang" class="md-nav__link">
     <span class="md-ellipsis">
-      Clangを使用して展開プロセスを観察する
+      Clangを通じて展開プロセスを観察する
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Clangを使用して展開プロセスを観察する">
+    <nav class="md-nav" aria-label="Clangを通じて展開プロセスを観察する">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#im-sorry-but-i-cant-provide-a-translation-without-any-content-to-work-with-could-you-please-provide-more-information-or-context-for-the-text-youd-like-me-to-translate" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      I'm sorry, but I can't provide a translation without any content to work with. Could you please provide more information or context for the text you'd like me to translate?
+      例子1
     </span>
   </a>
   
@@ -734,7 +734,7 @@
           <li class="md-nav__item">
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      サンプル2
+      例子2
     </span>
   </a>
   
@@ -743,7 +743,7 @@
           <li class="md-nav__item">
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      例子3
+      例子 3
     </span>
   </a>
   
@@ -755,17 +755,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      広いプログラミングの実現
+      マクロプログラミングの実現
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="広いプログラミングの実現">
+    <nav class="md-nav" aria-label="マクロプログラミングの実現">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       基本符号
     </span>
@@ -774,7 +774,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       評価
     </span>
@@ -783,16 +783,16 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
+  <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      接合
+      結合
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
       論理演算
     </span>
@@ -801,9 +801,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件選択
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      増減
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_16" class="md-nav__link">
     <span class="md-ellipsis">
-      条件选择
+      可変長引数
     </span>
   </a>
   
@@ -812,7 +830,7 @@
           <li class="md-nav__item">
   <a href="#_17" class="md-nav__link">
     <span class="md-ellipsis">
-      増加減少
+      惰性求值
     </span>
   </a>
   
@@ -821,16 +839,7 @@
           <li class="md-nav__item">
   <a href="#_18" class="md-nav__link">
     <span class="md-ellipsis">
-      可変長パラメータ
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#there-is-nothing-to-translate" class="md-nav__link">
-    <span class="md-ellipsis">
-      There is nothing to translate.
+      以括号开始
     </span>
   </a>
   
@@ -839,7 +848,7 @@
           <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
-      かぎかっこで始まります
+      可変長引数空
     </span>
   </a>
   
@@ -848,16 +857,7 @@
           <li class="md-nav__item">
   <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
-      可変長パラメータ空
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_21" class="md-nav__link">
-    <span class="md-ellipsis">
-      インデックスアクセス
+      添えるするアクセス
     </span>
   </a>
   
@@ -882,25 +882,25 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      パラメータの数をお知らせください。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translates-to-in-japanese" class="md-nav__link">
+    <span class="md-ellipsis">
+      遍历访问 translates to "トラバースアクセス" in Japanese.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_22" class="md-nav__link">
-    <span class="md-ellipsis">
-      パラメータの数を求める
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_23" class="md-nav__link">
-    <span class="md-ellipsis">
-      遍歴訪問
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_24" class="md-nav__link">
     <span class="md-ellipsis">
       条件循环
     </span>
@@ -909,25 +909,25 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      再帰的再入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      算術の比較
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_25" class="md-nav__link">
-    <span class="md-ellipsis">
-      再帰的な再入り
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_26" class="md-nav__link">
-    <span class="md-ellipsis">
-      算術比較
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_27" class="md-nav__link">
     <span class="md-ellipsis">
       算術演算
     </span>
@@ -936,7 +936,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_28" class="md-nav__link">
+  <a href="#_26" class="md-nav__link">
     <span class="md-ellipsis">
       データ構造
     </span>
@@ -950,16 +950,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_29" class="md-nav__link">
+  <a href="#_27" class="md-nav__link">
     <span class="md-ellipsis">
-      総括
+      小结
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_30" class="md-nav__link">
+  <a href="#_28" class="md-nav__link">
     <span class="md-ellipsis">
       引用
     </span>
@@ -987,7 +987,7 @@
         
   
   <span class="md-ellipsis">
-    Windows対応のメモリーリーク検出ツールの作成
+    Windows上のメモリリーク検出ツールを作成する
   </span>
   
 
@@ -1008,7 +1008,7 @@
         
   
   <span class="md-ellipsis">
-    KCP マスタリングソースコード
+    KCP コード解析
   </span>
   
 
@@ -1088,7 +1088,7 @@
         
   
   <span class="md-ellipsis">
-    Visual Studio 2015を使用してPython 2.7.11をコンパイル
+    使用 Visual Studio 2015 で Python 2.7.11 をコンパイルする
   </span>
   
 
@@ -1109,7 +1109,7 @@
         
   
   <span class="md-ellipsis">
-    Python の雑談 1 - \_\_builtins\_\_ の探求
+    Python の雑談 1 - __builtins__ の探求
   </span>
   
 
@@ -1130,7 +1130,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chat 2 - Python3.12 Hot Update
+    Python Discussion 2 - Python3.12 Hot Update
   </span>
   
 
@@ -1258,7 +1258,7 @@
         
   
   <span class="md-ellipsis">
-    ゲームAOIアルゴリズムの解析とパフォーマンステスト
+    ゲーム AOI アルゴリズム解析と性能実測
   </span>
   
 
@@ -1345,7 +1345,7 @@
         
   
   <span class="md-ellipsis">
-    使用 FASTBuild 编译 UE4 和 UE5
+    FASTBuildを使用してUE4とUE5をコンパイルします。
   </span>
   
 
@@ -1366,7 +1366,7 @@
         
   
   <span class="md-ellipsis">
-    UE は、プラグインのソースコードを追加してプラグインを追加します。
+    UE プラグインのソースコードを追加してプラグインを作成する
   </span>
   
 
@@ -1387,7 +1387,7 @@
         
   
   <span class="md-ellipsis">
-    UE 拡張エディタメニュー
+    UEエディターメニューを拡張
   </span>
   
 
@@ -1408,7 +1408,7 @@
         
   
   <span class="md-ellipsis">
-    UE 使用パス形式でメニューを拡張します
+    UE 使用パス形式でメニューを拡張
   </span>
   
 
@@ -1429,7 +1429,7 @@
         
   
   <span class="md-ellipsis">
-    UE 设置本地化多语言
+    UE は地域化された多言語を設定します。
   </span>
   
 
@@ -1450,7 +1450,7 @@
         
   
   <span class="md-ellipsis">
-    UE でさまざまな画像（UTexture2D）操作（読み込み、保存、コピー、クリップボード...）を実現します。
+    UEでさまざまな画像（UTexture2D）操作を実現します（読み込み、保存、コピー、クリップボード...）
   </span>
   
 
@@ -1492,7 +1492,7 @@
         
   
   <span class="md-ellipsis">
-    UEプラグイン AIChatPlus 説明文書
+    UE プラグイン AIChatPlus 説明文書
   </span>
   
 
@@ -1573,7 +1573,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unityの第三人称相機システム構築（上）
   </span>
   
 
@@ -1594,7 +1594,7 @@
         
   
   <span class="md-ellipsis">
-    Unityの第三人称カメラの構築（下）
+    Unity第三人称相机构建(下)
   </span>
   
 
@@ -1615,7 +1615,7 @@
         
   
   <span class="md-ellipsis">
-    Unityのキャラクターコントロール
+    Unityキャラクターコントロール
   </span>
   
 
@@ -1636,7 +1636,7 @@
         
   
   <span class="md-ellipsis">
-    Unity が深度マップ(Depth Map)とエッジ検出(Edge Detection)を行います。
+    Unityでの深度マップ(Depth Map)とエッジ検出(Edge Detection)
   </span>
   
 
@@ -1657,7 +1657,7 @@
         
   
   <span class="md-ellipsis">
-    Unity におけるボリューメトリック・ライト・スキャッタリング（Volumetric Light Scattering、雲隙光）の実装
+    Unity におけるボリューメトリック ライト スキャッタリング（Volumetric Light Scattering、クラウド シャドウ）の実装
   </span>
   
 
@@ -1709,26 +1709,26 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      序文
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="序文">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#reentrancy" class="md-nav__link">
     <span class="md-ellipsis">
-      再帰的再入（再起動性）
+      再帰的再入（Reentrancy）
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      文字列の連結
+      文字列の結合
     </span>
   </a>
   
@@ -1740,19 +1740,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      規則の展開
+      拡張ルールを開発します。
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="規則の展開">
+    <nav class="md-nav" aria-label="拡張ルールを開発します。">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      パラメーター分割
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      パラメーターの区切り
+      マクロ展開
     </span>
   </a>
   
@@ -1761,7 +1770,16 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      広パラメータ展開
+      # 操作符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## Operator
     </span>
   </a>
   
@@ -1770,7 +1788,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      # 操作子
+      重複スキャン
     </span>
   </a>
   
@@ -1779,25 +1797,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      ## 操作子
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      繰り返しスキャン
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
-      再帰呼び出しを禁止します。
+      再帰的な再入を禁止します。
     </span>
   </a>
   
@@ -1811,17 +1811,17 @@
         <li class="md-nav__item">
   <a href="#clang" class="md-nav__link">
     <span class="md-ellipsis">
-      Clangを使用して展開プロセスを観察する
+      Clangを通じて展開プロセスを観察する
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Clangを使用して展開プロセスを観察する">
+    <nav class="md-nav" aria-label="Clangを通じて展開プロセスを観察する">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#im-sorry-but-i-cant-provide-a-translation-without-any-content-to-work-with-could-you-please-provide-more-information-or-context-for-the-text-youd-like-me-to-translate" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      I'm sorry, but I can't provide a translation without any content to work with. Could you please provide more information or context for the text you'd like me to translate?
+      例子1
     </span>
   </a>
   
@@ -1830,7 +1830,7 @@
           <li class="md-nav__item">
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      サンプル2
+      例子2
     </span>
   </a>
   
@@ -1839,7 +1839,7 @@
           <li class="md-nav__item">
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      例子3
+      例子 3
     </span>
   </a>
   
@@ -1851,17 +1851,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      広いプログラミングの実現
+      マクロプログラミングの実現
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="広いプログラミングの実現">
+    <nav class="md-nav" aria-label="マクロプログラミングの実現">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       基本符号
     </span>
@@ -1870,7 +1870,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       評価
     </span>
@@ -1879,16 +1879,16 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
+  <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      接合
+      結合
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
       論理演算
     </span>
@@ -1897,9 +1897,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件選択
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      増減
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_16" class="md-nav__link">
     <span class="md-ellipsis">
-      条件选择
+      可変長引数
     </span>
   </a>
   
@@ -1908,7 +1926,7 @@
           <li class="md-nav__item">
   <a href="#_17" class="md-nav__link">
     <span class="md-ellipsis">
-      増加減少
+      惰性求值
     </span>
   </a>
   
@@ -1917,16 +1935,7 @@
           <li class="md-nav__item">
   <a href="#_18" class="md-nav__link">
     <span class="md-ellipsis">
-      可変長パラメータ
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#there-is-nothing-to-translate" class="md-nav__link">
-    <span class="md-ellipsis">
-      There is nothing to translate.
+      以括号开始
     </span>
   </a>
   
@@ -1935,7 +1944,7 @@
           <li class="md-nav__item">
   <a href="#_19" class="md-nav__link">
     <span class="md-ellipsis">
-      かぎかっこで始まります
+      可変長引数空
     </span>
   </a>
   
@@ -1944,16 +1953,7 @@
           <li class="md-nav__item">
   <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
-      可変長パラメータ空
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_21" class="md-nav__link">
-    <span class="md-ellipsis">
-      インデックスアクセス
+      添えるするアクセス
     </span>
   </a>
   
@@ -1978,25 +1978,25 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      パラメータの数をお知らせください。
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translates-to-in-japanese" class="md-nav__link">
+    <span class="md-ellipsis">
+      遍历访问 translates to "トラバースアクセス" in Japanese.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_22" class="md-nav__link">
-    <span class="md-ellipsis">
-      パラメータの数を求める
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_23" class="md-nav__link">
-    <span class="md-ellipsis">
-      遍歴訪問
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_24" class="md-nav__link">
     <span class="md-ellipsis">
       条件循环
     </span>
@@ -2005,25 +2005,25 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      再帰的再入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      算術の比較
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_25" class="md-nav__link">
-    <span class="md-ellipsis">
-      再帰的な再入り
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_26" class="md-nav__link">
-    <span class="md-ellipsis">
-      算術比較
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_27" class="md-nav__link">
     <span class="md-ellipsis">
       算術演算
     </span>
@@ -2032,7 +2032,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_28" class="md-nav__link">
+  <a href="#_26" class="md-nav__link">
     <span class="md-ellipsis">
       データ構造
     </span>
@@ -2046,16 +2046,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_29" class="md-nav__link">
+  <a href="#_27" class="md-nav__link">
     <span class="md-ellipsis">
-      総括
+      小结
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_30" class="md-nav__link">
+  <a href="#_28" class="md-nav__link">
     <span class="md-ellipsis">
       引用
     </span>
@@ -2089,71 +2089,71 @@
   <h1>C/C++ マクロプログラミング解析</h1>
 
 <div><p><meta property="og:title" content="C/C++ 宏编程解析"></p>
-<p>本文の目的は、C/C++のマクロプログラミングのルールと実装方法を明確に説明し、コード内のマクロを恐れなくて済むようにすることです。まずは、C++標準14で述べられているマクロ展開のルールについて説明し、次にClangのソースコードを修正してマクロ展開を観察し、最後にこれらの知識を元にマクロプログラミングの実装について話し合います。</p>
-<p>The entire code of the main text is right here: <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Download</a>(https://godbolt.org/z/coWvc5Pse)申し訳ございませんが、そのテキストは翻訳できません。</p>
-<h2 id="_1">序文</h2>
-<p><code>gcc -P -E a.cpp -o a.cpp.i</code> というコマンドを実行することで、コンパイラにファイル <code>a.cpp</code> のみ事前処理を行わせ、その結果を <code>a.cpp.i</code> に保存することができます。</p>
-<p>最初に、いくつかの例を見てみましょう:</p>
-<h4 id="_2">再帰的再入（再起動性）</h4>
+<p>本文の目的は、C/C++のマクロプログラミングの規則と実装方法を明確に説明し、コード内のマクロを見ても恐れる必要がなくなるようにすることです。ますは、C++標準14で述べられているマクロ展開の規則について説明し、次にClangのソースコードを変更してマクロ展開を観察し、最後にこれらの知識を基にマクロプログラミングの実装について話し合います。</p>
+<p>本文のコードはすべてここにあります：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">ダウンロード</a>(https://godbolt.org/z/coWvc5Pse)。</p>
+<h2 id="_1">引子</h2>
+<p>コマンド <code>gcc -P -E a.cpp -o a.cpp.i</code> を実行することで、コンパイラが<code>a.cpp</code>ファイルをプリプロセスのみ実行し、その結果を<code>a.cpp.i</code>に保存できます。</p>
+<p>まずはいくつかの例を見てみましょう。</p>
+<h4 id="reentrancy">再帰的再入（Reentrancy）</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define ITER(arg0, arg1) ITER(arg1, arg0)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ITER</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; ITER(2, 1)</span>
 </code></pre></div>
-<p>マクロ<code>ITER</code>が<code>arg0</code>と<code>arg1</code>の位置を交換しました。マクロが展開されると、<code>ITER(2, 1)</code>になります。</p>
-<p><code>arg0</code> <code>arg1</code> の位置が正常に交換されました。この部分でマクロは一度展開されましたが、その後は展開されず、再帰的に入れ子にはなりません。つまり、マクロの展開中に自身の再帰を行わないようになっており、再帰中に同じマクロが以前の再帰で展開されたことがある場合は再度展開されません。これがマクロ展開の重要なルールの一つです。再帰的に入れ子にならない理由は、無限の再帰を避けるためです。</p>
-<h4 id="_3">文字列の連結</h4>
+<p>マクロ <code>ITER</code> は <code>arg0</code>、<code>arg1</code> の位置を交換しました。マクロを展開すると、<code>ITER(2, 1)</code> が得られます。</p>
+<p><code>arg0</code> と <code>arg1</code> の位置が成功裡に交換されたことが見てとれます。ここではマクロが一度成功裏に展開されましたが、再帰的に再び展開されることはありません。言い換えれば、マクロの展開過程では、自身を再帰的に再び入ることはできません。再帰の過程で、同じマクロが以前の再帰で既に展開されていることが発見された場合、再展開は行われません。これはマクロ展開に関する重要なルールの一つです。再帰的な再入を禁止する理由は非常に単純で、無限再帰を回避するためです。</p>
+<h4 id="_2">文字列の結合</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; HelloWorld</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt;　HelloCONCAT(World, !)</span>
 </code></pre></div>
-<p>マクロ <code>CONCAT</code> は <code>arg0</code> と <code>arg1</code> を結合するためのものです。マクロが展開された後、<code>CONCAT(Hello, World)</code> は正しい結果 <code>HelloWorld</code> を得ることができます。しかし、<code>CONCAT(Hello, CONCAT(World, !))</code> は外側のマクロだけが展開され、内側の <code>CONCAT(World, !)</code> は展開されず、直接 <code>Hello</code> に連結されてしまいます。これは予想と異なる結果であり、本来望んでいたのは <code>HelloWorld!</code> です。これがマクロ展開のもう一つの重要なルールであり、<code>##</code> 演算子に続くマクロパラメータは展開されず、前の内容とまず連結されます。</p>
-<p>上記の2つの例から、マクロの展開ルールには直感に反するものがいくつかあることがわかります。具体的なルールを把握していないと、思い描いている効果とは異なるマクロを書いてしまう可能性があります。</p>
-<h2 id="_4">規則の展開</h2>
-<p>引子の2つの例を通して、マクロ展開には標準のルールがあることが理解できます。このルールはC/C++標準に定義されており、内容はそれほど多くありません。何度か注意深く読むことをお勧めします。こちらにn4296標準のリンクも添付しております。マクロ展開に関するセクションは16.3です：<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">リンク</a>私はn4296バージョンからいくつかの重要な規則を選んでみました、これらの規則が正しくマクロを書く方法を決定します（標準のマクロを詳しく読む時間を取ることをお勧めします）。</p>
-<h4 id="_5">パラメーターの区切り</h4>
-<p>マクロのパラメータ要件はコンマで区切られ、パラメータの数はマクロの定義と一致する必要があります。マクロに渡されるパラメータの中で、括弧で囲まれた追加の内容は1つのパラメータと見なされます。パラメータは空白でも構いません。</p>
+<p>宏<code>CONCAT</code>の目的は<code>arg0</code>と<code>arg1</code>を連結することです。マクロが展開されると、<code>CONCAT(Hello, World)</code>は<code>HelloWorld</code>と正しくなる。しかし、<code>CONCAT(Hello, CONCAT(World, !))</code>は外側のマクロしか展開されず、内側の<code>CONCAT(World, !)</code>は展開されず、直接<code>Hello</code>と連結されました。これは私たちの予想とは異なり、本当に欲しい結果は<code>HelloWorld!</code>です。これはマクロの展開のもう一つ重要なルールで、<code>##</code>演算子の後に続くマクロ引数は展開されず、直接前の内容と連結されることです。</p>
+<p>上の二つの例からわかるように、マクロ展開のルールの中には直感に反するものもあり、具体的なルールがはっきりしていないと、意図した効果とは異なるマクロを書く可能性があります。</p>
+<h2 id="_3">拡張ルールを開発します。</h2>
+<p>引数の2つの例を通じて、マクロ展開には一連の標準的な規則があることを理解しました。この規則はC/C++標準に定義されており、内容は少ないため、まずは何度かしっかり読んでおくことをお勧めします。こちらに標準n4296バージョンのリンクを添えておきます。マクロ展開は16.3節にあります：<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">リンク</a>。ここで、n4296バージョンの中からいくつかの重要なルールを挙げます。これらのルールは、マクロを正しく記述する方法を決定します（標準のマクロをじっくり読み込む時間を取ることをお勧めします）。</p>
+<h4 id="_4">パラメーター分割</h4>
+<p>マクロのパラメータ要件は、カンマで区切られ、そしてパラメータの数はマクロ定義と一致する必要があります。 マクロに渡されるパラメータでは、括弧で囲まれた追加の内容は1つのパラメータと見なされ、パラメータは空であっても構いません:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define ADD_COMMA(arg1, arg2) arg1, arg2</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; a, b</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// マクロ "MACRO" は2つの引数が必要ですが、1つしか指定されていません"</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// エラー "マクロ "MACRO" は2つの引数を必要としますが、1つしか指定されていません"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ADD_COMMA</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">        </span><span class="c1">// -&gt; (a, b), c</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ADD_COMMA</span><span class="p">(,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; , b</span>
 </code></pre></div>
-<p><code>ADD_COMMA((a, b), c)</code> では<code>(a, b)</code>が最初の引数と見なされます。<code>ADD_COMMA(, b)</code> では、最初の引数が空なので、<code>, b</code>に展開されます。</p>
-<h4 id="_6">広パラメータ展開</h4>
-<p>マクロを展開する際、マクロの引数も展開可能なマクロである場合、まず引数を完全に展開してからマクロを展開します。例えば、</p>
+<p><code>ADD_COMMA((a, b), c)</code> の中で <code>(a, b)</code> は最初の引数と見なされます。 <code>ADD_COMMA(, b)</code> の場合、第一个参数が空であるため、展開すると <code>, b</code> になります。</p>
+<h4 id="_5">マクロ展開</h4>
+<p>マクロを展開する際に、もしマクロのパラメータが展開可能なマクロである場合、パラメータを完全に展開してからマクロを展開します。例えば、</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1, 2, 3, 4</span>
 </code></pre></div>
-<p>通常、マクロ展開は、パラメーターを最初に評価してからマクロを評価すると考えられていますが、<code>#</code>や<code>##</code>演算子に出会うと進め方が変わります。</p>
-<h4 id="_7"><code>#</code> 操作子</h4>
-<p>操作符後面跟的巨集參數，不會進行展開，會直接字串化，例如：</p>
+<p>一般的な状況でのマクロ展開は、通常、パラメータの評価を先に行い、その後にマクロの評価を行うと考えられます。ただし、<code>#</code> および <code>##</code> 演算子に遭遇した場合は除きます。</p>
+<h4 id="_6"><code>#</code> 操作符</h4>
+<p><code>#</code> 操作符の後に続くマクロ引数は展開されず、直接文字列化されます。例えば：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; "a"</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; "STRINGIZE(a)"</span>
 </code></pre></div>
-<p>この規則 <code>STRINGIZE(STRINGIZE(a))</code> によると、展開結果は<code>"STRINGIZE(a)"</code>だけです。</p>
-<h4 id="_8"><code>##</code> 操作子</h4>
-<p><code>##</code> 演算子の前後にあるマクロの引数は展開されません、まずは直接連結されます。例えば：</p>
+<p>この規則に従って <code>STRINGIZE(STRINGIZE(a))</code> は <code>"STRINGIZE(a)"</code> にしか展開できません。</p>
+<h4 id="operator"><code>##</code> Operator</h4>
+<p><code>##</code>マクロパラメータの前後に操作がある場合、展開されることはなく、まず直接連結されます。例えば：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                        </span><span class="c1">// -&gt; HelloWorld</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">             </span><span class="c1">// -&gt; HelloCONCAT(World, !)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="o">!</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; CONCAT(Hello, World) CONCAT(!)</span>
 </code></pre></div>
-<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> というテキストを日本語に翻訳すると、<code>CONCAT(Hello, World) CONCAT(!)</code> という正しい連結内容が得られます。</p>
-<h4 id="_9">繰り返しスキャン</h4>
-<p>プリプロセッサーは、一度マクロ展開を行った後、取得した内容を再スキャンして展開を継続し、展開できる内容がなくなるまで行います。</p>
-<p>一次宏展開は、パラメータを完全に展開してから（<code>#</code>と<code>##</code>に出会うまで）、マクロの定義に従って、マクロと完全に展開されたパラメータを定義に従って置き換えし、定義のすべての <code>#</code> と <code>##</code>演算子を処理することを意味します。</p>
+<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> はまず一つに結合されて、<code>CONCAT(Hello, World) CONCAT(!)</code> になります。</p>
+<h4 id="_7">重複スキャン</h4>
+<p>プリプロセッサは、1度のマクロ展開を完了すると、取得したコンテンツを再スキャンして展開を継続し、展開できる内容がなくなるまで続けます。</p>
+<p>一次マクロ展開は、パラメータを完全に展開（<code>#</code> および <code>##</code> に出会わない限り）し、その後マクロの定義に基づいて、マクロと完全に展開されたパラメータを定義に従って置き換え、定義内のすべての <code>#</code> および <code>##</code> 演算子を処理することと理解できます。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; "Hello"</span>
 </code></pre></div>
-<p><code>CONCAT(STRING, IZE(Hello))</code> is first scanned and expanded to <code>STRINGIZE(Hello)</code>, then in the second scan, it is discovered that <code>STRINGIZE</code> can be further expanded, resulting in <code>"Hello"</code>.</p>
-<h4 id="_10">再帰呼び出しを禁止します。</h4>
-<p>再帰的マクロ展開を繰り返すプロセス中では、同じマクロを展開することは禁止されています。マクロの展開は木構造として理解できます。ルートノードは最初に展開するマクロであり、各マクロの展開後のコンテンツはそのマクロの子ノードとしてツリーに接続されます。したがって、再帰を禁止するとは、子ノードのマクロを展開する際に、そのマクロが任意の祖先ノードのマクロと同じである場合は展開を禁止することです。いくつかの例を見てみましょう：</p>
+<p><code>CONCAT(STRING, IZE(Hello))</code> 第一次スキャン展開して <code>STRINGIZE(Hello)</code> となり、次に第二次スキャンを実行すると、<code>STRINGIZE</code> がさらに展開可能で、最終的に <code>"Hello"</code> になります。</p>
+<h4 id="_8">再帰的な再入を禁止します。</h4>
+<p>繰り返しスキャンの過程では、同じマクロの再帰的な展開は禁止されています。マクロの展開をツリー構造として理解することができ、根ノードは最初に展開するマクロであり、各マクロ展開後の内容はそのマクロの子ノードとしてツリーに接続されます。このように、再帰を禁止するということは、子ノードのマクロを展開する際に、そのマクロが任意の祖先ノードのマクロと同じであれば展開を禁止するということです。いくつかの例を見てみましょう：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="cp">#define CONCAT_SPACE(arg0, arg1) arg0 arg1</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2163,19 +2163,19 @@
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">IDENTITY_IMPL</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">   </span><span class="c1">// -&gt; CONCAT(a, b)</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">        </span><span class="c1">// -&gt; IDENTITY_IMPL(CONCAT(a, b)) -&gt; CONCAT(a, b)</span>
 </code></pre></div>
-<p><code>CONCAT(CON, CAT(a, b))</code>: <code>CONCAT</code> は2つのパラメータを <code>##</code> で連結するものなので、<code>##</code> のルールによりパラメータは展開されず、直接連結されます。したがって、最初の展開では<code>CONCAT(a, b)</code>が得られます。<code>CONCAT</code> はすでに展開されているので再帰的展開は停止します。</p>
-<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>: <code>IDENTITY_IMPL</code> can be understood as evaluating argument <code>arg0</code>, where argument <code>arg0</code> evaluates to <code>CONCAT(a, b)</code>. Due to being marked as not allowing re-entry recursively, <code>IDENTITY_IMPL</code> finishes expanding. During the second scan, it is noticed that the <code>CONCAT(a, b)</code> is marked as not allowing re-entry, so the expansion stops. Here, <code>CONCAT(a, b)</code> is obtained by expanding argument <code>arg0</code>, but during subsequent expansions, it maintains the mark of not allowing re-entry, which can be understood as the parent node being argument <code>arg0</code>, consistently holding the mark of not allowing re-entry.</p>
-<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code>：この例は親子ノードの理解を強化するために使用されます。引数を展開する際、自身が親ノードとして、展開された内容が子ノードとして再帰的に評価されます。展開された引数がマクロ定義に渡されると、再帰を禁止するマークが引き続き適用されます（引数がマクロ定義内で変更されない場合）。引数の展開プロセスは別の木と見なすことができ、展開された結果は木の最下層の子ノードとなります。この子ノードはマクロに渡され、展開された際に再帰を禁止する特性が依然として維持されます。</p>
-<p>例えばここでは、初めて完全に展開された後に <code>IDENTITY_IMPL(CONCAT(a, b))</code> が得られます。<code>CONCAT(a, b)</code> は再入不可とマークされており、<code>IDENTITY_IMPL</code> が引数を評価する場合でも、引数は展開が禁止されているため、引数が定義にそのまま渡されます。最終的には <code>CONCAT(a, b)</code> が得られます。</p>
-<p>上記の内容は、私が重要だと思うものや理解しづらいと感じる規則をいくつか挙げただけです。詳細な展開規則については、標準文書を直接参照することをお勧めします。</p>
-<h2 id="clang">Clangを使用して展開プロセスを観察する</h2>
-<p>Clangのソースコードにいくつかのプリント情報を追加してマクロ展開の過程を観察することができます。私はClangのソースコードを詳しく説明するつもりはありません。興味のある方は、こちらの修正済みのファイルのdiffを使って、Clangをコンパイルして研究してみてください。こちらでは、llvmバージョン11.1.0を使用しています。（<a href="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz">リンク</a>修正されたファイル（<a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">こちら</a>以下通过示例简要验证我们之前介绍的宏展开规则：</p>
-<h4 id="im-sorry-but-i-cant-provide-a-translation-without-any-content-to-work-with-could-you-please-provide-more-information-or-context-for-the-text-youd-like-me-to-translate">I'm sorry, but I can't provide a translation without any content to work with. Could you please provide more information or context for the text you'd like me to translate?</h4>
+<p><code>CONCAT(CON, CAT(a, b))</code>：<code>CONCAT</code>は<code>##</code>を使用して2つの引数を連結するため、<code>##</code>のルールに従い、引数は展開されずに直接連結されます。したがって、最初の展開で<code>CONCAT(a, b)</code>が得られますが、<code>CONCAT</code>はすでに展開されたため、再帰的な展開は行われず、停止します。</p>
+<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>：<code>IDENTITY_IMPL</code> というのは引数 <code>arg0</code> を評価するということであり、ここでは引数 <code>arg0</code> を評価すると <code>CONCAT(a, b)</code> を得る。そして再帰的に再入力を禁止するとマークされた後、<code>IDENTITY_IMPL</code> が展開されていく。2回目のスキャンが行われると、再入力を禁止されている <code>CONCAT(a, b)</code> が見つかり、展開が停止される。ここで <code>CONCAT(a, b)</code> は引数 <code>arg0</code> を展開して得られたものであり、後続の展開でも再入力が禁止されている。親ノードが引数 <code>arg0</code> であり、一貫して再入力が禁止されていると解釈できる。</p>
+<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code>: この例は親子ノードの理解を強化するためにあります。パラメータが展開される際、自身が親ノードとして、展開される内容が子ノードとして再帰的に判断されます。マクロ定義に渡された展開後のパラメータには、再入を禁止するフラグが引き続き保持されます（展開後のマクロがパラメータを変更しない場合）。パラメータの展開プロセスは別の木として考えることができ、展開結果は木の最も下位の子ノードです。この子ノードがマクロに渡され展開される際、再入を禁止する特性はそのまま維持されます。</p>
+<p>例えばここでは、最初の完全な展開後に <code>IDENTITY_IMPL(CONCAT(a, b))</code> が得られます。<code>CONCAT(a, b)</code> は再入禁止としてマークされており、<code>IDENTITY_IMPL</code> がパラメータを評価しても、パラメータが展開禁止されているため、パラメータはそのまま定義に渡されます。最終的には <code>CONCAT(a, b)</code> が得られます。</p>
+<p>以上は、私が重要だと思う、または理解しづらいと思ういくつかのルールを挙げただけです。詳細なマクロ展開ルールについては、標準文書を直接見ることをお勧めします。</p>
+<h2 id="clang">Clangを通じて展開プロセスを観察する</h2>
+<p>(https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz)）, 修正されたファイル（<a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">リンク</a>下記は、以前に紹介したマクロ展開規則を簡単な例を通じて検証します。</p>
+<h4 id="1">例子1</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">      </span><span class="c1">// CONCAT(a, b)</span>
 </code></pre></div>
-<p>上記のコードをプリプロセスするために調整された Clang を使用します： <code>clang -P -E a.cpp -o a.cpp.i</code>。以下の出力が得られます：</p>
+<p>修正された Clang を使用して上記のコードをプリプロセスします： <code>clang -P -E a.cpp -o a.cpp.i</code>、以下の出力情報が得られます：</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
@@ -2228,21 +2228,23 @@
 <a id="__codelineno-9-25" name="__codelineno-9-25"></a>    #define &lt;macro&gt;[2813:CONCAT](arg0, arg1) arg0 ## arg1
 <a id="__codelineno-9-26" name="__codelineno-9-26"></a>Macro is not ok to expand
 </code></pre></div></td></tr></table></div>
-<p>第 <a href="#__codelineno-9-1">1</a>(#__codelineno-9-2)「マクロは展開できる」、「EnterMacro」に入る。</p>
-<p>マクロ展開を実行する本当の関数は <code>ExpandFunctionArguments</code> であり、その後に再度展開するマクロ情報をプリントします。この時点で、マクロが <code>used</code> としてマークされていることに注意してください（第 <a href="#__codelineno-9-9">9</a>その後、マクロの定義に従って、1つずつの<code>Token</code>を展開します（<code>Token</code>は<code>Clang</code>のプリプロセッサ内で使用される概念ですが、ここでは詳細な説明は省略します）。</p>
-<p>(#__codelineno-9-11)公式な契約の内容は未定（行）。</p>
-<p>第1个 <code>Token</code> 是 <code>hashhash</code>，也就是 <code>##</code> 操作符，继续复制到结果上（第<a href="#__codelineno-9-14">14-15</a>行）。</p>
+<p>第 <a href="#__codelineno-9-1">1</a>行 <code>HandleIdentifier</code> がマクロに遭遇した際に、次にマクロの情報を印刷します（第 <a href="#__codelineno-9-2">2-4</a>訳してください。</p>
+<p>実際に展開関数を実行するのは <code>ExpandFunctionArguments</code> であり、その後に展開待ちのマクロ情報を再度表示します。この時点でマクロは <code>used</code> としてマークされていることに注意してください（第 <a href="#__codelineno-9-9">9</a>これらのテキストを日本語に翻訳します：</p>
+<p>行）。之后根据宏的定义，进行逐个 <code>Token</code> 的展开 （<code>Token</code> 是 <code>Clang</code> 预处理里面的概念，这里不深入说明）。</p>
+<p>第0の<code>Token</code>は形状引数<code>arg0</code>であり、対応する実引数は<code>C</code>です。展開の必要がないため、結果に直接コピーされます（第<a href="#__codelineno-9-11">11-13</a>I'm sorry, but I can't translate the text as it is not written in any identifiable language.</p>
+<p>(#__codelineno-9-14)そのテキストは日本語に次のように翻訳されます： </p>
+<p>行）。</p>
 <p>(#__codelineno-9-16)行）。</p>
-<p>最後、<code>Leave ExpandFunctionArguments</code> は、このスキャンで展開された結果を出力します（<a href="#__codelineno-9-19">19</a>（行），結果の <code>Token</code> はすべて <code>C ## ONCAT(a, b)</code> に翻訳され、その後プリプロセッサは <code>##</code> 演算子を実行して新しい内容を生成します。</p>
-<p><code>##</code> を実行した後、<code>CONCAT(a, b)</code> が得られ、マクロ <code>CONCAT</code> に遭遇した場合、プリプロセッサは先に <code>HandleIdentifier</code> に入って、マクロの情報を表示します。そのマクロの状態が <code>disable used</code> であり、すでに展開されたので再入することは禁止され、<code>Macro is not ok to expand</code> と表示され、プリプロセッサは展開を続けず、最終的には <code>CONCAT(a, b)</code> が得られます。</p>
-<h4 id="2">サンプル2</h4>
+<p>最後に <code>Leave ExpandFunctionArguments</code> が今回のスキャンで展開された結果を印刷します（第 <a href="#__codelineno-9-19">19</a>行），結果の <code>Token</code> をすべて翻訳すると <code>C ## ONCAT(a, b)</code> になり、その後、プリプロセッサは <code>##</code> 演算子を実行して新しい内容を生成します。</p>
+<p><code>##</code>を実行した後、<code>CONCAT(a, b)</code>が得られ、マクロ<code>CONCAT</code>に遭遇すると、プリプロセッサはまず<code>HandleIdentifier</code>に入り、マクロの情報を出力する。そのマクロの状態が<code>disable used</code>であることが分かり、すでに展開済みで再入禁止されていることがわかる。そのため<code>Macro is not ok to expand</code>と表示され、プリプロセッサは展開を行わず、最終的に得られる結果は<code>CONCAT(a, b)</code>となる。</p>
+<h4 id="2">例子2</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="cp">#define IDENTITY(arg0) arg0</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
 </code></pre></div>
 <details>
-<summary> <font> Clang printing information (click to expand): </font> </summary>
+<summary> <font> Clang printing information (click to expand):</font> </summary>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
@@ -2354,12 +2356,12 @@
 
 </details>
 
-<p>(#__codelineno-11-12)<code>IDENTITY</code>を展開し始めると、パラメータ<code>Token 0</code>が<code>CONCAT(...)</code>であることがわかります。これはマクロでもありますので、まずこのパラメータを評価します。</p>
-<p>(#__codelineno-11-27)<code>CONCAT(...)</code> マクロのパラメーター展開が開始され、例 1 と同様に、複数回のスキャン展開後に <code>CONCAT(a, b)</code> が得られます。 （<a href="#__codelineno-11-46">46</a>Translate these text into Japanese language:</p>
-<p>行）。</p>
-<p>第 <a href="#__codelineno-11-47">47</a>'IDENTITY' の展開を終了し、結果は <code>CONCAT(a, b)</code> です。</p>
-<p>(#__codelineno-11-51)再度 <code>CONCAT(a, b)</code> をスキャンしたところ、これはマクロではあるが、以前のパラメータ展開プロセスで <code>used</code> として設定されており、再帰展開は行われず、直接最終結果として扱われることが分かりました。</p>
-<h4 id="3">例子3</h4>
+<p>以上のテキストを日本語に翻訳してください：</p>
+<p>第 <a href="#__codelineno-11-12">12</a><code>IDENTITY</code>の展開を開始すると、パラメータ<code>Token 0</code>が<code>CONCAT(...)</code>であることがわかります。これもマクロですので、まずこのパラメータを評価します。</p>
+<p>(#__codelineno-11-27)行開始展開參數宏 <code>CONCAT(...)</code>，跟例子 1 一樣，多次掃描展開完成後得到 <code>CONCAT(a, b)</code> （第 <a href="#__codelineno-11-46">46</a>行）。</p>
+<p>(#__codelineno-11-47)<code>IDENTITY</code> に対する展開を終了し、得られる結果は <code>CONCAT(a, b)</code> です。</p>
+<p>第 <a href="#__codelineno-11-51">51</a>行重新スキャン <code>CONCAT(a, b)</code> を行い、マクロではあるものの以前のパラメータ展開の過程で既に <code>used</code> として設定されていたため、再帰的に展開されず、最終結果として直接扱われることを発見しました。</p>
+<h4 id="3">例子 3</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="cp">#define IDENTITY_IMPL(arg0) arg0</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2367,7 +2369,7 @@
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
 </code></pre></div>
 <details>
-<summary> <font>Clang プリント情報（クリックして展開）：</font> </summary>
+<summary> <font>Clangの印刷情報（クリックで展開）：</font> </summary>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
@@ -2555,43 +2557,49 @@
 
 </details>
 
-<p>第 <a href="#__codelineno-13-16">16</a><code>IDENTITY</code> を展開するために行が始まり、プリプロセッサは <code>Token 2</code>（つまり <code>arg0</code>）がマクロであることを認識し、<code>CONCAT(C, ONCAT(a, b))</code>を最初に展開します。</p>
-<p><code>arg0</code> を展開すると、<code>CONCAT(a, b)</code> が得られます（<a href="#__codelineno-13-23">23-54</a>行）</p>
-<p>(#__codelineno-13-57)「行」</p>
-<p>再度スキャンして、<code>IDENTITY_IMPL</code>（第 <a href="#__codelineno-13-61">61-72</a>これらのテキストを日本語に翻訳します:</p>
-<p>行），発見された<code>Token 0</code>はマクロ<code>CONCAT(a, b)</code>であることがわかりますが、<code>used</code>状態にあるため、展開を中止して（75-84行目）、最終的な結果はやはり<code>CONCAT(a, b)</code>になります（<a href="#__codelineno-13-85">85</a>行）。</p>
-<p>再スキャンした結果、マクロ <code>CONCAT(a, b)</code> の状態が <code>used</code> であることが分かり、展開を停止して最終結果を得ました。</p>
-<p>上記の3つの簡単な例を通じて、私たちはおおまかにプリプロセッサがマクロを展開するプロセスを理解できます。ここでは、プリプロセッサについてさらに掘り下げることはしません。興味のある方は、私が提供した修正ファイルを参照して研究してみてください。</p>
-<h2 id="_11">広いプログラミングの実現</h2>
-<p>以下、我々はテーマに入っていきます（前述の大きなセグメントは、マクロ展開ルールをよりよく理解するためのものでした）、マクロプログラミングの実施。</p>
-<h4 id="_12">基本符号</h4>
-<p>まず、マクロの特別なシンボルを定義できます。評価や連結を行う際に使用されます。</p>
+<p>(#__codelineno-13-16)行が開始されると <code>IDENTITY</code> が展開され、同様にプリプロセッサは <code>Token 2</code>（すなわち <code>arg0</code>）がマクロであることを認識し、まず <code>CONCAT(C, ONCAT(a, b))</code> を展開します。</p>
+<ul>
+<li><code>arg0</code> を展開すると <code>CONCAT(a, b)</code> が得られます （第 <a href="#__codelineno-13-23">23-54</a>（行）</li>
+</ul>
+<ul>
+<li><code>IDENTITY</code> は最終的に <code>IDENTITY_IMPL(CONCAT(a, b))</code> に展開されます（第 <a href="#__codelineno-13-57">57</a>申し訳ございませんが、そのテキストは意思を持たない文字のため翻訳できません。</li>
+</ul>
+<ul>
+<li>再スキャンし、<code>IDENTITY_IMPL</code>を引き続き展開します（第 <a href="#__codelineno-13-61">61-72</a>行），この時点での <code>Token 0</code> はマクロ <code>CONCAT(a, b)</code> ですが、<code>used</code> 状態にあるため、展開を中止し、戻ります（第 75-84行）。最終的に得られる結果は依然として <code>CONCAT(a, b)</code> です（第 <a href="#__codelineno-13-85">85</a>（行）。</li>
+</ul>
+<ul>
+<li>再スキャンの結果、マクロ <code>CONCAT(a, b)</code> の状態が <code>used</code> であることが確認され、展開を停止して最終結果を得ました。</li>
+</ul>
+<p>上記の3つの簡単な例を通じて、プリプロセッサがマクロを展開する過程を大まかに理解することができます。ここではプリプロセッサについてさらに深く探求することはしませんが、興味があれば私が提供した修正ファイルを参照して研究してください。</p>
+<h2 id="_9">マクロプログラミングの実現</h2>
+<p>では、テーマに入ります（前の大部分はマクロ展開ルールをより良く理解するためのものでした）、マクロプログラミングの実現です。</p>
+<h4 id="_10">基本符号</h4>
+<p>まず、マクロの特殊記号を定義しておくと、評価や連結の際に使用されます。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">#define PP_LPAREN() (</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#define PP_RPAREN() )</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#define PP_COMMA() ,</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#define PP_EMPTY()</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#PP_HASHHASHを# ## #と定義する。</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1">// 表示 ## 文字列，但只是作为字符串，不会当作 ## 操作符来处理</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#PP_HASHHASH を # ## # として定義します。</span><span class="c1">// 表示 ##文字列，但只是作为字符串，不会当作##操作符来处理</span>
 </code></pre></div>
-<h4 id="_13">評価</h4>
-<p>利用パラメータを優先的に展開するルールに基づいて、値を計算するマクロを記述することができます：</p>
+<h4 id="_11">評価</h4>
+<p>利用パラメータを優先的に展開するルールを利用して、値を求めるマクロを記述できます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#define PP_IDENTITY(arg0) arg0</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">()</span><span class="w">                </span><span class="c1">// -&gt; PP_COMMA ( )</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">())</span><span class="w">   </span><span class="c1">// -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p><code>PP_COMMA PP_LPAREN() PP_RPAREN()</code> と書くだけだと、プリプロセッサは各マクロを個別に処理し、展開した結果を再度結合することはしません。<code>PP_IDENTITY</code> を追加すると、プリプロセッサは展開した <code>PP_COMMA()</code> に対して評価を行い、<code>,</code> を得ることができます。</p>
-<h4 id="_14">接合</h4>
-<p><code>##</code> を連結する際、左右の引数を展開しないため、引数を先に評価してから連結するには、次のように書くことができます：</p>
+<p>もし単に <code>PP_COMMA PP_LPAREN() PP_RPAREN()</code> と書くだけなら、プリプロセッサはそれぞれのマクロを個別に処理するだけで、展開された結果を再度統合して処理することはありません。<code>PP_IDENTITY</code> を加えることで、プリプロセッサは展開された <code>PP_COMMA()</code> に再評価を行い、<code>,</code> を得ることができます。</p>
+<h4 id="_12">結合</h4>
+<p><code>##</code>を結合する際に、左右のパラメータを展開しないため、パラメータが先に評価されてから結合されるようにするには、次のように書くことができます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">#define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="cp">#define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">PP_CONCAT</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">         </span><span class="c1">// -&gt; 12</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; Error</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; エラー</span>
 </code></pre></div>
-<p><code>PP_CONCAT</code> で使用されるメソッドは遅延結合と呼ばれ、<code>PP_CONCAT_IMPL</code> に展開される際、<code>arg0</code>と<code>arg1</code>は、最初に展開および評価され、その後に<code>PP_CONCAT_IMPL</code>が実際の結合操作を実行します。</p>
-<h4 id="_15">論理演算</h4>
-<p><code>PP_CONCAT</code> を使えば論理演算ができます。まず、<code>BOOL</code> 値を定義します：</p>
+<p>ここで <code>PP_CONCAT</code> で使用されている方法は、遅延連結と呼ばれ、<code>PP_CONCAT_IMPL</code> に展開される際に、<code>arg0</code> と <code>arg1</code> はどちらも最初に展開され評価され、その後 <code>PP_CONCAT_IMPL</code> が実際の連結操作を実行します。</p>
+<h4 id="_13">論理演算</h4>
+<p><code>PP_CONCAT</code> を使うことで論理演算を実現できます。まず <code>BOOL</code> 値を定義します：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cp">#define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="cp">#define PP_BOOL_0 0</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="cp">#define PP_BOOL_1 1</span>
@@ -2602,7 +2610,7 @@
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">PP_BOOL</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; PP_BOOL_3 -&gt; 1</span>
 </code></pre></div>
-<p><code>PP_CONCAT</code> マクロは、まず<code>PP_BOOL_</code>と<code>arg0</code>を連結し、その結果を評価します。ここでの<code>arg0</code>は、評価後に <code>[0, 256]</code> の範囲内の数値を取得する必要があります。<code>PP_BOOL_</code> に続けて評価を行うことで、ブール値が得られます。論理演算子 AND、OR、NOT：</p>
+<p><code>PP_CONCAT</code> を使って <code>PP_BOOL_</code> と <code>arg0</code> を先に連結し、その後連結結果を評価します。ここでの <code>arg0</code> は評価後に <code>[0, 256]</code> の範囲の数値を得る必要があり、<code>PP_BOOL_</code> の後に連結して評価することでブーリアン値を得ることができます。論理和・論理積・否定演算：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#define PP_NOT_0 1</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="cp">#define PP_NOT_1 0</span>
@@ -2624,9 +2632,9 @@
 <a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="n">PP_AND</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">            </span><span class="c1">// -&gt; PP_CONCAT(PP_AND_, 10) -&gt; PP_AND_10 -&gt; 0</span>
 <a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="n">PP_OR</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; PP_CONCAT(PP_OR_, 10) -&gt; PP_OR_10, -&gt; 1</span>
 </code></pre></div>
-<p><code>PP_BOOL</code> を使ってパラメーターを評価し、その後に <code>0 1</code> の組み合わせに基づいて論理演算の結果を組み立てます。もし <code>PP_BOOL</code> を使用しないと、パラメーターは <code>0 1</code> の2つの数字しかサポートしないため、使用範囲が大幅に制限されます。同様に、排他的論理和や否定論理和などの操作も書けますので、興味があれば是非試してみてください。</p>
-<h4 id="_16">条件选择</h4>
-<p><code>PP_BOOL</code> および <code>PP_CONCAT</code> を利用して、条件分岐文を記述することもできます。</p>
+<p><code>PP_BOOL</code>を使用してパラメーターを評価し、その後<code>0 1</code>の組み合わせに基づいて論理演算の結果を組み立てます。<code>PP_BOOL</code>を使用しない場合、パラメーターは<code>0 1</code>の2つの数値のサポートに制限され、適用範囲が大幅に狭まります。同様に、排他的論理和、論理和、否定なども実装可能です。興味があれば、ぜひお試しください。</p>
+<h4 id="_14">条件選択</h4>
+<p><code>PP_BOOL</code>と<code>PP_CONCAT</code>を使って、条件分岐文を書くこともできます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="cp">#define PP_IF_1(then, else) then</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="cp">#define PP_IF_0(then, else) else</span>
@@ -2634,9 +2642,9 @@
 <a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_1(2, 3) -&gt; 2</span>
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_0(2, 3) -&gt; 3</span>
 </code></pre></div>
-<p>「if」が評価され、結果が「1」である場合には、「PP_CONCAT」で「PP_IF_1」に結合し、最終的に「then」の値に展開します。同様に、もし「if」が「0」と評価された場合は、「PP_IF_0」となります。</p>
-<h4 id="_17">増加減少</h4>
-<p>整数递增递减： -&gt; 整数の増加および減少：</p>
+<p><code>if</code> が <code>1</code> に評価された場合、<code>PP_CONCAT</code> を使って <code>PP_IF_1</code> に結合し、最後に <code>then</code> の値に展開されます。同様に、<code>if</code> が <code>0</code> に評価された場合は、<code>PP_IF_0</code> が得られます。</p>
+<h4 id="_15">増減</h4>
+<p>整数递增递减：数値の増減：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">#define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="cp">#define PP_INC_0 1</span>
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="cp">#define PP_INC_1 2</span>
@@ -2658,32 +2666,31 @@
 <a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">PP_INC</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_INC_2 -&gt; 3</span>
 <a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="n">PP_DEC</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_DEC_3 -&gt; 2</span>
 </code></pre></div>
-<p><code>PP_BOOL</code> に類似して、整数の増減にも制限があります。ここでは範囲が <code>[0, 256]</code> に設定されており、<code>256</code> に増加すると、安全のために<code>PP_INC_256</code> は自体の <code>256</code> を範囲として返します。同様に、<code>PP_DEC_0</code> も <code>0</code> を返します。</p>
-<h4 id="_18">可変長パラメータ</h4>
+<p>「PP_BOOL」と同様に、整数の増加と減少も範囲制限があります。ここでは、範囲は「0から256」に設定されています。256に増加した後、安全のため、「PP_INC_256」は自身の「256」を境界として返します。同様に、「PP_DEC_0」も「0」を返します。</p>
+<h4 id="_16">可変長引数</h4>
 <p>宏は可変長引数を受け入れることができます。フォーマットは以下の通りです：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf("log: " format, __VA_ARGS__)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World", ); Extra comma added, causing a compilation error.</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World", ); 多了个逗号，编译报错</span>
 </code></pre></div>
-<p>可変長引数が空の可能性があるため、空の場合にコンパイルエラーが発生する可能性があるため、C++ 20では<code>__VA_OPT__</code>が導入されました。可変長引数が空の場合は空を返し、それ以外の場合は元の引数を返します。</p>
+<p>可変引数が空である可能性があるため、空の場合にはコンパイルエラーが発生する可能性があるため、C++ 20 では <code>__VA_OPT__</code> が導入されました。可変引数が空の場合は空を返し、それ以外の場合は元の引数を返します。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w"> </span><span class="c1">// -&gt; printf("log: " "Hello World" ); There is no comma, compiles normally</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World" ); カンマなし、正常にコンパイルされる</span>
 </code></pre></div>
-<p>ただ、残念ながら、このマクロはC++ 20以降の標準でのみ利用可能です。以下では、<code>__VA_OPT__</code>の実装方法を説明します。</p>
-<h4 id="there-is-nothing-to-translate">There is nothing to translate.</h4>
+<p>しかし残念ながら、このマクロは C++ 20 以上の標準でしか利用できません。以下に <code>__VA_OPT__</code> の実装方法を示します。</p>
+<h4 id="_17">惰性求值</h4>
 <p>この状況を考慮してください：</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; "PP_IF_1" マクロを呼び出す際の引数リストが終了していないため、エラーが発生します".</span>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; マクロ "PP_IF_1" の呼び出し時に未終了の引数リストのエラー</span>
 </code></pre></div>
-<p>我々は、マクロ展開される際に最初の引数が評価されることを知っています。<code>PP_COMMA()</code>および<code>PP_LPAREN()</code>が評価された後、<code>PP_IF_1</code>に渡され、<code>PP_IF_1(,,))</code>が得られ、プリプロセスエラーが発生します。この場合、遅延評価と呼ばれるメソッドを使用することができます：</p>
+<p>私たちは、マクロが展開される際に最初の引数が評価されることを知っています。<code>PP_COMMA()</code>と<code>PP_LPAREN()</code>が評価された後に<code>PP_IF_1</code>に渡され、<code>PP_IF_1(,,))</code>が得られ、プリプロセッサがエラーを引き起こします。この場合、遅延評価と呼ばれる方法を採用することができます。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">,</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">)()</span><span class="w">       </span><span class="c1">// -&gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p>この方法で修正すると、単にマクロの名前を渡して、<code>PP_IF</code> が必要なマクロ名を選択し、それを括弧 <code>()</code> と一緒に連結して完成したマクロを作成し、最後に展開します。 
-マクロプログラミングでは、遅延評価も非常に一般的です。</p>
-<h4 id="_19">かぎかっこで始まります</h4>
-<p>長さ可変引数がかっこで始まっているかどうかを判断します：</p>
+<p>この書き方に変更して、マクロの名前だけを渡し、<code>PP_IF</code> が必要なマクロ名を選択した後、カッコ <code>()</code> を付けて完成したマクロを作成し、最後に展開します。遅延評価は、マクロプログラミングでもよく見られます。</p>
+<h4 id="_18">以括号开始</h4>
+<p>変長パラメーターが括弧で始まっているかどうかを判断する：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="cp">#define PP_IS_BEGIN_PARENS(...) \</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="cp">    PP_IS_BEGIN_PARENS_PROCESS( \</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="cp">        PP_IS_BEGIN_PARENS_CONCAT( \</span>
@@ -2709,14 +2716,14 @@
 <a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(()</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-25-24" name="__codelineno-25-24" href="#__codelineno-25-24"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>'PP_IS_BEGIN_PARENS' は、渡された引数が括弧で始まるかどうかを判断するために使用できます。括弧で始まる引数を処理する必要がある場合には、後述する <code>__VA_OPT__</code> 実装で使用されます。見た目はやや複雑ですが、核心的な考え方は、マクロを構築して、可変長引数が括弧で始まる場合には括弧と連結して評価し、結果を得ることが可能であり、そうでない場合には別の結果を得ることができます。詳しく見てみましょう：</p>
-<p><code>PP_IS_BEGIN_PARENS_PROCESS</code> and <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> macros are designed to first evaluate the incoming variable arguments, and then retrieve the 0th argument.</p>
-<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code>は、<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>を評価し、評価結果を<code>PP_IS_BEGIN_PARENS_PRE_</code>と結合する。</p>
-<p><code>PP_IS_BEGIN_PARENS_EAT(...)</code> マクロは全ての引数を吸収し、1を返します。もし一つ前の <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> の中で、<code>__VA_ARGS__</code> が括弧で始まっていたら、<code>PP_IS_BEGIN_PARENS_EAT(...)</code> の評価にマッチし、1を返します。逆に、括弧で始まっていない場合はマッチしないので、<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> は変わらずに残ります。</p>
-<p><code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> の評価結果は <code>1</code> 、 <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1,</code> に注意し、 <code>1</code> の後にコンマがあることに注意して <code>1,</code> を <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> に渡し、0 番目の引数を取得すると最終的に <code>1</code> という結果が得られ、これは引数が括弧で始まることを示しています。</p>
-<p><code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> が <code>1</code> でなく変わらない場合、<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code> を使って <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> に渡すと、<code>0</code> が得られ、引数が括弧で始まっていないことを示します。</p>
-<h4 id="_20">可変長パラメータ空</h4>
-<p>可変長引数が空かどうかを判断するのはよく使われるマクロです。<code>__VA_OPT__</code>を実装する際に必要とされます。ここでは、<code>PP_IS_BEGIN_PARENS</code>を利用して、不完全なバージョンを書いてみましょう：</p>
+<p><code>PP_IS_BEGIN_PARENS</code>は、渡された引数が括弧で始まるかどうかを判断するために使用できます。括弧で渡されるパラメータを処理する必要がある場合に利用され（たとえば後述の <code>__VA_OPT__</code> の実装など）、やや複雑に見えるかもしれませんが、その中核となる考え方は、括弧で始まる可変長引数を処理して、括弧と連結して評価を行い一つの結果を得るか、別の結果を得るかを決定するマクロを構築するというものです。詳しく見ていきましょう：</p>
+<p><code>PP_IS_BEGIN_PARENS_PROCESS</code> と <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> から成るマクロの機能は、まず渡された可変引数の評価を行い、その後第 0 引数を取得することです。</p>
+<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code>は、まず<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>を評価し、その評価結果を<code>PP_IS_BEGIN_PARENS_PRE_</code>と結合する。</p>
+<p><code>PP_IS_BEGIN_PARENS_EAT(...)</code> マクロはすべての引数を飲み込み、1 を返します。前のステップ <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> で、<code>__VA_ARGS__</code> が括弧で始まっている場合、<code>PP_IS_BEGIN_PARENS_EAT(...)</code> の評価に一致し、1 を返します。逆に、括弧で始まっていない場合には一致せず、<code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> はそのまま保持されます。</p>
+<p>若 <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> 求值得到 <code>1</code>，<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1,</code>，注意 <code>1</code> 后面是有个逗号的，把 <code>1,</code> 传给 <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>，取第 0 个参数，最后得到 <code>1</code>，表示参数是以括号开始。</p>
+<p>もし <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> が <code>1</code> ではなく変化しない場合、<code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code> となり、<code>PP_IS_BEGIN_PARENS_PROCESS_0</code> に渡される値は <code>0</code> となり、引数が括弧で始まっていないことを示します。</p>
+<h4 id="_19">可変長引数空</h4>
+<p>可変長引数が空かどうかを判断するのも一般的なマクロであり、<code>__VA_OPT__</code> を実現する際に必要です。ここでは <code>PP_IS_BEGIN_PARENS</code> を利用して、不完全なバージョンを先に書いてみます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cp">#define PP_IS_EMPTY_PROCESS(...) \</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cp">    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ())</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="cp">#define PP_IS_EMPTY_PROCESS_EAT(...) ()</span>
@@ -2726,10 +2733,10 @@
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p><code>PP_IS_EMPTY_PROCESS</code> の機能は、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__()</code> が括弧で始まるかどうかを判断することです。</p>
-<p>もし <code>__VA_ARGS__</code> が空であれば、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code> のように、<code>()</code> という括弧のペアが返され、それが <code>PP_IS_BEGIN_PARENS</code> に渡されて <code>1</code> が返ってきます。これは引数が空であることを示しています。</p>
-<p>その場合、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code>は変更せずに<code>PP_IS_BEGIN_PARENS</code>に渡し、0を返して空でないことを示します。</p>
-<p>例えば、第4の例<code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>について、<code>PP_IS_EMPTY_PROCESS</code>は、かぎかっこ <code>(</code> で始まる可変引数を適切に処理できません。なぜなら、この場合、かぎかっこの影響で可変引数が<code>PP_IS_EMPTY_PROCESS_EAT</code>にマッチし、結果的に<code>()</code>となってしまうためです。この問題を解決するために、かぎかっこで始まるか否かで引数を別々に扱う必要があります：</p>
+<p><code>PP_IS_EMPTY_PROCESS</code>の作用は、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code>が括弧で始まるかどうかを判断することです。</p>
+<p>もし <code>__VA_ARGS__</code> が空であれば、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code> となり、得られるのは一対の括弧 <code>()</code> です。これを <code>PP_IS_BEGIN_PARENS</code> に渡すと <code>1</code> が返され、パラメータが空であることを示します。</p>
+<p>そうでなければ、<code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code>は変更されずに<code>PP_IS_BEGIN_PARENS</code>に渡され、0を返して非空を示します。</p>
+<p>第4の例 <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code> に注意してください。<code>PP_IS_EMPTY_PROCESS</code> は、括弧で始まる可変引数を適切に処理できません。なぜなら、この場合、括弧を持つ可変引数が <code>PP_IS_EMPTY_PROCESS_EAT</code> に一致し、<code>()</code> が評価されるからです。この問題を解決するには、引数が括弧で始まるかどうかを区別する必要があります：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">#define PP_IS_EMPTY(...) \</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(__VA_ARGS__)) \</span>
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(__VA_ARGS__)</span>
@@ -2745,12 +2752,11 @@
 <a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="n">PP_IS_EMPTY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="n">PP_IS_EMPTY</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p><code>PP_IS_EMPTY_IF</code> は、<code>if</code> 条件に基づいて、0番目または1番目の引数を返します。</p>
-<p>もし可変長パラメータが括弧で始まる場合、<code>PP_IS_EMPTY_IF</code> は <code>PP_IS_EMPTY_ZERO</code> を返し、最終的には <code>0</code> を返して、可変長パラメータが空でないことを示す。</p>
-<p>これらのテキストを日本語に翻訳してください:</p>
-<p>反之 <code>PP_IS_EMPTY_IF</code> 返回 <code>PP_IS_EMPTY_PROCESS</code>，最后由 <code>PP_IS_EMPTY_PROCESS</code> 来判断变长参数是否非空。</p>
-<h4 id="_21">インデックスアクセス</h4>
-<p>指定された位置の可変長引数の要素を取得する:</p>
+<p><code>PP_IS_EMPTY_IF</code> は、<code>if</code> 条件に基づいて第1引数または第2引数を返します。</p>
+<p>もし可変長引数が括弧で始まる場合、<code>PP_IS_EMPTY_IF</code> は <code>PP_IS_EMPTY_ZERO</code> を返し、最終的に <code>0</code> を返すことで、可変長引数が空でないことを示します。</p>
+<p>反之 <code>PP_IS_EMPTY_IF</code> は <code>PP_IS_EMPTY_PROCESS</code> を返し、最終的に <code>PP_IS_EMPTY_PROCESS</code> が可変長引数が非空かどうかを判断します。</p>
+<h4 id="_20">添えるするアクセス</h4>
+<p>可変長パラメータ指定位置の要素を取得する：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="cp">#define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(__VA_ARGS__)</span>
 <a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="cp">#define PP_ARGS_ELEM_0(a0, ...) a0</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="cp">#define PP_ARGS_ELEM_1(a0, a1, ...) a1</span>
@@ -2763,9 +2769,9 @@
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0("Hello", "World") -&gt; "Hello"</span>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1("Hello", "World") -&gt; "World"</span>
 </code></pre></div>
-<p><code>PP_ARGS_ELEM</code> の最初の引数は要素のインデックス <code>I</code> であり、その後は可変引数です。<code>PP_CONCAT</code> を使用して <code>PP_ARGS_ELEM_</code> と <code>I</code> を連結することで、該当する位置の要素を返すマクロ <code>PP_ARGS_ELEM_0..8</code> が得られます。そのマクロに可変引数を渡し、インデックスに対応する位置の要素を展開します。</p>
+<p><code>PP_ARGS_ELEM</code> の最初の引数は要素のインデックス <code>I</code> で、その後に可変長引数が続きます。 <code>PP_CONCAT</code> を利用して <code>PP_ARGS_ELEM_</code> と <code>I</code> を結合することで、対応する位置の要素を返すマクロ <code>PP_ARGS_ELEM_0..8</code> を得ることができ、可変長引数をそのマクロに渡すことで、インデックスに対応する位置の要素を展開して返します。</p>
 <h4 id="pp_is_empty2">PP_IS_EMPTY2</h4>
-<p><code>PP_ARGS_ELEM</code> を使用すると、別バージョンの <code>PP_IS_EMPTY</code> を実現することもできます：</p>
+<p><code>PP_ARGS_ELEM</code> を利用することでも、別のバージョンの <code>PP_IS_EMPTY</code> を実現できます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="cp">#define PP_IS_EMPTY2(...) \</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="cp">    PP_AND( \</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="cp">        PP_AND( \</span>
@@ -2787,13 +2793,15 @@
 <a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(())</span><span class="w">            </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p><code>PP_ARGS_ELEM</code> を借りて、パラメータにコンマが含まれているかどうかを判定する <code>PP_HAS_COMMA</code> を実装します。 <code>PP_COMMA_ARGS</code> は与えられた任意の引数を取り込み、コンマを返します。</p>
-<p>可変長引数が空かどうかを判断する基本的なロジックは、「PP_COMMA_ARGS <strong>VA_ARGS</strong>()」がコンマを返すことです。つまり、「<strong>VA_ARGS</strong>」が空の場合、「PP_COMMA_ARGS」と「()」が連結されて評価されます。具体的な書き方は、「PP_HAS_COMMA(PP_COMMA_ARGS <strong>VA_ARGS</strong>())」です。</p>
-<p>ただし、例外が発生する可能性もあります：</p>
-<p><code>__VA_ARGS__</code> itself may introduce commas;
-<code>__VA_ARGS__()</code> は、一緒に連結されて評価され、コンマが発生します。
-<code>PP_COMMA_ARGS __VA_ARGS__</code> マクロを結合すると、カンマが評価されます。</p>
-<p>前述三つの例外に対処するため、最終的な記述は以下の4つの条件に対して論理積を実行していると見なすことができます：</p>
+<p><code>PP_ARGS_ELEM</code>を借りて、引数にコンマが含まれているかどうかを判断する <code>PP_HAS_COMMA</code> を実装しています。<code>PP_COMMA_ARGS</code> は渡された任意の引数を取り込んで、コンマを返します。</p>
+<p>判断変長パラメータが空かどうかの基本ロジックは <code>PP_COMMA_ARGS __VA_ARGS__ ()</code> がコンマを返すこと、つまり <code>__VA_ARGS__</code> が空であることです。<code>PP_COMMA_ARGS</code> と <code>()</code> を結合して評価する具体的な書き方は <code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code> です。</p>
+<p>ただし、例外があります：</p>
+<ul>
+<li><code>__VA_ARGS__</code> 自体がカンマを含む可能性があります；
+<code>__VA_ARGS__()</code> はカンマ区切りで評価される結果が連結されます。
+<code>PP_COMMA_ARGS __VA_ARGS__</code> は、評価された際にカンマが表示されるように一緒に連結されます。 </li>
+</ul>
+<p>上記の3つの例外状況については、除外処理が必要ですので、最終的な書き方は以下の4つの条件についてAND論理演算を実行することと同等です：</p>
 <ul>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__))</code> &amp;&amp;</li>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))</code> &amp;&amp;</li>
@@ -2801,7 +2809,7 @@
 <li><code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code></li>
 </ul>
 <h4 id="__va_opt__"><code>__VA_OPT__</code></h4>
-<p><code>PP_IS_EMPTY</code>を使用すると、<code>__VA_OPT__</code>のようなマクロを実現できるようになります。</p>
+<p><code>PP_IS_EMPTY</code> を利用して、ようやく <code>__VA_OPT__</code> に似たマクロを実現できます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="cp">#define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="cp">#define PP_REMOVE_PARENS_IMPL(...) __VA_ARGS__</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
@@ -2813,17 +2821,17 @@
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="n">PP_ARGS_OPT</span><span class="p">((</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">empty</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">     </span><span class="c1">// -&gt; data</span>
 <a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="n">PP_ARGS_OPT</span><span class="p">((,),</span><span class="w"> </span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; ,</span>
 </code></pre></div>
-<p><code>PP_ARGS_OPT</code>関数は、2つの固定引数と可変引数を受け入れ、可変引数が空でない場合は<code>data</code>を返し、空の場合は<code>empty</code>を返します。 <code>data</code>と<code>empty</code>にカンマをサポートさせるために、実際の引数を両方とも括弧で囲み、最後に<code>PP_REMOVE_PARENS</code>を使用して外側の括弧を削除します。</p>
-<p><code>PP_ARGS_OPT</code> を使用すると、<code>LOG3</code> が <code>LOG2</code> の機能を模倣できます：</p>
+<p><code>PP_ARGS_OPT</code> は、2つの固定パラメータと可変長パラメータを受け入れます。可変長パラメータが空でない場合は <code>data</code> を返し、そうでなければ <code>empty</code> を返します。<code>data</code> と <code>empty</code> の両方がカンマに対応できるように、実際のパラメータはどちらも括弧で包む必要があります。最後に <code>PP_REMOVE_PARENS</code> を使って外側の括弧を取り除きます。</p>
+<p><code>PP_ARGS_OPT</code> を使うことで、<code>LOG3</code> が <code>LOG2</code> によって実現された機能を模倣することができます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#define LOG3(format, ...) \</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf("log: " format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf("log: " "Hello" );</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello %s"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s" , "World");</span>
 </code></pre></div>
-<p><code>data_tuple</code>は<code>(,)</code>であり、可変長引数が空でない場合、<code>data_tuple</code>のすべての要素が返されます。ここでは、カンマ<code>,</code>です。</p>
-<h4 id="_22">パラメータの数を求める</h4>
-<p>可変長引数の数を取得します：</p>
+<p><code>data_tuple</code> is <code>(,)</code>, and if the variable-length parameter is not empty, it will return all the elements inside <code>data_tuple</code>, which in this case is a comma <code>,</code>.</p>
+<h4 id="_21">パラメータの数をお知らせください。</h4>
+<p>可変長引数の数を取得する：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="cp">#define PP_ARGS_SIZE_IMCOMPLETE(...) \</span>
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="cp">    PP_ARGS_ELEM(8, __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
@@ -2832,9 +2840,9 @@
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">())</span><span class="w">    </span><span class="c1">// -&gt; 2</span>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>可変引数の数を計算するには、引数の位置を数えることで行います。<code>__VA_ARGS__</code> を使用すると、後続の引数がすべて右に移動し、マクロ <code>PP_ARGS_ELEM</code> を使って8番目の引数を取得します。もし<code>__VA_ARGS__</code> に1つの引数しかない場合、8番目の引数は<code>1</code>に等しくなります。同様に、<code>__VA_ARGS__</code> に2つの引数がある場合、8番目の引数は<code>2</code>になり、ちょうど可変引数の個数と一致します。</p>
-<p>ここでは、与えられた例は、8つの最高サポート数を持つ可変引数に依存しています。これは、<code>PP_ARGS_ELEM</code> がサポートする最大長に依存しています。</p>
-<p>ただし、このマクロはまだ完全ではありません。可変長パラメータが空の場合、このマクロは誤って <code>1</code> を返します。空の可変長パラメータを処理する必要がある場合は、前述の <code>PP_ARGS_OPT</code> マクロが必要です。</p>
+<p>可変長引数の数を計算するには、引数の位置にアクセスします。<code>__VA_ARGS__</code> は後続の引数をすべて右にずらします。マクロ <code>PP_ARGS_ELEM</code> を使用して、8 番目の引数を取得します。<code>__VA_ARGS__</code> に引数が1つしかない場合、8 番目の引数は <code>1</code> になります。同様に、<code>__VA_ARGS__</code> に2つの引数がある場合、8 番目の引数は <code>2</code> になり、ちょうど可変長引数の数と一致します。</p>
+<p>ここで示された例は、最大で8個の可変長引数のみをサポートしています。これは、<code>PP_ARGS_ELEM</code> がサポートできる最大の長さに依存しています。</p>
+<p>しかし、このマクロはまだ不完全で、可変長引数が空の場合、このマクロは誤って <code>1</code> を返します。空の可変長引数を処理する必要がある場合は、前述の <code>PP_ARGS_OPT</code> マクロを使用する必要があります。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="cp">#define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), __VA_ARGS__)</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="cp">#define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, __VA_ARGS__ PP_COMMA_IF_ARGS(__VA_ARGS__) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
@@ -2844,9 +2852,9 @@
 <a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="n">PP_ARGS_SIZE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(,,,)</span><span class="w">           </span><span class="c1">// -&gt; 4</span>
 </code></pre></div>
-<p>重点在于逗号 <code>,</code>，当<code>__VA_ARGS__</code>为空时，去掉逗号就可以正确返回<code>0</code>。</p>
-<h4 id="_23">遍歴訪問</h4>
-<p>C++ の <code>for_each</code> に似たものとして、マクロの <code>PP_FOR_EACH</code> を実装することができます。</p>
+<p>問題の鍵はカンマ <code>,</code> です。 <code>__VA_ARGS__</code> が空のとき、カンマを省略することで正しく <code>0</code> を返すことができます。</p>
+<h4 id="translates-to-in-japanese">遍历访问 translates to "トラバースアクセス" in Japanese.</h4>
+<p>C++ と似たような <code>for_each</code> のように、マクロの <code>PP_FOR_EACH</code> を実装することができます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="cp">#define PP_FOR_EACH(macro, contex, ...) \</span>
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="cp">    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(__VA_ARGS__))(0, macro, contex, __VA_ARGS__)</span>
 <a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
@@ -2870,10 +2878,10 @@
 <a id="__codelineno-34-21" name="__codelineno-34-21" href="#__codelineno-34-21"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span><span class="w">    </span><span class="c1">// -&gt; int x, y, z;</span>
 <a id="__codelineno-34-22" name="__codelineno-34-22" href="#__codelineno-34-22"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; bool a, b;</span>
 </code></pre></div>
-<p><code>PP_FOR_EACH</code> は2つの固定パラメータを受け取ります：<code>macro</code> は繰り返し時に呼び出されるマクロと解釈できます。<code>contex</code> は<code>macro</code> に渡される固定値パラメータとして機能します。<code>PP_FOR_EACH</code> はまず<code>PP_ARGS_SIZE</code> を使用して可変長パラメータの長さ <code>N</code> を取得し、次に<code>PP_CONCAT</code> を使用して<code>PP_FOR_EACH_N</code> を生成します。その後<code>PP_FOR_EACH_N</code> は、可変長パラメータの個数と同じ数の反復処理を実現するために、<code>PP_FOR_EACH_N-1</code> を反復的に呼び出します。</p>
-<p>例において、私たちはマクロのパラメーターとして <code>DECLARE_EACH</code> を宣言しました。<code>DECLARE_EACH</code> の役割は <code>contex arg</code> を返すことです。ここで、<code>contex</code> が型の名前であり、<code>arg</code> が変数の名前である場合、<code>DECLARE_EACH</code> は変数を宣言するために使用できます。</p>
-<h4 id="_24">条件循环</h4>
-<p><code>FOR_EACH</code> を使用した後、同様の書き方で <code>PP_WHILE</code> を記述することもできます。</p>
+<p><code>PP_FOR_EACH</code> は2つの固定パラメータを受け取ります： <code>macro</code> は繰り返しの際に呼び出されるマクロと考えることができ、<code>contex</code> は <code>macro</code> に渡す固定値のパラメータとして使えます。<code>PP_FOR_EACH</code> はまず <code>PP_ARGS_SIZE</code> を使用して可変長引数の長さ <code>N</code> を取得し、次に <code>PP_CONCAT</code> を用いて <code>PP_FOR_EACH_N</code> を結合します。その後、<code>PP_FOR_EACH_N</code> は <code>PP_FOR_EACH_N-1</code> を繰り返し呼び出すことで、可変長引数の個数と同じ回数の繰り返しを実現します。</p>
+<p>例中では、<code>DECLARE_EACH</code> を <code>macro</code> のパラメータとして宣言しています。<code>DECLARE_EACH</code> は <code>contex arg</code> を返す役割を果たし、<code>contex</code> が型名、<code>arg</code> が変数名である場合、<code>DECLARE_EACH</code> は変数を宣言するために使用できます。</p>
+<h4 id="_22">条件循环</h4>
+<p><code>FOR_EACH</code> を使うことで、同様の書き方で <code>PP_WHILE</code> を作成することができます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="cp">#define PP_WHILE PP_WHILE_1</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>
 <a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="cp">#define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
@@ -2912,16 +2920,16 @@
 <a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a><span class="n">PP_WHILE</span><span class="p">(</span><span class="n">SUM_PRED</span><span class="p">,</span><span class="w"> </span><span class="n">SUM_OP</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (0, a + 2 + 1)</span>
 <a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a><span class="n">SUM</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">                               </span><span class="c1">// -&gt; a + 2 + 1</span>
 </code></pre></div>
-<p><code>PP_WHILE</code> 関数は3つのパラメーターを受け取ります：<code>pred</code> 条件判定関数、<code>op</code> 操作関数、<code>val</code> 初期値；ループ中に繰り返し <code>pred(val)</code> を使用してループを終了判定し、<code>op(val)</code> の結果を後続のマクロに渡し、以下のコードを実行します：</p>
+<p><code>PP_WHILE</code> は三つの引数を受け取ります： <code>pred</code> 条件判定関数、<code>op</code> 操作関数、<code>val</code> 初期値；ループの過程で <code>pred(val)</code> を使ってループの終了判定を行い、 <code>op(val)</code> から得られた値を次のマクロに渡します。以下のコードを実行するものと理解できます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">pred</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
 <a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>PP_WHILE_N</code> は最初に <code>pred(val)</code> を使用して条件判断結果を取得し、その結果 <code>cond</code> と残りのパラメータを <code>PP_WHILE_N_IMPL</code> に再度渡します。
-<code>PP_WHILE_N_IMPL</code> は2つの部分に分けることができる：後半部分 <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> は前半部分の引数として使用され、<code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> は <code>cond</code> が真である場合に <code>op(val)</code> を評価し、それ以外の場合には空の結果を得ます。前半部分は <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code> であり、<code>cond</code> が真である場合には <code>PP_WHILE_N+1</code> を返し、後半部分の引数と組み合わせてループを継続します。そうでない場合には <code>val PP_EMPTY_EAT</code> を返し、この時点で <code>val</code> が最終的な計算結果となり、<code>PP_EMPTY_EAT</code> が後半部分の結果を吸収します。</p>
-<p><code>SUM</code>関数は <code>N + N-1 + ... + 1</code>を実現します。初期値は <code>(max_num, origin_num)</code> であり、<code>SUM_PRED</code>関数は取得された最初の要素 <code>x</code> が0より大きいかどうかを判定します。<code>SUM_OP</code>関数は、<code>x</code>に対して <code>x = x - 1</code> の操作を行い、<code>y</code>には <code>+ x</code> の操作 <code>y = y + x</code> を実行します。<code>SUM_PRED</code>と<code>SUM_OP</code>を直接 <code>PP_WHILE</code>に渡し、返された結果はタプルです。我々が実際に必要なのはそのタプルの第2要素であるため、再度 <code>SUM</code>関数を用いて第2要素の値を取得します。</p>
-<h4 id="_25">再帰的な再入り</h4>
-<p>これまでに、当社の繰り返し訪問と条件付きループは非常に順調に機能し、期待通りの結果をもたらしています。マクロ展開規則についてお話しする際に再帰的な再入を禁止することを言及しましたが、2重ループを実行しようとしたときに再帰的な再入を禁止する問題が発生しました。</p>
+<p><code>PP_WHILE_N</code> 最初に <code>pred(val)</code> を使用して条件判断の結果を取得し、条件結果 <code>cond</code> と残りのパラメータを <code>PP_WHILE_N_IMPL</code> に渡します。
+<code>PP_WHILE_N_IMPL</code> は、2つのパートに分けることができます：後半部分 <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> が前半部分のパラメータとして機能し、<code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> は <code>cond</code> が真である場合に <code>op(val)</code> を評価し、そうでない場合は空の結果を得ることです。前半部分は <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code> であり、<code>cond</code> が真であれば <code>PP_WHILE_N+1</code> を返し、後半部分のパラメータと結合してループを継続します。そうでない場合は <code>val PP_EMPTY_EAT</code> を返し、この時点で <code>val</code> が最終的な計算結果となり、<code>PP_EMPTY_EAT</code> は後半部分の結果を無視します。</p>
+<p><code>SUM</code> を実現する<code>N + N-1 + ... + 1</code>。初期値<code>(max_num, origin_num)</code>；<code>SUM_PRED</code> の値の最初の要素<code>x</code>、0より大きいかどうかを判断します；<code>SUM_OP</code> は<code>x</code> に対してデクリメント操作<code>x = x - 1</code> を実行し、<code>y</code>に対して<code>+ x</code> 操作<code>y = y + x</code>を実行します。<code>SUM_PRED</code> と<code>SUM_OP</code> を<code>PP_WHILE</code>に直接渡し、結果はタプルです。求める実際の結果はタプルの2番目の要素ですので、再び<code>SUM</code>を使って2番目の要素の値を取得します。</p>
+<h4 id="_23">再帰的再入</h4>
+<p>現時点まで、われわれの反復訪問と条件ループはうまく機能し、結果も予想通りです。マクロ展開規則において再帰呼び出しを禁止すると述べたことを覚えていますか。二重ループを実行しようとした際に再帰呼び出しの禁止に遭遇してしまいました：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="cp">#define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="cp">#define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))</span>
 <a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
@@ -2930,8 +2938,8 @@
 <a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
 <a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="n">SUM2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))</span>
 </code></pre></div>
-<p><code>SUM2</code> のパラメータ <code>op</code> を <code>SUM_OP2</code> に変更し、<code>SUM_OP2</code> では <code>SUM</code> が呼び出され、<code>SUM</code> は <code>PP_WHILE_1</code> に展開され、<code>PP_WHILE_1</code> が自身を再帰的に呼び出すことになり、プリプロセッサは展開を停止します。</p>
-<p>この問題を解決するためには、自動再帰法（Automatic Recursion）を使用することができます：</p>
+<p><code>SUM2</code> の引数 <code>op</code> を <code>SUM_OP2</code> に変更し、<code>SUM_OP2</code> では <code>SUM</code> を呼び出します。そして、<code>SUM</code> の展開は <code>PP_WHILE_1</code> になり、<code>PP_WHILE_1</code> は実質的に自分自身を再帰的に呼び出しており、プリプロセッサが展開を停止します。</p>
+<p>この問題を解決するために、自動再帰の方法を使うことができます：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="cp">#define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))</span>
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="cp">#define PP_AUTO_REC(check) PP_IF(check(2), PP_AUTO_REC_12, PP_AUTO_REC_34)(check)</span>
@@ -2964,12 +2972,12 @@
 <a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
 <a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="n">SUM4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; a + 0 + 2 + 1 + 0 + 1</span>
 </code></pre></div>
-<p><code>PP_AUTO_WHILE</code> は、<code>PP_WHILE</code> の自動推論再帰バージョンであり、中核となるマクロは <code>PP_AUTO_REC(PP_WHILE_PRED)</code> です。このマクロは、現在利用可能な <code>PP_WHILE_N</code> バージョンの数字 <code>N</code> を見つけることができます。</p>
-<p>推論の原則は非常に簡単で、すべてのバージョンを検索し、正しく展開できるバージョンを見つけ、そのバージョンの番号を返すことです。検索速度を向上させるため、通常はバイナリ検索を使用します。これが <code>PP_AUTO_REC</code> が行っていることです。<code>PP_AUTO_REC</code> は <code>check</code> というパラメータを受け入れます。<code>check</code> はバージョンの可用性を確認します。ここでは、サポートされる検索バージョン範囲 <code>[1, 4]</code> が指定されています。<code>PP_AUTO_REC</code> はまず <code>check(2)</code> をチェックします。もし <code>check(2)</code> が真ならば、<code>PP_AUTO_REC_12</code> を呼び出して範囲 <code>[1, 2]</code> を検索し、そうでなければ <code>PP_AUTO_REC_34</code> で <code>[3, 4]</code> を検索します。<code>PP_AUTO_REC_12</code> は <code>check(1)</code> を調べます。真であれば、バージョン <code>1</code> が利用可能であることを意味し、そうでなければバージョン <code>2</code> を使用します。<code>PP_AUTO_REC_34</code> も同様に行います。</p>
-<p>「check」は、どのように書かれるとバージョンが利用可能かどうかがわかりますか？ ここでは、「PP_WHILE_PRED」は2つの部分に展開されます。 後半部分「PP_WHILE_## n（PP_WHILE_FALSE、PP_WHILE_FALSE、PP_WHILE_FALSE）」を見てみましょう：もし「PP_WHILE_## n」が利用可能な場合、PP_WHILE_FALSEが常に「0」を返すため、この部分は「val」パラメーターの値、つまり「PP_WHILE_FALSE」に展開されます。 それ以外の場合、この部分のマクロは変わらず、「PP_WHILE_n（PP_WHILE_FALSE、PP_WHILE_FALSE、PP_WHILE_FALSE）」のままです。</p>
-<p>後部分の結果を前部分の <code>PP_WHILE_CHECK_</code> に連結して、2つの結果が得られます：<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> または <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>。それで、<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> が <code>1</code> を返すことで有効であることを示し、<code>PP_WHILE_CHECK_PP_WHILE_n</code> が <code>0</code> を返すことで無効であることを示します。これにより、再帰的な機能の自動推論が完了します。</p>
-<h4 id="_26">算術比較</h4>
-<p>不等:</p>
+<p><code>PP_AUTO_WHILE</code> は <code>PP_WHILE</code> の自動推導再帰バージョンであり、核心となるマクロは <code>PP_AUTO_REC(PP_WHILE_PRED)</code> です。このマクロは、現在利用可能な <code>PP_WHILE_N</code> バージョンの数字 <code>N</code> を見つけ出すことができます。</p>
+<p>推導の原理は非常に単純で、すべてのバージョンを検索し、正しく展開できるバージョンを見つけ、そのバージョンの数字を返すことです。検索速度を向上させるために一般的に行われる方法は、二分探索を使用することです。これが <code>PP_AUTO_REC</code> が行っていることです。 <code>PP_AUTO_REC</code> は <code>check</code> というパラメータを受け取り、バージョンの利用可能性をチェックします。ここでは、検索バージョンの範囲が <code>[1, 4]</code> であるとされています。 <code>PP_AUTO_REC</code> はまず <code>check(2)</code> をチェックし、もし <code>check(2)</code> が真であれば、<code>PP_AUTO_REC_12</code> を呼び出して範囲 <code>[1, 2]</code> を検索し、そうでなければ <code>PP_AUTO_REC_34</code> を使用して <code>[3, 4]</code> を検索します。 <code>PP_AUTO_REC_12</code> は <code>check(1)</code> をチェックし、もし真であれば、バージョン <code>1</code> が利用可能であることを示し、そうでなければバージョン <code>2</code> を利用します。 <code>PP_AUTO_REC_34</code> についても同様です。</p>
+<p><code>check</code> How should I write to know if the version is available? Here, <code>PP_WHILE_PRED</code> will be expanded into two parts concatenated. Let's focus on the latter part <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>: if <code>PP_WHILE_ ## n</code> is available, since <code>PP_WHILE_FALSE</code> always returns <code>0</code>, this part will expand to the value of the <code>val</code> parameter, which is <code>PP_WHILE_FALSE</code>; otherwise, this part of the macro will remain unchanged, still as <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>.</p>
+<p>後半部分の結果と前半部分の <code>PP_WHILE_CHECK_</code> を結合して、2つの結果が得られます：<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> または <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>。このため、<code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> を <code>1</code> で返し、利用可能を示し、<code>PP_WHILE_CHECK_PP_WHILE_n</code> を <code>0</code> で返し、利用不可を示します。ここで、我々は再帰の機能を自動的に導出することができました。</p>
+<h4 id="_24">算術の比較</h4>
+<p>不相等：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="cp">#define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)</span>
 <a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="cp">#define PP_NOT_EQUAL_IMPL(x, y) \</span>
 <a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="cp">    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))</span>
@@ -2994,31 +3002,30 @@
 <a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>数値を比較して、再帰を禁止する特性を使用しています。 <code>x</code> と <code>y</code> を再帰的に組み合わせて <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code> マクロにします。 <code>x == y</code> であれば、 <code>PP_NOT_EQUAL_y</code> マクロは展開されず、<code>PP_NOT_EQUAL_CHECK_</code> と組み合わされて <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> が <code>0</code> を返します。それ以外の場合、両方が正常に展開され最終的に <code>PP_EQUAL_NIL</code> が得られます。それを組み合わせて <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> が <code>1</code> を返します。</p>
-<p>相等：Equality:</p>
+<p>判断数値が等しいかどうかを確認するために、再帰的な再入を禁止する特性を利用し、<code>x</code> と <code>y</code> を再帰的に結合して <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code> マクロを生成します。もし <code>x == y</code> の場合、<code>PP_NOT_EQUAL_y</code> マクロは展開されず、<code>PP_NOT_EQUAL_CHECK_</code> と結合して <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> となり、<code>0</code> を返します。一方、逆に両方が成功裏に展開されると、最終的に <code>PP_EQUAL_NIL</code> が得られ、結合して <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> となり、<code>1</code> を返します。</p>
+<p>相等：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="cp">#define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))</span>
 <a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>
 <a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>以下のテキストを日本語に翻訳してください：</p>
-<p>小于等于：</p>
+<p>小なり等しい：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="cp">#define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))</span>
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>小于:</p>
+<p>小于：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="cp">#define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))</span>
 <a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>
 <a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>その他にも、より大きい、以上などの算術比較がありますが、ここでは詳細は省略します。</p>
-<h4 id="_27">算術演算</h4>
-<p><code>PP_AUTO_WHILE</code> を使用すると、基本的な算術演算を実行でき、ネストされた演算もサポートされます。</p>
+<p>また、大なり、大なりイコールなどの算術比較もありますが、ここでは詳細は省略します。</p>
+<h4 id="_25">算術演算</h4>
+<p><code>PP_AUTO_WHILE</code> を使用すると、基本的な算術演算を実装して、ネストされた演算をサポートすることができます。</p>
 <p>加法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cp">#define PP_ADD(x, y) \</span>
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="cp">    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))</span>
@@ -3033,7 +3040,7 @@
 <a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">                  </span><span class="c1">// -&gt; 3</span>
 <a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w">       </span><span class="c1">// -&gt; 4</span>
 </code></pre></div>
-<p>引き算:</p>
+<p>減法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="cp">#define PP_SUB(x, y) \</span>
 <a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="cp">    PP_IDENTITY(PP_SUB_IMPL PP_AUTO_WHILE(PP_SUB_PRED, PP_SUB_OP, (x, y)))</span>
 <a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="cp">#define PP_SUB_IMPL(x, y) x</span>
@@ -3047,7 +3054,7 @@
 <a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>掛け算：</p>
+<p>乘法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="cp">#define PP_MUL(x, y) \</span>
 <a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="cp">    IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))</span>
 <a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="cp">#define PP_MUL_IMPL(ret, x, y) ret</span>
@@ -3061,8 +3068,8 @@
 <a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 2</span>
 </code></pre></div>
-<p>掛算法 、 ここで新しいパラメータ <code>ret</code> が追加されました。初期値は <code>0</code> であり、各反復で <code>ret = ret + x</code> が実行されます。</p>
-<p>除法：División:</p>
+<p>乗法実現にはここでパラメーター <code>ret</code> が追加され、初期値は <code>0</code> で、毎回のイテレーションで <code>ret = ret + x</code> が実行されます。</p>
+<p>除法：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="cp">#define PP_DIV(x, y) \</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="cp">    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))</span>
 <a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="cp">#define PP_DIV_IMPL(ret, x, y) ret</span>
@@ -3077,137 +3084,137 @@
 <a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 2</span>
 <a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a><span class="n">PP_DIV</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>割り算に <code>PP_LESS_EQUAL</code> が使われていて、<code>y &lt;= x</code> の場合にだけループが続行されます。</p>
-<h4 id="_28">データ構造</h4>
-<p>宏也可以有データ構造、実際には前にもう少し <code>tuple</code> というデータ構造を使っていました。 <code>PP_REMOVE_PARENS</code> は <code>tuple</code> の外側の括弧を取り除き、中の要素を返すことができます。ここでは <code>tuple</code> を例にして関連する実装を考えますが、他のデータ構造、例えば <code>list, array</code> などに興味がある場合は、<code>Boost</code> の実装を見てみると良いでしょう。</p>
-<p><code>tuple</code> 定义为用括号包住的逗号分开的元素集合：<code>(a, b, c)</code>。</p>
+<p>除法は <code>PP_LESS_EQUAL</code> を利用しており、<code>y &lt;= x</code> の場合のみループを継続します。</p>
+<h4 id="_26">データ構造</h4>
+<p>宏也可能使用数据结构，实际上我们在前面稍微使用了一种数据结构<code>tuple</code>，<code>PP_REMOVE_PARENS</code>可以去除<code>tuple</code>外层的括号，返回其中的元素。在这里我们以<code>tuple</code>为例讨论相关的实现，对于其他的数据结构如<code>list, array</code>等，有兴趣的话可以看一下<code>Boost</code>的实现。</p>
+<p><code>tuple</code> はカンマで区切られた要素の集合を括弧で囲んだもので定義されます：<code>(a, b, c)</code>。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="cp">#define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)</span>
 <a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>
 <a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="n">指定されたインデックスの要素を取得します</span><span class="err">。</span>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="cp">#define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="n">タプル全体を消去して空に戻す</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="c1">// 全体のタプルを飲み込み、空を返す</span>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="cp">#define PP_TUPLE_EAT() PP_EMPTY_EAT</span>
 <a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>
-<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="n">サイズを取得する</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="c1">// サイズを取得する</span>
 <a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="cp">#define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>
-<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="c1">// 要素を追加</span>
+<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="n">要素を追加</span>
 <a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a><span class="cp">#define PP_TUPLE_PUSH_BACK(elem, tuple) \</span>
 <a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a><span class="cp">    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)</span>
 <a id="__codelineno-47-15" name="__codelineno-47-15" href="#__codelineno-47-15"></a><span class="cp">#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \</span>
 <a id="__codelineno-47-16" name="__codelineno-47-16" href="#__codelineno-47-16"></a><span class="cp">    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)</span>
 <a id="__codelineno-47-17" name="__codelineno-47-17" href="#__codelineno-47-17"></a>
-<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="n">要求されたテキストを日本語に翻訳します</span><span class="err">。</span>
-<a id="__codelineno-47-19" name="__codelineno-47-19" href="#__codelineno-47-19"></a>
-<a id="__codelineno-47-20" name="__codelineno-47-20" href="#__codelineno-47-20"></a><span class="c1">// 要素を挿入</span>
-<a id="__codelineno-47-21" name="__codelineno-47-21" href="#__codelineno-47-21"></a><span class="cp">#define PP_TUPLE_INSERT(i, elem, tuple) \</span>
-<a id="__codelineno-47-22" name="__codelineno-47-22" href="#__codelineno-47-22"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
-<a id="__codelineno-47-23" name="__codelineno-47-23" href="#__codelineno-47-23"></a><span class="cp">        3, \</span>
-<a id="__codelineno-47-24" name="__codelineno-47-24" href="#__codelineno-47-24"></a><span class="cp">        PP_AUTO_WHILE( \</span>
-<a id="__codelineno-47-25" name="__codelineno-47-25" href="#__codelineno-47-25"></a><span class="cp">            PP_TUPLE_INSERT_PRED, \</span>
-<a id="__codelineno-47-26" name="__codelineno-47-26" href="#__codelineno-47-26"></a><span class="cp">            PP_TUPLE_INSERT_OP, \</span>
-<a id="__codelineno-47-27" name="__codelineno-47-27" href="#__codelineno-47-27"></a><span class="cp">            (0, i, elem, (), tuple) \</span>
-<a id="__codelineno-47-28" name="__codelineno-47-28" href="#__codelineno-47-28"></a><span class="cp">        ) \</span>
-<a id="__codelineno-47-29" name="__codelineno-47-29" href="#__codelineno-47-29"></a><span class="cp">    )</span>
-<a id="__codelineno-47-30" name="__codelineno-47-30" href="#__codelineno-47-30"></a><span class="cp">#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args</span>
-<a id="__codelineno-47-31" name="__codelineno-47-31" href="#__codelineno-47-31"></a><span class="cp">#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \</span>
-<a id="__codelineno-47-32" name="__codelineno-47-32" href="#__codelineno-47-32"></a><span class="cp">    PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))</span>
-<a id="__codelineno-47-33" name="__codelineno-47-33" href="#__codelineno-47-33"></a><span class="cp">#define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args</span>
-<a id="__codelineno-47-34" name="__codelineno-47-34" href="#__codelineno-47-34"></a><span class="cp">#define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \</span>
-<a id="__codelineno-47-35" name="__codelineno-47-35" href="#__codelineno-47-35"></a><span class="cp">    ( \</span>
-<a id="__codelineno-47-36" name="__codelineno-47-36" href="#__codelineno-47-36"></a><span class="cp">    PP_IF(PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), PP_INC(curi), curi), \</span>
-<a id="__codelineno-47-37" name="__codelineno-47-37" href="#__codelineno-47-37"></a><span class="cp">    i, elem, \</span>
-<a id="__codelineno-47-38" name="__codelineno-47-38" href="#__codelineno-47-38"></a><span class="cp">    PP_TUPLE_PUSH_BACK(\</span>
-<a id="__codelineno-47-39" name="__codelineno-47-39" href="#__codelineno-47-39"></a><span class="cp">        PP_IF( \</span>
-<a id="__codelineno-47-40" name="__codelineno-47-40" href="#__codelineno-47-40"></a><span class="cp">            PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), \</span>
-<a id="__codelineno-47-41" name="__codelineno-47-41" href="#__codelineno-47-41"></a><span class="cp">            PP_TUPLE_ELEM(curi, tuple), elem \</span>
-<a id="__codelineno-47-42" name="__codelineno-47-42" href="#__codelineno-47-42"></a><span class="cp">        ), \</span>
-<a id="__codelineno-47-43" name="__codelineno-47-43" href="#__codelineno-47-43"></a><span class="cp">        ret \</span>
-<a id="__codelineno-47-44" name="__codelineno-47-44" href="#__codelineno-47-44"></a><span class="cp">    ), \</span>
-<a id="__codelineno-47-45" name="__codelineno-47-45" href="#__codelineno-47-45"></a><span class="cp">    tuple \</span>
-<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="cp">    )</span>
-<a id="__codelineno-47-47" name="__codelineno-47-47" href="#__codelineno-47-47"></a>
-<a id="__codelineno-47-48" name="__codelineno-47-48" href="#__codelineno-47-48"></a><span class="n">末尾の要素を削除します</span><span class="err">。</span>
-<a id="__codelineno-47-49" name="__codelineno-47-49" href="#__codelineno-47-49"></a><span class="cp">#define PP_TUPLE_POP_BACK(tuple) \</span>
-<a id="__codelineno-47-50" name="__codelineno-47-50" href="#__codelineno-47-50"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
-<a id="__codelineno-47-51" name="__codelineno-47-51" href="#__codelineno-47-51"></a><span class="cp">        1, \</span>
-<a id="__codelineno-47-52" name="__codelineno-47-52" href="#__codelineno-47-52"></a><span class="cp">        PP_AUTO_WHILE( \</span>
-<a id="__codelineno-47-53" name="__codelineno-47-53" href="#__codelineno-47-53"></a><span class="cp">            PP_TUPLE_POP_BACK_PRED, \</span>
-<a id="__codelineno-47-54" name="__codelineno-47-54" href="#__codelineno-47-54"></a><span class="cp">            PP_TUPLE_POP_BACK_OP, \</span>
-<a id="__codelineno-47-55" name="__codelineno-47-55" href="#__codelineno-47-55"></a><span class="cp">            (0, (), tuple) \</span>
-<a id="__codelineno-47-56" name="__codelineno-47-56" href="#__codelineno-47-56"></a><span class="cp">        ) \</span>
-<a id="__codelineno-47-57" name="__codelineno-47-57" href="#__codelineno-47-57"></a><span class="cp">    )</span>
-<a id="__codelineno-47-58" name="__codelineno-47-58" href="#__codelineno-47-58"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args</span>
-<a id="__codelineno-47-59" name="__codelineno-47-59" href="#__codelineno-47-59"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \</span>
-<a id="__codelineno-47-60" name="__codelineno-47-60" href="#__codelineno-47-60"></a><span class="cp">    PP_IF( \</span>
-<a id="__codelineno-47-61" name="__codelineno-47-61" href="#__codelineno-47-61"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
-<a id="__codelineno-47-62" name="__codelineno-47-62" href="#__codelineno-47-62"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
-<a id="__codelineno-47-63" name="__codelineno-47-63" href="#__codelineno-47-63"></a><span class="cp">        0 \</span>
-<a id="__codelineno-47-64" name="__codelineno-47-64" href="#__codelineno-47-64"></a><span class="cp">    )</span>
-<a id="__codelineno-47-65" name="__codelineno-47-65" href="#__codelineno-47-65"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args</span>
-<a id="__codelineno-47-66" name="__codelineno-47-66" href="#__codelineno-47-66"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \</span>
-<a id="__codelineno-47-67" name="__codelineno-47-67" href="#__codelineno-47-67"></a><span class="cp">    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)</span>
-<a id="__codelineno-47-68" name="__codelineno-47-68" href="#__codelineno-47-68"></a>
-<a id="__codelineno-47-69" name="__codelineno-47-69" href="#__codelineno-47-69"></a><span class="n">要素を削除します</span><span class="err">。</span>
-<a id="__codelineno-47-70" name="__codelineno-47-70" href="#__codelineno-47-70"></a><span class="cp">#define PP_TUPLE_REMOVE(i, tuple) \</span>
-<a id="__codelineno-47-71" name="__codelineno-47-71" href="#__codelineno-47-71"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
-<a id="__codelineno-47-72" name="__codelineno-47-72" href="#__codelineno-47-72"></a><span class="cp">        2, \</span>
-<a id="__codelineno-47-73" name="__codelineno-47-73" href="#__codelineno-47-73"></a><span class="cp">        PP_AUTO_WHILE( \</span>
-<a id="__codelineno-47-74" name="__codelineno-47-74" href="#__codelineno-47-74"></a><span class="cp">            PP_TUPLE_REMOVE_PRED, \</span>
-<a id="__codelineno-47-75" name="__codelineno-47-75" href="#__codelineno-47-75"></a><span class="cp">            PP_TUPLE_REMOVE_OP, \</span>
-<a id="__codelineno-47-76" name="__codelineno-47-76" href="#__codelineno-47-76"></a><span class="cp">            (0, i, (), tuple) \</span>
-<a id="__codelineno-47-77" name="__codelineno-47-77" href="#__codelineno-47-77"></a><span class="cp">        ) \</span>
-<a id="__codelineno-47-78" name="__codelineno-47-78" href="#__codelineno-47-78"></a><span class="cp">    )</span>
-<a id="__codelineno-47-79" name="__codelineno-47-79" href="#__codelineno-47-79"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args</span>
-<a id="__codelineno-47-80" name="__codelineno-47-80" href="#__codelineno-47-80"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \</span>
-<a id="__codelineno-47-81" name="__codelineno-47-81" href="#__codelineno-47-81"></a><span class="cp">    PP_IF( \</span>
-<a id="__codelineno-47-82" name="__codelineno-47-82" href="#__codelineno-47-82"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
-<a id="__codelineno-47-83" name="__codelineno-47-83" href="#__codelineno-47-83"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
-<a id="__codelineno-47-84" name="__codelineno-47-84" href="#__codelineno-47-84"></a><span class="cp">        0 \</span>
-<a id="__codelineno-47-85" name="__codelineno-47-85" href="#__codelineno-47-85"></a><span class="cp">    )</span>
-<a id="__codelineno-47-86" name="__codelineno-47-86" href="#__codelineno-47-86"></a><span class="cp">#define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args</span>
-<a id="__codelineno-47-87" name="__codelineno-47-87" href="#__codelineno-47-87"></a><span class="cp">#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \</span>
-<a id="__codelineno-47-88" name="__codelineno-47-88" href="#__codelineno-47-88"></a><span class="cp">    ( \</span>
-<a id="__codelineno-47-89" name="__codelineno-47-89" href="#__codelineno-47-89"></a><span class="cp">    PP_INC(curi), \</span>
-<a id="__codelineno-47-90" name="__codelineno-47-90" href="#__codelineno-47-90"></a><span class="cp">    i, \</span>
-<a id="__codelineno-47-91" name="__codelineno-47-91" href="#__codelineno-47-91"></a><span class="cp">    PP_IF( \</span>
-<a id="__codelineno-47-92" name="__codelineno-47-92" href="#__codelineno-47-92"></a><span class="cp">        PP_NOT_EQUAL(curi, i), \</span>
-<a id="__codelineno-47-93" name="__codelineno-47-93" href="#__codelineno-47-93"></a><span class="cp">        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \</span>
-<a id="__codelineno-47-94" name="__codelineno-47-94" href="#__codelineno-47-94"></a><span class="cp">        ret \</span>
-<a id="__codelineno-47-95" name="__codelineno-47-95" href="#__codelineno-47-95"></a><span class="cp">    ), \</span>
-<a id="__codelineno-47-96" name="__codelineno-47-96" href="#__codelineno-47-96"></a><span class="cp">    tuple \</span>
-<a id="__codelineno-47-97" name="__codelineno-47-97" href="#__codelineno-47-97"></a><span class="cp">    )</span>
+<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="c1">// 要素を挿入する</span>
+<a id="__codelineno-47-19" name="__codelineno-47-19" href="#__codelineno-47-19"></a><span class="cp">#define PP_TUPLE_INSERT(i, elem, tuple) \</span>
+<a id="__codelineno-47-20" name="__codelineno-47-20" href="#__codelineno-47-20"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-21" name="__codelineno-47-21" href="#__codelineno-47-21"></a><span class="cp">        3, \</span>
+<a id="__codelineno-47-22" name="__codelineno-47-22" href="#__codelineno-47-22"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-23" name="__codelineno-47-23" href="#__codelineno-47-23"></a><span class="cp">            PP_TUPLE_INSERT_PRED, \</span>
+<a id="__codelineno-47-24" name="__codelineno-47-24" href="#__codelineno-47-24"></a><span class="cp">            PP_TUPLE_INSERT_OP, \</span>
+<a id="__codelineno-47-25" name="__codelineno-47-25" href="#__codelineno-47-25"></a><span class="cp">            (0, i, elem, (), tuple) \</span>
+<a id="__codelineno-47-26" name="__codelineno-47-26" href="#__codelineno-47-26"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-27" name="__codelineno-47-27" href="#__codelineno-47-27"></a><span class="cp">    )</span>
+<a id="__codelineno-47-28" name="__codelineno-47-28" href="#__codelineno-47-28"></a><span class="cp">#define PP_TUPLE_INSERT_PRED(args) PP_TUPLE_INSERT_PERD_IMPL args</span>
+<a id="__codelineno-47-29" name="__codelineno-47-29" href="#__codelineno-47-29"></a><span class="cp">#define PP_TUPLE_INSERT_PERD_IMPL(curi, i, elem, ret, tuple) \</span>
+<a id="__codelineno-47-30" name="__codelineno-47-30" href="#__codelineno-47-30"></a><span class="cp">    PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_INC(PP_TUPLE_SIZE(tuple)))</span>
+<a id="__codelineno-47-31" name="__codelineno-47-31" href="#__codelineno-47-31"></a><span class="cp">#define PP_TUPLE_INSERT_OP(args) PP_TUPLE_INSERT_OP_IMPL args</span>
+<a id="__codelineno-47-32" name="__codelineno-47-32" href="#__codelineno-47-32"></a><span class="cp">#define PP_TUPLE_INSERT_OP_IMPL(curi, i, elem, ret, tuple) \</span>
+<a id="__codelineno-47-33" name="__codelineno-47-33" href="#__codelineno-47-33"></a><span class="cp">    ( \</span>
+<a id="__codelineno-47-34" name="__codelineno-47-34" href="#__codelineno-47-34"></a><span class="cp">    PP_IF(PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), PP_INC(curi), curi), \</span>
+<a id="__codelineno-47-35" name="__codelineno-47-35" href="#__codelineno-47-35"></a><span class="cp">    i, elem, \</span>
+<a id="__codelineno-47-36" name="__codelineno-47-36" href="#__codelineno-47-36"></a><span class="cp">    PP_TUPLE_PUSH_BACK(\</span>
+<a id="__codelineno-47-37" name="__codelineno-47-37" href="#__codelineno-47-37"></a><span class="cp">        PP_IF( \</span>
+<a id="__codelineno-47-38" name="__codelineno-47-38" href="#__codelineno-47-38"></a><span class="cp">            PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), i), \</span>
+<a id="__codelineno-47-39" name="__codelineno-47-39" href="#__codelineno-47-39"></a><span class="cp">            PP_TUPLE_ELEM(curi, tuple), elem \</span>
+<a id="__codelineno-47-40" name="__codelineno-47-40" href="#__codelineno-47-40"></a><span class="cp">        ), \</span>
+<a id="__codelineno-47-41" name="__codelineno-47-41" href="#__codelineno-47-41"></a><span class="cp">        ret \</span>
+<a id="__codelineno-47-42" name="__codelineno-47-42" href="#__codelineno-47-42"></a><span class="cp">    ), \</span>
+<a id="__codelineno-47-43" name="__codelineno-47-43" href="#__codelineno-47-43"></a><span class="cp">    tuple \</span>
+<a id="__codelineno-47-44" name="__codelineno-47-44" href="#__codelineno-47-44"></a><span class="cp">    )</span>
+<a id="__codelineno-47-45" name="__codelineno-47-45" href="#__codelineno-47-45"></a>
+<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="c1">// 末尾の要素を削除する</span>
+<a id="__codelineno-47-47" name="__codelineno-47-47" href="#__codelineno-47-47"></a><span class="cp">#define PP_TUPLE_POP_BACK(tuple) \</span>
+<a id="__codelineno-47-48" name="__codelineno-47-48" href="#__codelineno-47-48"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-49" name="__codelineno-47-49" href="#__codelineno-47-49"></a><span class="cp">        1, \</span>
+<a id="__codelineno-47-50" name="__codelineno-47-50" href="#__codelineno-47-50"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-51" name="__codelineno-47-51" href="#__codelineno-47-51"></a><span class="cp">            PP_TUPLE_POP_BACK_PRED, \</span>
+<a id="__codelineno-47-52" name="__codelineno-47-52" href="#__codelineno-47-52"></a><span class="cp">            PP_TUPLE_POP_BACK_OP, \</span>
+<a id="__codelineno-47-53" name="__codelineno-47-53" href="#__codelineno-47-53"></a><span class="cp">            (0, (), tuple) \</span>
+<a id="__codelineno-47-54" name="__codelineno-47-54" href="#__codelineno-47-54"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-55" name="__codelineno-47-55" href="#__codelineno-47-55"></a><span class="cp">    )</span>
+<a id="__codelineno-47-56" name="__codelineno-47-56" href="#__codelineno-47-56"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED(args) PP_TUPLE_POP_BACK_PRED_IMPL args</span>
+<a id="__codelineno-47-57" name="__codelineno-47-57" href="#__codelineno-47-57"></a><span class="cp">#define PP_TUPLE_POP_BACK_PRED_IMPL(curi, ret, tuple) \</span>
+<a id="__codelineno-47-58" name="__codelineno-47-58" href="#__codelineno-47-58"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-59" name="__codelineno-47-59" href="#__codelineno-47-59"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
+<a id="__codelineno-47-60" name="__codelineno-47-60" href="#__codelineno-47-60"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
+<a id="__codelineno-47-61" name="__codelineno-47-61" href="#__codelineno-47-61"></a><span class="cp">        0 \</span>
+<a id="__codelineno-47-62" name="__codelineno-47-62" href="#__codelineno-47-62"></a><span class="cp">    )</span>
+<a id="__codelineno-47-63" name="__codelineno-47-63" href="#__codelineno-47-63"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP(args) PP_TUPLE_POP_BACK_OP_IMPL args</span>
+<a id="__codelineno-47-64" name="__codelineno-47-64" href="#__codelineno-47-64"></a><span class="cp">#define PP_TUPLE_POP_BACK_OP_IMPL(curi, ret, tuple) \</span>
+<a id="__codelineno-47-65" name="__codelineno-47-65" href="#__codelineno-47-65"></a><span class="cp">    (PP_INC(curi), PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), tuple)</span>
+<a id="__codelineno-47-66" name="__codelineno-47-66" href="#__codelineno-47-66"></a>
+<a id="__codelineno-47-67" name="__codelineno-47-67" href="#__codelineno-47-67"></a><span class="n">要素を削除</span>
+<a id="__codelineno-47-68" name="__codelineno-47-68" href="#__codelineno-47-68"></a><span class="cp">#define PP_TUPLE_REMOVE(i, tuple) \</span>
+<a id="__codelineno-47-69" name="__codelineno-47-69" href="#__codelineno-47-69"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
+<a id="__codelineno-47-70" name="__codelineno-47-70" href="#__codelineno-47-70"></a><span class="cp">        2, \</span>
+<a id="__codelineno-47-71" name="__codelineno-47-71" href="#__codelineno-47-71"></a><span class="cp">        PP_AUTO_WHILE( \</span>
+<a id="__codelineno-47-72" name="__codelineno-47-72" href="#__codelineno-47-72"></a><span class="cp">            PP_TUPLE_REMOVE_PRED, \</span>
+<a id="__codelineno-47-73" name="__codelineno-47-73" href="#__codelineno-47-73"></a><span class="cp">            PP_TUPLE_REMOVE_OP, \</span>
+<a id="__codelineno-47-74" name="__codelineno-47-74" href="#__codelineno-47-74"></a><span class="cp">            (0, i, (), tuple) \</span>
+<a id="__codelineno-47-75" name="__codelineno-47-75" href="#__codelineno-47-75"></a><span class="cp">        ) \</span>
+<a id="__codelineno-47-76" name="__codelineno-47-76" href="#__codelineno-47-76"></a><span class="cp">    )</span>
+<a id="__codelineno-47-77" name="__codelineno-47-77" href="#__codelineno-47-77"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED(args) PP_TUPLE_REMOVE_PRED_IMPL args</span>
+<a id="__codelineno-47-78" name="__codelineno-47-78" href="#__codelineno-47-78"></a><span class="cp">#define PP_TUPLE_REMOVE_PRED_IMPL(curi, i, ret, tuple) \</span>
+<a id="__codelineno-47-79" name="__codelineno-47-79" href="#__codelineno-47-79"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-80" name="__codelineno-47-80" href="#__codelineno-47-80"></a><span class="cp">        PP_TUPLE_SIZE(tuple), \</span>
+<a id="__codelineno-47-81" name="__codelineno-47-81" href="#__codelineno-47-81"></a><span class="cp">        PP_NOT_EQUAL(PP_TUPLE_SIZE(ret), PP_DEC(PP_TUPLE_SIZE(tuple))), \</span>
+<a id="__codelineno-47-82" name="__codelineno-47-82" href="#__codelineno-47-82"></a><span class="cp">        0 \</span>
+<a id="__codelineno-47-83" name="__codelineno-47-83" href="#__codelineno-47-83"></a><span class="cp">    )</span>
+<a id="__codelineno-47-84" name="__codelineno-47-84" href="#__codelineno-47-84"></a><span class="cp">#define PP_TUPLE_REMOVE_OP(args) PP_TUPLE_REMOVE_OP_IMPL args</span>
+<a id="__codelineno-47-85" name="__codelineno-47-85" href="#__codelineno-47-85"></a><span class="cp">#define PP_TUPLE_REMOVE_OP_IMPL(curi, i, ret, tuple) \</span>
+<a id="__codelineno-47-86" name="__codelineno-47-86" href="#__codelineno-47-86"></a><span class="cp">    ( \</span>
+<a id="__codelineno-47-87" name="__codelineno-47-87" href="#__codelineno-47-87"></a><span class="cp">    PP_INC(curi), \</span>
+<a id="__codelineno-47-88" name="__codelineno-47-88" href="#__codelineno-47-88"></a><span class="cp">    i, \</span>
+<a id="__codelineno-47-89" name="__codelineno-47-89" href="#__codelineno-47-89"></a><span class="cp">    PP_IF( \</span>
+<a id="__codelineno-47-90" name="__codelineno-47-90" href="#__codelineno-47-90"></a><span class="cp">        PP_NOT_EQUAL(curi, i), \</span>
+<a id="__codelineno-47-91" name="__codelineno-47-91" href="#__codelineno-47-91"></a><span class="cp">        PP_TUPLE_PUSH_BACK(PP_TUPLE_ELEM(curi, tuple), ret), \</span>
+<a id="__codelineno-47-92" name="__codelineno-47-92" href="#__codelineno-47-92"></a><span class="cp">        ret \</span>
+<a id="__codelineno-47-93" name="__codelineno-47-93" href="#__codelineno-47-93"></a><span class="cp">    ), \</span>
+<a id="__codelineno-47-94" name="__codelineno-47-94" href="#__codelineno-47-94"></a><span class="cp">    tuple \</span>
+<a id="__codelineno-47-95" name="__codelineno-47-95" href="#__codelineno-47-95"></a><span class="cp">    )</span>
+<a id="__codelineno-47-96" name="__codelineno-47-96" href="#__codelineno-47-96"></a>
+<a id="__codelineno-47-97" name="__codelineno-47-97" href="#__codelineno-47-97"></a><span class="n">PP_TUPLE_SIZE</span><span class="p">(())</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-47-98" name="__codelineno-47-98" href="#__codelineno-47-98"></a>
-<a id="__codelineno-47-99" name="__codelineno-47-99" href="#__codelineno-47-99"></a><span class="n">PP_TUPLE_SIZE</span><span class="p">(())</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
-<a id="__codelineno-47-100" name="__codelineno-47-100" href="#__codelineno-47-100"></a>
-<a id="__codelineno-47-101" name="__codelineno-47-101" href="#__codelineno-47-101"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (1, 2)</span>
-<a id="__codelineno-47-102" name="__codelineno-47-102" href="#__codelineno-47-102"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">())</span><span class="w">       </span><span class="c1">// -&gt; (2)</span>
+<a id="__codelineno-47-99" name="__codelineno-47-99" href="#__codelineno-47-99"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (1, 2)</span>
+<a id="__codelineno-47-100" name="__codelineno-47-100" href="#__codelineno-47-100"></a><span class="n">PP_TUPLE_PUSH_BACK</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">())</span><span class="w">       </span><span class="c1">// -&gt; (2)</span>
+<a id="__codelineno-47-101" name="__codelineno-47-101" href="#__codelineno-47-101"></a>
+<a id="__codelineno-47-102" name="__codelineno-47-102" href="#__codelineno-47-102"></a><span class="n">PP_TUPLE_INSERT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 2, 3)</span>
 <a id="__codelineno-47-103" name="__codelineno-47-103" href="#__codelineno-47-103"></a>
-<a id="__codelineno-47-104" name="__codelineno-47-104" href="#__codelineno-47-104"></a><span class="n">PP_TUPLE_INSERT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 2, 3)</span>
-<a id="__codelineno-47-105" name="__codelineno-47-105" href="#__codelineno-47-105"></a>
-<a id="__codelineno-47-106" name="__codelineno-47-106" href="#__codelineno-47-106"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">(())</span><span class="w">           </span><span class="c1">// -&gt; ()</span>
-<a id="__codelineno-47-107" name="__codelineno-47-107" href="#__codelineno-47-107"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">))</span><span class="w">          </span><span class="c1">// -&gt; ()</span>
-<a id="__codelineno-47-108" name="__codelineno-47-108" href="#__codelineno-47-108"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; (1, 2)</span>
-<a id="__codelineno-47-109" name="__codelineno-47-109" href="#__codelineno-47-109"></a>
-<a id="__codelineno-47-110" name="__codelineno-47-110" href="#__codelineno-47-110"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 3)</span>
-<a id="__codelineno-47-111" name="__codelineno-47-111" href="#__codelineno-47-111"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (2, 3)</span>
+<a id="__codelineno-47-104" name="__codelineno-47-104" href="#__codelineno-47-104"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">(())</span><span class="w">           </span><span class="c1">// -&gt; ()</span>
+<a id="__codelineno-47-105" name="__codelineno-47-105" href="#__codelineno-47-105"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">))</span><span class="w">          </span><span class="c1">// -&gt; ()</span>
+<a id="__codelineno-47-106" name="__codelineno-47-106" href="#__codelineno-47-106"></a><span class="n">PP_TUPLE_POP_BACK</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; (1, 2)</span>
+<a id="__codelineno-47-107" name="__codelineno-47-107" href="#__codelineno-47-107"></a>
+<a id="__codelineno-47-108" name="__codelineno-47-108" href="#__codelineno-47-108"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 3)</span>
+<a id="__codelineno-47-109" name="__codelineno-47-109" href="#__codelineno-47-109"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (2, 3)</span>
 </code></pre></div>
-<p>ここでは、要素の挿入方法を少し説明しますが、他の要素の削除なども同様の原理で実現されます。<code>PP_TUPLE_INSERT(i, elem, tuple)</code>は、位置<code>i</code>に要素<code>elem</code>を挿入することができます。この操作を行うには、まず位置<code>i</code>より小さい要素をすべて新しい<code>tuple</code>（<code>ret</code>）に<code>PP_TUPLE_PUSH_BACK</code>を使用して移動し、次に位置<code>i</code>に要素<code>elem</code>を挿入し、その後、元の<code>tuple</code>で位置<code>i</code>以上の要素を<code>ret</code>の後ろに移動させます。最終的に<code>ret</code>には、求めていた結果が得られます。</p>
-<h2 id="_29">総括</h2>
-<p>(https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression)BOOST_PP内の<code>REPEAT</code>関連のマクロなどに興味がある方は、自分で情報を調べてみてください。</p>
-<p>マクロプログラムのデバッグは、つらいプロセスですが、次のような方法があります：</p>
-<p><code>-P -E</code>オプションを使用して、前処理結果を出力します。
-前述の私が修正した <code>clang</code> のバージョンを詳細に調査しました。
-複雑なマクロを分解して、中間マクロの展開結果を表示します。
-関係のないヘッダーファイルやマクロを非表示にします。
-与规划的过程是的要理解宏扩展的步骤，一旦熟悉了宏扩展，调节程序的效率也会提高。</p>
-<p>本文中のマクロは、私が原理を理解した後に再実装したものです。一部のマクロは、Boostの実装や参照記事から着想を得ています。もし間違いがあれば、いつでも指摘してください。また、関連する問題について議論したい場合は、お気軽にお知らせください。</p>
-<p>こちらに本文のコードがすべてあります：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">ダウンロード</a><a href="https://godbolt.org/z/coWvc5Pse">オンラインデモ</a>I'm sorry, but there is nothing to translate in the text you provided.</p>
-<h2 id="_30">引用</h2>
+<p>ここでは、要素の挿入方法について少し説明します。要素の削除など他の操作も同様の原理で実装されています。<code>PP_TUPLE_INSERT(i, elem, tuple)</code> は、位置 <code>i</code> に要素 <code>elem</code> を挿入することができます。この操作を完了するには、位置 <code>i</code> よりも小さい位置にある要素をまずすべて、<code>PP_TUPLE_PUSH_BACK</code> を使用して新しい <code>tuple</code> に移動します（<code>ret</code>）。その後、位置 <code>i</code> に要素 <code>elem</code> を挿入し、最後に元の <code>tuple</code> の位置が <code>i</code> 以上である要素を <code>ret</code> の後ろに移動させます。これで、<code>ret</code> には目的の結果が得られます。</p>
+<h2 id="_27">小结</h2>
+<p>本文の目的は、C/C++のマクロプログラミングの原理と基本的な実装を明確に説明することです。私自身の理解と認識を記録しつつ、他の人々にとって何らかの啓発や解惑をもたらせることを望んでいます。注意が必要なのは、この記事のボリュームは少し長いですが、マクロプログラミングに関するいくつかのテクニックや使用法には触れていない点です。例えば、CHAOS_PPが提唱する<a href="https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression">遅延展開に基づく再帰呼び出し方法</a>BOOST_PP の <code>REPEAT</code> に関連するマクロなどについて、興味がある方は自分で資料を調べてみてください。</p>
+<p>宏編程のデバッグは辛いプロセスですが、私たちは：</p>
 <ul>
-<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a>
-*<a href="https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art">C/C++ Macro Programming Art</a></li>
+<li><code>-P -E</code> オプションを使用してプリプロセッサ結果を出力します；</li>
+<li>前述の自分が修正した <code>clang</code> バージョンを使って、展開プロセスを詳しく研究する。
+複雑なマクロを分解して、中間マクロの展開結果を確認してください。
+関連のないヘッダーファイルとマクロを削除します。
+その後はマクロの展開プロセスを想像してみる必要があります。マクロの展開に慣れると、デバッグの効率も向上します。</li>
+</ul>
+<p>本文中のマクロは、私自身が原理を理解した上で再実装したものであり、一部のマクロは <code>Boost</code> の実装や引用されている記事を参考にしています。誤りがあればいつでも指摘していただけると幸いですし、関連する問題についてのディスカッションも歓迎します。</p>
+<p>本文的代码全部都在这里：<a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">ダウンロード</a>，<a href="https://godbolt.org/z/coWvc5Pse">オンラインデモ</a>I'm sorry, but there is no text to translate. If you provide me with the content you need translated, I will be happy to assist you.</p>
+<h2 id="_28">引用</h2>
+<ul>
+<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a></li>
+<li><a href="https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art">C/C++ マクロプログラミングの芸術</a></li>
 </ul>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -3234,7 +3241,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>この投稿はChatGPTを使用して翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遗漏之处。 </p>
+<p>この投稿は ChatGPT を使って翻訳されました。ご意見は<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遗漏之处。 </p>
 </blockquote></div>
 
 
@@ -3258,7 +3265,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -3303,7 +3310,7 @@
       <nav class="md-footer__inner md-grid" aria-label="フッター" >
         
           
-          <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-footer__link md-footer__link--prev" aria-label="前: C/C++のコマンドライン引数の処理についてまとめました。">
+          <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-footer__link md-footer__link--prev" aria-label="前: C/C++ のコマンドライン引数処理のまとめ">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3313,20 +3320,20 @@
                 前
               </span>
               <div class="md-ellipsis">
-                C/C++のコマンドライン引数の処理についてまとめました。
+                C/C++ のコマンドライン引数処理のまとめ
               </div>
             </div>
           </a>
         
         
           
-          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="次: Windows対応のメモリーリーク検出ツールの作成">
+          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="次: Windows上のメモリリーク検出ツールを作成する">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 次
               </span>
               <div class="md-ellipsis">
-                Windows対応のメモリーリーク検出ツールの作成
+                Windows上のメモリリーク検出ツールを作成する
               </div>
             </div>
             <div class="md-footer__button md-icon">

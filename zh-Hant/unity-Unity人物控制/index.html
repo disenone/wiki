@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="人物的動作控制是遊戲裡面很重要的一部分，操作性強的遊戲能夠很好的吸引玩家。這裡我就嘗試做一個簡單的人物操作控制，人物能夠完成基本的移動，包括行走，跳躍。">
+        <meta name="description" content="人物的動作控制是在遊戲中非常重要的一部分，操作性強的遊戲能夠很好地吸引玩家。在這裡，我嘗試做一個簡單的人物操作控制，人物能夠完成基本的移動，包括行走和跳躍。">
       
       
         <meta name="author" content="Disenone">
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -971,7 +971,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -992,7 +992,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1055,7 +1055,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1076,7 +1076,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1183,7 +1183,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1204,7 +1204,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1327,7 +1327,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1469,22 +1469,19 @@
 
 <div><p><meta property="og:title" content="Unity人物控制"></p>
 <p><a class="glightbox" href="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif"></a></p>
-<p>人物的動作控制是遊戲中非常重要的一部分，具有良好操控性的遊戲能夠吸引玩家。在這裡，我嘗試著設計一個簡單的人物操作控制系統，使人物能夠基本移動，包括行走和跳躍。</p>
+<p>人物的動作控制是遊戲中非常重要的一部分，具有良好操作性的遊戲能夠有效吸引玩家。這裡我嘗試做一個簡單的人物操作控制，讓角色能夠完成基本的移動，包括行走和跳躍。</p>
 <h2 id="_1">需求</h2>
-<p>先來考慮一下，我們的角色操作具體的需求：</p>
-<p>行走，能夠在剛體的表面行走，由按鍵上下左右輸入來控制，暫不考慮加速減速過程。
-行走的速度在不同方向上可以不同，例如後退應該比前進慢
-跳躍，由跳按鍵控制，角色以一定的初始速度從上方離開地面，然後慢慢回落到地面。</p>
-<p>大致的想法就是：透過速度來描述人物的移動，可以分別計算每個方向上的速度分量，最後再將速度乘以時間就是人物的位置偏移了。</p>
+<p>請先思考一下，我們對角色操作的具體需求：</p>
+<p>行走，能在剛體的表面行走，由按鍵上下左右輸入來控制，暫不考慮加速減速過程。
+行走的速度在不同方向上可以不同，例如後退應該比前進慢。
+跳躍，由跳按鈕控制，人物以一定初始速度從上離開地面，並慢慢回落到地面。</p>
+<p>大致的想法就是：使用速度來描述角色的移動，可以分別計算速度在每個方向上的分量，最後將速度乘以時間就能獲得角色的位置偏移。</p>
 <h2 id="_2">人物組件設置</h2>
-<p>在為人物撰寫腳本以便操作控制之前，需要先進行一些準備工作，將人物相關的元件先配置好：</p>
-<p>為了控制角色並使其在物理上表現出一定的堅韌性，需要給角色添加一個「角色控制器組件」。
-為了讓結構更加清晰，先將有關角色操作輸入的程式碼分開，讀取並初步處理輸入後將結果傳遞給角色控制器，將這部分腳本命名為<code>MyThirdPersonInput.cs</code>。
-將這些文字翻譯成繁體中文：</p>
-<ol>
-<li>負責控制角色移動的腳本被命名為<code>MyThirdPersonController.cs</code></li>
-</ol>
-<p>配置後的結果是這樣：
+<p>在為角色撰寫腳本以進行操作控制之前，需要進行一些準備工作，先配置好角色相關的組件：</p>
+<p>為了控制人物並使其在物理層面展現一些剛性特性，需要為人物添加一個「Character Controller Component」。
+為了讓結構更清晰，先將有關人物操作的輸入分離出來，讀取輸入並進行初步處理後傳遞給人物控制器，將這部分的腳本命名為<code>MyThirdPersonInput.cs</code>；
+將該腳本命名為<code>MyThirdPersonController.cs</code>，這是用來真正控制角色移動的。</p>
+<p>配置完成後的結果是這樣：
 <a class="glightbox" href="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-15-unity-3rdperson-control0/setting.png"></a></p>
 <h2 id="_3">輸入</h2>
 <p>輸入就是上下左右和跳躍，方向需要做一個歸一化的處理：</p>
@@ -1502,8 +1499,8 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">person</span><span class="p">.</span><span class="n">inputJump</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Input</span><span class="p">.</span><span class="n">GetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">);</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="err">````</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="err">##描述移動和跳躍</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="err">我們需要使用一些變數來描述人物的動作，例如移動速度，跳躍速度等，移動用下面變數描述：</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="err">##描述移动和跳跃</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="err">我哋需要一啲變量嚟描述人物嘅動作，例如移動速度，跳躍速度等等，移動係用以下變量描述：</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="err">```</span><span class="n">c</span><span class="err">#</span><span class="w">    </span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="na">[System.Serializable]</span>
@@ -1515,7 +1512,7 @@
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">}</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="k">public</span><span class="w"> </span><span class="n">Movement</span><span class="w"> </span><span class="n">movement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Movement</span><span class="p">();</span>
 </code></pre></div>
-<p><code>[System.Serializable]</code>用來讓這些參數在Inspector上顯示出來。跳躍的描述如下：</p>
+<p><code>[System.Serializable]</code>是為了讓這些參數顯示在檢視器上。跳躍的描述如下：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="na">[System.Serializable]</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Jumping</span><span class="w"> </span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
@@ -1528,7 +1525,7 @@
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">public</span><span class="w"> </span><span class="n">Jumping</span><span class="w"> </span><span class="n">jumping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Jumping</span><span class="p">();</span>
 </code></pre></div>
 <h2 id="_4">分解速度</h2>
-<p>為了方便描述不同方向的移動，我們將方向分成三個分量：前後、左右、上下，並分別予以求解。</p>
+<p>為了更方便描述不同方向的移動，將方向分成三個分量：前後、左右、上下，分別求解。</p>
 <p>前後速度不同，根據數值的正負判斷：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">velocity</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">velocity</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">movement</span><span class="p">.</span><span class="n">forwardSpeed</span><span class="p">;</span>
@@ -1538,11 +1535,17 @@
 <p>左右速度一致：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">velocity</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inputMoveDirction</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">movement</span><span class="p">.</span><span class="n">sidewardSpeed</span><span class="p">;</span>
 </code></pre></div>
-<p>跳躍麻煩一點，要判斷當前人物的狀態：</p>
-<p>如果已經在空中，就使用重力來計算速度。
-如果在地上：
-- 如果按下跳躍鍵，速度為跳躍初始速度
-- - 否則y方向速度為0</p>
+<p>跳躍有點困難，需要判斷當前角色的狀態：</p>
+<ul>
+<li>如果已經在空中，用重力計算速度</li>
+<li>如果在地上：</li>
+<li>
+<ul>
+<li>如果按下跳躍鍵，速度為跳躍初始速度
+否則 y 方向速度為0。</li>
+</ul>
+</li>
+</ul>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isOnGround</span><span class="p">)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">yVelocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="n">Max</span><span class="p">(</span><span class="n">yVelocity</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">jumping</span><span class="p">.</span><span class="n">gravity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">,</span><span class="w"> </span>
@@ -1559,13 +1562,13 @@
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="_5">更新人物位置</h2>
-<p>計算出來的速度假定為從本幀開始的速度，那麼本幀計算位置的速度應該是前一幀計算出來的，因此在更新速度前，先計算人物的新位置：</p>
+<p>將計算出的速度假設為從本幀開始的速度，那麼本幀計算位置的速度應該是前一幀計算出的，因此在更新速度前，先計算角色的新位置：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// move to new position</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">var</span><span class="w"> </span><span class="n">collisionFlag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">controller</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="n">velocity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">);</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">isOnGround</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">collisionFlag</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">CollisionFlags</span><span class="p">.</span><span class="n">CollidedBelow</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
-<p><code>controller.Move</code>會回傳<code>CollisionFlags</code>來表示碰撞的狀態，藉由這個狀態就可以知道人物是不是站在地面上。</p>
-<p>完整程式碼：</p>
+<p><code>controller.Move</code> 會返回 <code>CollisionFlags</code> 來表示碰撞的狀態，通過這個狀態就可以知道人物是不是站在地面上。</p>
+<p>完整代碼：</p>
 <p>MyThirdPersonInput.cs:</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
@@ -1719,7 +1722,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此貼文是透過 ChatGPT 翻譯的，如有任何<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此帖子是使用 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1759,7 +1762,7 @@
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Unity第三人称相机构建(下)">
+          <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Unity第三人稱相機構建(下)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1769,20 +1772,20 @@
                 上一頁
               </span>
               <div class="md-ellipsis">
-                Unity第三人称相机构建(下)
+                Unity第三人稱相機構建(下)
               </div>
             </div>
           </a>
         
         
           
-          <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-footer__link md-footer__link--next" aria-label="下一頁: Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）">
+          <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 使用Unity繪製深度圖和邊緣檢測。">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一頁
               </span>
               <div class="md-ellipsis">
-                Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+                使用Unity繪製深度圖和邊緣檢測。
               </div>
             </div>
             <div class="md-footer__button md-icon">

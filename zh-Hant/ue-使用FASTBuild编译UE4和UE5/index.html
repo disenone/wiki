@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="UE 原生支持 FASTBuild 的程度不太完善，為了讓 UE4 和 UE5 完美支持 FASTBuild，我們需要進行一些設定和原始碼修改，以下將一一為您解說。">
+        <meta name="description" content="UE 原生對 FASTBuild 支援不太完善，為了讓 UE4 和 UE5 完美支援 FASTBuild，我們需要做一些配置和源碼修改，下面為你一一道來。">
       
       
         <meta name="author" content="Disenone">
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -1043,17 +1043,17 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      提升設定
+      進階配置
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="提升設定">
+    <nav class="md-nav" aria-label="進階配置">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#ue_1" class="md-nav__link">
     <span class="md-ellipsis">
-      支援較舊的 UE 版本
+      支持更舊版本的 UE
     </span>
   </a>
   
@@ -1089,7 +1089,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml" class="md-nav__link">
     <span class="md-ellipsis">
-      建置設定檔案 BuildConfiguration.xml 追加設定
+      BuildConfiguration.xml 進階配置
     </span>
   </a>
   
@@ -1120,7 +1120,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1141,7 +1141,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1204,7 +1204,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1225,7 +1225,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1330,7 +1330,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1351,7 +1351,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1393,7 +1393,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1517,17 +1517,17 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      提升設定
+      進階配置
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="提升設定">
+    <nav class="md-nav" aria-label="進階配置">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#ue_1" class="md-nav__link">
     <span class="md-ellipsis">
-      支援較舊的 UE 版本
+      支持更舊版本的 UE
     </span>
   </a>
   
@@ -1563,7 +1563,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml" class="md-nav__link">
     <span class="md-ellipsis">
-      建置設定檔案 BuildConfiguration.xml 追加設定
+      BuildConfiguration.xml 進階配置
     </span>
   </a>
   
@@ -1601,18 +1601,18 @@
 
 <div><p><meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5"></p>
 <blockquote>
-<p>本文方法經過測試支持UE4.27 - UE5.3，其他版本未經測試，建議可嘗試。</p>
+<p>本文方法經過測試支援 UE4.27 - UE5.3，其他版本尚未測試，您可以嘗試一下。</p>
 </blockquote>
 <h2 id="_1">前言</h2>
-<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>FASTBuild是一個免費開源的分散式編譯工具，UE本身的編譯非常耗時，如果能夠使用FASTBuild，將會大大減少所需時間。</p>
-<p>UE 從 4.x 版本開始就支援 FASTBuild 了，官方原始碼已經包含了經過修改過的 FASTBuild 工具，基於 FASTBuild 0.99 版本，位置在 <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>，UE5.3 也同樣使用這個版本。這已經是相當舊的版本了，在本文創建時，FASTBuild 官方最新版本為 1.11，帶來了更多新功能支持和 bug 修復。本文重點記錄如何使用 1.11 版本同時支援 UE4 和 UE5。</p>
+<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>是一個免費開源的分佈式編譯工具，UE 本身編譯比較耗時，如果可以使用 FASTBuild，能夠大大減少耗時。</p>
+<p>UE 從 4.x 開始能夠支持 FASTBuild，官方原始碼內建了經過改良的 FASTBuild 工具，基於 FASTBuild 0.99 版本，位於 <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>，UE5.3 同樣使用這個版本。這已經是相當久以前的版本了，截至本文建立時間，FASTBuild 官方最新版本是 1.11，具備更多新功能支援和錯誤修復。本文著重記錄如何使用 1.11 版本同時支援 UE4 和 UE5。</p>
 <h2 id="_2">簡易配置</h2>
-<p>為了達成目標，我們需要對 FASTBuild 1.11 和 UE 源碼做一些修改。在這裡，事實上我已經完成所有修改，因此我們可以直接使用我修改過的版本。</p>
-<p>FASTBuild 下載我提交的 <a href="https://github.com/disenone/fastbuild/releases">最新版本</a>裡面的執行檔 FBuild.exe、FBuildCoordinator.exe、FBuildWorker.exe。為了清晰表達，下面把使用 FBuild.exe 來進行編程的機器叫做<code>本機</code>，其他提供 CPU 參與編輯的遠程機器叫做<code>遠程機</code>。</p>
+<p>為了達到目標，我們需要對FASTBuild 1.11和UE源碼進行一些修改。其實，這些修改我已經完成了，所以我們可以直接使用我修改過的版本。</p>
+<p>FASTBuild 下載我提交的 <a href="https://github.com/disenone/fastbuild/releases">最新版本</a>裡面的執行檔 FBuild.exe, FBuildCoordinator.exe, FBuildWorker.exe。為了清晰表達，下面把使用 FBuild.exe 來進行編程的機器叫做<code>本機</code>，其他提供 CPU 參與編輯的遠端機器叫做<code>遠端機</code>。</p>
 <h3 id="_3">本機配置</h3>
-<p>將 FBuild.exe 的檔案路徑加入系統環境變數 Path 中，確保在 cmd 中可以直接執行 FBuild.exe。</p>
-<p>設置 Cache 共享目錄（若不需要生成 Cache，則可不設置）：將一個空目錄設為共享路徑，確保遠端機器能夠訪問。</p>
-<p>打開本機 UE4 / UE5 的源碼項目，修改編譯配置文件 Engine\Saved\UnrealBuildTool\BuildConfiguration.xml 如下：</p>
+<p>將 FBuild.exe 所在目錄添加到系統環境變量 Path 中，以確保可以在 cmd 中直接執行 FBuild.exe。</p>
+<p>配置 Cache 共享目錄（如果不需要生成 Cache 的話，可以不配置）：把一個空目錄設置成共享路徑，並確認遠端機可以訪問。</p>
+<p>開啟本地的 UE4 / UE5 源碼項目，並修改編譯配置文件 Engine\Saved\UnrealBuildTool\BuildConfiguration.xml 如下：</p>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
@@ -1626,20 +1626,20 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">&lt;/Configuration&gt;</span>
 </code></pre></div>
-<p>請執行先前下載的 FBuildCoordinator.exe 檔案。</p>
+<p>在執行本機之前，請下載 FBuildCoordinator.exe。</p>
 <h3 id="_4">遠程機配置</h3>
-<p>同樣配置 Cache，只是 ip 需要指定到本機 ip，這裡假定為 192.168.1.100.</p>
+<p>同樣配置 Cache，只是 ip 需要指定到本機 ip，這裡假定為 192.168.1.100</p>
 <ul>
 <li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
 <li>FASTBUILD_CACHE_MODE: rw</li>
 </ul>
-<p>同樣配備協調器 IP</p>
+<p>同樣配置 協調器 IP</p>
 <ul>
 <li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
 </ul>
-<p>請見下圖所示的配置。</p>
+<p>配置完成如下圖</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-fastbuild/remote_vars.png"></a></p>
-<p>在遠端機器上運行 FBuildWorker.exe，如果設置成功，可以看到本機的 FBuildCoordinator.exe 會印出日誌（這裡 192.168.1.101 是遠端機器的 IP）：</p>
+<p>在遠端機器上運行 FBuildWorker.exe，若設定成功，可以在本機的 FBuildCoordinator.exe 上看到日誌輸出（這裡的 192.168.1.101 為遠端機器的 IP）：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>FBuildCoordinator - v1.11-UE
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[2023-12-01-20:06:38] Listening on port 31392
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[2023-12-01-20:06:38] current [0] workers: []
@@ -1647,7 +1647,7 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 </code></pre></div>
 <h3 id="ue">測試 UE 編譯</h3>
-<p>使用 VisualStudio 開啟 UE 源碼專案的sln檔案，選擇一個 C++ 專案，然後按下 Rebuild。如果配置正確，便可看到類似以下的日誌信息。</p>
+<p>用 VisualStudio 打開 UE 源碼工程 sln，選擇一個 C++ 的項目，點擊 Rebuild。如果配置正常，可以看到類似如下的日誌</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>11&gt;FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>11&gt;FBuild Executable: 'd:\libs\FASTBuild\bin\FBuild.exe
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>11&gt;FBuild Coordinator: '127.0.0.1
@@ -1661,53 +1661,57 @@
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>11&gt;Worker list received: 1 workers
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11&gt;Distributed Compilation : 1 Workers in pool '127.0.0.1'
 </code></pre></div>
-<p>FASTBuild 能夠找到遠端機器的 IP，並開始向遠端機器發送編譯任務。在遠端機器的 FBuildWorker 上也能看到目前正在執行的編譯任務。</p>
-<h2 id="_5">提升設定</h2>
-<h3 id="ue_1">支援較舊的 UE 版本</h3>
-<p>如果你發現自己的 UE 沒有 FASTBuild 工具（Engine\Extras\ThirdPartyNotUE\FASTBuild），並且專案 UnrealBuildTool 裡面沒有 FASTBuild.cs 檔案，那麼很大機率是你的 UE 版本還不支持 FASTBuild。</p>
-<p>你需要參考UE4.27的原始碼，同時建立一個類似的FASTBuild.cs檔案，並進行其他相關程式碼的修改。這裡不做詳細說明。</p>
+<p>FASTBuild 能找到遠程機的 IP，並開始給遠程機發送編譯。在遠程機的 FBuildWorker 上也能看到當前有編譯任務在執行。</p>
+<h2 id="_5">進階配置</h2>
+<h3 id="ue_1">支持更舊版本的 UE</h3>
+<p>如果你發現自己的 UE 沒有 FASTBuild 工具（Engine\Extras\ThirdPartyNotUE\FASTBuild），並且項目 UnrealBuildTool 裡面沒有 FASTBuild.cs 文件，那麼很大概率是你的 UE 版本還不支持 FASTBuild。</p>
+<p>那麼你需要參考 UE4.27 的源碼，也創建一個類似的 FASTBuild.cs，並補上其他相關代碼的修改，這裡不詳述。</p>
 <h3 id="fastbuild">編譯自己的 FASTBuild</h3>
 <p>如果你對 FASTBuild 本身也感興趣，或者想要做一些修改，可以嘗試用 FASTBuild 來編譯 FASTBuild。</p>
 <ul>
-<li>您可以下載我的<a href="https://github.com/disenone/fastbuild/releases">最新原始碼</a>請稍等片刻，馬上為您翻譯。
-請修改 External\SDK\VisualStudio\VS2019.bff，將 .VS2019_BasePath 和 .VS2019_Version 修改為您本機對應的內容，Version 可以在 .VS2019_BasePath\Tools\MSVC 目錄中找到，例如
+<li>下載我的 <a href="https://github.com/disenone/fastbuild/releases">最新源碼</a>，並解壓</li>
+<li>修改 External\SDK\VisualStudio\VS2019.bff，把 .VS2019_BasePath 和 .VS2019_Version 修改成你本機對應的內容，Version 可以在 .VS2019_BasePath\Tools\MSVC 目錄下面查看，例如
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // &lt;-- Set path here
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.VS2019_Version         = '14.29.30133' // &lt;-- Set version here
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>.VS2019_MSC_VER         = '1929' // &lt;-- Set MSC_VER here
 </code></pre></div></li>
 </ul>
-<p>修改 External\SDK\Windows\Windows10SDK.bff 的 .Windows10_SDKBasePath 和 .Windows10_SDKVersion，版本可以在 .Windows10_SDKBasePath/bin 里面看：
-    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
+<ul>
+<li>修改 External\SDK\Windows\Windows10SDK.bff 的 .Windows10_SDKBasePath 和 .Windows10_SDKVersion，版本可以在 .Windows10_SDKBasePath/bin 裡面看：
+    <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
-</code></pre></div>
-<p>請修改 External\SDK\Clang\Windows\Clang11.bff 中的 .Clang11_BasePath 和 .Clang11_Version，路徑位於 .VS2019_BasePath\Tools\Tools/LLVM/x64。
-    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
+</code></pre></div></li>
+</ul>
+<ul>
+<li>修改 External\SDK\Clang\Windows\Clang11.bff 的 .Clang11_BasePath 和 .Clang11_Version，路徑在 .VS2019_BasePath\Tools\Tools/LLVM/x64
+    <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = '12.x.x'
-</code></pre></div>
-<p>進入 Code 目錄，在 cmd 執行 <code>FBuild.exe All-x64-Release</code>，如果配置正常，可以看到編譯成功，可以在 tmp\x64-Release\Tools\FBuild\FBuild 看到 FBuild.exe。</p>
-<p>使用<code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code>命令可啟用分佈式編譯。</p>
+</code></pre></div></li>
+</ul>
+<p>進入 Code 目錄，透過 cmd 執行 <code>FBuild.exe All-x64-Release</code>。如果配置正常，將看到編譯成功的訊息，並且在 tmp\x64-Release\Tools\FBuild\FBuild 資料夾中會看到 FBuild.exe。</p>
+<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> 可以啟動分布式編譯。</p>
 <h3 id="fbuild">FBuild 更多選項</h3>
-<p>我提供的 FBuild 本身支持以下常用的选項：</p>
+<p>我提供的FBuild本身支持以下常用的選項：</p>
 <ul>
 <li>coordinator: 指定 Coordinator IP 地址（可以覆蓋系統環境變數的值）</li>
-<li>brokerage: 指定 Brokerage 地址（可以覆蓋系統環境變量的值）</li>
-<li>nocache: 強制不使用快取</li>
-<li>dist：啟用分散式編譯</li>
-<li>forceremote: 強制在遠程機編譯</li>
-<li>摘要: 編輯完成後輸出統計報告</li>
+<li>brokerage: 指定 Brokerage 地址（可以覆蓋系統環境變量的值）
+nocache：強制不使用快取</li>
+<li>dist：開啟分佈式編譯</li>
+<li>forceremote：強制在遠程機編譯</li>
+<li>summary: 編輯結束後輸出統計報告</li>
 </ul>
-<p>請稍等，您可以執行 <code>FBuild.exe -help</code> 以查看更多選項。</p>
-<p>FBuildWorker常用的選項有：</p>
+<p>等等，您可以运行 <code>FBuild.exe -help</code> 来查看更多选项。</p>
+<p>FBuildWorker常見的選項有：</p>
 <ul>
-<li>coordinator: 指定協調者 IP 地址（可以覆蓋系統環境變量的值）</li>
-<li>brokerage: 指定 Brokerage 地址（可以覆蓋系統環境變量的值）</li>
-<li>nocache: 強制不使用快取</li>
+<li>coordinator: 指定協調器 Coordinator IP 地址（可以覆蓋系統環境變數的值）</li>
+<li>brokerage: 指定經紀商地址（可以覆蓋系統環境變數的值）</li>
+<li>nocache：強制不使用快取</li>
 <li>cpus: 指定分配多少個核心參與編譯</li>
 </ul>
-<p>可以運行 <code>FBuildWorder.exe -help</code> 以查看更多選項。</p>
+<p>運行 <code>FBuildWorder.exe -help</code> 可以查看更多選項。</p>
 <h3 id="ue-fastbuildcs">修改 UE 自帶的 FASTBuild.cs</h3>
-<p>UE 自帶的 FASTBuild.cs 並沒有很好的處理系統環境變量，跟 BuildConfiguration.xml 指定的參數的關係，很多參數是優先讀取了系統環境變量，這顯然跟 BuildConfiguration.xml 的使用邏輯是相反的。</p>
-<p>為此，可以將相關的程式碼修改如下，這裡以 UE5.3 為例：</p>
+<p>UE 自帶的 FASTBuild.cs 並沒有很好的處理系統環境變數，跟 BuildConfiguration.xml 指定的參數的關係，很多參數是優先讀取了系統環境變數，這顯然跟 BuildConfiguration.xml 的使用邏輯是相反的。</p>
+<p>為此，可以將相關的程式碼修改為這樣，這裡以UE5.3為例：</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">private</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ExecuteBffFile</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">BffFilePath</span><span class="p">,</span><span class="w"> </span><span class="n">ILogger</span><span class="w"> </span><span class="n">Logger</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
@@ -1780,19 +1784,19 @@
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="p">...</span>
 </code></pre></div>
-<h3 id="buildconfigurationxml">建置設定檔案 BuildConfiguration.xml 追加設定</h3>
+<h3 id="buildconfigurationxml">BuildConfiguration.xml 進階配置</h3>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&lt;ProjectFileGenerator&gt;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cm">&lt;!-- 指定 Visual Studio 版本 --&gt;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cm">&lt;!-- 指定vs版本 --&gt;</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="nt">&lt;Format&gt;</span>VisualStudio2022<span class="nt">&lt;/Format&gt;</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">&lt;/ProjectFileGenerator&gt;</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="cm">&lt;!-- 啟用 FASTBuild --&gt;</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>指定本機參與編譯的<span class="w"> </span>CPU<span class="w"> </span>核心數。
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>指定本機參與編譯的<span class="w"> </span>CPU<span class="w"> </span>核數
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">&lt;MaxParallelActions&gt;</span>12<span class="nt">&lt;/MaxParallelActions&gt;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- 關閉 Incredibuild --&gt;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- 關閉Incredibuild --&gt;</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="nt">&lt;bAllowXGE&gt;</span>false<span class="nt">&lt;/bAllowXGE&gt;</span>
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
@@ -1800,17 +1804,17 @@
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">        </span><span class="nt">&lt;FBuildExecutablePath&gt;</span>d:\libs\FASTBuild\bin\FBuild.exe<span class="nt">&lt;/FBuildExecutablePath&gt;</span>
 <a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="cm">&lt;!-- 啟用分散式編譯 --&gt;</span>
 <a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="nt">&lt;bEnableDistribution&gt;</span>true<span class="nt">&lt;/bEnableDistribution&gt;</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- 指定經紀商路徑 --&gt;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- 指定經紀公司路徑 --&gt;</span>
 <a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">        </span><span class="nt">&lt;FBuildBrokeragePath&gt;</span>\\127.0.0.1\Brokerage\<span class="nt">&lt;/FBuildBrokeragePath&gt;</span>
 <a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="cm">&lt;!-- 指定快取路徑 --&gt;</span>
 <a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
 <a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="cm">&lt;!-- 啟用快取 --&gt;</span>
 <a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- 緩存的讀寫權限 Read/Write/ReadWrite --&gt;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- 快取的讀寫權限 Read/Write/ReadWrite --&gt;</span>
 <a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
 <a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- 指定協調器 IP --&gt;</span>
 <a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- 強制遠端編譯 --&gt;</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">        </span><span class="cm">&lt;!-- 強制遠程編譯 --&gt;</span>
 <a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
 <a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="nt">&lt;/Configuration&gt;</span>
@@ -1840,7 +1844,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此文是由 ChatGPT 翻譯，請在 <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此帖文乃透過 ChatGPT 翻譯，煩請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>中指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1897,13 +1901,13 @@
         
         
           
-          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 透過插件原始碼導入UE插件">
+          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="下一頁: UE 透過插件源碼添加插件">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一頁
               </span>
               <div class="md-ellipsis">
-                透過插件原始碼導入UE插件
+                UE 透過插件源碼添加插件
               </div>
             </div>
             <div class="md-footer__button md-icon">

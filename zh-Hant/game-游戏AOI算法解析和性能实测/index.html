@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="本文討論九宮格和十字鏈兩種演算法，並給出兩種演算法的實測效能分析，讓你用起來心中有數，遇事不慌。">
+        <meta name="description" content="本文討論九宮格和十字鏈兩種演算法，並給出兩種演算法的實測性能分析，讓你使用時心中有數，遇事不慌。">
       
       
         <meta name="author" content="Disenone">
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -902,7 +902,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      序言
+      引子
     </span>
   </a>
   
@@ -1096,7 +1096,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1117,7 +1117,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1180,7 +1180,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1201,7 +1201,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1306,7 +1306,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1327,7 +1327,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1369,7 +1369,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1442,7 +1442,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      序言
+      引子
     </span>
   </a>
   
@@ -1552,24 +1552,24 @@
   <h1>遊戲 AOI 演算法解析和性能實測</h1>
 
 <div><p><meta property="og:title" content="游戏 AOI 算法解析和性能实测"></p>
-<h3 id="_1">序言</h3>
-<p>在多人線上遊戲中，AOI（Area Of Interest，興趣區域）是一個基本的功能，玩家需要接收進入其視野範圍內的其他玩家或實體（Entity）的信息。計算玩家視野範圍內存在哪些實體、哪些實體進入或離開視野的演算法，我們通常稱之為AOI算法。</p>
-<p>本文探討九宮格和十字鏈兩種<code>AOI</code>演算法，並提供兩種演算法的實測效能分析，讓您在應用時有明確的概念，處事不慌。</p>
+<h3 id="_1">引子</h3>
+<p><code>AOI</code> (關注區域) 在多人線上遊戲中是一個非常基本的功能，玩家需要接收進入視野範圍內的其他玩家或實體 (Entity) 的資訊。計算玩家視野範圍內存在哪些實體，以及有哪些實體進入或離開視野的算法，我們一般稱之為 <code>AOI</code> 算法。</p>
+<p>本文討論九宮格和十字鏈兩種 <code>AOI</code> 算法，並給出兩種算法的實測性能分析，讓你用起來心中有數，遇事不慌。</p>
 <p>文中會提到玩家和實體兩種詞，實體是遊戲中物體的概念，玩家是擁有 AOI 的實體。</p>
-<p>您可以在這裡找到文中的程式碼：<a href="https://github.com/disenone/AoiTesting">AoiTesting</a>。</p>
+<p>文中的程式碼可以在這裡找到：<a href="https://github.com/disenone/AoiTesting">AoiTesting</a>。</p>
 <h3 id="_2">九宮格</h3>
-<p>所謂九宮格，就是將場景中所有實體的位置按照格子劃分，例如劃分成邊長 200 的正方形。要找出中心玩家 AOI 範圍內的其他實體，就將這個範圍內涉及到的格子內的玩家都進行一次比較。</p>
+<p>九宮格是指將場景中所有實體的位置劃分為網格，例如將其劃分為邊長為200的正方形。要找出中心玩家AOI範圍內的其他實體，就必須比對這個範圍內涉及到的所有網格內的玩家。</p>
 <p>例如場景每 100 毫秒會 Tick 一次，在 Tick 中我們可以這樣更新玩家的 AOI：</p>
 <p>以玩家位置為中心，AOI 半徑計算涉及到的格子集合
-對格子集合中的實體逐一計算與玩家的距離。
-* 小於 AOI 半徑的實體集合將成為玩家的新 AOI。</p>
-<p>九宮格算法做起來很簡單，算法用幾句話就能描述清楚了，具體的性能分析我們留到後面，先來看看十字鏈表算法。</p>
+對格子集合中的實體逐個計算跟玩家的距離
+* 距離小於 AOI 半徑的實體集合則是玩家的新 AOI</p>
+<p>九宮格演算法做起來很簡單，演算法用幾句話就能描述清楚了，具體的性能分析我們留到後面，先來看看十字鏈表演算法。</p>
 <h3 id="_3">十字鏈表</h3>
-<p>對於 3D 遊戲，一般而言我們會分別建立有序的 X 和 Z 軸座標鏈表，每個實體都在鏈表上有一個節點，儲存該座標軸的值，並按值递增的順序來排列。然而，如果僅存放實體本身的座標點，這兩個鏈表的查詢效率仍然很低。</p>
-<p>真正關鍵的是，我們在鏈表上還會給擁有 AOI 的每個玩家增加左右兩個哨兵節點。兩個哨兵的座標值跟玩家本身座標正好相差了 AOI 半徑，舉例來說，玩家 <code>P</code> 座標為 <code>(a, b, c)</code>，AOI 半徑為 <code>r</code>，那麼在 X 軸上會有兩個哨兵 <code>left_x, right_x</code>，座標值分別為 <code>a - r</code> 和 <code>a + r</code>。由於有哨兵的存在，我們透過追蹤哨兵跟其他實體節點的移動來更新 AOI。繼續前面的例子，一個實體 <code>E</code> 移動導致在 X 軸上的節點從 <code>left_x</code> 的右邊向左跨過 <code>left_x</code> 來到 <code>left_x</code> 的左邊，那麼說明 <code>E</code> 肯定是離開了 <code>P</code> 的 AOI；同理如果向右跨過了 <code>right_x</code> 也是離開了 AOI。相反，如果是向右跨過 <code>left_x</code>，或者向左跨過 <code>right_x</code>，說明有可能會進入到 <code>P</code> 的 AOI 中。</p>
-<p>你可以看到，十字鏈表算法比九宮格複雜得多，我們需要維護兩條有序的鏈表，同時在每個實體座標更新時，同步移動鏈表上的節點，並在移動跨越其他節點時更新 AOI。</p>
+<p>對於3D遊戲，一般會分別為X軸和Z軸坐標構建有序的鏈表，每個實體在鏈表上都有一個節點，存放的是該坐標軸的值，按照值遞增的順序來排列。但如果僅存放實體本身的坐標點，這兩個鏈表仍然無法提高查詢效率。</p>
+<p>真正關鍵的是，我們在鏈表上還會給擁有 AOI 的每個玩家增加左右兩個哨兵節點。兩個哨兵的坐標值跟玩家本身坐標正好相差了 AOI 半徑，例如玩家 <code>P</code> 坐標為 <code>(a, b, c)</code>，AOI 半徑為 <code>r</code>，那麼在 X 軸上會有兩個哨兵 <code>left_x, right_x</code>，坐標值分別為 <code>a - r</code> 和 <code>a + r</code>。由於有哨兵的存在，我們通過跟踪哨兵跟其他實體節點的移動來更新 AOI。繼續前面的例子，一個實體 <code>E</code> 移動導致在 X 軸上的節點從 <code>left_x</code> 的右邊想左跨過 <code>left_x</code> 來到 <code>left_x</code> 的左邊，那麼說明 <code>E</code> 肯定是離開了 <code>P</code> 的 AOI；同理如果向右跨過了 <code>right_x</code> 也是離開了 AOI。相反，如果是向右跨過 <code>left_x</code>，或者向左跨過 <code>right_x</code>，說明有可能會進入到 <code>P</code> 的 AOI 中。</p>
+<p>可以看到，十字鏈表演算法要比九宮格複雜得多，我們需要維護兩條有序的鏈表，並且在每個實體座標更新的時候，同步移動鏈表上的節點，並且在移動跨過其他節點時更新 AOI。</p>
 <h3 id="_4">九宮格的實現</h3>
-<p>由於涉及實際性能測試，因此我們首先深入探討一下九宮格算法的實現細節：</p>
+<p>因為涉及到實測的性能，所以我們先來稍微深入一點九宮格算法的實現細節：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Sensor</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">// ...</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">Nuid</span><span class="w"> </span><span class="n">sensor_id</span><span class="p">;</span>
@@ -1589,7 +1589,7 @@
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Sensor</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sensors</span><span class="p">;</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">};</span>
 </code></pre></div>
-<p><code>PlayerAoi</code> 存放著玩家的資料，其中有一個<code>sensors</code>陣列，<code>sensors</code>就是用來計算一定範圍內的實體，每次<code>Tick</code>之後將計算出來的實體計畫放在<code>aoi_players</code>。<code>aoi_players</code>是存放了兩個陣列，用於上一次<code>Tick</code>結果做比較，求出進入和離開玩家。 <code>Tick</code>的大致流程是這樣：</p>
+<p><code>PlayerAoi</code> 類別用來儲存玩家資料，其中包含一個 <code>sensors</code> 陣列，用於計算特定範圍內的實體。每次執行 <code>Tick</code> 後，計算出的實體將被放置在 <code>aoi_players</code> 中。<code>aoi_players</code> 包含兩個陣列，用於比較前後兩次 <code>Tick</code> 的結果，以判斷進入或離開玩家的實體。<code>Tick</code> 的主要流程如下：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="nf">SquareAoi::Tick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">AoiUpdateInfos</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">PlayerPtrList</span><span class="w"> </span><span class="n">remove_list</span><span class="p">;</span>
@@ -1597,7 +1597,7 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// ...</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">對擁有</span><span class="w"> </span><span class="n">sensors</span><span class="w"> </span><span class="n">的玩家計算</span><span class="w"> </span><span class="n">Aoi</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">// 對有 sensors 的玩家計算 Aoi</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">player</span><span class="p">.</span><span class="n">sensors</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">update_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_UpdatePlayerAoi</span><span class="p">(</span><span class="n">cur_aoi_map_idx_</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">player</span><span class="p">);</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">update_info</span><span class="p">.</span><span class="n">sensor_update_list</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
@@ -1608,7 +1608,7 @@
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="c1">// ...</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">記錄玩家上次的位置</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">// 記錄玩家上次的位置</span>
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">player_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">elem</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">player</span><span class="p">.</span><span class="n">last_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
@@ -1617,7 +1617,7 @@
 <a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">update_infos</span><span class="p">;</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>Tick</code> 做的事情很简单，遍历有 <code>sensors</code> 的玩家，逐個計算 <code>sensor</code> 範圍內的實體，即為 AOI。<code>last_pos</code> 是用來參與判斷實體是否有進入或者離開 AOI，<code>_UpdatePlayerAoi</code> 的程式碼如下：</p>
+<p><code>Tick</code> 做的事情很簡單，遍歷有 <code>sensors</code> 的玩家，逐個計算 <code>sensor</code> 範圍內的實體，即為 AOI。<code>last_pos</code> 是用來參與判斷實體是否有進入或者離開 AOI，<code>_UpdatePlayerAoi</code> 的代碼如下：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="nf">SquareAoi::_UpdatePlayerAoi</span><span class="p">(</span><span class="n">Uint32</span><span class="w"> </span><span class="n">cur_aoi_map_idx</span><span class="p">,</span><span class="w"> </span><span class="n">PlayerAoi</span><span class="o">*</span><span class="w"> </span><span class="n">pptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">AoiUpdateInfo</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">aoi_update_info</span><span class="p">.</span><span class="n">nuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pptr</span><span class="o">-&gt;</span><span class="n">nuid</span><span class="p">;</span>
@@ -1648,9 +1648,9 @@
 <a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">aoi_update_info</span><span class="p">;</span>
 <a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>old_aoi</code> 是上一個 <code>Tick</code> 計算出來的 AOI，<code>new_aoi</code> 是本次 <code>Tick</code> 需要計算的 AOI。<code>new_aoi</code> 通過遍歷 AOI 範圍內的所有格子的實體，選出跟玩家距離小於 AOI 半徑來獲得。之後用 <code>_CheckLeave</code> 和 <code>_CheckEnter</code> 兩個函數，計算本次 <code>Tick</code> 離開和進入 AOI 的實體，譬如如果 <code>new_aoi</code> 中的實體 <code>last_pos</code> 不在 AOI範圍內，說明該實體是在本次 <code>Tick</code> 進入到了 AOI 範圍。具體的代碼可以看源文件，這裡不再贅述。</p>
+<p><code>old_aoi</code> 是上一个 <code>Tick</code> 計算出來的 AOI，<code>new_aoi</code> 是本次 <code>Tick</code> 需要計算的 AOI。<code>new_aoi</code> 透過遍歷 AOI 範圍內的所有格子的實體，選出與玩家距離小於 AOI 半徑以獲得。之後用 <code>_CheckLeave</code> 和 <code>_CheckEnter</code> 兩個函數，計算本次 <code>Tick</code> 離開和進入 AOI 的實體，例如如果 <code>new_aoi</code> 中的實體 <code>last_pos</code> 不在 AOI 範圍內，說明該實體是在本次 <code>Tick</code> 進入了 AOI 範圍。具體的代碼可以查看源文件，這裡不再贅述。</p>
 <h3 id="_5">十字鏈表的實現</h3>
-<p>與九宮格相比，十字鏈表的實現更為複雜，現在讓我們先看一下基本的數據結構：</p>
+<p>與九宮格相比，十字鏈表的實現較為複雜，首先看看基本的數據結構：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">CoordNode</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="c1">// ...</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="n">Uint8</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
@@ -1691,12 +1691,14 @@
 <a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">boost</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Nuid</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">detected_by</span><span class="p">;</span>
 <a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">};</span>
 </code></pre></div>
-<p><code>Sensor</code> 和 <code>PlayerAoi</code> 與九宮格有部分相似，不過多了鏈表相關的節點結構 <code>CoordNode</code>。<code>CoordNode</code> 就是鏈表上的一個節點，記錄了本身節點的類型和數值，類型有三種：玩家節點，<code>Sensor</code> 左節點，<code>Sensor</code> 右節點。</p>
+<p><code>Sensor</code> 和 <code>PlayerAoi</code> 跟九宮格有部分相似，不過多了鏈表相關的節點結構 <code>CoordNode</code>。<code>CoordNode</code> 就是鏈表上的一個節點，記錄了本身節點的類型和數值，類型有三種：玩家節點，<code>Sensor</code> 左節點，<code>Sensor</code> 右節點。</p>
 <p>十字鏈表的大部分工作都是在維持鏈表的有序：</p>
-<p>玩家加入時需要將玩家節點移動到有序的位置上，並且在移動玩家節點的同時，處理進入或離開其他玩家 AOI 事件。
-玩家移動到正確的位置後，<code>Sensor</code> 左右節點從玩家前後位置出發，移動到正確的位置，並處理跨過其他玩家節點時觸發的進入和離開事件。
-當玩家移動時，更新玩家的座標，並移動玩家節點和 <code>Sensor</code> 左右節點，處理 AOI 進入離開。</p>
-<p>移動節點的程式碼如下，每經過一個節點，都會呼叫一次 <code>MoveCross</code> 函式，由 <code>MoveCross</code> 函式根據移動方向、移動節點和經過節點的類型來決定是進入還是離開 AOI。</p>
+<ul>
+<li>玩家加入時需要把玩家節點移動到有序的位置上，並且在移動玩家節點的同時，處理進入或者離開其他玩家 AOI 事件。
+當玩家移動到正確位置後，<code>Sensor</code> 左右節點會從玩家前後位置出發，移動到正確位置，並處理當穿越其他玩家節點時觸發的進入和離開事件。
+當玩家移動時，更新玩家的座標，並移動玩家節點和 <code>Sensor</code> 的左右節點，處理 AOI 進入離開。</li>
+</ul>
+<p>移動節點的程式碼如下，每穿越一個節點，都會呼叫一次 <code>MoveCross</code> 函數，由 <code>MoveCross</code> 函數根據移動方向、移動節點和穿越節點的類型來決定是進入還是離開 AOI。</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ListUpdateNode</span><span class="p">(</span><span class="n">CoordNode</span><span class="w"> </span><span class="o">**</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">CoordNode</span><span class="w"> </span><span class="o">*</span><span class="n">pnode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -1726,19 +1728,19 @@
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">}</span>
 </code></pre></div>
-<p>鏈表的移動很慢，是 <code>O(n)</code> 的複雜度，特別是在玩家新加入場景時，玩家需要從無窮遠的地方，逐步移動到正確的位置上，為此需要大量遍歷的節點，消耗很大。為了優化性能，我們可以在場景中固定位置放置燈塔，這種燈塔處理上跟玩家大致相同，只是比玩家多記錄了一份 <code>detected_by</code> 數據，<code>detected_by</code> 是用來記錄該哨兵實體處在哪些 <code>Sensor</code> 範圍內。玩家首次進入場景時，不再從最遠處開始移動，而是找到一個最近的燈塔，把節點插入到燈塔旁邊，並通過燈塔身上的 <code>detected_by</code> 數據，快速進入到跟燈塔一致的其他玩家的 AOI 範圍內，然後開始移動到正確的位置上，當然移動的時候也要處理進入和離開。同理，對於 <code>Sensor</code>，也可以通過先繼承燈塔的數據，然後從燈塔的位置上移動到正確位置上。通過這兩種優化能夠提升一倍以上的插入玩家性能。</p>
-<p><code>Sensor</code> 身上還有一個名為 <code>aoi_player_candidates</code> 的 <code>HashMap</code>（這裡為了性能，使用了<a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a>與節點移動相關的 AOI 事件實際上只能檢測 X-Z 坐標軸上邊長為 <code>2r</code> 的正方形區域，並非嚴格意義上的圓形 AOI。這個正方形區域內的實體都會被記錄在<code>aoi_player_candidates</code>上，並在<code>Tick</code>中進行圓形 AOI 範圍的遍歷計算，因此被稱為<code>candidates</code>。</p>
-<p>所有十字链表的操作都是为了一直维护正方形區域內的實體 <code>candidates</code>，十字链表中 <code>Tick</code> 做的操作跟九宮格幾乎一致，只是遍歷計算 AOI 的 <code>candidates</code> 不相同。九宮格的 <code>candidates</code> 是 AOI 圓形區域所覆蓋到的格子的實體，而十字链表則是由 <code>Sensor</code> 左右節點所界定的邊長為 <code>2r</code> 的正方形區域中的實體。定性的來說，十字链表的 <code>candidates</code> 一般都要比九宮格少，所以在 <code>Tick</code> 中的遍歷次數較少，性能更優，僅是十字链表還有大量額外的性能消耗在了維護鏈表上，這兩者整體的性能到底孰優孰劣，我們接下來實測看看。</p>
+<p>鏈表的移動非常緩慢，時間複雜度為 <code>O(n)</code>，尤其是當玩家新加入場景時，需要從遠處逐步移動到正確位置，必須遍歷大量節點，消耗龐大。為了優化性能，我們可以在場景中固定位置放置燈塔。這種燈塔處理方式與玩家大致相同，只是多了一份 <code>detected_by</code> 資料，用於記錄哨兵實體位於哪些 <code>Sensor</code> 範圍內。當玩家首次進入場景時，不再從最遠處開始移動，而是尋找最近的燈塔，將節點插入燈塔旁邊，並透過燈塔的 <code>detected_by</code> 資料，迅速進入與燈塔相同的其他玩家 AOI 範圍內，然後開始移動到正確位置上，當然在移動時也必須處理進入和離開。同樣地，對於 <code>Sensor</code>，也可以透過繼承燈塔資料，再從燈塔位置移動到正確位置。透過這兩種優化方式，可以提升一倍以上插入玩家的性能。</p>
+<p><code>Sensor</code> 身上還有一個名叫 <code>aoi_player_candidates</code> 的 <code>HashMap</code>（這裡為了性能，使用了<a href="https://github.com/attractivechaos/klib/blob/master/khash.h">khash</a>）。節點移動觸發的 AOI 事件，其實只能檢測到 X-Z 坐標軸上邊長為 <code>2r</code> 的正方形區域，不是我們嚴格意義上的圓形區域的 AOI，這個正方形的區域內的實體都被記錄在 <code>aoi_player_candidates</code> 上，並在 <code>Tick</code> 中遍歷計算圓形區域內的 AOI 範圍，所以稱為 <code>candidates</code>。</p>
+<p>所有十字鏈表的操作都是為了一直維護正方形區域內的實體 <code>candidates</code>，十字鏈表中 <code>Tick</code> 做的操作跟九宮格幾乎一致，只是遍歷計算 AOI 的 <code>candidates</code> 不相同。九宮格的 <code>candidates</code> 是 AOI 圓形區域所覆蓋到的格子的實體，而十字鏈表則是由 <code>Sensor</code> 左右節點所界定的邊長為 <code>2r</code> 的正方形區域中的實體。定性的來說，十字鏈表的 <code>candidates</code> 一般都要比九宮格少，所以在 <code>Tick</code> 中的遍歷次數少，性能更優，只是十字鏈表還有大量額外的性能消耗在了維護鏈表上，這兩者整體的性能到底孰優孰劣，我們接下來實測看看。</p>
 <h3 id="_6">性能實測</h3>
-<p>我這裡分別測量了玩家加入場景（<code>Add Player</code>），計算 AOI 進出事件（<code>Tick</code>），玩家更新坐標位置（<code>Update Pos</code>）三種情況的時間消耗。</p>
-<p>玩家初始位置會在地圖範圍內隨機生成，接著將玩家加入場景。<code>player_num</code> 是玩家數量，<code>map_size</code> 則是地圖 X-Z 座標軸範圍，玩家的位置將在該範圍內均勻隨機分佈，每位玩家都有一個半徑為100的感應器作為AOI，計時器使用 <code>boost::timer::cpu_timer</code>。<code>player_num</code> 選擇了分別為 <code>100、1000、10000</code> 三種情況，而 <code>map_size</code> 則選擇了 <code>[-50, 50]、[-100, 100]、[-1000, 1000]、[-10000, 10000]</code> 四種情況。</p>
+<p>我這裡分別測量了玩家加入場景（<code>Add Player</code>）、計算 AOI 進出事件（<code>Tick</code>）、玩家更新坐標位置（<code>Update Pos</code>）這三種情況的時間消耗。</p>
+<p>玩家初始位置將在地圖範圍內隨機生成，然後將玩家加入場景。<code>player_num</code> 指的是玩家人數，<code>map_size</code> 則是地圖 X-Z 座標軸範圍，玩家的位置將在這個範圍內均勻地隨機生成，每個玩家都會有一個半徑為 <code>100</code> 的感應器 <code>Sensor</code> 用作 AOI，時間計算則使用 <code>boost::timer::cpu_timer</code>。分別選擇了 <code>100, 1000, 10000</code> 三種不同<code>player_num</code>情況，而 <code>map_size</code> 則選擇了 <code>[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]</code> 四種情況。</p>
 <p>更新玩家位置會讓玩家固定隨機方向，以 <code>6m/s</code> 的速度移動。</p>
-<p>本次測試環境為：</p>
+<p>這次測試環境為：</p>
 <ul>
-<li>CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz</li>
-<li>系统：Debian GNU/Linux 10（buster）
-gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
-增强版本: boost_1_75_0</li>
+<li>CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
+系統: Debian GNU/Linux 10 (buster)</li>
+<li>gcc 版本: gcc 版本 8.3.0 (Debian 8.3.0-6)</li>
+<li>boost 版本: boost_1_75_0</li>
 </ul>
 <h4 id="_7">九宮格實測</h4>
 <p>九宮格的測試結果如下：</p>
@@ -1814,7 +1816,7 @@ gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
 <a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.019033</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.020000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">105.1</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
 </code></pre></div>
-<p>當玩家數量達到 <code>100</code> 人時，九宮格遊戲中的三種操作耗時都很短。在極限情況下，地圖範圍設定為 <code>[-50, 50]</code>，所有玩家彼此皆在 AOI 範圍內。每個 <code>Tick</code> 大約需時 <code>0.4ms</code>。玩家加入場景和更新坐標的時間複雜度均為 <code>O(player_num)</code>，性能表現不錯。當玩家數量增加到 <code>10000</code> 人，地圖範圍仍為 <code>[-50, 50]</code> 時，加入玩家和更新位置因為皆為線性操作，可在幾毫秒內完成。然而，<code>Tick</code> 的時間消耗卻達到 <code>3.8s</code>，需大量 CPU 資源，屬於無法使用的狀態。當玩家數量達到 1 萬人，地圖尺寸為 <code>[-1000, 1000]</code>，每個 <code>Tick</code> 大約耗時 <code>94ms</code>。若能降低 <code>Tick</code> 頻率，例如一秒兩次，則仍可勉強保持可使用的狀態。</p>
+<p>在有 <code>100</code> 名玩家的情况下，当九宫格运作时，三种操作所需的时间都很短。在极端情况下，地图大小为 <code>[-50, 50]</code>，所有玩家互相都在AOI范围内，每次Tick运行大约需要 <code>0.4毫秒</code>。玩家加入场景和更新坐标都是按照玩家数量的线性复杂度 <code>O(player_num)</code> 进行。在有 1 万名玩家，地图大小为 <code>[-50, 50]</code> 的情况下，<code>Add Player</code> 和 <code>Update Pos</code> 都能在几毫秒内完成，但每次 <code>Tick</code> 运行则需要 <code>3.8秒</code>，需要耗费大量的CPU资源，已经不可用。当有 1 万名玩家，地图大小为 <code>[-1000, 1000]</code>时，每次 <code>Tick</code> 运行大约需要 <code>94毫秒</code>。如果能够降低 <code>Tick</code> 的频次，例如降低到每秒两次，那仍勉强属于可用的范围内。</p>
 <h4 id="_8">十字鏈表實測</h4>
 <p>十字鏈表的測試結果如下：</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">===</span><span class="n">Begin</span> <span class="n">Milestore</span><span class="p">:</span> <span class="n">player_num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">map_size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">50.000000</span><span class="p">,</span> <span class="mf">50.000000</span><span class="p">)</span>
@@ -1889,17 +1891,17 @@ gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="n">Update</span> <span class="n">Pos</span> <span class="p">(</span><span class="mi">10</span> <span class="n">times</span><span class="p">)</span> <span class="mf">0.042568</span><span class="n">s</span> <span class="n">wall</span><span class="p">,</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">user</span> <span class="o">+</span> <span class="mf">0.000000</span><span class="n">s</span> <span class="n">system</span> <span class="o">=</span> <span class="mf">0.040000</span><span class="n">s</span> <span class="n">CPU</span> <span class="p">(</span><span class="mf">94.0</span><span class="o">%</span><span class="p">)</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="o">===</span><span class="n">End</span> <span class="n">Milestore</span>
 </code></pre></div>
-<p>如果我們的分析是正確的， 十字鏈表在 <code>添加玩家</code> 和 <code>更新位置</code> 上耗時更長，特別是 <code>添加玩家</code>，相比九宮格性能差了幾百甚至上萬倍（<code>100, [-50, 50]</code> 十字鏈耗時 <code>2ms</code>，而九宮格只有 <code>0.08ms</code>；<code>10000, [-50, 50]</code> 十字鏈 <code>21.6s</code>，九宮格只有 <code>6ms</code>。<code>更新位置</code> 的耗時也最多會有百倍的差距，<code>10000, [-100, 100]</code> 十字鏈更新玩家位置耗時 <code>1.5s</code>，而九宮格是 <code>18ms</code>。可以看出，十字鏈在 <code>添加玩家</code> 和 <code>更新位置</code> 耗時的上下限範圍比九宮格要大，受人數和地圖大小影響更大，在玩家密集的區域，這兩個操作的性能會急速下降，直至不可用。</p>
-<p>比較起來，十字鍊(Tick)的操作整體效能確實比九宮格要好，最佳情況下所需時間大約只有九宮格的一半左右（在1000，[-1000, 1000]條件下，十字鍊耗時0.8毫秒，九宮格為1.8毫秒）。然而，最糟糕的情況下，十字鍊的效能會退化到接近九宮格（在10000，[-10000, 10000]條件下，十字鍊耗時3.7秒，九宮格為3.8秒）。這是因為由於場景較小，玩家彼此間都處於彼此的AOI範圍內，而十字鍊的Tick遍歷候選項的數量實際上已經相當接近九宮格了。</p>
-<p>在翻譯的同時，我們要確保十字鏈的性能比九宮格更佳，這需要更多強力的假設，例如 <code>player_num = 1000, map_size = [-1000, 1000]</code>。在這樣的情況下，十字鏈的 <code>Tick</code> 所花時間為 <code>0.8ms</code>，而九宮格則為 <code>1.8ms</code>；<code>Update Pos</code> 在十字鏈中為 <code>0.3ms</code>，而在九宮格中為 <code>0.18ms</code>（請注意，測試 <code>Update Pos</code> 的時間是執行 10 次後的總和）。總計 <code>Tick + Update Pos</code> 所需時間來看，為了讓十字鏈比九宮格更快，<code>Update Pos</code> 的次數不可超過 <code>Tick</code> 的 <code>8</code> 倍，換句話說，在兩次 <code>Tick</code> 之間，<code>Update Pos</code> 的次數應小於 <code>8</code> 次。此外，由於在十字鏈中，新增玩家的操作耗時龐大，不適用於玩家在短時間內頻繁進出場景或在場景內進行大範圍傳送的情況。同時，如果在短時間內有大量玩家進入場景，也容易導致性能下降，佔用大量的 CPU 資源。</p>
-<p>對於十字鏈表，在一個前提之下還能做一個優化：幹掉 <code>Tick</code>，前提是遊戲能接受正方形的 AOI，並且需要實測正方形 AOI 帶來的其他諸如網路等消耗是能接受的。其實前提是比較苛刻的，因為在遊戲中 AOI 計費能占用的 CPU 通常占比是不大的，但把圓形 AOI 改成方形 AOI 導致 AOI 範圍面積增大，範圍內的玩家數量也增多，均勻分布下玩家數量可能會增多到原來的 <code>1.27</code> 倍。但是，一旦能滿足前提，十字鏈表可以做到不需要 <code>Tick</code> 來定期更新 AOI 事件，因為實現上十字鏈表的 <code>candidates</code> 就維護了一份方形下 AOI，原來只是為了計算圓形 AOI，而不得不在 <code>Tick</code> 中再遍歷計算距離。在這種情況下，十字鏈是有可能能夠達到很好的性能，因為十字鏈表 <code>Update Pos</code> 的性能可以跟 <code>Tick</code> 相差幾倍到幾十倍。</p>
+<p>如我們分析一致，十字鏈表在 <code>Add Player</code> 和 <code>Update Pos</code> 上耗時更長，特別是 <code>Add Player</code>，相比九宮格性能差了幾百甚至上萬倍（<code>100, [-50, 50]</code> 十字鏈耗時 <code>2ms</code>，而九宮格只有 <code>0.08ms</code>；<code>10000, [-50, 50]</code> 十字鏈 <code>21.6s</code>，九宮格只有 <code>6ms</code>。<code>Update Pos</code> 的耗時也最多會有百倍的差距，<code>10000, [-100, 100]</code> 十字鏈更新玩家位置耗時 <code>1.5s</code>，而九宮格是 <code>18ms</code>。可以看出，十字鏈在 <code>Add Player</code> 和 <code>Update Pos</code> 耗時的上下限範圍比九宮格要大，受人數和地圖大小影響更大，在玩家密集的區域，這兩個操作的性能會急速下降，直至不可用。</p>
+<p>觀察十字鏈的 "Tick" 操作，整體表現確實比九宮格好，最佳情況下所需時間大約只有九宮格的一半左右（"1000，[-1000，1000]" 的情況下，十字鏈花費 0.8 毫秒，而九宮格需要 1.8 毫秒），不過在最差情況下，十字鏈的表現會降級到接近九宮格的水平（"10000，[-10000，10000]" 的情況下，十字鏈花費 3.7 秒，九宮格花費 3.8 秒）。這是因為場景較小，玩家彼此間都處於對方的 AOI 範圍內，十字鏈 "Tick" 遍歷的候選數量實際上已經非常接近九宮格了。</p>
+<p>十字練使用起來要達到比九宮格性能更優，需要一些更強的假設，例如 <code>player_num = 1000, map_size = [-1000, 1000]</code> 情況下，<code>Tick</code> 耗時十字練為 <code>0.8ms</code> 九宮格 <code>1.8ms</code>，<code>Update Pos</code> 十字練為 <code>0.3ms</code> 九宮格 <code>0.18ms</code>（注意測試 <code>Update Pos</code> 時間為執行了 10 次的時間總和）。<code>Tick + Update Pos</code> 總時間下，十字練如果要比九宮格更少，那 <code>Update Pos</code> 的次數不能超過 <code>Tick</code> 的 <code>8</code> 倍，或者說兩個 <code>Tick</code> 之間，<code>Update Pos</code> 的次數需要小於 <code>8</code> 次。另外因為十字練 <code>Add Player</code> 耗時巨大，不適用於玩家短時間頻繁出入場景或者在場景內大範圍傳送的情況，另外如果短時間內有大量玩家進入場景，也很容易導致性能下降，大量佔用 CPU。</p>
+<p>對於十字鏈表，在一個前提之下還能做一個優化：幹掉 <code>Tick</code>，前提是遊戲能接受正方形的 AOI，並且需要實測正方形 AOI 帶來的其他諸如網路等消耗是能接受的。其實前提是比較苛刻的，因為在遊戲中 AOI 計費能佔用的 CPU 通常占比是不大的，但把圓形 AOI 改成方形 AOI 導致 AOI 範圍面積增大，範圍內的玩家數量也增多，均勻分布下玩家數量可能會增多到原來的 <code>1.27</code> 倍。但是，一旦能滿足前提，十字鏈表可以做到不需要 <code>Tick</code> 來定期更新 AOI 事件，因為實現上十字鏈表的 <code>candidates</code> 就維護了一份方形下的 AOI，原來只是為了計算圓形 AOI，而不得不在 <code>Tick</code> 中再遍歷計算距離。在這種情況下，十字鏈是有可能能夠達到很好的性能，因為十字鏈表 <code>Update Pos</code> 的性能可以跟 <code>Tick</code> 相差幾倍到幾十倍。</p>
 <p>最後給出兩者的對比柱狀圖：</p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/add_player.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/add_player.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/tick.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/tick.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2021-11-18-aoi-tesing/update_pos.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2021-11-18-aoi-tesing/update_pos.png"></a></p>
 <h3 id="_9">總結</h3>
-<p>本文介紹了兩種 AOI 演算法（九宮格和十字鏈）的原理和基本實現，並且透過實際測試的數據分析了這兩種演算法的表現優劣，希望能為讀者帶來一些幫助或啟發。</p>
-<p>總的來說，九宮格法實現起來簡單，性能平衡不容易拉後腿，非常適合 AOI 不是性能瓶頸的遊戲來使用，九宮格法的性能波動範圍是在可預期的範圍內，性能下限比較高，也不容易導致瓶頸，但另一方面可優化空間也不大，時間複雜度比較固定。反觀十字鏈法，實現要更複雜，性能下限比九宮格法低，但是如果能夠滿足一些假設和前提，十字鏈可優化空間更高，換句話說是上限是可以更高。這兩種方法各有優劣，遊戲業界內也有不同的引擎分別選擇了兩者之一，各取所需，見仁見智。</p>
+<p>本文介紹了兩種AOI演算法（九宮格和十字鍊）的原理和基本實現，並透過實測數據分析了這兩種演算法的性能優劣，希望能夠為讀者帶來一些幫助或者啟發。</p>
+<p>總的來說，九宮格法實現簡單，性能均衡不容易掉鏈，非常適合 AOI 不是性能瓶頸的遊戲來使用，九宮格法的性能波動範圍是在可預期的範圍內，性能下限比較高，也不容易導致瓶頸，但另一方面可優化空間也不大，時間複雜度比較固定。反觀十字鏈法，實現要更複雜，性能下限比九宮格法低，但是如果能夠滿足一些假設和前提，十字鏈可優化空間更高，換句話說是上限是可以更高。這兩種方法各有優劣，遊戲業界內也有不同的引擎分別選擇了兩者之一，各取所需，見仁見智。</p>
 <p>本人能力有限，文中內容僅代表本人想法，如有不足不妥之處歡迎留言討論。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -1926,7 +1928,7 @@ gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>這篇文章是由 ChatGPT 翻譯的，有任何<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此帖子是使用 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>中指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1966,7 +1968,7 @@ gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Python 筆記 2 - Python 3.12 熱更新">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Python 閒談 2 - Python 3.12 熱更新">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1976,7 +1978,7 @@ gcc 版本：gcc 版本 8.3.0 (Debian 8.3.0-6)
                 上一頁
               </span>
               <div class="md-ellipsis">
-                Python 筆記 2 - Python 3.12 熱更新
+                Python 閒談 2 - Python 3.12 熱更新
               </div>
             </div>
           </a>

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="UEの原生FASTBuildサポートは完璧ではないので、UE4とUE5がFASTBuildを完全にサポートするためには、いくつかの設定とソースコードの変更が必要です。以下では、それを一つずつ説明します。">
+        <meta name="description" content="UEのネイティブサポートはFASTBuildに対してあまり充実していません。UE4とUE5がFASTBuildを完璧にサポートするためには、いくつかの設定とソースコードの変更が必要です。以下に詳しく説明します。">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>使用 FASTBuild 编译 UE4 和 UE5 - Disenone's Wiki</title>
+        <title>FASTBuildを使用してUE4とUE5をコンパイルします。 - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              使用 FASTBuild 编译 UE4 和 UE5
+              FASTBuildを使用してUE4とUE5をコンパイルします。
             
           </span>
         </div>
@@ -542,7 +542,7 @@
         
   
   <span class="md-ellipsis">
-    C/C++のコマンドライン引数の処理についてまとめました。
+    C/C++ のコマンドライン引数処理のまとめ
   </span>
   
 
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    Windows対応のメモリーリーク検出ツールの作成
+    Windows上のメモリリーク検出ツールを作成する
   </span>
   
 
@@ -605,7 +605,7 @@
         
   
   <span class="md-ellipsis">
-    KCP マスタリングソースコード
+    KCP コード解析
   </span>
   
 
@@ -682,7 +682,7 @@
         
   
   <span class="md-ellipsis">
-    Visual Studio 2015を使用してPython 2.7.11をコンパイル
+    使用 Visual Studio 2015 で Python 2.7.11 をコンパイルする
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python の雑談 1 - \_\_builtins\_\_ の探求
+    Python の雑談 1 - __builtins__ の探求
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chat 2 - Python3.12 Hot Update
+    Python Discussion 2 - Python3.12 Hot Update
   </span>
   
 
@@ -860,7 +860,7 @@
         
   
   <span class="md-ellipsis">
-    ゲームAOIアルゴリズムの解析とパフォーマンステスト
+    ゲーム AOI アルゴリズム解析と性能実測
   </span>
   
 
@@ -959,7 +959,7 @@
           
   
   <span class="md-ellipsis">
-    使用 FASTBuild 编译 UE4 和 UE5
+    FASTBuildを使用してUE4とUE5をコンパイルします。
   </span>
   
 
@@ -970,7 +970,7 @@
         
   
   <span class="md-ellipsis">
-    使用 FASTBuild 编译 UE4 和 UE5
+    FASTBuildを使用してUE4とUE5をコンパイルします。
   </span>
   
 
@@ -1001,17 +1001,17 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      簡単な設定
+      簡易設定
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="簡単な設定">
+    <nav class="md-nav" aria-label="簡易設定">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      機器設定
+      本機構成
     </span>
   </a>
   
@@ -1020,7 +1020,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      リモートマシンの設定
+      遠隔機構成
     </span>
   </a>
   
@@ -1029,7 +1029,7 @@
           <li class="md-nav__item">
   <a href="#ue" class="md-nav__link">
     <span class="md-ellipsis">
-      UEコンパイルのテスト
+      テストUEコンパイル
     </span>
   </a>
   
@@ -1053,7 +1053,7 @@
           <li class="md-nav__item">
   <a href="#ue_1" class="md-nav__link">
     <span class="md-ellipsis">
-      より古いバージョンのUEをサポート
+      より長くサポートされるUEバージョン
     </span>
   </a>
   
@@ -1062,7 +1062,7 @@
           <li class="md-nav__item">
   <a href="#fastbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      自分のFASTBuildをコンパイルする
+      自身のFASTBuildをコンパイルする
     </span>
   </a>
   
@@ -1071,7 +1071,7 @@
           <li class="md-nav__item">
   <a href="#fbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      FBuild 追加のオプション
+      FBuildの追加オプション
     </span>
   </a>
   
@@ -1080,7 +1080,7 @@
           <li class="md-nav__item">
   <a href="#uefastbuildcs" class="md-nav__link">
     <span class="md-ellipsis">
-      UEの組み込みFASTBuild.csを編集します。
+      UEの標準FASTBuild.csを編集します。
     </span>
   </a>
   
@@ -1089,7 +1089,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml" class="md-nav__link">
     <span class="md-ellipsis">
-      BuildConfiguration.xmlを向上させる設定
+      BuildConfiguration.xml の高度な設定
     </span>
   </a>
   
@@ -1120,7 +1120,7 @@
         
   
   <span class="md-ellipsis">
-    UE は、プラグインのソースコードを追加してプラグインを追加します。
+    UE プラグインのソースコードを追加してプラグインを作成する
   </span>
   
 
@@ -1141,7 +1141,7 @@
         
   
   <span class="md-ellipsis">
-    UE 拡張エディタメニュー
+    UEエディターメニューを拡張
   </span>
   
 
@@ -1162,7 +1162,7 @@
         
   
   <span class="md-ellipsis">
-    UE 使用パス形式でメニューを拡張します
+    UE 使用パス形式でメニューを拡張
   </span>
   
 
@@ -1183,7 +1183,7 @@
         
   
   <span class="md-ellipsis">
-    UE 设置本地化多语言
+    UE は地域化された多言語を設定します。
   </span>
   
 
@@ -1204,7 +1204,7 @@
         
   
   <span class="md-ellipsis">
-    UE でさまざまな画像（UTexture2D）操作（読み込み、保存、コピー、クリップボード...）を実現します。
+    UEでさまざまな画像（UTexture2D）操作を実現します（読み込み、保存、コピー、クリップボード...）
   </span>
   
 
@@ -1246,7 +1246,7 @@
         
   
   <span class="md-ellipsis">
-    UEプラグイン AIChatPlus 説明文書
+    UE プラグイン AIChatPlus 説明文書
   </span>
   
 
@@ -1330,7 +1330,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unityの第三人称相機システム構築（上）
   </span>
   
 
@@ -1351,7 +1351,7 @@
         
   
   <span class="md-ellipsis">
-    Unityの第三人称カメラの構築（下）
+    Unity第三人称相机构建(下)
   </span>
   
 
@@ -1372,7 +1372,7 @@
         
   
   <span class="md-ellipsis">
-    Unityのキャラクターコントロール
+    Unityキャラクターコントロール
   </span>
   
 
@@ -1393,7 +1393,7 @@
         
   
   <span class="md-ellipsis">
-    Unity が深度マップ(Depth Map)とエッジ検出(Edge Detection)を行います。
+    Unityでの深度マップ(Depth Map)とエッジ検出(Edge Detection)
   </span>
   
 
@@ -1414,7 +1414,7 @@
         
   
   <span class="md-ellipsis">
-    Unity におけるボリューメトリック・ライト・スキャッタリング（Volumetric Light Scattering、雲隙光）の実装
+    Unity におけるボリューメトリック ライト スキャッタリング（Volumetric Light Scattering、クラウド シャドウ）の実装
   </span>
   
 
@@ -1475,17 +1475,17 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      簡単な設定
+      簡易設定
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="簡単な設定">
+    <nav class="md-nav" aria-label="簡易設定">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      機器設定
+      本機構成
     </span>
   </a>
   
@@ -1494,7 +1494,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      リモートマシンの設定
+      遠隔機構成
     </span>
   </a>
   
@@ -1503,7 +1503,7 @@
           <li class="md-nav__item">
   <a href="#ue" class="md-nav__link">
     <span class="md-ellipsis">
-      UEコンパイルのテスト
+      テストUEコンパイル
     </span>
   </a>
   
@@ -1527,7 +1527,7 @@
           <li class="md-nav__item">
   <a href="#ue_1" class="md-nav__link">
     <span class="md-ellipsis">
-      より古いバージョンのUEをサポート
+      より長くサポートされるUEバージョン
     </span>
   </a>
   
@@ -1536,7 +1536,7 @@
           <li class="md-nav__item">
   <a href="#fastbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      自分のFASTBuildをコンパイルする
+      自身のFASTBuildをコンパイルする
     </span>
   </a>
   
@@ -1545,7 +1545,7 @@
           <li class="md-nav__item">
   <a href="#fbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      FBuild 追加のオプション
+      FBuildの追加オプション
     </span>
   </a>
   
@@ -1554,7 +1554,7 @@
           <li class="md-nav__item">
   <a href="#uefastbuildcs" class="md-nav__link">
     <span class="md-ellipsis">
-      UEの組み込みFASTBuild.csを編集します。
+      UEの標準FASTBuild.csを編集します。
     </span>
   </a>
   
@@ -1563,7 +1563,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml" class="md-nav__link">
     <span class="md-ellipsis">
-      BuildConfiguration.xmlを向上させる設定
+      BuildConfiguration.xml の高度な設定
     </span>
   </a>
   
@@ -1597,22 +1597,22 @@
   
 
 
-  <h1>使用 FASTBuild 编译 UE4 和 UE5</h1>
+  <h1>FASTBuildを使用してUE4とUE5をコンパイルします。</h1>
 
 <div><p><meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5"></p>
 <blockquote>
-<p>本文の手法は、UE4.27からUE5.3までのテストをサポートしています。他のバージョンについてはテストされていませんが、お試しいただけます。</p>
+<p>テキストは UE4.27 から UE5.3 をサポートし、他のバージョンはテストされていないため、お試しいただけます。</p>
 </blockquote>
 <h2 id="_1">序文</h2>
-<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>無料でオープンソースの分散コンパイルツールで、UE のコンパイル自体が時間がかかりますが、FASTBuild を使用すれば大幅な時間短縮が可能です。</p>
-<p>UE は 4.x から FASTBuild をサポートするようになりました。 公式のソースコードには改変された FASTBuild ツールが付属しており、FASTBuild の0.99 バージョンに基づいています。場所は <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code> です。UE5.3 も同じバージョンを使用しています。 これは古いバージョンですが、本文作成時点では FASTBuild の公式最新バージョンは1.11 です。より多くの新機能とバグ修正が加わっています。 本文では、1.11 バージョンを使用して UE4 と UE5 の両方をサポートする方法に焦点を当てます。</p>
-<h2 id="_2">簡単な設定</h2>
-<p>目的を達成するために、FASTBuild 1.11とUEのソースコードをいくつか変更する必要があります。実は、すでにすべて変更を完了しているので、私が変更したバージョンを直接使用することができます。</p>
-<p>FASTBuild の<a href="https://github.com/disenone/fastbuild/releases">最新バージョン</a>FBuild.exe、FBuildCoordinator.exe、FBuildWorker.exeの実行ファイルが含まれています。明確にするために、プログラミングにFBuild.exeを使用するマシンを「ローカルマシン」と呼び、CPUを提供して編集に参加する他のリモートマシンを「リモートマシン」と呼びます。</p>
-<h3 id="_3">機器設定</h3>
-<p>FBuild.exe の場所をシステムの環境変数 Path に追加してください。これにより、cmd から直接 FBuild.exe を実行できるようになります。</p>
-<p>Cache共有ディレクトリの設定（Cacheの生成が不要な場合は設定しなくても構いません）：空のディレクトリを共有パスとして設定し、リモートマシンがアクセスできることを確認してください。</p>
-<p>UE4 / UE5のソースコードプロジェクトを開いて、Engine\Saved\UnrealBuildTool\BuildConfiguration.xmlというコンパイル設定ファイルを以下のように変更してください:</p>
+<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>それは無料のオープンソースの分散コンパイルツールであり、UE そのもののコンパイルにはかなりの時間がかかります。FASTBuild を使えば、時間を大幅に短縮することができます。</p>
+<p>UE 4.xから、FASTBuildをサポートするようになりました。公式ソースコードには、改変されたFASTBuildツールが付属しています。これはFASTBuild 0.99バージョンをベースにしており、<code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>フォルダに位置しています。UE5.3も同じバージョンを使用しています。このバージョンはかなり古いものです。この記事作成時点では、FASTBuildの公式最新バージョンは1.11で、新しい機能やバグ修正があります。この記事では、1.11バージョンを使用してUE4とUE5をサポートする方法を重点的に記録します。</p>
+<h2 id="_2">簡易設定</h2>
+<p>目的を達成するためには、FASTBuild 1.11 と UE ソースコードにいくつかの修正を加える必要があります。実は、ここですでにすべての修正を行っているので、私が修正したバージョンをそのまま使用することができます。</p>
+<p>(https://github.com/disenone/fastbuild/releases)FBuild.exe、FBuildCoordinator.exe、FBuildWorker.exe の実行ファイルがあります。わかりやすく説明するため、FBuild.exe を使用してプログラムするマシンを「ローカルマシン」と呼び、CPU を提供して編集に参加する他のリモートマシンを「リモートマシン」と呼びます。</p>
+<h3 id="_3">本機構成</h3>
+<p>FBuild.exe の所在ディレクトリをシステム環境変数 Path に追加し、cmd で直接 FBuild.exe を実行できるようにします。</p>
+<p>キャッシュの共有ディレクトリを配置する（キャッシュを生成する必要がない場合は、設定しなくても構いません）：空のディレクトリを共有パスとして設定し、リモートマシンがアクセスできることを確認してください。</p>
+<p>本機のUE4 / UE5のソースプロジェクトを開き、コンパイル構成ファイルEngine\Saved\UnrealBuildTool\BuildConfiguration.xmlを以下のように修正してください：</p>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
@@ -1626,28 +1626,28 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">&lt;/Configuration&gt;</span>
 </code></pre></div>
-<p>本机運行する前にダウンロードした FBuildCoordinator.exe を実行します。</p>
-<h3 id="_4">リモートマシンの設定</h3>
-<p>同じキャッシュ構成で、ただしIPアドレスはローカルIPに設定する必要があります。ここでは、192.168.1.100 と仮定します。</p>
+<p>FBuildCoordinator.exe をダウンロードしてから、本機を実行してください。</p>
+<h3 id="_4">遠隔機構成</h3>
+<p>同じ設定のキャッシュを使用しますが、IPはローカルIPに指定する必要があります。ここでは192.168.1.100と仮定します。</p>
 <ul>
 <li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
 <li>FASTBUILD_CACHE_MODE: rw</li>
 </ul>
-<p>同じ構成の Coordinator IP</p>
+<p>同じく、Coordinator IP設定</p>
 <ul>
 <li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
 </ul>
-<p>配置完如下の通りです。</p>
+<p>配置が完了しました。以下の図を参照してください。</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-fastbuild/remote_vars.png"></a></p>
-<p>遠隔で FBuildWorker.exe を実行します。構成が成功すると、ローカルの FBuildCoordinator.exe にログが表示されます（ここで 192.168.1.101 は遠隔コンピュータの IP アドレスです）：</p>
+<p>リモートマシン上で FBuildWorker.exe を実行します。設定が成功すると、ローカルの FBuildCoordinator.exe にログが表示されます（ここで 192.168.1.101 はリモートマシンの IP です）。</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>FBuildCoordinator - v1.11-UE
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[2023-12-01-20:06:38] Listening on port 31392
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[2023-12-01-20:06:38] current [0] workers: []
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[2023-12-01-20:06:42] New worker available: 192.168.1.101
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 </code></pre></div>
-<h3 id="ue">UEコンパイルのテスト</h3>
-<p>VisualStudio で UE のソースコードプロジェクトの .sln を開き、C++ プロジェクトを選択して Rebuild をクリックします。正しく構成されている場合、以下のようなログが表示されるはずです。</p>
+<h3 id="ue">テストUEコンパイル</h3>
+<p>VisualStudioを使用してUEのソースコードプロジェクトslnを開き、C++のプロジェクトを選択し、Rebuildをクリックします。正常に設定されている場合、次のようなログが表示されるはずです。</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>11&gt;FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>11&gt;FBuild Executable: 'd:\libs\FASTBuild\bin\FBuild.exe
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>11&gt;FBuild Coordinator: '127.0.0.1
@@ -1661,55 +1661,60 @@
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>11&gt;Worker list received: 1 workers
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11&gt;Distributed Compilation : 1 Workers in pool '127.0.0.1'
 </code></pre></div>
-<p>FASTBuildは、リモートマシンのIPアドレスを見つけ、リモートマシンにコンパイルを開始します。リモートマシンのFBuildWorkerでは、現在実行中のコンパイルタスクが表示されます。</p>
+<p>FASTBuild はリモートマシンの IP アドレスを見つけ、リモートマシンにコンパイルを開始します。リモートマシンの FBuildWorker でも、現在実行中のコンパイルタスクを確認できます。</p>
 <h2 id="_5">上級設定</h2>
-<h3 id="ue_1">より古いバージョンのUEをサポート</h3>
-<p>もし自分のUEがFASTBuildツール（Engine\Extras\ThirdPartyNotUE\FASTBuild）を持っていないことに気づき、UnrealBuildToolプロジェクトにFASTBuild.csファイルがない場合、おそらくあなたのUEのバージョンはFASTBuildをサポートしていない可能性が非常に高いです。</p>
-<p>UE4.27のソースコードを参照して、FASTBuild.csファイルを作成し、他の必要なコードの変更も加える必要があります。詳細はここでは説明しません。</p>
-<h3 id="fastbuild">自分のFASTBuildをコンパイルする</h3>
-<p>もしFASTBuild自体に興味があるか、または何か変更をしたい場合は、FASTBuildを使用してFASTBuildをコンパイルしてみてください。</p>
+<h3 id="ue_1">より長くサポートされるUEバージョン</h3>
+<p>もしあなたが自分のUEにFASTBuildツール（Engine\Extras\ThirdParty\FASTBuild）がないことに気づき、そしてUnrealBuildToolプロジェクト内にFASTBuild.csファイルが存在しない場合、おそらくあなたのUEのバージョンはまだFASTBuildをサポートしていない可能性が高いです。</p>
+<p>UE4.27のソースコードを参照し、FASTBuild.csの類似物を作成する必要があります。他の関連するコードの変更も行いましょう。詳細はここでは述べません。</p>
+<h3 id="fastbuild">自身のFASTBuildをコンパイルする</h3>
+<p>もしFASTBuild自体にも興味がある場合や、何か変更を加えたい場合は、FASTBuildを使用してFASTBuildをコンパイルしてみることができます。</p>
 <ul>
-<li>ダウンロードしてください <a href="https://github.com/disenone/fastbuild/releases">最新のソースコード</a>ファイルを解凍します。
-External\SDK\VisualStudio\VS2019.bff ファイルを編集して、.VS2019_BasePath と .VS2019_Version をローカルマシンに合わせて変更してください。Version は .VS2019_BasePath\Tools\MSVC ディレクトリ内で確認できます。例えば、
+<li>ダウンロードしてください <a href="https://github.com/disenone/fastbuild/releases">最新ソースコード</a>そして展開</li>
+<li>External\SDK\VisualStudio\VS2019.bffを修正し、.VS2019_BasePathと.VS2019_Versionを自分のマシンに対応する内容に変更してください。Versionは.VS2019_BasePath\Tools\MSVCディレクトリの下で確認できます。例えば
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // &lt;-- Set path here
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.VS2019_Version         = '14.29.30133' // &lt;-- Set version here
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>.VS2019_MSC_VER         = '1929' // &lt;-- Set MSC_VER here
 </code></pre></div></li>
 </ul>
-<p>External\SDK\Windows\Windows10SDK.bff の .Windows10_SDKBasePath と .Windows10_SDKVersion を変更してください。バージョンは .Windows10_SDKBasePath/bin 内で確認できます。
-    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
-</code></pre></div>
 <ul>
-<li>External\SDK\Clang\Windows\Clang11.bff の .Clang11_BasePath と .Clang11_Version を変更し、パスは .VS2019_BasePath\Tools\Tools/LLVM/x64 にあります。
+<li>External\SDK\Windows\Windows10SDK.bff の .Windows10_SDKBasePath と .Windows10_SDKVersion を修正してください。バージョンは .Windows10_SDKBasePath/bin の中で確認できます：
+    <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
+</code></pre></div></li>
+</ul>
+<ul>
+<li>External\SDK\Clang\Windows\Clang11.bff の .Clang11_BasePath と .Clang11_Version を修正してください。パスは .VS2019_BasePath\Tools\Tools/LLVM/x64 にあります。
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = '12.x.x'
 </code></pre></div></li>
 </ul>
-<p>Codeディレクトリに移動し、cmdで<code>FBuild.exe All-x64-Release</code>を実行してください。正しく構成されていれば、コンパイルが成功したことが確認でき、tmp\x64-Release\Tools\FBuild\FBuild内にFBuild.exeを見つけることができます。</p>
-<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code>で分散コンパイルを開始できます。</p>
-<h3 id="fbuild">FBuild 追加のオプション</h3>
-<p>私が提供する FBuild は、次のよく使用されるオプションをサポートしています：</p>
 <ul>
-<li>coordinator: 指定コーディネーターIPアドレス（システム環境変数の値を上書きできます）</li>
-<li>brokerage: 指定仲介地址（可以覆蓋系統環境變數的值）</li>
-<li>nocache: Cache を使用しないように強制します.</li>
+<li>Code ディレクトリに移動し、cmd で <code>FBuild.exe All-x64-Release</code> を実行します。設定が正しければ、コンパイルが成功したことが確認でき、tmp\x64-Release\Tools\FBuild\FBuild に FBuild.exe が表示されます。</li>
+</ul>
+<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> は分散コンパイルを開始できます。</p>
+<h3 id="fbuild">FBuildの追加オプション</h3>
+<p>私が提供するFBuild自体は、以下の一般的なオプションをサポートしています：</p>
+<ul>
+<li>coordinator: 指定されたコーディネーターのIPアドレス（システム環境変数の値を上書きできます）</li>
+<li>brokerage: 指定ブローカージアドレス（システム環境変数の値を上書きできます）</li>
+<li>「nocache」：キャッシュを使用しないように強制します。</li>
 <li>dist: 分散コンパイルを有効にする</li>
-<li>forceremote: リモートマシンでのコンパイルを強制
-要約：編集完了後、統計レポートを出力します。</li>
+<li>forceremote：强制在远程机编译</li>
+<li>forceremote: リモートマシンでのコンパイルを強制</li>
+<li>summary: 編集終了後に統計レポートを出力する</li>
 </ul>
-<p>その他、<code>FBuild.exe -help</code> を実行してさらにオプションを確認できます。</p>
-<p>FBuildWorkerの一般的な選択肢は次のとおりです：</p>
+<p>ちょっと待って、さらに多くのオプションは <code>FBuild.exe -help</code> を実行して確認できます。</p>
+<p>FBuildWorkerのよく使われるオプションは次の通りです：</p>
 <ul>
-<li>coordinator: 指定コーディネーターの IP アドレス（システム環境変数の値を上書きできます）</li>
-<li>brokerage: 指定仲介地的位  （可以覆盖系统环境变量的值）
-nocache：キャッシュを使用しないように強制します</li>
-<li>CPUs: コンパイルに割り当てるコアの数を指定します。</li>
+<li>coordinator: 指定されたコーディネーターのIPアドレス（システム環境変数の値を上書きできます）</li>
+<li>brokerage: 指定されたブローカレッジの住所（システム環境変数の値を上書きできます）</li>
+<li>nocache：キャッシュを強制的に使用しない</li>
+<li>cpus: コンパイルに何個のコアを割り当てるかを指定します。</li>
 </ul>
-<p>追加オプションに関しては、<code>FBuildWorder.exe -help</code> を実行してください。</p>
-<h3 id="uefastbuildcs">UEの組み込みFASTBuild.csを編集します。</h3>
-<p>UE の内蔵 FASTBuild.cs はシステム環境変数をうまく処理しておらず、BuildConfiguration.xml で指定されたパラメータとの関係がうまく取れていません。多くのパラメータはシステム環境変数が優先されて読み込まれるため、これは明らかに BuildConfiguration.xml の使用論理とは逆です。</p>
-<p>この場合、関連するコードをこのように変更することができます。ここではUE5.3を例に挙げます。</p>
+<p>追加のオプションについては、<code>FBuildWorder.exe -help</code> を実行してください。</p>
+<h3 id="uefastbuildcs">UEの標準FASTBuild.csを編集します。</h3>
+<p>UE に付属の FASTBuild.cs は、システム環境変数を適切に処理しておらず、BuildConfiguration.xml で指定されたパラメータとの関係が不明瞭です。多くのパラメータはシステム環境変数が優先的に読み込まれるため、これは明らかに BuildConfiguration.xml の使用ロジックに反しています。</p>
+<p>この場合、関連するコードを次のように変更できます。ここではUE5.3を例に挙げます：</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">private</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ExecuteBffFile</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">BffFilePath</span><span class="p">,</span><span class="w"> </span><span class="n">ILogger</span><span class="w"> </span><span class="n">Logger</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
@@ -1782,37 +1787,37 @@ nocache：キャッシュを使用しないように強制します</li>
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="p">...</span>
 </code></pre></div>
-<h3 id="buildconfigurationxml">BuildConfiguration.xmlを向上させる設定</h3>
+<h3 id="buildconfigurationxml">BuildConfiguration.xml の高度な設定</h3>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&lt;ProjectFileGenerator&gt;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cm">&lt;!-- バージョン指定 --&gt;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="cm">&lt;!-- 指定vs版本 --&gt;</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="nt">&lt;Format&gt;</span>VisualStudio2022<span class="nt">&lt;/Format&gt;</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">&lt;/ProjectFileGenerator&gt;</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="cm">&lt;!-- FASTBuildを有効にする --&gt;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="cm">&lt;!-- FASTBuild を有効にする --&gt;</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>指定するマシンがコンパイルに参加するCPUコア数
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>本机がコンパイルに参加するCPUコア数を指定します。
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">&lt;MaxParallelActions&gt;</span>12<span class="nt">&lt;/MaxParallelActions&gt;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Incredibuildをオフにする --&gt;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Incredibuildを閉じる --&gt;</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="nt">&lt;bAllowXGE&gt;</span>false<span class="nt">&lt;/bAllowXGE&gt;</span>
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="cm">&lt;!-- FBuildのパスを指定 --&gt;</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="cm">&lt;!-- 指定 FBuild パス --&gt;</span>
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">        </span><span class="nt">&lt;FBuildExecutablePath&gt;</span>d:\libs\FASTBuild\bin\FBuild.exe<span class="nt">&lt;/FBuildExecutablePath&gt;</span>
 <a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="cm">&lt;!-- 分散コンパイルを有効にする --&gt;</span>
 <a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="nt">&lt;bEnableDistribution&gt;</span>true<span class="nt">&lt;/bEnableDistribution&gt;</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!--指定された仲介経路--&gt;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- 指定ブローカーのパス --&gt;</span>
 <a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">        </span><span class="nt">&lt;FBuildBrokeragePath&gt;</span>\\127.0.0.1\Brokerage\<span class="nt">&lt;/FBuildBrokeragePath&gt;</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>指定されたキャッシュパス
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="cm">&lt;!-- 指定 cache 路径 --&gt;</span>
 <a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
 <a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="cm">&lt;!-- キャッシュを有効にする --&gt;</span>
 <a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- キャッシュの読み書き権限 読み取り/書き込み/読み書き --&gt;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- cacheの読み書き権限 読み/書き/読み書き --&gt;</span>
 <a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
 <a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- 指定コーディネーターIP --&gt;</span>
 <a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- リモートコンパイルを強制する --&gt;</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- 強制リモートコンパイル --&gt;</span>
 <a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
 <a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="nt">&lt;/Configuration&gt;</span>
@@ -1842,8 +1847,7 @@ nocache：キャッシュを使用しないように強制します</li>
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>この投稿はChatGPTによって翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遗漏之处。 
-見落としがないか指摘してください。 </p>
+<p>この投稿はChatGPTを使って翻訳されました。フィードバックをお願いします<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>指摘された点を見逃さずにご提出ください。 </p>
 </blockquote></div>
 
 
@@ -1867,7 +1871,7 @@ nocache：キャッシュを使用しないように強制します</li>
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -1912,7 +1916,7 @@ nocache：キャッシュを使用しないように強制します</li>
       <nav class="md-footer__inner md-grid" aria-label="フッター" >
         
           
-          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="前: ゲームAOIアルゴリズムの解析とパフォーマンステスト">
+          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="前: ゲーム AOI アルゴリズム解析と性能実測">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1922,20 +1926,20 @@ nocache：キャッシュを使用しないように強制します</li>
                 前
               </span>
               <div class="md-ellipsis">
-                ゲームAOIアルゴリズムの解析とパフォーマンステスト
+                ゲーム AOI アルゴリズム解析と性能実測
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="次: UE は、プラグインのソースコードを追加してプラグインを追加します。">
+          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="次: UE プラグインのソースコードを追加してプラグインを作成する">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 次
               </span>
               <div class="md-ellipsis">
-                UE は、プラグインのソースコードを追加してプラグインを追加します。
+                UE プラグインのソースコードを追加してプラグインを作成する
               </div>
             </div>
             <div class="md-footer__button md-icon">

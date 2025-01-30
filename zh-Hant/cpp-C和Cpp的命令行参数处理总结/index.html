@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="前一陣子翻 Linux 內核碼的時候看到了內核對模組參數（moduleparam）的處理，覺得挺精妙，讓我不禁想研究下 C 下的命令行參數要怎樣更好地處理。">
+        <meta name="description" content="前陣子翻 Linux 內核程式碼的時候看到了內核對模組參數（moduleparam）的處理，覺得挺精妙，讓我不禁想研究下 C 下的命令行參數要怎樣更好地處理。">
       
       
         <meta name="author" content="Disenone">
@@ -666,7 +666,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -788,7 +788,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -809,7 +809,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -1045,7 +1045,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1066,7 +1066,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1129,7 +1129,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1150,7 +1150,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1252,7 +1252,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1273,7 +1273,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1315,7 +1315,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1451,9 +1451,9 @@
 <a class="glightbox" href="https://img.shields.io/badge/gcc-4.9-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/gcc-4.9-blue.svg" style="display: inline-block"></a>
 <a class="glightbox" href="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/clang-3.7-birghtgreen.svg" style="display: inline-block"></a></p>
 <p><a class="glightbox" href="../../assets/img/2016-11-19-aparsing/aparsing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-11-19-aparsing/aparsing.png"></a></p>
-<p>最近看了一些 Linux 內核程式碼，發現內核是如何處理模組參數(moduleparam)的，覺得非常巧妙，讓我忍不住想深入研究如何更有效地處理 C 語言下的命令列參數。本文所使用的程式碼都在這裡<a href="https://github.com/disenone/aparsing">aparsing</a>代碼支持在 Windows、Linux、Mac OS X 下編譯運行，詳細的編譯指南在 README.md 裡面。</p>
+<p>前一阵子翻看 Linux 內核程式碼時，看到內核對模組參數 (moduleparam) 的處理，覺得非常精妙，令我不禁想研究一下 C 語言中如何更好地處理命令行參數。本文所用的程式碼都在這裡 <a href="https://github.com/disenone/aparsing">aparsing</a>程式碼支援在 Windows、Linux、Mac OS X 下編譯運行，詳細的編譯指南在 README.md 裡面。</p>
 <h2 id="getenv">getenv</h2>
-<p>標準庫為我們提供了一個函數 <code>getenv</code> ，按照字面意思，這個函數是用來獲取環境變量的，那麼只要我們預先設置好需要的環境變量，在程序裡面拿出來，就間接地把參數傳到程序裡面啦。我們來看下面這段<a href="https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c">程式碼</a>抱歉，無法翻譯沒有任何文字內容的指示。請提供需要翻譯的具體內容或詢問。感謝理解。</p>
+<p>標準庫為我們提供了一個函數 <code>getenv</code> ，按照字面意思，這個函數是用來獲取環境變量的，那麼只要我們預先設置好需要的環境變量，在程式裡面拿出來，就間接地把參數傳到程式裡面啦。我們來看下面這段<a href="https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c">代碼</a>抱歉，我無法提供翻譯。</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -1498,8 +1498,8 @@
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"GETENV_NUM not found</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p><code>getenv</code> 函數聲明如第 <a href="#__codelineno-0-5">4</a>請传入欲獲取之變數名稱，將傳回該變數的值，若未找到變數則返回0。<a href="#__codelineno-0-10">10</a>(#__codelineno-0-15)行動就是從兩個環境變數中取得值，若變數有效則列印其值。需注意 <code>getenv</code> 返回的皆為字串，使用者需手動轉換數值類型，因此使用起來不夠便利。請編譯並執行：</p>
-<p>在Windows系統下：</p>
+<p><code>getenv</code> 函數聲明如第 <a href="#__codelineno-0-5">4</a>傳進你想獲取的變數名稱，回傳該變數的值，如果找不到變數，則回傳0。<a href="#__codelineno-0-10">10</a>和 <a href="#__codelineno-0-15">15</a>行就是分别获取兩個環境變量的值，如果變量有效則列印變量值。需要注意的是 <code>getenv</code> 返回的都是字串，需要使用者手動轉換數值類型的，所以使用起來不夠方便。編譯運行:</p>
+<p>在 Windows 系統下：</p>
 <div class="language-bat highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">set</span> <span class="nv">GETENV_ADD</span><span class="p">=</span>abc <span class="p">&amp;</span> <span class="k">set</span> <span class="nv">GETENV_NUM</span><span class="p">=</span>1 <span class="p">&amp;</span> .\getenv_test.exe
 </code></pre></div>
 <p>Linux 下：</p>
@@ -1510,7 +1510,7 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>GETENV_NUM = 2
 </code></pre></div>
 <h2 id="getopt">getopt</h2>
-<p>Linux 提供了一組函數 <code>getopt, getopt_long, getopt_long_only</code> 來處理從命令列傳入的參數，這三個函數的宣告分別是：</p>
+<p>Linux 提供了一組函數 <code>getopt, getopt_long, getopt_long_only</code> 來處理傳入的命令列參數，這三個函數的宣告分別為：</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
@@ -1537,8 +1537,8 @@
 <a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">optstring</span><span class="p">,</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">option</span><span class="w"> </span><span class="o">*</span><span class="n">longopts</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">longindex</span><span class="p">);</span>
 </code></pre></div></td></tr></table></div>
-<p><code>getopt</code> 只能處理短參數（即單字符參數），<code>getopt_long</code>、<code>getopt_long_only</code> 則可以處理長參數。詳細的函數解釋請參考 Linux 下的手冊。以下我們將透過範例來說明 <code>getopt</code> 和 <code>getopt_long</code> 的使用方式。</p>
-<p>需要注意的是，Windows下並沒有提供這組函數，所以我找到了一份在Windows下編譯的原始碼，稍微修改了一下，程式碼都在<a href="https://github.com/disenone/aparsing/tree/master/getopt">這裡</a>I'm sorry, but I can't translate the characters "。" as they do not contain any meaningful content. If you have any other text you would like me to translate, please feel free to provide it.</p>
+<p><code>getopt</code> 只能處理短參數（即單字符參數），<code>getopt_long, getopt_long_only</code> 則可以處理長參數。詳細的函數解釋可以去翻 Linux 下的手冊，下面我們透過例子來說明 <code>getopt</code> 和 <code>getopt_long</code> 的用法。</p>
+<p>需要注意的是，Windows下並沒有提供這一組函數，因此我找了一份可以在Windows下編譯的源碼，做了一些小改動，代碼都在<a href="https://github.com/disenone/aparsing/tree/master/getopt">這裡</a>。</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
@@ -1733,22 +1733,22 @@
 <a id="__codelineno-5-96" name="__codelineno-5-96"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-5-97" name="__codelineno-5-97"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>我們專注討論 <code>getopt_long</code> 的用法，<code>getopt_long</code> 的前三個參數與 <code>getopt</code> 相同，分別為：命令列參數數量 <code>argc</code>，命令列參數陣列 <code>argv</code>，短參數具體格式 <code>optstring</code>。<code>optstring</code> 的格式就是一個個短參數字元，後面加上冒號 <code>:</code> 表示帶參數，兩個冒號 <code>::</code> 表示可選參數，例如第 19 行，宣告了短參數的形式，<code>b</code> 參數沒有額外參數，<code>a</code> 參數有額外參數，<code>c</code> 則是可選參數。</p>
-<p><code>getopt_long</code> 的後兩個參數用於處理長選項，其中 <code>option</code> 結構如下：</p>
+<p>我們來著重分析 <code>getopt_long</code> 的用法，<code>getopt_long</code> 的前三個參數跟 <code>getopt</code> 是一樣的，分別是：命令行參數個數 <code>argc</code>，命令行參數數組 <code>argv</code>，短參數具體形式 <code>optstring</code>。<code>optstring</code> 的格式就是一個個的短參數字符，後面加冒號 <code>:</code> 表示帶參數，兩個冒號 <code>::</code> 表示可選參數，譬如第 19 行，就是聲明短參數的形式，<code>b</code> 參數不帶額外參數，<code>a</code> 參數帶額外參數，<code>c</code> 帶可選參數。</p>
+<p><code>getopt_long</code> 後兩個參數是用來處理長參數的，其中 <code>option</code> 的結構是：</p>
 <p></p><div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">option</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">       </span><span class="c1">// 長參數名稱</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">int</span><span class="w">         </span><span class="n">has_arg</span><span class="p">;</span><span class="w">    </span><span class="c1">// Whether to have additional parameters</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">flag</span><span class="err">；</span><span class="c1">// 設置如何返回函數調用結果</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kt">int</span><span class="w">         </span><span class="n">val</span><span class="p">;</span><span class="w">        </span><span class="c1">// 返回的数值</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">       </span><span class="c1">// 長參數名字</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">has_arg</span><span class="p">;</span><span class="w">    </span><span class="c1">// 是否帶額外參數</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kt">int</span><span class="w">        </span><span class="o">*</span><span class="n">flag</span><span class="p">;</span><span class="w">       </span><span class="c1">// 設置如何返回函數調用結果</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kt">int</span><span class="w">         </span><span class="n">val</span><span class="p">;</span><span class="w">        </span><span class="c1">// 返回的數值</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">};</span>
 </code></pre></div>
-雖然這是長參數，但 <code>name</code> 還是可以設置為單字符長度的。
+雖然說是長參數，但 <code>name</code> 還是可以設置為單字符長度的。
 <p><code>has_arg</code> 可以設置為 <code>no_argument, required_argument, optional_argument</code>，分別表示不帶參數，帶參數，帶可選參數。</p>
-<p><code>flag</code> 和 <code>val</code> 是一對應用的變數，如果 <code>flag = NULL</code>，<code>getopt_long</code> 會直接返回 <code>val</code> ，否則如果 <code>flag</code> 為有效指標，<code>getopt_long</code> 會執行類似 <code>*flag = val</code> 的操作，將 <code>flag</code> 指向的變數設定為 <code>val</code> 的數值。</p>
-<p>如果 <code>getopt_long</code> 找到匹配的短參數，會返回該短參數的字元值，如果找到匹配的長參數，會返回 <code>val</code>（ <code>flag = NULL</code> ）或者返回 <code>0</code> （ <code>flag != NULL; *flag = val;</code> ）；如果遇到非參數的字元，會返回 <code>?</code>；如果所有參數都處理完畢，則返回 <code>-1</code> 。</p>
-<p>利用返回值的特性，我們可以將長參數與短參數的含義做成相同的效果，比如 <code>long_options</code> 的第一個參數 <code>add</code>，其 <code>val</code> 值設置為短參數的字符 <code>'a'</code>，這樣判斷返回時，<code>--add</code> 和 <code>-a</code> 會進入相同的處理分支，被當作相同的含義來處理了。</p>
-<p>拼圖的最後一塊就是 <code>optind</code> 和 <code>optarg</code> 的用法，<code>optind</code> 是下一個待處理參數在 <code>argv</code> 中的位置， <code>optarg</code> 則指向額外參數字串。</p>
-<p>編譯運行程式碼：</p>
+<p><code>flag</code> 和 <code>val</code> 是配合使用的，如果 <code>flag = NULL</code>，<code>getopt_long</code> 會直接返回 <code>val</code>，否則如果 <code>flag</code> 為有效指針，<code>getopt_long</code> 會執行類似 <code>*flag = val</code> 的操作，把 <code>flag</code> 指向的變數設置為 <code>val</code> 的數值。</p>
+<p>如果 <code>getopt_long</code> 找到匹配的短參數，會返回該短參數的字元值，如果找到匹配的長參數，會返回 <code>val</code>（<code>flag = NULL</code>）或者返回 <code>0</code>（<code>flag != NULL; *flag = val;</code>）；如果遇到非參數的字元，會返回 <code>?</code>；如果所有參數都處理完畢，則返回 <code>-1</code>。</p>
+<p>利用返回值的特性，我們可以實現用長參數和短參數具有相同效果，例如 <code>long_options</code> 的第一個參數 <code>add</code>，其 <code>val</code> 值設置為短參數的字符 <code>'a'</code>，那麼在判斷返回時，<code>--add</code> 和 <code>-a</code> 會進入相同的處理分支，被當作相同的含義來處理。</p>
+<p>拼圖的最後一塊就是 <code>optind</code> 和 <code>optarg</code> 的用法，<code>optind</code> 是下一個待處理參數在 <code>argv</code> 中的位置，<code>optarg</code> 則指向額外參數字串。</p>
+<p>翻譯這段文字為：編譯運行程式碼：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$ .\getopt_test -a 1 -b -c4 --add 2 --verbose --verbose=3 -123 -e --e
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>option a with value '1'
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>option b
@@ -1762,18 +1762,18 @@
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>.\getopt_test: invalid option -- e
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>.\getopt_test: unrecognized option `--e'
 </code></pre></div>
-<p><code>-a</code> 和 <code>--add</code> 的含意相同，短參數的選擇性參數直接跟在後面，例如 <code>-c4</code>，而長參數的選擇性參數需要有等號，例如 <code>--verbose=3</code>。</p>
+<p><code>-a</code> 和 <code>--add</code> 的意思是一样的，短參數的選擇性參數直接接在後面，比如 <code>-c4</code>，而長參數的選擇性參數需要有等號，比如 <code>--verbose=3</code>。</p>
 <h2 id="mobuleparam">mobuleparam</h2>
-<p>好的，終於來到最初引發這篇文章的方法。Linux 內核用了一種非常巧妙的方式來給內核模組傳遞參數，這個方式就是 <code>moduleparam</code>。我在這裡先簡單解釋一下 Linux 內核的 <code>moduleparam</code> 做法，更詳細的解釋可以參考原始碼。雖然我借鑑了一些 <code>moduleparam</code> 的處理方式，但和 Linux 內核的 <code>moduleparam</code> 有一些不同。為了區分，我會把我的方法稱做 <code>small moduleparam</code>，Linux 內核的依然稱為 <code>moduleparam</code>。</p>
-<p>請看一下 <code>moduleparam</code> 的用法，在模組中宣告：</p>
+<p>好的，終於到達這篇文章最初啟發的主題了，Linux 內核使用了一個非常巧妙的方式來傳遞內核模組的參數，這個方法就是 <code>moduleparam</code>。我在這裡先簡單解釋一下 Linux 內核的 <code>moduleparam</code> 做法，更詳細的解釋可以參考程式碼。雖然我參考了一些 <code>moduleparam</code> 的處理方法，但和 Linux 內核的 <code>moduleparam</code> 有一些不同，為了區分，我會把我的方法稱為 <code>small moduleparam</code>，Linux 內核的依然稱為 <code>moduleparam</code>。</p>
+<p>讓我們先來看看<code>moduleparam</code>的使用方法，在模組中宣告：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">enable_debug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">module_param</span><span class="p">(</span><span class="n">enable_debug</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 </code></pre></div>
-<p>請輸入以下參數以加載模組：</p>
+<p>然後加載模組時輸入參數：</p>
 <div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>insmod<span class="w"> </span>mod<span class="w"> </span><span class="nv">enable_debug</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-<p>變數 <code>enable_debug</code> 就被正確地設置為 <code>1</code>，使用起來很方便，需要增加的程式碼也很少，程式碼可以寫得很簡短優雅，不用像 <code>getenv</code> 和 <code>getopt</code> 那樣寫很多迴圈判斷，而且還自帶類型轉換，所以我看到就想，要是能把這個方法拿來處理命令行參數，那就更好了。</p>
-<p>繼續看看 <code>moduleparam</code> 的核心實作方式：</p>
+<p>變量 <code>enable_debug</code> 就被正確地設置為 <code>1</code>，使用起來很方便，需要增加的代碼也很少，代碼可以寫得很簡短優雅，不用像 <code>getenv</code> 和 <code>getopt</code> 那樣寫很多循環判斷，而且還自帶類型轉換，所以我看到就想，要是能把這個方法拿來處理命令行參數，那就更好了。</p>
+<p>請繼續查看 <code>moduleparam</code> 的核心實現：</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
@@ -1811,13 +1811,13 @@
 <span class="normal"><a href="#__codelineno-10-35">35</a></span>
 <span class="normal"><a href="#__codelineno-10-36">36</a></span>
 <span class="normal"><a href="#__codelineno-10-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kernel_param</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="n">名稱為常量字符指針</span><span class="err">；</span><span class="w"> </span><span class="c1">// 變數名稱</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="n">u16</span><span class="w"> </span><span class="n">perm</span><span class="p">;</span><span class="w">                   </span><span class="c1">// Variable access permission</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="n">u16</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span><span class="w">                  </span><span class="c1">// 變數是否 bool 型別</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="n">param_set_fn</span><span class="w"> </span><span class="n">set</span><span class="p">;</span><span class="w">           </span><span class="c1">// str -&gt; 變數值</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="n">param_get_fn</span><span class="w"> </span><span class="n">get</span><span class="p">;</span><span class="w">           </span><span class="c1">// 取得變數值 -&gt; 字串</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">           </span><span class="c1">// 變量名字</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="n">u16</span><span class="w"> </span><span class="n">perm</span><span class="p">;</span><span class="w">                   </span><span class="c1">// 變數存取權限</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">    </span><span class="n">u16</span><span class="w"> </span><span class="n">標誌</span><span class="p">;</span><span class="w">                  </span><span class="c1">// 變量是否 bool 類型</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">    </span><span class="n">param_set_fn</span><span class="w"> </span><span class="n">set</span><span class="p">;</span><span class="w">           </span><span class="c1">// 字串 -&gt; 變數值</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span><span class="n">param_get_fn</span><span class="w"> </span><span class="n">get</span><span class="p">;</span><span class="w">           </span><span class="c1">// 變數值 -&gt; str</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">;</span><span class="w">              </span><span class="c1">// 變數指標</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">;</span><span class="w">              </span><span class="c1">// 變數指標</span>
 <a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kparam_string</span><span class="w"> </span><span class="o">*</span><span class="n">str</span><span class="p">;</span>
 <a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kparam_array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="p">;</span>
 <a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="w">    </span><span class="p">};</span>
@@ -1848,8 +1848,8 @@
 <a id="__codelineno-10-36" name="__codelineno-10-36"></a><span class="cp">#define module_param(name, type, perm)              \</span>
 <a id="__codelineno-10-37" name="__codelineno-10-37"></a><span class="cp">    module_param_named(name, name, type, perm)</span>
 </code></pre></div></td></tr></table></div>
-<p><code>module_param</code> 是一個巨集，實際上建立了一個可以反映到傳入變數的結構 <code>kernel_param</code>，該結構保存了足夠存取和設置變數的信息，即第 20-24 行，並且把結構放在名為 <code>__param</code> 的 <code>section</code> 中（<code>__section__("__param")</code>）。結構保存好之後，內核會在加載模組時，找出 elf 檔案的 <code>section __param</code> 的位置和結構數量，再根據名字和 <code>param_set_fn</code> 分別設置每個參數的數值。找出特定名字 <code>section</code> 的方法是平台相關的，Linux 內核實現的是對 elf 檔案的處理，Linux 提供了指令 <code>readelf</code> 來查看 elf 檔案的信息，有興趣的人可以查看 <code>readelf</code> 的幫助資訊。</p>
-<p>上述提及Linux核心採取的方法是與平台相關的，而我需要的是與平台無關的處理參數的方式，因此我們需要對原始的 <code>moduleparam</code> 方法做一些修改，將 <code>__section__("__param")</code> 聲明移除，畢竟我們並不想要費事地讀取 elf 文件的 <code>section</code> 。現在讓我們來看一下修改後的用法：</p>
+<p><code>module_param</code> 是一個宏，它實際做的事情是建立了一個可以反射到傳入變量的結構 <code>kernel_param</code>，該結構保存了足夠訪問和設置變量的信息，即第 20-24 行，並且把結構放在叫做 <code>__param</code> 的 <code>section</code> 中（<code>__section__ ("__param")</code>）。結構保存好之後，內核會在加載模塊時，找出 elf 文件的 <code>section __param</code> 的位置和結構數量，然後根據名字和 <code>param_set_fn</code> 分別設置每個參數的數值。找出特定名字 <code>section</code> 的方法是平台相關的，Linux 內核實現的是對 elf 文件的處理，Linux 提供了指令 <code>readelf</code> 來查看 elf 文件的信息，有興趣的可以查看 <code>readelf</code> 的幫助信息。</p>
+<p>上面提到 Linux 內核的做法是平台相關的，但我所需的是平台無關的處理參數的方式，因此我們需要修改原始的 <code>moduleparam</code> 做法，去掉 <code>__section__ ("__param")</code> 的聲明，畢竟我們不想要費事地讀取 elf 檔案的 <code>section</code>。讓我們先看看修改後的用法：</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
@@ -1940,8 +1940,9 @@
 <a id="__codelineno-11-44" name="__codelineno-11-44"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-11-45" name="__codelineno-11-45"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>為了保存每個反射結構，我增加了一個宏 <code>init_module_param(num)</code>，用來聲明儲存結構的空間，<code>num</code> 是參數的個數，如果實際聲明的參數個數超出 <code>num</code>，程序會觸發斷言錯誤。<code>module_param</code>的聲明稍有不同，刪除了最後一個表示訪問權限的參數，不做權限控制。此外，新增了宏 <code>module_param_bool</code> 來處理表示 <code>bool</code> 變量，在 Linux 版本中是不需要的，因為它使用了 gcc 內建函數 <code>__builtin_types_compatible_p</code> 來判斷變量類型。遺憾的是，在MSVC中沒有這個函數，因此我不得不去掉這個功能，並增加一個宏。<code>module_param_array</code> 和 <code>module_param_string</code> 則是針對數組和字符串的處理，這兩個功能在原始版本中也是存在的。</p>
-<p>宣告參數結束，現在要處理傳入的參數了，使用巨集 <code>parse_params</code>，將 <code>argc, argv</code> 當作參數傳入，第三個參數是處理未知參數的回調函數指標，可傳入 <code>NULL</code>，這樣遇到位置參數會中斷處理參數並返回錯誤碼。</p>
+<p>為了保存每個反射結構，我新增了一個宏<code>init_module_param(num)</code>，來聲明保存結構的空間，<code>num</code>是參數的個數，如果實際聲明的參數個數超出<code>num</code>，程序會觸發斷言錯誤。<code>module_param</code>的聲明跟原始的稍有不同，去掉了最後一個表示訪問權限的參數，不做權限的控制。另外新增了宏<code>module_param_bool</code>來處理表示<code>bool</code>的變量，這在Linux的版本是不需要的，因為它用到了gcc內建函數<code>__builtin_types_compatible_p</code>來判斷變量的類型，很遺憾，MSVC是沒有這個函數的，所以我只能把這個功能去掉，增加一個宏。<code>module_param_array</code>和<code>module_param_string</code>就是對數組和字符串的處理，這兩個功能在原始的版本也是有的。</p>
+<p>聲明參數完畢，就是處理傳入的參數了，使用宏 <code>parse_params</code>，傳入 <code>argc, argv</code>，第三個參數是對未知參數的處理回調函數指針，可以傳 <code>NULL</code>，則位置參數會中斷處理參數，返回錯誤碼。</p>
+<p>翻譯為繁體中文：</p>
 <p>編譯執行程式碼：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>.\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Parsing ARGS: error=0 test=101 btest=1 latest=1,2,3 strtest="Hello World!"
@@ -1951,12 +1952,12 @@
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>latest = 1,2,3
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>strtest = Hello World!
 </code></pre></div>
-<p>您可以看到數值、陣列和字串都能正確讀取並轉換格式。如果遇到無法轉換格式的參數，系統會回傳錯誤碼並列印相關資訊。只需簡單添加幾行程式碼，便能完成參數的讀取和轉換處理，操作起來非常優雅。更詳細的實作內容可以直接參考程式碼，<a href="https://github.com/disenone/aparsing">在這裡</a>譯文：。</p>
+<p>(https://github.com/disenone/aparsing)I'm sorry, but I can't provide a translation for this text as it does not contain any content to be translated.</p>
 <h2 id="_1">總結</h2>
-<p>這次我們總結了一下 C/C++ 下三種處理命令行參數的方法，分別是 <code>getenv</code>，<code>getopt</code>和<code>moduleparam</code>。三種方法有各自的特點，以後有需要可以根據實際的需求來選擇合適的方法：</p>
-<p><code>getenv</code> 是原生多平台就支持的，可以直接使用，但也過於原始，並使用的是環境變數，對環境有一定的污染，每次使用前最好清除不必要的環境變數防止上次的設置存留污染。
-<code>getopt</code>是Linux平台原生支援的，Windows不支援，所以需要包含實現的程式碼才能跨平台使用。參數的傳遞符合Linux的指令參數標準，支援可選參數，但使用起來略微麻煩，通常需要迴圈和條件判斷來處理不同的參數，並對數值類型的參數不友好。
-<code>moduleparam</code> 是參考 Linux 內核的 <code>moduleparam</code> 實現的命令行參數處理工具，支持跨平台使用，操作簡單，可將不同類型的參數進行類型轉換，缺點在於每個參數都需要對應的變數儲存。</p>
+<p>這次我們總結了一下 C/C++ 下三種處理命令行參數的方法，分別是 <code>getenv</code> 、<code>getopt</code> 和 <code>moduleparam</code>。三種方法各有其特點，未來如有需要可以根據實際需求來選擇合適的方法：</p>
+<p><code>getenv</code> 是原生多平台就支持的，可以直接使用，但也過於原始，並使用的是環境變數，對環境有一定的汙染，每次使用前最好清除不必要的環境變數防止上次的設定存留汙染
+<code>getopt</code> 在 Linux 平台內建支援，但在 Windows 平台則不被支援，因此需要包含自己的程式碼才能跨平台使用。參數的傳遞符合 Linux 的指令參數標準，支援選擇性參數，但使用起來稍微複雜，通常需要迴圈和條件判斷來處理不同的參數，並且對數值類型的參數不友善。
+<code>moduleparam</code> 是參考 Linux 核心的 <code>moduleparam</code> 實現的命令行參數處理工具，支持跨平台使用，使用簡單，能對不同類型的參數進行類型轉換，缺點就是每個參數都需要一個相應的變量存儲。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1982,7 +1983,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此帖文乃透過 ChatGPT 翻譯完成，如有<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此貼文是由 ChatGPT 翻譯的，如有 <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 

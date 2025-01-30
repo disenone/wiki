@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="體積光散射是一個相當不錯的視覺效果，你彷彿看到了光線在空中的傳播，空中的微粒被光照亮，而部分光線又被遮擋住，視覺上會產生從光源輻射出的光線。">
+        <meta name="description" content="體積光散射是一個挺不錯的視覺效果，你彷彿看到了光線在空中的傳播，空中的微粒被光照亮，而部分光線又被遮擋住，視覺上會產生從光源輻射出的光線。">
       
       
         <meta name="author" content="Disenone">
@@ -582,7 +582,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -701,7 +701,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -722,7 +722,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -969,7 +969,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -990,7 +990,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1053,7 +1053,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1074,7 +1074,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1181,7 +1181,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1202,7 +1202,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1244,7 +1244,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1314,7 +1314,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      遮擋物體
+      畫遮蓋物體
     </span>
   </a>
   
@@ -1332,7 +1332,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      光散射處理，並結合真實顏色。
+      光散射處理，並結合真實顏色
     </span>
   </a>
   
@@ -1407,7 +1407,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      遮擋物體
+      畫遮蓋物體
     </span>
   </a>
   
@@ -1425,7 +1425,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      光散射處理，並結合真實顏色。
+      光散射處理，並結合真實顏色
     </span>
   </a>
   
@@ -1467,22 +1467,22 @@
 
 <div><p><meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)"></p>
 <h2 id="_1">原理</h2>
-<p>體積光散射的原理可以參考《GPU Gems 3》<a href="http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html">第13章</a>書上有效果圖：</p>
+<p>(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)書中關於效果的圖表：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/goodeffect.png"></a></p>
-<p>看起來不錯，好的，我們的目標就是要達到這種效果。</p>
+<p>好看吧，那好，我們的目標就是實現這種效果。</p>
 <p>書上介紹了原理，一條關鍵的公式是：</p>
 <p>\[ L(s, \theta, \phi) = exposure \times \sum_{i=0}^n decay^i \times weight \times \frac{L( s_i, \theta_i )}{n} \]</p>
-<p>我的理解是，對於圖像上的每個像素，光線都有可能照射到，那麼對該像素到光源(在投影到圖像上的位置)的連線進行抽樣(對應公式上\(i\))，抽樣出的結果進行加權平均(對應公式上\(\sum\))並作為該像素的新的顏色值。另外還有關鍵的後置像素著色器，但是如果只是用那個著色器來對相機渲染的結果進行處理，會產生明顯的人工痕跡，有許多的條紋：</p>
+<p>我的理解是，對於圖像上的每個像素，光線都有可能照射到，那麼對該像素到光源（在投影到圖像上的位置）的連線進行採樣（對應公式上<span class="arithmatex">\(i\)</span>），採樣出的結果進行加權平均（對應公式上<span class="arithmatex">\(\sum\)</span>）並作為該像素的新顏色值。另外還有關鍵的後置像素著色器，但如果只是用那個著色器來對相機渲染的結果進行處理，會產生明顯的人工痕跡，有許多的條紋：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/badeffect.png"></a></p>
-<p>書上提及的效果是如何實現的？事實上，書中已經給出了答案，可以用一組圖片來闡述：</p>
+<p>那麼書上的效果是怎麼做出來的？其實書上已經給出了答案，可以用一組圖來闡述：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/steps.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/steps.png"></a></p>
 <p>圖a就是粗糙的效果，細心地可以看到有許多條紋，並且沒有遮擋不夠真實，b、c、d就是為了獲得好的效果需要進行的步驟：</p>
-<p>將光線的照射效果呈現在圖像上，並增加物體的遮擋。</p>
-<p>對b執行體積光散射像素著色器，得到遮蔽後的效果</p>
-<p>在图上添加真实场景的颜色</p>
-<p>那麼接下來，讓我們一步一步地實現。</p>
-<h2 id="_2">遮擋物體</h2>
-<p>在實際操作中，我先使用<code>RenderWithShader</code>來把可能會遭遇遮蔽的物體塗黑，其他地方塗白，因為這需要對每個面片進行渲染，所以對於複雜的場景會造成一定的效能消耗。場景中有不透明和透明的物體，我們希望不透明的物體產生完全的光線遮蔽，而透明的物體應該只產生部分的遮蔽，因此我們需要針對不同的RenderType撰寫不同的Shader，RenderType是SubShader的Tag，若不清楚可以參考<a href="http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html">這裡</a>寫好後呼叫：</p>
+<p>b. 將燈光輻射效果渲染到圖像上，並加上物體的遮擋</p>
+<p>對b執行體積光散射像素著色器，以獲得遮擋後的效果。</p>
+<p>d. 添加上真實場景的顏色</p>
+<p>接下來讓我們一步一步地實現。</p>
+<h2 id="_2">畫遮蓋物體</h2>
+<p>在實際的操作中，我先用<code>RenderWithShader</code>將會發生遮擋的物體畫成黑色，其他地方為白色，因為這需要對每個面片進行渲染，因此對於複雜的場景，會帶來一定的性能消耗。場景中的物體有不透明和透明的，我們希望不透明的物體產生完全的光線遮擋，而透明的物體應該產生部分的遮擋，那麼我們就需要針對不同RenderType的物體寫不同的Shader，RenderType是SubShader的Tag，不清楚的話可以看<a href="http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html">這裡</a>，寫好之後調用：</p>
 <p></p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">camera</span><span class="p">.</span><span class="n">RenderWithShader</span><span class="p">(</span><span class="n">objectOcclusionShader</span><span class="p">,</span><span class="w"> </span><span class="s">"RenderType"</span><span class="p">);</span>
 </code></pre></div>
 <code>RenderWithShader</code>的第二個參數就是要求根據RenderType來替換Shader，簡單來說，同一個物體的替換的Shader的RenderType要跟替換前一致，這樣我們就可以為不同的RenderType的物體使用不同的Shader：
@@ -1571,10 +1571,10 @@
 <a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
 <a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a><span class="p">}</span>
 </code></pre></div>
-<p>請注意不透明和透明物體的Shader之間的區別：不透明的物體直接畫成黑色；透明物體則需要執行blending，獲取物體紋理上的alpha通道，並基於這個alpha值進行blending。上述代碼僅列舉了Opaque和Transparent兩種，還有其他像是TreeOpaque（Shader與Opaque相同，只是改變RenderType）、TreeTransparentCutout（與Transparent相似）等。由於指定了RenderType，為了全面考慮，需要盡可能涵蓋場景中可能會發生遮擋情況的物體，這裡僅提到了前面提到的四種情況。結果大致如下：</p>
+<p>注意不透明和透明物體的Shader之間的差別：不透明的物體直接繪製為黑色；不透明物體需要執行混合，獲取物體紋理上的alpha通道，並基於這個alpha進行混合。上面的代碼只是列舉了Opaque和Transparent，另外還有TreeOpaque（Shader跟Opaque一樣，只是改變RenderType）、TreeTransparentCutout（同Transparent）等。由於指定了RenderType，因此為了全面，需要盡可能穷盡場景中會發生遮擋的物體，我這裡就只有前面提到的四種。結果大致如下：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/objectocclusion.png"></a></p>
 <h2 id="_3">結合物體遮擋畫光源輻射</h2>
-<p>繪製光源的輻射並不困難，需要留意的是要根據螢幕的大小進行處理，使得光源的輻射呈現圓形狀：</p>
+<p>繪製光源的輻射並不困難，重要的是要根據屏幕的大小做一些處理，使光源的輻射形狀為圓形：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="s">"Custom/LightRadiate"</span><span class="w"> </span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">Properties</span><span class="w"> </span>
@@ -1623,10 +1623,10 @@
 <a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="s">"Diffuse"</span>
 <a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="p">}</span>
 </code></pre></div>
-<p>這個Shader需要輸入光源在螢幕上的位置(可以使用<code>camera.WorldToViewportPoint</code>來計算，得到的是uv座標)，然後根據指定的半徑畫一個亮度往外衰減的圓，並將結果與前面得到的物體遮擋圖像(放在<code>_MainTex</code>內)結合，結果大致為：</p>
+<p>這個Shader需要輸入光源在螢幕上的位置（可以用<code>camera.WorldToViewportPoint</code>來計算，得到的是uv座標），然後根據指定的半徑畫一個亮度往外衰減的圓，並把結果跟前面得到的物體遮擋圖像（放在<code>_MainTex</code>裡）結合，結果大致為：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/light.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/light.png"></a></p>
-<h2 id="_4">光散射處理，並結合真實顏色。</h2>
-<p>這裡將使用書中提供的像素着色器，請參考我的版本：</p>
+<h2 id="_4">光散射處理，並結合真實顏色</h2>
+<p>這裡就要用到書上提供的Pixel Shader，我的版本：</p>
 <div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">LightScattering</span><span class="err">"</span><span class="w"> </span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">Properties</span><span class="w"> </span>
@@ -1708,10 +1708,10 @@
 <a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
 <a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a><span class="p">}</span>
 </code></pre></div>
-<p>整體來說與書中描述相符，只是我的參數需要從程式中傳遞進來，並結合了真實的顏色圖和Light Scattering圖，得出結果：</p>
+<p>大體上跟書上的一致，只是我的參數需要在程式中傳進來，並且結合了真實的顏色圖和光散射圖，結果：</p>
 <p><a class="glightbox" href="../../assets/img/2014-3-30-unity-light-scattering/effect.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-30-unity-light-scattering/effect.gif"></a></p>
 <h2 id="_5">完整代碼</h2>
-<p>代碼在<a href="../../assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip">這裡</a>將<code>cs</code>腳本添加到相機上。</p>
+<p>代碼在<a href="../../assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip">這裡</a>將<code>cs</code>腳本新增至相機。</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1737,7 +1737,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>這篇文章是透過 ChatGPT 翻譯的，如果您有任何<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此貼文是透過ChatGPT翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>中指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1777,7 +1777,7 @@
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）">
+          <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 使用Unity繪製深度圖和邊緣檢測。">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1787,7 +1787,7 @@
                 上一頁
               </span>
               <div class="md-ellipsis">
-                Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+                使用Unity繪製深度圖和邊緣檢測。
               </div>
             </div>
           </a>
