@@ -1,6 +1,7 @@
 ---
 layout: post
-title: implements various image (UTexture2D) operations (read, save, copy, clipboard...)
+title: Carry out various operations on images (UTexture2D) in Unreal Engine (UE) (such
+  as reading, saving, copying, clipboard...).
 tags:
 - dev
 - game
@@ -16,26 +17,26 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: Implement reading local system images in UE.
+description: UE achieves reading images from the local system.
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#Realize various operations on images (UTexture2D) (read, save, copy, clipboard...)
+#Perform various operations on images (UTexture2D) in Unreal Engine (such as read, save, copy, clipboard...).
 
-> The following code examples are based on version UE5.3.
+> The following code is based on version UE5.3.
 
 ##Source code
 
-More source code details can be obtained from the UE Marketplace plugin: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+More source code details can be found in the UE Marketplace for the plugin: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Read: UE realizes reading local system images as UTexture2D
+##Reading: UE implements reading local system images as UTexture2D.
 
 ###General method
 
-This method is feasible in both Editor and GamePlay modes, supporting image file formats including PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, covering most common image types.
+This method is feasible in both the Editor and GamePlay modes, supporting image file formats such as PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, and TGA, covering most common image types.
 
-The code is also very clean:
+The code is also very concise:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -50,13 +51,13 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-The returned is UTexture2D.
+The result returned is UTexture2D.
 
 ###Editor-specific methods
 
-This method can additionally support more image types: UDIM texture maps, IES files, PCX, PSD.
+This method can also support additional types of images: UDIM texture maps, IES files, PCX, PSD.
 
-The implementation of the code will be more complex:
+The implementation of the code will be a bit more complex.
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -88,11 +89,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-The implementation uses the FactoryCreateBinary function of UTextureFactory, which is able to read the additional file types mentioned earlier.
+The implementation utilizes the FactoryCreateBinary function of UTextureFactory, which is capable of reading the additional file types mentioned earlier.
 
-##Copy: UE achieves copying UTexture2D
+##Translation: Copy: UE realizes copying UTexture2D
 
-Sometimes you need to duplicate a UTexture2D and then modify the duplicated image. Copying the image requires using the engine's built-in function `FImageCore::CopyImage`. Just set the parameters for the two images and call this interface.
+Sometimes, it is necessary to copy a UTexture2D and then modify the copied image. To copy the image, you need to use the engine's built-in function `FImageCore::CopyImage`. You just need to set the parameters for both images correctly and call this interface.
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -148,9 +149,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##Save: UE achieves saving UTexture2D to file
+##Save: UE implements saving UTexture2D to a file
 
-The key is to use the engine function `FImageUtils::SaveImageAutoFormat`, which is relatively simple to implement, but it is important to pay attention to the situation of retrying in case of failure.
+The core is to use the engine function `FImageUtils::SaveImageAutoFormat`, which is relatively simple to implement, but attention needs to be paid to failure retry scenarios.
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -181,11 +182,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##Save: Implement saving UTexture2D to Asset
+##Save: UE realizes saving UTexture2D to Asset
 
-Save the UTexture2D in memory to an Asset, and be able to view it in the Content Browser.
+Save the UTexture2D in memory to an Asset, and it can be viewed in the Content Browser.
 
-The core function needs to use the `CopyTexture2D` implemented above. We need to first duplicate a new image, and then call `UPackage::SavePackage` to save the `Package` where the image is located as an Asset.
+The core function requires the `CopyTexture2D` implemented above. We need to first create a copy of a new image and then call `UPackage::SavePackage` to save the `Package` containing the image as an Asset.
 
 ```cpp
 
@@ -248,22 +249,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##Clipboard: UE implement copying images (UTexture2D) to Windows Clipboard
+##Clipboard: UE achieves copying images (UTexture2D) to Windows clipboard.
 
-###Windows related functions
+###Windows-related functions
 
-We will use the following functions related to the Windows clipboard operations:
+We will use the following functions related to the Windows clipboard:
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Open the clipboard to obtain the clipboard's handler.
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Empty the clipboard and assign ownership of the clipboard to the current window.
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Set the data of the clipboard. Image data is sent to the clipboard through this interface.
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Open the clipboard and obtain the clipboard's handler.
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Clear the clipboard and assign ownership of the clipboard to the current window.
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Set the clipboard data; the image data is sent to the clipboard through this interface.
 * [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)After setting up the data, close the clipboard.
 
-###Clipboard image format
+###Image format of the clipboard
 
-(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Inside, there are introductions to available clipboard formats, among which `CF_DIBV5` can be used to set images.
+[Standard Clipboard Format](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)It introduces available clipboard formats, among which `CF_DIBV5` can be used to handle images.
 
-The specific definition of the format required by CF_DIBV5 [BITMAPV5HEADER structure](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Here we have selected the following configuration.
+The specific definition required by CF_DIBV5 [BITMAPV5HEADER structure](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Here, we choose the following configuration.
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -271,9 +272,9 @@ Header.bV5CSType        = LCS_sRGB;
 Header.bV5Compression   = BI_BITFIELDS;
 ```
 
-###UTexture2D Setting
+###UTexture2D settings
 
-We selected the color space of the clipboard image as `LCS_sRGB`, which is the sRGB color space above, so the UTexture2D also needs to be set to the corresponding format first:
+We have selected the color space of the clipboard image as `LCS_sRGB` above, which is the sRGB color space. Therefore, UTexture2D also needs to be set to the corresponding format beforehand:
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -295,7 +296,7 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard is responsible for converting UTexture2D to standard format: TC_VectorDisplacementmap (RGBA8) and SRGB color space. Once aligning the image format of UTexture2D and Windows clipboard, we can copy the image data to the clipboard.
+ConvertTextureToStandard is responsible for converting UTexture2D into the standard format: TC_VectorDisplacementmap (RGBA8) and SRGB color space. Once the UTexture2D format is aligned with the image format of the Windows clipboard, we can copy the image data to the clipboard.
 
 ###Specific code
 
@@ -392,7 +393,7 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 
 ###Conversion between UTexture2D and Base64
 
-This is relatively easy to implement, let's dive into the code.
+This can be relatively simple to implement, let's dive into the code.
 
 ```cpp
 #include <Misc/Base64.h>
@@ -431,4 +432,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT. Please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

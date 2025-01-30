@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE EditorPlus Documentation
+title: UE Editor Plugin UE.EditorPlus Documentation
 tags:
 - dev
 - game
@@ -16,34 +16,34 @@ description: UE Editor Plugin UE.EditorPlus Documentation
 
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-#UE EditorPlus Plugin Documentation
+#UE Editor Plugin UE.EditorPlus Documentation
 
 ##Introduction video
 
 ![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
 
-##Plug-in source code
+##Plugin source code
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##Download from the mall
+##Mall download
 
 [EditorPlus](https://www.unrealengine.com/marketplace/zh-CN/product/editorplus)
 
-##Add the source code plugin EU.EditorPlus to the project.
+##Project Add Source Code Plugin EU.EditorPlus
 
-Reference documents:
+Reference document:
 
-Chinese: [Add plugins with UE by plugin source code](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
+Chinese: [UE adds plugins through plugin source code](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 - English: [UE adds plugins through the plugin source code](https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 
 
 ##Plugin Description
 
-UE.EditorPlus is a UE editor plugin that provides a convenient way to extend the editor menu and supports advanced methods of extension, while also including some practical editor tools. This plugin supports UE5.3+.
+UE.EditorPlus is a UE editor plugin that provides a convenient way to expand editor menus and supports advanced ways to extend them, while also including some practical editor tools. This plugin is compatible with UE5.3+.
 
 
-##Expand editor menu
+##Extend editor menu
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
@@ -54,10 +54,10 @@ UE.EditorPlus is a UE editor plugin that provides a convenient way to extend the
 Support multiple ways to expand the editor menu:
 
 Path method: `RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
-Instantiation method: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
-- Mixed mode: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action", EP_NEW_MENU(FEditorPlusCommand)("Action")`
+- Instantiation method: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
+Mixed method: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
 
-###Way of the path
+###Pathway
 
 You can register an editor menu command in this way:
 
@@ -71,30 +71,26 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-This way, you can add a menu Bar behind the Help menu in the editor menu bar, with a submenu SubMenu inside Bar, and an Action command inside SubMenu.
+In this way, you can add a menu called Bar behind the Help menu in the editor menu bar, with a submenu named SubMenu in Bar, and then add a command called Action in SubMenu.
 
-The complete path format would be like this: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, the first path must be `<Hook>`, currently supported types and restrictions:
+The complete path format would be: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, where the first path must be `<Hook>`. The currently supported types and limitations are:
 
-- `<Hook>`: indicates where to generate the menu, the subsequent path cannot contain `<Hook>`
-Translate these text into English language:
-
-- `<MenuBar>`: Menu Bar, the following paths cannot contain `<Hook>, <MenuBar>, <ToolBar>`
-- `<ToolBar>`: Toolbar, the following path cannot contain `<Hook>, <MenuBar>, <ToolBar>`
+- `<Hook>`: Indicates where the menu should be generated in the specified Hook, and subsequent paths cannot include `<Hook>`.
+- `<MenuBar>`: Menu bar, the following path cannot have `<Hook>, <MenuBar>, <ToolBar>`
+- `<ToolBar>`: Toolbar, the path following it cannot contain `<Hook>, <MenuBar>, <ToolBar>`
 - `<Section>`: Menu section, the following path cannot contain `<Hook>, <MenuBar>, <Section>`
-- `<Separator>`: Menu separator, path cannot contain `<Hook>, <MenuBar>` afterwards
-Translate these text into English language:
-
+- `<Separator>`: Menu separator, the subsequent path should not contain `<Hook>, <MenuBar>`
 - `<SubMenu>`: Submenu, the following path cannot contain `<Hook>, <MenuBar>`
-- `<Command>`: Menu command, no path should follow it
-- `<Widget>`: More customizable Slate UI components for extendibility, with no paths following it.
+- `<Command>`: Menu command, no paths are allowed after it.
+- `<Widget>`: More customizable Slate UI components that can be extended, with no paths allowed afterwards.
 
-A simpler path format: `/BarName/SubMenuName1/SubMenuName2/CommandName`, if the type is not specified, the first element of the path is `<MenuBar>`, the middle elements are `<SubMenu>`, and the last element is `<Command>`.
+A simpler path format: `/BarName/SubMenuName1/SubMenuName2/CommandName`, if no type is specified, the first in the path is `<MenuBar>`, the middle one is `<SubMenu>`, and the last one is `<Command>`.
 
-If `<Hook>` is not specified, automatically add `<Hook>Help` to the very beginning, indicating that the menu will be added after the Help menu.
+If no `<Hook>` is specified, `<Hook>Help` will be automatically added at the very front, indicating that a menu bar will be added after the Help menu.
 
-###Way of instantiation
+###Instantiation Method
 
-The route mode automatically instantiates all nodes based on type and default parameters, and we can also control instantiation ourselves to have a more detailed control over the content of the extension.
+The path method automatically instantiates all nodes based on type and default parameters. We can also control the instantiation ourselves, allowing for more detailed control over the content of the extensions.
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips"))
@@ -111,11 +107,11 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 });
 ```
 
-When instantiating `MyBar`, you can pass in the Hook name, localized name, and localized tooltip parameters (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). The above code is equivalent to the path way `/ <Hook>Help/ <MenuBar>MyBar/ <SubMenu>MySubMenu/ <Command>MyAction`.
+When instantiating `MyBar`, you can pass in the hook name, localized name, and localized tooltip parameters (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). The above code is equivalent to the path format `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
 
 ###Mixed mode
 
-Of course, you can also mix the two methods:
+Of course, you can also mix and match the two methods:
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -128,7 +124,7 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-In this case, the plugin will automatically instantiate the nodes along the middle path, with the final node being instantiated by the user themselves.
+In this situation, the plugin will automatically instantiate the nodes along the intermediate path, while the user's own instantiated nodes will be used for the final path.
 
 ###More use cases
 
@@ -138,7 +134,7 @@ Header file:
 #include <EditorPlusPath.h>
 ```
 
-Specify the localization language by path, `EP_FNAME_HOOK_AUTO` means automatically using the path name as the Hook name:
+Specify the localization language through the path method. `EP_FNAME_HOOK_AUTO` automatically uses the path name as the `Hook` name:
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -152,7 +148,7 @@ FEditorPlusPath::RegisterPathAction(
         LOCTEXT("ActionTips", "ActionTips"));
 ```
 
-Retrieve nodes by path and set localized text:
+Obtain nodes through the path and set localized text:
 
 ```cpp
 FEditorPlusPath::GetNodeByPath("/MenuTest")
@@ -161,7 +157,7 @@ FEditorPlusPath::GetNodeByPath("/MenuTest")
 ```
 
 
-Add a Slate UI widget to the end of the path
+Add a Slate UI control at the end of the path.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -171,20 +167,20 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-Add new nodes in the Hook provided by UE.
+Add new nodes in the built-in hooks of Unreal Engine.
 
 ```cpp
 FEditorPlusPath::RegisterPath("<Hook>EpicGamesHelp/<Separator>ExtendSeparator")
 ```
 
-Repeated declarations of the same path are recognized as the same path, so the same path can be continuously extended.
+Declaring the same path multiple times is recognized as the same path, thus allowing for the continuous expansion of that path.
 
 ```cpp
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path1", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path1", "Path1"), LOCTEXT("Path1Tips", "Path1Tips"));
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path2", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path2", "Path2"), LOCTEXT("Path2Tips", "Path2Tips"));
 ```
 
-Extend the path for a node
+Continue to expand the path for a node.
 
 ```cpp
 auto node = FEditorPlusPath::GetNodeByPath("/MenuTest");
@@ -234,15 +230,15 @@ public:
 };
 ```
 
-- `RegisterPath`: Generate Path Menu.
-- `RegisterPathAction`: Generate path menu, and automatically bind operation to the end `<Command>` node
-- `RegisterChildPath`: Generate child paths for the specified node.
-- `RegisterChildPathAction`: Generate child paths for the specified node and automatically bind actions.
-- `UnregisterPath`: Delete path, `Leaf` can specify strict matching when there are multiple end nodes with the same name. During the deletion process, the intermediate nodes will be traced back, and once an intermediate node has no child nodes, it will also be deleted.
+- `RegisterPath`: Generate Path Menu
+`RegisterPathAction`: Generate a path menu and automatically bind an action to the end `<Command>` node.
+`RegisterChildPath`: Generate child paths for the specified node.
+- `RegisterChildPathAction`: Continues to generate child paths for the specified node and automatically binds operations.
+- `UnregisterPath`: Deletes the path. The `Leaf` can specify strict matching when there are multiple end nodes with the same name. During the deletion process, it will backtrack to intermediate nodes, and any intermediate node without any child nodes will also be deleted.
 - `GetNodeByPath`: Get node by path
 
 
-Node Type
+Node type
 
 ```cpp
 // base class of all node
@@ -265,14 +261,14 @@ class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}
 class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```
 
-For more examples and interface explanations, please refer to the source code [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus), Test case [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
+For more examples and interface descriptions, please refer to the source code [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)Test case [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-###Modular management
+###Modular Management
 
-UE.EditorPlus also provides a modular framework for managing extension menus, supporting automatic loading and unloading of extension menus when plugins are loaded and unloaded.
+UE.EditorPlus also provides a modular framework for managing extension menus, supporting the automatic loading and unloading of extension menus when plugins are loaded and unloaded.
 
-Let the menu class inherit `IEditorPlusToolInterface` and override the `OnStartup` and `OnShutdown` functions. `OnStartup` is responsible for creating the menu, while `OnShutdown` is responsible for calling the node's `Destroy` function to clean up the menu. When the reference count of a single node is 0, automatic cleanup will be triggered.
+Allow the menu class to inherit from `IEditorPlusToolInterface` and override the `OnStartup` and `OnShutdown` functions. `OnStartup` is responsible for creating the menu, while `OnShutdown` is responsible for calling the node's `Destroy` function to clean up the menu. When the reference count of a single node reaches 0, automatic cleanup will be executed.
 
 ```cpp
 class FMenuTest: public IEditorPlusToolInterface
@@ -300,7 +296,7 @@ void FMenuTest::OnShutdown()
 }
 ```
 
-The **MenuManager** class inherits `IEditorPlusToolManagerInterface` and overrides the `AddTools` function to add menu classes inside it.
+The menu management class inherits from `IEditorPlusToolManagerInterface` and overrides the `AddTools` function, where it adds the menu class.
 
 ```cpp
 class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
@@ -319,7 +315,7 @@ void FEditorPlusToolsImpl::AddTools()
 }
 ```
 
-When loading and unloading plugins, the `StartupTools` and `ShutdownTools` functions of the management class are called respectively.
+The `StartupTools` and `ShutdownTools` functions of the management class are called when loading and unloading plugins, respectively.
 
 ```cpp
 void FEditorPlusToolsModule::StartupModule()
@@ -334,10 +330,10 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```
 
-After completing the above adaptation, the extension menu can be automatically loaded and unloaded when loading and unloading plugins.
+Once the above adaptation is completed, the extended menu can be automatically loaded and unloaded when loading and unloading the plugins.
 
 
-##Editor Tools
+##Editor tool
 
 UE.EditorPlus also provides some practical editor tools.
 
@@ -377,11 +373,11 @@ ClassBrowser is a UE Class viewer, which can be opened through the menu EditorPl
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
-Based on UE's reflection, you can easily view various types of UE member information, descriptions, prompts, etc., support fuzzy search, and be able to jump to open parent class information.
+Based on UE reflection, it is convenient to view various types of UE member information, explanatory prompts, etc. It supports fuzzy search and can jump to open parent class information.
 
 ### MenuCollections
 
-MenuCollections is a tool for quickly searching for and collecting menu commands, which can help you quickly find the menu commands you need to execute, and can also collect frequently used commands to improve efficiency.
+MenuCollections is a tool for quickly searching and saving menu commands, helping you find the commands you need to execute quickly and allowing you to save frequently used commands to enhance efficiency.
 
 ![](assets/img/2024-ue-editorplus/menucollection_find.png)
 
@@ -390,7 +386,7 @@ MenuCollections is a tool for quickly searching for and collecting menu commands
 
 ### SlateResourceBrowser
 
-SlateResourceBrowser is a tool that allows you to quickly view Slate UI resources, helping you browse and find the editor resources you need, making it easy to expand the editor.
+SlateResourceBrowser is a tool that allows you to quickly view Slate UI resources, helping you browse and find the editor resources you need, making it convenient to expand the editor.
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
 
@@ -403,4 +399,4 @@ SlateResourceBrowser is a tool that allows you to quickly view Slate UI resource
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT, please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Please point out any omissions. 

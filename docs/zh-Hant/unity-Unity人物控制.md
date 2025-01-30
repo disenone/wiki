@@ -6,7 +6,7 @@ categories:
 catalog: true
 tags:
 - dev
-description: 人物的動作控制是遊戲裡面很重要的一部分，操作性強的遊戲能夠很好的吸引玩家。這裡我就嘗試做一個簡單的人物操作控制，人物能夠完成基本的移動，包括行走，跳躍。
+description: 人物的動作控制是在遊戲中非常重要的一部分，操作性強的遊戲能夠很好地吸引玩家。在這裡，我嘗試做一個簡單的人物操作控制，人物能夠完成基本的移動，包括行走和跳躍。
 figures:
 - assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif
 ---
@@ -15,27 +15,25 @@ figures:
 
 ![](assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif)
 
-人物的動作控制是遊戲中非常重要的一部分，具有良好操控性的遊戲能夠吸引玩家。在這裡，我嘗試著設計一個簡單的人物操作控制系統，使人物能夠基本移動，包括行走和跳躍。
+人物的動作控制是遊戲中非常重要的一部分，具有良好操作性的遊戲能夠有效吸引玩家。這裡我嘗試做一個簡單的人物操作控制，讓角色能夠完成基本的移動，包括行走和跳躍。
 
 ##需求
-先來考慮一下，我們的角色操作具體的需求：
+請先思考一下，我們對角色操作的具體需求：
 
-行走，能夠在剛體的表面行走，由按鍵上下左右輸入來控制，暫不考慮加速減速過程。
-行走的速度在不同方向上可以不同，例如後退應該比前進慢
-跳躍，由跳按鍵控制，角色以一定的初始速度從上方離開地面，然後慢慢回落到地面。
+行走，能在剛體的表面行走，由按鍵上下左右輸入來控制，暫不考慮加速減速過程。
+行走的速度在不同方向上可以不同，例如後退應該比前進慢。
+跳躍，由跳按鈕控制，人物以一定初始速度從上離開地面，並慢慢回落到地面。
 
-大致的想法就是：透過速度來描述人物的移動，可以分別計算每個方向上的速度分量，最後再將速度乘以時間就是人物的位置偏移了。
+大致的想法就是：使用速度來描述角色的移動，可以分別計算速度在每個方向上的分量，最後將速度乘以時間就能獲得角色的位置偏移。
 
 ##人物組件設置
-在為人物撰寫腳本以便操作控制之前，需要先進行一些準備工作，將人物相關的元件先配置好：
+在為角色撰寫腳本以進行操作控制之前，需要進行一些準備工作，先配置好角色相關的組件：
 
-為了控制角色並使其在物理上表現出一定的堅韌性，需要給角色添加一個「角色控制器組件」。
-為了讓結構更加清晰，先將有關角色操作輸入的程式碼分開，讀取並初步處理輸入後將結果傳遞給角色控制器，將這部分腳本命名為`MyThirdPersonInput.cs`。
-將這些文字翻譯成繁體中文：
+為了控制人物並使其在物理層面展現一些剛性特性，需要為人物添加一個「Character Controller Component」。
+為了讓結構更清晰，先將有關人物操作的輸入分離出來，讀取輸入並進行初步處理後傳遞給人物控制器，將這部分的腳本命名為`MyThirdPersonInput.cs`；
+將該腳本命名為`MyThirdPersonController.cs`，這是用來真正控制角色移動的。
 
-3. 負責控制角色移動的腳本被命名為`MyThirdPersonController.cs`
-
-配置後的結果是這樣：
+配置完成後的結果是這樣：
 ![](assets/img/2014-3-15-unity-3rdperson-control0/setting.png)
 
 ##輸入
@@ -56,8 +54,8 @@ person.inputMoveDirction = direction;
 person.inputJump = Input.GetButton("Jump");
 ````
 
-##描述移動和跳躍
-我們需要使用一些變數來描述人物的動作，例如移動速度，跳躍速度等，移動用下面變數描述：
+##描述移动和跳跃
+我哋需要一啲變量嚟描述人物嘅動作，例如移動速度，跳躍速度等等，移動係用以下變量描述：
 
 ```c#    
 [System.Serializable]
@@ -70,7 +68,7 @@ public class Movement
 public Movement movement = new Movement();
 ```
 
-`[System.Serializable]`用來讓這些參數在Inspector上顯示出來。跳躍的描述如下：
+`[System.Serializable]`是為了讓這些參數顯示在檢視器上。跳躍的描述如下：
 
 ```c#
 [System.Serializable]
@@ -86,7 +84,7 @@ public Jumping jumping = new Jumping();
 ```
 
 ##分解速度
-為了方便描述不同方向的移動，我們將方向分成三個分量：前後、左右、上下，並分別予以求解。
+為了更方便描述不同方向的移動，將方向分成三個分量：前後、左右、上下，分別求解。
 
 前後速度不同，根據數值的正負判斷：
 
@@ -103,12 +101,12 @@ else
 velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
 ```
 
-跳躍麻煩一點，要判斷當前人物的狀態：
+跳躍有點困難，需要判斷當前角色的狀態：
 
-如果已經在空中，就使用重力來計算速度。
-如果在地上：
-- 如果按下跳躍鍵，速度為跳躍初始速度
-- - 否則y方向速度為0
+- 如果已經在空中，用重力計算速度
+- 如果在地上：
+- - 如果按下跳躍鍵，速度為跳躍初始速度
+否則 y 方向速度為0。
 
 ```c#
 if (!isOnGround)
@@ -129,7 +127,7 @@ else
 
 ##更新人物位置
 
-計算出來的速度假定為從本幀開始的速度，那麼本幀計算位置的速度應該是前一幀計算出來的，因此在更新速度前，先計算人物的新位置：
+將計算出的速度假設為從本幀開始的速度，那麼本幀計算位置的速度應該是前一幀計算出的，因此在更新速度前，先計算角色的新位置：
 
 ```c#
 // move to new position
@@ -137,9 +135,9 @@ var collisionFlag = controller.Move(velocity * Time.deltaTime);
 isOnGround = (collisionFlag & CollisionFlags.CollidedBelow) != 0;
 ```
 
-`controller.Move`會回傳`CollisionFlags`來表示碰撞的狀態，藉由這個狀態就可以知道人物是不是站在地面上。
+`controller.Move` 會返回 `CollisionFlags` 來表示碰撞的狀態，通過這個狀態就可以知道人物是不是站在地面上。
 
-完整程式碼：
+完整代碼：
 
 MyThirdPersonInput.cs:
 
@@ -279,4 +277,4 @@ public class MyThirdPersonController : MonoBehaviour {
 --8<-- "footer_tc.md"
 
 
-> 此貼文是透過 ChatGPT 翻譯的，如有任何[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 
+> 此帖子是使用 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 

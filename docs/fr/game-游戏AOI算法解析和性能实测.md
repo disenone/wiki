@@ -1,56 +1,55 @@
 ---
 layout: post
-title: Analyse algorithmique et tests de performance du jeu AOI
+title: Analyse et test de performance de l'algorithme AOI de jeu.
 categories:
 - c++
 catalog: true
 tags:
 - dev
 - game
-description: Ce texte discute de deux algorithmes, le carré magique et la chaîne de
-  croix, et fournit une analyse des performances pratiques des deux algorithmes pour
-  que vous puissiez les utiliser en toute connaissance de cause et ne pas paniquer
-  en cas de problème.
+description: Cet article discute de deux algorithmes, le carré magique et la chaîne
+  croisée, et présente une analyse des performances mesurées de ces deux algorithmes,
+  afin que vous soyez à l'aise lors de leur utilisation et que vous ne soyez pas pris
+  au dépourvu en cas de problème.
 figures: []
 date: 2021-11-18
 ---
 
 <meta property="og:title" content="游戏 AOI 算法解析和性能实测" />
 
-###Prélude
+###Introduction
 
-`AOI` (Area Of Interest) is a fundamental feature in multiplayer online games where players need to receive information about other players or entities entering their field of vision. Calculating which entities are within a player's field of view and the algorithms determining which entities enter or leave the field of view are generally referred to as the `AOI` algorithms.
+"AOI" (Area Of Interest) is a fundamental feature in multiplayer online games, where players need to receive information about other players or entities (Entities) entering their field of view. The algorithms that determine which entities are within a player's field of view and which ones enter or leave it are commonly referred to as AOI algorithms.
 
-Ce texte discute deux algorithmes AOI, le carré magique et la chaîne en croix, et fournit une analyse de performance expérimentale des deux algorithmes pour que vous puissiez les utiliser en toute confiance et rester calme en cas de problème.
+Ce texte discute de deux algorithmes AOI : le carré magique et la croix, et donne une analyse de performance expérimentale des deux algorithmes pour que vous puissiez les utiliser en toute confiance et ne pas paniquer face aux problèmes.
 
-Le texte mentionnera les termes "joueur" et "entité". Une entité est le concept d'un objet dans le jeu, tandis qu'un joueur est une entité possédant une AOI.
+Le texte mentionnera deux termes : "joueur" et "entité". Une entité est une notion d'objet dans le jeu, tandis qu'un joueur est une entité ayant une zone d'intérêt (AOI).
 
-Le code mentionné dans le texte peut être trouvé ici : [AoiTesting](https://github.com/disenone/AoiTesting)I am sorry, but there is nothing to translate in the text you provided. 
+Le code mentionné dans le texte peut être trouvé ici : [AoiTesting](https://github.com/disenone/AoiTesting).
 
-###Neuf carrés.
+###Carré magique
 
-Le "grid" de neuf cases consiste à diviser les positions de toutes les entités dans une scène en cases. Par exemple, si on divise en carrés de 200 de côté, pour trouver les autres entités à l'intérieur de la zone d'intérêt (AOI) du joueur central, il suffit de comparer tous les joueurs présents dans les cases concernées par cette zone.
+Le concept de grille en neuf parties consiste à diviser les positions de toutes les entités dans un scénario en cases, en les regroupant par exemple en carrés de 200 unités de côté. Pour repérer les autres entités à l'intérieur de la zone d'intérêt de AOI, il faut comparer tous les joueurs présents dans les cases incluses dans cette zone.
 
-Par exemple, à chaque intervalle de 100 millisecondes, il y aura un "tick". Pendant ce "tick", nous pouvons mettre à jour la zone d'intérêt du joueur de la manière suivante :
+Par exemple, la scène tick toutes les 100 millisecondes, et dans chaque tick, nous pouvons mettre à jour l'AOI du joueur de cette manière :
 
-Calcul de l'ensemble des cases en relation avec le rayon AOI centré sur la position du joueur.
-Calculer la distance entre chaque entité du groupe de cellules et le joueur.
-L'ensemble des entités dont la distance est inférieure au rayon de l'AOI est le nouvel AOI du joueur.
+* Ensemble de cases impliquées dans le calcul du rayon AOI centré sur la position du joueur
+* Calculer la distance de chaque entité dans l'ensemble de grilles par rapport au joueur.
+* L'ensemble des entités dont la distance est inférieure au rayon de l'AOI constitue le nouvel AOI du joueur.
 
-L'algorithme de la grille 9x9 est assez simple à mettre en œuvre, il peut être décrit en quelques phrases, nous laisserons l'analyse de ses performances pour plus tard, commençons d'abord par examiner l'algorithme de la liste croisée.
+Le "Nine-Grid Algorithm" est assez simple à mettre en œuvre, il peut être décrit en quelques phrases. Nous garderons l'analyse de performance spécifique pour plus tard, commençons par examiner l'algorithme de "Cross-List".
 
-###Liste chaînée croisée
+###Liste doublement chaînée
 
-Pour les jeux en 3D, nous avons l'habitude de construire des listes chaînées ordonnées pour les coordonnées des axes X et Z. Chaque entité a un nœud dans la liste contenant la valeur de l'axe correspondant, classé par ordre croissant. Cependant, si nous stockons uniquement les coordonnées des entités, l'efficacité de recherche de ces deux listes reste très faible.
+Pour les jeux en 3D, nous avons tendance à construire des listes chaînées ordonnées séparées pour les coordonnées X et Z. Chaque entité du jeu possède un nœud dans ces listes contenant sa valeur sur l'axe correspondant, classé par ordre croissant. Cependant, si nous stockons uniquement les points de coordonnées des entités, l'efficacité de recherche reste toujours faible pour ces deux listes.
 
-Ce qui est vraiment crucial, c'est que nous ajoutons à chaque joueur possédant un AOI deux nœuds sentinelles à gauche et à droite de la liste chaînée. Les coordonnées des deux sentinelles diffèrent exactement du rayon AOI par rapport aux coordonnées du joueur lui-même. Par exemple, si les coordonnées du joueur `P` sont `(a, b, c)` et que le rayon AOI est `r`, alors sur l'axe des X, il y aura deux sentinelles, `left_x` et `right_x`, avec des coordonnées respectives `a - r` et `a + r`. 
-En présence de sentinelles, nous mettons à jour l'AOI en suivant les déplacements des sentinelles par rapport aux autres entités. Reprenons l'exemple précédent : si une entité `E` se déplace et traverse de la droite vers la gauche au-delà de `left_x` sur l'axe X pour passer à gauche de `left_x`, cela signifie que `E` quitte sûrement l'AOI de `P` ; de même, si elle traverse de la droite à la gauche de `right_x`, c'est aussi qu'elle sort de l'AOI. En revanche, si elle franchit de la droite à la gauche de `left_x`, ou de la gauche à la droite de `right_x`, cela signifie qu'elle pourrait entrer dans l'AOI de `P`.
+Ce qui est vraiment crucial, c'est qu'on ajoute à chaque joueur qui possède l'AOI deux nœuds sentinelles de chaque côté de la liste chaînée. Les coordonnées des deux sentinelles diffèrent exactement du rayon de l'AOI par rapport aux coordonnées du joueur lui-même. Par exemple, si les coordonnées du joueur `P` sont `(a, b, c)`, et que le rayon de l'AOI est `r`, il y aura deux sentinelles sur l'axe des X, `left_x` et `right_x`, avec des coordonnées respectives de `a - r` et `a + r`. En raison de la présence des sentinelles, nous mettons à jour l'AOI en suivant les déplacements des sentinelles par rapport aux autres nœuds entités. Prenons l'exemple précédent, si une entité `E` se déplace de manière à traverser de droite à gauche la sentinelle `left_x`, c'est-à-dire en passant de la droite de `left_x` à la gauche de `left_x`, alors cela signifie que `E` a certainement quitté l'AOI de `P`; de même, si elle traverse `right_x` de droite à gauche, elle a quitté l'AOI. En revanche, si elle traverse `left_x` de droite à gauche ou `right_x` de gauche à droite, cela signifie qu'il est possible qu'elle entre dans l'AOI de `P`.
 
-On peut observer que l'algorithme de la liste en croix est beaucoup plus complexe que la grille en neufs cases. Nous devons maintenir deux listes ordonnées, et lors de chaque mise à jour des coordonnées d'une entité, déplacer synchroniquement les nœuds des listes, et mettre à jour la zone d'intérêt (AOI) lors du déplacement au-dessus d'autres nœuds.
+On peut observer que l'algorithme de liste en croix est beaucoup plus complexe que la grille en neuf cases. Il faut maintenir deux listes ordonnées, synchroniser le déplacement des nœuds des listes à chaque mise à jour des coordonnées entités, et mettre à jour la zone d'intérêt des objets lors du déplacement au-dessus des autres nœuds.
 
-###La mise en œuvre du carré magique.
+###La réalisation du carré magique
 
-En raison de la performance liée aux mesures réelles, commençons par gratter un peu la surface des détails de mise en œuvre de l'algorithme de grille de neuf.
+Parce qu'il s'agit de performances mesurées, examinons d'abord plus en détail les aspects de l'implémentation de l'algorithme du carré magique :
 
 ```cpp
 struct Sensor {
@@ -73,7 +72,7 @@ struct PlayerAoi {
 };
 ```
 
-Le fichier `PlayerAoi` stocke les données des joueurs, incluant un tableau `sensors` qui sert à calculer les entités dans une certaine zone. Après chaque `Tick`, les entités calculées sont placées dans `aoi_players`. Ce dernier contient deux tableaux permettant de comparer les résultats du dernier `Tick` pour déterminer les entrées et sorties de joueurs. Le processus général de `Tick` est le suivant:
+Le `PlayerAoi` stocke les données des joueurs, comprenant un tableau `sensors` utilisé pour calculer les entités dans une certaine plage. Après chaque `Tick`, les entités calculées sont placées dans `aoi_players`. `aoi_players` contient deux tableaux pour comparer les résultats entre deux `Ticks` successifs, permettant de déterminer les entrées et sorties des joueurs. Le processus approximatif du `Tick` est le suivant:
 
 ```cpp
 AoiUpdateInfos SquareAoi::Tick() {
@@ -83,7 +82,7 @@ AoiUpdateInfos SquareAoi::Tick() {
   for (auto& elem : player_map_) {
     auto& player = *elem.second;
     // ...
-Calcul de l'Aoi pour les joueurs ayant des capteurs.
+// Calculer Aoi pour les joueurs avec des capteurs
     if (!player.sensors.empty()) {
       auto update_info = _UpdatePlayerAoi(cur_aoi_map_idx_, &player);
       if (!update_info.sensor_update_list.empty()) {
@@ -94,7 +93,7 @@ Calcul de l'Aoi pour les joueurs ayant des capteurs.
   }
 
   // ...
-Enregistrer la dernière position du joueur.
+// Enregistrer la dernière position du joueur
   for (auto& elem : player_map_) {
     auto& player = *elem.second;
     player.last_pos = player.pos;
@@ -104,7 +103,7 @@ Enregistrer la dernière position du joueur.
 }
 ```
 
-La tâche effectuée par `Tick` est assez simple : parcourir les joueurs équipés de `capteurs`, calculer un par un les entités présentes dans la portée du `capteur`, c'est-à-dire la zone d'intérêt active (AOI). `last_pos` est utilisé pour déterminer si une entité est entrée ou sortie de l'AOI. Voici le code de `_UpdatePlayerAoi`: ...
+Les actions effectuées par la fonction `Tick` sont simples : elle parcourt les joueurs ayant des capteurs, calcule un par un les entités se trouvant dans la portée du capteur (c'est-à-dire dans sa zone d'intérêt, ou AOI). `last_pos` est utilisé pour déterminer si une entité est entrée dans la zone d'intérêt (AOI) ou en est sortie. Voici le code de la fonction `_UpdatePlayerAoi` :
 
 ```cpp
 AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* pptr) {
@@ -138,11 +137,11 @@ AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* ppt
 }
 ```
 
-`old_aoi` represents the AOI calculated in the previous `Tick`, while `new_aoi` is the AOI to be calculated in the current `Tick`. To determine `new_aoi`, all entities within the AOI range are traversed, selecting those with a distance from the player smaller than the AOI radius. Subsequently, the functions `_CheckLeave` and `_CheckEnter` are used to calculate the entities leaving and entering the AOI in this `Tick`. For instance, if an entity's `last_pos` in `new_aoi` is outside the AOI range, it indicates that the entity has entered the AOI in this `Tick`. Please refer to the source file for specific code implementation, as it won't be elaborated here.
+`old_aoi` est l'AOI calculé lors du dernier `Tick`, tandis que `new_aoi` est l'AOI à calculer pour ce `Tick`. `new_aoi` est déterminé en parcourant les entités de toutes les cellules dans la plage de l'AOI, en sélectionnant celles qui sont à une distance du joueur inférieure au rayon de l'AOI. Ensuite, avec les fonctions `_CheckLeave` et `_CheckEnter`, nous calculons les entités qui sortent et qui entrent dans l'AOI pour ce `Tick`. Par exemple, si l'entité `last_pos` de `new_aoi` n'est pas dans la portée de l'AOI, cela signifie que cette entité est entrée dans la zone de l'AOI lors de ce `Tick`. Le code détaillé peut être consulté dans le fichier source, nous n'en discuterons pas davantage ici.
 
-###Implémentation de liste chaînée croisée
+###Implémentation de la liste chaînée croisée
 
-Par rapport à la grille en neuf cases, la liste en croix est plus complexe à mettre en place. Regardons d'abord les structures de données de base :
+Par rapport à la grille de Sudoku, la mise en œuvre de la liste croisée est plus complexe. Commençons par examiner la structure de données de base :
 
 ```cpp
 struct CoordNode {
@@ -186,15 +185,15 @@ struct PlayerAoi {
 };
 ```
 
-Les mots `Sensor` et `PlayerAoi` sont en partie similaires à la grille neuf cases, mais ils incluent une structure de nœud de liste chaînée supplémentaire appelée `CoordNode`. `CoordNode` est un nœud sur la liste chaînée, qui enregistre le type et la valeur du nœud lui-même. Il y a trois types : nœud de joueur, nœud `Sensor` à gauche, nœud `Sensor` à droite.
+Les termes `Sensor` et `PlayerAoi` sont en partie similaires au Carré de Lo Shu, mais incluent une structure de noeud de liste chaînée supplémentaire appelée `CoordNode`. `CoordNode` est un noeud sur la liste chaînée, il enregistre le type et la valeur du noeud lui-même, il existe trois types de noeuds : nœud joueur, nœud `Sensor` à gauche, nœud `Sensor` à droite.
 
-La majeure partie du travail de la liste chaînée double consiste à maintenir l'ordre de la liste :
+La majeure partie du travail d'une liste chaînée est de maintenir la liste ordonnée :
 
-Lorsqu'un joueur rejoint, il doit déplacer le nœud du joueur à une position ordonnée, et en déplaçant le nœud du joueur, gérer les événements d'entrée ou de sortie des autres joueurs dans l'Aire d'Intérêt des Joueurs (AOI).
-Une fois que le joueur se déplace vers la bonne position, les nœuds `Sensor` de gauche et de droite se déplacent depuis l'avant et l'arrière du joueur jusqu'à la bonne position, et gèrent les événements d'entrée et de sortie déclenchés lorsqu'ils traversent les nœuds d'autres joueurs.
-Lorsque le joueur se déplace, mettez à jour ses coordonnées, déplacez le nœud du joueur et les nœuds gauche et droit du `Capteur`, tout en gérant les entrées et sorties de la zone d'intérêt active (AOI).
+* Lorsqu'un joueur rejoint, il doit déplacer son nœud de joueur à une position ordonnée, tout en gérant les événements d'entrée ou de sortie des zones d'intérêt (AOI) des autres joueurs pendant ce déplacement.
+* Une fois que le joueur s'est déplacé vers la bonne position, les nœuds `Sensor` se déplacent de l'avant vers l'arrière du joueur vers la bonne position, et gèrent les événements d'entrée et de sortie déclenchés en traversant les nœuds d'autres joueurs.
+Lorsque le joueur se déplace, mettez à jour les coordonnées du joueur, déplacez le nœud du joueur et les nœuds gauche et droit du capteur, et gérez l'entrée et la sortie de l'AOI.
 
-Le code du nœud mobile est le suivant : chaque fois qu'il franchit un nœud, la fonction `MoveCross` est appelée. Dans `MoveCross`, en fonction de la direction du déplacement, du type de nœud franchi, il est décidé s'il faut entrer ou sortir de l'AOI.
+Le code du nœud mobile est comme suit : chaque fois qu'un nœud est traversé, la fonction `MoveCross` est appelée. Celle-ci détermine, en fonction de la direction du mouvement et du type de nœud traversé, s'il faut entrer ou sortir de l'AOI.
 
 ```cpp
 void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
@@ -227,32 +226,30 @@ void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
 }
 ```
 
-Le déplacement des listes chaînées est très lent, avec une complexité de `O(n)`, notamment lorsque de nouveaux joueurs rejoignent la scène. Ils doivent se déplacer progressivement depuis une distance infinie jusqu'à la position correcte, ce qui nécessite une grande quantité de parcours de nœuds et entraîne une consommation élevée. Pour optimiser les performances, nous pouvons placer des phares à des emplacements fixes dans la scène. Ces phares ont un traitement similaire aux joueurs, mais avec une capacité en plus qui enregistre les données `détectées par`, indiquant quels capteurs l'entité sentinelle se trouve dans le champ. Lors de la première entrée d'un joueur dans la scène, il ne commence plus à se déplacer depuis le point le plus éloigné, mais trouve le phare le plus proche, insère le nœud à côté du phare et à travers les données `détectées par` du phare, il entre rapidement dans la plage d'AOI des autres joueurs alignés sur le phare, puis commence à se déplacer vers la position correcte. Bien entendu, pendant le déplacement, il faut également gérer les entrées et sorties. De même, pour les capteurs, il est possible d'optimiser en héritant d'abord des données des phares, puis en se déplaçant de leur position vers la position correcte. Ces deux types d'optimisation peuvent augmenter les performances des insertions de joueurs de plus de deux fois.
+Le déplacement des listes chaînées est très lent, avec une complexité de `O(n)`, surtout lorsque de nouveaux joueurs entrent dans la scène. Les joueurs doivent se déplacer progressivement depuis un point très éloigné jusqu'à la position correcte, ce qui nécessite une grande quantité de nœuds à parcourir, entraînant une forte consommation. Pour optimiser les performances, nous pouvons placer des phares à des emplacements fixes dans la scène. Ces phares fonctionnent de manière similaire aux joueurs, mais ils enregistrent un ensemble supplémentaire de données appelé `detected_by`, indiquant dans quels champs de capteurs l'entité sentinelle se trouve. Lorsqu'un joueur entre dans la scène pour la première fois, il ne commence plus son déplacement depuis le point le plus éloigné, mais recherche le phare le plus proche. En insérant le nœud à côté du phare et en utilisant les données `detected_by` du phare, le joueur peut rapidement entrer dans la zone AOI des autres joueurs correspondant au phare, puis se déplacer vers la position correcte. Bien sûr, lors du déplacement, il est également nécessaire de gérer les entrées et les sorties. De même, pour les capteurs, il est possible d'hériter d'abord des données du phare, puis de se déplacer depuis la position du phare vers la position correcte. Ces deux optimisations peuvent plus que doubler les performances d'insertion des joueurs.
 
-Il y a aussi une `HashMap` appelée `aoi_player_candidates` sur le capteur (ici, pour des raisons de performance, [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)Les événements AOI déclenchés par le déplacement des nœuds ne peuvent en fait détecter qu'une zone carrée de côté `2r` sur les axes X-Z, et non une AOI circulaire stricte. Les entités à l'intérieur de cette zone carrée sont enregistrées dans `aoi_player_candidates`, puis parcourues dans `Tick` pour calculer la portée de l'AOI dans la zone circulaire, ce qui les désigne comme des `candidates`.
+`Sensor` comporte également un `HashMap` nommé `aoi_player_candidates` (ici, pour des raisons de performance, [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)L'événement AOI déclenché par le déplacement du nœud ne peut en réalité détecter qu'une zone carrée de longueur de côté `2r` sur les axes X-Z, ce n'est pas vraiment une zone AOI circulaire au sens strict. Les entités à l'intérieur de cette zone carrée sont enregistrées dans `aoi_player_candidates` et sont parcourues dans `Tick` pour calculer la portée de l'AOI dans la zone circulaire, d'où le terme `candidats`.
 
-Toutes les opérations sur les listes croisées sont destinées à maintenir en permanence les entités "candidates" à l'intérieur de la région carrée. Les opérations effectuées par la liste croisée sont presque identiques à celles de la grille de 9 cases, à la différence que le calcul des candidats AOI diffère. Les candidats de la grille de 9 cases sont les entités des cases couvertes par la zone ronde de l'AOI, tandis que la liste croisée est définie par les nœuds gauche et droit du "Capteur" et regroupe les entités de la région carrée de côté 2r. En termes qualitatifs, les candidats des listes croisées sont généralement moins nombreux que ceux de la grille de 9 cases, ce qui entraîne moins de passages dans "Tick", améliorant ainsi les performances. Cependant, les listes croisées consomment également des ressources supplémentaires pour leur maintenance. La performance globale de ces deux approches reste à déterminer, et nous allons le vérifier lors des tests à venir.
+Toutes les opérations sur les listes croisées sont menées pour maintenir en permanence les entités 'candidats' à l'intérieur de la région carrée. Les opérations effectuées par la liste croisée `Tick` sont presque identiques à celles de la grille 3x3, à la différence que le calcul et la traversée des `candidats` de la zone AOI diffèrent. Les `candidats` de la grille 3x3 sont les entités couvertes par la région circulaire AOI, tandis que la liste croisée est définie par les nœuds gauche et droit du `capteur` délimitant des entités dans la région carrée de côté `2r`. En termes qualitatifs, en général, les `candidats` de la liste croisée sont moins nombreux que ceux de la grille 3x3, ce qui se traduit par moins de traversées et des performances supérieures dans `Tick`. Cependant, la liste croisée impose également une charge de performance supplémentaire importante pour la maintenance de la liste. Il reste à déterminer quelle solution offre les meilleures performances dans l'ensemble, ce que nous vérifierons prochainement par des tests pratiques.
 
-###Test de performance
+###Performances mesurées
 
-J'ai mesuré séparément le temps pris par les joueurs pour rejoindre la scène (`Ajout de joueur`), pour les événements d'entrée et de sortie de la zone d'intérêt (`Tick`), ainsi que pour la mise à jour des coordonnées des joueurs (`Mise à jour de la position`).
+J'ai mesuré séparément le temps nécessaire pour que le joueur entre dans la scène (`Add Player`), pour traiter les événements d'entrée et de sortie de la zone d'intérêt (AOI) (`Tick`), et pour mettre à jour la position du joueur (`Update Pos`).
 
-Les joueurs sont placés de façon aléatoire dans la plage de la carte et ajoutés à la scène. `player_num` représente le nombre de joueurs, tandis que `map_size` désigne la plage des coordonnées X-Z de la carte. Les positions des joueurs sont générées de manière aléatoire uniforme dans cette plage, chacun ayant un rayon de `100` pour son capteur d'AOI. Le temps de calcul est effectué à l'aide de `boost::timer::cpu_timer`. Trois scénarios ont été pris pour `player_num`, à savoir `100, 1000, 10000`, tandis que quatre cas ont été étudiés pour `map_size`, à savoir `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]`.
+Les joueurs sont générés aléatoirement dans la plage de la carte, puis ajoutés à la scène. `player_num` désigne le nombre de joueurs, `map_size` est la plage des coordonnées X-Z de la carte. Les positions des joueurs sont générées uniformément dans cette plage, et chaque joueur a un capteur de rayon de `100` en tant que AOI. Le temps de calcul utilise `boost::timer::cpu_timer`. Trois cas ont été choisis pour `player_num` : `100, 1000, 10000`, et quatre cas pour `map_size` : `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]`.
 
-Actualisation de la position du joueur pour le faire se déplacer dans une direction aléatoire à une vitesse de `6m/s`.
+Mettre à jour la position du joueur fixera le joueur dans une direction aléatoire, se déplaçant à une vitesse de `6m/s`.
 
-Le texte en français est : 
-
-"本次测试环境为："
+L'environnement de test pour cette fois est :
 
 * CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
 Système : Debian GNU/Linux 10 (buster)
 Version de gcc : gcc version 8.3.0 (Debian 8.3.0-6)
-Version boost : boost_1_75_0
+Version de boost : boost_1_75_0
 
-####Test de grille en neuf cases
+####Test réel de la grille à neuf cases
 
-Les résultats du test de la grille de neuf cases sont les suivants :
+Les résultats du test du carré magique sont les suivants :
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -328,11 +325,11 @@ Update Pos (10 times) 0.019033s wall, 0.020000s user + 0.000000s system = 0.0200
 ===End Milestore
 ```
 
-Lorsque le nombre de joueurs dans une grille 3x3 atteint 100, les trois opérations ont un faible temps d'exécution, avec des conditions extrêmes où la taille de la carte est de -50 à 50 et tous les joueurs se trouvent dans la zone d'intérêt (AOI). Un cycle de traitement prend environ 0,4 millisecondes. L'ajout de joueurs et la mise à jour des coordonnées s'effectuent en complexité linéaire O(n) pour des performances satisfaisantes. Cependant, lorsque le nombre de joueurs atteint 10 000, et que la taille de la carte reste la même, l'opération Add Player et Update Pos, malgré leur complexité linéaire, prennent quelques millisecondes, tandis que le Tick prend environ 3,8 secondes, consommant ainsi beaucoup de ressources CPU et rendant le système inutilisable. Avec 10 000 joueurs et une carte de taille -1000 à 1000, le Tick prend environ 94 millisecondes. Réduire la fréquence du Tick à deux fois par seconde maintiendrait le système tout juste dans la plage d'utilisation acceptable.
+Lorsque le nombre de joueurs est de `100` dans la grille 9x9, les trois opérations sont très rapides, même dans des conditions extrêmes avec `map_size = [-50, 50]`. Tous les joueurs sont à portée AOI les uns des autres, et chaque `Tick` prend environ `0.4ms`. L'ajout de joueurs et la mise à jour des coordonnées sont tous deux de complexité linéaire `O(nbre_joueurs)`, avec de bonnes performances. Lorsque le nombre de joueurs atteint 10 000 avec `map_size = [-50, 50]`, l'ajout de joueur et la mise à jour des positions prennent quelques millisecondes seulement, mais chaque `Tick` prend 3.8 secondes, nécessitant beaucoup de puissance CPU, ce qui le rend inutilisable. Avec 10 000 joueurs et une carte de taille `[-1000, 1000]`, chaque `Tick` prend environ 94ms. Si la fréquence de `Tick` peut être réduite, par exemple à deux fois par seconde, cela reste tout juste dans une plage d'utilisation acceptable.
 
-####Liste croisée vérifiée en pratique
+####Liste croisée testée en pratique
 
-Les résultats des tests de la liste chaînée en croix sont les suivants :
+Les résultats des tests de la liste chaînée croisée sont les suivants :
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -408,15 +405,15 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 ===End Milestore
 ```
 
-Si nous analysons en détail, les listes croisées prennent plus de temps pour les opérations `Ajouter joueur` et `Mettre à jour la position`, en particulier pour `Ajouter joueur`, la performance est inférieure de plusieurs centaines voire milliers de fois par rapport à la grille à neuf cases (`100, [-50, 50]` - listes croisées prennent `2ms`, tandis que la grille à neuf cases n'en prend que `0.08ms`; `10000, [-50, 50]` - listes croisées prennent `21.6s`, la grille à neuf cases uniquement `6ms`). Le temps nécessaire pour `Mettre à jour la position` peut également varier jusqu'à cent fois, pour `10000, [-100, 100]` les listes croisées pour mettre à jour la position d'un joueur prennent `1.5s`, alors que la grille à neuf cases ne prend que `18ms`. On remarque que les listes croisées ont une plage de temps plus large pour les opérations `Ajouter joueur` et `Mettre à jour la position` par rapport à la grille à neuf cases, elles sont plus sensibles au nombre de joueurs et à la taille de la carte. Dans les zones à forte densité de joueurs, les performances de ces deux opérations chuteront rapidement jusqu'à devenir inutilisables.
+Comme nous l'avons analysé, la liste croisée prend plus de temps pour `Add Player` et `Update Pos`, en particulier pour `Add Player`, où sa performance est inférieure de plusieurs centaines, voire des milliers de fois par rapport à la grille (avec `100, [-50, 50]`, la liste croisée prend `2ms`, alors que la grille n'en prend que `0.08ms` ; avec `10000, [-50, 50]`, la liste croisée prend `21.6s`, alors que la grille n'en prend que `6ms`). Pour `Update Pos`, le temps d'exécution peut également varier d'une centaine de fois ; avec `10000, [-100, 100]`, la liste croisée met `1.5s` pour mettre à jour la position du joueur, alors que la grille ne prend que `18ms`. On peut constater que les limites de temps d'exécution de la liste croisée pour `Add Player` et `Update Pos` sont plus larges que celles de la grille. Cela est davantage influencé par le nombre de joueurs et la taille de la carte. Dans les zones densément peuplées, la performance de ces deux opérations chute rapidement jusqu'à devenir inutilisable.
 
-En ce qui concerne l'opération `Tick` de la grille en croix, les performances globales sont en effet meilleures que celles de la grille en 9 carrés. Dans le meilleur des cas, le temps nécessaire est d'environ la moitié de celui de la grille en 9 carrés (`1000, [-1000, 1000]` - grille en croix : 0,8 ms, grille en 9 carrés : 1,8 ms). Cependant, dans le pire des cas, la performance de la grille en croix peut se dégrader pour être proche de celle de la grille en 9 carrés (`10000, [-10000, 10000]` - grille en croix : 3,7 s, grille en 9 carrés : 3,8 s). En effet, étant donné la petite taille de l'environnement où les joueurs se trouvent dans les AOI les uns des autres, le nombre de "candidates" traversé par le `Tick` de la grille en croix est en réalité très proche de celui de la grille en 9 carrés.
+En ce qui concerne l'opération "Tick" du Cross List, sa performance globale est effectivement meilleure que celle de la grille en 9 sections. Dans le meilleur des cas, le temps nécessaire est environ la moitié de celui de la grille en 9 sections ("1000, [-1000, 1000]" le Cross List prend 0,8 ms, tandis que la grille en 9 sections prend 1,8 ms). Cependant, dans le pire des cas, le Cross List peut se dégrader pour atteindre des performances proches de celles de la grille en 9 sections ("10000, [-10000, 10000]" le Cross List prend 3,7 s, contre 3,8 s pour la grille en 9 sections). Cela est dû au fait que, en raison de la petite taille de l'environnement, les joueurs se trouvent tous à portée les uns des autres dans leur zone AOI respective, ce qui fait que la quantité de candidats parcourus par "Tick" dans le Cross List est en fait très proche de celle de la grille en 9 sections.
 
-Pour obtenir des performances supérieures à celle de la grille 9x9 en utilisant la grille en croix, il est nécessaire de faire des hypothèses plus fortes, comme par exemple avec `player_num = 1000, map_size = [-1000, 1000]`. Dans ce cas, le temps pris par un `Tick` avec la grille en croix est de `0,8ms` contre `1,8ms` pour la grille 9x9. Pour l'opération `Update Pos`, la grille en croix nécessite `0,3ms` contre `0,18ms` pour la grille 9x9 (il convient de noter que le temps de test de `Update Pos` est la somme des temps de 10 exécutions). Pour réduire le temps total de `Tick + Update Pos` par rapport à la grille 9x9, le nombre d'opérations `Update Pos` ne doit pas dépasser 8 fois le nombre de `Tick`, autrement dit, entre deux `Tick`, le nombre d'opérations `Update Pos` doit être inférieur à 8. De plus, étant donné que l'ajout de joueur sur la grille en croix est très chronophage, elle n'est pas adaptée aux situations où les joueurs entrent et sortent fréquemment du scénario dans un laps de temps court ou se téléportent sur une grande distance dans le scénario. Par ailleurs, l'arrivée massive de joueurs sur une période courte peut également entraîner une baisse des performances et une utilisation intensive du CPU.
+La utilisation de la grille croisée doit être plus performante que la grille à neuf cases. Cela requiert des hypothèses plus solides, telles que `player_num = 1000, map_size = [-1000, 1000]`. Dans ce cas, le temps nécessaire pour `Tick` est de `0.8ms` pour la grille croisée et de `1.8ms` pour la grille à neuf cases. Quant à `Update Pos`, il est de `0.3ms` pour la grille croisée et de `0.18ms` pour la grille à neuf cases (notez que le temps de test de `Update Pos` est la somme du temps de 10 exécutions). En ce qui concerne le temps total de `Tick + Update Pos`, pour que la grille croisée soit plus rapide que la grille à neuf cases, le nombre d'occurrences de `Update Pos` ne doit pas dépasser 8 fois celui de `Tick`, ou en d'autres termes, entre deux `Tick`, le nombre d'occurrences de `Update Pos` doit être inférieur à 8 fois. De plus, en raison du temps considérable nécessaire pour ajouter un joueur à la grille croisée, cette méthodologie n'est pas adaptée pour les situations où les joueurs entrent et sortent fréquemment de la scène en peu de temps, ou lors de téléportations à grande échelle à l'intérieur de la scène. De plus, un grand nombre soudain de joueurs entrant dans la scène peut également entraîner une dégradation des performances et une utilisation intensive du processeur.
 
-En ce qui concerne la liste en croix, il est possible d'optimiser en supprimant le "Tick", à condition que le jeu puisse accepter une zone d'intérêt (AOI) carrée, et que les autres coûts tels que ceux liés au réseau entraînés par l'utilisation d'une AOI carrée soient acceptables. Cette condition est assez stricte, car en général la consommation de CPU liée au calcul de l'AOI dans le jeu n'est pas très élevée. Cependant, le passage d'une AOI circulaire à une AOI carrée entraine une augmentation de la surface de la zone d'intérêt, ce qui peut conduire à une augmentation du nombre de joueurs à l'intérieur, potentiellement jusqu'à 1,27 fois plus. Une fois cette condition remplie, la liste en croix peut être mise à jour sans avoir besoin du "Tick" pour actualiser périodiquement les événements de l'AOI, car la liste en croix maintient déjà une version carrée de l'AOI, qui était antérieurement utilisée uniquement pour calculer l'AOI circulaire, nécessitant ainsi une nouvelle itération de calcul de distance dans le "Tick". Dans ce scénario, la liste en croix peut offrir d'excellentes performances, car les performances de la fonction "Mettre à jour la position" de la liste en croix peuvent être plusieurs fois, voire plusieurs dizaines de fois, plus élevées que celles du "Tick".
+Pour les listes de hachage croisées, une optimisation peut encore être réalisée sous une certaine condition : éliminer le `Tick`, à condition que le jeu puisse accepter des AOI carrés et que les autres consumptions, notamment réseau, induites par les AOI carrés soient acceptables. En réalité, cette condition est assez stricte, car dans le jeu, les coûts liés aux AOI n’occupent généralement qu'une part marginale du CPU, mais passer d'un AOI circulaire à un AOI carré entraîne une augmentation de la surface de l'AOI, ce qui accroît également le nombre de joueurs à l'intérieur de cette zone. Dans une distribution uniforme, le nombre de joueurs pourrait augmenter jusqu'à `1.27` fois par rapport à l'original. Cependant, dès que cette condition est satisfaite, la liste de hachage croisée peut fonctionner sans avoir besoin de `Tick` pour mettre à jour régulièrement les événements d'AOI, car dans son implémentation, les `candidates` de la liste de hachage croisée maintiennent déjà un ensemble d'AOI carrés, initialement prévu pour calculer des AOI circulaires, et nécessitant une traversée supplémentaire dans le `Tick` pour calculer les distances. Dans ce contexte, la liste de hachage croisée peut potentiellement atteindre de très bonnes performances, car les performances de `Update Pos` peuvent différer du `Tick` de plusieurs à plusieurs dizaines de fois.
 
-Fournir enfin un diagramme en barres comparatif des deux.
+Fournir finalement un histogramme comparatif des deux.
 
 ![](assets/img/2021-11-18-aoi-tesing/add_player.png)
 
@@ -427,13 +424,13 @@ Fournir enfin un diagramme en barres comparatif des deux.
 
 ###Résumé
 
-Dans ce texte, nous présentons les principes et la mise en œuvre de deux algorithmes AOI (grille de neuf et chaîne en croix), et analysons les performances de ces deux algorithmes à partir de données mesurées, en espérant offrir aux lecteurs une aide ou une inspiration.
+Dans ce texte, nous présentons les principes et les mises en œuvre de deux algorithmes AOI (grille en neuf points et chaîne en croix) et analysons les performances de ces deux algorithmes à partir de données mesurées, espérant apporter un peu d'aide ou d'inspiration aux lecteurs.
 
-Dans l'ensemble, la méthode de la grille en carré est simple à implémenter, avec des performances équilibrées qui ne traînent pas en route, ce qui la rend très adaptée aux jeux qui ne sont pas limités en termes de performances par l'AOI. La plage de fluctuation des performances de la méthode de la grille en carré est dans une fourchette prévisible, avec une performance minimale relativement élevée, ce qui limite également les goulets d'étranglement. D'un autre côté, l'optimisation de l'espace n'est pas très importante, et la complexité temporelle est assez fixe. En revanche, la méthode de la chaîne en croix nécessite une mise en œuvre plus complexe et a une performance minimale inférieure à celle de la méthode de la grille en carré. Cependant, si certaines hypothèses et conditions préalables sont remplies, la méthode de la chaîne en croix peut offrir une meilleure optimisation de l'espace, c'est-à-dire un potentiel d'amélioration plus élevé. Ces deux méthodes ont leurs avantages et leurs inconvénients, et différents moteurs de jeux de l'industrie ont choisi l'une ou l'autre en fonction de leurs besoins respectifs, chacun choisissant ce qui lui convient le mieux, selon son jugement.
+Dans l'ensemble, la méthode du carré magique est simple à mettre en œuvre, avec des performances équilibrées qui ne se dégradent pas facilement, ce qui en fait un choix idéal pour les jeux où l’AOI n'est pas un goulot d'étranglement. Les fluctuations de performances de la méthode du carré magique se situent dans une fourchette prévisible, avec un seuil de performance relativement élevé, et elle ne conduit pas facilement à des goulots d'étranglement. Cependant, d'un autre côté, l'espace d'optimisation est également limité, et la complexité temporelle est plutôt fixe. En revanche, la méthode de la chaîne croisée est plus complexe à mettre en œuvre, avec un seuil de performance inférieur à celui de la méthode du carré magique. Cependant, si certaines hypothèses et conditions sont satisfaites, l'espace d'optimisation de la chaîne croisée peut être plus important, en d'autres termes, son plafond peut être plus élevé. Les deux méthodes ont leurs avantages et inconvénients ; dans l'industrie du jeu, différentes engines choisissent l'une ou l'autre selon leurs besoins, chacun y trouvant son compte.
 
-Mes compétences sont limitées, le contenu ci-dessus ne représente que mes propres idées. Si des lacunes ou des erreurs sont présentes, n'hésitez pas à laisser un commentaire pour en discuter.
+Mes compétences sont limitées, le contenu du texte reflète uniquement mes opinions. Si vous remarquez des lacunes ou des erreurs, n'hésitez pas à laisser un commentaire pour en discuter.
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez [**donner votre avis**](https://github.com/disenone/wiki_blog/issues/new)Identifier toute omission éventuelle. 
+> Ce message a été traduit avec ChatGPT, merci de laisser un [**retour**](https://github.com/disenone/wiki_blog/issues/new)Veuillez indiquer toute omission. 

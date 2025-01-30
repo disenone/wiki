@@ -1,15 +1,12 @@
 ---
 layout: post
-title: Resumen del manejo de los argumentos de línea de comandos en C/C++
+title: Resumen del manejo de argumentos de línea de comandos en C/C++
 categories:
 - c++
 catalog: true
 tags:
 - dev
-description: Hace un tiempo, mientras estaba revisando el código fuente del kernel
-  de Linux, me encontré con el manejo de los parámetros de módulos (moduleparam) y
-  me pareció bastante ingenioso. Esto me ha llevado a querer investigar cómo se pueden
-  manejar de manera más eficiente los argumentos de línea de comandos en C.
+description: 前一阵子翻 Linux 内核代码的时候看到了内核对模块参数 (moduleparam) 的处理，觉得挺精妙，让我不禁想研究下 C 下的命令行参数要怎样更好地处理。
 figures:
 - assets/post_assets/2016-11-19-aparsing/aparsing.png
 ---
@@ -22,11 +19,11 @@ figures:
 
 ![](assets/img/2016-11-19-aparsing/aparsing.png)
 
-En el pasado, cuando estaba revisando el código del kernel de Linux, me encontré con el manejo de los parámetros del módulo (moduleparam), y me pareció muy ingenioso. Esto me llevó a reflexionar sobre cómo se podrían manejar de manera más efectiva los argumentos de línea de comandos en C. Todo el código utilizado en este artículo se encuentra aquí [aparsing](https://github.com/disenone/aparsing). El código es compatible con la compilación y ejecución en Windows, Linux y Mac OS X. Las instrucciones detalladas de compilación se encuentran en el archivo README.md.
+Hace un tiempo, al revisar el código del núcleo de Linux, vi cómo se manejan los parámetros de módulo (moduleparam) y me pareció bastante ingenioso. No pude evitar pensar en cómo manejar mejor los parámetros de línea de comandos en C. El código utilizado en este artículo está aquí [aparsing](https://github.com/disenone/aparsing)El código es compatible con Windows, Linux y Mac OS X para compilar y ejecutar. Las instrucciones detalladas de compilación se encuentran en el archivo README.md.
 
 ## getenv
 
-La biblioteca estándar nos proporciona una función `getenv`, que literalmente se utiliza para obtener las variables de entorno. Entonces, siempre y cuando hayamos configurado previamente las variables de entorno necesarias, podemos obtenerlas en el programa y, de esta manera, pasar los parámetros indirectamente al programa. Echemos un vistazo al siguiente [código](https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c):
+La biblioteca estándar nos proporciona una función `getenv`, que literalmente se utiliza para obtener variables de entorno. Así que, siempre que configuremos previamente las variables de entorno necesarias, podemos sacarlas dentro del programa y, de este modo, pasarlas indirectamente como parámetros al programa. Veamos el siguiente [código](https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c)Lo siento, no hay contenido para traducir. 
 
 ``` cpp linenums="1"
 #include <stdlib.h>
@@ -53,21 +50,21 @@ int main (int argc, char **argv)
 }
 ```
 
-La función `getenv` se declara en el número [4](#__codelineno-0-5)La función `getVarValue()` toma como argumento el nombre de la variable que se desea obtener y devuelve el valor de dicha variable. Si la variable no se encuentra, devuelve 0. [10](#__codelineno-0-10)(#__codelineno-0-15)El código que tienes aquí se encarga de obtener los valores de dos variables de entorno y, si las variables son válidas, imprime sus valores. Hay que tener en cuenta que `getenv` siempre devuelve una cadena de texto, por lo que el usuario debe convertir manualmente el valor a un tipo numérico si es necesario. Esto hace que el uso de esta función no sea especialmente conveniente. Para compilar y ejecutar este código, debes
+La declaración de la función `getenv` se encuentra en la referencia [4](#__codelineno-0-5)Toma como entrada el nombre de la variable que desea obtener y devuelve el valor de esa variable; si la variable no se encuentra, devuelve 0. [10](#__codelineno-0-10)和 [15](#__codelineno-0-15)La acción consiste en obtener los valores de dos variables de entorno, y si las variables son válidas, se imprimen sus valores. Es importante notar que `getenv` devuelve todos los valores como cadenas de texto, lo que requiere que el usuario convierta manualmente los tipos numéricos, por lo que su uso no es del todo conveniente. Compilar y ejecutar:
 
-Windows abajo:
+Bajo Windows:
 
 ``` bat
 set GETENV_ADD=abc & set GETENV_NUM=1 & .\getenv_test.exe
 ```
 
-Linux bajo el sistema operativo:
+Linux 下：Linux operating system:
 
 ``` shell
 GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
 ```
 
-Salida:
+Documentos:
 
 ```
 GETENV_ADD = abc
@@ -76,7 +73,7 @@ GETENV_NUM = 2
 
 ## getopt
 
-Linux nos proporciona un conjunto de funciones `getopt, getopt_long, getopt_long_only` para manejar argumentos pasados por la línea de comandos. Las declaraciones de estas tres funciones son respectivamente:
+Linux nos proporciona un conjunto de funciones `getopt, getopt_long, getopt_long_only` para manejar los argumentos pasados a través de la línea de comandos. Las declaraciones de estas tres funciones son:
 
 ```cpp linenums="1"
 extern char *optarg;
@@ -94,9 +91,9 @@ int getopt_long_only(int argc, char * const argv[],
             const struct option *longopts, int *longindex);
 ```
 
-El comando `getopt` solo puede manejar argumentos cortos (es decir, argumentos de un solo carácter), mientras que `getopt_long` y `getopt_long_only` pueden manejar argumentos largos. Para obtener una explicación más detallada de las funciones, puedes consultar el manual de Linux. A continuación, te mostraremos ejemplos de cómo utilizar `getopt` y `getopt_long`.
+`getopt` solo puede manejar parámetros cortos (es decir, parámetros de un solo carácter), mientras que `getopt_long` y `getopt_long_only` pueden manejar parámetros largos. Para una explicación detallada de las funciones, puedes consultar el manual en Linux. A continuación, explicaremos el uso de `getopt` y `getopt_long` a través de ejemplos.
 
-Se debe tener en cuenta que estas funciones no están disponibles en Windows, así que busqué el código fuente que se puede compilar en Windows y hice algunos pequeños cambios. El código está disponible [aquí](https://github.com/disenone/aparsing/tree/master/getopt).
+Es importante tener en cuenta que estas funciones no están disponibles en Windows, así que busqué una versión del código fuente que pueda compilar en Windows y realicé algunas modificaciones menores. Puedes encontrar todo el código [aquí](https://github.com/disenone/aparsing/tree/master/getopt)Lo siento, no hay texto para traducir. ¿Puedo ayudarte con algo más?
 
 ```cpp linenums="1"
 // test getopt
@@ -199,37 +196,31 @@ int main (int argc, char **argv)
 
 ```
 
-Vamos a analizar en detalle el uso de `getopt_long`.  Los primeros tres parámetros de `getopt_long` son iguales a los de `getopt`: el número de argumentos de línea de comandos `argc`, el array de argumentos de línea de comandos `argv`, y la especificación de formato de los argumentos cortos `optstring`. El formato de `optstring` consiste en caracteres que representan cada uno de los argumentos cortos, seguidos de dos puntos `:` para indicar que llevan un argumento adicional, o dos puntos dobles `::` para indicar que el argumento es opcional. Por ejemplo, en la línea 19 se declara la forma de los argumentos cortos: el argumento `b` no lleva argumento adicional, el argumento `a` sí lo lleva, y el argumento `c` lleva un argumento opcional.
+Vamos a analizar en detalle el uso de `getopt_long`. Los tres primeros parámetros de `getopt_long` son los mismos que los de `getopt`, que son: el número de parámetros de la línea de comandos `argc`, el arreglo de parámetros de la línea de comandos `argv`, y la forma específica de los parámetros cortos `optstring`. El formato de `optstring` consiste en caracteres de parámetros cortos, donde un dos puntos `:` indica que lleva parámetro, y dos puntos `::` indican que el parámetro es opcional. Por ejemplo, en la línea 19, se declara la forma de los parámetros cortos: el parámetro `b` no lleva parámetros adicionales, el parámetro `a` lleva un parámetro adicional, y `c` lleva un parámetro opcional.
 
-`getopt_long` es una función utilizada para procesar argumentos largos en la línea de comandos. Los dos últimos parámetros se utilizan para este propósito, donde la estructura del parámetro `option` es la siguiente:
+Los dos últimos parámetros de `getopt_long` se utilizan para gestionar los argumentos largos, siendo la estructura de `option`:
 
 ```c
 struct option {
-    const char *name;       // Nombre de parámetro largo
-    int         has_arg;    // ¿Tiene argumento adicional?
-    `int *flag; // Define cómo se devuelve el resultado de la llamada a la función`
+const char *name;       // Nombre de parámetro largo
+    int         has_arg;    // Si se requieren parámetros adicionales
+int        *bandera;       // Establecer cómo devolver el resultado de la llamada a la función
     int         val;        // Valor devuelto
 };
 ```
-Aunque se diga que es un parámetro largo, `name` aún puede tener una longitud de un solo carácter.
+Aunque se llame "long parameter", `name` aún puede ser un solo carácter.
 
-La opción `has_arg` puede configurarse como `no_argument, required_argument, optional_argument`, lo que representa respectivamente no tener argumentos, tener argumentos requeridos y tener argumentos opcionales.
+El `has_arg` puede establecerse como `no_argument, required_argument, optional_argument`, que respectivamente indican sin argumento, con argumento, con argumento opcional.
 
-`flag` y`val` se utilizan en conjunto. Si `flag = NULL`, `getopt_long` devuelve directamente `val`. Si `flag` es un puntero válido, `getopt_long` realiza una operación similar a `* flag = val`, estableciendo el valor de la variable apuntada por`flag` a `val`.
+`flag` y `val` se utilizan en conjunto; si `flag = NULL`, `getopt_long` devolverá directamente `val`. De lo contrario, si `flag` es un puntero válido, `getopt_long` realizará una operación similar a `*flag = val`, estableciendo el valor de la variable a la que apunta `flag` como el valor de `val`.
 
-Si `getopt_long` encuentra una coincidencia con un argumento corto, devolverá el valor del carácter de ese argumento corto. Si encuentra una coincidencia con un argumento largo, devolverá `val` (si `flag = NULL`) o devolverá `0` (si `flag != NULL; *flag = val`). Si encuentra un carácter que no es un argumento, devolverá `?`. Si se han procesado todos los argumentos, devolverá `-1`.
+Si `getopt_long` encuentra un parámetro corto coincidente, devolverá el valor de carácter de ese parámetro corto; si encuentra un parámetro largo coincidente, devolverá `val` (si `flag = NULL`) o devolverá `0` (si `flag != NULL; *flag = val;`); si se encuentra un carácter que no es un parámetro, devolverá `?`; si se han procesado todos los parámetros, devolverá `-1`.
 
-Usando la característica de los valores de retorno, podemos lograr el mismo efecto con diferentes significados usando argumentos largos y cortos, como en el caso del primer parámetro `add` de `long_options`, cuyo valor `val` está establecido como el carácter `'a'` del argumento corto. De esta manera, al hacer una comprobación al retornar, tanto `--add` como `-a` entrarán en la misma rama de procesamiento y serán tratados como de igual significado.
+Utilizando las características del valor de retorno, podemos lograr un efecto en el que los parámetros largos y cortos tienen el mismo significado. Por ejemplo, en el primer parámetro `add` de `long_options`, si el valor `val` se establece como el carácter del parámetro corto `'a'`, entonces al evaluar el retorno, `--add` y `-a` entrarán en la misma rama de procesamiento y se tratarán como significados equivalentes.
 
-La última pieza del rompecabezas es el uso de `optind` y `optarg`. `optind` es la ubicación del siguiente argumento a procesar en `argv`, mientras que `optarg` apunta a una cadena adicional de argumentos.
+La última pieza del rompecabezas es el uso de `optind` y `optarg`. `optind` indica la posición del siguiente parámetro a procesar en `argv`, mientras que `optarg` apunta a la cadena del argumento adicional.
 
-$ gcc -o programa programa.c
-$ ./programa
-
-En la traducción al español, el texto queda de la siguiente manera:
-
-$ gcc -o programa programa.c
-$ ./programa
+Compilar y ejecutar el código:
 
 ```
 $ .\getopt_test -a 1 -b -c4 --add 2 --verbose --verbose=3 -123 -e --e
@@ -247,40 +238,40 @@ option 3
 
 ```
 
-`-a` y `--add` tienen el mismo significado. Para los argumentos cortos, el argumento opcional va directamente después, por ejemplo `-c4`. Mientras que para los argumentos largos, el argumento opcional debe ir seguido de un signo igual, por ejemplo `--verbose=3`.
+El significado de `-a` y `--add` es el mismo; los parámetros opcionales de los parámetros cortos se colocan directamente después, por ejemplo `-c4`, mientras que los parámetros opcionales de los parámetros largos deben tener un signo de igual, por ejemplo `--verbose=3`.
 
 ## mobuleparam
 
-Ok, finalmente llegamos al método que desencadenó este artículo originalmente, el kernel de Linux utiliza un método bastante ingenioso para pasar parámetros a los módulos del kernel, este método se llama `moduleparam`. Aquí explicaré brevemente cómo funciona el `moduleparam` en el kernel de Linux, para una explicación más detallada, puedes consultar el código. Aunque he tomado algunas ideas del manejo de `moduleparam`, hay algunas diferencias entre mi enfoque y el `moduleparam` del kernel de Linux. Para distinguirlos, llamaré a mi método "small moduleparam", mientras que al del kernel de Linux seguirá llamándose `moduleparam`.
+Vale, finalmente llegamos al método que inició este artículo. El núcleo de Linux utiliza un enfoque muy ingenioso para pasar parámetros a los módulos del núcleo, y ese enfoque es 'moduleparam'. Aquí explicaré brevemente cómo funciona 'moduleparam' en el núcleo de Linux, pero para obtener una explicación más detallada, recomendamos revisar el código. Aunque me he inspirado en algunos métodos de manejo de 'moduleparam', hay algunas diferencias con respecto al 'moduleparam' del núcleo de Linux. Para distinguirlos, voy a llamar a mi método 'small moduleparam', mientras que el del núcleo de Linux seguirá denominándose 'moduleparam'.
 
-Primero veamos cómo se utiliza `moduleparam`, lo declaramos dentro de un módulo:
+Primero, echemos un vistazo al uso de `moduleparam`, declarado dentro del módulo:
 
 ```c
 int enable_debug = 0;
 module_param(enable_debug, int, 0);
 ```
 
-Entonces, al cargar el módulo, ingrese los parámetros:
+Luego de cargar los módulos, ingresar los parámetros:
 
 ```shell
 $ insmod mod enable_debug=1
 ```
 
-La variable `enable_debug` está configurada correctamente como `1`, lo que la hace muy conveniente de usar. También se necesita muy poco código adicional y se puede escribir de forma concisa y elegante, sin necesidad de escribir bucles de condición como se hace con `getenv` y `getopt`. Además, proporciona conversiones de tipos incorporadas. Entonces, pensé que sería genial poder utilizar este método para procesar los argumentos de la línea de comandos.
+La variable `enable_debug` se ha configurado correctamente como `1`, lo cual simplifica su uso. Requiere muy pocas líneas de código adicionales, lo que permite escribir un código conciso y elegante. No es necesario recurrir a bucles de control extensos como en los casos de `getenv` y `getopt`, además proporciona conversión de tipos incorporada. Por lo tanto, considero que sería muy útil utilizar este enfoque para manejar los argumentos de la línea de comandos.
 
-A continuación, veamos la implementación principal de `moduleparam`:
+A continuación, veamos la implementación central de `moduleparam`:
 
 ```cpp linenums="1"
 struct kernel_param {
-const char *name;           // Nombre de la variable
-	u16 perm;                   // Permiso de acceso a la variable
-	u16 flags;                  // Variable es de tipo bool
-	set param_set_fn;           // str -> variable value
-get_fn param_get;           // valor de la variable -> str
+Por favor, traduzca el texto al español:
+
+	const char *name;           // Variable name
+uint16_t perm;                   // permisos de acceso a la variable
+	u16 flags;                  // Variable de tipo bool
+param_set_fn set;           // str -> Variable value
+	param_get_fn get;           // valor de la variable -> str
 	union {
-		```spanish
-		void *arg;              // Puntero a variable
-		```
+void *arg;              // Pointer variable
 		const struct kparam_string *str;
 		const struct kparam_array *arr;
 	};
@@ -313,9 +304,9 @@ get_fn param_get;           // valor de la variable -> str
 
 ```
 
-`module_param` es una macro que en realidad crea una estructura llamada `kernel_param` que refleja la variable pasada como argumento. Esta estructura guarda la información necesaria para acceder y modificar la variable, como se muestra en las líneas 20-24. Luego, la estructura se coloca en una sección llamada `__param` mediante `__section__ ("__param")`. Una vez que la estructura está guardada, el kernel, al cargar el módulo, busca la ubicación de la sección `__param` en el archivo ELF y la cantidad de estructuras en ella, y establece los valores de cada parámetro según su nombre y la función `param_set_fn`. El método para encontrar una sección de nombre específico depende de la plataforma, pero en la implementación del kernel de Linux se realiza a través del procesamiento del archivo ELF. Linux proporciona el comando `readelf` para ver la información del archivo ELF, si estás interesado puedes consultar la ayuda de `readelf`.
+`module_param` es un macro que en realidad crea una estructura `kernel_param` que puede reflejarse en la variable proporcionada. Esta estructura almacena suficiente información para acceder y configurar la variable, es decir, en las líneas 20-24, y coloca la estructura en una sección llamada `__param` (`__section__ ("__param")`). Una vez que la estructura está bien definida, el núcleo, al cargar el módulo, determina la ubicación de la sección `__param` del archivo elf y la cantidad de estructuras, y luego, según el nombre y `param_set_fn`, configura el valor de cada parámetro. La forma de encontrar la sección con un nombre específico es dependiente de la plataforma; la implementación en el núcleo de Linux se basa en el procesamiento de archivos elf. Linux proporciona el comando `readelf` para ver la información de los archivos elf, y aquellos interesados pueden consultar la información de ayuda de `readelf`.
 
-Arriba se menciona que el enfoque del núcleo de Linux es específico de la plataforma, pero yo quiero un método para manejar los parámetros sin importar la plataforma, por lo que debemos modificar el enfoque original de `moduleparam`, eliminando la declaración `__section__("__param")`, después de todo, no queremos tener la molestia de leer la sección `section` del archivo elf. Echemos un vistazo a la forma modificada de uso:
+En lo anterior se mencionó que el enfoque del núcleo de Linux es específico de la plataforma, mientras que yo busco un método que sea independiente de la plataforma para manejar parámetros. Por lo tanto, debemos modificar un poco el enfoque original de `moduleparam`, eliminando la declaración `__section__ ("__param")`, ya que no queremos complicarnos leyendo la `section` de un archivo elf. Primero echemos un vistazo al uso modificado:
 
 ```cpp linenums="1"
 #include "moduleparam.h"
@@ -366,13 +357,11 @@ int main (int argc, char **argv)
 
 ```
 
-Entonces, para preservar la estructura de cada reflejo, he agregado una macro `init_module_param(num)` para declarar el espacio de almacenamiento de la estructura. `num` es el número de parámetros y si se declara un número de parámetros que excede `num`, el programa generará un error de afirmación. La declaración de `module_param` es un poco diferente de la original, se elimina el último parámetro que representa los permisos de acceso, sin control de permisos. Además, se agregó la macro `module_param_bool` para manejar variables de tipo `bool`, esto no es necesario en las versiones de Linux, ya que utiliza la función interna de GCC `__builtin_types_compatible_p` para determinar el tipo de la variable. Lamentablemente, MSVC no tiene esta función, por lo que tuve que eliminar esta funcionalidad e agregar una macro en su lugar. `module_param_array` y `module_param_string` son las funciones para manejar arreglos y cadenas, estas dos funcionalidades también están presentes en la versión original.
+Entonces, para preservar cada estructura de reflexión, agregué un macro `init_module_param(num)` para declarar el espacio de almacenamiento de la estructura, donde `num` es el número de parámetros. Si el número real de parámetros declarados supera `num`, el programa activará un error de aserción. La declaración de `module_param` es ligeramente diferente a la original, eliminando el último parámetro que representa el permiso de acceso, sin control de permisos. Además, se agregó el macro `module_param_bool` para manejar variables tipo `bool`, algo que no es necesario en las versiones de Linux, ya que utiliza la función integrada de gcc `__builtin_types_compatible_p` para determinar el tipo de variable. Lamentablemente, MSVC no tiene esta función, por lo que tuve que quitar esta funcionalidad y agregar un macro. `module_param_array` y `module_param_string` son para el tratamiento de matrices y cadenas, funcionalidades que ya estaban presentes en la versión original.
 
-Una vez que se han declarado los parámetros, es hora de manejar los argumentos pasados. Utiliza la macro `parse_params`, pasando `argc, argv` como argumentos. El tercer parámetro es un puntero a una función de devolución de llamada para manejar los argumentos desconocidos. Puedes pasar `NULL` para interrumpir el procesamiento de argumentos en caso de que haya argumentos posicionales y devolver un código de error.
+Una vez declarados los parámetros, es hora de manejar los parámetros entrantes. Usa la macro `parse_params`, con `argc, argv` como argumentos. El tercer parámetro es un puntero a una función de callback para manejar los parámetros desconocidos. Puedes pasar `NULL` para interrumpir el procesamiento de argumentos y devolver un código de error.
 
-**Ejecutar código compilado:**
-
-
+Compilar y ejecutar el código:
 
 ```
 .\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
@@ -384,17 +373,17 @@ latest = 1,2,3
 strtest = Hello World!
 ```
 
-Se puede ver que los valores numéricos, arrays y cadenas se leen e interpretan correctamente. Si se encuentran parámetros que no se pueden interpretar, retornará un código de error e imprimirá la información relevante. Podemos agregar fácilmente unas líneas de código para llevar a cabo la lectura y conversión de los parámetros, lo cual resulta muy elegante al utilizarlo. Para una implementación más detallada, puede ver directamente el código [aquí](https://github.com/disenone/aparsing).
+Se puede ver que los números, arrays y cadenas se pueden leer y convertir de forma correcta. Si se encuentra un parámetro que no se puede convertir, se devolverá un código de error y se imprimirá información relacionada. Podemos agregar unas pocas líneas de código de manera sencilla para completar la lectura y el procesamiento de parámetros, lo que resulta muy elegante. Para una implementación más detallada, se puede consultar el código [aquí](https://github.com/disenone/aparsing)。
 
-##**Resumen**
+##Resumen
 
-Esta vez hemos resumido tres métodos para el manejo de argumentos de línea de comando en C/C++, que son `getenv`, `getopt` y `moduleparam`. Cada uno de estos métodos tiene sus propias características, y en el futuro se puede elegir el método adecuado según las necesidades reales.
+Esta vez hemos hecho un resumen de tres métodos para manejar los argumentos de la línea de comandos en C/C++, que son `getenv`, `getopt` y `moduleparam`. Cada método tiene sus propias características, por lo que en el futuro se puede elegir el método adecuado según las necesidades reales.
 
-`getenv` es una función nativa compatible con múltiples plataformas, por lo que se puede utilizar directamente. Sin embargo, es muy primitiva y utiliza variables de entorno, lo cual puede contaminar el entorno. Antes de usarla, se recomienda limpiar las variables de entorno innecesarias para evitar que se queden configuraciones anteriores contaminando.
-- `getopt` es compatible de forma nativa en la plataforma Linux, pero no en Windows, por lo que se necesita incluir código de implementación para poder utilizarlo en diferentes plataformas. La forma de pasar parámetros sigue el estándar de paso de comandos en Linux, admite parámetros opcionales, pero puede resultar un poco tedioso de usar, generalmente requiere bucles y condicionales para manejar diferentes parámetros, y no es muy amigable con los parámetros de tipo numérico.
-`moduleparam` es una herramienta de procesamiento de argumentos de línea de comandos que está basada en la implementación de "moduleparam" del kernel Linux. Es compatible con el uso en múltiples plataformas y es fácil de utilizar. Permite convertir los diferentes tipos de parámetros, sin embargo, la desventaja es que cada parámetro requiere una variable de almacenamiento correspondiente.
+La función `getenv` está soportada de forma nativa en múltiples plataformas y se puede utilizar directamente, pero es bastante primitiva y utiliza variables de entorno, lo que puede contaminar el entorno. Antes de cada uso, es mejor limpiar variables de entorno innecesarias para evitar que la configuración anterior se quede y cause contaminación.
+`getopt` is natively supported on the Linux platform, but not on Windows, so it requires including implemented code to be used across platforms. The parameter passing conforms to the command-line parameter standard on Linux, supports optional parameters, but it is a bit cumbersome to use. Usually, it requires looping and conditional statements to handle different parameters and is not user-friendly for numerical data types.
+El `moduleparam` es una herramienta de procesamiento de parámetros de línea de comandos inspirada en la implementación de `moduleparam` del kernel de Linux. Es fácil de usar, soporta diferentes plataformas y puede convertir fácilmente parámetros de distintos tipos. La desventaja es que requiere una variable correspondiente para cada parámetro.
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT. Por favor, comparte tus [**comentarios**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

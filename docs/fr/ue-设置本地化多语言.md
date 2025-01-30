@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE met en place une localisation multilingue
+title: UE configure la localisation multilingue
 tags:
 - dev
 - game
@@ -8,24 +8,22 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Enregistrer comment réaliser la localisation multilingue dans l'UE
+description: Enregistrer comment réaliser une localisation multilingue dans l'UE.
 ---
 
 <meta property="og:title" content="UE 设置本地化多语言" />
 
-#Configurer la localisation multilingue de l'UE.
+#UE configure la localisation multilingue
 
-> Enregistrer comment mettre en œuvre la localisation multilingue dans l'UE.
+> Comment implémenter la localisation multilingue dans l'UE.
 
-Si vous n'êtes pas familier avec le menu de l'extension UE, je vous suggère de jeter un coup d'œil rapide à : [UE Extension Editor Menu](ue-扩展编辑器菜单.md)(ue-使用路径形式扩展菜单.md)
+Si vous n'êtes pas familiarisé avec le menu d'extension UE, il est conseillé de jeter un œil rapide sur : [Menu de l'éditeur d'extension UE](ue-扩展编辑器菜单.md)，[ue- utilisation du chemin pour étendre le menu](ue-使用路径形式扩展菜单.md)
 
-Ce texte est basé sur le plugin : [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
+Le code de cet article est basé sur le plugin : [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##Description des fonctionnalités
+##Présentation des fonctionnalités
 
-Les outils intégrés de l'UE permettent de mettre en place une localisation multilingue, par exemple pour localiser les menus de l'éditeur :
-
-Traduisez ce texte en langue française :
+Les outils intégrés de l'UE permettent de réaliser la localisation multilingue, par exemple, nous pouvons localiser les menus de l'éditeur :
 
 Menu en chinois :
 
@@ -35,11 +33,11 @@ Menu en anglais :
 
 ![](assets/img/2023-ue-localization/english.png)
 
-##Déclaration du code
+##Déclaration de code
 
-Pour localiser le menu, nous devons explicitement déclarer les chaînes à traiter par l'UE dans le code en utilisant les macros prédéfinies `LOCTEXT` et `NSLOCTEXT`.
+Pour réaliser la localisation du menu, nous devons déclarer explicitement dans le code les chaînes à traiter par UE, en utilisant les macros définies par UE `LOCTEXT` et `NSLOCTEXT` :
 
-Définir tout d'abord un macro appelé `LOCTEXT_NAMESPACE` pour définir globalement le nom de l'espace de noms des textes multilingues. Ensuite, les textes du fichier peuvent être définis en utilisant `LOCTEXT`, et enfin il convient de supprimer le macro `LOCTEXT_NAMESPACE` en fin de fichier.
+Définir au préalable le nom de l'espace de noms global du fichier en créant une macro appelée `LOCTEXT_NAMESPACE`, qui contiendra le nom de l'espace de noms actuel des textes multilingues. Ensuite, les textes du fichier pourront être définis en utilisant `LOCTEXT`, et enfin, retirer la macro `LOCTEXT_NAMESPACE` à la fin du fichier.
 
 ```cpp
 // #define LOCTEXT(InKey, InTextLiteral)
@@ -50,7 +48,7 @@ LOCTEXT("Key", "Content");
 
 ```
 
-Définissez localement en utilisant `NSLOCTEXT` en incluant le paramètre de l'espace de noms lors de la définition du texte :
+- Méthode de définition partielle, en utilisant `NSLOCTEXT`, définir le texte en incluant le paramètre de l'espace de noms :
 
 ```cpp
 // #define NSLOCTEXT(InNamespace, InKey, InTextLiteral)
@@ -58,11 +56,11 @@ Définissez localement en utilisant `NSLOCTEXT` en incluant le paramètre de l'e
 NSLOCTEXT("EditorPlusTools", "Key", "Content");
 ```
 
-L'outil de l'UE collecte tous les textes à traduire en recherchant les occurrences des macros `LOCTEXT` et `NSLOCTEXT`.
+Le plug-in UE collecte tous les textes à traduire en recherchant les occurrences des macros `LOCTEXT` et `NSLOCTEXT`.
 
-##Utilisez un logiciel de traduction pour convertir le texte.
+##Utilisez un outil de traduction pour convertir ce texte en français.
 
-Suppose we have the following code defining text:
+Supposons que nous ayons le code suivant définissant le texte :
 
 ```cpp
 #define LOCTEXT_NAMESPACE "EditorPlusTools"
@@ -74,82 +72,83 @@ FEditorPlusPath::GetNodeByPath("/<Hook>Help/<MenuBar>MenuTest/<SubMenu>SubMenu1/
 #undef LOCTEXT_NAMESPACE
 ```
 
-Tout d'abord, ouvrez l'outil de traduction, accédez aux préférences de l'éditeur en sélectionnant `Édition - Préférences de l'éditeur`, puis cochez `Général - Fonctionnalités expérimentales - Outils - Sélecteur de traduction` :
+Ouvrez d'abord l'outil de traduction en ouvrant les préférences de l'éditeur `Edit - Preferences Editor`, cochez `General - Experimental features - Tools - Translate selector`:
 
 ![](assets/img/2023-ue-localization/editor_enable_tool.png)
 
 
-Ouvrez ensuite l'outil de traduction `Outils - Panneau de localisation` :
+Ensuite, ouvrez l'outil de traduction `Outils - Panneau de contrôle de localisation` :
 
 ![](assets/img/2023-ue-localization/editor_open_tool.png)
 
-Créez un nouvel objectif (cela peut également se faire sous le jeu par défaut, la création d'un nouveau objectif facilite la gestion et le déplacement de ces textes traduits).
+Créer un nouvel objectif (cela peut également se faire sous le Game par défaut, créer un nouvel objectif permet de faciliter la gestion et le déplacement de ces textes traduits)
 
 ![](assets/img/2023-ue-localization/tool_new_target.png)
 
-Configurer les paramètres de la cible, je renomme ici le nom en `EditorPlusTools`, le type de chargement est `éditeur`, récupérer à partir du texte et ajouter le répertoire des plugins, les dépendances de la cible sont `Engine, Editor`, les autres configurations restent inchangées :
+Configurer les paramètres de l'objectif, je renomme cela en `EditorPlusTools`, la politique de chargement est `Éditeur`, collecté à partir du texte, et ajouté le répertoire des plugins, la dépendance cible est `Engine, Editor`, les autres configurations demeurent inchangées :
 
 ![](assets/img/2023-ue-localization/tool_target_config.png)
 
-Veuillez ajouter des langues pour inclure le chinois simplifié (zh-Hans) et l'anglais. Assurez-vous que lorsque vous survolez un nom de langue, les codes `zh-Hans` et `en` s'affichent. Sélectionnez l'anglais car notre code utilise des textes en anglais et nous devons collecter ces textes en anglais.
+Ajouter des langues, en veillant à inclure le chinois simplifié (中文（简体）) et l'anglais, confirmer que lorsque le curseur est placé sur le nom de la langue, `zh-Hans` et `en` s'affichent respectivement, et sélectionner l'anglais (car les textes dans notre code sont définis en anglais, nous devons ici collecter ces textes anglais) :
 
 ![](assets/img/2023-ue-localization/tool_target_lang.png)
 
-Cliquez pour collecter le texte:
+Cliquez pour collecter le texte :
 
 ![](assets/img/2023-ue-localization/tool_target_collect.png)
 
-Il affichera une boîte de dialogue de collecte de progression, attendez que la collecte réussisse, puis un coche vert s'affichera.
+Affichera une boîte de dialogue de collecte, attendre la réussite de la collecte, affichera une coche verte :
 
 ![](assets/img/2023-ue-localization/tool_target_collected.png)
 
-Fermez la boîte de dialogue de collecte, et revenez à l'outil de traduction où vous verrez le nombre de collecte affiché sur une ligne en anglais. Nous n'avons pas besoin de traduire l'anglais lui-même. Cliquez sur le bouton de traduction de la ligne chinoise.
+Fermez la boîte de dialogue de collecte, retournez à l'outil de traduction où vous pouvez voir le nombre d'éléments collectés affiché pour la ligne en anglais. Nous n'avons pas besoin de traduire l'anglais en lui-même. Cliquez sur le bouton de traduction pour la ligne en chinois.
 
 ![](assets/img/2023-ue-localization/tool_go_trans.png)
 
-Ouvrez la page, vous verrez une colonne non traduite. Entrez la traduction à droite du texte anglais. Une fois la traduction terminée, enregistrez et fermez la fenêtre.
+Une fois ouvert, nous pouvons voir qu'il y a du contenu dans la colonne des traductions manquantes. Dans la colonne à droite du texte en anglais, saisissez le contenu traduit. Une fois toutes les traductions terminées, enregistrez et fermez la fenêtre.
 
 ![](assets/img/2023-ue-localization/tool_trans.png)
 
-Cliquez sur "compter les mots" pour voir le nombre de caractères traduits en chinois une fois terminé :
+Cliquez sur le compteur de mots pour voir le nombre de caractères chinois traduits une fois terminé :
 
 ![](assets/img/2023-ue-localization/tool_count.png)
 
 Veuillez traduire ce texte en langue française :
 
-"Le texte compilé final : "
+最后编译文本：
 
 ![](assets/img/2023-ue-localization/tool_build.png)
 
-Les données traduites seront placées dans le dossier `Content\Localization\EditorPlusTools`, avec un dossier pour chaque langue. Dans le dossier zh-Hans, vous verrez deux fichiers, `.archive` contient les textes collectés et traduits, tandis que`.locres` contient les données compilées après traduction.
+Les données traduites seront placées dans `Content\Localization\EditorPlusTools`, avec un dossier pour chaque langue. Dans le dossier zh-Hans, vous pourrez voir deux fichiers : `.archive` pour le texte collecté et traduit, et `.locres` pour les données après compilation :
 
 ![](assets/img/2023-ue-localization/tool_ret.png)
 
 ![](assets/img/2023-ue-localization/tool_ret2.png)
 
-##Placer le texte traduit dans le répertoire du plugin.
+##Mettez le texte traduit dans le répertoire du plugin.
 
-Nous avons placé les textes de traduction générés par le plugin dans le répertoire du projet. Nous devons déplacer ces textes dans le plugin pour faciliter leur publication avec le plugin.
+Nous avons placé les textes traduits générés par le plugin dans le répertoire du projet, nous devons les déplacer dans le plugin pour les publier avec celui-ci.
 
-Déplacez le répertoire `Content\Localization\EditorPlusTools` dans le répertoire du plugin Content, ici `Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools`.
+Déplacez le répertoire `Content\Localization\EditorPlusTools` dans le répertoire des plugins Content, ici c'est `Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools`.
 
-Veuillez modifier le fichier de configuration du projet `DefaultEditor.ini` en y ajoutant le nouveau chemin :
+Modifier le fichier de configuration du projet `DefaultEditor.ini` en ajoutant le nouveau chemin :
 
 ```ini
 [Internationalization]
 +LocalizationPaths=%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools
 ```
 
-Ainsi, une fois que d'autres projets ont obtenu le plugin, ils peuvent simplement modifier le fichier `DefaultEditor.ini` pour utiliser directement le texte traduit, sans avoir besoin de reconfigurer la traduction.
+Ainsi, une fois que les autres projets ont obtenu le plugin, il leur suffit de modifier le `DefaultEditor.ini` pour pouvoir utiliser directement le texte traduit, sans avoir à reconfigurer la traduction.
 
 ##Instructions.
 
-Dans le processus de création de données de traduction, quelques problèmes ont été rencontrés, voici les points à noter :
+Au cours du processus de génération des données de traduction, certaines problématiques ont été rencontrées. Voici un résumé des points à prendre en compte :
 
-Dans le code, les textes doivent être définis à l'aide des macros `LOCTEXT` et `NSLOCTEXT`. Les textes doivent être des constantes de chaîne de caractères pour qu'Unreal Engine puisse les collecter.
-Veuillez traduire ce texte en langue française :
-- Les noms de cible de traduction ne doivent pas contenir les symboles `.`. Les noms des répertoires sous `Content\Localiztion\` ne doivent pas contenir `.`. UE ne prendra en compte que le nom qui précède le `.`. Cela pourrait entraîner un échec de la lecture des traductions par UE en raison d'erreurs de nommage.
-Pour les plugins de l'éditeur, il est nécessaire de vérifier si le mode commande est activé avec `IsRunningCommandlet()`, afin de ne pas générer de menu ni d'interface SlateUI. En effet, le module Slate n'est pas disponible en mode commande, ce qui entraîne une erreur lors de la collecte de texte avec l'énoncé `Assertion failed: CurrentApplication.IsValid()`. Si vous rencontrez une erreur similaire, vous pouvez essayer d'ajouter cette vérification. Voici le message d'erreur spécifique :
+Dans le code, les textes doivent être définis en utilisant les macros `LOCTEXT` et `NSLOCTEXT`, les textes doivent être des constantes de chaînes de caractères pour que UE puisse les collecter.
+Veuillez traduire ce texte en français :
+
+- Les noms de cible à traduire ne doivent pas contenir les symboles `.`. Les noms de répertoires sous `Content\Localiztion\` ne doivent pas contenir `.`. UE coupera seulement le nom avant le `.`. Cela peut entraîner un échec de lecture des textes traduits par UE en raison d'un nom incorrect.
+- Pour le plugin de l'éditeur, il est nécessaire de déterminer si c'est en mode ligne de commande `IsRunningCommandlet()`, alors il ne faut pas générer de menu ni de SlateUI, car en mode ligne de commande, il n'y a pas de module Slate, ce qui peut entraîner une erreur lors de la collecte de texte `Assertion failed: CurrentApplication.IsValid()`. Si vous rencontrez également une erreur similaire, vous pouvez essayer d'ajouter cette vérification. Détails de l'erreur :
 
     > Assertion failed: CurrentApplication.IsValid() [File:E:\UE\ue5.3_git\Engine\Source\Runtime\Slate\Public\Framework\Application\SlateApplication.h] [Line: 255] 
 
@@ -158,4 +157,4 @@ Pour les plugins de l'éditeur, il est nécessaire de vérifier si le mode comma
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit à l'aide de ChatGPT. Veuillez laisser vos [**commentaires**](https://github.com/disenone/wiki_blog/issues/new)Indiquez toute omission. 
+> Ce post a été traduit à l'aide de ChatGPT, veuillez laisser vos [**retours**](https://github.com/disenone/wiki_blog/issues/new)Veuillez indiquer toute omission. 

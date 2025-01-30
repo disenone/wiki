@@ -13,22 +13,23 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Simple record of how to add plugins to UE with the source code.
+description: A simple note on how to add a plugin to UE when you have the plugin source
+  code.
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-#Add plugins by adding plugin source code in UE.
+#Add plugins via plugin source code in UE.
 
-#Add plugin
+#Add Plugin
 
-> Simple record of how to add a plugin when you have the plugin source code.
+> A brief record of how to add a plugin when you have the plugin's source code.
 
-Plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)For example
+Using the plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)For example.
 
 Put the source code into the Plugins directory.
-- (This step can be skipped) Modify the .uproject file of the project, add the following under the Plugins field:
+- (This step can be skipped) Modify the .uproject file and add under the Plugins field:
     ```json
         "Plugins": [
         {
@@ -39,12 +40,12 @@ Put the source code into the Plugins directory.
             ]
         }
     ```
-- Right-click on the uproject file, execute "Generate Visual Studio Project Files", and update the sln project file.
+Right-click on the uproject file, select "Generate Visual Studio Project Files", and update the sln project file.
 Open the .sln file and compile the project.
 
-#Set up multiple languages
+#Set up multiple languages.
 
-Edit the project's configuration file `DefaultEditor.ini` to add the new path:
+Modify the project's configuration file `DefaultEditor.ini` to add the new path:
 
 ```ini
 [Internationalization]
@@ -55,4 +56,4 @@ Edit the project's configuration file `DefaultEditor.ini` to add the new path:
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT. Please provide feedback in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Verwenden Sie Pfadform zur Erweiterung des Menüs.
+title: UE verwendet eine Pfadform zur Erweiterung des Menüs.
 tags:
 - dev
 - game
@@ -12,15 +12,15 @@ tags:
 
 <meta property="og:title" content="UE 使用路径形式扩展菜单" />
 
-> Protokollieren, wie ein Pfadmenü in UE implementiert wird. 
+> Aufzeichnen, wie ein Pfadmenü in UE implementiert wird.
 
-Wenn du mit dem UE-Erweiterungsmenü nicht vertraut bist, empfehle ich dir, zuerst einen kurzen Blick darauf zu werfen: [UE-Erweiterungs-Editor-Menü](ue-扩展编辑器菜单.md)
+Wenn Sie mit dem UE-Erweiterungsmenü nicht vertraut sind, empfehlen wir, sich zuerst kurz die folgenden Informationen anzusehen: [UE Erweiterungs-Editor-Menü](ue-扩展编辑器菜单.md)
 
 Dieser Text basiert auf dem Plugin: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##Node Management
+##Nodeverwaltung
 
-Organisieren Sie das Menü nach dem Baumstrukturprinzip, wobei Elternknoten Kinder enthalten können:
+Verwalten Sie das Menü gemäß der Struktur eines Baumes, wobei das Elternknotenelement Kinder enthalten kann:
 
 ```cpp
 class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis<FEditorPlusMenuBase>
@@ -31,7 +31,7 @@ protected:
 }
 ```
 
-Beim Erstellen eines Elternelements gleichzeitig ein Unterelement erstellen:
+Beim Erstellen des Elternelements gleichzeitig ein Unterelement erstellen:
 
 ```cpp
 void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
@@ -43,7 +43,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
 }
 ```
 
-Natürlich wird das konkrete Erstellungsverhalten für jeden Knoten etwas unterschiedlich sein, indem die virtuelle Funktion überschrieben wird:
+Natürlich wird das konkrete Erstellungsverhalten für jeden Knoten etwas verschieden sein, durch das Überschreiben virtueller Funktionen realisiert:
 
 ```cpp
 // Menubar
@@ -97,20 +97,20 @@ void FEditorPlusCommand::Register(FMenuBuilder& MenuBuilder)
 // ......
 ```
 
-##Erstellen Sie Knoten durch den Pfad.
+##Generiere Knoten durch Pfade.
 
-Organisieren Sie das Menü in Baumstruktur, dann können Sie mit dem Pfadformat die Struktur eines Menüs definieren:
+Die Menüstruktur sollte in einer baumartigen Organisation angeordnet werden, und das Pfadformat kann eine solche Baumstruktur des Menüs definieren:
 
 ```cpp
 "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action"
 ```
 
-Die oben genannte Methode ermöglicht die Erstellung einer Reihe von Menüs:
+Der oben genannte Pfad kann verwendet werden, um eine Reihe von Menüs zu erstellen:
 
-- `<Hook>Help`: Positioniert hinter dem Menü mit dem Hook-Namen Help.
-`<MenuBar>BarTest`：Erstellt ein Menü vom Typ Menüleiste mit dem Namen BarTest.
-- `<SubMenu>SubTest`：Create a sub-node, type SubMenu, named SubTest.
-- `<Command>Action`: Erstellen Sie schließlich einen Befehl.
+- `<Hook>Hilfe`：befindet sich im Menü mit dem Namen Hilfe nach dem Hook
+`<MenuBar>BarTest`：Erstellt ein Menü vom Typ MenuBar mit dem Namen BarTest.
+- `<SubMenu>SubTest`: Erstelle Knoten, Typ SubMenu, Name SubTest
+- `<Command>Action`: Erstelle schließlich einen Befehl.
 
 Die Aufrufmethode der Schnittstelle kann sehr einfach sein:
 
@@ -125,9 +125,9 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-##Erstellen von Knoten aus benutzerdefinierten Formen.
+##Erzeugung von Knoten durch benutzerdefinierte Formulare
 
-Wir halten immer noch an der umständlichen Methode fest, Menüs zu erstellen. Diese umständliche Methode ermöglicht detailliertere Einstellungen und ähnelt der Organisationsstruktur von UE's SlateUI-Schreibweise.
+Wir haben immer noch die sperrige Methode beibehalten, um Menüs zu erstellen. Diese sperrige Methode ermöglicht detailliertere Einstellungen und die Organisationsstruktur des Codes ähnelt der Schreibweise der Benutzeroberfläche (UI) von UE SlateUI.
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
@@ -144,9 +144,9 @@ EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
 });
 ```
 
-##Gemischte Form
+##Mischform
 
-Natürlich sind sowohl die vorgegebenen Pfadformen als auch benutzerdefinierte Menüs identisch und können flexibel kombiniert werden.
+Natürlich sind die Pfadformate und die benutzerdefiniert generierten Menüs identisch, sie können untereinander kombiniert werden und bieten große Flexibilität.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -168,8 +168,8 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-Menüs, die an verschiedenen Stellen definiert sind, werden in einer einzigen Baumstruktur zusammengeführt, wobei Knoten mit demselben Namen als derselbe Knoten betrachtet werden. Anders ausgedrückt, der Pfad ist eindeutig; ein und derselbe Pfad kann einen Menüknoten eindeutig bestimmen.
-Dann können wir auch die Knoten finden, neu konfigurieren und anpassen:
+Die Menüs, die an verschiedenen Stellen definiert sind, werden in einer einzigen Baumstruktur zusammengeführt, wobei Knoten mit dem gleichen Namen als derselbe betrachtet werden. Mit anderen Worten, der Pfad ist eindeutig, und derselbe Pfad kann einen Menüknoten eindeutig bestimmen.
+So können wir auch die Knoten finden und einige Einstellungen und Änderungen vornehmen:
 
 ```cpp
 // set Name and Tips
@@ -180,4 +180,4 @@ FEditorPlusPath::GetNodeByPath("/<MenuBar>BarTest")->SetFriendlyName(LOCTEXT("Me
 --8<-- "footer_de.md"
 
 
-> Dieser Text wurde mit ChatGPT übersetzt. Bitte geben Sie [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Benennen Sie alle Übersehenen Stellen. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf etwaige Auslassungen hin. 

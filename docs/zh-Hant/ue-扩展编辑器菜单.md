@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE 擴展編輯器選單
+title: UE 擴展編輯器菜單
 tags:
 - dev
 - game
@@ -8,27 +8,27 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: 記錄 UE 如何擴展編輯器選單
+description: 記錄 UE 如何擴展編輯器菜單
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#UE 擴充編輯器選單
+#UE 擴展編輯器菜單
 
 > 記錄 UE 如何擴展編輯器選單
 
 ## Hook
 
-Hook 可以理解為擴展功能選單的錨點，我們可以設定新增的功能選單命令在 Hook 的前面或者後面。UE 內建的編輯器功能選單指令基本上都帶有 Hook。在 UE5 中，請打開 `編輯 - 編輯器偏好設定 - 通用 - 其他 - 顯示 UI 擴展點` 來顯示所有功能選單的 Hook:
+Hook 可以理解為擴展選單的錨點，我們可以在 Hook 的前面或後面設置新添加的選單命令，UE 自帶的編輯器選單命令基本都帶有 Hook，UE5 下打開 `編輯 - 編輯器偏好設置 - 通用 - 其他 - 顯示 UI 擴展點` 來顯示所有選單的 Hook：
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-##模塊依賴
+##模組依賴
 
-請在專案 .Build.cs 檔案中加入所需的模組 LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus：
+請在專案的.Build.cs檔案裡加入依賴的模組 LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus：
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -48,9 +48,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-##新增選單列
+##添加菜單欄
 
-請直接輸入程式碼。
+直接上程式碼
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,7 +73,7 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-執行以上程式碼可以看到在「幫助」後面加上了一個選單列 MenuTest:
+執行以上代碼可以看到在 幫助 後面加上了一個菜單欄 MenuTest:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
@@ -91,7 +91,7 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-將以上程式碼放入 CreateLambda 中，即可生成選單命令：
+將上述程式碼放入 CreateLambda 中，即可生成選單命令：
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
@@ -115,7 +115,7 @@ MenuBuilder.AddMenuSeparator();
 
 ##子選單
 
-子選單類似於選單欄，需要在 Lambda 內定義：
+子選單類似於選單列，需在 Lambda 內定義：
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -134,9 +134,9 @@ MenuBuilder.AddSubMenu(
 
 ![](assets/img/2023-ue-extend_menu/submenu.png)
 
-#SlateUI 控制元件
+#SlateUI 控件
 
-可以新增 UI 元件：
+還可以添加 UI 控件：
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -167,11 +167,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-這裡不會詳細展開有關 Slate UI 的內容，如果您感興趣，可以去其他地方找文章閱讀。
+這裡不會詳細展開有關 Slate UI 的內容，如果有興趣的話，可以去尋找其他文章觀看。
 
-#新增選單
+#增加 Hook 選單
 
-在「工具 - 程式設計」中添加一個指令，例如：
+譬如在 `工具 - 編程` 裡面增加一個命令：
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -191,7 +191,7 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-可以新增其他種類的菜單。
+同樣的道理，您可以新增其他種類的菜單。
 
 #完整代碼
 
@@ -285,4 +285,4 @@ void BuildTestMenu()
 
 
 
-> 此貼文是由 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何被忽略的地方。 
+> 此訊息是使用 ChatGPT 翻譯的，若有[**反饋**](https://github.com/disenone/wiki_blog/issues/new)請指出任何遺漏之處。 

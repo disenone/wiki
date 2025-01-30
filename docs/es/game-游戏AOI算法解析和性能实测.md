@@ -1,58 +1,54 @@
 ---
 layout: post
-title: '"Análisis y prueba de rendimiento del algoritmo AOI de juegos"'
+title: Analisis y pruebas de rendimiento del algoritmo AOI de juegos
 categories:
 - c++
 catalog: true
 tags:
 - dev
 - game
-description: 'En este texto se discuten dos algoritmos: el sudoku y la cadena cruzada.
-  Se proporciona un análisis de rendimiento práctico para ambos algoritmos, para que
-  puedas tener una idea clara y actuar con confianza ante cualquier situación.'
+description: Este texto discute dos algoritmos, el de la cuadrícula de nueve elementos
+  y el de la cadena de cruz, y proporciona análisis de rendimiento empírico de ambos,
+  para que puedas usarlos con confianza y sin sobresaltos.
 figures: []
 date: 2021-11-18
 ---
 
 <meta property="og:title" content="游戏 AOI 算法解析和性能实测" />
 
-###Introducción
+###引子
 
-`AOI` (Area Of Interest) es una función muy básica en los juegos en línea multijugador, donde los jugadores necesitan recibir información de otros jugadores o entidades (Entity) que se encuentren dentro de su campo de visión. Los algoritmos utilizados para determinar qué entidades existen dentro del campo de visión de un jugador, así como cuáles entran o salen de su campo de visión, generalmente se denominan algoritmos `AOI`.
+El `AOI` (Área de Interés) es una función básica en los juegos en línea multijugador, donde los jugadores necesitan recibir información sobre otros jugadores o entidades que ingresen al alcance de su visión. El cálculo de qué entidades se encuentran dentro del campo de visión de un jugador, así como los algoritmos que determinan qué entidades entran o salen de su campo de visión, se conocen comúnmente como algoritmos de `AOI`.
 
-Este texto discute dos algoritmos `AOI`, el cuadrícula de nueve puntos y la cadena de cruz, y proporciona un análisis de rendimiento empírico de ambos algoritmos para que puedas tener una idea clara y no te pongas nervioso cuando te encuentres con situaciones.
+Este texto discute dos algoritmos `AOI`: la cuadrícula de 9 celdas y la cadena de 10 células, y ofrece un análisis de rendimiento práctico de ambos algoritmos para que puedas utilizarlos con confianza y mantener la calma en cualquier situación.
 
-En el texto se mencionarán dos términos: "jugador" y "entidad". "Entidad" se refiere al concepto de un objeto en el juego, mientras que "jugador" se refiere a una entidad que tiene un Área de Interés (AOI).
+En el texto se mencionarán dos términos: jugador y entidad. Entidad es el concepto de objeto en el juego, mientras que jugador es la entidad que posee AOI.
 
-El código mencionado en el texto se puede encontrar aquí: [AoiTesting](https://github.com/disenone/AoiTesting).
+El código mencionado en el texto se puede encontrar aquí: [AoiTesting](https://github.com/disenone/AoiTesting)Lo siento, pero no hay texto para traducir. ¿Hay algo más en lo que pueda ayudarte?
 
-###九宫格
+###Nueve casillas
 
-El llamado "cuadrícula 9x9" es la división de las posiciones de todas las entidades en un escenario en casillas, por ejemplo, dividiéndolas en cuadrados de 200 unidades de lado. Para encontrar otras entidades dentro del rango de AOI del jugador central, se compara con todos los jugadores dentro de las casillas involucradas en este rango.
+所谓九宫格，是把场景内所有实体的位置按照格子划分，譬如划分成边长 200 的正方形，要找出中心玩家 AOI 范围内的其他实体，就把这个范围内涉及到的格子内的玩家都做一遍比较。
 
-Por ejemplo, en cada momento, la escena hará un "Tick" cada 100 milisegundos. En el Tick, podemos actualizar el AOI del jugador de la siguiente manera:
+Por ejemplo, en cada escena que pasa cada 100 milisegundos, hacemos un "tick", y en este "tick" podemos actualizar el Área de Interés (AOI) del jugador de la siguiente manera:
 
-* Con el jugador como centro, se calcula la colección de casillas involucradas con un radio de AOI.
-* Calcular la distancia entre cada entidad en el conjunto de celdas y el jugador.
-* La colección de entidades cuya distancia es menor al radio de AOI se convierte en el nuevo AOI del jugador.
+Calcular el conjunto de casillas involucradas en el radio AOI, con la posición del jugador como centro.
+Calcular la distancia entre cada entidad en un conjunto de cuadrículas y el jugador.
+El conjunto de entidades cuya distancia es menor que el radio de AOI es el nuevo AOI del jugador.
 
-El algoritmo de la cuadrícula de 9 casillas es bastante simple de implementar, ya que se puede describir en pocas frases. Dejaremos el análisis de rendimiento específico para más adelante, primero echemos un vistazo al algoritmo de lista enlazada de cruz.
+El algoritmo de la cuadrícula 3x3 es bastante simple de implementar; se puede describir con solo unas pocas frases. La análisis de rendimiento específico lo dejaremos para más adelante, primero echemos un vistazo al algoritmo de lista enlazada cruzada.
 
-###**十字链表**
+###Lista enlazada doble
 
-Una **lista de enlaces cruzados** es una estructura de datos utilizada comúnmente en programación. También se conoce como una **lista de enlaces dobles** o una **lista enlazada cruzada**. En esta estructura, cada nodo contiene referencias a los nodos siguientes en dos direcciones: hacia adelante y hacia atrás. Esto permite un acceso eficiente a los elementos anteriores y siguientes en la lista. La implementación de una lista de enlaces cruzados puede ser muy útil en una amplia variedad de aplicaciones, como edición de texto, manipulación de imágenes o trabajo con bases de datos. Esta estructura de datos es especialmente útil cuando se necesita realizar operaciones de inserción o eliminación en una lista de forma eficiente.
+Para juegos en 3D, generalmente construimos listas encadenadas ordenadas para los ejes X y Z, donde cada entidad tiene un nodo en la lista que almacena el valor de ese eje, organizados en orden creciente. Sin embargo, si solo almacenamos los puntos de coordenadas de las entidades, la eficiencia de consulta de estas dos listas encadenadas sigue siendo muy baja.
 
-Para los juegos en 3D, normalmente creamos listas enlazadas ordenadas para las coordenadas del eje X y del eje Z. Cada entidad tiene un nodo en la lista que almacena el valor de la coordenada correspondiente. Los valores se almacenan en orden creciente. Sin embargo, si solo almacenamos los puntos de coordenadas de las entidades, la eficiencia de búsqueda de estas dos listas sigue siendo baja.
+Lo verdaderamente crucial es que en la lista enlazada vamos a agregar dos nodos centinelas a cada jugador que tiene un AOI. Los dos nodos centinelas tienen coordenadas que difieren exactamente en el radio de AOI de las coordenadas del jugador en sí. Por ejemplo, si las coordenadas del jugador `P` son `(a, b, c)` y el radio de AOI es `r`, entonces en el eje X habrá dos nodos centinelas, `izquierdo_x` y `derecho_x`, con coordenadas `a - r` y `a + r`, respectivamente. Debido a la presencia de los centinelas, actualizamos el AOI rastreando los movimientos de los centinelas y otros nodos de entidad. Siguiendo el ejemplo anterior, si una entidad `E` se mueve y cruza desde la derecha de `left_x` hacia la izquierda sobre `left_x` y llega al lado izquierdo de `left_x`, entonces `E` definitivamente ha salido del AOI de `P`; de manera similar, si cruza hacia la derecha de `right_x`, también sale del AOI. Por el contrario, si cruza hacia la derecha de `left_x` o hacia la izquierda de `right_x`, es posible que entre en el AOI de `P`.
 
-Lo realmente importante es que en la lista enlazada también agregamos dos nodos centinela, uno a la izquierda y otro a la derecha, para cada jugador que tenga un AOI. Las coordenadas de estos dos nodos centinela difieren exactamente en el radio del AOI en comparación con las coordenadas del jugador. Por ejemplo, si las coordenadas del jugador `P` son `(a, b, c)` y el radio del AOI es `r`, entonces en el eje X habrá dos nodos centinela, `left_x` y `right_x`, con coordenadas `a - r` y `a + r` respectivamente. Con la presencia de estos nodos centinela, actualizamos el AOI mediante el seguimiento del movimiento de los nodos centinela y los demás nodos de entidades.
+Se puede observar que el algoritmo de lista en cruz es mucho más complejo que el de cuadrícula de nueve celdas. Necesitamos mantener dos listas ordenadas y, al actualizar las coordenadas de cada entidad, mover sincrónicamente los nodos en las listas, actualizando también el Área de Interés (AOI) al atravesar otros nodos.
 
-Continuando con el ejemplo anterior, si una entidad `E` se mueve y cruza desde la derecha de `left_x` hacia la izquierda de `left_x`, entonces significa que `E` definitivamente ha salido del AOI de `P`. De manera similar, si cruza a la derecha de `right_x`, también ha salido del AOI. Por el contrario, si cruza a la derecha de `left_x` o a la izquierda de `right_x`, significa que es posible que entre en el AOI de `P`.
+###Implementación del cuadrado mágico
 
-Se puede observar que el algoritmo de lista cruzada es mucho más complejo que el algoritmo de cuadrícula de nueve celdas. Necesitamos mantener dos listas ordenadas y, al actualizar las coordenadas de las entidades, mover los nodos en las listas de forma sincronizada y actualizar el AOI cuando pasamos por encima de otros nodos.
-
-###Implementación de la rejilla de nueve celdas
-
-Debido a que implica un rendimiento medido, vamos a profundizar un poco en los detalles de implementación del algoritmo de matriz 9x9:
+Debido a la implicación de pruebas de rendimiento, vamos a adentrarnos un poco más en los detalles de implementación del algoritmo de la cuadrícula de nueve casillas.
 
 ```cpp
 struct Sensor {
@@ -75,7 +71,7 @@ struct PlayerAoi {
 };
 ```
 
-`PlayerAoi` almacena los datos del jugador, que incluye una matriz llamada `sensores`, utilizada para calcular entidades dentro de un rango específico. Después de cada `Tick`, las entidades calculadas se colocan en la variable `aoi_players`. `aoi_players` es un arreglo que almacena dos matrices y se utiliza para comparar los resultados del último `Tick`, determinando las entidades que ingresan y salen del jugador. El proceso aproximado del `Tick` es el siguiente:
+`PlayerAoi` almacena los datos de los jugadores, que incluyen una matriz llamada `sensores` utilizada para calcular entidades dentro de un rango específico. Después de cada `Tick`, las entidades calculadas se colocan en `aoi_players`. Esta última es una estructura que contiene dos matrices usadas para comparar los resultados del `Tick` anterior y determinar qué jugadores han entrado o salido. El proceso general de `Tick` es el siguiente:
 
 ```cpp
 AoiUpdateInfos SquareAoi::Tick() {
@@ -85,7 +81,7 @@ AoiUpdateInfos SquareAoi::Tick() {
   for (auto& elem : player_map_) {
     auto& player = *elem.second;
     // ...
-// Calculando el Aoi para los jugadores con sensores
+// Calcular Aoi para jugadores con sensores
     if (!player.sensors.empty()) {
       auto update_info = _UpdatePlayerAoi(cur_aoi_map_idx_, &player);
       if (!update_info.sensor_update_list.empty()) {
@@ -106,7 +102,7 @@ AoiUpdateInfos SquareAoi::Tick() {
 }
 ```
 
-`Tick` hace algo muy sencillo, recorre a los jugadores con `sensores` y calcula individualmente las entidades dentro del rango del `sensor`, que es el AOI. `last_pos` se utiliza para determinar si una entidad ha entrado o salido del AOI. El código de `\_UpdatePlayerAoi` es el siguiente:
+`Tick` hace cosas simples, recorre a los jugadores con `sensors` y calcula uno por uno las entidades dentro del rango del `sensor`, lo que se conoce como AOI. `last_pos` se utiliza para determinar si una entidad ha entrado o salido del AOI, el código de `_UpdatePlayerAoi` es el siguiente:
 
 ```cpp
 AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* pptr) {
@@ -140,13 +136,11 @@ AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* ppt
 }
 ```
 
-`old_aoi` es el AOI calculado en el último `Tick`, `new_aoi` es el AOI que se va a calcular en esta ocasión. `new_aoi` se obtiene recorriendo todas las entidades en las celdas dentro del rango del AOI, seleccionando aquellas que están a una distancia menor al radio del AOI desde el jugador. Luego, se utilizan las funciones `_CheckLeave` y `_CheckEnter` para determinar las entidades que salen o entran en el AOI en este `Tick`. Por ejemplo, si la posición `last_pos` de una entidad en `new_aoi` no está dentro del rango del AOI, significa que esa entidad entró en el rango en este `Tick`. El código específico se puede encontrar en el archivo fuente, por lo que no entraré en más detalles aquí.
+`old_aoi` es el AOI calculado en el último `Tick`, y `new_aoi` es el AOI que se necesita calcular en este `Tick`. `new_aoi` selecciona entidades dentro del rango de AOI cuya distancia al jugador sea menor que el radio de AOI, recorriendo todas las celdas en el rango de AOI. Luego, usando las funciones `_CheckLeave` y `_CheckEnter`, se calculan las entidades que salen e ingresan al AOI en este `Tick`. Por ejemplo, si la posición `last_pos` de una entidad en `new_aoi` no está dentro del rango de AOI, significa que esa entidad entró al rango de AOI en este `Tick`. Para ver el código específico, se puede consultar el archivo fuente, ya que aquí no entraremos en más detalles.
 
+###La implementación de una lista cruzada.
 
-
-###**La implementación de una lista enlazada circular**
-
-En comparación con la lista de cuadrícula, la implementación de la lista de enlaces cruzados es más compleja. Primero, veamos la estructura de datos básica:
+En comparación con el cuadrado mágico, la implementación de la lista enlazada cruzada es más compleja. Empecemos por ver la estructura de datos básica:
 
 ```cpp
 struct CoordNode {
@@ -190,15 +184,15 @@ struct PlayerAoi {
 };
 ```
 
-`Sensor` y `PlayerAoi` son similares al `Grid de nueve cuadros`, pero tienen una estructura de nodo de lista vinculada adicional llamada `CoordNode`. `CoordNode` es un nodo en la lista vinculada que registra el tipo y el valor del propio nodo. Hay tres tipos: nodo del jugador, nodo izquierdo de `Sensor` y nodo derecho de `Sensor`.
+`Sensor` y `PlayerAoi` son en cierta medida similares al juego del Sudoku, pero con la incorporación de la estructura de nodos `CoordNode` relacionados con listas enlazadas. `CoordNode` es un nodo en la lista enlazada que guarda el tipo y el valor del propio nodo, existiendo tres tipos de nodos: el nodo del jugador, el nodo izquierdo del `Sensor` y el nodo derecho del `Sensor`.
 
-La mayor parte del trabajo de una lista enlazada cruzada consiste en mantenerla ordenada:
+La mayor parte del trabajo de una lista ligada doble enlazada consiste en mantener la lista ordenada:
 
-*Cuando un jugador se une, debe mover el nodo del jugador a una posición ordenada y, al mismo tiempo, manejar los eventos de entrada o salida de otros jugadores en el sistema AOI.*
-Una vez que el jugador se mueve a la posición correcta, los nodos de "Sensor" izquierdo y derecho se mueven desde la posición del jugador hacia adelante y hacia atrás, se posicionan correctamente y manejan los eventos de entrada y salida que se activan al cruzar otros nodos de jugadores.
-* Cuando el jugador se mueve, se actualizan las coordenadas del jugador y se mueven los nodos del jugador y los nodos izquierdo y derecho del `Sensor`, para manejar la entrada y salida en el AOI.
+Cuando un jugador se une, se requiere mover el nodo del jugador a una posición ordenada, y al mismo tiempo que se mueve el nodo del jugador, manejar eventos de entrada o salida de otros jugadores en el área de interés alrededor del jugador.
+Una vez que el jugador se haya desplazado a la posición correcta, los nodos izquierdo y derecho del `Sensor` se moverán desde la posición del jugador hacia adelante y hacia atrás, hasta llegar a la posición correcta, y gestionarán los eventos de entrada y salida que se produzcan al cruzar los nodos de otros jugadores.
+Cuando el jugador se mueve, se actualiza la coordenada del jugador y se mueven los nodos del jugador y Sensor hacia la izquierda y derecha, gestionando la entrada y salida del área de interés.
 
-El código para mover el nodo móvil es el siguiente: cada vez que se pasa por un nodo, se llama a la función `MoveCross`. La función `MoveCross` decide si se ingresa o se sale del Área de Interés (AOI) en función de la dirección del movimiento, el nodo que se está moviendo y el tipo de nodo que se cruza.
+El código del nodo móvil es el siguiente. Cada vez que se cruza un nodo, se llama a la función `MoveCross`. Esta función, según la dirección del movimiento y el tipo de nodo que se ha cruzado, decide si se entra o se sale del AOI.
 
 ```cpp
 void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
@@ -231,30 +225,30 @@ void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
 }
 ```
 
-La movilidad de las listas enlazadas es lenta, con una complejidad de `O(n)`, especialmente cuando se agrega un nuevo jugador al escenario. Los jugadores tienen que moverse desde una distancia infinita hasta llegar a la posición correcta, lo que implica recorrer una gran cantidad de nodos y consume muchos recursos. Para optimizar el rendimiento, podemos colocar faros en posiciones fijas dentro del escenario. Estos faros se comportan de manera similar a los jugadores, pero además llevan un registro adicional llamado `detected_by`, que guarda información sobre los sensores que detectan a la entidad centinela. Al momento de ingresar al escenario, en lugar de comenzar desde la posición más lejana, el jugador encuentra el faro más cercano, inserta el nodo junto a él y, utilizando los datos de `detected_by` del faro, ingresa rápidamente al rango de AOI (área de interés) de otros jugadores que coinciden con el faro. Luego, comienza a moverse hacia la posición correcta, teniendo en cuenta también las entradas y salidas. Del mismo modo, los sensores pueden heredar los datos de los faros y moverse desde la posición del faro hasta la posición correcta. Estas dos optimizaciones permiten mejorar el rendimiento de inserción de jugadores en más del doble.
+El movimiento en la lista enlazada es muy lento, con una complejidad de `O(n)`, especialmente cuando un nuevo jugador se une a la escena, ya que debe moverse gradualmente desde una distancia infinita hasta la posición correcta, lo que requiere recorrer muchos nodos y consume bastante recursos. Para optimizar el rendimiento, podemos colocar faros en posiciones fijas dentro de la escena. Estos faros funcionan de manera similar a los jugadores, con la única diferencia de que registran una copia adicional de los datos `detected_by`, que se utiliza para identificar en qué rangos de `Sensor` se encuentra esa entidad centinela. Cuando un jugador entra por primera vez en la escena, ya no comienza a moverse desde la distancia más lejana, sino que encuentra un faro cercano, inserta el nodo junto a este faro y, gracias a los datos `detected_by` del faro, accede rápidamente al rango de AOI de otros jugadores que coinciden con el faro, y luego comienza a moverse hacia la posición correcta, teniendo en cuenta las entradas y salidas en el proceso. De manera similar, para los `Sensor`, se puede heredar primero los datos del faro y luego moverse desde la ubicación del faro hacia la posición correcta. Estas dos optimizaciones pueden mejorar el rendimiento de inserción de jugadores en más del doble.
 
-El `Sensor` todavía tiene un `HashMap` llamado `aoi_player_candidates` en su cuerpo (aquí, para mejorar el rendimiento, se utiliza [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)）。El evento AOI desencadenado por el movimiento de los nodos solo puede detectar un área cuadrada con longitud de lado de `2r` en los ejes X-Z, no es el AOI circular en el sentido estricto. Las entidades dentro de esta área cuadrada se registran en `aoi_player_candidates` y se calcula el rango del AOI en el área circular durante el `Tick`, por lo que se llaman "candidatos".
+`Sensor` tiene también un `HashMap` llamado `aoi_player_candidates` (aquí se utilizó [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)La AOI generada por el movimiento de nodos solo puede detectar un área cuadrada con un lado de "2r" en el eje X-Z, que no es estrictamente un área circular como se desea. Las entidades dentro de esta área cuadrada se registran en `aoi_player_candidates` y se recorren en el `Tick` para calcular el alcance de la AOI dentro del área circular, por lo tanto se denominan `candidates`.
 
-Todas las operaciones de la lista de crucigramas se realizan para mantener constantemente las entidades "candidatas" dentro de un área cuadrada. Las operaciones realizadas por el "Tick" en la lista de crucigramas son casi idénticas a las del patrón de casillas de un sudoku, solo que el cálculo de las entidades "candidatas" que se recorren para calcular el "AOI" es diferente. Las entidades "candidatas" en el patrón de casillas de un sudoku son aquellas que están cubiertas por el área circular del "AOI", mientras que en la lista de crucigramas son las que se encuentran dentro de un área cuadrada de longitud de lado "2r" definida por los nodos izquierdo y derecho del "Sensor". Cualitativamente hablando, las entidades "candidatas" en la lista de crucigramas suelen ser menos que las del patrón de casillas de un sudoku, por lo que el número de iteraciones dentro de "Tick" es menor, lo que se traduce en un rendimiento óptimo. Sin embargo, la lista de crucigramas todavía tiene una cantidad significativa de consumo adicional de rendimiento debido al mantenimiento de la lista. Así que ahora probemos y comparemos el rendimiento general de estos dos enfoques.
+Todas las operaciones de la lista de doble enlace cruzada están destinadas a mantener de manera constante las entidades `candidates` dentro de una región cuadrada. Las operaciones realizadas por `Tick` en la lista de doble enlace cruzada son prácticamente las mismas que en la cuadrícula, aunque la forma de recorrer y calcular los `candidates` de AOI es diferente. Los `candidates` de la cuadrícula son las entidades de las celdas que están cubiertas por la región circular de AOI, mientras que en la lista de doble enlace cruzada se define una región cuadrada de lado `2r` delimitada por los nodos izquierdo y derecho del `Sensor`. En términos cualitativos, los `candidates` de la lista de doble enlace cruzada generalmente son menos que en la cuadrícula, por lo que el número de iteraciones en `Tick` es menor y su rendimiento es superior. Sin embargo, la lista de doble enlace cruzada también implica un gran consumo adicional de rendimiento para mantener la lista. En definitiva, vamos a realizar pruebas para ver cuál de los dos enfoques es más eficiente.
 
-###性能实测
+###Rendimiento medido
 
-Aquí he medido el tiempo de ejecución de tres casos diferentes en mi juego: la entrada de un jugador a una escena (`Añadir Jugador`), el cálculo de eventos de entrada y salida en el área de interés (`Tick`), y la actualización de la posición del jugador (`Actualizar Pos`).
+He medido el tiempo de consumo en tres situaciones: cuando el jugador se une a la escena (`Add Player`), el cálculo de eventos de entrada y salida del AOI (`Tick`), y la actualización de la posición del jugador (`Update Pos`).
 
-El punto de partida del jugador se genera aleatoriamente dentro del rango del mapa y luego se incorpora al escenario. `player_num` es la cantidad de jugadores y `map_size` es el rango de ejes X-Z del mapa. La posición de cada jugador se genera aleatoriamente de manera uniforme dentro de este rango. Cada jugador tiene un "Sensor" con un radio de `100` que se utiliza como Área de Interés (AOI) y se utiliza el temporizador de CPU `boost::timer::cpu_timer` para calcular el tiempo. Se seleccionaron tres casos diferentes para `player_num`: `100, 1000, 10000`, y cuatro casos diferentes para `map_size`: `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]`.
+Los jugadores son generados aleatoriamente dentro del rango del mapa y luego se incorporan a la escena. `player_num` se refiere a la cantidad de jugadores, y `map_size` es el rango de coordenadas X-Z del mapa. Las posiciones de los jugadores se generan de forma uniforme dentro de este rango, y cada jugador tiene un `Sensor` con un radio de `100` unidades que sirve como Área de Interés (AOI). Para medir el tiempo se utiliza `boost::timer::cpu_timer`. Se han considerado tres casos para `player_num`: `100, 1000, 10000`, y cuatro casos para `map_size`: `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]`.
 
-Actualizar la ubicación del jugador hará que el jugador se mueva en dirección aleatoria fija a una velocidad de `6m/s`.
+Actualizar la posición del jugador hará que se mueva en una dirección aleatoria fija, a una velocidad de `6m/s`.
 
-La configuración del entorno de prueba en esta ocasión es la siguiente:
+El entorno de prueba está:
 
 * CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-* Sistema: Debian GNU/Linux 10 (buster)
-* Versión de gcc: gcc versión 8.3.0 (Debian 8.3.0-6)
-* Versión de Boost: boost_1_75_0
+Sistema: Debian GNU/Linux 10 (Buster)
+* versión de gcc: gcc version 8.3.0 (Debian 8.3.0-6)
+* versión de boost: boost_1_75_0
 
-####九宫格实测
+####Prueba de cuadrícula de nueve posiciones.
 
-Los resultados de la prueba del cuadrado mágico son los siguientes:
+Los resultados de la prueba de la matriz de 9 cuadros son los siguientes:
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -330,15 +324,11 @@ Update Pos (10 times) 0.019033s wall, 0.020000s user + 0.000000s system = 0.0200
 ===End Milestore
 ```
 
-En el caso de un tablero de juego de nueve cuadrículas con `100` jugadores, las tres operaciones tienen un tiempo de ejecución muy corto. En el caso extremo de `map_size = [-50, 50]`, todos los jugadores están dentro del rango de AOI y el tiempo de ejecución de `Tick` es de aproximadamente `0.4ms`. Tanto la operación de agregar jugadores a la escena como la de actualizar las coordenadas tienen una complejidad lineal `O(player_num)`, y su rendimiento es bueno. Sin embargo, cuando el número de jugadores aumenta a 10,000 (`player_num = 10000`) y se mantiene el mismo tamaño de mapa (`map_size = [-50, 50]`), agregar jugadores y actualizar posiciones toman solo unos milisegundos debido a su complejidad lineal, pero el tiempo de ejecución de `Tick` aumenta a `3.8s`, lo que requiere una gran cantidad de CPU y ya no es utilizable. Si tenemos 10,000 jugadores y un tamaño de mapa de `[-1000, 1000]`, el tiempo de ejecución de `Tick` es de aproximadamente `94ms`. Si pudiéramos reducir la frecuencia de `Tick`, por ejemplo a dos veces por segundo, aún estaría dentro de un rango utilizable, aunque con dificultad.
+Cuando hay `100` jugadores en el tablero de `nueve cuadrados`, las tres operaciones son muy rápidas. En el caso extremo con un tamaño de mapa de `[-50, 50]`, todos los jugadores están dentro del área de influencia (AOI por sus siglas en inglés) unos de otros y el tiempo de `Tick` es aproximadamente de `0.4ms`. Tanto la adición de jugadores al escenario como la actualización de coordenadas tienen una complejidad lineal de `O(número_de_jugadores)`, y el rendimiento es bueno. Cuando el número de jugadores llega a 10,000 en un mapa de `[-50, 50]`, tanto la adición de jugadores como la actualización de posiciones se completan en unos pocos milisegundos debido a la linealidad, sin embargo, el tiempo de `Tick` aumenta a `3.8 segundos`, lo que consume una gran cantidad de CPU y se vuelve inutilizable. Con 10,000 jugadores y un tamaño de mapa de `[-1000, 1000]`, el tiempo de `Tick` aumenta a aproximadamente `94ms`. Si se pudiera reducir la frecuencia de `Tick`, por ejemplo, a dos veces por segundo, todavía estaría dentro del rango de utilidad, aunque apenas.
 
-####**十字链表实测**  
+####Lista cruzada probada en la práctica.
 
-Traducción al español:  
-
-**Pruebas prácticas de lista enlazada cruzada**
-
-El resultado de la prueba de la lista enlazada cruzada es el siguiente:
+Los resultados de las pruebas de la lista enlazada en cruz son los siguientes:
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -414,17 +404,15 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 ===End Milestore
 ```
 
-Como hemos analizado, la lista de crucigrama es más lenta en las operaciones `Add Player` y `Update Pos`, especialmente en `Add Player`, donde su rendimiento es incluso cientos o incluso miles de veces peor que el de la cuadrícula de nueve celdas (`100, [-50, 50]` la lista de crucigrama lleva `2ms`, mientras que la cuadrícula de nueve celdas solo toma `0.08ms`; `10000, [-50, 50]` la lista de crucigrama lleva `21.6s`, mientras que la cuadrícula de nueve celdas solo toma `6ms`). El tiempo de ejecución de `Update Pos` también puede diferir hasta en cientos de veces, donde `10000, [-100, 100]` la actualización de la posición del jugador en la lista de crucigrama lleva `1.5s`, mientras que en la cuadrícula de nueve celdas solo toma `18ms`. Se puede observar que la lista de crucigrama tiene un rango de límites superior e inferior más amplio en términos de tiempo de ejecución en `Add Player` y `Update Pos`, y es más afectada por el número de jugadores y el tamaño del mapa. En áreas con una alta densidad de jugadores, el rendimiento de estas dos operaciones disminuirá rápidamente hasta volverse inutilizables.
+Como hemos analizado antes, la lista de enlace cruzado tarda más tiempo en las operaciones de "Agregar Jugador" y "Actualizar Posición", especialmente en "Agregar Jugador", donde el rendimiento es incluso cientos o miles de veces peor en comparación con la cuadrícula de nueve celdas. Por ejemplo, en una prueba con un total de 100 jugadores y un rango de coordenadas de [-50, 50], la lista de enlace cruzado tomó 2ms, mientras que la cuadrícula de nueve celdas solo tomó 0.08ms. En otra prueba con 10000 jugadores y el mismo rango de coordenadas, la lista de enlace cruzado tomó 21.6s, mientras que la cuadrícula de nueve celdas solo tomó 6ms. En cuanto a la operación de "Actualizar Posición", también hay una diferencia considerable, con la lista de enlace cruzado tardando hasta cien veces más que la cuadrícula de nueve celdas. En una prueba con 10000 jugadores y un rango de coordenadas de [-100, 100], la lista de enlace cruzado tardó 1.5s para actualizar las posiciones de los jugadores, mientras que la cuadrícula de nueve celdas solo tomó 18ms. Se puede observar que la lista de enlace cruzado tiene un rango límite de tiempo más amplio en las operaciones de "Agregar Jugador" y "Actualizar Posición" en comparación con la cuadrícula de nueve celdas. Además, está más influenciada por el número de jugadores y el tamaño del mapa. En áreas con una alta densidad de jugadores, el rendimiento de estas dos operaciones disminuirá rápidamente hasta volverse inutilizables.
 
-Por otro lado, en cuanto a la operación "Tick" de la cadena de crucigramas, en general, su rendimiento es realmente mejor que el del cuadrado mágico. En el mejor de los casos, solo toma aproximadamente la mitad del tiempo que el cuadrado mágico. (Cadena de crucigramas: 0.8 ms, Cuadrado mágico: 1.8 ms) Sin embargo, en el peor de los casos, la cadena de crucigramas puede degradarse y tener un rendimiento similar al del cuadrado mágico. (Cadena de crucigramas: 3.7 s, Cuadrado mágico: 3.8 s) Esto se debe a que, debido a que la escena es pequeña, los jugadores están dentro del rango de AOI de los demás, por lo que la cantidad de "candidatos" que atraviesa la cadena de crucigramas en cada iteración del "Tick" es muy similar a la del cuadrado mágico.
+En comparación con la operación `Tick` de la cadena cruzada, el rendimiento general es efectivamente mejor que el de la cuadrícula. En el mejor de los casos, el tiempo de ejecución es aproximadamente la mitad del de la cuadrícula (`1000, [-1000, 1000]` bajo la cadena cruzada toma `0.8ms`, mientras que la cuadrícula toma `1.8ms`); sin embargo, en el peor de los casos, la cadena cruzada puede degradarse a un rendimiento similar al de la cuadrícula (`10000, [-10000, 10000]` bajo la cadena cruzada toma `3.7s`, la cuadrícula `3.8s`). Esto se debe a que, en escenarios pequeños, los jugadores están mutuamente dentro del rango AOI, y la cantidad de `candidatos` que la cadena cruzada recorre en su `Tick` es en realidad bastante similar a la de la cuadrícula.
 
-十字链使用起来要达到比九宫格性能更优，需要一些更强的假设，譬如 `player_num = 1000, map_size = [-1000, 1000]` 情况下，`Tick` 耗时十字链为 `0.8ms` 九宫格 `1.8ms`，`Update Pos` 十字链为 `0.3ms` 九宫格 `0.18ms`（注意测试 `Update Pos` 时间为执行了 10 次的时间总和）。`Tick + Update Pos` 总时间下，十字链如果要比九宫格更少，那 `Update Pos` 的次数不能超过 `Tick` 的 `8` 倍，或者说两个 `Tick` 之间，`Update Pos` 的次数需要小于 `8` 次。另外因为十字链 `Add Player` 耗时巨大，不适用于玩家短时间频繁出入场景或者在场景内大范围传送的情况，另外如果短时间内有大量玩家进入场景，也很容易导致性能下降，大量占用 CPU。
+Para que la cadena cruzada funcione mejor que el cuadrado mágico, se necesitan algunas suposiciones más fuertes, como `player_num = 1000, map_size = [-1000, 1000]`. En este caso, el tiempo de `Tick` para la cadena cruzada es de `0.8ms`, mientras que el del cuadrado mágico es de `1.8ms`. Para `Update Pos`, la cadena cruzada toma `0.3ms` y el cuadrado mágico `0.18ms` (ten en cuenta que el tiempo de prueba de `Update Pos` es la suma total del tiempo de 10 ejecuciones). En el tiempo total de `Tick + Update Pos`, para que la cadena cruzada sea más eficiente que el cuadrado mágico, el número de `Update Pos` no debe superar `8` veces el de `Tick`, o dicho de otra manera, entre dos `Tick`, el número de `Update Pos` debe ser menor que `8`. Además, dado que el tiempo de `Add Player` en la cadena cruzada es considerablemente alto, no es adecuada para situaciones en las que los jugadores entran y salen del escenario con frecuencia en un corto periodo de tiempo, o para teletransportes de gran alcance dentro del escenario. Asimismo, si un gran número de jugadores entra en el escenario en un breve lapso de tiempo, también puede provocar una disminución en el rendimiento y un alto consumo de CPU.
 
-Para la lista enlazada cruzada, se puede realizar una optimización bajo la premisa de eliminar `Tick`, siempre y cuando el juego pueda aceptar un AOI cuadrado y se pueda tolerar el consumo adicional en otras áreas como la red, siempre y cuando se haya probado experimentalmente. En realidad, esta premisa es bastante estricta, ya que en los juegos, el porcentaje de CPU que puede ocupar el cálculo del AOI no suele ser muy alto. Sin embargo, cambiar el AOI circular a un AOI cuadrado provoca un aumento en el área del AOI, lo que a su vez puede aumentar la cantidad de jugadores dentro del rango, lo que podría resultar en un incremento aproximado de 1.27 veces la cantidad original.
+En cuanto a la lista de cruz, se puede optimizar eliminando el `Tick`, siempre y cuando el juego pueda aceptar un AOI cuadrado y se pueda tolerar el aumento de consumo en aspectos como la red derivado del AOI cuadrado en las pruebas. La premisa es bastante estricta, ya que en los juegos el CPU utilizado para el cálculo del AOI suele ser relativamente bajo, pero al cambiar de un AOI circular a uno cuadrado, el área del AOI aumenta y, por lo tanto, el número de jugadores en el área también aumenta, pudiendo llegar a ser un 1.27 veces mayor con una distribución uniforme de jugadores. No obstante, si se cumplen estas condiciones, la lista de cruz podría prescindir de la necesidad del `Tick` para actualizar regularmente los eventos del AOI, ya que el mantenimiento de la lista de candidatos de la lista de cruz bajo un AOI cuadrado permitiría evitar recorrer nuevamente en el `Tick` para calcular distancias, como se hacía anteriormente para el AOI circular. En este escenario, la lista de cruz podría lograr un rendimiento considerable, ya que la actualización de la posición en la lista de cruz podría ser varias veces o incluso decenas de veces más eficiente que el `Tick`.
 
-Sin embargo, una vez que se cumple esta premisa, la lista enlazada cruzada puede lograr actualizaciones periódicas de los eventos del AOI sin necesidad de `Tick`, ya que la implementación de la lista enlazada cruzada mantiene una versión del AOI en forma de un área cuadrada. Anteriormente, esto solo se hacía para calcular el AOI circular y se veía obligado a realizar cálculos de distancia dentro de `Tick`. En esta situación, la lista enlazada cruzada puede proporcionar un rendimiento óptimo, ya que la eficiencia de la función "Update Pos" puede ser varias veces o incluso decenas de veces mejor en comparación con `Tick`.
-
-Finalmente, se presenta un gráfico de barras que muestra la comparación entre ambas.
+Finalmente, se presenta un gráfico de barras comparativo entre ambos.
 
 ![](assets/img/2021-11-18-aoi-tesing/add_player.png)
 
@@ -433,19 +421,17 @@ Finalmente, se presenta un gráfico de barras que muestra la comparación entre 
 ![](assets/img/2021-11-18-aoi-tesing/update_pos.png)
 
 
-###**总结**
+###Resumen
 
-En este documento, presentamos los principios y la implementación básica de dos algoritmos de AOI (Área de Interés Automática): la cuadrícula de nueve celdas y la cadena en forma de cruz. Además, analizamos el rendimiento y las ventajas y desventajas de estos dos algoritmos utilizando datos de pruebas reales. Esperamos que esto pueda brindar ayuda e inspiración a los lectores.
+Este texto presenta los principios y la implementación básica de dos algoritmos AOI (cuadrícula de nueve y cadena de cruz), analizando el rendimiento de ambos algoritmos a través de datos medidos. Se espera que esto pueda ser útil o inspirador para los lectores.
 
-En resumen, el método de la rejilla de nueve cuadros es fácil de implementar y equilibra bien el rendimiento, por lo que es muy adecuado para juegos que no dependen tanto del rendimiento como AOI. La variación de rendimiento del método de la rejilla de nueve cuadros se mantiene dentro de un rango previsible, con un límite inferior de rendimiento relativamente alto y no es fácil que se convierta en un cuello de botella. Sin embargo, en cuanto a la optimización del espacio, tiene un margen bastante limitado y su complejidad es similar en términos de tiempo de ejecución.
+En general, el método de la cuadrícula de 9 celdas es fácil de implementar, equilibrado en rendimiento y no suele presentar problemas. Es muy adecuado para juegos donde la AOI no es un cuello de botella. La variación de rendimiento del método de la cuadrícula de 9 celdas se mantiene dentro de un rango previsible, con un rendimiento mínimo relativamente alto y menos propenso a generar cuellos de botella. Por otro lado, el espacio de optimización no es tan grande y la complejidad temporal es más estable.
 
-Por otro lado, el método de la cadena de cruz es más complicado de implementar y tiene un límite inferior de rendimiento más bajo que el método de la rejilla de nueve cuadros. Sin embargo, si se cumplen ciertas suposiciones y premisas, el método de la cadena de cruz tiene un potencial de optimización de espacio más alto, es decir, su límite superior puede ser más alto. Ambos métodos tienen sus ventajas y desventajas, y en la industria de los videojuegos existen diferentes motores que eligen uno de estos métodos según sus necesidades y opiniones individuales.
+Por otro lado, el método de la cadena cruzada, aunque su implementación es más compleja y tiene un rendimiento mínimo inferior al del método de la cuadrícula de 9 celdas, si se cumplen ciertas suposiciones y condiciones previas, la cadena cruzada puede tener un mayor potencial de optimización en términos de espacio, es decir, su potencial máximo puede ser más alto. Ambos métodos tienen sus ventajas y desventajas, y en la industria de juegos, se elige uno u otro dependiendo de las necesidades específicas. Al final, la decisión dependerá de cada caso en particular.
 
-**本人能力有限，文中内容仅代表本人想法，如有不足不妥之处欢迎留言讨论。**
+Mis habilidades son limitadas, el contenido de este texto solo refleja mis pensamientos. Si hay alguna insuficiencia o inexactitud, agradezco los comentarios y la discusión.
 
-Mis habilidades son limitadas, el contenido de este texto representa únicamente mi opinión. Si encuentran algún error o algo inadecuado, les agradezco que dejen un mensaje para discutirlo.
-
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor, en caso de [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Indique cualquier omisión. 

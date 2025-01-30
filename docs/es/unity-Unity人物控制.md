@@ -1,15 +1,15 @@
 ---
 layout: post
-title: Control de personajes en Unity
+title: Controles de personaje en Unity
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: El control de los movimientos de los personajes es una parte muy importante
-  de los videojuegos, ya que aquellos con una jugabilidad sólida pueden atraer eficazmente
-  a los jugadores. Aquí, voy a intentar crear un sencillo sistema de control de personajes,
-  permitiéndoles realizar movimientos básicos como caminar y saltar.
+description: El control de las acciones de los personajes es una parte muy importante
+  en los videojuegos; los juegos con una buena jugabilidad pueden atraer a los jugadores
+  de manera efectiva. Aquí intentaré crear un control sencillo para la manipulación
+  de personajes, que permita realizar movimientos básicos, como caminar y saltar.
 figures:
 - assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif
 ---
@@ -18,31 +18,31 @@ figures:
 
 ![](assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif)
 
-La capacidad de controlar las acciones de los personajes es una parte fundamental en los juegos, ya que aquellos que tienen una gran jugabilidad logran atraer a los jugadores de manera efectiva. Aquí voy a intentar crear un control básico para el movimiento de un personaje, que incluirá caminar y saltar.
+El control de los movimientos de los personajes es una parte crucial en los videojuegos, ya que una jugabilidad fluida puede atraer a los jugadores. Aquí intentaré crear un sistema simple de control de personajes, permitiendo que se muevan básicamente, incluyendo caminar y saltar.
 
-##Necesidad
-Primero, vamos a considerar las necesidades específicas de nuestra interfaz de usuario:
+##Demanda
+Primero, consideremos las necesidades específicas de nuestra manipulación de personajes:
 
-1. Caminar, puedes caminar sobre la superficie de un cuerpo rígido, controlado mediante las teclas de dirección arriba, abajo, izquierda y derecha. Por el momento, no se considera el proceso de aceleración o desaceleración.
-2. La velocidad de movimiento puede variar en diferentes direcciones, por ejemplo, es probable que la velocidad de retroceso sea más lenta que la de avance.
-3. Salto, controlado por el botón de saltar, el personaje se aleja del suelo con una velocidad inicial y luego cae lentamente de vuelta al suelo.
+Caminar, capaz de caminar en la superficie de un cuerpo rígido, controlado por las teclas de dirección arriba, abajo, izquierda y derecha, sin considerar por ahora el proceso de aceleración y desaceleración.
+2. La velocidad de caminar puede ser diferente en distintas direcciones, por ejemplo, retroceder debería ser más lento que avanzar.
+3. Saltar, controlado por la tecla jump, el personaje abandona el suelo con una cierta velocidad inicial y vuelve lentamente al suelo.
 
-La idea general sería: utilizar la velocidad para describir el movimiento de una persona, calculando las componentes de la velocidad en cada dirección y finalmente multiplicarla por el tiempo para obtener el desplazamiento de la persona.
+那么大致的思路就是：用速度来描述人物的运动，速度每个方向上的分量可以分别计算，最后速度乘以时间就是人物的位置偏移了。 
 
-##**人物组件设置**
+Así que la idea general es la siguiente: usar la velocidad para describir el movimiento de los personajes, se pueden calcular por separado los componentes de la velocidad en cada dirección, y al final la velocidad multiplicada por el tiempo nos da el desplazamiento de la posición del personaje.
 
-Este es un texto que debe ser traducido al español. El texto original está en chino y se refiere a la configuración de un componente de personaje. Por favor, mantén el formato y el estilo original del texto. No agregues ningún otro carácter o información. Tu tarea es traducir el texto sin interpretarlo y mantener su significado original.
-Antes de escribir un guion para manipular y controlar personajes, es necesario hacer algunas tareas de preparación, configurando primero los componentes relevantes del personaje.
+##Configuración del componente de personajes
+Antes de comenzar a escribir el guion para controlar a los personajes, es necesario hacer algunos preparativos y configurar los componentes relacionados con el personaje.
 
-1. Para controlar al personaje y que este tenga cierto comportamiento físico rígido, es necesario añadir un `Componente Controlador de Personaje`.
-2. Para una estructura más clara, separamos las operaciones relacionadas con los personajes y leemos la entrada para procesarla inicialmente y luego se envía el resultado al controlador de los personajes. Llamaremos a este script `MyThirdPersonInput.cs`.
-3. El script que realmente controla el movimiento del personaje se llama `MyThirdPersonController.cs`.
+Para controlar un personaje y lograr que tenga cierto comportamiento físico rígido, es necesario agregar un componente de control de personaje.
+Para que la estructura sea más clara, primero separa las operaciones relacionadas con los personajes en una entrada, lee la entrada y procesa los resultados preliminares para luego enviarlos al controlador de personajes. Nombra este script como `MyThirdPersonInput.cs`.
+3. El script que controla realmente el movimiento del personaje se llama `MyThirdPersonController.cs`
 
-La configuración resultante es la siguiente:
+El resultado después de la configuración es el siguiente:
 ![](assets/img/2014-3-15-unity-3rdperson-control0/setting.png)
 
-##**Entrada**
-La entrada consiste en arriba, abajo, izquierda, derecha y saltar. La dirección necesita ser normalizada:
+##Entrada
+La entrada consiste en arriba, abajo, izquierda, derecha y saltar, las direcciones deben normalizarse:
 
 ```c#
 // get movement from input
@@ -59,8 +59,8 @@ person.inputMoveDirction = direction;
 person.inputJump = Input.GetButton("Jump");
 ````
 
-##**Descripción de movimientos y saltos**
-Necesitamos usar algunas variables para describir las acciones de los personajes, como la velocidad de movimiento, la velocidad de salto, etc. El movimiento se describe con las siguientes variables:
+##Descripción del movimiento y el salto
+Necesitamos utilizar ciertas variables para describir las acciones de un personaje, como la velocidad de desplazamiento, la velocidad de salto, etc. El desplazamiento se describe con las siguientes variables:
 
 ```c#    
 [System.Serializable]
@@ -73,7 +73,7 @@ public class Movement
 public Movement movement = new Movement();
 ```
 
-`[System.Serializable]` se utiliza para exponer estos parámetros en el Inspector. La descripción del salto es la siguiente:
+La etiqueta `[System.Serializable]` se utiliza para exponer estos parámetros en el Inspector. La descripción del salto es la siguiente:
 
 ```c#
 [System.Serializable]
@@ -88,11 +88,10 @@ public class Jumping
 public Jumping jumping = new Jumping();
 ```
 
-##**分解速度**
-La **velocidad de descomposición** en español.
-Para facilitar la descripción del movimiento en diferentes direcciones, se dividen las direcciones en tres componentes: adelante-atrás, izquierda-derecha, arriba-abajo y se resuelven por separado.
+##Velocidad de descomposición
+Para facilitar la descripción de los movimientos en diferentes direcciones, se dividen en tres componentes: adelante-atrás, izquierda-derecha y arriba-abajo, y se resuelven por separado.
 
-La velocidad antes y después es diferente, se determina según el valor positivo o negativo.
+La velocidad de adelante y atrás es diferente, se juzga según el signo del valor.
 
 ```c#
 if (velocity.z > 0)
@@ -101,18 +100,18 @@ else
     velocity.z *= movement.backwardSpeed;
 ```
 
-La velocidad es igual en ambos lados:
+Velocidades izquierda y derecha iguales:
 
 ```c#
 velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
 ```
 
-La dificultad radica en determinar el estado actual del personaje antes de saltar:
+Saltar puede ser un poco complicado, ya que hay que determinar el estado actual del personaje:
 
-- Si ya estás en el aire, calcula la velocidad utilizando la gravedad.
-- Si estás en el suelo:
-- - Si se presiona la tecla de salto, la velocidad será la velocidad inicial de salto.
-- - De lo contrario, la velocidad en dirección y es cero.
+- Si ya estás en el aire, calcula la velocidad usando la gravedad.
+Si estás en el suelo:
+- - Si se presiona la tecla de salto, la velocidad es la velocidad inicial de salto.
+- - De lo contrario, la velocidad en la dirección y sería 0.
 
 ```c#
 if (!isOnGround)
@@ -131,9 +130,9 @@ else
 }
 ```
 
-##**Actualizar la ubicación de los personajes**
+##Actualizar la posición del personaje
 
-La velocidad calculada se supone que es la velocidad desde este fotograma, por lo que la velocidad para calcular la posición de este fotograma debería ser la calculada en el fotograma anterior. Por lo tanto, antes de actualizar la velocidad, primero calcula la nueva posición del personaje.
+La velocidad calculada se asume como la velocidad a partir del comienzo del cuadro actual, por lo que la velocidad para calcular la posición en este cuadro debería ser la que se calculó en el cuadro anterior. Por lo tanto, antes de actualizar la velocidad, primero se debe calcular la nueva posición del personaje:
 
 ```c#
 // move to new position
@@ -141,21 +140,9 @@ var collisionFlag = controller.Move(velocity * Time.deltaTime);
 isOnGround = (collisionFlag & CollisionFlags.CollidedBelow) != 0;
 ```
 
-`controller.Move` retornará `CollisionFlags` para indicar el estado de la colisión, mediante este estado se puede determinar si el personaje está o no en el suelo.
+`controller.Move` devolverá `CollisionFlags` para indicar el estado de la colisión, y a través de este estado se puede saber si el personaje está de pie sobre el suelo.
 
-def suma(a, b):
-    return a + b
-
-resultado = suma(3, 5)
-print(resultado)
-
-La traducción al español del texto sería:
-
-def suma(a, b):
-    return a + b
-
-resultado = suma(3, 5)
-print(resultado)
+Código completo:
 
 MyThirdPersonInput.cs:
 
@@ -292,7 +279,8 @@ public class MyThirdPersonController : MonoBehaviour {
 }
 ```
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este poste fue traducido utilizando ChatGPT, por favor en [**comentarios**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。  
+Señalar cualquier omisión. 

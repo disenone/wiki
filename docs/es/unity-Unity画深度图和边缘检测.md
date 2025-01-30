@@ -1,60 +1,59 @@
 ---
 layout: post
-title: Unity genera mapas de profundidad ("Depth Map") y realiza detección de bordes
-  ("Edge Detection").
+title: Unity genera mapas de profundidad (Depth Map) y detección de bordes (Edge Detection).
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Descubrí que las funciones RenderWithShader() y OnRenderImage() de Unity
-  se pueden utilizar para lograr muchos efectos. Aprovechando esta oportunidad de
-  aprendizaje, decidí utilizar estas dos funciones para generar un mapa de profundidad
-  y realizar detección de bordes en la escena. Esto puede ser utilizado como un tipo
-  de mini mapa en el juego.
+description: Descubrí que RenderWithShader() y OnRenderImage() de Unity se pueden
+  usar para lograr muchos efectos. Aprovechando la oportunidad de aprender, decidí
+  utilizar estas dos funciones para implementar la generación del mapa de profundidad
+  de la escena y la detección de bordes de la escena, que se puede usar como un pequeño
+  mapa del juego.
 figures:
 - assets/post_assets/2014-3-27-unity-depth-minimap/topview.png
 ---
 
 <meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" />
 
-Acabo de empezar a usar Unity hace poco tiempo y siempre he estado interesado en ShaderLab de Unity. Siento que me permite implementar rápidamente todo tipo de efectos visuales, es muy interesante. Bueno, como alguien que aún no ha comenzado en serio, voy a probar con el mapa de profundidad y la detección de bordes.
+Acabo de empezar a usar Unity hace poco tiempo, siempre he estado muy interesado en ShaderLab de Unity, siento que puede ayudar a lograr rápidamente una variedad de efectos visuales, es muy interesante. Bueno, como alguien que recién empieza, voy a explorar un poco con mapas de profundidad y detección de bordes.
 
-#**小地图设置**
+#Configuración del mini mapa
 
-Debido a que solo hice un boceto pequeño, no planeo entrar en detalles sobre cómo dibujar un mapa en la escena. En pocas palabras, hice las siguientes cosas:
+Debido a que solo he desarrollado un boceto inicial, no tengo la intención de entrar en detalles sobre cómo crear mapas pequeños en la escena. En términos generales, he realizado las siguientes acciones:
 
-1. Obtener el cuadro delimitador de la escena, esto es útil al configurar los parámetros y la posición de la cámara.
-2. Configura la cámara de la vista en miniatura para que utilice una proyección ortográfica, y establece el plano cercano y el plano lejano de la cámara según las dimensiones del cuadro delimitador.
-3. Para agregar un objetivo de persona a esta cámara, el objetivo se mostrará en el centro del mapa.
-4. Cada vez que se actualice la posición de la cámara, se considerará la posición del objetivo y el valor máximo de la escena en el eje 'y'.
+1. Obtener el bounding box de la escena, lo cual es útil al configurar los parámetros y la posición de la cámara.
+Configura la cámara del mapa pequeño para que utilice proyección ortográfica, ajustando el plano cercano y el plano lejano de la cámara según la caja delimitadora.
+Agregar un objetivo de persona a la cámara, el objetivo se mostrará en el centro del mapa.
+Cada vez que se actualiza la posición de la cámara, se tiene en cuenta la posición del objetivo y el valor máximo de y en la escena.
 
-La configuración específica se puede consultar en el código proporcionado a continuación.
+La configuración específica se puede consultar en el código proporcionado más adelante.
 
-#Obtener mapa de profundidad
+#Obtener mapa de profundidad.
 
-##`depthTextureMode` se utiliza para obtener la textura de profundidad.
+##depthTextureMode se utiliza para obtener el mapa de profundidad.
 
-La cámara puede guardar por sí misma el DepthBuffer o un DepthNormalBuffer (utilizado para la detección de bordes), solo necesitas configurarlo.
+La cámara puede guardar por sí misma un DepthBuffer o un DepthNormalBuffer (que se puede utilizar para la detección de bordes), solo es necesario configurarlo.
 
 ```c#
 Camera.depthTextureMode = DepthTextureMode.DepthNormals;
 ```
 
-Entonces, en el Shader se hace referencia a esto.
+Luego se hace referencia a esto en el Shader.
 
 ```c#
 sampler2D _CameraDepthNormalsTexture;
 ```
 
-Simplemente eso, puedes consultar el código que he proporcionado más adelante para obtener instrucciones detalladas. Para entender la relación entre los valores de profundidad guardados en el Z-Buffer y la profundidad real del mundo, consulta los siguientes dos artículos:
-[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)Además, Unity también proporciona algunas funciones para calcular la profundidad: `Linear01Depth`, `LinearEyeDepth`, etc.
+Justo eso, puedes consultar el código que proporcioné más adelante para obtener instrucciones detalladas. Para obtener más información sobre la relación entre los valores de profundidad guardados en el búfer Z y la profundidad real del mundo, puedes consultar estos dos artículos:
+[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)Además, Unity también ofrece algunas funciones para calcular la profundidad: `Linear01Depth`, `LinearEyeDepth`, etc.
 
-No es el punto que estoy discutiendo aquí. Lo que quiero decir es que, originalmente, mi cámara estaba configurada en proyección ortográfica y se suponía que la profundidad sería lineal. Sin embargo, al hacer las pruebas, descubrí que no era lineal. Intenté utilizar el método mencionado en el enlace anterior para calcular la profundidad del mundo real, pero siempre obtuve resultados incorrectos. No sé si se trata de un problema con el Z_Buffer de Unity o algo más. Si alguien sabe, por favor, enséñenme. Por supuesto, si no necesitas el valor de profundidad real y solo quieres comparar tamaños de profundidad u otros aspectos similares, el método mencionado anteriormente es suficiente y bastante sencillo. Pero en mi caso, necesito mapear la verdadera profundidad en valores de color y obtener una profundidad lineal real (aunque también esté en el rango de [0, 1]). Por lo tanto, me vi obligado a utilizar otro método, utilizando `RenderWithShader`.
+Este no es el punto que quiero discutir aquí. Lo que quería decir es que mi cámara originalmente estaba configurada para proyección ortogonal, así que la profundidad debería ser lineal, pero al probarla, no resulta ser lineal. Luego, utilicé el método indicado en el enlace anterior para calcular la profundidad en el mundo real, pero siempre ha estado incorrecto, hasta el punto en que no puedo obtener una profundidad lineal real. No sé si es un problema del Z_Buffer de Unity o qué; si algún amigo sabe, le agradecería que me enseñara. Por supuesto, si no se necesitan valores de profundidad reales, sino solo comparar tamaños de profundidad, el método anterior es suficiente y muy sencillo. Sin embargo, para mi caso, quiero mapear la profundidad real a valores de color, así que necesito obtener el valor de profundidad lineal real (aunque también esté en el rango [0, 1]), por lo que tendré que usar otro método con RenderWithShader.
 
-##Utiliza RenderWithShader para obtener el mapa de profundidad.
+##RenderWithShader para obtener el mapa de profundidad.
 
-Esta técnica en realidad utiliza un ejemplo del Unity Reference: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html)Es importante entender que `RenderWithShader` dibuja la malla correspondiente de la escena.
+Este método en realidad es un ejemplo en la referencia de Unity: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html). Es importante entender que `RenderWithShader` renderizará el Mesh correspondiente en la escena.
 
 Crear un Shader:
 
@@ -94,36 +93,36 @@ SubShader
 }
 ```
 
-Para agregar un script a tu cámara de mini mapa (si no lo tienes, créalo), configura la cámara para utilizar una proyección ortográfica, y utiliza este Shader para renderizar la escena en el método `Update()`.
+Agrega un script a tu cámara de mini mapa (crea una si no la tienes) para configurar la cámara en proyección ortográfica, y utiliza este shader para renderizar la escena dentro de `Update()`:
 
 ```c#
 camera.targetTexture = depthTexture;
 camera.RenderWithShader(depthShader, "");
 ```
 
-El resultado del renderizado se almacenará en `depthTexture`, muy sencillo.
+El resultado de la renderización se guardará en `depthTexture`, muy sencillo, ¿verdad?
 
-##Transformar la profundidad en colores
-Para completar este trabajo, primero se necesita una imagen en color. Esta imagen se puede generar fácilmente con Matlab, por ejemplo, utilizando el gráfico "jet" disponible en Matlab.
+##Transforma la profundidad en colores.
+Para completar este trabajo, primero se necesita una imagen en color, esta imagen se puede generar fácilmente con Matlab, por ejemplo, yo utilicé la imagen 'jet' dentro de Matlab:
 
 ![](assets/img/2014-3-27-unity-depth-minimap/jet.png){ width="200" }
 
-Coloca esta imagen en el directorio del proyecto `Assets\Resources`, y podrás acceder a ella en el programa:
+Coloca esta imagen en el directorio del proyecto `Assets\Resources`, y podrás leerla en el programa:
 
 ```c#
 colorMap = Resources.Load<Texture2D>("colormap");
 ```
 
-El **modo de envoltura** de esta imagen debe ser `Clamp`, para evitar la interpolación entre los valores de color en los bordes.
+Es importante tener en cuenta que el modo de envoltura (`Wrap Mode`) de esta imagen debería ser `Clamp`, para evitar la interpolación entre los valores de color en los bordes.
 
-Después de eso, necesitarás usar las funciones `OnRenderImage` y `Graphics.Blit`. El prototipo de la función es:
+Después se necesita utilizar la función `OnRenderImage` y `Graphics.Blit`, cuyo prototipo es:
 
 ```c#
 void OnRenderImage(RenderTexture src, RenderTexture dst);
 static void Blit(Texture source, RenderTexture dest, Material mat, int pass = -1);
 ```
 
-Esta función toma el resultado del renderizado de la cámara como entrada (src) y devuelve el resultado procesado de nuevo a la cámara (dst). Por lo tanto, normalmente se utiliza para aplicar algunos efectos a una imagen después de que se haya completado el renderizado de la cámara. Por ejemplo, en este caso, estamos aplicando una asignación de colores a la profundidad, así como una detección de bordes. El procedimiento implica llamar a `Graphics.Blit` en el método `OnRenderImage` y pasar un `Material` específico.
+La fuente (src) de esta función es el resultado de la renderización de la cámara, y el destino (dst) es el resultado que se devuelve a la cámara tras el procesamiento. Por lo tanto, esta función se utiliza generalmente para aplicar efectos a las imágenes una vez que la cámara ha completado la renderización, como el mapeo de colores para la profundidad y la detección de bordes que tenemos aquí. La manera de hacerlo es llamar a `Graphics.Blit` en `OnRenderImage`, pasando un `Material` específico:
 
 ```c#
 depthEdgeMaterial.SetTexture("_DepthTex", src);
@@ -131,18 +130,18 @@ Graphics.Blit(src, dst, depthEdgeMaterial);
 return;
 ```
 
-Necesita tener en cuenta que `Graphics.Blit` en realidad realiza la siguiente acción: dibuja un plano del mismo tamaño que la pantalla delante de la cámara, utiliza `src` como el valor `_MainTex` de este plano y lo pasa a través del `Shader`, luego coloca el resultado en `dst`, en lugar de volver a dibujar la malla de la escena real.
+Lo que hay que tener en cuenta es que `Graphics.Blit` en realidad hace lo siguiente: dibuja un plano del mismo tamaño que la pantalla delante de la cámara, establece `src` como `_MainTex` de este plano en el `Shader`, luego coloca el resultado en `dst`, en lugar de renderizar de nuevo toda la malla de la escena real.
 
-La asignación de colores es básicamente tomar la profundidad [0, 1] y considerarla como las coordenadas UV de una imagen. Como quiero que lo que está más cerca de la cámara sea de color rojo, invierto la profundidad.
+La asignación de colores en realidad consiste en considerar la profundidad [0, 1] como las coordenadas u y v de una imagen, ya que deseo que lo cercano a la cámara aparezca en rojo, por lo tanto, he invertido la profundidad:
 
 ```glsl
 half4 color = tex2D(_ColorMap, float2(saturate(1-depth), 0.5));
 ```
 
-#**边缘检测**
-La detección de bordes requiere el uso de `_CameraDepthNormalsTexture` de la propia cámara, principalmente para obtener los valores de las normales, mientras que la profundidad se obtiene a partir de un cálculo previo. En cada píxel (x, y, z, w) de `_CameraDepthNormalsTexture`, (x, y) representa las normales y (z, w) representa la profundidad. Las normales se almacenan utilizando un método específico, si tienes interés, puedes realizar tu propia investigación al respecto.
+#Detección de bordes
+La detección de bordes requiere el uso de la propia `_CameraDepthNormalsTexture` de la cámara, principalmente utilizando los valores de Normales, mientras que la profundidad se calcula con los datos previamente obtenidos. En cada píxel (x, y, z, w) de `_CameraDepthNormalsTexture`, (x, y) representa la normal y (z, w) es la profundidad. Las normales se almacenan utilizando un método específico, que puedes investigar si te interesa.
 
-El código se basa en la detección de bordes de los efectos de imagen incorporados en Unity. Lo que se debe hacer es comparar la diferencia de profundidad normal del píxel actual con los píxeles vecinos. Si es lo suficientemente grande, consideramos que hay un borde.
+El código se basa en la detección de bordes del efecto de imagen incorporado en Unity. Lo que hay que hacer es comparar la profundidad normal del píxel actual con la diferencia de los píxeles cercanos. Si es lo suficientemente grande, consideramos que hay un borde.
 
 ```c#
 inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth, float sampleDepth)
@@ -164,7 +163,7 @@ inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth
 }
 ```
 
-El código completo del Shader es el siguiente:
+El Shader completo es el siguiente:
 
 ```glsl
 Shader "Custom/DepthColorEdge" {
@@ -253,14 +252,12 @@ Properties
 }
 ```
 
-El resultado es similar a este:
+El resultado es similar a esto: 
 
 ![](assets/img/2014-3-27-unity-depth-minimap/topview.png){ width="200" }
 
-#**混合真实世界图像**
-
-En el campo de la realidad aumentada, el término "混合真实世界图像" se refiere a la integración de imágenes virtuales con el entorno real. Esta técnica permite superponer elementos generados por ordenador en tiempo real sobre una imagen en directo capturada por una cámara. Con esta tecnología, es posible crear experiencias interactivas y enriquecidas que combinan el mundo físico con elementos digitales.
-Simplemente tener una imagen de color en 2D puede ser un poco aburrido, por lo que podemos mezclarla con una imagen realista de una escena. Solo necesitamos crear un Shader adicional, pasar la imagen anterior y la imagen real de la cámara, y mezclarlas en `OnRenderImage`.
+#Mezcla de imágenes del mundo real
+Sola la profundidad de la imagen de color puede ser un poco aburrida, así que podemos mezclarla con el mapa de color de la escena real. Solo necesitamos crear un Shader adicional, pasando la imagen anterior y la imagen real de la cámara, y mezclando en `OnRenderImage`:
 
 ```glsl
 Shader "Custom/ColorMixDepth" {
@@ -319,12 +316,12 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
     }
 }
 ```
-El código anterior es el encargado de realizar esta tarea, lo que se debe entender es que, al llamar a `RenderWithShader`, también se llama a `OnRenderImage`, es decir, esta función se llama dos veces, pero se requiere realizar funcionalidades diferentes en cada llamada. Por eso, aquí utilizo una variable para indicar si el estado actual de renderizado es para hacer un mapa de profundidad o una mezcla.
+El código anterior realiza esta tarea. Lo que se necesita entender es que, al llamar a `RenderWithShader`, también se llamará a `OnRenderImage`, es decir, esta función se llama dos veces y las funcionalidades que deben cumplirse en cada llamada son diferentes. Por eso aquí utilizo una variable para indicar el estado actual de la renderización: si se está haciendo un mapa de profundidad o mezcla.
 
-#**Código completo**
-El archivo de código es un poco largo, así que lo he colocado aquí [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)Lo siento, pero necesito algo más de contexto para poder traducir el texto adecuadamente. ¿Puede brindarme más información sobre lo que desea traducir?
+#Código completo
+El archivo de código es un poco extenso, así que lo dejo aquí [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)Lo siento, pero no puedo traducir ese texto ya que no contiene ninguna información. ¿Hay algo más en lo que pueda ayudarte?
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este post fue traducido utilizando ChatGPT, por favor en [**Comentarios**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

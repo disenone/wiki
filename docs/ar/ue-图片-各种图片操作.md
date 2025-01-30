@@ -1,6 +1,7 @@
 ---
 layout: post
-title: تحقيق مجموعة متنوعة من عمليات الصور (UTexture2D) (قراءة، حفظ، نسخ، الحافظة...)
+title: يتم تحقيق تشغيل مختلف العمليات على الصور (UTexture2D) في UE (قراءة، حفظ، نسخ،
+  الحافظة...)
 tags:
 - dev
 - game
@@ -16,26 +17,26 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: تنفيذ قراءة الصور من النظام المحلي
+description: UE يقوم بقراءة الصور من النظام المحلي
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#تنفيذ مختلف عمليات الصور (UTexture2D) في UE (قراءة، حفظ، نسخ، الحافظة...)
+#يو إي تنفذ مجموعة متنوعة من عمليات الصور (UTexture2D) (قراءة، حفظ، نسخ، حافظة...)
 
-> جميع الشفرات أدناه مستندة على الإصدار 5.3 من UE.
+> جميع شفرات البرنامج معروضة باعتبار الإصدار  UE5.3 كمثال.
 
-##الشيفرة المصدرية
+##شفرة المصدر
 
-يمكن الحصول على مزيد من تفاصيل الشفرة المصدرية في متجر UE من خلال الحصول على الإضافة: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+يمكن الحصول على مزيد من تفاصيل الكود المصدري من متجر UE عبر الإضافة: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##قراءة: يُمكن تحقيق قراءة الصور من النظام المحلي كـ UTexture2D.
+##قراءة: تقوم UE بتحميل صور النظام المحلي كـ UTexture2D
 
-###الطريقة العامة
+###طرق عامة
 
-يمكن تنفيذ هذا الأسلوب في وضعي تحرير المحتوى والعب، حيث يدعم صيغ ملفات الصور PNG، JPEG، BMP، ICO، EXR، ICNS، HDR، TIFF، DDS، TGA، مما يغطي أساسًا معظم أنواع الصور الشائعة.
+يمكن تنفيذ هذا الأسلوب في وضعي التحرير واللعب، ويدعم صيغ ملفات الصور التالية: PNG، JPEG، BMP، ICO، EXR، ICNS، HDR، TIFF، DDS، TGA. يمكنه تقريبًا التعامل مع معظم أنواع الصور الشائعة.
 
-الشيفرة أيضًا بسيطة جدًا:
+الكود بسيط جدًا أيضًا:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -50,13 +51,14 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-الناتج هو UTexture2D.
+返回的即是 UTexture2D。  
+العودة هي UTexture2D.
 
-###طرق خاصة للمحرّر
+###طرق خاصة للمحرر
 
-يمكن لهذا الأسلوب دعم أنواع إضافية من الصور: UDIM تكستير مبطن، ملفات IES، PCX، PSD.
+يمكن لهذه الطريقة دعم المزيد من أنواع الصور الإضافية: خرائط قوام UDIM، ملفات IES، PCX، PSD.
 
-تطبيق الشيفرة سيظل أكثر تعقيدًا قليلاً:
+سيكون تنفيذ الشيفرة أكثر تعقيدًا بعض الشيء:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -88,11 +90,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-تم تحقيق ذلك باستخدام وظيفة FactoryCreateBinary من UTextureFactory، والتي تستطيع قراءة أنواع الملفات الإضافية المذكورة سابقًا.
+التحقيق يتم من خلال استخدام دالة FactoryCreateBinary من UTextureFactory، والتي تستطيع قراءة أنواع الملفات الإضافية التي تم ذكرها سابقًا.
 
-##تكرار: تحقيق نسخة في UE من UTexture2D
+##نسخ: تنفيذ UE لنسخ UTexture2D
 
-بعض الأحيان يتعين نسخ UTexture2D لتعديل الصورة المنسوخة، يتطلب نسخ الصورة استخدام الدالة المدمجة في المحرك `FImageCore::CopyImage`. كل ما عليك هو ضبط معلمات الصورتين واستدعاء هذه الواجهة.
+في بعض الأحيان يحتاج الشخص إلى نسخ UTexture2D ثم تعديل الصورة المنسوخة، لنسخ الصورة يجب استخدام الدالة المدمجة في المحرك `FImageCore::CopyImage`، كل ما عليك فعله هو تعيين معلمات الصورتين واستدعاء هذه الواجهة.
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -148,9 +150,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##حفظ: الواجهة البرمجية للمستخدم تمكن من حفظ UTexture2D إلى ملف
+##حفظ: UE تنفيذ حفظ UTexture2D إلى ملف
 
-الأساس هو استخدام وظيفة المحرك `FImageUtils::SaveImageAutoFormat`، وتنفيذها بشكل بسيط، ولكن يجب الانتباه لحالات إعادة المحاولة في حالة الفشل
+الأساس هو استخدام وظيفة المحرك `FImageUtils::SaveImageAutoFormat`، وتنفيذها يبدو بسيطًا، لكن يجب أن ننتبه إلى حالات إعادة المحاولة في حال الفشل
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -181,11 +183,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##حفظ: تنفيذ UE لحفظ UTexture2D إلى الأصل
+##حافظة: يو إي - تنفيذ حافظة UTexture2D إلى الأصلية
 
-قم بحفظ UTexture2D الموجود في الذاكرة إلى الأصول، ويمكنك عرضه في مستعرض المحتوى.
+حفظ UTexture2D في الذاكرة إلى الأصل، ويمكن مشاهدته في متصفح الموارد (Content Browser).
 
-يلزم استخدام الدوال الأساسية المُحققة أعلاه `CopyTexture2D`، حيث نحتاج أولاً إلى نسخ صورة جديدة، ثم استدعاء `UPackage::SavePackage` لحفظ الـ `Package` الذي يحتوي على الصورة كـ Asset.
+تحتاج الدالة الأساسية إلى استخدام "CopyTexture2D" التي تم تنفيذها في الأعلى، علينا أن نقوم أولاً بنسخ صورة جديدة، ثم بعد ذلك نقوم با
 
 ```cpp
 
@@ -248,22 +250,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##الحافظة: تحقيق UE لنسخ الصور (UTexture2D) إلى الحافظة في نظام Windows (الحافظة)
+##الحافظة: تنفيذ UE لنسخ الصورة (UTexture2D) إلى حافظة ويندوز (Clipboard)
 
-###وظائف Windows المتعلقة
+###دوال متعلقة بـ Windows
 
-سنستخدم الوظائف ذات الصلة بحافظة Windows التالية:
+سنستخدم الدوال المتعلقة بحافظة Windows التالية:
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)افتح الحافظة ، واحصل على معالج الحافظة.
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)افرغ الحافظة وقم بتخصيص ملكية الحافظة للنافذة الحالية.
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)نقل بيانات الحافظة، بما في ذلك الصور، عبر هذه الواجهة ليتم إرسالها إلى الحافظة.
-* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)بعد ضبط البيانات، أغلق الحافظة.
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard): افتح الحافظة، واحصل على مُعالج الحافظة.
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard): مسح الحافظة، وتخصيص ملكية الحافظة لنافذة الحالية.
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)قم بتعيين بيانات الحافظة، وبيانات الصور تُرسل إلى الحافظة عبر هذه الواجهة.
+* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)بعد ضبط البيانات، قم بإغلاق الحافظة.
 
-###صيغة الصور في الحافظة
+###تنسيق صور الحافظة
 
-[صيغة معيارية لوحة القص واللصق](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)تحتوي على تنسيقات الحافظة المتاحة، حيث يمكن استخدام `CF_DIBV5` لضبط الصور.
+(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)تم تقديم تنسيقات الحافظة المتاحة في الداخل، حيث يمكن استخدام `CF_DIBV5` لضبط الصورة.
 
-تحتاج CF_DIBV5 إلى تعريف الصيغة بشكل محدد [هيكل BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)نحن هنا نختار الإعدادات التالية.
+التعريف الدقيق لتنسيق الحقل CF_DIBV5 المطلوب [هيكل BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)نحن نستخدم هذه التكوينات هنا
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -271,9 +273,9 @@ Header.bV5CSType        = LCS_sRGB;
 Header.bV5Compression   = BI_BITFIELDS;
 ```
 
-###ضبط UTexture2D
+###UTexture2D التعيين
 
-لقد اخترنا في الأعلى مساحة لون صورة الحافظة هي `LCS_sRGB`، أي مساحة لون sRGB، لذا من الضروري أيضًا ضبط UTexture2D إلى التنسيق المقابل:
+لقد اخترنا في الأعلى مساحة لونية لصور الحافظة هي `LCS_sRGB`، أي مساحة لون sRGB، لذلك يجب ضبط UTexture2D مسبقًا على التنسيق المقابل:
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -295,9 +297,9 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-تقوم ConvertTextureToStandard بتحويل UTexture2D إلى تنسيق قياسي: TC_VectorDisplacementmap (RGBA8) وفضاء ألوان SRGB. بعد مواءمة تنسيق الصورة بين UTexture2D وحافظة Windows، يمكننا نسخ بيانات الصورة إلى الحافظة.
+ConvertTextureToStandard هي المسؤولة عن تحويل UTexture2D إلى تنسيق قياسي: TC_VectorDisplacementmap (RGBA8) و SRGB لفضاء الألوان. بعد محاذاة UTexture2D مع تنسيق صورة الحافظة في Windows، يمكننا نسخ بيانات الصورة إلى الحافظة.
 
-###الرمز المحدد
+###رمز محدد
 
 ```cpp
 void CopyTexture2DToClipboard(UTexture2D* InTexture)
@@ -390,9 +392,9 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 }
 ```
 
-###UTexture2D تحويل إلى ومن Base64
+###تحويل بين UTexture2D و Base64
 
-هذا يمكن تنفيذه بسهولة نسبية، فلنبدأ مباشرة بالشيفرة
+هذا من السهل تنفيذه، لنبدأ مباشرة بالشيفرة
 
 ```cpp
 #include <Misc/Base64.h>
@@ -431,4 +433,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_ar.md"
 
 
-> ترجمة هذه المشاركة تمت باستخدام ChatGPT، يرجى تقديم [**ردود**](https://github.com/disenone/wiki_blog/issues/new)يُرجى تحديد أي نقص. 
+> هذا المنشور تم ترجمته باستخدام ChatGPT، يرجى في [**التعليقات**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص.  

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE 拡張エディタメニュー
+title: UEエディターメニューを拡張
 tags:
 - dev
 - game
@@ -8,27 +8,27 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: 記録 UE 如何拡張エディターメニュー
+description: UEエディターメニューの拡張方法を記録します
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#UEの拡張編集メニュー
+#UEのエクステンションエディターメニュー
 
-> UEでエディターメニューを拡張する方法を記録
+> UEがエディターメニューを拡張する方法を記録する
 
 ## Hook
 
-Hookは、メニューの拡張ポイントとして理解できます。新しいメニューコマンドをHookの前後に設定できます。UEが提供するエディタのメニューコマンドのほとんどはHookを持っています。UE5では、「Edit - Editor Preferences - General - Miscellaneous - Show UI Extension Points」を開くとすべてのメニューのHookを表示できます。
+Hook は、拡張メニューのアンカーポイントとして理解できます。新しいメニューコマンドを Hook の前または後に設定できます。UE 標準のエディタメニューコマンドは、ほぼすべて Hook を持っています。UE5では、`Edit - Editor Preferences - General - Others - Show UI Extension Points` を開くと、すべてのメニューの Hook が表示されます。
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-##モジュールの依存関係
+##モジュール依存
 
-プロジェクトの .Build.cs ファイルに、依存モジュール LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus を追加する必要があります。
+プロジェクトの .Build.cs ファイルに依存モジュール LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus を追加する必要があります：
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -50,7 +50,7 @@ PrivateDependencyModuleNames.AddRange(
 
 ##メニューバーを追加します。
 
-直接上コード
+コードを直接入力します。
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,13 +73,13 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-上記のコードを実行すると、"ヘルプ"の後に"MenuTest"というメニューバーが表示されます。
+指定のコードを実行すると、"ヘルプ" の後に "MenuTest" メニューが追加されるのが確認できます：
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-##追加コマンド
+##追加命令
 
-使用するインターフェースは `MenuBuilder.AddMenuEntry` です。
+使用インターフェース `MenuBuilder.AddMenuEntry`：
 
 ```cpp
 // Inside MenuTest Lambda
@@ -91,13 +91,13 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-CreateLambdaに上記のコードを配置すると、メニューコマンドが生成されます。
+上記のコードをCreateLambdaに配置すると、メニューコマンドが生成されます。
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-##メニューをセクション別に表示します。
+##メニューをセクションごとに分ける
 
-`MenuBuilder.BeginSection` と `MenuBuilder.EndSection` を使用してください：
+`MenuBuilder.BeginSection` と `MenuBuilder.EndSection` を使用する：
 
 ```cpp
 MenuBuilder.BeginSection(NAME_None, FText::FromName("MenuTestSection"));
@@ -105,7 +105,7 @@ MenuBuilder.BeginSection(NAME_None, FText::FromName("MenuTestSection"));
 MenuBuilder.EndSection();
 ```
 
-##区切り記号
+##区切り文字
 
 ```cpp
 MenuBuilder.AddMenuSeparator();
@@ -113,9 +113,9 @@ MenuBuilder.AddMenuSeparator();
 
 ![](assets/img/2023-ue-extend_menu/section&sperator.png)
 
-##子菜单
+##サブメニュー
 
-サブメニューは、メニューバーに類似しており、Lambda内で定義する必要があります。
+子メニューはメニューバーに似ており、Lambdaの中で定義する必要があります。
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -134,9 +134,9 @@ MenuBuilder.AddSubMenu(
 
 ![](assets/img/2023-ue-extend_menu/submenu.png)
 
-#SlateUI コントロール
+#SlateUIコントロール
 
-UI コンポーネントを追加することもできます：
+UI コントロールを追加することもできます：
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -167,11 +167,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-Slate UIの関連コンテンツについてはここでは詳しく述べませんが、興味のある方は別の記事を探してご覧ください。
+Slate UIに関連する内容については詳しく説明しませんので、興味がある方は別の記事を探してご覧ください。
 
-#フック増加メニュー
+#フック メニューの追加
 
-「例えば、`ツール - プログラミング` にコマンドを追加する場合：」
+例えば、「ツール - プログラミング」の中にコマンドを追加すること。
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -191,9 +191,9 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-同様に、他のメニュータイプを追加することもできます。
+他說，你可以向他展示一些例子。
 
-#完整なコード
+#完整コード
 
 ```cpp
 void BuildTestMenu()
@@ -285,4 +285,4 @@ void BuildTestMenu()
 
 
 
-> この投稿はChatGPTを使用して翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指は遺漏箇所を指摘してください。 
+> この投稿はChatGPTによって翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指摘任何遗漏之处。 

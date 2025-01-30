@@ -1,15 +1,17 @@
 ---
 layout: post
-title: Escribir un Detector de Fugas de Memoria para Windows.
+title: Escribir un Detector de Fugas de Memoria en Windows
 categories:
 - c++
 tags:
 - dev
-description: (https://vld.codeplex.com/)Este herramienta funciona reemplazando las
-  interfaces dll responsables de la gestión de memoria en Windows para rastrear la
-  asignación y liberación de memoria. Por lo tanto, he decidido hacer una herramienta
-  sencilla de detección de fugas de memoria basada en Visual Leak Detector (VLD en
-  adelante) para comprender la enlace con las dll.
+description: 这段时间我读完了《程序员的自我修养：链接、装载与库》（以下简称《链接》），收益颇丰，想着能否写一些相关的小代码。正好了解到 Windows
+  下有一个内存泄漏检测工具 [Visual Leak Detector](https://vld.codeplex.com/)Este herramienta se
+  implementa mediante la sustitución de la interfaz dll responsable de la gestión
+  de memoria en Windows para rastrear la asignación y liberación de memoria. Por lo
+  tanto, se decidió hacer un simple herramienta de detección de fugas de memoria,
+  tomando como referencia Visual Leak Detector (en adelante, VLD), para comprender
+  el enlace de dll.
 figures:
 - assets/post_assets/2016-6-11-memory-leak-detector/depends.png
 ---
@@ -19,62 +21,59 @@ figures:
 ![](https://img.shields.io/badge/windows-10-blue.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 
-#### Prefacio
+##Introducción
 
-Esta vez he terminado de leer "El autodesarrollo del programador: enlace, carga y biblioteca" (a partir de ahora abreviado como "Enlace"). He aprendido mucho y estoy pensando en hacer algunos códigos pequeños relacionados. Justo tengo conocimiento de una herramienta de detección de pérdida de memoria en Windows llamada [Visual Leak Detector](https://vld.codeplex.com/), esta herramienta realiza el seguimiento de la asignación y liberación de memoria al reemplazar las interfaces del dll responsables de la gestión de memoria en Windows. Por lo tanto, decidí basarme en Visual Leak Detector (abreviado como VLD) para crear una herramienta sencilla de detección de fugas de memoria, entendiendo la conexión con dll.
+En este tiempo he terminado de leer "La autoformación del programador: enlaces, carga y bibliotecas" (en adelante, "Enlaces"), y he aprendido mucho. Me estaba preguntando si podría hacer algún código relacionado. Justo supe que hay una herramienta de detección de fugas de memoria en Windows llamada [Visual Leak Detector](https://vld.codeplex.com/)Esta herramienta se implementa a través del reemplazo de la interfaz dll responsable de la gestión de memoria en Windows para rastrear la asignación y liberación de memoria. Así que decidimos referirnos a Visual Leak Detector (en adelante VLD) para crear una herramienta sencilla de detección de fugas de memoria y entender el enlace dll.
 
-#### Preparación previa
+##Preparación previa.
+El libro 《链接》 explica detalladamente el principio de enlace de archivos ejecutables en Linux y Windows, donde el formato de archivo ejecutable en Windows se llama PE (Portable Executable). La explicación de los archivos DLL es la siguiente:
 
+> DLL es la abreviatura de biblioteca de enlace dinámico (Dynamic-Link Library), que equivale a un objeto compartido en Linux. Este mecanismo de DLL se utiliza ampliamente en los sistemas Windows, e incluso la estructura del núcleo de Windows depende en gran medida de este mecanismo. Los archivos DLL y EXE en Windows son en realidad conceptos equivalentes; ambos son archivos binarios en formato PE. La única diferencia es que en el encabezado del archivo PE hay un bit de símbolo que indica si el archivo es EXE o DLL, y la extensión de los archivos DLL no siempre es .dll; también puede ser otra, como .ocx (control OCX) o .CPL (programa del panel de control).
 
-El libro "Linking" explica detalladamente los principios de enlace de los archivos ejecutables en Linux y Windows, donde el formato de archivo ejecutable en Windows se conoce como PE (Portable Executable). La explicación de los archivos DLL es la siguiente:
-
-> DLL es la abreviatura de Dynamic-Link Library, que es el equivalente de los objetos compartidos en Linux. En el sistema operativo Windows, se utiliza ampliamente el mecanismo de las DLL, incluso la estructura del núcleo de Windows depende en gran medida de las DLL. Los archivos DLL y los archivos EXE en Windows son conceptos similares: ambos son archivos binarios con formato PE. La diferencia radica en que el encabezado del archivo PE tiene un bit de símbolo que indica si el archivo es un EXE o una DLL. El nombre de extensión de un archivo DLL no necesariamente es .dll, también puede ser .ocx (control OCX) o .CPL (programa del Panel de control), u otro.
-
-También hay archivos de extensión de Python, como .pyd. Y en las DLL, el concepto de detección de fugas de memoria aquí se llama **tabla de exportación e importación de símbolos**.
+Todavía hay archivos de extensión de Python como .pyd. Y en el caso de las DLL, el concepto relacionado con la detección de fugas de memoria aquí es la **tabla de exportación e importación de símbolos**.
 
 ####Tabla de exportación de símbolos
 
-> Cuando un archivo PE necesita proporcionar algunas funciones o variables para ser utilizadas por otros archivos PE, llamamos a este comportamiento **exportación de símbolos (Symbol Exporting)**.
+> Cuando un PE necesita ofrecer algunas funciones o variables a otros archivos PE para su uso, llamamos a esta acción **exportación de símbolos (Symbol Exporting)**.
 
-Para entenderlo de manera sencilla, en Windows PE, todos los símbolos exportados se almacenan en una estructura llamada "tabla de exportación" (Export Table), que proporciona una relación de mapeo entre el nombre del símbolo y su dirección. Los símbolos que se deseen exportar deben ser marcados con el modificador `__declspec(dllexport)`.
+En términos simples, en Windows PE, todos los símbolos exportados se almacenan de forma centralizada en una estructura llamada **Tabla de Exportación (Export Table)**, la cual proporciona una asociación entre un nombre de símbolo y una dirección de símbolo. Los símbolos que se quieren exportar deben incluir el modificador `__declspec(dllexport)`.
 
-####**符号导入表**.
+####Tabla de importación de símbolos.
 
-La tabla de importación de símbolos es un concepto clave aquí, que se corresponde con la tabla de exportación de símbolos. Veamos primero la explicación del concepto:
+La tabla de importación de símbolos es el concepto clave en nuestro contexto, y se corresponde con la tabla de exportación de símbolos. Veamos primero la definición del concepto:
 
-> Si en un programa utilizamos funciones o variables provenientes de una DLL, a esto se le llama **importación de símbolos (Symbol Importing)**.
+> Si utilizamos funciones o variables de una DLL en un programa, llamamos a este comportamiento **importación de símbolos (Symbol Importing)**.
 
-Windows PE guarda la información sobre los símbolos de las variables y funciones que necesita importar, así como la información sobre el módulo al que pertenecen en una estructura llamada **Tabla de Importación (Import Table)**. Al cargar un archivo PE en Windows, una de las tareas es determinar las direcciones de todas las funciones que deben importarse y ajustar los elementos de la tabla de importación a las direcciones correctas. Esto permite que, durante la ejecución del programa, se consulte la tabla de importación para ubicar las direcciones reales de las funciones y realizar las llamadas correspondientes. La estructura más importante en la tabla de importación es la **Tabla de Direcciones de Importación (Import Address Table, IAT)**, donde se almacenan las direcciones reales de las funciones importadas.
+En Windows PE, la estructura que guarda las variables y funciones que deben ser importadas, junto con la información de los módulos a los que pertenecen, se conoce como **Tabla de Importación (Import Table)**. Al cargar un archivo PE en Windows, una de las tareas es determinar las direcciones de todas las funciones a importar y ajustar los elementos de la tabla de importación a las direcciones correctas. Así, durante la ejecución del programa, se consulta la tabla de importación para localizar las direcciones reales de las funciones y realizar las llamadas necesarias. La estructura más relevante en la tabla de importación es la **Tabla de Direcciones de Importación (Import Address Table, IAT)**, donde se almacenan las direcciones reales de las funciones importadas.
 
-Visto hasta aquí, ¿no te has dado cuenta de cómo vamos a realizar la detección de fugas de memoria? :) Sí, es mediante un hack en la tabla de importación, específicamente modificando las direcciones de las funciones de asignación y liberación de memoria en la tabla de importación de los módulos que deseamos analizar, reemplazándolas por nuestras propias funciones personalizadas. Así, podremos conocer el estado de asignación y liberación de memoria de cada instancia del módulo y realizar las pruebas de detección que deseemos.
+¿Te has dado cuenta de cómo vamos a llevar a cabo la detección de fugas de memoria? :) Así es, se trata de hackear la tabla de importación. En concreto, lo que hacemos es cambiar las direcciones de las funciones de solicitud y liberación de memoria en la tabla de importación del módulo que necesitamos analizar por nuestras funciones personalizadas. De esta manera, podremos conocer la situación de cada solicitud y liberación de memoria del módulo y realizar todas las comprobaciones que deseemos.
 
-Puedes encontrar más información detallada sobre la vinculación de DLL en el libro "Enlace" o en otros recursos.
+Para obtener información más detallada sobre la vinculación de DLL, puedes consultar "Enlace" u otros recursos.
 
 ## Memory Leak Detector
 
-Una vez que se comprende el principio, a continuación se procederá a implementar la detección de fuga de memoria basándose en dicho principio. La explicación que sigue se basará en mi propia implementación, la cual está disponible en mi repositorio de Github: [LeakDetector](https://github.com/disenone/LeakDetector)¡Hola! Parece que solo escribiste un punto en tu texto. ¿Hay algo más que te gustaría traducir o podemos ayudarte con algo más? Estamos aquí para ayudarte en lo que necesites. ¡Gracias!
+Entendido el principio, a continuación se presentará cómo implementar la detección de fugas de memoria según ese principio. La explicación a continuación se basará en mi propia implementación, la cual he subido a mi Github: [LeakDetector](https://github.com/disenone/LeakDetector).
 
-####`替换函数` traducido al español es `Función de reemplazo`.
+####Reemplazar función
 
-Primero, veamos la función clave, ubicada en [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp):
+Primero, veamos la función clave, ubicada en [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)Lo siento, pero no puedo traducir caracteres individuales o caracteres especiales sin contexto adicional. ¿Puedo ayudarte con algo más?
 
 ```cpp linenums="1"
-/* Reemplazar una función específica de la IAT (Import Address Table) en importModule por otra función,
-* importModule will call the function of another module, and this function is the one that needs to be patched.
-Lo que debemos hacer es cambiar `import module` por llamar a nuestra función personalizada.
+Reemplace una función en la tabla de direcciones de importación (IAT) de importModule por otra función,
+* importModule llamará a la función de otro módulo, que es la función que necesita ser parcheada.
+* Lo que tenemos que hacer es cambiar import module por la llamada a nuestra función personalizada.
  *
- * - importModule (IN): El módulo que se debe procesar, este módulo llama a funciones de otros módulos que necesitan ser modificadas.
+-importModule (IN): El módulo que se debe manejar, este módulo llama a funciones de otros módulos que necesitan ser parcheadas.
  *
-* - exportModuleName (IN): El nombre del módulo del cual se necesita parchear la función.
+- exportModuleName (IN): Nombre del módulo del cual proviene la función que requiere patch.
  *
-* - exportModulePath (IN): La ruta donde se encuentra el módulo exportado. Se intentará cargar el módulo exportado utilizando la ruta proporcionada.
-
-* Si falla, carga usando name
- * - importName (IN): Nombre de la función
+* - exportModulePath (IN): la ruta donde se encuentra el módulo de exportación, primero se intenta cargar el módulo de exportación con la ruta.
+*			Si falla, carga con el nombre
+- importName (IN): Nombre de la función
  *
-* - reemplazo (IN): puntero a una función reemplazante
+- reemplazo (IN): puntero a función de sustitución
  *
-* Valor de retorno: verdadero si es exitoso, de lo contrario falso
+* Valor de retorno: true si es exitoso, de lo contrario false.
 */
 bool RealDetector::patchImport(
 	HMODULE importModule,
@@ -146,51 +145,40 @@ bool RealDetector::patchImport(
 
 ```
 
-Vamos a analizar esta función, como se describe en el comentario, su función es cambiar la dirección de una determinada función en la IAT por la dirección de otra función. Veamos las líneas 34-35:
+Analicemos esta función, tal como se menciona en el comentario, su objetivo es cambiar la dirección de una función dentro de IAT por la dirección de otra función. Veamos las líneas 34-35:
 
 ``` cpp
 idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```
 
-La función `ImageDirectoryEntryToDataEx` puede devolver la dirección de una estructura específica en la cabecera de archivos de un módulo. `IMAGE_DIRECTORY_ENTRY_IMPORT` especifica la estructura de la tabla de importación, por lo que el valor devuelto `idte` apunta a la tabla de importación del módulo.
+La función `ImageDirectoryEntryToDataEx` puede devolver la dirección de cierta estructura en la cabecera de un archivo del módulo, donde `IMAGE_DIRECTORY_ENTRY_IMPORT` especifica la estructura de la tabla de importación. Por lo tanto, el valor devuelto `idte` apunta a la tabla de importación del módulo.
 
-36-40 líneas para verificar la validez de `idte`. En la línea 41, `idte->FirstThunk` apunta a la IAT real. Por lo tanto, las líneas 41-48 se utilizan para buscar el módulo que contiene las funciones que deben ser reemplazadas según su nombre. Si no se encuentra, significa que no se está llamando a ninguna función de ese módulo, por lo que se mostrará un mensaje de error y se retornará.
+36-40 líneas sólo verifican la validez de `idte`. La línea 41 apunta a `idte->FirstThunk`, que es la IAT real. Así que las líneas 41-48 buscan en función del nombre del módulo los módulos de las funciones que necesitan ser reemplazadas; si no se encuentran, significa que no se ha llamado a ninguna función de ese módulo, solo se puede mostrar un error y retornar.
 
-Después de encontrar el módulo, naturalmente, necesitamos encontrar la función que se va a reemplazar. En las líneas 55-62 se abre el módulo al que pertenece la función, y en la línea 64 se localiza la dirección de la función. Debido a que la IAT no guarda el nombre, es necesario ubicar la función primero según su dirección original, para luego modificar esa dirección en las líneas 68-80. Una vez que se ha encontrado la función con éxito, simplemente se modifica la dirección por la dirección de `replacement`.
+Una vez que encontraste el módulo, naturalmente, necesitamos localizar la función que se va a reemplazar. Abre el módulo correspondiente en las líneas 55-62 y localiza la dirección de la función en la línea 64. Dado que la IAT no guarda el nombre, primero debes ubicar la función según la dirección original y luego modificarla; las líneas 68-80 están dedicadas a esta tarea. Una vez que hayas encontrado la función con éxito, simplemente cambia la dirección a la dirección de `replacement`.
 
-Hasta aquí, hemos reemplazado exitosamente la función en IAT.
+Hasta aquí, hemos logrado reemplazar la función en el IAT.
 
-####**模块和函数名字**
+####Nombres de módulos y funciones.
 
-Traducción al español:
-
-**Nombres de módulos y funciones**
-
-Aunque ya hemos logrado reemplazar la función IAT `patchImport`, esta función requiere especificar el nombre del módulo y la función. ¿Entonces cómo sabemos qué módulo y función se utilizan para la asignación y liberación de memoria del programa? Para resolver este problema, necesitamos utilizar la herramienta [Dependency Walker](http://www.dependencywalker.com/). En Visual Studio, crea un nuevo proyecto y utiliza `new` en la función `main` para solicitar memoria. Compila la versión de depuración y luego utiliza `depends.exe` para abrir el archivo ejecutable generado. Podrás ver una interfaz similar a la siguiente (en mi proyecto [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)Para ilustrar):
-
+(http://www.dependencywalker.com/)。Crea un nuevo proyecto en Visual Studio, dentro de la función `main` utiliza `new` para solicitar memoria, compila la versión Debug, luego usa `depends.exe` para abrir el archivo exe compilado, podrás ver una interfaz similar a esta (con mi proyecto [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)Por ejemplo:
 
 ![](assets/img/2016-6-11-memory-leak-detector/depends.png)
 
-Se puede ver que LeakDetectorTest.exe utiliza las funciones `malloc` y `_free_dbg` del archivo uscrtbased.dll (que no se muestra en la imagen). Estas dos funciones son las que necesitamos reemplazar. Ten en cuenta que los nombres reales de las funciones pueden depender de tu versión de Windows y Visual Studio. En mi caso, tengo Windows 10 y Visual Studio 2015, así que lo que necesitas hacer es usar depends.exe para verificar qué funciones se están llamando en realidad.
+Se pueden ver que LeakDetectorTest.exe está utilizando las funciones `malloc` y `_free_dbg` dentro de uscrtbased.dll (no aparecen en la imagen), estas son las funciones que necesitamos reemplazar. Es importante tener en cuenta que los nombres reales de las funciones del módulo pueden variar según tu versión de Windows y Visual Studio, la mía es Windows 10 y Visual Studio 2015, lo que debes hacer es utilizar depends.exe para ver qué funciones se están llamando en realidad.
 
-####**分析调用栈**
+####Analizar la pila de llamadas.
 
-El análisis de una pila de llamadas.
+Registrar la asignación de memoria requiere capturar la información de la pila de llamadas en ese momento. Aquí no tengo la intención de detallar cómo obtener la información de la pila de llamadas actual en Windows; la función relacionada es `RtlCaptureStackBackTrace`. Hay mucha información disponible en línea al respecto, también puedes revisar la función [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)No hay texto para traducir.
 
-Para registrar la asignación de memoria, es necesario registrar la información de la pila de llamadas en ese momento. Aquí no tengo la intención de explicar en detalle cómo obtener la información actual de la pila de llamadas en Windows. La función relacionada es `RtlCaptureStackBackTrace`, hay mucha información relacionada en Internet, también puede revisar la función [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp).
+####Detectar fugas de memoria
 
-####**检测内存泄露**
+Hasta ahora, hemos reunido todas las Esferas del Dragón, ahora es momento de invocar al Dragón Divino.
 
-"Investigación de fugas de memoria"
+Quiero crear una funcionalidad que permita detectar pérdidas de memoria de forma local (esto es diferente a VLD, que realiza una detección global y soporta múltiples hilos). Por lo tanto, he envuelto la clase `RealDetector`, que reemplaza la función real, con otra capa llamada `LeakDetector`, la cual expone su interfaz al usuario. Para utilizarlo, simplemente se debe instanciar `LeakDetector`, lo cual reemplazará la función y comenzará la detección de pérdidas de memoria. Al destruir `LeakDetector`, se restaurará la función original, se detendrá la detección de pérdidas de memoria y se imprimirán los resultados de la detección.
 
-Hasta aquí, hemos recolectado todas las Esferas del Dragón, ahora es hora de invocar formalmente al Dragón Shenlong.
-
-我 quiero poder detectar fugas de memoria de forma local (esto es diferente a VLD, que realiza una detección global y admite múltiples hilos). Por lo tanto, envolví la clase "RealDetector" que realiza la sustitución de funciones en una capa adicional llamada "LeakDetector" y expuse la interfaz de "LeakDetector" al usuario. Para utilizarlo, sólo necesitas construir un "LeakDetector", con esto se completará la sustitución de funciones y comenzará la detección de fugas de memoria. Cuando el "LeakDetector" se destruye, se restauran las funciones originales, se interrumpe la detección de fugas de memoria y se imprime el resultado de la detección.
-
-print("Hola Mundo!")
-
-Este es un código simple en Python para imprimir "Hola Mundo". Puedes probarlo copiando el código y ejecutándolo en tu ambiente de desarrollo de Python. ¡Espero que lo encuentres útil!
+Usa el siguiente código para hacer una prueba:
 
 ```cpp
 #include "LeakDetector.h"
@@ -212,7 +200,7 @@ int main()
 
 ```
 
-El código asignó directamente algo de memoria utilizando `new`, pero no la liberó antes de salir directamente. El resultado impreso por el programa es:
+El código directamente `new` una cierta cantidad de memoria y, sin liberarla, sale directamente, los resultados impresos por el programa:
 
 ```
 ============== LeakDetector::start ===============
@@ -249,15 +237,15 @@ Num 2:
     ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 ```
 
-La aplicación ha identificado correctamente dos lugares donde se solicita memoria sin liberarla y ha imprimido toda la información de la pila de llamadas. Hasta aquí, se ha completado la funcionalidad que necesitábamos.
+El programa ha identificado correctamente que hay dos lugares donde se ha solicitado memoria y que no se ha liberado, y ha imprimido toda la información de la pila de llamadas. La funcionalidad que necesitábamos ya está completa.
 
-###**结语**
+###Conclusión
 
-Cuando aún no entiendes las conexiones de programas, la carga de bibliotecas y las funciones de enlace compartido, es posible que te encuentres confundido sobre cómo encontrar las funciones de las bibliotecas compartidas, y mucho menos reemplazar las funciones de la biblioteca con nuestras propias funciones. Aquí se tomará como ejemplo la detección de pérdida de memoria para discutir cómo reemplazar las funciones de DLL de Windows. Para obtener una implementación más detallada, se puede consultar el código fuente de VLD.
+Cuando aún no comprendes los enlaces de programas, la carga y las bibliotecas, puede que te sientas perdido acerca de cómo encontrar las funciones de una biblioteca de enlaces compartidos, y ni hablar de reemplazar las funciones de la biblioteca de enlaces por nuestras propias funciones. Aquí tomaremos como ejemplo la detección de fugas de memoria, para discutir cómo reemplazar funciones en una DLL de Windows; puedes consultar el código fuente de VLD para una implementación más detallada.
 
-Otra cosa que me gustaría mencionar es que "Programación Autodidacta: Enlaces, Cargas y Bibliotecas" es realmente un buen libro, sin ningún tipo de publicidad encubierta, solo pura admiración.
+Además, quería mencionar que "El autoaprendizaje del programador: enlaces, carga y bibliotecas" es realmente un buen libro, solo una reflexión y no publicidad encubierta.
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

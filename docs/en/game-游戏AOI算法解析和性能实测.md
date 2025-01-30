@@ -1,54 +1,55 @@
 ---
 layout: post
-title: Game AOI Algorithm Analysis and Performance Testing
+title: Analysis and Performance Evaluation of the Game AOI Algorithm
 categories:
 - c++
 catalog: true
 tags:
 - dev
 - game
-description: 'This text discusses two algorithms: the nine-grid and the cross-link.
-  It also provides practical performance analysis for both algorithms, so that you
-  can have a clear understanding and remain calm when dealing with them.'
+description: 'This article discusses two algorithms: the nine-grid and the cross-chain
+  algorithms, and provides a performance analysis based on practical measurements
+  for both algorithms, enabling you to feel confident and composed when faced with
+  challenges.'
 figures: []
 date: 2021-11-18
 ---
 
 <meta property="og:title" content="游戏 AOI 算法解析和性能实测" />
 
-### Introduction
+###Preface
 
-`AOI` (Area Of Interest) is a fundamental feature in multiplayer online games, where players need to receive information about other players or entities entering their field of view. The algorithms that calculate which entities are present within a player's field of view and which entities enter or exit the field of view are generally referred to as `AOI` algorithms.
+`AOI` (Area Of Interest) is a fundamental feature in multiplayer online games, where players need to receive information about other players or entities that enter their field of vision. The algorithms we generally refer to as `AOI` algorithms calculate which entities exist within a player's visual range and which entities enter or leave that range.
 
-This article discusses two types of `AOI` algorithms: Grid of Nine and Cross-chain. It also provides performance analysis of these two algorithms to give you a clear understanding and help you remain calm when facing challenges.
+This article discusses two `AOI` algorithms: the nine-grid and the cross-link algorithms, and provides a practical performance analysis of both algorithms, ensuring you have a clear understanding and stay calm in challenging situations.
 
-The text will mention two terms: "玩家" and "实体". "实体" refers to the concept of objects in the game, while "玩家" refers to entities that have the AOI.
+The text will mention two terms: "players" and "entities." Entities refer to objects in the game, while players are entities with AOI.
 
 The code mentioned in the text can be found here: [AoiTesting](https://github.com/disenone/AoiTesting).
 
-### Nine-grid/matrix
+###Nine-square grid
 
-The so-called "Nine Palace" is a division of the positions of all entities in a scene into grids, for example, dividing them into squares with a side length of 200. To find other entities within the AOI (Area of Interest) of the central player, compare all the players within the grids involved in this range.
+The so-called Nine-Grid is a method of dividing the positions of all entities in a scene into squares, such as dividing them into squares with a side length of 200. To find other entities within the AOI range of the central player, compare all the players within the squares involved in this range.
 
-For example, in a scene, there is a tick every 100 milliseconds. In the tick function, we can update the player's AOI like this:
+For example, the scene ticks every 100 milliseconds, and during each tick, we can update the player's AOI like this:
 
-* Calculate the set of grids involved in the AOI radius, with the player's position as the center.
-* Calculate the distance between each entity in the grid set and the player.
-* The set of entities whose distance is less than the AOI radius is the player's new AOI.
+* The collection of grids involved in calculating the AOI radius centered around the player's position.
+Calculate the distance between each entity in the grid set and the player one by one.
+The collection of entities within a distance less than the AOI radius becomes the player's new AOI.
 
-The Sudoku algorithm is quite simple to implement. It can be described in a few sentences. We will discuss the performance analysis later. Let's take a look at the Cross-linked List algorithm first.
+The nine-grid algorithm is quite simple to implement, and it can be clearly described in just a few sentences. We will leave the detailed performance analysis for later; for now, let's take a look at the cross-linked list algorithm.
 
-### Cross-linked list
+###Cross-linked List
 
-For 3D games, we usually create ordered linked lists for the X and Z coordinates separately. Each entity has a node on the linked list, storing the corresponding coordinate axis value. The values are stored in ascending order. However, if we only store the coordinates of the entities themselves, the efficiency of querying using these two linked lists is still low.
+For 3D games, we usually construct ordered linked lists for both the X-axis and Z-axis coordinates. Each entity has a node on the list storing its coordinate axis value, arranged in increasing order. However, the efficiency of querying remains low if only the entity's coordinate points are stored in these two lists.
 
-The real key is that we will add left and right sentinel nodes to each player who has AOI on the linked list. The coordinates of the two sentinels are exactly equal to the player's coordinates plus or minus the AOI radius. For example, if the player `P` has coordinates `(a, b, c)` and the AOI radius is `r`, then there will be two sentinels `left_x` and `right_x` on the X-axis, with coordinates `a - r` and `a + r`, respectively. With the presence of the sentinels, we update AOI by tracking the movement of the sentinels and other entity nodes. Continuing with the previous example, if an entity `E` moves and crosses from the right side of `left_x` to the left side of `left_x` on the X-axis, it means that `E` has definitely left the AOI of `P`; similarly, if it crosses from the left side of `right_x` to the right side of `right_x`, it has also left the AOI. Conversely, if it crosses from the right side of `left_x` or the left side of `right_x`, it means that it may enter the AOI of `P`.
+The real key here is that we add two sentinel nodes on the linked list for each player with AOI. The coordinates of the two sentinels are exactly AOI radius away from the player's coordinates. For example, if a player's coordinates are `(a, b, c)` and the AOI radius is `r`, on the X-axis, there will be two sentinels `left_x` and `right_x` with coordinates `a - r` and `a + r` respectively. With the sentinels in place, we track the movement of the sentinels and other entities to update the AOI. Using the previous example, if an entity `E` moves such that on the X-axis it moves from the right of `left_x` to the left of `left_x`, it means that `E` has left the AOI of `P`. Similarly, crossing `right_x` towards the right also means leaving the AOI. Conversely, crossing `left_x` towards the right or crossing `right_x` towards the left indicates a possible entry into the AOI of `P`.
 
-It can be seen that the Cross-link List algorithm is much more complex than the Nine-grid algorithm. We need to maintain two sorted lists and synchronize the movement of nodes on the lists whenever an entity coordinate is updated, and update the AOI when crossing over other nodes.
+It can be seen that the cross-linked list algorithm is much more complex than the grid method. We need to maintain two ordered linked lists, and during each entity coordinate update, we must synchronize the movement of the nodes on the linked lists and update the AOI when crossing over other nodes.
 
-### Implementation of the Nine-grid System
+###Implementation of the Nine-Grid Layout
 
-Because it involves performance measurements, let's delve a little deeper into the implementation details of the Sudoku algorithm.
+Because it involves actual performance testing, let's delve a little deeper into the implementation details of the Sudoku algorithm:
 
 ```cpp
 struct Sensor {
@@ -60,7 +61,7 @@ struct Sensor {
 };
 
 struct PlayerAoi {
-  // ...
+  // ...    
   Nuid nuid;
   SquareId square_id;
   int square_index;
@@ -71,7 +72,7 @@ struct PlayerAoi {
 };
 ```
 
-`PlayerAoi` stores player data, including an array called `sensors` which is used to calculate entities within a certain range. After each `Tick`, the calculated entities are then placed in the `aoi_players` array. `aoi_players` is a container that holds two arrays, used to compare the previous `Tick` results and determine players entering or leaving. The general flow of `Tick` is as follows:
+`PlayerAoi` stores the player data, which includes an array called `sensors`. The `sensors` are used to calculate the entities within a certain range, and after each `Tick`, the calculated entities are placed in `aoi_players`. The `aoi_players` contains two arrays used for comparison with the results from the last `Tick` to determine which players have entered and exited. The general flow of the `Tick` process is as follows:
 
 ```cpp
 AoiUpdateInfos SquareAoi::Tick() {
@@ -92,7 +93,7 @@ AoiUpdateInfos SquareAoi::Tick() {
   }
 
   // ...
-// Record the player's last position
+Record the player's last position
   for (auto& elem : player_map_) {
     auto& player = *elem.second;
     player.last_pos = player.pos;
@@ -102,7 +103,7 @@ AoiUpdateInfos SquareAoi::Tick() {
 }
 ```
 
-The task performed by `Tick` is very simple. It iterates through players with `sensors` and calculates the entities within the range of the `sensor`, which is referred to as AOI (Area of Interest). `last_pos` is used to determine whether an entity has entered or left the AOI. The code for `_UpdatePlayerAoi` is as follows:
+The task of `Tick` is quite simple; it iterates over players with `sensors`, calculating the entities within the range of each `sensor`, which constitutes the AOI. `last_pos` is used to determine whether an entity has entered or exited the AOI. The code for `_UpdatePlayerAoi` is as follows:
 
 ```cpp
 AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* pptr) {
@@ -136,11 +137,11 @@ AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* ppt
 }
 ```
 
-The `old_aoi` is the AOI calculated from the previous `Tick`, and the `new_aoi` is the AOI to be calculated for this `Tick`. The `new_aoi` is obtained by traversing all the entities in the grid within the AOI range and selecting those that are within a distance less than the AOI radius from the player. Then, the `_CheckLeave` and `_CheckEnter` functions are used to calculate the entities that leave and enter the AOI in this `Tick`. For example, if an entity's `last_pos` in `new_aoi` is not within the AOI range, it means that the entity has entered the AOI in this `Tick`. The specific code can be found in the source file, and will not be further elaborated here.
+`old_aoi` is the AOI calculated from the previous `Tick`, while `new_aoi` is the AOI to be calculated for the current `Tick`. `new_aoi` is obtained by iterating through all the entities within the AOI range and selecting those whose distance to the player is less than the AOI radius. Then, using the functions `_CheckLeave` and `_CheckEnter`, the entities entering and leaving the AOI for the current `Tick` are calculated. For example, if an entity's `last_pos` in `new_aoi` is not within the AOI range, it indicates that this entity has entered the AOI range during the current `Tick`. The specific code can be found in the source file, and it won't be elaborated on here.
 
-### Implementation of Cross-linked List
+###Implementation of Cross Linked List
 
-Compared to the nine-grid, the implementation of the cross-linked list is more complex. Let's first take a look at the basic data structure:
+Compared to a grid layout, a cross-linked list is more complex to implement. Let's first look at the basic data structure:
 
 ```cpp
 struct CoordNode {
@@ -184,15 +185,15 @@ struct PlayerAoi {
 };
 ```
 
-`Sensor` and `PlayerAoi` have some similarities with the 9-grid, but with the addition of a linked list-related node structure called `CoordNode`. `CoordNode` represents a node on the linked list, and it records the type and value of the node itself. There are three types: player node, left node of `Sensor`, and right node of `Sensor`.
+`Sensor` and `PlayerAoi` are somewhat similar to the 9-grid, but with the additional linked list related node structure `CoordNode`. `CoordNode` is a node on the linked list, which records the type and value of the node itself. There are three types: player node, left node of `Sensor`, and right node of `Sensor`.
 
-Most of the work in a cross-linked list is to maintain the order of the list.
+The majority of the work of the cross-linked list is in maintaining the order of the list:
 
-* When a player joins, they need to move their player node to the correct position, and at the same time, handle the AOI events of other players entering or leaving.
-* After the player moves to the correct position, the left and right nodes of the `Sensor` move from the front and back positions of the player to the correct position, and handle the events triggered when crossing other player nodes, such as entering and leaving.
-* When the player moves, update their coordinates and move the player node and the left and right nodes of the `Sensor`, handling AOI enter and leave events.
+* When a player joins, they need to move the player node to an ordered position, and while moving the player node, handle the events of entering or leaving the AOI of other players.
+After the player moves to the correct position, the left and right nodes of the `Sensor` move from the player's front and back positions to the correct position and handle the entering and exiting events triggered when crossing other player nodes.
+* When the player moves, update the player's coordinates, and move the player node and the `Sensor` left and right nodes, handling the entry and exit of the AOI.
 
-The code for moving a node is as follows. Each time a node is traversed, the `MoveCross` function is called. Based on the direction of movement, the node being moved, and the type of node being crossed, the `MoveCross` function determines whether to enter or leave the AOI.
+The code for the moving node is as follows: every time it crosses a node, the `MoveCross` function is called. The `MoveCross` function determines whether to enter or exit the AOI based on the direction of movement and the type of node being crossed.
 
 ```cpp
 void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
@@ -225,30 +226,30 @@ void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
 }
 ```
 
-Moving the linked list is slow, with a complexity of `O(n)`, especially when a new player joins the scene. The player needs to move gradually from a faraway location to the correct position, which requires traversing a large number of nodes and consumes a significant amount of resources. To optimize performance, we can place lighthouses in fixed positions in the scene. These lighthouses function similarly to players, but they additionally maintain a separate set of `detected_by` data, which records the sensors within range of the sentinel entity. When a player first enters the scene, they no longer start moving from the farthest point. Instead, they find the nearest lighthouse, insert their node next to it, and quickly enter the AOI (Area of Interest) range of other players who match the lighthouse's `detected_by` data. Then, they begin moving to the correct position. Of course, during the movement, entering and leaving also need to be handled. Similarly, for sensors, we can first inherit the lighthouse's data and then move to the correct position from the lighthouse's location. By implementing these two optimizations, player insertion performance can be improved by more than double.
+The movement of linked lists is quite slow, with a complexity of `O(n)`, especially when a new player joins the scene. The player must gradually move from an infinite distance to the correct position, which requires a significant number of nodes to traverse and incurs considerable overhead. To optimize performance, we can place fixed-position beacons within the scene. These beacons function similarly to players, but they additionally record a `detected_by` data field, which indicates which `Sensor` ranges the sentinel entity is within. When a player enters the scene for the first time, they no longer start from the farthest point; instead, they locate the nearest beacon, insert the node next to it, and quickly enter the area of interest (AOI) of other players aligned with the beacon using the `detected_by` data on the beacon. They then begin moving to the correct position while also handling entry and exit during the movement. Similarly, for `Sensors`, they can inherit the data from the beacons and then move from the beacon's position to their correct location. These two optimizations can enhance player insertion performance by more than double.
 
-`Sensor` has another `HashMap` called `aoi_player_candidates` (here, for performance reasons, [khash](https://github.com/attractivechaos/klib/blob/master/khash.h) is used). The AOI events triggered by node movement can only detect a square area with side length `2r` on the X-Z coordinate axis, which is not strictly a circular AOI. The entities within this square area are recorded in `aoi_player_candidates` and the circular AOI range is calculated by iterating through them in the `Tick` function, hence the name `candidates`.
+The `Sensor` has a `HashMap` named `aoi_player_candidates` (here, for performance reasons, [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)The AOI event triggered by node movement can actually only detect a square area with a side length of `2r` on the X-Z coordinate axes, rather than a strictly circular AOI. The entities within this square area are all recorded in `aoi_player_candidates`, and during `Tick`, we iterate through and calculate the AOI range within the circular area, hence they are referred to as `candidates`.
 
-All operations of the cross-linked list are to continuously maintain the entities `candidates` within the square area. The operations performed by the `Tick` in the cross-linked list are almost identical to those of the 9-grid, except that the calculation of the AOI `candidates` in the traversal is different. The `candidates` in the 9-grid are the entities covered by the circular AOI area in the grid, while the cross-linked list is the entities in the square area defined by the left and right nodes of the `Sensor` with a side length of `2r`. Qualitatively speaking, the `candidates` in the cross-linked list are generally fewer than those in the 9-grid, so the number of traversals in the `Tick` is smaller, resulting in better performance. However, the cross-linked list also has a lot of additional performance overhead on maintaining the list. The overall performance of these two approaches remains to be tested.
+All operations in the cross-linked list are aimed at continuously maintaining the entities `candidates` within the square region. The operations performed by the cross-linked list are almost identical to the nine-grid, except for the calculation and traversal of the `candidates` for the AOI. In the nine-grid, the `candidates` consist of the entities covered by the circular AOI, while the cross-linked list defines the entities within a square region of side length `2r` delimited by the left and right nodes of the `Sensor`. Qualitatively speaking, the `candidates` in the cross-linked list are generally fewer than those in the nine-grid, resulting in a lower number of traversals in `Tick` and thus better performance. However, the cross-linked list incurs additional performance overhead in maintaining the list. The overall performance comparison between the two remains to be determined, and we will carry out practical tests to evaluate this aspect.
 
-### Performance Testing
+###Performance testing.
 
-I have separately tested the time consumption of the player joining the scene (`Add Player`), calculating AOI enter and exit events (`Tick`), and updating player coordinates (`Update Pos`).
+I have separately measured the time consumption for three scenarios: player joining the scene ("Add Player"), calculating AOI in-and-out events ("Tick"), and updating player coordinates ("Update Pos").
 
-The player's initial position is randomly generated within the map range, and then the player is added to the scene. `player_num` represents the number of players, and `map_size` denotes the range of X-Z coordinates on the map. The player's position is uniformly generated within this range. Each player has a `Sensor` with a radius of 100, which is used for AOI (Area of Interest). The boost::timer::cpu_timer is used for time calculation. The `player_num` field includes three scenarios: 100, 1000, and 10000, while the `map_size` field includes four scenarios: [-50, 50], [-100, 100], [-1000, 1000], and [-10000, 10000].
+The player's starting position is randomly generated within the map range, and then the player is added to the scene. `player_num` represents the number of players, while `map_size` indicates the range of the map on the X-Z coordinate axis. The player's position is uniformly randomly generated within this range. Each player has a `Sensor` with a radius of `100` as the Area of Interest (AOI), and the calculation time is done using `boost::timer::cpu_timer`. Three scenarios for `player_num` - `100, 1000, 10000` were chosen, while four scenarios for `map_size` - `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]` were selected.
 
-Updating player position will make the player move in a fixed random direction at a speed of `6m/s`.
+Updating the player's position will cause the player to move in a fixed random direction at a speed of `6m/s`.
 
 The current test environment is:
 
 * CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
 * System: Debian GNU/Linux 10 (buster)
-* gcc version: gcc version 8.3.0 (Debian 8.3.0-6)
+* GCC version: GCC version 8.3.0 (Debian 8.3.0-6)
 * boost version: boost_1_75_0
 
-#### Nine-grid Actual Test
+####Nine-grid test
 
-The test results for the grid of nine squares are as follows:
+The test results for the 3x3 grid are as follows:
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -324,11 +325,9 @@ Update Pos (10 times) 0.019033s wall, 0.020000s user + 0.000000s system = 0.0200
 ===End Milestore
 ```
 
-In the game grid, when there are `100` players, the time required for the three operations is very short. In the extreme case where `map_size = [-50, 50]`, all players are within the AOI range, and the time required for each `Tick` is approximately `0.4ms`. The performance is good, and both the player joining the scene and updating the coordinates have a linear complexity of `O(player_num)`.
+The game runs smoothly with 100 players in a tic-tac-toe grid, all operations are quick. In an extreme scenario with a map size of [-50, 50], all players are within the AOI range, and each game tick takes about 0.4ms. Adding players and updating their coordinates are both of linear complexity O(player_num), showing good performance. However, with 10,000 players and the same map size of [-50, 50], things change. Adding players and updating their positions can be done within a few milliseconds due to their linear nature, but each tick now takes around 3.8s, requiring a significant amount of CPU and rendering it unusable. With 10,000 players and a map size of [-1000, 1000], each tick takes around 94ms. If the tick rate could be reduced, for example, to twice per second, it would still fall within an acceptable range.
 
-However, when the number of players reaches ten thousand (`player_num = 10000`) with a map size of `[-50, 50]`, both the `Add Player` and `Update Pos` operations can be completed within a few milliseconds due to their linear complexity. But the `Tick` operation takes up to `3.8s`, requiring a significant amount of CPU resources and rendering it unusable. In the case of ten thousand players and a map size of `[-1000, 1000]`, the `Tick` operation consumes approximately `94ms`. If the `Tick` frequency is reduced, for example, to twice per second, it can still be considered usable, albeit with some difficulty.
-
-#### Cross-linked List Measurement
+####Doubly Linked List Test Results
 
 The test results of the cross-linked list are as follows:
 
@@ -406,17 +405,15 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 ===End Milestore
 ```
 
-As we analyze, the cross-linked list takes more time in `Add Player` and `Update Pos`, especially in `Add Player`, which is several hundred or even tens of thousands times slower than the grid performance (`100, [-50, 50]` cross-linked list takes `2ms`, while the grid only takes `0.08ms`; `10000, [-50, 50]` cross-linked list takes `21.6s`, while the grid only takes `6ms`). There can also be a difference of up to a hundredfold in the execution time of `Update Pos`, where `10000, [-100, 100]` cross-linked list takes `1.5s`, while the grid takes only `18ms`. It can be observed that the cross-linked list has a wider range of execution time for `Add Player` and `Update Pos` compared to the grid, and is more affected by the number of players and the size of the map. In densely populated areas, the performance of these two operations will rapidly decline until they become unusable.
+As we have analyzed consistently, the cross-linked list takes significantly longer for `Add Player` and `Update Pos`, especially for `Add Player`, which is several hundred to even ten thousand times slower than the grid method (for `100, [-50, 50]`, the cross-linked list takes `2ms`, while the grid only takes `0.08ms`; for `10000, [-50, 50]`, the cross-linked list takes `21.6s`, whereas the grid only takes `6ms`). The time taken for `Update Pos` can also differ by as much as a hundredfold, with the cross-linked list taking `1.5s` to update the player position for `10000, [-100, 100]`, while the grid takes `18ms`. It is evident that the variability in time taken for `Add Player` and `Update Pos` with the cross-linked list is greater than that of the grid method, being more influenced by the number of players and the size of the map. In densely populated areas, the performance of these two operations rapidly declines to the point of becoming unusable.
 
-Looking at the `Tick` operation of the Cross-chain, the overall performance is indeed better than that of the Nine-grid. In the best case, the time consumed is approximately only half of the Nine-grid's time (`0.8ms` for Cross-chain with `1000, [-1000, 1000]`, and `1.8ms` for Nine-grid), but in the worst case, the performance of the Cross-chain will degrade to be close to that of the Nine-grid (`3.7s` for Cross-chain with `10000, [-10000, 10000]`, and `3.8s` for Nine-grid). This is because, due to the small scene, players are all within each other's AOI range, and the number of `candidates` traversed by the Cross-chain `Tick` is actually very close to that of the Nine-grid.
+In contrast to the `Tick` operation of the cross-chain, its overall performance is indeed better than that of the grid system. In the best-case scenario, the time taken is roughly half that of the grid (for `1000, [-1000, 1000]`, the cross-chain takes `0.8ms`, while the grid takes `1.8ms`). However, in the worst-case scenario, the performance of the cross-chain deteriorates to levels close to that of the grid (for `10000, [-10000, 10000]`, the cross-chain takes `3.7s`, while the grid takes `3.8s`). This is because, in smaller scenes, players are within each other's AOI range, resulting in the number of `candidates` traversed by the cross-chain `Tick` becoming quite similar to that of the grid.
 
-The Cross-Chain needs to achieve better performance than the Nine-Grid when used. This requires some stronger assumptions, such as `player_num = 1000, map_size = [-1000, 1000]`. In this case, the Cross-Chain takes 0.8ms for `Tick`, while the Nine-Grid takes 1.8ms; for `Update Pos`, the Cross-Chain takes 0.3ms and the Nine-Grid takes 0.18ms (note that the test time for `Update Pos` is the sum of the time for 10 executions). In order for the Cross-Chain to be faster than the Nine-Grid in terms of the total time of `Tick + Update Pos`, the number of `Update Pos` operations cannot exceed 8 times the number of `Tick` operations, or in other words, the number of `Update Pos` operations between two `Tick` operations needs to be less than 8 times.
+To achieve better performance than the Nine-palace Grid, the Cross-chain requires some stronger assumptions. For example, with `player_num = 1000, map_size = [-1000, 1000]`, in the scenario where `Tick` consumes 0.8ms for the Cross-chain and 1.8ms for the Nine-palace Grid, and `Update Pos` takes 0.3ms for the Cross-chain and 0.18ms for the Nine-palace Grid (note that the `Update Pos` time is the sum of 10 executions). In the total time of `Tick + Update Pos`, for the Cross-chain to be faster than the Nine-palace Grid, the number of `Update Pos` cannot exceed 8 times that of `Tick`, or in other words, between two `Tick`s, the number of `Update Pos` needs to be less than 8. Furthermore, due to the significant time consumption of `Add Player` in the Cross-chain, it is not suitable for scenarios where players frequently enter and exit scenes within a short period or undergo large-scale teleportation in the scene. Additionally, a large number of players entering the scene within a short period can easily lead to performance degradation and significant CPU consumption.
 
-Furthermore, due to the significant time consumption of `Add Player` in the Cross-Chain, it is not suitable for scenarios where players frequently enter and exit scenes within a short period of time or when there is large-scale teleportation within the scene. Additionally, if a large number of players enter the scene within a short period of time, it can easily lead to performance degradation and consume a significant amount of CPU resources.
+For the cross-linked list, there is an optimization that can be performed under one condition: eliminate `Tick`, provided that the game can accept square AOIs, and the actual measured costs associated with square AOIs, such as network usage, are acceptable. This condition is quite stringent because, in games, the CPU usage for AOI billing is usually minimal. However, changing from circular AOIs to square AOIs results in an increased area, which also leads to a higher number of players within that range. If players are evenly distributed, their numbers could increase to about `1.27` times the original. Nevertheless, once the condition is met, the cross-linked list can operate without needing `Tick` for regular AOI event updates, because the `candidates` in the implementation of the cross-linked list already maintain a set of square AOIs, which were initially only used for calculating circular AOIs and necessitated additional distance calculations during `Tick`. In this context, the cross-linked list has the potential to achieve excellent performance, as the performance of `Update Pos` in the cross-linked list can differ from `Tick` by several times to even dozens of times.
 
-For the cross-linked list, there is an optimization that can be done under one condition: get rid of `Tick`. The condition is that the game can accept a square-shaped AOI, and the additional costs such as network consumption brought by the square-shaped AOI are acceptable when measured. Actually, the condition is quite strict, because in the game, the CPU usage of AOI calculation is usually not significant. However, changing the circular AOI to a square AOI increases the area of the AOI range, and the number of players within the range may increase, possibly up to 1.27 times the original amount under a uniform distribution. However, once the condition is met, the cross-linked list can eliminate the need for `Tick` to periodically update AOI events, because the `candidates` of the cross-linked list already maintains a square-shaped AOI, which was originally used only for calculating the circular AOI distance in `Tick`. In this case, the cross-linked list has the potential to achieve excellent performance, as the performance of the cross-linked list's `Update Pos` can be several times to tens of times better than `Tick`.
-
-Finally, here is a comparative bar graph of the two:
+Finally, provide a bar chart comparing the two.
 
 ![](assets/img/2021-11-18-aoi-tesing/add_player.png)
 
@@ -425,17 +422,15 @@ Finally, here is a comparative bar graph of the two:
 ![](assets/img/2021-11-18-aoi-tesing/update_pos.png)
 
 
-### Summary
+###Summary
 
-In this article, we introduce the principles and basic implementations of two AOI algorithms (grid-based and cross-linked), and analyze the performance pros and cons of these two algorithms through empirical data. We hope that this will provide some assistance or inspiration to the readers.
+In this article, we introduce the principles and basic implementations of two AOI algorithms (nine-grid and cross-chain), and analyze the performance advantages and disadvantages of these two algorithms through actual test data, hoping to provide readers with some help or inspiration.
 
-In general, the Nine-grid method is easy to implement and has balanced performance. It is very suitable for games that are not performance-intensive, such as AOI. The performance fluctuation range of the Nine-grid method is within the expected range, with a relatively high performance lower limit, making it less likely to become a bottleneck. However, on the other hand, the optimization space is not large, and the time complexity is relatively fixed.
-On the contrary, the Cross-chain method has a more complex implementation and a lower performance lower limit compared to the Nine-grid method. However, if certain assumptions and prerequisites can be met, the Cross-chain method can offer higher optimization space, in other words, the upper limit can be higher.
-These two methods have their own advantages and disadvantages. Different game engines in the gaming industry have chosen one of them. It's a matter of personal preference and needs.
+In general, the nine-grid method is simple to implement, with balanced performance that doesn't easily fall short. It is highly suitable for games that do not rely heavily on performance like AOI. The performance fluctuations of the nine-grid method fall within an expected range, with a relatively high performance floor that avoids bottlenecks. On the other hand, the optimization space is limited, and the time complexity is more consistent. On the contrary, the cross-linked method is more complex to implement, with a lower performance floor compared to the nine-grid method. However, if certain assumptions and premises are met, the cross-linked method can offer higher optimization space, meaning the upper limit can be higher. Both methods have their pros and cons, with different game engines in the industry opting for either one based on their specific needs and considerations. It's a matter of preference and individual judgment.
 
-I have limited ability, and the content of this text only represents my own thoughts. If there are any deficiencies or inappropriate aspects, please feel free to leave a comment for discussion.
+My abilities are limited, and the content of this article only represents my thoughts. Feel free to leave comments for discussion if there are any shortcomings or inappropriate aspects.
 
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT, please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

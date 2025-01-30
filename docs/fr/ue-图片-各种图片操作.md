@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Réaliser diverses opérations sur les images (UTexture2D) dans l'UE (lecture,
-  sauvegarde, copie, presse-papiers...).
+title: UE réalise diverses opérations sur les images (UTexture2D) (lecture, sauvegarde,
+  copie, presse-papiers...)
 tags:
 - dev
 - game
@@ -17,26 +17,26 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: UE implémente la lecture d'images du système local
+description: L'UE réalise la lecture d'images du système local
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#L'UE réalise diverses opérations sur les images (UTexture2D) (lecture, enregistrement, copie, presse-papiers...).
+#La réalisation de diverses opérations sur les images (UTexture2D) dans l'UE (lecture, enregistrement, copie, presse-papiers...).
 
-> Les codes suivants sont basés sur la version UE5.3.
+> Le code suivant est basé sur la version UE5.3.
 
-##Le code source
+##Code source
 
-Vous pouvez trouver davantage de détails sur le code source sur la boutique UE grâce au plug-in : [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+Pour plus de détails sur le code source, vous pouvez obtenir le plugin sur l'UE Marketplace : [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Lire : L'UE permet de lire une image du système local en tant que UTexture2D
+##Lecture : UE permet de lire les images du système local en UTexture2D.
 
-###Méthode générique
+###Méthode générale
 
-Cette méthode est applicable aussi bien en mode Éditeur qu'en mode Jeu, prenant en charge les formats d'image suivants : PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, couvrant essentiellement la plupart des types d'images couramment utilisés.
+Cette méthode est applicable à la fois en mode éditeur et en mode de jeu, prenant en charge les formats de fichiers image suivants : PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, couvrant ainsi la plupart des types d'images couramment utilisés.
 
-Le code est aussi très concis :
+Le code est également très propre :
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -51,11 +51,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-Le retour est UTexture2D.
+Le retour est un UTexture2D.
 
-###Méthodes exclusives de l'éditeur
+###Méthodes spéciales pour l'éditeur
 
-Cette méthode permet de prendre en charge des types d'images supplémentaires : textures UDIM, fichiers IES, PCX, PSD.
+Cette méthode peut également prendre en charge davantage de types d'images : textures UDIM, fichiers IES, PCX, PSD.
 
 La mise en œuvre du code sera un peu plus complexe :
 
@@ -89,11 +89,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-La réalisation s'est faite en utilisant la fonction FactoryCreateBinary de UTextureFactory, qui permet de lire les types de fichiers supplémentaires mentionnés précédemment.
+La réalisation utilise la fonction FactoryCreateBinary de UTextureFactory, qui permet de lire les types de fichiers supplémentaires mentionnés précédemment.
 
-##Copier : L'UE réalise la duplication de UTexture2D
+##Copie : UE réalise la copie UTexture2D
 
-Parfois, il est nécessaire de faire une copie d'une UTexture2D, puis de modifier cette copie de l'image. Pour réaliser la copie de l'image, il faut utiliser la fonction intégrée du moteur `FImageCore::CopyImage`. Il suffit de paramétrer les deux images correctement et d'appeler cette interface pour effectuer la copie.
+Parfois, il est nécessaire de dupliquer un UTexture2D, puis de modifier cette copie d'image. La duplication de l'image nécessite l'utilisation de la fonction intégrée du moteur `FImageCore::CopyImage`. Il suffit de configurer les paramètres des deux images et d'appeler cette interface.
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -149,9 +149,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##Enregistrer : l'UE permet d'enregistrer un UTexture2D dans un fichier
+##Sauvegarde : Réalisation de la sauvegarde d'un UTexture2D dans un fichier
 
-Le cœur de l'affaire réside dans l'utilisation de la fonction du moteur `FImageUtils::SaveImageAutoFormat`, la mise en œuvre est plutôt simple, mais il convient de prendre en compte les cas d'échec et de réessayer.
+Le cœur du fonctionnement repose sur la fonction moteur `FImageUtils::SaveImageAutoFormat`. Sa mise en œuvre est relativement simple, mais il est important de prêter attention aux situations d'échec et de réessayer.
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -182,11 +182,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##Sauvegarde : L'UE permet de sauvegarder UTexture2D en tant qu'Asset.
+##Sauvegarde : UE accomplir la sauvegarde de UTexture2D en tant qu'Asset
 
-Enregistrer le UTexture2D en mémoire dans l'Asset, puis visualiser dans le Content Browser.
+Sauvegardez UTexture2D dans la mémoire en tant qu'Asset et visualisez-le dans le navigateur de contenu (Content Browser).
 
-Les fonctions principales nécessitent l'utilisation de la fonction `CopyTexture2D` mise en œuvre ci-dessus. Nous devons d'abord copier une nouvelle image, puis appeler `UPackage::SavePackage` pour enregistrer le `Package` contenant l'image en tant qu'actif.
+La fonction principale nécessite d'utiliser `CopyTexture2D` implémenté ci-dessus. Nous devons d'abord créer une nouvelle image, puis appeler `UPackage::SavePackage` pour enregistrer le `Package` de l'image en tant qu'Asset.
 
 ```cpp
 
@@ -249,24 +249,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##Presse-papiers : L'UE permet de copier une image (UTexture2D) dans le presse-papiers de Windows (Clipboard).
+##Presse-papiers : Copie d'une image (UTexture2D) vers le presse-papiers de Windows (Clipboard) par l'UE.
 
 ###Fonctions liées à Windows
 
-Nous utiliserons les fonctions associées au presse-papiers Windows suivantes :
+Nous allons utiliser les fonctions suivantes liées au presse-papiers de Windows :
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Ouvrez le presse-papiers et obtenez le gestionnaire du presse-papiers.
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard): Ouvrez le presse-papiers et obtenez le gestionnaire du presse-papiers.
 * [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Vider le presse-papiers et attribuer la propriété du presse-papiers à la fenêtre actuelle.
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Transférez les données de l'image à utiliser sur le presse-papiers à l'aide de cette interface.
-* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)Après avoir configuré les données, veuillez fermer le presse-papiers.
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)：Définir les données du presse-papiers, les données d'image sont envoyées au presse-papiers via cette interface.
+* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)Après avoir configuré les données, fermez le presse-papiers.
 
-###Le format d'image le presse-papiers
+###Format d'image du presse-papiers
 
-Veuillez traduire ce texte en français :
+[Format de presse-papiers standard](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Le document présente les formats de presse-papiers disponibles, parmi lesquels `CF_DIBV5` peut être utilisé pour définir une image.
 
-[Format standard du presse-papiers](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Le document présente les formats de presse-papiers disponibles, parmi lesquels `CF_DIBV5` peut être utilisé pour l'insertion d'images.
-
-Le format exigé par CF_DIBV5 est défini spécifiquement par la structure [BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Nous avons choisi la configuration suivante ici.
+CF_DIBV5 format requis définition spécifique [STRUCTURE BITMAPV5HEADER](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Nous avons choisi la configuration suivante.
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -274,9 +272,9 @@ Header.bV5CSType        = LCS_sRGB;
 Header.bV5Compression   = BI_BITFIELDS;
 ```
 
-###Configuration de UTexture2D
+###UTexture2D paramètres
 
-Nous avons choisi l'espace couleur de l'image du presse-papiers comme étant `LCS_sRGB`, c'est-à-dire l'espace couleur sRGB. Par conséquent, UTexture2D doit également être préalablement configuré dans ce format.
+Nous avons choisi l'espace colorimétrique de l'image du presse-papiers comme `LCS_sRGB`, c'est-à-dire l'espace colorimétrique sRGB, donc UTexture2D doit également être configuré au format correspondant :
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -298,7 +296,7 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard est responsable de la conversion de UTexture2D en un format standard : TC_VectorDisplacementmap (RGBA8) et l'espace couleur SRGB. Une fois que l'on a aligné le format d'image de UTexture2D avec celui du presse-papiers de Windows, on peut alors copier les données de l'image dans le presse-papiers.
+ConvertTextureToStandard est responsable de la conversion d'UTexture2D en format standard : TC_VectorDisplacementmap (RGBA8) et espace de couleur SRGB. Après avoir aligné UTexture2D avec le format d'image du presse-papiers Windows, nous pouvons copier les données de l'image dans le presse-papiers.
 
 ###Code spécifique
 
@@ -395,7 +393,7 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 
 ###Conversion entre UTexture2D et Base64
 
-Ce concept est plutôt simple à réaliser, passons directement au code.
+Cette réalisation est relativement simple, je vais directement vous montrer le code.
 
 ```cpp
 #include <Misc/Base64.h>
@@ -434,4 +432,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez vous adresser à [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Signalez tout élément manquant. 
+> Ce message a été traduit à l'aide de ChatGPT, veuillez [**laisser vos commentaires**](https://github.com/disenone/wiki_blog/issues/new)Veuillez indiquer toute omission. 

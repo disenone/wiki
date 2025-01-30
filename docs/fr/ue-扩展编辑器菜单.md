@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Élargir le menu de l'éditeur UE
+title: UE Étendre le menu de l'éditeur
 tags:
 - dev
 - game
@@ -8,27 +8,27 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Enregistrer comment étendre le menu de l'éditeur UE
+description: Enregistrer comment l'UE étend le menu de l'éditeur
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#Extension du menu de l'éditeur UE
+#Menu d'édition étendu UE
 
-> Enregistrer comment étendre le menu de l'éditeur UE
+> Enregistrer comment l'UE étend le menu de l'éditeur
 
 ## Hook
 
-Le terme "Hook" peut être interprété comme l'ancre d'un menu d'extension. Nous avons la possibilité de positionner de nouveaux éléments de menu avant ou après le Hook. La plupart des commandes de menu de l'éditeur intégré d'UE possèdent un Hook. Pour afficher tous les Hooks des menus, vous pouvez accéder à "Édition - Préférences de l'éditeur - Général - Autres - Afficher les points d'extension de l'interface utilisateur" sous UE5.
+Hook peut être considéré comme un point d'ancrage pour le menu d'extension. Nous pouvons définir les nouvelles commandes de menu pour qu'elles apparaissent avant ou après le Hook. Les commandes de menu fournies par l'éditeur de l'UE incluent généralement un Hook. Dans UE5, ouvrez `Édition - Préférences de l'éditeur - Général - Autre - Afficher les points d'extension UI` pour afficher tous les Hooks des menus :
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-##Dépendance de module
+##Dépendances de module
 
-Il est nécessaire d'ajouter les modules dépendants LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus dans le fichier .Build.cs du projet.
+Il est nécessaire d'ajouter les modules dépendants LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus dans le fichier .Build.cs du projet :
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -48,9 +48,11 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-##Ajouter une barre de menu.
+##Ajouter une barre de menu
 
-Veuillez fournir le code directement.
+Veuillez traduire ce texte en français:
+
+直接上代码
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,11 +75,11 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Exécuter le code ci-dessus permet de constater qu'un menu déroulant MenuTest a été ajouté après l'aide.
+En exécutant le code ci-dessus, on peut voir qu'un menu MenuTest a été ajouté après Aide :
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-##Ajouter la commande
+##Ajouter une commande
 
 Utilisez l'interface `MenuBuilder.AddMenuEntry` :
 
@@ -91,11 +93,11 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Placez le code ci-dessus dans CreateLambda pour générer la commande du menu :
+Placez le code ci-dessus dans CreateLambda pour générer une commande de menu.
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-##Diviser le menu en sections.
+##Menu section.
 
 Utilisez `MenuBuilder.BeginSection` et `MenuBuilder.EndSection` :
 
@@ -115,7 +117,7 @@ MenuBuilder.AddMenuSeparator();
 
 ##Sous-menu
 
-Les sous-menus sont semblables à la barre de menus et doivent être définis à l'intérieur de la fonction Lambda :
+Les sous-menus sont semblables à la barre de menus et doivent être définis à l'intérieur de Lambda :
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -136,7 +138,7 @@ MenuBuilder.AddSubMenu(
 
 #Composant SlateUI
 
-Il est possible d'ajouter des composants d'interface utilisateur :
+On peut également ajouter des contrôles UI :
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -167,11 +169,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-Le contenu lié à l'interface utilisateur de Slate n'est pas explicitement expliqué ici, si vous êtes intéressé, vous pouvez trouver d'autres articles à ce sujet.
+Le contenu relatif à Slate UI n'est pas développé ici en détail, si vous êtes intéressé, vous pouvez chercher un autre article à ce sujet.
 
-#Ajouter un menu Hook
+#Ajouter menu Hook
 
-Ajouter une commande dans "Outils - Programmation", par exemple :
+Par exemple, ajouter une commande dans `Outils - Programmation` :
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -191,9 +193,9 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-On peut aussi ajouter d'autres types de menus de la même manière.
+Il est possible d'ajouter d'autres types de menus de la même manière.
 
-#Code complet
+#Code complet.
 
 ```cpp
 void BuildTestMenu()
@@ -285,4 +287,4 @@ void BuildTestMenu()
 
 
 
-> Ce message a été traduit en utilisant ChatGPT. Veuillez fournir vos commentaires dans la section [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifier tout manquant. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez [**fournir des commentaires**](https://github.com/disenone/wiki_blog/issues/new)Identifier toute omission. 

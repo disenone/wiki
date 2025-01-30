@@ -1,36 +1,36 @@
 ---
 layout: post
-title: Construcción de la cámara en tercera persona en Unity (Parte 2)
+title: Construir cámara en tercera persona Unity (parte 3)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Quiero crear una cámara en tercera persona en Unity, y su comportamiento
-  se basará en la cámara en tercera persona de "World of Warcraft". Aquí se aborda
-  el problema del cuerpo rígido de la cámara.
+description: Quiero crear una cámara en tercera persona en Unity, tomando como referencia
+  la cámara en tercera persona de "World of Warcraft". Aquí se abordará el problema
+  del cuerpo rígido de la cámara.
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-La última entrega terminó de hablar sobre [la rotación de la cámara](unity-Unity第三人称相机构建(上).md), entonces ahora el problema que debemos resolver es la rigidez de la cámara, ¿cómo podemos hacerlo?
+La última entrega terminó con [la rotación de la cámara](unity-Unity第三人称相机构建(上).md)，entonces ahora el problema que tenemos que resolver es la rigidez de la cámara, ¿cómo lo hacemos?
 
-La traducción al español de "相机刚性" es "rigidez de la cámara".
+Rigidez de la cámara
 --------------
-Repasando las necesidades mencionadas anteriormente:
+Revisando los requisitos mencionados anteriormente:
 
-4. Rueda de desplazamiento del mouse: controla la distancia de la cámara.
+4. Rueda del ratón: controla el acercamiento y alejamiento de la cámara.
 5. La cámara no puede atravesar ningún objeto rígido.
-6. La cámara se aleja lentamente del objeto rígido con el que chocó, volviendo gradualmente a la distancia original.
-7. Si la cámara se encuentra con un objeto sólido y se utiliza la rueda del ratón para acercar la cámara, esta debe responder de inmediato y después no ocurrirá el punto 6. No se puede realizar ninguna operación de zoom después de chocar con el suelo.
-8. La cámara choca con el suelo mientras gira, deteniendo su giro alrededor del personaje de arriba hacia abajo, cambiando para girar alrededor de sí misma de arriba hacia abajo, mientras que el giro de izquierda a derecha todavía será alrededor del personaje.
+La cámara se aleja lentamente del objeto rígido con el que chocó, volviendo a su distancia original.
+7. Si la cámara se encuentra con un objeto sólido, al usar la rueda del ratón para acercar la cámara, esta debe reaccionar de inmediato; después de eso, el punto 6 ya no aplica; no se puede realizar la operación de zoom después de colisionar con el suelo.
+La cámara golpea el suelo mientras gira, deteniendo el giro alrededor del personaje, y comienza a girar alrededor de sí misma verticalmente, manteniendo el giro horizontal alrededor del personaje.
 
 
-Estos puntos significan: cuando la cámara toca un objeto rígido, se verá obligada a acercarse a la distancia del personaje. Entonces, si deseamos que la cámara pueda regresar gradualmente a su distancia original al alejarse, pero si después de acercarse automáticamente, utilizamos la rueda de desplazamiento para acercar manualmente, esto indica que la cámara se aleja del objeto de colisión y esa distancia de acercamiento es la distancia real de la cámara. Ahora analicemos estas necesidades paso a paso.
+Estos puntos significan que cuando la cámara se acerca a un objeto rígido, se ve obligada a acercarse al sujeto. Por lo tanto, queremos que la cámara regrese lentamente a su distancia original al alejarse. Sin embargo, si después de acercarse automáticamente, se vuelve a acercar manualmente con la rueda, significa que la cámara se está alejando del objeto con el que colisionó, por lo que esa distancia de acercamiento es la distancia real de la cámara. Ahora vamos a abordar poco a poco estas necesidades.
 
-滚轮控制
+Control del rodillo
 ----------
-El control del scroll del mouse es bastante sencillo, solo necesitas saber que para obtener la información del scroll se utiliza `Input.GetAxis("Mouse ScrollWheel")`, y luego establecer los valores máximos y mínimos de distancia. ¡Y listo!
+El control de la rueda de desplazamiento del mouse es bastante sencillo, solo necesitas saber que para obtener la información de la rueda de desplazamiento se usa `Input.GetAxis("Mouse ScrollWheel")`, y luego simplemente establecer los valores máximo y mínimo de la distancia. ¡Listo!
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -47,19 +47,17 @@ if (zoom != 0F)
 }
 ```
 
-Aquí `playerTransform` apunta al personaje.
+Aquí, `playerTransform` apunta al personaje.
 
-**No puedes atravesar ningún objeto rígido**.
+No se puede atravesar ningún objeto rígido.
 --------------------
-Esta función es útil para detectar el contacto entre la cámara y el cuerpo rígido:
+Se requiere detectar el contacto entre la cámara y el cuerpo rígido, hay una función que puede llevar a cabo esta función:
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-具体用法参考Unity的[Reference]
-
-Please refer to the [Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)，podemos lograr la detección de colisiones de la siguiente manera:
+Consulta la [Referencia](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)Podemos implementar la detección de colisiones de esta manera:
 
 ```c#
 RaycastHit hitInfo;
@@ -70,12 +68,16 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-`targetPosition` es la posición de la colisión, simplemente debes ajustar la posición de la cámara a la posición de la colisión.
+`targetPosition` es la posición del choque, simplemente coloca la posición de la cámara en la posición del choque.
 
-Después de separarse del cuerpo rígido, regrese lentamente a la distancia original.
+离开刚体后，慢慢回到原来的距离上。 
+
+Translation: 
+
+Después de alejarse del cuerpo rígido, regresa lentamente a la distancia original.
 ---------------------------------
-Para lograr esta funcionalidad, primero necesitamos registrar la distancia a la que la cámara debería estar (`desiredDistance`) y la distancia actual (`curDistance`). Guardaremos el resultado de la operación de la rueda en la variable `desiredDistance` y luego calcularemos la nueva distancia del objeto en base a las colisiones.
-Cuando se detecta que la cámara se aleja del objeto o colisiona con otro objeto más lejano, no se puede asignar directamente la posición de la colisión a la cámara, se necesita utilizar una velocidad de movimiento para desplazarse hacia la nueva distancia. Primero, obtengamos la nueva distancia:
+Para llevar a cabo esta función, primero se deben registrar por separado la distancia a la que la cámara debería estar (`desiredDistance`) y la distancia actual (`curDistance`). Luego, se guarda el resultado de la operación de la rueda en `desiredDistance` y se calcula la nueva distancia del objeto según la colisión.
+Al detectar que la cámara se aleja de un objeto rígido o choca con otro objeto rígido más distante, no se puede asignar directamente la posición de la colisión a la cámara; se necesita utilizar una velocidad de movimiento para trasladarse a una nueva distancia. Primero, se debe obtener la nueva distancia:
 
 ```c#
 float newDistance = desiredDistance;
@@ -87,45 +89,43 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-Entonces, ¿cómo se puede determinar si la cámara se está moviendo hacia una distancia mayor? Puede compararse con `newDistances` y la distancia actual:
+Entonces, ¿cómo se puede determinar si la cámara se está moviendo hacia una distancia mayor? Puedes comparar `newDistances` con la distancia actual:
 
 ```c#
-// Moverse hacia distancias más cortas
+// Moverse a una distancia más cercana
 if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-// Moverse hacia distancias más lejanas
+// Moverse a distancias más lejanas
 else if(newDistance > curDistance)
 {
 }
 ```
 
-En ese caso, una vez que se ha determinado que se requiere moverse a una distancia mayor, la solución es bastante sencilla: simplemente se aumenta la velocidad para moverse.
+Entonces, al determinar que se mueve a una distancia mayor, es bastante intuitivo, simplemente se le añade una velocidad para moverse:
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
 
 ```
-**相机的大致行为我们已经完成了，还有一些细节需要处理。**
+Hemos completado la funcionalidad básica de la cámara, ahora queda por resolver algunos detalles.
 
-La funcionalidad general de la cámara ya la hemos completado, pero aún queda por resolver algunos detalles.
-
-Después de chocar con un objeto sólido, la rueda se acercará y el suelo no se escalará.
+Al encontrarse con un cuerpo rígido, la rueda trasera se acerca, el suelo no se escala.
 ------------------
 Aquí hay dos requisitos:
 
-1. Después de chocar con un objeto sólido, solo puedes acercarte, no alejarte.
-2. Después de que toque el suelo no puede hacer zoom.
+Al chocar con un cuerpo rígido, solo se puede acercar, no alejar.
+Después de tocar el suelo, no se puede hacer zoom.
 
-Primero, se utiliza una variable para guardar el estado de colisión de la cámara:
+Primero, utiliza variables para guardar el estado de colisión de la cámara:
 
 ```c#
-bool isHitGround = false;       // Indica si ha tocado el suelo
-bool isHitObject = false;       // Indicates whether it collided with a rigid body (excluding the ground)
+bool isHitGround = false;       // Indicates whether it has hit the ground
+bool isHitObject = false;       // Indica si hay colisión con un cuerpo rígido (excluyendo el suelo)
 ```
 
-En el momento de evaluar el escalado de la rueda de desplazamiento, agregue una condición de evaluación:
+Al juzgar el zoom con la rueda, agrega una condición de evaluación:
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -134,9 +134,9 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-Al entrar en contacto con el suelo, girar alrededor de uno mismo en un movimiento ascendente y descendente.
+Encontrarse con el suelo y girar alrededor de sí mismo de arriba a abajo.
 -----------------
-Este proceso puede resultar un poco complicado de implementar, ya que nuestra suposición anterior de que la cámara siempre está apuntando al personaje ya no es válida en este caso. Ahora tenemos que dividirlo en dos vectores: **la orientación de la cámara en sí (`desireForward`)** y **la dirección desde el personaje hacia la cámara (`cameraToPlayer`)**. Debemos calcular los valores de estos dos vectores por separado, donde el primero determinará la orientación de la cámara y el segundo determinará su posición. Para mayor comodidad, vamos a referirnos al [episodio anterior](unity-Unity第三人称相机构建(上)Si se divide la función de rotación de .md) en rotación X (`RotateX`) y rotación Y (`RotateY`), entonces al calcular `cameraToPlayer` para `RotateY`, se agrega una condición:
+Esta función resulta un poco complicada de implementar, ya que en este momento nuestra suposición de que la cámara siempre apunta hacia el personaje ya no se mantiene. En este caso, se dividen en dos vectores: **la dirección propia de la cámara (`desireForward`)** y **la dirección del personaje hacia la cámara (`cameraToPlayer`)**, calculando respectivamente el valor de estos dos vectores. El primero determina la orientación de la cámara, mientras que el segundo determina la posición de la cámara. Para facilitar, tomemos [el episodio anterior](unity-Unity第三人称相机构建(上)Dividir la función de rotación de .md en rotación X (`RotateX`) y rotación Y (`RotateY`), y luego al calcular el `RotateY` de `cameraToPlayer`, agregar la siguiente condición:
 
 ```c#
 if ((!isHitGround) || 
@@ -147,18 +147,18 @@ if ((!isHitGround) ||
 }
 ```
 
-Este requisito tiene dos partes:
+Esta condición tiene dos partes:
 
 - No ha tocado el suelo.
-- Mala noticia, me encontré con el suelo pero estoy listo para levantarme del suelo.
+- Tocando el suelo, pero listo para despegar.
 
-Luego, usa `cameraToPlayer` para calcular la posición de la cámara:
+Luego, se utiliza `cameraToPlayer` para calcular la posición de la cámara:
 
 ```c#
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-Y cuando sea necesario (es decir, cuando se encuentre en el suelo), calcular la dirección de la cámara:
+Y además, calcula la orientación de la cámara cuando sea necesario (es decir, al tocar el suelo):
 
 ```c#
 if (!isHitGround)
@@ -173,36 +173,9 @@ else
 }
 ```
 
-Así es como logramos implementar el comportamiento de la cámara.
+De esta manera, hemos conseguido el comportamiento de la cámara.
 
-def greet(name):
-    """ This function takes a name as input and prints a greeting message """
-    if name.lower() == 'alice':
-        print('Hello, Alice!')
-    elif name.lower() == 'bob':
-        print('Hello, Bob!')
-    else:
-        print('Hello, stranger!')
-
-# Test the function
-greet('Alice')
-greet('Bob')
-greet('Charlie')
-
-Traducción:
-def saludar(nombre):
-    """ Esta función recibe un nombre como entrada y muestra un mensaje de saludo """
-    if nombre.lower() == 'alice':
-        print('¡Hola, Alice!')
-    elif nombre.lower() == 'bob':
-        print('¡Hola, Bob!')
-    else:
-        print('¡Hola, desconocido!')
-
-# Probar la función
-saludar('Alice')
-saludar('Bob')
-saludar('Charlie')
+Código completo:
 
 ```c#
 using UnityEngine;
@@ -406,7 +379,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
 }
 ```
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este post fue traducido utilizando ChatGPT, por favor en [**retroalimentación**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

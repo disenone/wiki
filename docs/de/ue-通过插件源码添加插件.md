@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE fügt Plugins durch Hinzufügen des Plugin-Quellcodes hinzu.
+title: UE fügt Plugins über den Plugin-Quellcode hinzu.
 date: 2023-12-01
 categories:
 - c++
@@ -13,23 +13,23 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Einfach festhalten, wie man Plugins zu UE hinzufügt, wenn man den Quellcode
-  des Plugins hat.
+description: Einfach aufzeichnen, wie man ein Plugin zu UE hinzufügt, wenn man den
+  Quellcode des Plugins hat.
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-#UE fügt Plugins über den Quellcode des Plugins hinzu.
+#UE fügt Plugins durch das Hinzufügen von Plug-in-Quellcode hinzu.
 
-#Fügen Sie Plugins hinzu.
+#Plugin hinzufügen
 
-> Einfach festhalten, wie man Plugins hinzufügt, wenn man den Quellcode für das Plugin hat.
+> Einfach festhalten, wie man ein Plugin hinzufügt, wenn man den Quellcode des Plugins hat.
 
-Mit dem Plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)Für Beispiel.
+Mit dem Plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)als Beispiel
 
-Legen Sie den Quellcode in das Verzeichnis "Plugins".
-- Ändern Sie die Datei .uproject des Projekts, fügen Sie im Abschnitt "Plugins" folgendes hinzu:
+Legen Sie den Quellcode im Plugins-Verzeichnis ab.
+- (Dieser Schritt kann unterlassen werden) Modifizieren Sie die .uproject-Datei des Projekts und fügen Sie im Feld Plugins hinzu:
     ```json
         "Plugins": [
         {
@@ -40,12 +40,12 @@ Legen Sie den Quellcode in das Verzeichnis "Plugins".
             ]
         }
     ```
-Rechtsklick auf die uproject-Datei, wählen Sie "Generate Visual Studio Project Files" aus, um die sln-Projektdatei zu aktualisieren.
-Öffnen Sie die sln-Datei und kompilieren Sie das Projekt.
+Klicken Sie mit der rechten Maustaste auf die Uproject-Datei, wählen Sie "Visual Studio-Projektdateien generieren" und aktualisieren Sie die sln-Projektdatei.
+- Öffnen Sie die sln-Datei und kompilieren Sie das Projekt.
 
-#Stellen Sie mehrere Sprachen ein.
+#Legen Sie die Sprache fest.
 
-Bearbeiten Sie die Konfigurationsdatei des Projekts "DefaultEditor.ini" und fügen Sie den neuen Pfad hinzu:
+Ändern Sie die Konfigurationsdatei `DefaultEditor.ini` und fügen Sie den neuen Pfad hinzu:
 
 ```ini
 [Internationalization]
@@ -56,4 +56,4 @@ Bearbeiten Sie die Konfigurationsdatei des Projekts "DefaultEditor.ini" und füg
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte geben Sie Ihr Feedback im[**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf etwaige Auslassungen hin. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte bei [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf eventuelle Auslassungen hin. 

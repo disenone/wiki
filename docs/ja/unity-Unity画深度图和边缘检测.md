@@ -1,57 +1,59 @@
 ---
 layout: post
-title: Unity が深度マップ(Depth Map)とエッジ検出(Edge Detection)を行います。
+title: Unityでの深度マップ(Depth Map)とエッジ検出(Edge Detection)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: UnityのRenderWithShader()およびOnRenderImage()を使用してさまざまな効果を実現できることがわかりました。学習の機会を活かして、これらの関数を使用してシーンの深度マップの生成とシーンのエッジ検出を実装することに決めました。これはゲームの一種のミニマップとして使用できます。
+description: Unityの`RenderWithShader()`と`OnRenderImage()`を使って様々な効果を実現できることに気づいた。学習の機会を活かして、この2つの関数を使ってシーンの深度マップ生成とエッジ検出を実装することに決めた。これはゲームの一種のミニマップとして使用できる。
 figures:
 - assets/post_assets/2014-3-27-unity-depth-minimap/topview.png
 ---
 
 <meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" />
 
-Unityに触れたばかりで、ShaderLabに興味を持ってます。いろいろな表示効果を素早く実現できる感じがして、面白いですね。まあ、まだ初心者なので、深度マップとエッジ検出を試してみますかね。
+Unityに触れてまだあまり経っていないですが、ShaderLabにはずっと興味があります。さまざまな表示効果を迅速に実現できると感じており、とても面白いです。まあ、まだ門を踏み入れていない私ですが、深度マップとエッジ検出に挑戦してみます。
 
-#地図設定
+#小地图設定
 
-私はまだプロトタイプしか作成していませんので、シーンに小さなマップを描く方法について詳細に説明するつもりはありません。おおまかに言うと、以下のことを行いました：
+私はまだプロトタイプ段階しか完成していませんので、シーンに地図を描く方法について詳細に説明するつもりはありませんが、ざっくりと言うと以下のようなことをしています。
 
-シーンのバウンディングボックスを取得して、カメラのパラメータや位置を設定する際に役立ちます。
-小さな地図カメラを正射投影に設定し、境界ボックスに基づいてカメラの近および遠平面を設定します。
-このテキストを日本語に翻訳してください：「地図の中心に人物のターゲットを追加する」
-カメラの位置を更新するたびに、ターゲットの位置とシーンの最大 y 値に基づいてください。
+シーンのバウンディングボックスを取得し、カメラのパラメータや位置を設定する際に役立ちます。
+小さな地図カメラを正投影に設定し、バウンディングボックスに基づいてカメラの近平面と遠平面を設定します。
+このテキストを日本語に翻訳します。
 
-具体な配置については、後述のコードを参照してください。
+3. カメラに人物ターゲットを追加して、ターゲットが地図の中央に表示されるようにします。
+4. カメラの位置を更新するたびに、ターゲットの位置やシーンの最大 y 値に基づいて行います。
 
-#深度マップを取得する
+具体的な配置は、後に示されるコードを参照してください。
 
-##depthTextureMode を使用してデプステクスチャを取得します。
+#深度マップの取得
 
-カメラは、DepthBufferまたはDepthNormalBuffer（エッジ検出に使用できる）を保存できます。ただし、設定が必要です。
+##depthTextureMode を使用して深度テクスチャを取得します。
+
+カメラはDepthBufferまたはDepthNormalBuffer(エッジ検出に使用可能)を保存できます。設定するだけです。
 
 ```c#
 Camera.depthTextureMode = DepthTextureMode.DepthNormals;
 ```
 
-シェーダー内でこれを参照します。
+その後、Shaderの中で参照します。
 
 ```c#
 sampler2D _CameraDepthNormalsTexture;
 ```
 
-これで結構です、具体的な手法は私が後で提供するコードを参考にしてください。Z-Bufferに保存されている深度値と実世界の深度の関係については、以下の2つの記事を参考にしてください：
-[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)Unity also provides some functions for calculating depth such as `Linear01Depth`, `LinearEyeDepth`, and so on.
+それで大丈夫です。具体的な方法については、後で提供するコードを参照してください。Zバッファに保存される深度値と実際の世界の深度の関係については、こちらの2つの記事を参照してください。
+[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)。また、Unityは深度を計算するためのいくつかの関数を提供しています：`Linear01Depth`、`LinearEyeDepth` など。
 
-ここで議論されているのは私の重点ではありませんが、言いたいことは、元々私のカメラは直交投影に設定されており、深度は線形であるはずですが、テストしてみると線形ではないことがわかりました。そして、上記リンクで紹介された方法を使って実世界の深度を計算しようとしましたが、これまで正確な結果が得られず、実際の線形深度を計算できませんでした。UnityのZ_Bufferの問題なのかどうか、知っている方がいれば教えていただきたいと思います。もちろん、実際の深度値が必要ない場合や、単に深度の比較などが必要な場合は、上記の方法で十分であり、かつ簡単です。しかし、私の場合、実際の深度を色値にマップしたいため、実際の線形深度値を取得する必要があります（[0, 1]の範囲内でも）。したがって、RenderWithShaderメソッドを使用するほかに方法はないようです。
+これが私がここで議論している重点ではありませんが、私のカメラは本来正交投影に設定されており、深度は線形であるべきなのに、テストを行ったところ線形ではありませんでした。それから、上記のリンクにある方法で実世界の深度を計算してみましたが、ずっと正しく出ませんでした。本当の線形深度を計算することもできず、UnityのZ_Bufferの問題なのか、何か他の原因なのか分かりません。もし知っている方がいれば、教えていただけるとありがたいです。当然、真の深度値が必要なわけではなく、単に深度の大きさを比較するだけなら、上記の方法で十分で、非常に簡単です。しかし、私自身の目的としては、真の深度を色値にマッピングしたいので、真の線形深度値（もちろん[0, 1]範囲のもの）が必要です。そのため、別の方法でRenderWithShaderを使用することにしました。
 
-##RenderWithShaderを使って深度マップを取得します。
+##RenderWithShader を使用してデプスマップを取得します。
 
-この方法は実際にはUnityのリファレンス内にある例を使っています：[Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html)理解に値することは、`RenderWithShader`はシーン中の対応するメッシュを描画することです。
+この方法は実際にはUnity Referenceにある例の一つである：[Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html)。RenderWithShaderは、シーン内の対応するメッシュを描画することを覚えておく必要があります。
 
-シェーダーを作成する：
+シェーダーを作成する:
 
 ```glsl
 Shader "Custom/DepthByReplaceShader" 
@@ -89,36 +91,36 @@ SubShader
 }
 ```
 
-あなたのミニマップカメラ（ない場合は作成）にスクリプトを追加し、カメラを平行投影などに設定し、`Update()`内でこのシェーダーを使用してシーンをレンダリングします：
+あなたのミニマップカメラ（なければ作成してください）にスクリプトを追加し、カメラをオーソグラフィック投影に設定します。そして、`Update()` の中でこのシェーダーを使用してシーンをレンダリングします：
 
 ```c#
 camera.targetTexture = depthTexture;
 camera.RenderWithShader(depthShader, "");
 ```
 
-「溢れる結果は`depthTexture`に保存されます。簡単でしょう。」
+レンダリングの結果は `depthTexture` に保存されます。簡単ですよね。
 
-##深度を色にマッピングします。
-この仕事を完成するには、まず色付きの図が必要です。この図はMatlabで簡単に生成できます。例えば、私が使用しているのはMatlab内の「jet」図です。
+##深度を色にマッピングする
+この作業を完了するには、まず、カラー図が必要です。この図は MatLab を使用して簡単に生成できます。私が使用しているのは MatLab のジェット図です。
 
 ![](assets/img/2014-3-27-unity-depth-minimap/jet.png){ width="200" }
 
-この画像を`Assets\Resources`フォルダに配置すれば、プログラム内で読み込むことができます。
+この画像をプロジェクトディレクトリ `Assets\Resources` に置くだけで、プログラム内で読み込むことができます：
 
 ```c#
 colorMap = Resources.Load<Texture2D>("colormap");
 ```
 
-この画像の `Wrap Mode` は `Clamp` にする必要があります。両側の色の間で補間が行われないようにするためです。
+この画像の`Wrap Mode`は`Clamp`であるべきです。これにより、両端の色値の間で補間が行われるのを防げます。
 
-その後は、`OnRenderImage` と `Graphics.Blit` 関数を使用する必要があります。 関数のプロトタイプは次の通りです：
+その後、`OnRenderImage` と `Graphics.Blit` 関数を使用する必要があります。関数のプロトタイプは次のとおりです：
 
 ```c#
 void OnRenderImage(RenderTexture src, RenderTexture dst);
 static void Blit(Texture source, RenderTexture dest, Material mat, int pass = -1);
 ```
 
-この関数の src はカメラのレンダリング結果で、dst は処理後にカメラに戻す結果です。したがって、通常、この関数はカメラのレンダリングが完了した後に画像効果を加えるために使用されます。例えば、深度に対するカラーマッピングやエッジ検出などです。具体的な手順は、`OnRenderImage` 内で `Graphics.Blit` を呼び出し、特定の `Material` を渡すことです。
+この関数の src はカメラのレンダリング結果で、dst は処理された結果がカメラに返されるため、通常、この関数はカメラのレンダリングが完了した後に画像効果を追加するために使用されます。たとえば、深さに対するカラーマッピングやエッジ検出といった処理に利用されます。具体的な手順は、`OnRenderImage`内で`Graphics.Blit`を呼び出し、特定の`Material`を渡すことです：
 
 ```c#
 depthEdgeMaterial.SetTexture("_DepthTex", src);
@@ -126,18 +128,18 @@ Graphics.Blit(src, dst, depthEdgeMaterial);
 return;
 ```
 
-重要な点は、`Graphics.Blit`が実際に行っていることです。つまり、カメラの前に画面と同じサイズの平面を描き、`src`をこの平面の`_MainTex`に渡し、結果を`dst`に配置することです。実際のシーン中のメッシュを再描画するのではないことにご注意ください。
+注意すべきは、`Graphics.Blit`が実際に行うのはこういったことです：カメラの前にスクリーンサイズと同じ平面を描画し、`src`をこの平面の`_MainTex`として`Shader`に渡し、その結果を`dst`に格納します。実際のシーン内のメッシュを再描画するわけではありません。
 
-色のマッピングに関しては、基本的に深度 [0, 1] を画像のuvと見なしています。カメラに近いほど赤色にしたいので、深度を反転させています。
+色のマッピングというのは、深度 [0, 1] を画像の uv と見なすことです。カメラに近い部分を赤色にしたいので、深度を反転させました。
 
 ```glsl
 half4 color = tex2D(_ColorMap, float2(saturate(1-depth), 0.5));
 ```
 
 #エッジ検出
-エッジ検出には、カメラの `_CameraDepthNormalsTexture` が必要で、主に法線値を使用しており、深度は以前に計算したものを使用しています。 `_CameraDepthNormalsTexture` の各ピクセル (x, y, z, w) では、(x, y) が法線を表し、(z, w) が深度を表します。法線は特定の方法で格納されており、興味があれば自分で検索してみてください。
+エッジ検出にはカメラ自身の `_CameraDepthNormalsTexture` を使用する必要があります。主に法線の値を使い、深度は以前に計算したものを使用します。 `_CameraDepthNormalsTexture` の各ピクセル (x, y, z, w) では、(x, y) が法線で、(z, w) が深度です。法線はある方法で格納されており、興味があれば自分で調べてみてください。
 
-このコードは、Unityに組み込まれているImage Effectのエッジ検出を参考にしています。現在のピクセルの法線深度と周囲のピクセルとの差を比較し、その差が十分大きい場合にエッジが存在するとみなします。
+コードは、Unityに組み込まれているImage Effectのエッジ検出を参考にしています。現在のピクセルの法線深度と周辺のピクセルとの差を比較し、その差が十分に大きければエッジが存在すると見なします。
 
 ```c#
 inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth, float sampleDepth)
@@ -159,7 +161,7 @@ inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth
 }
 ```
 
-以下是完整的着色器：
+以下是完整的Shader：
 
 ```glsl
 Shader "Custom/DepthColorEdge" {
@@ -248,12 +250,12 @@ Properties
 }
 ```
 
-このテキストを日本語に翻訳してください：
+結果はこれに似ています:
 
 ![](assets/img/2014-3-27-unity-depth-minimap/topview.png){ width="200" }
 
-#融合された現実世界画像
-深い色のグラフだけだとちょっとつまらないかもしれませんね。そんな時は実際のシーンのカラーグラフと混ぜてみるのはどうでしょう。新しいシェーダを作成して、前述のグラフとカメラの実際の画像を渡し、`OnRenderImage` 内で混ぜ合わせます。
+#混合現実世界画像
+単に深度のカラーマップだけでは少し退屈かもしれませんので、実際のシーンのカラーマップを混ぜることができます。そのためには、新しいシェーダーを作成し、前の画像とカメラの実際の画像を渡し、`OnRenderImage`内で混合を行います。
 
 ```glsl
 Shader "Custom/ColorMixDepth" {
@@ -312,12 +314,13 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
     }
 }
 ```
-上記のコードはこのタスクを完了するために使われています。覚えておくべき点は、`RenderWithShader` を呼び出す際に、`OnRenderImage` も呼び出されることです。つまり、この関数が2回呼び出されることになりますが、両方の呼び出しで行われる処理は異なります。そのため、現在のレンダリング状態が深度マップを作成しているのか、ブレンド処理を行っているのかを示すために、変数を使用しています。
+上記のコードはこの作業を完了するためのもので、理解すべきことは、`RenderWithShader`を呼び出すときに`OnRenderImage`も呼び出されるということです。つまり、この関数は2回呼び出され、各呼び出しで完了する必要がある機能は異なるため、ここでは現在のレンダリング状態が深度マップを作成するか混合を行うかを示す変数を使用しています。
 
-#完整なコード
-コードファイルが少し多いので、ここに入れておきます[depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)I'm sorry, but the text provided is already in Japanese. Can I assist you with anything else?
+#完整的代码
+コードファイルが少し多いので、ここに置いておきました[depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)。
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTによって翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)Please point out any omissions. 
+> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
+どんな見落としも指摘してください。 

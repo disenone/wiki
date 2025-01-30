@@ -7,10 +7,10 @@ categories:
 catalog: true
 tags:
 - dev
-description: Das volumetrische Lichtstreuung ist ein ziemlich cooles visuelles Effekt,
-  bei dem man die Ausbreitung des Lichts in der Luft sieht, die Luftpartikel werden
-  vom Licht beleuchtet und ein Teil des Lichts wird wieder verdeckt, was visuell Lichtstrahlen
-  erzeugt, die von der Lichtquelle ausgehen.
+description: Volumen-Lichtstreuung ist ein ziemlich beeindruckender visueller Effekt.
+  Man hat das Gefühl, dass das Licht durch die Luft strömt, wobei die Partikel in
+  der Luft vom Licht erleuchtet werden, während ein Teil des Lichts blockiert wird.
+  Visuell erzeugt dies die Illusion von Lichtstrahlen, die vom Lichtquelle ausgehen.
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
@@ -19,43 +19,43 @@ figures:
 
 ##Prinzip
 
-Die Prinzipien der volumetrischen Lichtstreuung können im Buch "GPU Gems 3" [Kapitel 13](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)，Bilder im Buch:
+(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html), wirksame Abbildungen im Buch:
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-Gut aussehend, okay, unser Ziel ist es, dieses Ergebnis zu erzielen.
+Sieht gut aus, dann ist es unser Ziel, diesen Effekt zu erzielen.
 
-Das Buch erklärt die Prinzipien, eine wichtige Formel lautet:
+Im Buch wird das Prinzip vorgestellt, eine Schlüsselgleichung lautet:
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-Mein Verständnis ist, dass für jedes Pixel im Bild Licht eintreffen kann. Es wird eine Stichprobe entlang der Verbindungslinie von diesem Pixel zur Lichtquelle (wie es auf das Bild projiziert wird) genommen (entspricht der Formel i), die Stichproben werden gewichtet gemittelt (entspricht der Summe in der Formel) und als neuer Farbwert für das Pixel verwendet. Außerdem ist ein wichtiger Post-Pixel-Shader vorhanden. Wenn jedoch nur dieser Shader zur Verarbeitung der vom Kamera-Rendering erhaltenen Ergebnisse verwendet wird, entstehen deutliche Artefakte mit vielen Streifen:
+Mein Verständnis ist, dass für jedes Pixel auf dem Bild Licht darauf scheinen kann. Daher wird die Verbindungslinie von diesem Pixel zur Lichtquelle (an der Position, die auf das Bild projiziert wird) abgetastet (entsprechend der Formel \\(i\\)). Die resultierenden Abtastwerte werden gewichtet und gemittelt (entsprechend der Formel \\(\sum\\)), um einen neuen Farbwert für dieses Pixel zu erhalten. Darüber hinaus gibt es einen entscheidenden Nachbearbeitungspixel-Shader, aber wenn man nur diesen Shader verwendet, um die Ergebnisse der Kamera zu verarbeiten, entstehen deutliche künstliche Spuren und viele Streifen:
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-Wie wurde der in dem Buch gezeigte Effekt erzielt? Tatsächlich hat das Buch bereits die Antwort gegeben, die mit einer Reihe von Grafiken dargestellt werden kann:
+Wie werden die Effekte im Buch erreicht? Tatsächlich gibt das Buch bereits die Antwort und kann durch eine Reihe von Bildern veranschaulicht werden:
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
-Bild a zeigt ein grobes Ergebnis. Bei genauer Betrachtung sind viele Streifen sichtbar, und es wirkt nicht wirklich authentisch verdeckend. Schritte b, c und d sind erforderlich, um ein gutes Ergebnis zu erzielen.
+Die Abbildung a zeigt den rauen Effekt, bei dem man genau hinschaut, viele Streifen zu sehen sind, und es wirkt nicht ausreichend realistisch. b, c und d sind die Schritte, die notwendig sind, um einen guten Effekt zu erzielen:
 
-Bildschirmeffekte rendern und Objektverdeckung hinzufügen.
+b. Render the light radiance effect onto the image and add object occlusion.
 
-c. Führen Sie den Volumetric Light Scattering-Pixelshader auf b aus, um den verdeckten Effekt zu erhalten.
+Führen Sie das Volumetric Light Scattering Pixel-Shader auf b aus, um den verdeckten Effekt zu erhalten.
 
 Fügen Sie die Farben der realen Szene hinzu.
 
-Dann machen wir uns jetzt Schritt für Schritt daran.
+Dann lassen Sie uns Schritt für Schritt vorgehen.
 
-##Malerei verdeckende Objekte
+##Zeichne verdeckte Objekte.
 
-Bei der praktischen Umsetzung verwende ich zunächst `RenderWithShader`, um die Objekte, die Überlappungen verursachen, schwarz zu malen, während der Rest weiß bleibt. Da jedem Face Rendering unterzogen werden muss, kann dies bei komplexen Szenen zu einer gewissen Leistungseinbuße führen. In der Szene gibt es undurchsichtige und durchsichtige Objekte. Wir möchten, dass undurchsichtige Objekte eine vollständige Lichtblockierung erfahren, während transparente Objekte nur teilweise blockieren sollen. Dafür müssen wir unterschiedliche Shader für Objekte mit unterschiedlichen Render-Typen schreiben. Render-Typ ist das Tag des SubShader. Wenn Sie sich nicht sicher sind, können Sie hier nachschauen: [link](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)Nachdem Sie es geschrieben haben, rufen Sie es auf:
+In practice, I first use `RenderWithShader` to paint obstructed objects in black and the rest in white, as this requires rendering every face, it may bring some performance impact for complex scenes. Objects in the scene can be opaque or transparent. We aim for opaque objects to create full light occlusion and transparent objects to generate partial occlusion. Therefore, we need to write different shaders for objects with different RenderTypes. RenderType is a tag of SubShader, for more information, you can refer to [here](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)Nachdem Sie den Text geschrieben haben, rufen Sie Folgendes auf:
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
 
 ```
-Das zweite Argument von `RenderWithShader` verlangt die Ersetzung des Shaders basierend auf dem Render-Typ. Mit anderen Worten, der Render-Typ des Shaders, der für dasselbe Objekt verwendet wird, muss vor und nach der Ersetzung identisch sein. Auf diese Weise können wir unterschiedliche Shader für Objekte mit unterschiedlichen Render-Typen verwenden.
+Der zweite Parameter von `RenderWithShader` verlangt, dass der Shader basierend auf dem RenderType ersetzt wird. Einfach gesagt, der RenderType des ersetzten Shaders muss mit dem des ursprünglichen Shaders des gleichen Objekts übereinstimmen. So können wir für Objekte mit unterschiedlichen RenderTypes verschiedene Shader verwenden:
 
 ```glsl
 Shader "Custom/ObjectOcclusion" 
@@ -145,13 +145,13 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-Beachte den Unterschied zwischen den Shadern für undurchsichtige und transparente Objekte: Undurchsichtige Objekte werden direkt in Schwarz gezeichnet; durchsichtige Objekte erfordern Mischung, um den Alpha-Kanal aus der Objekttextur zu erhalten und basierend auf diesem Alpha zu mischen. Der obige Code listet nur Opaque und Transparent auf, zusätzlich gibt es auch TreeOpaque (Shader wie Opaque, aber mit geänderter RenderType) und TreeTransparentCutout (wie Transparent). Da RenderType spezifiziert ist, ist es ratsam, alle möglichen Objekte, die Überlappungen verursachen könnten, so vollständig wie möglich abzudecken. Hierbei handelt es sich nur um die vier oben genannten Typen. Das Ergebnis wäre ungefähr wie folgt:
+Achte auf den Unterschied zwischen Shadern für undurchsichtige und transparente Objekte: Undurchsichtige Objekte werden einfach schwarz gemalt; undurchsichtige Objekte erfordern das Ausführen von Blending, um den Alphakanal des Objekttextures zu erhalten und basierend auf diesem Alpha das Blending durchzuführen. Der obige Code erwähnt nur Opaque und Transparent, es gibt auch TreeOpaque (Shader wie Opaque, nur mit geänderter RenderType), TreeTransparentCutout (wie Transparent). Da der RenderType festgelegt ist, muss man versuchen, alle möglichen Objekte zu berücksichtigen, die in der Szene Überlappungen verursachen könnten, ich habe nur die oben genannten vier erwähnt. Das Ergebnis ist ungefähr wie folgt:
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
-##Kombinieren Sie die Lichtquellenstrahlung mit der Abschirmung von Objekten.
+##Kombination von Objekt遮挡 und Lichtquelle Strahlung.
 
-Das Zeichnen der Strahlung einer Lichtquelle ist nicht schwierig, man sollte jedoch beachten, dass je nach Bildschirmgröße Anpassungen vorgenommen werden müssen, um sicherzustellen, dass die Strahlung der Lichtquelle kreisförmig ist.
+Die Strahlung der Lichtquelle zu zeichnen ist nicht schwer, allerdings ist zu beachten, dass einige Anpassungen je nach Größe des Bildschirms vorgenommen werden müssen, damit die Strahlung der Lichtquelle rund ist.
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -203,13 +203,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-Dieser Shader erfordert die Eingabe der Bildschirmposition der Lichtquelle (die mit `camera.WorldToViewportPoint` berechnet werden kann und UV-Koordinaten liefert). Danach wird ein Kreis mit abnehmender Helligkeit nach außen gezeichnet, basierend auf einem festgelegten Radius. Dieses Ergebnis wird dann mit dem zuvor erhaltenen Objekt-OKlusionsbild (im `_MainTex` gespeichert) kombiniert. Das Ergebnis sieht ungefähr so aus:
+Dieser Shader erfordert die Eingabe der Position der Lichtquelle auf dem Bildschirm (kann mit `camera.WorldToViewportPoint` berechnet werden, um die UV-Koordinaten zu erhalten), dann zeichnet er einen Kreis mit abnehmender Helligkeit entsprechend einem bestimmten Radius nach außen. Anschließend wird das Ergebnis mit dem zuvor erhaltenen Objekt-Verdeckungsbild (das in `_MainTex` gespeichert ist) kombiniert. Das Ergebnis sieht ungefähr so aus:
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-##Die Behandlung von Lichtstreuung und die Kombination mit realen Farben.
+##Light Scattering-Verarbeitung und Kombination mit echten Farben.
 
-Hier müssen wir den im Buch bereitgestellten Pixel Shader verwenden, meine Version:
+Hier kommt der im Buch bereitgestellte Pixel Shader zum Einsatz, meine Version:
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -294,7 +294,7 @@ Shader "Custom/LightScattering"
 }
 ```
 
-Im Großen und Ganzen entspricht es dem, was im Buch steht, nur dass meine Parameter von außen an das Programm übergeben werden müssen und mit echten Farbbildern und Lichtstreuungsbildern kombiniert wurden. Das Ergebnis:
+Im Großen und Ganzen stimmt es mit dem im Buch Überein, nur müssen meine Parameter im Programm übergeben werden, und es wurden reale Farbkartierungen und Lichtstreuungsdiagramme kombiniert. Das Ergebnis:
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
@@ -305,4 +305,4 @@ Der Code befindet sich [hier](assets/img/2014-3-30-unity-light-scattering/2014-3
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib dein [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie eventuelle Auslassungen aus. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte im [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)darauf hin, dass es irgendwelche Auslassungen gibt. 

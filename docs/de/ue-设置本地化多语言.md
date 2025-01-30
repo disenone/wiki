@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE stellt mehrsprachige Lokalisierung ein
+title: UE lokale Mehrsprachigkeit einstellen
 tags:
 - dev
 - game
@@ -8,36 +8,37 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Dokumentiere, wie man in der UE Mehrsprachigkeit für Lokalisierung implementiert.
+description: Aufzeichnung zur Implementierung von lokalisierter Mehrsprachigkeit in
+  der UE
 ---
 
 <meta property="og:title" content="UE 设置本地化多语言" />
 
-#UE Einstellung für Lokalisierung von Multisprachen
+#UE Localization Multilingual Settings
 
-> Aufzeichnen, wie man in UE mehrsprachige Lokalisierung implementiert.
+> Dokumentation zur Umsetzung von lokalisierter Mehrsprachigkeit in der UE
 
-Wenn du mit dem UE-Erweiterungsmenü nicht vertraut bist, empfehle ich dir, zuerst einen kurzen Blick darauf zu werfen: [UE Erweiterter Editor-Menü](ue-扩展编辑器菜单.md)，[Verwendung von Pfadform zum Erweitern des Menüs](ue-使用路径形式扩展菜单.md)
+Wenn Sie mit dem UE-Erweiterungsmenü nicht vertraut sind, empfehle ich Ihnen, zuerst einen kurzen Blick darauf zu werfen: [UE-Erweiterungseditor-Menü](ue-扩展编辑器菜单.md)，[ue- Verwendung des Pfadformats zur Erweiterung des Menüs](ue-使用路径形式扩展菜单.md)
 
-Dieser Text basiert auf dem Plugin: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
+Der folgende Code basiert auf dem Plugin: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
 ##Funktionsbeschreibung
 
-UE comes with tools that allow for localization in multiple languages, for example, we can localize the editor's menu:
+UE bringt integrierte Werkzeuge mit, die die Lokalisierung mehrerer Sprachen ermöglichen, zum Beispiel können wir die Menüführung des Editors lokalisieren:
 
-Chinesische Menü:
+Chinesisches Menü:
 
 ![](assets/img/2023-ue-localization/chinese.png)
 
-English menu:
+Englisches Menü:
 
 ![](assets/img/2023-ue-localization/english.png)
 
-##Code Statement
+##Code-Deklaration
 
-Um die Lokalisierung des Menüs zu erreichen, müssen wir im Code explizit die Zeichenfolgen angeben, die von der UE verarbeitet werden sollen, unter Verwendung der von UE definierten Makros `LOCTEXT` und `NSLOCTEXT`:
+Um die Menülokalisierung zu realisieren, müssen wir im Code die Strings, die von UE verarbeitet werden sollen, eindeutig deklarieren, indem wir die von UE definierten Makros `LOCTEXT` und `NSLOCTEXT` verwenden:
 
-- Global definition of files: Start by defining a macro called `LOCTEXT_NAMESPACE`, which contains the namespace where the multilingual texts are located. Afterwards, texts in the file can be defined using `LOCTEXT`, and the macro `LOCTEXT_NAMESPACE` should be removed at the end of the file.
+- Die globale Definition der Datei erfolgt, indem zunächst ein Makro namens `LOCTEXT_NAMESPACE` definiert wird, dessen Inhalt der aktuelle Namensraum des mehrsprachigen Textes ist. Danach können die Texte in der Datei mit `LOCTEXT` definiert werden. Am Ende der Datei wird das Makro `LOCTEXT_NAMESPACE` aufgehoben:
 
 ```cpp
 // #define LOCTEXT(InKey, InTextLiteral)
@@ -48,7 +49,7 @@ LOCTEXT("Key", "Content");
 
 ```
 
-Teile Definitionsmethode verwenden `NSLOCTEXT`, Name Raumparameter beim Definieren des Textes hinzufügen:
+Lokale Definitionsmethode, verwenden Sie `NSLOCTEXT`, wenn Sie Text definieren, fügen Sie den Namensraumparameter hinzu:
 
 ```cpp
 // #define NSLOCTEXT(InNamespace, InKey, InTextLiteral)
@@ -56,11 +57,11 @@ Teile Definitionsmethode verwenden `NSLOCTEXT`, Name Raumparameter beim Definier
 NSLOCTEXT("EditorPlusTools", "Key", "Content");
 ```
 
-UE工具通过查找宏 `LOCTEXT` 和 `NSLOCTEXT` 的出现来收集出所有需要翻译的文本。
+UE Tool sammelt alle Texte, die übersetzt werden müssen, indem es nach dem Auftreten der Makros `LOCTEXT` und `NSLOCTEXT` sucht.
 
-##Verwenden Sie ein Übersetzungstool für den Text.
+##Verwenden Sie ein Werkzeug, um den Text zu übersetzen.
 
-Assuming we have the following code defining text:
+Angenommen, wir haben den folgenden Code zur Definition von Text:
 
 ```cpp
 #define LOCTEXT_NAMESPACE "EditorPlusTools"
@@ -72,54 +73,52 @@ FEditorPlusPath::GetNodeByPath("/<Hook>Help/<MenuBar>MenuTest/<SubMenu>SubMenu1/
 #undef LOCTEXT_NAMESPACE
 ```
 
-Starten Sie zuerst das Übersetzungstool, öffnen Sie die Editor-Einstellungen unter `Bearbeiten - Editor-Präferenzen`, und aktivieren Sie das Kontrollkästchen `Allgemein - Experimentelle Funktionen - Tools - Übersetzungsauswahl`:
+Zuerst das Übersetzungstool öffnen, die Editor-Einstellungen aufrufen `Bearbeiten - Editor-Einstellungen`, und `Allgemein - Experimentelle Funktionen - Werkzeuge - Übersetzungsselector` auswählen:
 
 ![](assets/img/2023-ue-localization/editor_enable_tool.png)
 
 
-Öffnen Sie dann das Übersetzungstool "Tools - Lokale Steuerungstafel":
+Dann öffnen Sie das Übersetzungstool `Werkzeuge - Lokalisierungssteuerung`:
 
 ![](assets/img/2023-ue-localization/editor_open_tool.png)
 
-Erstellen Sie ein neues Ziel (es ist auch möglich, es unter dem Standard Game zu erstellen; das Neue dient zur einfachen Verwaltung und Verschiebung dieser übersetzten Texte).
+Ein neues Ziel erstellen (es ist auch in der Standardeinstellung "Game" möglich, das Erstellen eines neuen Ziels dient der einfacheren Verwaltung und dem Verschieben dieser Übersetzungstexte)
 
 ![](assets/img/2023-ue-localization/tool_new_target.png)
 
-Setze die Parameter für das Ziel, ändere meinen Namen auf `EditorPlusTools`, lade die Richtlinie als `Editor`, sammle aus Texten und füge das Plugin-Verzeichnis hinzu, die Abhängigkeiten des Ziels sind `Engine, Editor`, andere Einstellungen bleiben unverändert:
+Die Parameter für das Konfigurationsziel werden hier in `EditorPlusTools` umbenannt, die Ladepolitik ist `Editor`, die Daten stammen aus Textsammlungen und werden mit dem Plug-In-Verzeichnis ergänzt. Die Zielabhängigkeiten sind `Engine, Editor`, alle anderen Konfigurationen bleiben unverändert:
 
 ![](assets/img/2023-ue-localization/tool_target_config.png)
 
-Bitte fügen Sie eine Sprache hinzu, um sicherzustellen, dass sowohl Chinesisch (vereinfacht) als auch Englisch vorhanden sind. Stellen Sie sicher, dass beim Bewegen des Mauszeigers über den Sprachnamen jeweils `zh-Hans` und `en` angezeigt werden. Wählen Sie die Englische aus (da wir im Code Englisch für die Textdefinitionen verwenden. Wir müssen hier diese englischen Texte sammeln).
+Add language support to ensure there are two language options available: Simplified Chinese and English. Make sure that when the mouse hovers over the language name, it displays 'zh-Hans' and 'en' respectively. Select English as the default language (since the text in our code is in English, we need to collect this English text here).
 
 ![](assets/img/2023-ue-localization/tool_target_lang.png)
 
-Click to collect text:
+Klicken Sie hier, um den Text zu sammeln:
 
 ![](assets/img/2023-ue-localization/tool_target_collect.png)
 
-Es wird ein Fortschrittsfenster angezeigt, warten Sie auf den erfolgreichen Abschluss der Erfassung, dann wird ein grüner Haken angezeigt:
+Es wird ein Sammel-Fortschrittsfenster angezeigt, warte auf erfolgreiche Sammlung, dann wird ein grüner Haken angezeigt:
 
 ![](assets/img/2023-ue-localization/tool_target_collected.png)
 
-Schließen Sie das Sammelfortschrittfenster, kehren Sie zur Übersetzungstool zurück und Sie sehen die Anzeige der gesammelten Menge in der englischen Zeile. Wir brauchen die Übersetzung des englischen Texts selbst nicht, klicken Sie auf die Schaltfläche "Übersetzen" in der chinesischen Zeile:
+Schalten Sie das Fortschrittsfenster aus, um zum Übersetzungstool zurückzukehren. Dort können Sie in der englischen Zeile die gesammelte Anzahl sehen. Den englischen Text müssen wir nicht übersetzen; klicken Sie einfach auf die Schaltfläche zur Übersetzung in der chinesischen Zeile:
 
 ![](assets/img/2023-ue-localization/tool_go_trans.png)
 
-Öffnen Sie die Seite, auf der die zu übersetzenden Texte stehen. Geben Sie die Übersetzungen in die Spalte auf der rechten Seite ein. Speichern Sie alles und schließen Sie das Fenster, wenn Sie mit den Übersetzungen fertig sind.
+Nachdem wir es geöffnet haben, können wir sehen, dass es im Bereich "Nicht übersetzt" Inhalte gibt. Geben Sie die übersetzten Inhalte in die rechte Spalte neben dem englischen Text ein. Nachdem alle Übersetzungen abgeschlossen sind, speichern Sie und schließen das Fenster.
 
 ![](assets/img/2023-ue-localization/tool_trans.png)
 
-Bitte zählen Sie die Wörter und Sie werden nach Abschluss die Anzahl der übersetzten Wörter in der chinesischen Spalte sehen:
+Klicken Sie auf "Wortanzahl", nach Abschluss sehen Sie die Anzahl der übersetzten Zeichen in der chinesischen Spalte.
 
 ![](assets/img/2023-ue-localization/tool_count.png)
 
-Bitte, übersetze den Text ins Deutsche:
-
-最后编译文本:
+Letzte kompilierte Texte:
 
 ![](assets/img/2023-ue-localization/tool_build.png)
 
-Die übersetzten Daten werden im Ordner `Content\Localization\EditorPlusTools` abgelegt, jeweils in einem Unterordner für jede Sprache. Im Ordner `zh-Hans` finden Sie zwei Dateien: `.archive` sammelt und übersetzt den Text, während `.locres` die kompilierten Daten enthält.
+Die übersetzten Daten werden im Verzeichnis `Content\Localization\EditorPlusTools` abgelegt, wobei für jede Sprache ein eigener Ordner erstellt wird. Im Ordner zh-Hans sind zwei Dateien zu finden: `.archive` enthält den gesammelten und übersetzten Text, während `.locres` die nach der Kompilierung erhaltenen Daten bezieht.
 
 ![](assets/img/2023-ue-localization/tool_ret.png)
 
@@ -127,28 +126,26 @@ Die übersetzten Daten werden im Ordner `Content\Localization\EditorPlusTools` a
 
 ##Die übersetzten Texte in das Plugin-Verzeichnis einfügen.
 
-Wir haben die Übersetzungstexte, die wir für das Plugin erstellt haben, im Projektverzeichnis platziert. Wir müssen diese Texte in das Plugin verschieben, damit sie zusammen mit dem Plugin veröffentlicht werden können.
+Wir haben die von unserem Plugin generierten Übersetzungstexte im Projektverzeichnis abgelegt. Wir müssen diese Texte in das Plugin verschieben, damit sie gemeinsam mit dem Plugin veröffentlicht werden können.
 
-Verschieben Sie das Verzeichnis `Content\Localization\EditorPlusTools` in das Plugin-Verzeichnis Content. Bei mir lautet der Pfad `Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools`.
+Bewege das Verzeichnis `Content\Localization\EditorPlusTools` in das Plugin-Verzeichnis Content, bei mir ist es `Plugins\UE.EditorPlus\Content\Localization\EditorPlusTools`.
 
-Bearbeiten Sie die Konfigurationsdatei des Projekts `DefaultEditor.ini` und fügen Sie den neuen Pfad hinzu:
+Ändern Sie die Konfigurationsdatei `DefaultEditor.ini` und fügen Sie den neuen Pfad hinzu:
 
 ```ini
 [Internationalization]
 +LocalizationPaths=%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools
 ```
 
-Auf diese Weise können andere Projekte nach dem Erhalt des Plugins einfach die Datei `DefaultEditor.ini` bearbeiten, um die Übersetzungstexte direkt zu verwenden, ohne die Übersetzung erneut konfigurieren zu müssen.
+So können andere Projekte, nachdem sie das Plugin erhalten haben, die Übersetzungstexte direkt verwenden, indem sie einfach die `DefaultEditor.ini` ändern, ohne die Übersetzung neu konfigurieren zu müssen.
 
-##Bitte beachten Sie die Hinweise.
+##Bitte beachten Sie die folgenden Hinweise.
 
-Bei der Erstellung von Übersetzungsdaten sind einige Probleme aufgetreten. Hier sind einige Punkte, die beachtet werden sollten:
+Im Prozess der Erstellung von Übersetzungsdaten sind einige Probleme aufgetreten. Die folgenden Punkte sind zusammengefasst, auf die man achten sollte:
 
-Im Code müssen Texte mit den Makros `LOCTEXT` und `NSLOCTEXT` definiert werden. Die Texte müssen Zeichenkettenkonstanten sein, damit Unreal Engine sie sammeln kann.
-Bitte übersetzen Sie den folgenden Text ins Deutsche:
-
-- Der Zielname darf keine Punkte (`.`) enthalten. Die Verzeichnisnamen unter `Content\Localization\` dürfen keine Punkte (`.`) enthalten, da UE nur den Namen vor dem Punkt abschneidet. Dies kann dazu führen, dass UE beim Lesen des übersetzten Texts aufgrund eines falschen Namens fehlschlägt.
-Für Editor-Plugins müssen wir überprüfen, ob sich das Plugin im Befehlszeilenmodus `IsRunningCommandlet()` befindet. In diesem Fall sollen keine Menüs oder SlateUI generiert werden, da im Befehlszeilenmodus das Slate-Modul nicht vorhanden ist und es zu einem Fehler führen kann, wenn Text gesammelt wird. In diesem Fall wird eine Fehlermeldung angezeigt `Assertion failed: CurrentApplication.IsValid()`. Wenn Sie mit einem ähnlichen Fehler konfrontiert sind, können Sie diesen Überprüfung hinzufügen. Genauere Fehlerinformationen:
+- Im Code müssen Texte mit den Makros `LOCTEXT` und `NSLOCTEXT` definiert werden. Der Text muss eine Zeichenkonstante sein, damit UE ihn sammeln kann.
+- Der Name des Übersetzungsziels darf keine Symbole wie `.` enthalten, und die Verzeichnisnamen unter `Content\Localization\` dürfen ebenfalls kein `.` haben. UE wird nur den Namen vor dem `.` erfassen. Dies kann dazu führen, dass UE beim Lesen des Übersetzungstextes aufgrund eines falschen Namens nicht erfolgreich ist.
+- Für das Editor-Plugin muss überprüft werden, ob der `IsRunningCommandlet()`-Modus aktiv ist; dann sollten weder das Menü noch die SlateUI generiert werden, da im Kommandozeilenmodus kein Slate-Modul vorhanden ist, was zu einem Fehler bei der Textsammlung führt: `Assertion failed: CurrentApplication.IsValid()`. Wenn du auf einen ähnlichen Fehler stößt, kannst du versuchen, diese Überprüfung hinzuzufügen. Genauer Fehlertext:
 
     > Assertion failed: CurrentApplication.IsValid() [File:E:\UE\ue5.3_git\Engine\Source\Runtime\Slate\Public\Framework\Application\SlateApplication.h] [Line: 255] 
 
@@ -157,4 +154,4 @@ Für Editor-Plugins müssen wir überprüfen, ob sich das Plugin im Befehlszeile
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte teilen Sie uns im [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Gibt jede Auslassung an. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte im [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Zeigen Sie jegliches Übersehen des Mittelfingers auf. 

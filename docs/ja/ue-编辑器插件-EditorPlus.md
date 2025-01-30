@@ -16,36 +16,34 @@ description: UE エディタープラグイン UE.EditorPlus 説明書
 
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-#UE.EditorPlusの説明書
+#UEエディタープラグイン UE.EditorPlus 説明文書
 
 ##紹介ビデオ
 
 ![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
 
-##プラグインのソースコード
+##プラグインソースコード
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##商城下载
+##商城ダウンロード
 
 [EditorPlus](https://www.unrealengine.com/marketplace/zh-CN/product/editorplus)
 
-##プロジェクトにソースコードプラグイン EU.EditorPlus を追加します。
+##プロジェクトにソースコードプラグイン「EU.EditorPlus」を追加します。
 
 参考文献：
 
-日本語に翻訳すると下記の通りです：
-
-- 中国語：[UE 通过插件源码添加插件](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
+- 日本語：[UEがプラグインソースコードを通じてプラグインを追加](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 - English: [UE adds plugins through the plugin source code](https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 
 
-##プラグイン説明
+##プラグインの説明
 
-UE.EditorPlus は、UE エディタのプラグインであり、エディタメニューを拡張する便利な方法を提供し、高度な拡張機能をサポートし、さまざまな実用的なエディタツールを含んでいます。このプラグインは UE5.3+ をサポートしています。
+UE.EditorPlus は、UE エディタのプラグインであり、エディタメニューを拡張する便利な方法を提供し、高度な拡張方法もサポートしています。さらに、いくつかの便利なエディタツールも含まれています。このプラグインは、UE5.3以降をサポートしています。
 
 
-##エディタのメニューを拡張
+##拡張エディターのメニュー
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
@@ -53,15 +51,16 @@ UE.EditorPlus は、UE エディタのプラグインであり、エディタメ
 
 ###説明
 
-エディターメニューの拡張をサポートするさまざまな方法：
+エディターメニューを拡張するためにさまざまな方法をサポートします：
 
-パスの指定方法：`RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
-インスタンス化方法：`EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
-- RegisterPath ("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action", EP_NEW_MENU (FEditorPlusCommand)("Action") のような混合方式：
+- パス方式：`RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
+- インスタンス化方法：`EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
+- RegisterPath関数: `/MenuBar/SubMenu/Action`を渡す。EP_NEW_MENU(FEditorPlusCommand)("Action")を使って新しいメニューアクションを作成する。
 
-###経路方式
+###路径方式  
 
-エディターメニューコマンドを登録する方法は次のとおりです：
+
+このような方法を使って、エディターのメニューコマンドを登録することができます。
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -73,26 +72,26 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-このようにして、エディターのメニューバーのHelpの後ろにBarというメニューバーを追加し、BarにSubMenuというサブメニューを追加し、SubMenuにActionという命令を追加することができます。
+これにより、エディタのメニューバーの「ヘルプ」後にメニューバー「Bar」を追加し、「Bar」の中にサブメニュー「SubMenu」を追加し、「SubMenu」の中にコマンド「Action」を追加することができます。
 
-完整なパスの形式は次のようになります：`/<Hook>HookName/<Type1>Name1/<Type2>Name2`。最初のパスは `<Hook>` である必要があり、現時点でサポートされているタイプと制限：
+完全なパス形式は次のようになります：`/<Hook>HookName/<Type1>Name1/<Type2>Name2`、最初のパスは `<Hook>` でなければなりません。現在サポートされているタイプと制限：
 
-＜Hook＞：メニューを生成する Hook の位置を示す。後続のパスに＜Hook＞は含まれていてはいけない。
-- `<MenuBar>`: メニューバー、パスには `<Hook>, <MenuBar>, <ToolBar>` を含めないでください。
-- `<ToolBar>`: ツールバー：`<Hook>`、`<MenuBar>`、`<ToolBar>`の後にはパスを記述できません。
-- `<Section>`: メニューをセクションに分けます。その後のパスには `<Hook>、<MenuBar>、<Section>` が含まれてはいけません。
-- `<Separator>`：メニューの区切り記号で、後続のパスには `<Hook>`、 `<MenuBar>` は使用できません。
-- `<SubMenu>`: サブメニュー、後続のパスには `<Hook>`、 `<MenuBar>` が含まれてはいけません。
-- `<Command>`：メニューコマンドで、後ろには任意のパスを指定しないでください。
-- `<Widget>`：追加可能なカスタマイズ可能な Slate UI コンポーネント。後続にはパスを含めないでください。
+- `<Hook>`: メニューを生成するフックの位置を示します。その後には `<Hook>` を含めることはできません。
+- `<MenuBar>`：メニューバー、その後のパスには `<Hook>, <MenuBar>, <ToolBar>` を含めることはできません。
+- `<ToolBar>`: ツールバー、後続のパスに `<Hook>, <MenuBar>, <ToolBar>` は使用できません。
+- `<Section>`：メニューのセクションで、その後のパスには `<Hook>, <MenuBar>, <Section>` を含めることはできません。
+- `<Separator>`: メニューの区切り記号、後ろに `<Hook>, <MenuBar>` は指定できません。
+- `<SubMenu>`：サブメニュー、後のパスには `<Hook>, <MenuBar>` を含めることはできません。
+- `<Command>`：メニューコマンド、パスは含めないでください。
+- `<Widget>`: さらなる拡張可能なカスタマイズが可能なSlate UIコンポーネントで、後ろには何もパスが付けることはできません。
 
-より簡潔なパス形式：`/BarName/SubMenuName1/SubMenuName2/CommandName` 、タイプが指定されていない場合、デフォルトのパスは最初が `<MenuBar>` 、その次が `<SubMenu>` 、最後が `<Command>` となります。
+より簡潔なパス形式：`/BarName/SubMenuName1/SubMenuName2/CommandName`。タイプを指定しない場合、デフォルトのパスの最初は `<MenuBar>`、中間は `<SubMenu>`、最後は `<Command>` です。
 
-指定がない場合、自動的に `<Hook> ` の前に `<Hook>Help` を追加して、Helpメニューの後にメニューバーを追加する。
+`<Hook>` が指定されていない場合、自動的に最初に `<Hook>Help` を追加してください。これは、ヘルプメニューの後にメニューバーを追加することを意味します。
 
-###インスタンス化方法
+###インスタンス化方式
 
-ルート方法は、すべてのノードをタイプとデフォルトパラメータに基づいて自動的にインスタンス化することですが、インスタンス化を自分で制御することもでき、拡張内容をより詳細に制御することができます。
+パス方式は、すべてのノードをタイプとデフォルトパラメータに基づいて自動的にインスタンス化しますが、私たち自身でインスタンス化を制御することもでき、拡張内容をより細かく管理することができます。
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips"))
@@ -109,11 +108,11 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 });
 ```
 
-`MyBar`をインスタンス化する際には、Hook名、ローカライズ名、ローカライズヒント引数（`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`）を渡すことができます。上記のコードは、パス方式で言えば `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`に相当します。
+`MyBar`のインスタンス化時には、フック名、ローカライズ名、およびローカライズヒント引数（`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`）を渡すことができます。上記のコードは、パス形式において `/ <Hook>Help/ <MenuBar>MyBar/ <SubMenu>MySubMenu/ <Command>MyAction` に相当します。
 
-###混合方式
+###ハイブリッド方式
 
-自然に、両方の方法を組み合わせて使用することも可能です：
+当然、それらは両方の方法を組み合わせて使用することもできます：
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -126,9 +125,9 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-この場合、プラグインは中間パスのノードを自動的にインスタンス化し、最終パスではユーザー自身がインスタンス化したノードが使用されます。
+この場合、プラグインは中間パスのノードを自動的にインスタンス化し、最終的なパスはユーザー自身がインスタンス化したノードを使用します。
 
-###さらなる使用例
+###もっと例を挙げてください
 
 ヘッダーファイル:
 
@@ -136,7 +135,7 @@ FEditorPlusPath::RegisterPath(
 #include <EditorPlusPath.h>
 ```
 
-パス方式はローカライズされた言語を指定します。`EP_FNAME_HOOK_AUTO` は、パス名を自動的に`Hook`名として使用することを示します。
+パス方式はローカライズされた言語を指定し、`EP_FNAME_HOOK_AUTO` は自動的にパス名を `Hook` 名称として使用します：
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -150,7 +149,7 @@ FEditorPlusPath::RegisterPathAction(
         LOCTEXT("ActionTips", "ActionTips"));
 ```
 
-ノードを取得してローカライズテキストを設定するためのパスを使用する:
+パスを通じてノードを取得し、ローカライズされたテキストを設定します：
 
 ```cpp
 FEditorPlusPath::GetNodeByPath("/MenuTest")
@@ -159,7 +158,7 @@ FEditorPlusPath::GetNodeByPath("/MenuTest")
 ```
 
 
-パスの末尾に Slate UI コントロールを追加します。
+Slate UI コントロールをパスの末尾に追加します。
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -169,13 +168,13 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-UEの組み込みのHookに新しいノードを追加します。
+UEに付属のHookに新しいノードを追加する
 
 ```cpp
 FEditorPlusPath::RegisterPath("<Hook>EpicGamesHelp/<Separator>ExtendSeparator")
 ```
 
-同じパスを複数回宣言すると、同じパスとして認識され、同じパスを継続的に拡張することができるため、
+同じパスを何度も宣言すると、同じパスとして認識されるため、同じパスを継続して拡張することができます。
 
 ```cpp
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path1", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path1", "Path1"), LOCTEXT("Path1Tips", "Path1Tips"));
@@ -189,13 +188,13 @@ auto node = FEditorPlusPath::GetNodeByPath("/MenuTest");
 FEditorPlusPath::RegisterChildPath(node, "<SubMenu>Sub/<Separator>Sep");
 ```
 
-パスを削除します。
+1つのパスを削除します。
 
 ```cpp
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
-ツールバーを拡張
+拡張ツールバー
 ```cpp
 FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 ->Content({
@@ -204,7 +203,7 @@ FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 });
 ```
 
-###インターフェース説明
+###インターフェイス説明
 
 ```cpp
 class EDITORPLUS_API FEditorPlusPath
@@ -232,15 +231,15 @@ public:
 };
 ```
 
-「RegisterPath」：パス登録メニュー
-「RegisterPathAction」：パスメニューを生成し、末端の `<Command>` ノードに自動的にアクションをバインドします。
-`RegisterChildPath`: 指定ノードに子パスを生成するために登録します。
-`RegisterChildPathAction`：指定ノードに対して子パスを作成し、自動的にアクションをバインドします。
-- `UnregisterPath`：パスを削除する、`Leaf` は複数の同名の末端ノードがある場合、厳密に一致することができます。削除プロセス中には、中間ノードがバックトラックされ、中間ノードに子ノードがない場合は削除されます。
-「GetNodeByPath」：GetNodeByPathにより、ノードをパスで取得します。
+- `RegisterPath`：生成パスメニュー
+- `RegisterPathAction`：パスメニューを生成し、末端の `<Command>` ノードに自動的に操作をバインドします。
+「RegisterChildPath」：指定ノードに子パスを生成するように登録します。
+- `RegisterChildPathAction`：指定されたノードに対して子パスを生成し、操作を自動的にバインドします。
+- `UnregisterPath`：パスを削除します。`Leaf` は同名の末端ノードが複数ある場合、厳密な一致を指定できます。削除の過程で、中間ノードを遡り、もし中間ノードに子ノードがない場合は、それも削除されます。
+「GetNodeByPath」：指定されたパスからノードを取得します。
 
 
-ノードの種類
+ノードタイプ
 
 ```cpp
 // base class of all node
@@ -263,14 +262,14 @@ class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}
 class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```
 
-より多くのサンプルおよびインターフェースの説明については、ソースコード[UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，テストケース [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
+より多くの例やインターフェースの説明については、ソースコード [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，テストケース [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-###モジュール化管理
+###モジュラーマネジメント
 
-UE.EditorPlusは、拡張メニューをモジュール化管理するフレームワークを提供しています。プラグインの読み込みとアンロード時に、拡張メニューを自動的に読み込んだりアンロードする機能をサポートしています。
+UE.EditorPlusは、拡張メニューをモジュラーに管理するフレームワークも提供しており、プラグインの読み込みおよびアンロード時に拡張メニューを自動的に読み込みおよびアンロードするサポートがされています。
 
-`IEditorPlusToolInterface`を継承した`Menu`クラスを作成し、`OnStartup`と`OnShutdown`関数をオーバーライドします。`OnStartup`はメニューを作成し、`OnShutdown`はノードの`Destroy`関数を呼び出してメニューを片付けます。ノードの参照数が0になると、自動的にクリーンアップが実行されます。
+メニュークラスは `IEditorPlusToolInterface` を継承し、`OnStartup` と `OnShutdown` 関数をオーバーライドします。`OnStartup` はメニューの作成を担当し、`OnShutdown` はノードの `Destroy` 関数を呼び出してメニューをクリーンアップします。単一ノードの参照数が0になると、自動クリーンアップが実行されます。
 
 ```cpp
 class FMenuTest: public IEditorPlusToolInterface
@@ -298,7 +297,7 @@ void FMenuTest::OnShutdown()
 }
 ```
 
-メニュー管理クラスは`IEditorPlusToolManagerInterface`を継承し、`AddTools`関数をオーバーライドして、`AddTools`内でメニュークラスを追加します。
+メニュー管理クラスは `IEditorPlusToolManagerInterface` を継承し、`AddTools` 関数をオーバーライドし、その中でメニュークラスを追加します。
 
 ```cpp
 class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
@@ -317,7 +316,7 @@ void FEditorPlusToolsImpl::AddTools()
 }
 ```
 
-プラグインの読み込みと削除時には、`StartupTools` および `ShutdownTools` 関数をそれぞれ管理クラスで呼び出します。
+プラグインの読み込みおよびアンロード時には、それぞれ `StartupTools` および `ShutdownTools` 関数を管理クラスから呼び出します。
 
 ```cpp
 void FEditorPlusToolsModule::StartupModule()
@@ -332,12 +331,12 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```
 
-達成以上的配對後，在載入或卸載外掛程式時，將自動載入或卸載擴充選單。
+完成以上の適合ができれば、プラグインの読み込みとアンロードの際に、拡張メニューを自動で読み込みおよびアンロードすることができます。
 
 
-##エディターツール
+##エディタツール
 
-UE. EditorPlus は便利なエディターツールも提供しています。
+UE.EditorPlusは便利なエディターツールも提供しています。
 
 ##エディターウィンドウを作成する
 
@@ -355,7 +354,7 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-`SClassBrowserTab` はカスタムの UI コントロールです。
+`SClassBrowserTab` はカスタム UI コントロールです。
 
 ```cpp
 class SClassBrowserTab final : public SCompoundWidget
@@ -369,17 +368,17 @@ class SClassBrowserTab final : public SCompoundWidget
 
 ### ClassBrowser
 
-ClassBrowserは、UEクラスビューアーで、EditorPlusTools -> ClassBrowser メニューから開くことができます。
+ClassBrowser は、UE Class のブラウザであり、EditorPlusTools -> ClassBrowser メニューから開くことができます。
 
 ![](assets/img/2024-ue-editorplus/classbrowser_menu.png)
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
-UEに基づいて反映され、UEのさまざまなタイプのメンバー情報や説明を簡単に表示できるようになります。曖昧な検索をサポートし、親クラスの情報に移動できます。
+UEの反映を利用して実現され、UEのさまざまなタイプのメンバー情報や説明のヒントなどを簡単に表示でき、あいまいな検索が可能であり、親クラスの情報に移動して開くことができます。
 
 ### MenuCollections
 
-MenuCollections は、メニューコマンドを迅速に検索してお気に入り機能を保存するツールで、必要なメニューコマンドを素早く見つけてお気に入りを保存して効率を向上させることができます。
+MenuCollections は、メニューコマンドを素早く検索して保存するツールで、必要なメニューコマンドを素早く見つけるのに役立ち、よく使うコマンドを保存して効率を向上させることができます。
 
 ![](assets/img/2024-ue-editorplus/menucollection_find.png)
 
@@ -388,7 +387,7 @@ MenuCollections は、メニューコマンドを迅速に検索してお気に�
 
 ### SlateResourceBrowser
 
-SlateResourceBrowser は、Slate UI リソースを迅速に閲覧できるツールであり、必要なエディタリソースをブラウズおよび検索し、エディタの拡張を容易にします。
+SlateResourceBrowser は、Slate UI リソースを素早く閲覧できるツールであり、エディターのリソースを簡単にブラウズして必要なものを見つけるのに役立ちます。エディターの拡張が簡単になります。
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
 
@@ -401,4 +400,4 @@ SlateResourceBrowser は、Slate UI リソースを迅速に閲覧できるツ�
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 -> どこか見落としていない点があれば指摘してください。 
+> この投稿はChatGPTを使用して翻訳されました。ご意見は[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)何か不足している点があれば指摘してください。 

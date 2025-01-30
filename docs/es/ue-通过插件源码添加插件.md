@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE permite agregar complementos mediante el código fuente del complemento.
+title: UE agrega plugins a través del código fuente del plugin
 date: 2023-12-01
 categories:
 - c++
@@ -13,25 +13,23 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Voy a hacer un breve registro sobre cómo agregar un complemento a UE
-  cuando se tiene el código fuente del complemento.
+description: Registrar de manera sencilla cómo añadir un plugin a UE teniendo el código
+  fuente del plugin.
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-#UE (Unreal Engine) permite agregar complementos mediante el código fuente del complemento.
+#UE agrega plugins a través del código fuente del plugin.
 
-#**Agregar complemento**
+#Añadir complemento.
 
-> Registra brevemente cómo agregar un complemento cuando dispones del código fuente del mismo.
+> Simplemente registra cómo agregar un complemento cuando tienes el código fuente del complemento.
 
-以插件 [UE.EditorPlus]
+con el plugin [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)Por favor, indica más contexto para poder proporcionarte una traducción precisa.
 
-Utilizando el complemento [UE.EditorPlus], se puede mejorar la funcionalidad de tu editor de Unreal Engine. Este complemento proporciona características adicionales y herramientas que te permiten optimizar y personalizar tu flujo de trabajo de desarrollo de juegos. Con [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)Para ilustrar
-
-- Coloca el código fuente en el directorio de Plugins.
-- （Esta etapa es opcional）Modifica el archivo .uproject del proyecto, agrega lo siguiente en el campo Plugins:
+Coloque el código fuente en el directorio Plugins.
+Modifica el archivo .uproject del proyecto añadiendo lo siguiente en el campo Plugins (puede omitirse este paso):
     ```json
         "Plugins": [
         {
@@ -42,12 +40,12 @@ Utilizando el complemento [UE.EditorPlus], se puede mejorar la funcionalidad de 
             ]
         }
     ```
-- Haz clic derecho en el archivo uproject, selecciona "Generate Visual Studio Project Files" y actualiza el archivo del proyecto sln.
-- Abrir el archivo sln y compilar el proyecto.
+Haz clic derecho en el archivo uproject, selecciona "Generar archivos del proyecto de Visual Studio" y actualiza el archivo del proyecto sln.
+- Abre el archivo sln y compila el proyecto.
 
-#**Configuración de múltiples idiomas**
+#Establecer idiomas múltiples.
 
-Modificar el archivo de configuración del proyecto `DefaultEditor.ini`, añadir la nueva ruta:
+Modifica el archivo de configuración del proyecto `DefaultEditor.ini`, añadiendo la nueva ruta:
 
 ```ini
 [Internationalization]
@@ -55,7 +53,7 @@ Modificar el archivo de configuración del proyecto `DefaultEditor.ini`, añadir
 ```
 
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

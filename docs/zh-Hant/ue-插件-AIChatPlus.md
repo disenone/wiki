@@ -19,7 +19,7 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: UE 插件 AIChatPlus 說明文檔
+description: UE 插件 AIChatPlus 說明文件
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
@@ -36,9 +36,9 @@ description: UE 插件 AIChatPlus 說明文檔
 
 ##插件簡介
 
-本插件支援 UE5.2 以上版本。
+本插件支持 UE5.2 以上版本。
 
-UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT AI 聊天服務進行通信，目前支持的服務有 OpenAI (ChatGPT, DALL-E)、Azure OpenAI (ChatGPT, DALL-E)、Claude、Google Gemini、Ollama 以及 llama.cpp 本地離線。未來還會繼續支持更多服務提供商。它的實現基於非同步 REST 請求，性能高效，方便 UE 開發人員接入這些 AI 聊天服務。
+UE.AIChatPlus 是一個 UnrealEngine 插件，該插件實現了與各種 GPT AI 聊天服務進行通信，目前支持的服務有 OpenAI (ChatGPT, DALL-E)、Azure OpenAI (ChatGPT, DALL-E)、Claude、Google Gemini、Ollama、llama.cpp 本地離線。未來還會繼續支持更多服務提供商。它的實現基於非同步 REST 請求，性能高效，方便 UE 開發人員接入這些 AI 聊天服務。
 
 同時 UE.AIChatPlus 還包含了一個編輯器工具，可以直接在編輯器中使用這些 AI 聊天服務，生成文本和圖像，分析圖像等。
 
@@ -51,9 +51,9 @@ UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT A
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-工具支援文本生成、文本聊天、圖像生成，圖像分析。
+工具支持文本生成、文本聊天、圖像生成，圖像分析。
 
-工具的介面大致為：
+工具的界面大致為：
 
 ![text chat](assets/img/2024-ue-aichatplus/chat_tool2.png)
 
@@ -69,19 +69,19 @@ UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT A
 
 * 圖像分析：`New Chat` 的部分聊天服務支持發送圖像，例如 Claude, Google Gemini。點擊輸入框上方的 🖼️ 或 🎨 按鈕即可加載需要發送的圖像。
 
-* 支持藍圖 (Blueprint)：支持藍圖創建 API 請求，完成文本聊天、圖像生成等功能。
+* 支持藍圖 (Blueprint)：支持藍圖創建 API 請求，完成文本聊天，圖像生成等功能。
 
-* 設置當前聊天角色：聊天框上方的下拉框可以設置當前發送文本的角色，可以透過模擬不同的角色來調整 AI 聊天。
+* 設定當前聊天角色：聊天框上方的下拉框可以設定當前發送文本的角色，可以通過模擬不同的角色來調整 AI 聊天。
 
 * 清空會話：聊天框上方的 ❌ 按鈕可以清空當前會話的歷史消息。
 
-* 對話模板：內置幾百種對話設置模板，方便處理常用的問題。
+對話模板：內建數百種對話設定模板，便於處理常見問題。
 
-* 全局設定：點擊左下角的 `Setting` 按鈕，可以打開全局設定窗口。可以設定默認文本聊天、圖像生成的 API 服務，並設置每種 API 服務的具體參數。設定會自動保存在項目的路徑 `$(ProjectFolder)/Saved/AIChatPlusEditor` 下。
+全局設置：點擊左下角的 `Setting` 按鈕，可以打開全局設置窗口。可以設置默認文本聊天，圖像生成的 API 服務，並設置每種 API 服務的具體參數。設置會自動保存在項目的路徑 `$(ProjectFolder)/Saved/AIChatPlusEditor` 下。
 
-* 會話設置：點擊聊天框上方的設置按鈕，可以打開當前會話的設置窗口。支持修改會話名字，修改會話使用的 API 服務，支持獨立設置每個會話使用 API 的具體參數。會話設置自動保存在 `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`
+* 會話設定：點擊聊天框上方的設定按鈕，可以打開當前會話的設定窗口。支持修改會話名稱，修改會話使用的 API 服務，支持獨立設定每個會話使用 API 的具體參數。會話設定會自動保存在 `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`
 
-* 聊天內容修改：鼠標懸停在聊天內容上，會出現單個聊天內容的設定按鈕，支持重新生成內容、修改內容、複製內容、刪除內容、在下方重新生成內容（對於角色是用戶的內容）
+對話內容修改：當滑鼠懸停在對話內容上時，會出現一個設定按鈕，可以重新生成內容、修改內容、複製內容、刪除內容，以及在下方重新生成內容（針對使用者訊息的角色）。
 
 * 圖像瀏覽：對於圖像生成，點擊圖像會打開圖像查看窗口 (ImageViewer)，支持圖片另存為 PNG/UE Texture，Texture 可以直接在內容瀏覽器 (Content Browser) 查看，方便圖片在編輯器內使用。另外還支持刪除圖片、重新生成圖片、繼續生成更多圖片等功能。對於 Windows 下的編輯器，還支持複製圖片，可以直接把圖片複製到剪貼板，方便使用。會話生成的圖片也會自動保存在每個會話文件夾下面，通常路徑是 `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`。
 
@@ -93,7 +93,7 @@ UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT A
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
-會話設定：
+對話框設定：
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
@@ -101,7 +101,7 @@ UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT A
 
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
-圖像檢視器：
+圖像查看器：
 
 ![image viewer](assets/img/2024-ue-aichatplus/image_viewer.png)
 
@@ -109,37 +109,37 @@ UE.AIChatPlus 是一個 Unreal Engine 插件，該插件實現了與各種 GPT A
 
 ![offline model](assets/img/2024-ue-aichatplus/offline_model.png)
 
-對話模版
+對話模板
 
 ![system template](assets/img/2024-ue-aichatplus/system_template.png)
 
-###核心代碼介紹
+###核心程式碼介紹
 
-目前插件分成以下幾個模塊：
+目前插件分成以下幾個模組：
 
-* AIChatPlusCommon: 運行時模組 (Runtime)，負責處理各種 AI API 接口發送請求和解析回覆內容。
+* AIChatPlusCommon: 運行時模塊（Runtime），負責處理各種 AI API 接口發送請求和解析回覆內容。
 
-* AIChatPlusEditor: 編輯器模塊 (Editor)，負責實現編輯器 AI 聊天工具。
+AIChatPlusEditor: 編輯器模組（Editor）， 負責實現編輯器 AI 聊天工具。
 
-* AIChatPlusCllama: 運行時模塊 (Runtime)，負責封裝 llama.cpp 的接口和參數，實現離線執行大模型
+AIChatPlusCllama: 運行時模組（Runtime），負責封裝 llama.cpp 的介面和參數，實現離線執行大型模型
 
 * Thirdparty/LLAMACpp: 運行時第三方模組 (Runtime)，整合了 llama.cpp 的動態庫和頭文件。
 
-具體負責發送請求的 UClass 是 FAIChatPlus_xxxChatRequest，每種 API 服務都有獨立的 Request UClass。請求的回覆透過 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 兩種 UClass 來獲取，只需要註冊相應的回調委託。
+具體負責發送請求的 UClass 是 FAIChatPlus_xxxChatRequest，每種 API 服務都有獨立的 Request UClass。請求的回覆通過 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 兩種 UClass 來獲取，只需要註冊相應的回調委託。
 
-發送請求之前需要先設定好 API 的參數和發送的消息，這部分是通過 FAIChatPlus_xxxChatRequestBody 來設定。回覆的具體內容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回調的時候可以通過特定接口獲取 ResponseBody。
+在發送請求之前，需要先設定好 API 的參數和要發送的訊息，這部分是透過 FAIChatPlus_xxxChatRequestBody 來設定的。而具體的回覆內容則會被解析至 FAIChatPlus_xxxChatResponseBody 中，當接收到回調時，可以透過特定介面來取得 ResponseBody。
 
-更多源碼細節可在 UE 商城獲取：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+您可以在UE商城获取更多源码细节：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 ## Cllama(llama.cpp)
 
 ###編輯器工具使用離線模型 Cllama(llama.cpp)
 
-以下說明如何在 AIChatPlus 編輯器工具中使用離線模型 llama.cpp
+請參考以下方式在 AIChatPlus 編輯器工具中使用離線模型 llama.cpp。
 
 * 首先，從 HuggingFace 網站下載離線模型：[Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-* 把模型放在某個資料夾下面，例如放在遊戲專案的目錄 Content/LLAMA 下
+將模型放置在特定的資料夾中，例如將其放置在遊戲專案目錄 Content/LLAMA 下。
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA
@@ -147,11 +147,11 @@ E:/UE/projects/FP_Test1/Content/LLAMA
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-* 打開 AIChatPlus 編輯器工具：工具 -> AIChatPlus -> AIChat，新建聊天會話，並打開會話設定頁面
+打開 AIChatPlus 編輯器工具：工具 -> AIChatPlus -> AIChat，新建聊天會話，並打開會話設置頁面。
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
 
-* 設定 Api 為 Cllama，開啟自訂 Api 設定，並添加模型搜尋路徑，以及選擇模型。
+將 API 設置為 Cllama，開啟自定義 API 設置，加入模型搜索路徑並選擇模型。
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
 
@@ -163,21 +163,21 @@ qwen1.5-1_8b-chat-q8_0.gguf*
 
 * 從 HuggingFace 網站下載離線模型 MobileVLM_V2-1.7B-GGUF，同樣放到目錄 Content/LLAMA 下：[ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)。
 
-* 設置會話的模型：
+設置會話的模型:
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png)
 
-* 發送圖片開始聊天
+傳送圖片開始聊天
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png)
 
 ###代碼使用離線模型 Cllama(llama.cpp)
 
-以下說明如何在代碼中使用離線模型 llama.cpp
+以下說明如何在程式碼中使用離線模型 llama.cpp
 
-* 首先，同樣需要下載模型檔案到 Content/LLAMA 下
+首先，同樣需要將模型文件下載至Content/LLAMA中。
 
-* 修改程式碼添加一條命令，並在命令裡面給離線模型發送消息
+* 修改程式碼新增一條命令，並在命令內給離線模型發送消息
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -237,35 +237,35 @@ void AddTestCommand()
 }
 ```
 
-* 重新編譯後，在編輯器 Cmd 中使用命令，便可在日誌 OutputLog 看到大模型的輸出結果
+重新編譯後，在編輯器 Cmd 中使用命令，便可在日誌 OutputLog 中看到大模型的輸出結果。
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
 ###藍圖使用離線模型 llama.cpp
 
-以下說明如何在藍圖中使用離線模型 llama.cpp
+以下是如何在藍圖中使用離線模型 llama.cpp。
 
-* 在藍圖中右鍵創建一個節點 `Send Cllama Chat Request`
+* 在藍圖中右鍵建立一個節點 `Send Cllama Chat Request`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
-* 創建 Options 節點，並設置 `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`
+建立 Options 节点，並設定 `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
 
-* 創建 Messages，分別添加一條 System Message 和 User Message
+建立訊息，分別新增系統訊息和使用者訊息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-* 創建 Delegate 接收模型輸出的資訊，並顯示在螢幕上
+建立委派以接收模型輸出的信息，並在螢幕上顯示。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲螢幕在打印大模型返回的消息。
+* 完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲螢幕在打印大模型返回的消息
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
@@ -275,11 +275,11 @@ void AddTestCommand()
 
 ###編輯器使用 OpenAI 聊天
 
-* 打開聊天工具 Tools -> AIChatPlus -> AIChat，創建新的聊天會話 New Chat，設置會話 ChatApi 為 OpenAI，設置接口參數
+打開聊天工具 工具 -> AIChatPlus -> AIChat，創建新的聊天會話 新聊天，設置會話 ChatApi 為 OpenAI，設置接口參數
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
 
-* 開始聊天：
+開始聊天：
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
 
@@ -289,11 +289,11 @@ void AddTestCommand()
 
 ###編輯器使用 OpenAI 處理圖片（創建/修改/變種）
 
-在聊天工具中創建新的圖片會話 New Image Chat，修改會話設置為 OpenAI，並設置參數。
+在聊天工具中建立新的圖像對話 New Image Chat，修改對話設定為 OpenAI，並設定參數
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
 
-* 創建圖片
+建立圖片
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png)
 
@@ -303,17 +303,17 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
 
-* 圖片變種，把會話 Image Chat Type 修改為 Variation，並上傳一張圖片，OpenAI 會返回一張原圖片的變種。
+將圖片變體中的「Image Chat Type」修改為「變異」，然後上傳一張圖片，OpenAI 會回傳原圖片的一個變體。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
 
-###藍圖使用 OpenAI 模型聊天
+###使用 OpenAI 模型進行對話。
 
-* 在藍圖中右鍵建立一個節點 `Send OpenAI Chat Request In World`
+* 在藍圖中右鍵創建一個節點 `Send OpenAI Chat Request In World`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png)
 
-* 創建 Options 節點，並設置 `Stream=true, Api Key="you api key from OpenAI"`
+* 創建 Options 節點，並設置 `Stream=true, Api Key="你從 OpenAI 獲得的 API 金鑰"`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png)
 
@@ -321,13 +321,13 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-* 創建 Delegate 接收模型輸出的資訊，並印在屏幕上
+* 創建 Delegate 以接收模型輸出的資訊，並在螢幕上列印。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲螢幕在打印大模型返回的消息。
+完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲螢幕在列印大模型返回的訊息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png)
 
@@ -335,19 +335,19 @@ void AddTestCommand()
 
 ###藍圖使用 OpenAI 創建圖片
 
-* 在藍圖中右鍵創建一個節點 `Send OpenAI Image Request`，並設置 `In Prompt="a beautiful butterfly"`
+在藍圖中右鍵創建一個節點 `Send OpenAI Image Request`，並設置 `In Prompt="a beautiful butterfly"`。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
 
-* 創建 Options 節點，並設置 `Api Key="你從 OpenAI 獲得的 API 金鑰"`
+建立 Options 节点，並設定 `Api Key="you api key from OpenAI"`。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
 
-* 綁定 On Images 事件，並把圖片保存到本地硬碟上
+* 綁定圖像事件，並將圖片保存到本地硬盤上
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
 
-* 完整的藍圖看起來是這樣的，運行藍圖，即可看到圖片保存在指定的位置上
+完整的藍圖看起來是這樣的，運行藍圖，即可看到圖片保存在指定的位置上。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
 
@@ -361,13 +361,13 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png)
 
-* 開始聊天
+開始聊天
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png)
 
-###編輯器使用 Azure 創建圖片
+###使用 Azure 建立圖片的編輯器
 
-* 新建圖片會話（New Image Chat），將 ChatApi 改為 Azure，並設置 Azure 的 Api 參數，注意，如果是 dall-e-2 模型，需要將參數 Quality 和 Stype 設置成 not_use。
+* 新建圖片會話（New Image Chat），將 ChatApi 改為 Azure，並設定 Azure 的 Api 參數，注意，如果是 dall-e-2 模型，需要將參數 Quality 和 Stype 設定為 not_use。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png)
 
@@ -375,27 +375,27 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png)
 
-###藍圖使用 Azure 聊天
+###使用Azure Chat的藍圖
 
-創建如下藍圖，設定好 Azure 選項，點擊運行，即可看到螢幕上打印 Azure 返回的聊天信息。
+創建如下藍圖，設置好 Azure 選項，點擊運行，即可看到屏幕上打印 Azure 返回的聊天信息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png)
 
-###藍圖使用 Azure 創建圖片
+###使用 Azure 建立圖像的藍圖
 
-創建如下藍圖，設置好 Azure Options，點擊運行，如果創建圖片成功，會在螢幕上看到資訊 "Create Image Done"
+建立以下藍圖，設定好 Azure 選項，點擊運行，如果成功建立圖片，將在螢幕上看到訊息「建立圖片完成」。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png)
 
-根據上面藍圖的設置，圖片會保存在路徑 D:\Dwnloads\butterfly.png。
+根據上面的藍圖設定，圖片會保存在路徑 D:\Dwnloads\butterfly.png
 
 ## Claude
 
 ###編輯器使用 Claude 聊天和分析圖片
 
-* 新建會話（New Chat），把 ChatApi 改為 Claude，並設定 Claude 的 Api 參數
+* 新建會話（New Chat），把 ChatApi 改為 Claude，並設置 Claude 的 Api 參數
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png)
 
@@ -413,13 +413,13 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png)
 
-* 創建 Messages，從文件創建 Texture2D，並從 Texture2D 創建 AIChatPlusTexture，把 AIChatPlusTexture 添加到 Message 中
+建立 Messages，從檔案建立 Texture2D，然後從 Texture2D 創建 AIChatPlusTexture，將 AIChatPlusTexture 加入到訊息中。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png)
 
-* 跟上述教程一樣，創建 Event 並把資訊打印到遊戲螢幕上
+* 跟上述教程一樣，創建 Event 並把信息印出到遊戲畫面上
 
-完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲螢幕在打印大模型返回的消息
+完整的藍圖看起來是這樣的，運行藍圖，即可看到遊戲屏幕在打印大模型返回的消息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
 
@@ -429,9 +429,9 @@ void AddTestCommand()
 
 ###獲取 Ollama
 
-可以透過 Ollama 官網獲取安裝包本地安裝：[ollama.com](https://ollama.com/)
+* 可以通过 Ollama 官方网站获取安装包进行本地安装：[ollama.com](https://ollama.com/)
 
-* 可以透過其他人提供的 Ollama 接口使用 Ollama。
+你可以使用其他人提供的 Ollama 接口來使用 Ollama。
 
 ###編輯器使用 Ollama 聊天和分析圖片
 
@@ -439,13 +439,13 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png)
 
-* 開始聊天
+開始聊天
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
 
 ###藍圖使用 Ollama 聊天和分析圖片
 
-創建如下藍圖，設置好 Ollama Options，點擊運行，即可看到螢幕上打印 Ollama 返回的聊天信息。
+建立以下藍圖，設置好Ollama選項，點擊運行，即可看到螢幕上打印Ollama返回的聊天訊息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png)
 
@@ -455,7 +455,7 @@ void AddTestCommand()
 
 ###編輯器使用 Gemini
 
-* 新建會話（New Chat），把 ChatApi 改為 Gemini，並設定 Gemini 的 Api 參數。
+新增對話（New Chat），將ChatApi改為Gemini，並設置Gemini的Api參數。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png)
 
@@ -463,29 +463,47 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
-###藍圖使用 Gemini 聊天
+###編輯器使用 Gemini 發送音頻
 
-創建如下藍圖，設置好 Gemini Options，點擊運行，即可在螢幕上看到打印的 Gemini 返回的聊天信息。
+* 選擇 從檔案讀取音訊 / 從資產讀取音訊 / 從麥克風錄製音訊，生成需要發送的音訊
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png)
+
+* 開始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png)
+
+###藍圖運用 Gemini 聊天
+
+創建如下藍圖，設置好 Gemini Options，點擊運行，即可看到屏幕上打印 Gemini 返回的聊天信息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
 
+###使用Gemini藍圖傳送音訊。
+
+創建如下藍圖，設置加載音頻，設置好 Gemini Options，點擊運行，即可看到螢幕上打印 Gemini 處理音頻後返回的聊天信息。
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_sound_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_sound_2.png)
+
 ## Deepseek
 
 ###編輯器使用 Deepseek
 
-* 新建會話（New Chat），把 ChatApi 改為 OpenAi，並設定 Deepseek 的 Api 參數。新增候選模型叫做 deepseek-chat，並把 Model 設定為 deepseek-chat
+新建會話（New Chat），將 ChatApi 改為 OpenAi，並設置 Deepseek 的 Api 參數。新增 Candidate Models 叫做 deepseek-chat，並將 Model 設置為 deepseek-chat。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png)
 
-* 開始聊天
+開始聊天
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png)
 
 ###藍圖使用 Deepseek 聊天
 
-創建如下藍圖，設置好 Deepseek 相關的 Request Options，包括 Model、Base Url、End Point Url、ApiKey 等參數。點擊運行，即可看到螢幕上打印 Gemini 返回的聊天信息。
+建立以下藍圖，設定Deepseek相關的Request選項，包括Model、Base Url、End Point Url、ApiKey等參數。點擊運行，即可看到螢幕上顯示Gemini回傳的聊天訊息。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png)
 
@@ -493,45 +511,63 @@ void AddTestCommand()
 
 ##更新日誌
 
+### v1.5.1 - 2025.01.30
+
+####新功能
+
+* 只允許 Gemini 發音頻
+
+* 優化獲取 PCMData 的方法，生成 B64 的時候再解壓縮音頻數據
+
+請求增加兩個回調 OnMessageFinished 和 OnImagesFinished
+
+* 優化 Gemini 方法，自動根據 bStream 獲取方法
+
+增加一些藍圖函式，方便將 Wrapper 轉換為實際類型，並取得回應訊息和錯誤。
+
+#### Bug Fix
+
+修復 Request Finish 多次調用問題
+
 ### v1.5.0 - 2025.01.29
 
 ####新功能
 
-* 支持給 Gemini 發音頻
+支援 Gemini 的音頻发放。
 
-* 編輯器工具支援發送音頻和錄音
+編輯器工具支援發送音訊和錄音。
 
 #### Bug Fix
 
-* 修復 Session 複製失敗的 bug
+修復 Session copy 失敗的 bug
 
 ### v1.4.1 - 2025.01.04
 
 ####問題修復
 
-聊天工具支持只發圖片不發訊息
+聊天工具支持只發圖片不發信息
 
-* 修復 OpenAI 介面發送圖片問題失敗文圖
+* 修復 OpenAI 接口發送圖片問題失敗文圖
 
-* 修復 OpanAI、Azure 聊天工具設置遺漏了參數 Quality、Style、ApiVersion 的問題=
+* 修復 OpanAI、Azure 聊天工具設置漏掉了參數 Quality、Style、ApiVersion 的問題=
 
 ### v1.4.0 - 2024.12.30
 
 ####新功能
 
-* （實驗性功能）Cllama(llama.cpp) 支援多模態模型，可以處理圖片
+（實驗性功能）Cllama（llama.cpp）支援多模態模型，可以處理圖片
 
-所有的藍圖類型參數都加上了詳細提示
+* 所有的藍圖類型參數都加上了詳細提示
 
 ### v1.3.4 - 2024.12.05
 
 ####新功能
 
-* OpenAI 支援視覺 API
+OpenAI 支持視覺 API。
 
 ####問題修復
 
-* 修復 OpenAI stream=false 時的錯誤
+修復 OpenAI stream=false 時的錯誤
 
 ### v1.3.3 - 2024.11.25
 
@@ -547,17 +583,17 @@ void AddTestCommand()
 
 ####問題修復
 
-* 修復手動停止請求時 cllama 崩潰
+* 修復手動停止請求時的 cllama 崩潰問題
 
 * 修復商城下載版本 win 打包找不到 ggml.dll llama.dll 檔案的問題
 
-* 创建请求时检查是否在游戏线程中，创建请求时检查是否在游戏线程
+* 創建請求時檢查是否在遊戲線程中，CreateRequest 需在遊戲線程中檢查
 
 ### v1.3.1 - 2024.9.30
 
 ####新功能
 
-* 增加一個 SystemTemplateViewer，可以查看和使用幾百個 system 設定模板
+新增一個 SystemTemplateViewer，可供查看和使用數百個系統設定範本。
 
 ####問題修復
 
@@ -565,43 +601,43 @@ void AddTestCommand()
 
 * 修復 LLAMACpp 路徑過長問題
 
-* 修復 Windows 打包後的連結 llama.dll 錯誤
+* 修復 windows 打包後的連結 llama.dll 錯誤
 
-* 修復 iOS/Android 讀取文件路徑問題
+* 修復 ios/android 讀取檔案路徑問題
 
-* 修復 Cllame 設定名稱錯誤
+修復 Cllame 設定名稱錯誤
 
 ### v1.3.0 - 2024.9.23
 
-####重大新功能
+####重要新功能
 
-* 整合了 llama.cpp，支援本地離線執行大型模型
+* 整合了 llama.cpp，支持本地離線執行大模型
 
 ### v1.2.0 - 2024.08.20
 
 ####新功能
 
-* 支援 OpenAI 圖像編輯/圖像變化
+支援 OpenAI 圖像編輯/圖像變化
 
-* 支持 Ollama API，支援自動獲取 Ollama 支援的模型列表
+* 支援 Ollama API，支持自動獲取 Ollama 支援的模型列表
 
 ### v1.1.0 - 2024.08.07
 
 ####新功能
 
-* 支持藍圖
+支持藍圖
 
 ### v1.0.0 - 2024.08.05
 
 ####新功能
 
-* 基礎完整功能
+基礎完整功能
 
-* 支持 OpenAI、Azure、Claude、Gemini
+支持 OpenAI，Azure，Claude，Gemini
 
 * 自帶功能完善的編輯器聊天工具
 
 --8<-- "footer_tc.md"
 
 
-> 此帖子是使用 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遺漏之處。 
+> 此帖子是使用 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)請指出任何遺漏之處。 

@@ -6,11 +6,10 @@ categories:
 catalog: true
 tags:
 - dev
-description: La maîtrise des mouvements des personnages est une partie essentielle
-  des jeux, les jeux avec une bonne jouabilité peuvent attirer efficacement les joueurs.
-  Ici, je vais essayer de créer un contrôle basique des mouvements des personnages,
-  leur permettant d'effectuer des déplacements fondamentaux, tels que la marche et
-  le saut.
+description: Le contrôle des actions des personnages est une partie très importante
+  des jeux. Un jeu avec une bonne jouabilité peut attirer efficacement les joueurs.
+  Ici, je vais essayer de créer un contrôle de personnage simple, permettant au personnage
+  d'effectuer des mouvements de base, y compris la marche et le saut.
 figures:
 - assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif
 ---
@@ -19,29 +18,29 @@ figures:
 
 ![](assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif)
 
-La gestion des actions des personnages est une partie importante des jeux, et des jeux avec une excellente jouabilité peuvent attirer efficacement les joueurs. Ici, je vais essayer de créer un contrôle simple des actions des personnages, leur permettant d'effectuer des déplacements de base, tels que la marche et le saut.
+Le contrôle des mouvements des personnages est une partie très importante des jeux, des jeux avec une bonne jouabilité peuvent attirer les joueurs efficacement. Ici, j'essaie de mettre en place un contrôle simple des mouvements des personnages, leur permettant d'effectuer des déplacements de base, comme marcher et sauter.
 
-##Demand
-Prenez un moment pour réfléchir aux besoins concrets de manipulation de notre personnage :
+##Demande
+Considérons d'abord les besoins spécifiques de notre manipulation des personnages :
 
-Marcher, capable de marcher à la surface d'un objet rigide, contrôlé par les touches haut, bas, gauche, droite, sans tenir compte pour le moment de l'accélération ou de la décélération.
-La vitesse de déplacement peut varier dans différentes directions, par exemple, reculer devrait être plus lent que avancer
-Effectuer un saut contrôlé par la touche de saut, où le personnage quitte le sol avec une vitesse initiale donnée et retombe progressivement sur le sol.
+Marcher, pouvoir se déplacer à la surface d'un objet rigide, contrôlé en utilisant les directions haut, bas, gauche et droite des touches, sans prendre en compte les processus d'accélération ou de décélération pour le moment.
+La vitesse de déplacement peut varier selon la direction, par exemple, reculer devrait être plus lent que avancer.
+3. Sauter, contrôlé par la touche jump, le personnage quitte le sol avec une certaine vitesse initiale et retombe lentement au sol.
 
-La ligne directrice générale est la suivante : utiliser la vitesse pour décrire le mouvement des personnages, les composantes de la vitesse dans chaque direction pouvant être calculées séparément, et enfin, multiplier la vitesse par le temps donne le déplacement de la position du personnage.
+Alors, l'idée générale est la suivante : utiliser la vitesse pour décrire le mouvement des personnages. Les composantes de la vitesse dans chaque direction peuvent être calculées séparément, et finalement, la vitesse multipliée par le temps donnera le déplacement des personnages.
 
-##Configuration des composants de personnage
-Avant d'écrire un script pour contrôler les personnages, il est nécessaire de faire quelques préparatifs en configurant d'abord les composants associés aux personnages :
+##Paramètres du composant personnage
+Avant d'écrire le script pour manipuler les personnages, il est nécessaire de faire quelques préparatifs en configurant préalablement les composants associés aux personnages :
 
-Afin de contrôler les personnages et leur conférer une certaine rigidité physique, il est nécessaire d'ajouter un composant `Character Controller` au personnage.
-Pour une meilleure clarté de la structure, commence par isoler les opérations liées aux personnages, en lisant les entrées, en les traitant initialement, puis en transmettant les résultats au contrôleur des personnages. Nomme ce script de contrôle des personnages `MyThirdPersonInput.cs`.
-Le script qui contrôle réellement les déplacements du personnage est nommé `MyThirdPersonController.cs`.
+Pour contrôler les personnages et leur donner une certaine rigidité physique, il est nécessaire d'ajouter un composant "Character Controller" aux personnages.
+Pour une meilleure organisation structurelle, séparez d'abord les entrées concernant les personnages, lisez les entrées, traitez-les initialement, puis transmettez les résultats au contrôleur des personnages. Nommez ce script comme `MyThirdPersonInput.cs`.
+Le script qui contrôle véritablement le déplacement du personnage est nommé `MyThirdPersonController.cs`.
 
-Le résultat après configuration est le suivant :
+Le résultat de la configuration est le suivant :
 ![](assets/img/2014-3-15-unity-3rdperson-control0/setting.png)
 
 ##Entrée
-Les entrées consistent en des commandes de déplacement (haut, bas, gauche, droite) et de saut. Il est nécessaire de normaliser ces directions.
+L'entrée consiste en haut, bas, gauche, droite et saut, et les directions doivent être normalisées :
 
 ```c#
 // get movement from input
@@ -58,8 +57,8 @@ person.inputMoveDirction = direction;
 person.inputJump = Input.GetButton("Jump");
 ````
 
-##Décrivez le déplacement et le saut.
-Nous avons besoin d'utiliser des variables pour décrire les actions d'un personnage, telles que la vitesse de déplacement, la vitesse de saut, etc. Le déplacement est décrit à l'aide des variables suivantes :
+##Décrivez le mouvement et le saut.
+Nous avons besoin de quelques variables pour décrire les actions des personnages, telles que la vitesse de déplacement, la vitesse de saut, etc. Le déplacement est décrit par les variables suivantes:
 
 ```c#    
 [System.Serializable]
@@ -72,7 +71,7 @@ public class Movement
 public Movement movement = new Movement();
 ```
 
-`[System.Serializable]` is used to expose these parameters in the Inspector. The description of the jump is as follows:
+`[System.Serializable]` is used to expose these parameters in the Inspector. The description for the jump is as follows:
 
 ```c#
 [System.Serializable]
@@ -87,10 +86,10 @@ public class Jumping
 public Jumping jumping = new Jumping();
 ```
 
-##Le taux de decomposition
-Pour faciliter la description des déplacements dans différentes directions, divisez les directions en trois composantes : avant/arrière, gauche/droite, haut/bas, et résolvez-les séparément.
+##Vitesse de décomposition.
+Pour faciliter la description des déplacements dans différentes directions, divisons la direction en trois composantes : avant-arrière, gauche-droite, haut-bas, et traitons-les séparément.
 
-La vitesse avant et arrière est différente, selon le signe de la valeur :
+Les vitesses avant et arrière sont différentes, vous devez déterminer en fonction du signe des valeurs：
 
 ```c#
 if (velocity.z > 0)
@@ -99,18 +98,18 @@ else
     velocity.z *= movement.backwardSpeed;
 ```
 
-Vitesse égale des deux côtés :
+Vitesse cohérente des deux côtés :
 
 ```c#
 velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
 ```
 
-Sauter peut être un peu problématique, car il faut évaluer l'état actuel du personnage :
+Sauter peut poser quelques problèmes, car il est nécessaire de déterminer l'état actuel du personnage :
 
-Si vous êtes déjà en l'air, calculez la vitesse en fonction de la gravité.
-Si sur la terre :
-Si le bouton de saut est enfoncé, la vitesse est la vitesse de saut initiale.
-Sinon, la vitesse dans la direction y est de 0.
+Si vous êtes déjà en l'air, calculez la vitesse en utilisant la gravité.
+- Si c'est sur le sol :
+Si vous appuyez sur la touche de saut, la vitesse sera la vitesse de saut initiale.
+- - Sinon, la vitesse en direction y est 0.
 
 ```c#
 if (!isOnGround)
@@ -129,9 +128,9 @@ else
 }
 ```
 
-##Actualisation de la position des personnages
+##Mettre à jour la position des personnages.
 
-Calculer la vitesse calculée est supposée être la vitesse à partir de cette trame, donc la vitesse du calcul de position de cette trame devrait être celle calculée dans la trame précédente. Ainsi, avant de mettre à jour la vitesse, calculez d'abord la nouvelle position du personnage :
+La vitesse calculée est supposée être la vitesse à partir du début de ce cadre. Par conséquent, la vitesse pour calculer la position dans ce cadre devrait être celle calculée dans le cadre précédent. Ainsi, avant de mettre à jour la vitesse, il faut d'abord calculer la nouvelle position du personnage :
 
 ```c#
 // move to new position
@@ -139,9 +138,9 @@ var collisionFlag = controller.Move(velocity * Time.deltaTime);
 isOnGround = (collisionFlag & CollisionFlags.CollidedBelow) != 0;
 ```
 
-La méthode `controller.Move` renvoie `CollisionFlags` pour indiquer l'état des collisions, permettant ainsi de déterminer si le personnage se trouve sur le sol.
+La fonction `controller.Move` renvoie `CollisionFlags` pour indiquer l'état des collisions, permettant ainsi de savoir si le personnage se trouve sur le sol.
 
-Code complet:
+Code complet :
 
 MyThirdPersonInput.cs:
 
@@ -281,4 +280,4 @@ public class MyThirdPersonController : MonoBehaviour {
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT. Veuillez partager vos [**retours**](https://github.com/disenone/wiki_blog/issues/new)Signalez toute omission. 
+> Ce post a été traduit avec ChatGPT, veuillez laisser vos [**retours**](https://github.com/disenone/wiki_blog/issues/new)Mentionner tout oubli. 

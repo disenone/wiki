@@ -1,36 +1,36 @@
 ---
 layout: post
-title: Unity Third-Person Camera Setup (Continued)
+title: Unity Dritte-Person-Kamera-Setup (Teil 2)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Ich möchte in Unity eine Third-Person-Kamera erstellen, die sich an der
-  Third-Person-Kamera von "World of Warcraft" orientiert. Hier geht es darum, das
-  Problem des Kamerarigidkörpers zu lösen.
+description: Ich möchte in Unity eine Third-Person-Kamera erstellen, deren Verhalten
+  sich an der Third-Person-Kamera von „World of Warcraft“ orientiert. Hier wird das
+  Problem des Rigidbody der Kamera gelöst.
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-Die vorherige Folge handelte von [der Drehung der Kamera](unity-Unity第三人称相机构建(上).md)，jetzt müssen wir das Problem der Kamerastabilität lösen, wie gehen wir vor?
+Die vorherige Episode endete mit [der Drehung der Kamera](unity-Unity第三人称相机构建(上).md), nun, das Problem, das wir jetzt lösen müssen, ist die Steifigkeit der Kamera. Wie gehen wir damit um?
 
-Kameragehäusefestigkeit
+Kamerarigidität
 --------------
-Überprüfen wir die zuvor genannten Anforderungen:
+Rückblick auf die zuvor genannten Anforderungen:
 
-Mausrolle: Steuerung der Kamerazoom.
-Die Kamera kann nicht durch jedes starre Objekt hindurchsehen.
+4. Mausrad: Steuert die Nähe und Entfernung der Kamera
+5. Die Kamera kann keine festen Objekte durchdringen.
 Die Kamera kehrt langsam zu ihrer ursprünglichen Entfernung zurück, nachdem sie das starre Objekt verlassen hat.
-Wenn die Kamera auf ein starres Objekt trifft, sollte die Kamera sofort reagieren, wenn man das Mausrad benutzt, um heranzuzoomen. Danach sollte Punkt 6 nicht mehr auftreten. Nachdem die Kamera auf den Boden gestoßen ist, kann nicht mehr gezoomt werden.
-Die Kamera hat den Boden berührt, als sie sich drehte, und hat aufgehört, um die Person herum zu rotieren. Stattdessen rotiert sie jetzt um sich selbst, während die seitliche Rotation immer noch um die Person erfolgt.
+Wenn die Kamera auf ein starres Objekt trifft, muss sie sofort auf die Mausradoperation zum Zoomen reagieren. Anschließend tritt Punkt 6 nicht mehr auf; nach dem Aufprall auf dem Boden kann nicht mehr gezoomt werden.
+Die Kamera stößt beim Drehen gegen den Boden, hört auf, um die Person herum auf und ab zu drehen, und beginnt stattdessen, sich um sich selbst auf und ab zu drehen, während die seitliche Drehung weiterhin um die Person herum erfolgt.
 
 
-Diese Punkte bedeuten: Wenn die Kamera auf ein starres Objekt trifft, wird sie gezwungen, sich dem Motiv zu nähern. Wenn wir wollen, dass die Kamera sich beim Entfernen allmählich wieder in die ursprüngliche Position zurückbewegt, aber wenn sie sich nach dem automatischen Näherkommen manuell mit dem Mausrad weiter annähert, bedeutet das, dass die Kamera das kollidierte Objekt verlässt und der Abstand, um den sie näher kommt, ist dann der tatsächliche Abstand der Kamera. Jetzt werden wir Schritt für Schritt diese Anforderungen klären.
+Diese Punkte bedeuten: Wenn die Kamera auf ein starres Objekt trifft, wird sie gezwungen, sich dem Abstand zu den Personen zu nähern. Wenn wir möchten, dass die Kamera beim Verlassen langsam in ihren ursprünglichen Abstand zurückkehrt, aber nachdem der Abstand automatisch verringert wurde, manuell mit dem Scrollrad näher gebracht wird, bedeutet dies, dass die Kamera das kollidierte Objekt verlässt. Dann ist dieser Verkürzungsabstand der tatsächliche Abstand der Kamera. Jetzt werden wir diese Anforderungen Schritt für Schritt erläutern.
 
-Scrollsteuerung
+Rollensteuerung.
 ----------
-Die Steuerung des Mausrads ist ganz einfach. Du musst nur wissen, dass du die Mausradinformationen mit `Input.GetAxis("Mouse ScrollWheel")` abrufen kannst. Lege einfach die maximalen und minimalen Werte für die Entfernung fest, und schon bist du startklar:
+Das Steuern des Mausrads ist ganz einfach, man muss nur wissen, dass man die Informationen des Rades mit `Input.GetAxis("Mouse ScrollWheel")` abruft und die maximalen und minimalen Abstände festlegt, dann ist alles in Ordnung:
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -47,17 +47,17 @@ if (zoom != 0F)
 }
 ```
 
-Hier zeigt `playerTransform` auf den Charakter.
+Hier verweist `playerTransform` auf die Figur.
 
-Kann nicht durch jedes starre Objekt hindurchgehen.
+Kann keine starren Objekte durchqueren.
 --------------------
-Dies erfordert die Überprüfung des Kontakts zwischen der Kamera und dem starren Körper. Es gibt eine Funktion, die diese Funktionalität ermöglichen kann:
+Dies erfordert die Überprüfung des Kontakts zwischen der Kamera und dem starren Körper, es gibt eine Funktion, die diese Funktion umsetzen kann:
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-Bitte beachten Sie die spezifische Verwendung im [Referenz](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)Wir können die Kollisionserkennung auf folgende Weise durchführen:
+Konkrete Verwendungsweise siehe Unitys [Referenz](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)Wir können die Kollisionserkennung folgendermaßen umsetzen:
 
 ```c#
 RaycastHit hitInfo;
@@ -68,12 +68,12 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-`targetPosition` is just the position of the collision. Set the camera's position to the collision position and you're good to go.
+`targetPosition` ist die Position des Aufpralls. Setzen Sie die Kamera auf diese Position, um sie korrekt auszurichten.
 
-Nach dem Verlassen des starren Körpers kehre langsam zur ursprünglichen Entfernung zurück.
+Nach Verlassen des starren Körpers langsam zur ursprünglichen Entfernung zurückkehren.
 ---------------------------------
-Um diese Funktion abzuschließen, müssen zunächst die jeweiligen Abstände festgehalten werden, den die Kamera haben sollte (`desiredDistance`) und den aktuellen Abstand (`curDistance`). Das Ergebnis der Scrollrad-Bedienung wird zuerst in `desiredDistance` gespeichert und dann wird basierend auf der Kollision die neue Distanz des Objekts berechnet.
-Beim Erkennen, dass die Kamera den starren Körper verlässt oder mit einem entfernteren starren Körper kollidiert, sollte die Kollisionsposition nicht direkt der Kamera zugewiesen werden. Stattdessen sollte eine Bewegungsgeschwindigkeit verwendet werden, um sich an die neue Entfernung anzupassen. Zuerst sollte die neue Entfernung abgerufen werden:
+Um diese Funktion zu vervollständigen, müssen zunächst die Distanz, auf die die Kamera eingestellt werden soll (`desiredDistance`), und die aktuelle Distanz (`curDistance`) separat aufgezeichnet werden. Das Ergebnis der Scrollradoperation wird zuerst in `desiredDistance` gespeichert, bevor die neue Distanz des Objekts basierend auf der Kollision berechnet wird;
+Wenn die Kamera von einem starren Körper entfernt ist oder mit einem weiter entfernten starren Körper kollidiert, kann die Kollisionsposition nicht direkt der Kamera zugewiesen werden; stattdessen muss eine Bewegungsdynamik verwendet werden, um sich zur neuen Distanz zu bewegen. Zuerst muss die neue Distanz ermittelt werden:
 
 ```c#
 float newDistance = desiredDistance;
@@ -85,44 +85,43 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-Wie kann man feststellen, dass die Kamera sich in eine größere Entfernung bewegt? Man kann `newDistances` mit der aktuellen Entfernung vergleichen:
-
+Wie kann man also feststellen, dass die Kamera sich in eine größere Entfernung bewegt? Man kann `newDistances` mit der aktuellen Entfernung vergleichen:
 
 ```c#
-Bewegen Sie sich näher heran.
+// Bewege dich näher heran
 if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-Bewegen Sie sich weiter weg.
+Bewegen Sie sich in die Ferne.
 else if(newDistance > curDistance)
 {
 }
 ```
 
-So einfach ist es zu entscheiden, wenn man sich in weiter Entfernung bewegen muss - einfach die Geschwindigkeit erhöhen:
+Dann ist die Entscheidung, sich weiter zu bewegen, sehr intuitiv; man fügt einfach eine Geschwindigkeit hinzu, um sich zu bewegen:
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
 
 ```
-Wir haben nun die grundlegende Funktionalität der Kamera implementiert, es sind jedoch noch einige Details zu klären.
+Das allgemeine Verhalten der Kamera haben wir bereits abgeschlossen, es gibt noch einige Details, die wir bearbeiten müssen.
 
-Nach dem Kontakt mit starren Körpern die Rollen annähern, ohne die Bodenskalierung zu ändern.
+Nach dem Kontakt mit einem starren Körper werden die Rollen näher herangezogen, aber der Boden wird nicht skaliert.
 ------------------
-Hier sind zwei Anforderungen:
+Hier gibt es zwei Anforderungen:
 
-Nach dem Aufprall auf einen starren Körper kann man sich nur annähern, aber nicht entfernen.
-Nach dem Aufprall auf dem Boden nicht skalieren.
+Nachdem ein Körper auf etwas gestoßen ist, kann er nur näher herangezogen werden, nicht weiter entfernt.
+2. Nach dem Kontakt mit dem Boden kann er nicht verkleinert werden.
 
-Zuerst speichern wir den Kollisionsstatus der Kamera in einer Variablen:
+Zuerst werden Variablen verwendet, um den Kollisionsstatus der Kamera zu speichern:
 
 ```c#
-bool isHitGround = false;       // Indicates whether it has hit the ground
-bool isHitObject = false;       // Indicates whether a collision with a rigid body (excluding the ground)
+bool isHitGround = false;       // Indicates whether the ground is hit
+bool isHitObject = false;       // Indicates whether a collision with a rigid body (excluding the ground) occurred.
 ```
 
-Fügen Sie eine Bedingungsüberprüfung hinzu, um das Scrollrad-Zoomen zu überprüfen:
+Fügen Sie eine Bedingungsprüfung hinzu, wenn Sie das Scrollrad-Zoom bewerten:
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -131,9 +130,9 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-Begegnung mit dem Boden und sich um die eigene Achse drehen.
+Treffen Sie den Boden und drehen Sie sich um sich selbst nach oben und unten.
 -----------------
-(unity-Unity第三人称相机构建(上)Teilen Sie die Rotationsfunktion von `.md` in die X-Rotation (`RotateX`) und Y-Rotation (`RotateY`) auf, und fügen Sie in der Berechnung von `cameraToPlayer` für `RotateY` die Bedingung hinzu:
+Diese Funktion ist etwas kompliziert zu implementieren, da unsere vorherige Annahme, dass die Kamera stets auf die Figur ausgerichtet ist, nicht mehr gültig ist. Zu diesem Zeitpunkt teilen wir in zwei Vektoren auf: **die Ausrichtung der Kamera (`desireForward`)** und **die Richtung von der Kamera zur Figur (`cameraToPlayer`)**. Wir berechnen die Werte dieser beiden Vektoren separat; der erste bestimmt die Ausrichtung der Kamera, der zweite bestimmt die Position der Kamera. Zur Vereinfachung nehmen wir [die vorherige Episode](unity-Unity第三人称相机构建(上)Teilen Sie die Rotationsfunktion von `.md` in die X-Rotation (`RotateX`) und Y-Rotation (`RotateY`) auf, und fügen Sie die Bedingung hinzu, wenn Sie `RotateY` von `cameraToPlayer` berechnen:
 
 ```c#
 if ((!isHitGround) || 
@@ -144,18 +143,18 @@ if ((!isHitGround) ||
 }
 ```
 
-Dieses Kriterium besteht aus zwei Teilen:
+Dieses Kriterium hat zwei Teile:
 
-Hat den Boden nicht berührt.
+- Berührung mit dem Boden vermieden.
 Auf den Boden treffen, aber bereit sein, den Boden zu verlassen.
 
-Dann wird die Position der Kamera mit `cameraToPlayer` berechnet:
+Dann berechnen Sie die Position der Kamera mit `cameraToPlayer`:
 
 ```c#
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-Und berechnen Sie die Ausrichtung der Kamera, wenn erforderlich (d.h. wenn sie den Boden berührt):
+Und berechnen Sie die Ausrichtung der Kamera bei Bedarf (d. h. wenn sie den Boden berührt):
 
 ```c#
 if (!isHitGround)
@@ -170,7 +169,7 @@ else
 }
 ```
 
-Wir haben das Verhalten der Kamera auf diese Weise alle umgesetzt.
+Dieses Verhalten der Kamera haben wir alle umgesetzt.
 
 Vollständiger Code:
 
@@ -379,4 +378,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte teilen Sie uns [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf jegliche Auslassungen hin. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Fehler überprüfen. 

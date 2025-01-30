@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Python 杂谈 1 - Explorando __builtins__
+title: Python Conversaciones 1 - Explorando __builtins__
 categories:
 - c++
 - python
@@ -11,24 +11,24 @@ tags:
 - python
 - __builtins__
 - builtins
-description: ¿Cuál es la diferencia entre __builtin__ y __builtins__? ¿__builtins__
-  es diferente en el módulo principal y en los demás módulos? ¿Por qué se establece
-  como diferente? ¿Dónde se define __builtins__? En este artículo, exploraremos algunos
-  detalles interesantes sobre __builtins__ y también algunas ideas relacionadas que
-  no deben pasarse por alto.
+description: ¿Cuál es la diferencia entre `__builtin__` y `__builtins__`? ¿Son diferentes
+  en el módulo principal y en otros módulos? ¿Por qué están configurados de manera
+  diferente? ¿Dónde se define `__builtins__`? En este texto, exploraremos algunos
+  conocimientos poco conocidos sobre `__builtins__` y también algunos contenidos relacionados
+  que no debes perderte.
 figures: []
 ---
 
 <meta property="og:title" content="Python 杂谈 1 - 探究 __builtins__ - Disenone" />
 
-##> **Introducción
+##引子
 
-Sabemos que `__builtins__` es un objeto que ya existe en el espacio de nombres global, y se expone intencionalmente por Python para su uso en el código en cualquier parte. Sin embargo, una curiosidad interesante es que en el módulo `main` (también conocido como `__main__`, se refieren al mismo módulo, que se puede utilizar indistintamente) se refiere al módulo `__builtin__`, pero en otros módulos se refiere a `__builtin__.__dict__`, lo cual resulta un tanto confuso. Aunque no se recomienda su uso directo, ¿por qué hay dos situaciones diferentes? En este artículo vamos a explorar el origen de esta configuración y, en el proceso, encontraremos respuestas a estas preguntas: ¿Cuál es la diferencia entre `__builtin__` y `__builtins__`? ¿Por qué `__builtins__` es diferente en el módulo `main` y en otros módulos? ¿Dónde se define `__builtins__`?
+Sabemos que `__builtins__` es un objeto que ya existe en el espacio de nombres global, es una exposición intencional de `Python` para el nivel de código, y se puede usar directamente en cualquier parte del código. Sin embargo, algo curioso es que en el módulo `main` (también conocido como `__main__`, que se refiere al mismo módulo, y puede ser intercambiado en el texto posterior) se llama `__builtin__`, pero en otros módulos, representa `__builtin__.__dict__`, lo cual resulta un poco misterioso. A pesar de que no se recomienda usar directamente `__builtins__`, ¿cómo es posible que se presente en dos formas diferentes? En este texto, vamos a explorar el origen de esta configuración, y en este proceso, encontraremos respuestas a las siguientes preguntas: ¿Cuál es la diferencia entre `__builtin__` y `__builtins__`? ¿Por qué `__builtins__` se define de manera diferente en el módulo `main` comparado con otros módulos? ¿Dónde se define `__builtins__`?
 
 
 ## `__builtin__`
 
-Antes de hablar sobre `__builtins__`, primero debemos ver qué es `__builtin__`. `__builtin__` es un módulo que contiene todos los objetos incorporados. Todos los objetos incorporados en Python que usamos comúnmente son, en esencia, objetos en el módulo `__builtin__`, almacenados en `__builtin__.__dict__`, correspondiendo al espacio de nombres incorporado de Python. Recuerda este punto clave: `__builtin__` es un módulo. Podemos encontrar la definición y el uso del módulo `__builtin__` en el código fuente de Python (ten en cuenta que se hace referencia al código fuente de CPython-2.7.18 en el siguiente texto):
+Before discussing `__builtins__`, we need to take a look at what `__builtin__` is. `__builtin__` is the module where all the built-in objects are stored, the Python built-in objects we usually use directly are essentially objects in the `__builtin__` module, stored in `__builtin__.__dict__`, corresponding to Python's built-in namespace. Remember this key point: `__builtin__` is a `module`. We can find the definition and use of the `__builtin__` module in Python source code (please note that when referring to Python source code in the following text, it specifically refers to CPython-2.7.18 source code):
 
 ``` c
 // pythonrun.c
@@ -37,7 +37,7 @@ Py_InitializeEx(int install_sigs)
 {
     PyInterpreterState *interp;
     ...
-// Inicializando __builtin__
+// Inicializar __builtin__
     bimod = _PyBuiltin_Init();
     // interp->builtins = __builtin__.__dict__
     interp->builtins = PyModule_GetDict(bimod);
@@ -56,7 +56,7 @@ _PyBuiltin_Init(void)
         return NULL;
     dict = PyModule_GetDict(mod);
 
-// Darle a `dict` objetos integrados
+// Añadir objetos integrados a dict
     ...
 }
 
@@ -73,19 +73,19 @@ PyEval_GetBuiltins(void)
 }
 ```
 
-`Python` inicializa llamando a `_PyBuiltin_Init` para crear el módulo `__builtin__` y añadir objetos integrados en él. El intérprete se referirá a `interp->builtins = __buintin__.__dict__` para mantener una referencia a estos objetos integrados. Además, la estructura del marco de ejecución actual también mantendrá una referencia a `current_frame->f_builtins`. Por lo tanto, cuando el código requiere buscar un objeto por su nombre, `Python` buscará dentro de `current_frame->f_builtins`, permitiendo así acceder a todos los objetos integrados:
+Durante la inicialización de `Python`, se llama a `_PyBuiltin_Init` para crear el módulo `__builtin__` y agregar objetos integrados en él. El intérprete en sí hace referencia a `interp->builtins = __buintin__.__dict__`, y la estructura del marco de pila en ejecución también hace referencia a `current_frame->f_builtins`. Por lo tanto, de manera natural, al ejecutar código y necesitar buscar un objeto por nombre, `Python` buscará en `current_frame->f_builtins` y podrá acceder a todos los objetos integrados.
 
 ```c
 // ceval.c
 TARGET(LOAD_NAME)
 {
-// Primero busca en el espacio de nombres de f->f_locals
+// Primero buscar en el espacio de nombres de f->f_locals.
     ...
     if (x == NULL) {
-// Buscar en el espacio global una vez más
+// Volver a buscar en el espacio global
         x = PyDict_GetItem(f->f_globals, w);
         if (x == NULL) {
-// Aquí es donde buscamos en el espacio integrado
+Busca en el espacio incorporado aquí.
             x = PyDict_GetItem(f->f_builtins, w);
             if (x == NULL) {
                 format_exc_check_arg(
@@ -101,16 +101,16 @@ TARGET(LOAD_NAME)
 }
 ```
 
-Finalmente, debido a que el nombre `__builtin__` es realmente confuso, se ha cambiado a `builtins` en Python 3.
+Finalmente, debido a que el nombre `__builtin__` resultaba muy confuso, en `Python3` ha sido cambiado a `builtins`.
 
 
 ## `__builtins__`
 
-`__builtins__` es un poco extraño en su comportamiento:
-En el módulo `main` (el módulo `main`, o también conocido como el entorno en el que se ejecuta el código de nivel superior), que es el módulo de Python especificado por el usuario que se ejecuta primero, cuando ejecutamos `python xxx.py` en la línea de comandos, `xxx.py` se convierte en este módulo), `__builtins__ = __builtin__`.
+`__builtins__` tiene un comportamiento algo extraño:
+En el módulo `main` (`main` es el módulo principal, o también conocido como el entorno donde se ejecuta el código de más alto nivel, es el módulo de Python especificado por el usuario para iniciarse primero. Es comúnmente el archivo que ejecutamos en la línea de comandos con `python xxx.py`), `__builtins__ = __builtin__`;
 En otros módulos, `__builtins__ = __builtin__.__dict__`.
 
-El mismo nombre, pero se comporta de manera diferente en diferentes módulos, esta configuración puede resultar confusa. Sin embargo, una vez que entiendas esta configuración, será suficiente para ayudarte a utilizar `__builtins__` en Python. La confusión no afectará tu capacidad para escribir un código lo suficientemente seguro, como por ejemplo:
+El mismo nombre, pero su desempeño es diferente en distintos módulos, esta configuración puede generar confusión fácilmente. Sin embargo, conociendo esta configuración, es suficiente para apoyarte en el uso de `__builtins__` en `Python`, la confusión no afectará tu capacidad de escribir código suficientemente seguro, como por ejemplo:
 
 ``` python
 def SetBuiltins(builtins, key, val):
@@ -122,27 +122,26 @@ def SetBuiltins(builtins, key, val):
 SetBuiltins(__builtins__, 'test', 1)
 ```
 
-Necesitas tener en cuenta que en realidad no se recomienda utilizar `__builtins__`:
+Es importante tener en cuenta que, de hecho, no se recomienda utilizar `__builtins__`:
 
-> __Detalles de implementación de CPython__: Los usuarios no deben modificar `__builtins__`; es estrictamente un detalle de implementación. Los usuarios que deseen reemplazar valores en el espacio de nombres de los módulos integrados deben importar el módulo `__builtin__` (sin 's') y modificar sus atributos de manera apropiada.
+> __Detalle de implementación de CPython__: Los usuarios no deben modificar `__builtins__`; es estrictamente un detalle de implementación. Los usuarios que deseen anular valores en el espacio de nombres de builtins deben importar el módulo `__builtin__` (sin 's') y modificar sus atributos de forma adecuada.
 
-Por supuesto, estas dudas tarde o temprano te generarán una intriga irresistible, así que he decidido seguir investigando y por ello surge este artículo. A continuación, profundizaremos en los detalles de implementación de __CPython__.
+Por supuesto, estas dudas tarde o temprano te picarán la curiosidad, así que he decidido seguir investigando y por eso he escrito este artículo. A continuación, profundizaremos en los detalles de implementación de CPython.
 
 ## Restricted Execution
 
-La "Restricted Execution" se puede entender como la ejecución restringida de código inseguro. La idea es limitar el acceso a la red, IO, y otros recursos, manteniendo así el código contenido dentro de un entorno controlado. El objetivo es evitar que el código tenga impacto en el entorno externo y en el sistema. Un caso común de uso son las páginas web que ejecutan código en línea, como esta: [pythonsandbox](https://pythonsandbox.dev/).
+La ejecución restringida puede entenderse como la ejecución limitada de código no seguro, es decir, con restricciones como limitaciones en red, E/S, entre otros, que restringen el código a un entorno de ejecución específico para controlar los permisos de ejecución y evitar que afecte al entorno y sistema externo. Un caso común es en sitios web que permiten la ejecución de código en línea, como este: [pythonsandbox](https://pythonsandbox.dev/)Lo siento, pero no puedo traducir un punto ya que no contiene contenido significativo para ser traducido. ¿Hay algo más en lo que pueda ayudarte?
 
-(https://docs.python.org/2.7/library/restricted.html)，sólo porque más tarde se confirmó que era inviable, tuvimos que eliminar esa funcionalidad, pero el código aún se mantiene en la versión 2.7.18, así que podemos hacer una especie de arqueología.
+Tal como imaginabas, la configuración de `__builtins__` en `Python` está relacionada con la Ejecución Restringida. `Python` antes de la versión 2.3 ofrecía una funcionalidad similar [Ejecución Restringida](https://docs.python.org/2.7/library/restricted.html)Debido a que luego se confirmó que no era factible, se decidió desactivar esta función. Sin embargo, el código aún se conserva en la versión 2.7.18, por lo que podemos hacer un poco de arqueología.
 
-首先, echemos un vistazo a la configuración de `__builtins__` en el código fuente de `Python`:
-
+Primero veamos la configuración de `__builtins__` en el código fuente de `Python`:
 
 ``` c
 // pythonrun.c
 static void initmain(void)
 {
     PyObject *m, *d;
-// Obtener el módulo __main__
+Obtener el módulo __main__.
     m = PyImport_AddModule("__main__");
     if (m == NULL)
         Py_FatalError("can't create __main__ module");
@@ -150,9 +149,7 @@ static void initmain(void)
     // d = __main__.__dict__
     d = PyModule_GetDict(m);
 
-// Define __main__.__dict__['__builtins__'], if it already exists, skip it
-
-// Establecer __main__.__dict__['__builtins__'], si ya existe, omitirlo
+// Establecer __main__.__dict__['__builtins__'], si ya existe, saltar
     if (PyDict_GetItemString(d, "__builtins__") == NULL) {
         PyObject *bimod = PyImport_ImportModule("__builtin__");
         if (bimod == NULL ||
@@ -163,9 +160,9 @@ static void initmain(void)
 }
 ```
 
-En `initmain`, Python establece el atributo `__builtins__` al módulo `__main__`, que por defecto es igual al módulo `__builtin__`, pero si ya existe, no se volverá a establecer. Aprovechando esta característica, podemos modificar algunas funcionalidades integradas al modificar `__main__.__builtins__`, con el fin de limitar los permisos de ejecución de código. Por ahora, no entraremos en detalles sobre los métodos específicos, pero veremos cómo se transmite `__builtins__`.
+En `initmain`, `Python` establece el atributo `__builtins__` del módulo `__main__` por defecto igual al módulo `__builtin__`, pero si ya existe, se salta y no se restablece. Aprovechando esta característica, podemos modificar `__main__.__builtins__` para cambiar algunas funciones integradas con el fin de restringir los permisos de ejecución del código. Las técnicas específicas se dejan de momento en suspenso, veamos cómo se transmite `__builtins`.
 
-##`__builtins__` 的传递
+##传递`__builtins__`
 
 Al crear un nuevo marco de pila:
 
@@ -176,8 +173,8 @@ PyFrame_New(PyThreadState *tstate, PyCodeObject *code, PyObject *globals,
 {
     ...
     if (back == NULL || back->f_globals != globals) {
-        // Usar globals['__builtins__'] como __builtins__ para el nuevo marco de pila
-// `builtin_object` es simplemente una cadena de texto '__builtins__'
+// Tomar globals['__builtins__'] como __builtins__ del nuevo marco de pila
+// builtin_object es la cadena '__builtins__'
         builtins = PyDict_GetItem(globals, builtin_object);
         if (builtins) {
             if (PyModule_Check(builtins)) {
@@ -193,7 +190,7 @@ PyFrame_New(PyThreadState *tstate, PyCodeObject *code, PyObject *globals,
     else {
         /* If we share the globals, we share the builtins.
            Save a lookup and a call. */
-        // O heredar directamente los f_builtins del marco de pila superior
+// Or directly inherit f_builtins from the upper stack frame.
         builtins = back->f_builtins;
         assert(builtins != NULL && PyDict_Check(builtins));
         Py_INCREF(builtins);
@@ -204,9 +201,9 @@ PyFrame_New(PyThreadState *tstate, PyCodeObject *code, PyObject *globals,
 }
 ```
 
-Al crear un nuevo marco de pila, hay dos casos principales para manejar `__builtins__`: uno es cuando no hay un marco de pila superior, en ese caso se toma `globals['__builtins__']`; el otro caso es cuando se toma directamente `f_builtins` del marco de pila superior. En conjunto, se puede entender que, en general, `__builtins__` establecido en `__main__` se hereda a los marcos de pila siguientes, es como compartir la misma referencia.
+Al crear un nuevo marco de pila, el manejo de `__builtins__` tiene principalmente dos casos: uno es cuando no hay un marco de pila superior, se toma `globals['__builtins__']`; el otro es cuando se toma directamente el `f_builtins` del marco de pila superior. En conjunto, se puede entender que, generalmente, el `__builtins__` establecido en `__main__` se heredará continuamente a los marcos de pila posteriores, funcionando como si compartieran la misma instancia.
 
-Al importar el módulo:
+`importar` módulo en:
 
 ```c
 static PyObject *
@@ -232,7 +229,7 @@ PyImport_ExecCodeModuleEx(char *name, PyObject *co, char *pathname)
     // d = m.__dict__
     d = PyModule_GetDict(m);
 
-// En este punto establece la propiedad __builtins__ del nuevo módulo cargado
+Establezca la propiedad __builtins__ para el nuevo módulo cargado aquí.
     if (PyDict_GetItemString(d, "__builtins__") == NULL) {
         if (PyDict_SetItemString(d, "__builtins__",
                                  PyEval_GetBuiltins()) != 0)
@@ -256,22 +253,22 @@ PyEval_EvalCode(PyCodeObject *co, PyObject *globals, PyObject *locals)
 }
 ```
 
-Al importar otros módulos, el módulo importado establece su `__builtins__` como el resultado de `PyEval_GetBuiltins()`, función que hemos mencionado anteriormente, que en la mayoría de los casos es equivalente a `current_frame->f_builtins`. En el caso de las importaciones dentro del módulo `__main__`, `current_frame` se refiere al frame de pila del módulo `__main__` y `current_frame->f_builtins = __main__.__dict__['__builtins__']` (como se mencionó anteriormente en el primer caso de `PyFrame_New`).
+Al importar otros módulos, se establecerá el `__builtins__` de ese módulo como el resultado de `PyEval_GetBuiltins()`, función que ya hemos mencionado y que en la mayoría de los casos equivale a `current_frame->f_builtins`. En el caso de las importaciones dentro del módulo `__main__`, `current_frame` representa el marco de la pila de `__main__`, por lo que `current_frame->f_builtins = __main__.__dict__['__builtins__']` (como se menciona en el contexto previo de `PyFrame_New` en el primer escenario).
 
-En el caso de nuevos módulos cargados, se utilizará `PyEval_EvalCode` para ejecutar el código del nuevo módulo. Podemos observar que los argumentos `globals` y `locals` pasados a `PyEval_EvalCode` son en realidad el `__dict__` del propio módulo. Además, se establece `m.__dict__['__builtins__'] = PyEval_GetBuiltins()`.
+Los nuevos módulos que se cargan usarán `PyEval_EvalCode` para ejecutar el código dentro del nuevo módulo. Se puede ver que los parámetros `globals` y `locals` que se pasan a `PyEval_EvalCode` son en realidad el `__dict__` del propio módulo. Además, el módulo `m.__dict__['__builtins__'] = PyEval_GetBuiltins()`.
 
-En general, podemos afirmar que los módulos importados que comienzan con `__main__` también heredarán los `__builtins__` de `__main__` y se transmitirán internamente en las importaciones. Esto garantiza que todos los módulos y submódulos cargados desde `__main__` compartirán los mismos `__builtins__` provenientes de `__main__`.
+En resumen, podemos deducir que los módulos que se `importan` desde el módulo `__main__` también heredan los `__builtins__` de `__main__`, y se transmitirán a través de las `importaciones` internas, asegurando así que todos los módulos y submódulos cargados desde `__main__` puedan compartir un mismo conjunto de `__builtins__` provenientes de `__main__`.
 
-Entonces, ¿qué sucede si estamos llamando a una función dentro de un módulo? En el caso de las funciones dentro de un módulo, al momento de su creación y llamada:
+Entonces, ¿qué pasa si la función se llama dentro de un módulo? Para las funciones dentro de un módulo, se crean y llaman de la siguiente manera:
 
 ```c
 // ceval.c
-// Crear función
+Crear estas funciones.
 TARGET(MAKE_FUNCTION)
 {
     v = POP(); /* code object */
 
-    // Aquí, f->f_globals es equivalente a los globals del propio módulo, como se puede deducir del texto anterior, también es equivalente a m.__dict__.
+Aquí, f->f_globals se refiere al entorno global del módulo, lo cual, como se mencionó anteriormente, equivale a m.__dict__.
     x = PyFunction_New(v, f->f_globals);
     ...
 }
@@ -282,11 +279,11 @@ PyFunction_New(PyObject *code, PyObject *globals)
     PyFunctionObject *op = PyObject_GC_New(PyFunctionObject,
                                         &PyFunction_Type);
     ...
-    // Aquí, esto sería equivalente a op->func_globals = globals = f->f_globals
+// Aquí es equivalente a op->func_globals = globals = f->f_globals
     op->func_globals = globals;
 }
 
-// Llamar a una función
+// Llamar a la función
 static PyObject *
 fast_function(PyObject *func, PyObject ***pp_stack, int n, int na, int nk)
 {
@@ -294,7 +291,7 @@ fast_function(PyObject *func, PyObject ***pp_stack, int n, int na, int nk)
     // globals = func->func_globals
     PyObject *globals = PyFunction_GET_GLOBALS(func);
     ...
-// `globals` se pasa a `PyEval_EvalCodeEx`, y luego se pasa a `PyFrame_New` para crear un nuevo marco de pila.
+Las variables globales se pasan a PyEval_EvalCodeEx, y luego se transfieren a PyFrame_New para crear un nuevo marco de pila.
     return PyEval_EvalCodeEx(co, globals,
                              (PyObject *)NULL, (*pp_stack)-n, na,
                              (*pp_stack)-2*nk, nk, d, nd,
@@ -302,13 +299,13 @@ fast_function(PyObject *func, PyObject ***pp_stack, int n, int na, int nk)
 }
 ```
 
-Al crear una función, se guarda `f->f_globals` en la variable de estructura de función `func_globals`. En el caso del módulo `m`, `f->f_globals = m.__dict__`. Cuando se ejecuta la función, el parámetro `globals` que se pasa a `PyFrame_New` es el `func_globals` almacenado anteriormente durante la creación, por lo que `__builtins__` se puede obtener naturalmente en `func_globals`.
+Al crear una función, se almacena `f->f_globals` en la variable de la estructura de la función `func_globals`, y para el módulo `m`, `f->f_globals = m.__dict__`. Cuando la función se ejecuta, el parámetro `globals` pasado a `PyFrame_New` es el `func_globals` guardado durante la creación, por lo que `__builtins__` puede obtenerse naturalmente en `func_globals`.
 
-Hasta este punto, se puede garantizar la consistencia de la propagación de `__builtins__`, todos los módulos, submódulos, funciones, marcos de pila, etc., pueden hacer referencia a lo mismo, es decir, tener el mismo espacio de nombres incorporado.
+Hasta aquí, la transmisión de `__builtins__` garantiza la consistencia, todos los módulos, submódulos, funciones, marcos de pila, etc., pueden referirse al mismo, es decir, tienen el mismo espacio de nombres incorporado.
 
-##指定 `__main__` 模块执行
+##Ejecutar el módulo `__main__` especificado.
 
-Ya sabemos que el módulo `__main__` tiene acceso a `__builtins__` y puede ser pasado a todos los submódulos, funciones y marcos de pila. Cuando ejecutamos `python a.py` en la línea de comandos, Python ejecuta el archivo `a.py` como el módulo `__main__`. ¿Cómo es posible lograr esto?
+Ya sabemos que `__main__` puede transmitir sus propios `__builtins__` a todos los submódulos, funciones y marcos de pila. Cuando se ejecuta `python a.py` en la línea de comandos, Python ejecuta `a.py` como el módulo `__main__`. ¿Cómo se logra esto?
 
 ```c
 // python.c
@@ -324,14 +321,12 @@ int
 Py_Main(int argc, char **argv)
 {
     ...
-// Intenta ejecutar el código utilizando el importador del módulo
+Intenta ejecutar código utilizando el importador de módulos.
     if (filename != NULL) {
         sts = RunMainFromImporter(filename);
     }
     ...
-    // 一般我们自己的 py 文件，会使用这个来执行
-
-    // Por lo general, usamos esto para ejecutar nuestros propios archivos py
+// Generalmente nuestros propios archivos py, usaríamos esto para ejecutarlos.
     sts = PyRun_AnyFileExFlags(
             fp,
             filename == NULL ? "<stdin>" : filename,
@@ -358,7 +353,7 @@ PyRun_SimpleFileExFlags(FILE *fp, const char *filename, int closeit,
     m = PyImport_AddModule("__main__");
     d = PyModule_GetDict(m);
     ...
-// Establecer el atributo __file__
+// Establecer atributo __file__
     if (PyDict_SetItemString(d, "__file__", f) < 0) {
         ...
     }
@@ -373,35 +368,27 @@ run_pyc_file(FILE *fp, const char *filename, PyObject *globals,
              PyObject *locals, PyCompilerFlags *flags)
 {
     ...
-// Se lee el objeto de código "co" del archivo pyc y se ejecuta el código
-    // Dentro de PyEval_EvalCode también se llama a PyFrame_New para crear un nuevo marco de pila.
+// Leer el objeto de código co desde el archivo pyc y ejecutar el código
+Dentro de PyEval_EvalCode también se llama a PyFrame_New para crear un nuevo marco de pila.
     v = PyEval_EvalCode(co, globals, locals);
     ...
 }
 ```
 
-Cuando se ejecuta `python a.py`, generalmente se llega a `PyRun_SimpleFileExFlags`, dentro de `PyRun_SimpleFileExFlags` se extrae `__main__.__dict__` como `globals` y `locals` del código a ejecutar, y finalmente se pasa a `PyFrame_New` para crear un nuevo marco de pila y ejecutar `a.py`. Combinando lo mencionado anteriormente sobre la transferencia de `__builtins__` en módulos y funciones, podemos hacer que el código que se ejecuta posteriormente comparta el mismo conjunto de `current_frame->f_builtins = __main__.__builtins__.__dict__`.
+Al ejecutar `python a.py`, en condiciones normales se llegará a `PyRun_SimpleFileExFlags`, donde se extraerá `__main__.__dict__` para utilizarlo como `globals` y `locals` durante la ejecución del código, que finalmente también se pasará a `PyFrame_New` para crear un nuevo marco de pila para ejecutar `a.py`. Combinando esto con lo que mencionamos anteriormente sobre la transmisión de `__builtins__` en módulos y funciones, se puede lograr que el código ejecutado posteriormente comparta la misma instancia de `current_frame->f_builtins = __main__.__builtins__.__dict__`.
 
 
-##**再论 Restricted Execution**
+##Reconsideración de la Ejecución Restringida
 
-La idea de **Restricted Execution** se basa en el concepto de limitar la ejecución de ciertos procesos o actividades. Esta estrategia consiste en establecer restricciones a fin de proteger la integridad y seguridad de un sistema. 
+`Python` antes de la versión 2.3, ofrecía [Ejecución Restringida](https://docs.python.org/2.7/library/restricted.html)Es el resultado de las características de `__builtins__`. O se puede considerar que `__builtins__` fue diseñado para ser un objeto de módulo en el módulo `__main__`, mientras que en otros módulos es un objeto `dict`, con el fin de poder implementar __Restricted Execution__.
 
-La implementación de **Restricted Execution** puede contribuir a prevenir posibles riesgos y vulnerabilidades que puedan comprometer la privacidad y confidencialidad de los datos. Al restringir la ejecución, se minimizan las posibilidades de que programas maliciosos o código no autorizado se ejecuten en un entorno protegido.
+Considera esta situación: si pudiéramos personalizar libremente nuestro módulo `__builtin__` y configurarlo como `__main__.__builtins__`, equivaldría a que todo el código que se ejecute posteriormente utilizaría nuestro módulo personalizado. Podríamos personalizar versiones específicas de funciones y tipos incorporados como `open`, `__import__`, `file`, etc. Más allá de esto, ¿no podría esta forma ayudarnos a restringir los permisos de ejecución del código, evitando que se realicen llamadas a funciones inseguras o se acceda a archivos inseguros?
 
-Existen distintas medidas que se pueden aplicar para lograr la ejecución restringida, tales como el uso de mecanismos de autorización y autenticación, la definición de políticas de acceso y el establecimiento de controles de seguridad. Estas acciones brindan una capa adicional de protección y permiten mantener la integridad del sistema.
-
-En resumen, el uso de **Restricted Execution** es crucial para garantizar la seguridad y confiabilidad de un sistema, al limitar la ejecución de procesos no autorizados. Es importante implementar estas medidas de manera efectiva para proteger la información sensible y salvaguardar la integridad de los sistemas informáticos.
-
-`Python` en versiones anteriores a la 2.3, solía ofrecer [Ejecución Restringida](https://docs.python.org/2.7/library/restricted.html)，se ha construido sobre la característica de `__builtins__`. O se podría decir que `__builtins__` se diseñó como un objeto de módulo en el módulo `__main__`, pero como un objeto `dict` en otros módulos, con el fin de lograr la __Ejecución Restringida__.
-
-Consider the following situation: if we could customize our own `__builtin__` module and set it as `__main__.__builtins__`, then all the subsequent executed code would use our customized module. We could customize specific versions of built-in functions and types such as `open`, `__import__`, `file`, and so on. Moreover, could this approach help us limit the permissions of executing code, preventing it from making unsafe function calls or accessing unsafe files?
-
-`Python` hizo ese intento en ese momento para implementar esta funcionalidad con el módulo llamado `rexec`.
+`Python` carried out this attempt at that time, and the module that implemented this feature was called `rexec`.
 
 ### `rexec`
 
-No tengo la intención de profundizar en la explicación de la implementación de `rexec`, ya que el principio ya se explicó claramente en el texto anterior, y además este módulo está obsoleto. Aquí simplemente presentaré un resumen de algunos fragmentos de código clave para facilitar la referencia.
+No tengo intención de profundizar demasiado en la implementación de `rexec`, ya que el principio ya ha quedado claro en el texto anterior, y además este módulo ha sido descontinuado. Solo haré un resumen de algunas líneas de código clave, para facilitar la consulta.
 
 
 ```python
@@ -446,17 +433,17 @@ class RExec(ihooks._Verbose):
         execfile(file, m.__dict__)
 ```
 
-La función `r_execfile` ejecuta el archivo como si fuera el módulo `__main__`, aunque personalizado. Dentro de `self.add_module('__main__')`, se establece `m.__builtins__ = self.modules['__builtin__']`, donde `__builtin__` es personalizado por `make_builtin` y reemplaza las funciones `__import__`, `reload` y `open`, y también elimina el tipo de dato `file`. De esta manera, tenemos control sobre el acceso del código ejecutado al espacio de nombres incorporado.
+La función `r_execfile` ejecuta el archivo como un módulo `__main__`, pero personalizado. Dentro de `self.add_module('__main__')`, se establece `m.__builtins__ = self.modules['__builtin__']`, donde `__builtin__` es personalizado mediante `make_builtin`, reemplazando las funciones `__import__`, `reload` y `open`, y eliminando el tipo `file`. De esta manera, se puede controlar el acceso del código a los espacios de nombres integrados.
 
-Para algunos módulos incorporados, `rexec` también ha sido personalizado para proteger los accesos inseguros, como el módulo `sys`, que solo conserva parte de los objetos y, a través de `self.loader` y `self.importer` personalizados, logra cargar primero los módulos personalizados durante la importación.
+Para algunos módulos integrados, `rexec` también ha sido personalizado para proteger el acceso inseguro, como el módulo `sys`, solo conservando una parte de los objetos, y a través de `self.loader` y `self.importer` personalizados, logra cargar primero los módulos personalizados al importar.
 
-Si estás interesado en los detalles del código, por favor consulta el código fuente relevante por ti mismo.
+Si estás interesado en los detalles del código, por favor consulta el código fuente correspondiente.
 
-###La falla de `rexec`
+###El fallo de `rexec`
 
-En el texto anterior se menciona que a partir de `Python 2.3`, el módulo `rexec` quedó en desuso debido a que este enfoque ha demostrado ser inviable. Con curiosidad, vamos a rastrear un poco su origen:
+Como se mencionó anteriormente, `rexec` fue desaprobado después de `Python 2.3`, ya que este método ha demostrado ser inviable. Con curiosidad, vamos a hacer un breve repaso sobre su origen:
 
-* En la comunidad alguien reportó un [Bug](https://mail.python.org/pipermail/python-dev/2002-December/031160.html)，并引发了开发者之间的讨论：
+En la comunidad, alguien informó sobre un [Bug](https://mail.python.org/pipermail/python-dev/2002-December/031160.html)y generó una discusión entre los desarrolladores:
 
     > it's never going to be safe, and I doubt it's very useful as long as it's not safe.
 
@@ -472,9 +459,9 @@ En el texto anterior se menciona que a partir de `Python 2.3`, el módulo `rexec
 
     > The code will still be in older versions if someone decides to pick it up and work on it as a separate project.
 
-El origen de este error es que `Python` introdujo la clase de nuevo estilo `object`, lo cual causó que `rexec` no funcionara correctamente. Como resultado, los desarrolladores expresaron que en un futuro previsible sería difícil evitar esta situación, cualquier modificación podría provocar vulnerabilidades en `rexec`, hacer que no funcione correctamente o superar las restricciones de permisos. Básicamente, resultaba casi imposible proporcionar un entorno seguro sin vulnerabilidades, por lo que los desarrolladores tuvieron que dedicar mucho tiempo a arreglar y parchar continuamente. Finalmente, se abandonó el módulo `rexec` y `Python` no proporcionó una funcionalidad similar. Sin embargo, debido a problemas de compatibilidad y otros, la configuración de `__builtins__` se mantuvo.
+* La causa de este error fue la introducción de la nueva clase `object` en `Python`, lo que provocó que `rexec` no funcionara correctamente. Por lo tanto, los desarrolladores indicaron que, en el futuro previsible, sería difícil evitar esta situación, ya que cualquier modificación podría llevar a que `rexec` presentara vulnerabilidades, no funcionara adecuadamente o superara las limitaciones de permisos, haciendo prácticamente imposible ofrecer un entorno seguro sin fallas. Los desarrolladores se vieron obligados a realizar constantes reparaciones, lo que resultó en una gran pérdida de tiempo. Finalmente, el módulo `rexec` fue descontinuado y `Python` no volvió a proporcionar una funcionalidad similar. Sin embargo, la configuración de `__builtins__` se mantuvo debido a problemas de compatibilidad, entre otros.
 
-Después, aproximadamente en el año 2010, un programador lanzó [pysandbox](https://github.com/vstinner/pysandbox)，dedicado a proporcionar un entorno de sandbox en `Python` que pueda reemplazar a `rexec`. Sin embargo, después de 3 años, el autor decidió abandonar este proyecto y explicó en detalle por qué consideraba que había fracasado: [El proyecto pysandbox está roto](https://mail.python.org/pipermail/python-dev/2013-November/130132.html)，también ha habido otros autores que han resumido el fracaso de este proyecto: [El fracaso de pysandbox](https://lwn.net/Articles/574215/)Si estás interesado, puedes leer el texto original para obtener más información. Aquí te proporciono un resumen para ayudarte a entender:
+Más tarde, alrededor del año 2010, un programador lanzó [pysandbox](https://github.com/vstinner/pysandbox)Se dedicó a ofrecer un entorno de sandbox en `Python` que pudiera reemplazar a `rexec`. Sin embargo, tres años después, el autor decidió abandonar voluntariamente este proyecto y explicó detalladamente por qué consideraba que había fracasado: [The pysandbox project is broken](https://mail.python.org/pipermail/python-dev/2013-November/130132.html)También otros autores han escrito resúmenes sobre el fracaso de este proyecto: [The failure of pysandbox](https://lwn.net/Articles/574215/)Si estás interesado, puedes echar un vistazo al texto original para más detalles. Aquí te dejo un resumen para ayudarte a comprender:
 
 > After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.
 
@@ -484,27 +471,25 @@ Después, aproximadamente en el año 2010, un programador lanzó [pysandbox](htt
 
 > pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like "del dict[key]" are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating "1+(2*3)", pysandbox cannot be used in practice, because of all these protections.
 
-El autor de __pysandbox__ considera que es un diseño erróneo tener un entorno de sandbox en `Python`, ya que hay demasiadas formas de escapar de dicho sandbox. Las características del lenguaje que ofrece `Python` son muy diversas y el código fuente de `CPython` es muy extenso, por lo que es prácticamente imposible garantizar la seguridad adecuada. El proceso de desarrollo de __pysandbox__ consistió en aplicar parches de forma continua, pero se han aplicado tantos parches y restricciones que el autor considera que __pysandbox__ ya no puede utilizarse en la práctica, ya que muchas características y funcionalidades han sido restringidas y no se pueden utilizar, como por ejemplo la operación sencilla `del dict[key]`.
+El autor de __pysandbox__ cree que es un error de diseño incluir un entorno de sandbox en `Python`, ya que hay demasiadas formas de escapar del sandbox. `Python` ofrece características del lenguaje muy ricas y el código fuente de `CPython` es extenso, lo que hace prácticamente imposible garantizar suficiente seguridad. El proceso de desarrollo de __pysandbox__ ha consistido en aplicar continuamente parches; hay demasiados parches y demasiadas restricciones, hasta el punto de que el autor considera que __pysandbox__ ya no es utilizable en la práctica, ya que muchas características y funciones de la sintaxis están limitadas y no se pueden usar, como por ejemplo `del dict[key]`.
 
-##Ejecución restringida ¿Dónde está la salida?
+##Restricción de Ejecución ¿Cuál es la salida?
 
-Dado que los métodos como `rexec` y __pysandbox__, que proporcionaban un entorno de sandbox mediante el parcheo de Python, ya no funcionan, me pregunto: ¿cómo podemos proporcionar un entorno de sandbox funcional para Python?
+Dado que métodos como `rexec` y __pysandbox__ que ofrecen un entorno de sandbox a través del parcheo de Python (llamaremos a este método parcheo de Python) ya no son viables, no puedo evitar preguntarme: ¿cómo se puede proporcionar a Python un entorno de sandbox funcional?
 
-Aquí continué recopilando algunos otros métodos de implementación o casos de estudio para facilitar su consulta y referencia:
+Aquí continúo recopilando algunos otros métodos de implementación o casos, para facilitar su referencia y consulta:
 
-* [PyPy](https://doc.pypy.org/en/latest/sandbox.html)Hay una [rama](https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2)Se ha proporcionado la funcionalidad de la caja de arena, en combinación con [sandboxlib](https://foss.heptapod.net/pypy/sandboxlib)，puedes compilar tú mismo una versión de PyPy con entorno sandbox. Si estás interesado, puedes intentar configurarlo por tu cuenta, consulta algunas [instrucciones](https://foss.heptapod.net/pypy/pypy/-/issues/3192)La implementación de PyPy se basa en la creación de un subproceso en el que todas las entradas, salidas y llamadas al sistema se redirigen a un proceso externo, que controla estos permisos. También es posible controlar el uso de memoria y CPU. Es importante tener en cuenta que esta rama ha estado un tiempo sin nuevas confirmaciones, así que utilízala con precaución.
+* [PyPy](https://doc.pypy.org/en/latest/sandbox.html)Hay una [rama](https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2)Proporciona la funcionalidad de un sandbox, combinado con la librería [sandboxlib](https://foss.heptapod.net/pypy/sandboxlib)Se puede compilar por sí mismo una versión de PyPy con entorno de sandbox. Si estás interesado, puedes intentar configurarlo por tu cuenta, consultando algunas [instrucciones](https://foss.heptapod.net/pypy/pypy/-/issues/3192)El principio de implementación de PyPy consiste en crear un subproceso, el cual redirige todas las entradas, salidas y llamadas al sistema a un proceso externo, que controla esos permisos. Además, se puede controlar el uso de memoria y CPU. Es importante señalar que esta rama también ha estado sin nuevas contribuciones durante un tiempo, así que se recomienda usarla con precaución.
 
-* Utilizar la herramienta del entorno del sistema operativo conocida como "sandbox" [seccomp](https://en.wikipedia.org/wiki/Seccomp)Es una herramienta de seguridad computacional proporcionada por el núcleo de Linux, [libsecomp](https://github.com/seccomp/libseccomp/tree/main/src/python)Se ha proporcionado una interfaz de Python que se puede incrustar en el código para su uso, o puede utilizar herramientas basadas en seccomp para ejecutar código, como [Firejail](https://firejail.wordpress.com/)[AppArmor](https://apparmor.net/)Es un módulo de seguridad del kernel de Linux que permite al administrador controlar los recursos y funciones a los que un programa puede acceder, protegiendo el sistema operativo. [codejail](https://github.com/openedx/codejail)Es un entorno de sandbox de Python implementado basado en AppArmor. Si estás interesado, puedes probarlo. Hay muchas herramientas similares, pero no se enumeran todas aquí.
+Utiliza las herramientas de entorno de sandbox proporcionadas por el sistema operativo. [seccomp](https://en.wikipedia.org/wiki/Seccomp)Es una herramienta de seguridad informática proporcionada por el núcleo de Linux, [libseccomp](https://github.com/seccomp/libseccomp/tree/main/src/python)Se han proporcionado los enlaces de Python para incorporar en el código; o también se puede utilizar herramientas basadas en seccomp para ejecutar el código, como [Firejail](https://firejail.wordpress.com/)[AppArmor](https://apparmor.net/)Es un módulo de seguridad del núcleo de Linux que permite a los administradores controlar los recursos y funciones del sistema a los que pueden acceder los programas, protegiendo así el sistema operativo. [codejail](https://github.com/openedx/codejail)Es un entorno de sandboxing en Python basado en AppArmor, si tienes interés, puedes probarlo. Hay muchas herramientas similares, aquí no se enumeran una por una.
 
-* Utiliza un entorno de sandbox o contenedor. [Windows Sandbox](https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview)，[LXC](https://linuxcontainers.org/), [Docker](https://www.docker.com/)Espere un momento, aquí no se detalla más.
+Utilice un entorno virtual sandbox o contenedor. [Windows Sandbox](https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview)，[LXC](https://linuxcontainers.org/), [Docker](https://www.docker.com/)Espera un momento, aquí no se detallará más.
 
-##**总结** 
+##Resumen
 
-El término "总结" en chino se traduce al español como "resumen".
+La longitud de este texto es un poco extensa, gracias por llegar hasta aquí, creo que todas las preguntas planteadas al comienzo del artículo han sido respondidas.
 
-Este texto es un poco largo, gracias por llegar hasta aquí, todas las preguntas mencionadas al comienzo del artículo estoy seguro de que ya han sido respondidas.
-
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje fue traducido utilizando ChatGPT, por favor [**proporciona tu opinión**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE は、プラグインのソースコードを追加してプラグインを追加します。
+title: UE プラグインのソースコードを追加してプラグインを作成する
 date: 2023-12-01
 categories:
 - c++
@@ -13,22 +13,22 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: シンプルに、UEにプラグインを追加する方法をプラグインのソースコードを持っている場合に記録しておきます。
+description: 拥有プラグインのソースコードを持っている場合に、UE にプラグインを追加する方法を簡単に記録しておきます。
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-#UE プラグインの追加にプラグインのソースコードを使用します。
+#UE は、拡張機能のソースコードを使用して拡張機能を追加します。
 
-#プラグインを追加します。
+#プラグインを追加する
 
-> プラグインソースコードを持っている場合にプラグインを追加する方法を簡単に記録しておきます。
+> プラグインのソースコードを持っている場合に、プラグインを追加する方法を簡単に記録します。
 
-(https://github.com/disenone/UE.EditorPlus)例として
+プラグイン [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)例えば
 
-Pluginsディレクトリにソースコードを配置します。
-- (このステップはスキップしても構いません) .uproject ファイルを編集し、Plugins フィールドに以下を追加します：
+Pluginsディレクトリにソースコードを配置してください。
+- （このステップは実行しなくてもよい）プロジェクト .uproject ファイルを修正し、Plugins フィールドの下に追加します：
     ```json
         "Plugins": [
         {
@@ -39,12 +39,12 @@ Pluginsディレクトリにソースコードを配置します。
             ]
         }
     ```
-uprojectファイルを右クリックし、「Generate Visual Studio Project Files」を実行して、slnプロジェクトファイルを更新します。
-slnファイルを開いて、プロジェクトをコンパイルします。
+uprojectファイルを右クリックし、「Generate Visual Studio Project Files」を実行して、.slnプロジェクトファイルを更新してください。
+slnファイルを開いて、プロジェクトをコンパイルしてください。
 
-#複数言語の設定
+#多言語設定
 
-「DefaultEditor.ini」という設定ファイルを編集して、新しいパスを追加してください。
+プロジェクトの設定ファイルである `DefaultEditor.ini` に新しいパスを追加してください：
 
 ```ini
 [Internationalization]
@@ -55,5 +55,4 @@ slnファイルを開いて、プロジェクトをコンパイルします。
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
-指摘してください。 
+> この投稿は ChatGPT を使用して翻訳されました。フィードバックは[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘された箇所を特定してください。 

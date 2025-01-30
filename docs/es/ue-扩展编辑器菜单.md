@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE Extender el menú del editor
+title: Ampliar menú del editor de UE
 tags:
 - dev
 - game
@@ -8,27 +8,27 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Registrar cómo ampliar el menú del editor en UE.
+description: Registre cómo expandir el menú del editor de la UE.
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#UE Ampliar menú del editor
+#Extensión del menú del editor UE
 
-> Registre cómo ampliar el menú del editor en UE.
+> Registra cómo UE amplía el menú del editor.
 
 ## Hook
 
-Hook se puede entender como un ancla para expandir el menú. Podemos configurar los nuevos comandos de menú para que estén antes o después del Hook. La mayoría de los comandos de menú del editor incorporado en UE llevan el Hook. En UE5, puedes abrir `Editar - Preferencias del Editor - General - Otros - Mostrar puntos de expansión de la interfaz de usuario` para mostrar todos los Hooks de los menús.
+"Hook" se puede entender como un punto de anclaje para expandir el menú. Podemos configurar nuevos comandos de menú antes o después del "Hook". La mayoría de los comandos de menú incorporados en UE vienen con "Hook". En UE5, abre `Editar - Preferencias del editor - General - Otros - Mostrar puntos de extensión de la interfaz de usuario` para ver todos los "Hook" de los menús.
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-#### Módulos dependientes
+##Dependencia de módulos.
 
-Necesitas agregar los módulos dependientes LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus en el archivo .Build.cs del proyecto.
+Es necesario agregar los módulos de dependencia LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd y ToolMenus en el archivo .Build.cs del proyecto.
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -48,11 +48,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-##Añadir barra de menú
+##Agregar barra de menú
 
-**Directo a la Acción**
-
-*Nota: Aquí vamos directamente al código.*
+Por favor, traduzca el texto al español.
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -75,13 +73,13 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Ejecutar el código anterior mostrará que se ha agregado una barra de menú MenúTest después de la palabra "Ayuda":
+Ejecutar el código anterior permite observar que se ha añadido una barra de menú MenuTest después de Ayuda:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-##**Agregar comando**
+##Agregar comando
 
-Utilice el método `MenuBuilder.AddMenuEntry`:
+Utiliza la interfaz `MenuBuilder.AddMenuEntry`:
 
 ```cpp
 // Inside MenuTest Lambda
@@ -93,15 +91,13 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Coloca el código anterior dentro de "CreateLambda" para generar el comando del menú:
+Coloca el código anterior dentro de la función CreateLambda para generar el comando de menú.
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-##**菜单分节** (Título de la sección del menú)
+##Menú dividido
 
 Utiliza `MenuBuilder.BeginSection` y `MenuBuilder.EndSection`:
-
-
 
 ```cpp
 MenuBuilder.BeginSection(NAME_None, FText::FromName("MenuTestSection"));
@@ -117,9 +113,9 @@ MenuBuilder.AddMenuSeparator();
 
 ![](assets/img/2023-ue-extend_menu/section&sperator.png)
 
-##子菜单
+##Submenú
 
-Los submenús son similares a las barras de menú y deben ser definidos dentro de Lambda:
+El submenú es similar a la barra de menú y necesita ser definido en Lambda.
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -138,11 +134,9 @@ MenuBuilder.AddSubMenu(
 
 ![](assets/img/2023-ue-extend_menu/submenu.png)
 
-#**SlateUI** es una biblioteca de componentes para la interfaz de usuario.
+#Controles SlateUI
 
-
-
-Todavía puedes agregar controles de interfaz de usuario (UI):
+También se pueden agregar controles de UI:
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -173,11 +167,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-Slate UI: La información relacionada con Slate UI no se ampliará en detalle aquí, si estás interesado, puedes buscar otros artículos para leer.
+El contenido relacionado con Slate UI no se detalla aquí, si estás interesado, puedes buscar otro artículo para obtener más información.
 
 #Hook aumentar menú
 
-Por ejemplo, agregar un comando en `Herramientas - Programación`
+Por ejemplo, agregar un comando dentro de `Herramientas - Programación`.
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -197,9 +191,9 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-En el mismo sentido, se pueden agregar otros tipos de menú.
+Se puede añadir otros tipos de menú de manera similar.
 
-#
+#Código completo
 
 ```cpp
 void BuildTestMenu()
@@ -287,8 +281,8 @@ void BuildTestMenu()
 
 ![](assets/img/2023-ue-extend_menu/overall.png)
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor comente en [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

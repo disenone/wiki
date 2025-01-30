@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+title: UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
 tags:
 - dev
 - game
@@ -21,21 +21,21 @@ description: UE 實現讀取本地系統圖片
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼板...）
+#UE 實現各種圖片 (UTexture2D) 操作 （讀取、保存、複製、剪貼板...）
 
-> 以下程式碼都是以 UE5.3 版本為例。
+> 以下代碼都是以 UE5.3 版本為例。
 
 ##源碼
 
-可以在UE商店裡獲取插件[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+更多源碼細節可在 UE 商城獲取插件：[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 ##讀取：UE 實現讀取本地系統圖片為 UTexture2D
 
 ###通用方法
 
-這種方法在編輯器和遊戲模式下都可使用，支援的圖片檔案格式包括 PNG、JPEG、BMP、ICO、EXR、ICNS、HDR、TIFF、DDS、TGA，基本上能涵蓋大多數常見的圖片類型。
+這種方法可以在編輯器和遊戲模式下都使用，支持的圖片文件格式包括 PNG、JPEG、BMP、ICO、EXR、ICNS、HDR、TIFF、DDS 和 TGA，基本上可以應對大部分常見的圖片類型。
 
-程式碼也很簡潔：
+代碼也很簡潔：
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -50,13 +50,13 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-返回的即是 UTexture2D。
+返回的就是 UTexture2D。
 
-###編輯器專用方法
+###專為編輯器設計的方法
 
-這個方法能額外支援更多種類的圖片：UDIM 紋理貼圖、IES 檔案、PCX、PSD。
+這項技術可以額外支援更多圖片類型：UDIM紋理貼圖、IES檔案、PCX、PSD。
 
-程式碼的實現可能會變得更複雜一些：
+程式的實作會變得更為複雜：
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -88,11 +88,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-透過使用 UTextureFactory 的 FactoryCreateBinary 函數，我們實現了這個方法，該函數可讀取前面提到的其他文件類型。
+使用 UTextureFactory 的 FactoryCreateBinary 函數實現，此函數能夠讀取前面提到的其他文件類型。
 
-##複製：透過 UE 實現複製 UTexture2D
+##複製：UE 實現複製 UTexture2D
 
-有時候需要複製一個 UTexture2D 出來，再對這個複製出來的圖片進行修改，複製圖片需要使用到引擎自帶的函數 `FImageCore::CopyImage`，只要設定好兩個圖片的參數，調用這個接口即可。
+有時候需要複製一個 UTexture2D 出來，再對這個複製出來的圖片進行修改，複製圖片需要使用到引擎自帶的函數 `FImageCore::CopyImage`，只要設定好兩個圖片的參數，調用這個介面即可。
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -148,9 +148,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##保留：UE 實現將 UTexture2D 保存到文件
+##保存：UE 實現保存 UTexture2D 到文件
 
-主要是使用引擎函式 `FImageUtils::SaveImageAutoFormat`，處理起來相對簡單，但需要注意處理失敗重試的情況。
+核心是使用引擎函數 `FImageUtils::SaveImageAutoFormat`，實現起來比較簡單，不過需要注意失敗重試的情況。
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -181,11 +181,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##保存：UE 實現將 UTexture2D 保存到資產
+##保存：透過UE將UTexture2D保存到資產。
 
-將保存在記憶體中的 UTexture2D 存入資產 (Asset) 中，並可在資源瀏覽器 (Content Browser) 中查看。
+將內存中的 UTexture2D 保存到資源中，並可以在資源瀏覽器 (Content Browser) 中查看。
 
-核心功能需要使用上述實現的 `CopyTexture2D`，我們需要先複製出一張新圖片，然後再呼叫 `UPackage::SavePackage` 將圖片所在的 `Package` 保存為資產。
+核心函數需要用到上面實現的 `CopyTexture2D`，我們需要先複製出來一個新的圖片，然後再調用 `UPackage::SavePackage` 把圖片所在的 `Package` 保存成 Asset。
 
 ```cpp
 
@@ -248,22 +248,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##剪貼板：UE 實現複製圖片 (UTexture2D) 到 Windows 剪貼板 (Clipboard)
+##剪貼板: UE 實現將圖片 (UTexture2D) 複製到 Windows 剪貼板 (Clipboard)
 
-###Windows相關函數
+###Windows相關函式
 
-我們將使用以下 Windows 操作剪貼簿相關的函式：
+我們將使用以下與 Windows 剪貼簿相關的函數：
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)打開剪貼板，取得剪貼板的處理器。
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)清空剪貼板，並將剪貼板的所有權分配給當前的視窗。
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)設定剪貼簿的資料，圖片的資料是透過這個介面傳送至剪貼簿。
-* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)設置好資料後，關閉剪貼板。
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)請打開剪貼簿，獲取剪貼簿的處理器。
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)清空剪貼板，並將剪貼板的所有權分配給當前視窗。
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)透過這個介面將資料設置到剪貼板，圖片資料也透過這個介面發送到剪貼板。
+* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)：設定好數據之後，關閉剪貼簿。
 
-###剪貼板的圖片格式
+###剪贴板的圖片格式
 
-(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)文件中描述了可用的剪貼板格式，其中 `CF_DIBV5` 可用於設置圖片。
+[標準剪貼板格式](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)本文介紹了可使用的剪貼簿格式，其中 `CF_DIBV5` 可用於圖片設置。
 
-CF_DIBV5 要求的格式具体定義 [BITMAPV5HEADER 結構](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)我們選擇了以下配置。
+CF_DIBV5 要求的格式具體定義 [BITMAPV5HEADER 結構](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)，在這裡我們選用以下配置
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -273,7 +273,7 @@ Header.bV5Compression   = BI_BITFIELDS;
 
 ###UTexture2D 設置
 
-我哋係上面揀咗剪貼板圖片嘅顏色空間係 `LCS_sRGB`，即 sRGB 顏色空間，咁呢，UTexture2D 都需要先設定到對應嘅格式：
+我們在上面選擇了剪貼板圖片的顏色空間是 `LCS_sRGB`，即 sRGB 顏色空間，那麼 UTexture2D 也需要先設定到對應的格式：
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -295,7 +295,7 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard是負責將UTexture2D轉換為標準格式：TC_VectorDisplacementmap（RGBA8）和SRGB色彩空間的功能。對齊了UTexture2D和Windows剪貼簿的圖片格式後，我們就可以將圖片數據複製到剪貼簿上。
+ConvertTextureToStandard 主要負責將 UTexture2D 轉換為標準格式：TC_VectorDisplacementmap（RGBA8）和 SRGB 色彩空間。對齊了 UTexture2D 和 Windows 剪貼板的圖片格式後，我們就可以將圖片資料複製到剪貼板上。
 
 ###具體代碼
 
@@ -392,7 +392,7 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 
 ###UTexture2D 與 Base64 之間的轉換
 
-這個實現起來比較簡單，直接上程式碼。
+這個實現起來比較簡單，直接上代碼
 
 ```cpp
 #include <Misc/Base64.h>
@@ -431,4 +431,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_tc.md"
 
 
-> 這篇文章是由ChatGPT翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出所有被忽略的地方。 
+> 這篇文章是由ChatGPT翻譯的，如有[**反饋**](https://github.com/disenone/wiki_blog/issues/new)請指出任何遺漏之處。 

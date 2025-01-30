@@ -1,6 +1,6 @@
 ---
 layout: post
-title: توسيع قائمة محرر UE
+title: UE توسيع قائمة محرر
 tags:
 - dev
 - game
@@ -8,27 +8,29 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: سجل كيفية توسيع قائمة المحرّر في UE
+description: 记录 UE 如何扩展编辑器菜单
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#تم توسيع قائمة محرر UE.
+#توسيع قائمة محرر UE
 
-> سجّل كيفية توسيع قائمة المحرر في UE.
+> سجل كيفية توسيع القائمة التحريرية في UE
 
 ## Hook
 
-يمكن فهم Hook على أنه نقطة ربط لقوائم الامتدادات. يمكننا تعيين أوامر القائمة الجديدة أمام أو خلف Hook. تحتوي معظم أوامر القوائم في محرر UE على Hook. لعرض جميع Hook الخاصة بالقوائم، افتح `تحرير - تفضيلات المحرر - عام - آخرون - عرض نقاط امتداد واجهة المستخدم` في UE5.
+Hook يمكن فهمه كنقطة ربط لتمديد القوائم، حيث يمكننا ضبط أوامر القائمة الجديدة لتظهر قبل أو بعد الـ Hook. معظم أوامر قوائم المحرر المدمجة في UE تحمل Hook. في UE5، يمكنك فتح `تحرير - تفضيلات المحرر - عام - أخرى - عرض نقاط توسيع واجهة المستخدم` لعرض جميع Hooks القوائم:
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-##الاعتماد على الوحدة
+##المكونات الوابطة
 
-يجب أن تقوم بإضافة الوحدات النمطية التالية كتبعيات في ملف .Build.cs للمشروع: LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus.
+需要在项目 .Build.cs 文件里面加上依赖的模块 LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus： 
+
+يجب إضافة الوحدات المعتمدة LevelEditor، Slate، SlateCore، EditorStyle، EditorWidgets، UnrealEd، ToolMenus في ملف .Build.cs الخاص بالمشروع:
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -48,9 +50,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-##أضف شريط القوائم
+##إضافة شريط القوائم
 
-Please provide a sentence or more context for the translation.
+الرجاء تقديم الرموز المباشرة
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,7 +75,7 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-تنفيذ الشفرة أعلاه يمكن أن نلاحظ أنه تمت إضافة شريط قوائم MenuTest وراء كلمة "مساعدة".
+يمكنك ملاحظة أنه تم إضافة شريط قائمة MenuTest خلف كلمة "帮助" عند تنفيذ الكود أعلاه:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
@@ -91,11 +93,11 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-وضع هذا الكود في "CreateLambda" سيُنشئ أمر القائمة.
+وضع الشيفرة أعلاه داخل CreateLambda لإنشاء أمر القائمة.
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-##تقسيم القائمة
+##قائمة الأقسام
 
 استخدام `MenuBuilder.BeginSection` و `MenuBuilder.EndSection`：
 
@@ -105,7 +107,7 @@ MenuBuilder.BeginSection(NAME_None, FText::FromName("MenuTestSection"));
 MenuBuilder.EndSection();
 ```
 
-##فاصلة
+##فاصل
 
 ```cpp
 MenuBuilder.AddMenuSeparator();
@@ -115,7 +117,7 @@ MenuBuilder.AddMenuSeparator();
 
 ##القائمة الفرعية
 
-القائمة الفرعية تشبه شريط القوائم، وتحتاج إلى تعريف داخل اللامبدا:
+القوائم الفرعية مشابهة لشريط القوائم ويجب تحديدها داخل اللامبدا.
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -134,9 +136,11 @@ MenuBuilder.AddSubMenu(
 
 ![](assets/img/2023-ue-extend_menu/submenu.png)
 
-#عنصر التحكم SlateUI
+#عنصر واجهة المستخدم الخاص بـ SlateUI
 
-يمكنك أيضاً إضافة عناصر تحكم واجهة المستخدم:
+يمكنك أيضاً إضافة عناصر واجهة المستخدم:
+
+
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -167,11 +171,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-سليت يو آي المتعلقة هنا لن نقوم بتوضيحها بالتفصيل، يمكنك البحث عن مقال آخر إذا كنت مهتمًا.
+لن نتطرق بالتفصيل للمحتويات المتعلقة بواجهة Slate، يمكن لمن يهمه الأمر البحث عن مقالات أخرى.
 
-#Hook تزيين القائمة
+#إضافة قائمة Hook
 
-أضف أمرًا مثل تلك الموجودة في `الأدوات - البرمجة`.
+مثل إضافة أمر داخل "الأدوات - البرمجة".
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -191,9 +195,9 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-يمكنك أيضًا إضافة أنواع قوائم طعام أخرى.
+بإمكانك أيضاً إضافة أنواع قوائم طعام أخرى.
 
-#الرجاء تقديم نص آخر للترجمة.
+#الرموز التالية: 完整代码
 
 ```cpp
 void BuildTestMenu()
@@ -285,4 +289,4 @@ void BuildTestMenu()
 
 
 
-> تم ترجمة هذه المشاركة باستخدام ChatGPT، يرجى تقديم [**ردود الفعل**](https://github.com/disenone/wiki_blog/issues/new)يرجى إشارة إلى أي نقص. 
+> هذه المشاركة تم ترجمتها باستخدام ChatGPT، يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)سأبقى هنا لتقديم المساعدة في أي شيء قد تفتقده. 

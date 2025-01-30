@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Umsetzung verschiedener Bild (UTexture2D) Operationen (Lesen, Speichern, Kopieren,
-  Zwischenablage...)
+title: UE implementiert verschiedene Bild (UTexture2D) Operationen (lesen, speichern,
+  kopieren, Zwischenablage...)
 tags:
 - dev
 - game
@@ -17,26 +17,26 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: UE implementiert das Lesen lokaler Systembilder
+description: UE implementiert das Lesen von lokalen Systembildern.
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#UE ermöglicht eine Vielzahl von Bild (UTexture2D) Operationen (Lesen, Speichern, Kopieren, Zwischenablage...).
+#UE ermöglicht verschiedene Operationen mit Bildern (UTexture2D) (Lesen, Speichern, Kopieren, Zwischenablage...).
 
-> The following code examples are based on UE5.3 version.
+> Der folgende Code ist am Beispiel der Version UE5.3.
 
 ##Quellcode
 
-Weitere Details zum Quellcode finden Sie im UE-Marktplatz unter dem Plugin: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+Weitere Quellcodedetails sind im UE Marketplace für das Plugin [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Lesen Sie: UE liest lokale Systembilder ein, um sie als UTexture2D darzustellen.
+##Lesen: UE implementiert das Einlesen von lokalen Systembildern als UTexture2D.
 
-###Allgemeine Methode
+###Allgemeines Verfahren
 
-Diese Methode funktioniert sowohl im Editor- als auch im GamePlay-Modus und unterstützt die Bildformate PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA, sodass die meisten gängigen Bildtypen abgedeckt sind.
+Diese Methode funktioniert sowohl im Editor- als auch im GamePlay-Modus und unterstützt Bildformate wie PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA. Es deckt im Grunde genommen die meisten gängigen Bildtypen ab.
 
-Der Code ist auch sehr sauber:
+Der Code ist auch sehr übersichtlich:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -51,13 +51,13 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-Das Ergebnis ist UTexture2D.
+Die zurückgegebene UTexture2D ist.
 
-###Spezialmethoden für Editoren
+###Editor-spezifische Methoden
 
-Diese Methode unterstützt zusätzlich weitere Bildtypen: UDIM-Texturdateien, IES-Dateien, PCX und PSD.
+Diese Methode unterstützt zusätzlich weitere Bildtypen: UDIM-Texturkarten, IES-Dateien, PCX und PSD.
 
-Die Umsetzung im Code wird etwas komplexer sein:
+Die Implementierung des Codes wird etwas komplexer sein:
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -89,11 +89,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-Die Umsetzung verwendet die Funktion FactoryCreateBinary der UTextureFactory, die in der Lage ist, die erwähnten zusätzlichen Dateitypen zu lesen.
+Die Implementierung erfolgt durch die Verwendung der Funktion FactoryCreateBinary von UTextureFactory, die in der Lage ist, die zuvor erwähnten zusätzlichen Dateitypen zu lesen.
 
-##Kopie: UE erreicht das Kopieren von UTexture2D
+##Kopieren: UE implementiert das Kopieren von UTexture2D
 
-Manchmal muss ein UTexture2D dupliziert werden, um dann Änderungen an diesem duplizierten Bild vorzunehmen. Das Kopieren des Bildes erfordert die Verwendung der vom Engine bereitgestellten Funktion `FImageCore::CopyImage`. Sobald die Parameter der beiden Bilder festgelegt sind, kann diese Schnittstelle aufgerufen werden.
+Manchmal muss ein UTexture2D kopiert werden, um das kopierte Bild zu bearbeiten. Zum Kopieren des Bildes wird die vorinstallierte Engine-Funktion `FImageCore::CopyImage` verwendet. Nachdem die Parameter der beiden Bilder richtig eingestellt wurden, kann diese Schnittstelle aufgerufen werden.
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -149,9 +149,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##Speichern: UE ermöglicht das Speichern von UTexture2D in eine Datei.
+##Speichern: UE ermöglicht das Speichern von UTexture2D in eine Datei
 
-Der Schlüssel liegt darin, die Engine-Funktion `FImageUtils::SaveImageAutoFormat` zu verwenden, um dies zu realisieren. Es ist ziemlich einfach umzusetzen, aber man sollte auf die Fälle von fehlgeschlagenen Wiederholungen achten.
+Der Kern besteht darin, die Engine-Funktion `FImageUtils::SaveImageAutoFormat` zu verwenden, was relativ einfach umzusetzen ist, jedoch sollten die Fälle von fehlgeschlagenen Versuchen und Wiederholungen beachtet werden.
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -182,11 +182,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##Speichern: UE speichert das UTexture2D als Asset.
+##Speichern: UE implementiert das Speichern von UTexture2D in Asset
 
-Speichern Sie das UTexture2D aus dem Speicher in ein Asset und betrachten Sie es im Ressourcenbrowser (Content Browser).
+Speichern Sie UTexture2D im Speicher als Asset, und Sie können es im Ressourcen-Browser (Content Browser) anzeigen.
 
-Die Kernfunktion benötigt die oben implementierte `CopyTexture2D`. Zuerst müssen wir ein neues Bild kopieren und dann `UPackage::SavePackage` aufrufen, um das Paket zu speichern, in dem sich das Bild befindet, als Asset.
+Die Kernfunktion benötigt die oben implementierte `CopyTexture2D`. Wir müssen zuerst ein neues Bild kopieren und dann `UPackage::SavePackage` aufrufen, um das `Package`, in dem sich das Bild befindet, als Asset zu speichern.
 
 ```cpp
 
@@ -249,24 +249,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##Transferieren des Textes in die deutsche Sprache:
-
-"Zwischenablage: UE ermöglicht das Kopieren von Bildern (UTexture2D) in die Windows-Zwischenablage (Clipboard)."
+##Zwischenablage: UE ermöglicht das Kopieren von Bildern (UTexture2D) in die Windows-Zwischenablage (Clipboard).
 
 ###Windows related functions
 
-Wir werden die folgenden Funktionen des Windows-Zwischenspeichers verwenden:
+Wir werden die folgenden Funktionen zur Verwaltung der Windows-Zwischenablage verwenden:
 
 * [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)Öffnen Sie die Zwischenablage und erhalten Sie den Handler der Zwischenablage.
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Leeren Sie die Zwischenablage und weisen Sie sie dem aktuellen Fenster zu.
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Übermitteln Sie die Daten des Bildes mit dieser Schnittstelle an die Zwischenablage, um den Zwischenablagetext festzulegen.
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)Leeren Sie die Zwischenablage und weisen Sie alle Rechte an die aktuelle Fensteranwendung zu.
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)Über diese Schnittstelle werden die Daten des Bildes an die Zwischenablage gesendet, um die Daten der Zwischenablage festzulegen.
 * [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)Nachdem die Daten eingestellt sind, schließen Sie die Zwischenablage.
 
-###Das Bildformat der Zwischenablage
+###Das Bildformat der Zwischenablage.
 
-(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Es werden verfügbare Zwischenablageformate vorgestellt, wobei `CF_DIBV5` zum Einfügen von Bildern genutzt werden kann.
+[Standard-Zwischenablageformat](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)Es werden verfügbare Zwischenablageformate vorgestellt, wobei `CF_DIBV5` verwendet werden kann, um ein Bild festzulegen.
 
-Die spezifische Definition des Formats, wie von CF_DIBV5 [BITMAPV5HEADER-Struktur](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Hier verwenden wir die folgende Konfiguration.
+CF_DIBV5 gefordertes Format spezifische Definition [BITMAPV5HEADER Struktur](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)Hier verwenden wir die folgende Konfiguration.
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -274,9 +272,9 @@ Header.bV5CSType        = LCS_sRGB;
 Header.bV5Compression   = BI_BITFIELDS;
 ```
 
-###UTexture2D setting
+###UTexture2D Einstellungen
 
-Wir haben im obigen Abschnitt den Farbraum des Zwischenablagebildes auf `LCS_sRGB`, also den sRGB-Farbraum, eingestellt. Daher muss auch das UTexture2D zuerst auf das entsprechende Format eingestellt werden:
+Wir haben oben den Farbraum des Clipboard-Bildes auf `LCS_sRGB` eingestellt, also den sRGB-Farbraum, daher muss auch UTexture2D zuerst auf das entsprechende Format eingestellt werden:
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -298,9 +296,11 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard is responsible for converting UTexture2D into standard formats: TC_VectorDisplacementmap (RGBA8) and SRGB color space. Once the image format of UTexture2D aligns with the Windows clipboard, we can then copy the image data to the clipboard.
+ConvertTextureToStandard ist verantwortlich für die Konvertierung von UTexture2D in das Standardformat: TC_VectorDisplacementmap (RGBA8) und SRGB-Farbraum. Nachdem das Bildformat von UTexture2D und der Windows-Zwischenablage angepasst wurde, können wir die Bilddaten auf die Zwischenablage kopieren.
 
-###Specific code
+###具体代码
+
+具体代码
 
 ```cpp
 void CopyTexture2DToClipboard(UTexture2D* InTexture)
@@ -393,9 +393,9 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 }
 ```
 
-###Die Umwandlung zwischen UTexture2D und Base64.
+###Die Konvertierung zwischen UTexture2D und Base64.
 
-Dies ist relativ einfach umzusetzen, lassen Sie uns direkt zum Code übergehen.
+Dies lässt sich relativ einfach umsetzen, gehen wir direkt zum Code.
 
 ```cpp
 #include <Misc/Base64.h>
@@ -434,4 +434,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf etwaige Auslassungen hin. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Weisen Sie auf etwaige Auslassungen hin. 

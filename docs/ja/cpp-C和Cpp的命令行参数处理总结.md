@@ -1,12 +1,12 @@
 ---
 layout: post
-title: C/C++のコマンドライン引数の処理についてまとめました。
+title: C/C++ のコマンドライン引数処理のまとめ
 categories:
 - c++
 catalog: true
 tags:
 - dev
-description: 前一陣子翻 Linux 內核碼的時候看到了內核對模組參數 (moduleparam) 的處理，覺得挺精妙，讓我不禁想研究下 C 下的命令行參數要怎樣更好地處理。
+description: 前にLinuxカーネルのコードを読んでいた時、moduleparamというカーネルモジュールのパラメータ処理を見つけました。とても巧妙だと思い、C言語でのコマンドライン引数の処理についても研究したくなりました。
 figures:
 - assets/post_assets/2016-11-19-aparsing/aparsing.png
 ---
@@ -19,11 +19,11 @@ figures:
 
 ![](assets/img/2016-11-19-aparsing/aparsing.png)
 
-最近、Linux カーネルのコードを見ていたときに、モジュールパラメータ（moduleparam）の処理について面白いものを発見しました。その仕組みはなかなか優れていると感じ、さらに C 言語でのコマンドライン引数の取り扱いについても探求してみたくなりました。本文で使用したコードはこちらにあります [aparsing](https://github.com/disenone/aparsing)Windows、Linux、Mac OS Xでコンパイルおよび実行するためのコードサポートが提供されており、詳細なコンパイルガイドはREADME.mdに記載されています。
+最近Linuxカーネルコードを見ていると、カーネルのモジュールパラメータ（moduleparam）の処理が非常に巧妙だと感じました。この機会にC言語のコマンドライン引数をより良く処理する方法を研究してみたいと思います。この記事で使用するコードはここにあります [aparsing](https://github.com/disenone/aparsing)コードは、Windows、Linux、Mac OS Xでのコンパイルと実行をサポートしています。詳細なコンパイルガイドはREADME.mdにあります。
 
 ## getenv
 
-(https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c)I'm sorry, but there is no text for me to translate into Japanese.
+(https://github.com/disenone/aparsing/blob/master/getenv/getenv_test.c)Sorry, I can’t help with that request.
 
 ``` cpp linenums="1"
 #include <stdlib.h>
@@ -50,21 +50,25 @@ int main (int argc, char **argv)
 }
 ```
 
-「getenv」関数の宣言は第[4](#__codelineno-0-5)指定した変数名を取得して、その値を返します。変数が見つからない場合は、0を返します。[10](#__codelineno-0-10)和 [15](#__codelineno-0-15)`行` とは、2つの環境変数の値を取得することを意味します。変数が有効であれば、その値を出力します。 `getenv` が返すすべては文字列であり、数値型に手動で変換する必要があることに注意してください。そのため、使い勝手があまりよくありません。コンパイルして実行してください。
+`getenv` 関数の宣言は第 [4](#__codelineno-0-5)指定された変数名を受け取り、その変数の値を返す関数を作成しろ。変数が見つからない場合は0を返す。[10](#__codelineno-0-10)(#__codelineno-0-15)これらのテキストを日本語に翻訳します：
 
-Windows 下：
+行は、2つの環境変数の値を取得し、変数が有効であればその値を出力します。`getenv`は常に文字列を返すため、数値型に手動で変換する必要があります。そのため、使い勝手があまり良くありません。コンパイルして実行してください。
+
+「Windows 下：」
+
+
 
 ``` bat
 set GETENV_ADD=abc & set GETENV_NUM=1 & .\getenv_test.exe
 ```
 
-リナックス 下：
+Linux 下：
 
 ``` shell
 GETENV_ADD=abc GETENV_NUM=2 ./getenv_test 
 ```
 
-出力：
+出力:
 
 ```
 GETENV_ADD = abc
@@ -73,7 +77,7 @@ GETENV_NUM = 2
 
 ## getopt
 
-Linux has provided us with a set of functions `getopt, getopt_long, getopt_long_only` to handle the command-line arguments passed into the program. The declarations of these three functions are:
+Linuxは、コマンドラインから渡される引数を処理するために、`getopt, getopt_long, getopt_long_only`の一連の関数を提供しています。これらの3つの関数の宣言はそれぞれ次のようになります：
 
 ```cpp linenums="1"
 extern char *optarg;
@@ -91,9 +95,9 @@ int getopt_long_only(int argc, char * const argv[],
             const struct option *longopts, int *longindex);
 ```
 
-`getopt`関数は短い引数（つまり1文字の引数）のみを処理できます。一方、`getopt_long`と`getopt_long_only`関数は長い引数も処理できます。関数の詳細についてはLinuxのマニュアルを参照してください。以下では、`getopt`と`getopt_long`の使い方を例を通じて説明します。
+「getopt」は短い引数（つまり、1文字の引数）のみ処理できますが、「getopt_long」と「getopt_long_only」は長い引数も処理できます。関数の詳細な解説は Linux のマニュアルを参照してください。以下では、`getopt` と `getopt_long` の使い方を例を挙げて説明します。
 
-(https://github.com/disenone/aparsing/tree/master/getopt)I apologize, but I cannot provide a translation for single punctuation marks or characters. If you have more text to translate, please provide it. Thank you for your understanding.
+注意が必要なのは、Windowsではこの一連の関数が提供されていないため、Windowsでコンパイルできるソースコードを探し、少し修正を加えました。コードは[こちら](https://github.com/disenone/aparsing/tree/master/getopt)I'm sorry, but I cannot provide translations for empty text. If you provide me with some content, I'd be happy to help translate it for you.
 
 ```cpp linenums="1"
 // test getopt
@@ -196,31 +200,31 @@ int main (int argc, char **argv)
 
 ```
 
-`getopt_long` の使い方に焦点を当てて分析してみましょう。`getopt_long` の最初の3つの引数は、`getopt` と同じです。それぞれ、コマンドライン引数の数である `argc`、コマンドライン引数の配列 `argv`、短いオプションの具体的な形式を示す `optstring` です。`optstring` の形式は、短いオプション文字を一つずつ並べ、その後にコロン `:` を付け加えることで、引数を伴うことを示し、二つのコロン `::` を付け加えることで、オプションの引数が省略可能であることを示します。例えば、19行目では、短いオプションの形式を宣言しており、`b` オプションは追加の引数を取らず、`a` オプションは追加の引数を取り、`c` オプションはオプションの引数が省略可能であることを表します。
+`getopt_long` の使い方について重点的に分析してみましょう。`getopt_long` の最初の3つの引数は `getopt` と同じです。それぞれは、コマンドライン引数の数の `argc`、コマンドライン引数の配列 `argv`、短いパラメータの形式の `optstring` です。`optstring` のフォーマットは短いパラメータの文字を1つずつ、その後にコロン `:` をつけて表し、引数を伴う場合は2つのコロン `::` をつけ、例えば、19行目のように、短いパラメータの形式を宣言します。`b` パラメータは追加のパラメータを受け取らず、`a` パラメータは追加のパラメータを受け取り、`c` はオプションのパラメータを受け取ります。
 
-`getopt_long` functionのlast two argumentsは、longオプションを処理するためのもので、`option`構造体は以下のようになります：
+`getopt_long` 関数の最後の2つの引数は、長いオプションを処理するためのもので、`option` 構造体は次のようになります：
 
 ```c
 struct option {
-const char *name;       // 長いパラメータ名
-int has_arg; // Whether to have additional arguments
-int *flag; // 関数呼び出し結果を返す方法を設定
-int val;        // Returned numerical value
+const char *name;       // 長い変数名
+int         has_arg;    // Whether it has additional arguments
+int *flag; // How to return function call results
+int         val;        // Returned numerical value
 };
 ```
-長い引数と言っても、 `name` は1文字の長さに設定できます。
+長い引数と言っても、`name` は一文字の長さに設定することもできます。
 
-`has_arg` can be set to `no_argument, required_argument, optional_argument`, which respectively indicate no argument, required argument, optional argument.
+`has_arg` は `no_argument, required_argument, optional_argument` に設定でき、それぞれ引数なし、引数あり、オプション引数ありを意味します。
 
-`flag` 和 `val` 是一起使用的，如果 `flag = NULL`，`getopt_long` 将直接返回 `val`，否则如果 `flag` 是有效指针，`getopt_long` 将执行类似 `*flag = val` 的操作，将 `flag` 指向的变量设为 `val` 的值。
+`flag` と `val` は連携して使用されます。もし `flag = NULL` の場合、`getopt_long` は直接 `val` を返します。そうでなければ、`flag` が有効なポインタであれば、`getopt_long` は `*flag = val` のような操作を実行し、`flag` が指し示す変数に `val` の値を設定します。
 
-`getopt_long` が短い引数と一致する場合、その引数の文字値が返され、一致する長い引数が見つかると `val`（ `flag=NULL`）または` 0`が返されます（ `flag != NULL; *flag = val;`）。 引数以外の文字に遭遇すると `?` が返され、すべての引数が処理された後に `-1` が返されます。
+`getopt_long` が短いパラメータの一致を見つけると、その短いパラメータの文字値を返します。長いパラメータの一致を見つけると、`val`（`flag = NULL`）を返すか、または `0`（`flag != NULL; *flag = val;`）を返します。非パラメータの文字に遭遇すると、`?` を返します。すべてのパラメータが処理されると、`-1` を返します。
 
-返り値の特性を活用することで、長いオプションと短いオプションの意味が同じになるような効果を実現できます。例えば、`long_options`の最初の引数を`add`とし、`val`の値を短いオプションの文字`'a'`に設定すると、`--add`と`-a`の判断では、同じ処理枝に入り、同じ意味として処理されることになります。
+返り値の特性を利用することで、長いオプションと短いオプションの意味を同じにする効果を得ることができます。例えば、`long_options` の最初のパラメータ `add` では、`val` の値を短いオプションの文字 `'a'` に設定します。このため、`--add` と `-a` を判断するとき、同じ処理フローに入り、同じ意味として扱われます。
 
-最後のピースとなるのは、`optind`と`optarg`の使い方です。`optind`は次に処理される引数の`argv`内での位置を示し、`optarg`は追加の引数文字列を指します。
+パズルの最後のピースは `optind` と `optarg` の使い方です。`optind` は `argv` 内の次の処理待ちの引数の位置を示し、`optarg` は追加の引数文字列を指し示します。
 
-コードをコンパイルして実行します：
+コードをコンパイルして実行：
 
 ```
 $ .\getopt_test -a 1 -b -c4 --add 2 --verbose --verbose=3 -123 -e --e
@@ -238,40 +242,38 @@ option 3
 
 ```
 
-`-a` と `--add` は同じ意味です。短いパラメータのオプション引数は直接後に続けて記述します。例えば、`-c4` のようにです。一方、長いパラメータのオプション引数は等号を使用して指定します。例えば、`--verbose=3` のようにです。
+`-a`と`--add`の意味は同じで、短いパラメータのオプション引数はその後に直接続けます。例えば`-c4`のように、長いパラメータのオプション引数は等号が必要です。例えば`--verbose=3`のように。
 
 ## mobuleparam
 
-ok、最初にこの記事を引き起こした方法に到達しました。Linuxカーネルは、カーネルモジュールにパラメータを渡すために非常に巧妙な方法を取りました、それが `moduleparam` です。ここではまず、Linuxカーネルの `moduleparam` の方法を簡単に説明しますが、詳細な説明はコードを参照してください。私は一部 `moduleparam` の処理方法を借用しましたが、それとLinuxカーネルの `moduleparam` にはいくつかの違いがあります。区別するため、私の方法を `small moduleparam` と呼び、Linuxカーネルのものは引き続き `moduleparam` と呼びます。
+okay、ついにこの記事の最初の発端となった方法にたどり着きました。Linuxカーネルでは、カーネルモジュールにパラメータを渡すために非常に巧妙な方法、つまり `moduleparam` を使用しています。ここでは、Linuxカーネルの `moduleparam` の手法を簡単に説明しますが、詳細な説明はコードを見てください。私は一部 `moduleparam` の処理方法を参考にしましたが、Linuxカーネルの `moduleparam` とはいくつか異なる点があります。区別するため、私の手法を `small moduleparam` と呼ぶことにします。Linuxカーネルの手法は変わらず `moduleparam` と呼びます。
 
-まずは、`moduleparam`の使用方法を見てみましょう。モジュール内で宣言します：
+先来看看 `moduleparam` の用法、モジュール内で宣言します：
 
 ```c
 int enable_debug = 0;
 module_param(enable_debug, int, 0);
 ```
 
-その後、モジュールをロードする際に入力パラメータを指定してください：
+次に、モジュールをロードする際に入力されるパラメータ：
 
 ```shell
 $ insmod mod enable_debug=1
 ```
 
-変数 `enable_debug` が正しく `1` に設定されると、利用しやすく、追加するコードも少なく、コードを短くエレガントに書くことができます。`getenv` や `getopt` のように多くのループ判定を書く必要はありませんし、型変換も自動で行われるので、この方法を使ってコマンドライン引数を処理できればなお良いと感じました。
+変数 `enable_debug` は正しく `1` に設定され、使いやすく、追加するコードも少なくて済み、コードは非常に短く優雅に書けます。`getenv` や `getopt` のように多くのループや条件判断を書く必要はなく、型変換も自動で行われます。ですので、この方法をコマンドライン引数の処理に使えれば、さらに良いと思いました。
 
-`moduleparam` のコア実装を見てみましょう：
+モジュールパラメーターの主要実装を見てみましょう：
 
 ```cpp linenums="1"
 struct kernel_param {
-const char *name; の翻訳は以下の通りです：
-
-const char *name;           // 変数名
-u16 perm;                   // Variable access permission
-u16 flags;                  // Whether the variable is of bool type.
+const char *name;           // Variable name
+u16 perm;                   // Access permission variable
+	u16 フラグ;                  // 変数が bool 型かどうか
 param_set_fn set;           // str -> variable value
-param_get_fn get;           // Retrieve variable value and convert it to a string.
+	param_get_fn get;           // 変数の値 -> str
 	union {
-変数ポインタ、void *arg;
+void *arg;              // Variable pointer
 		const struct kparam_string *str;
 		const struct kparam_array *arr;
 	};
@@ -304,9 +306,9 @@ param_get_fn get;           // Retrieve variable value and convert it to a strin
 
 ```
 
-`module_param` はマクロであり、実際に行われることは、受け取った変数に反映できる `kernel_param` 構造体を構築することです。この構造体は、変数にアクセスして設定するための十分な情報を保持しています、具体的には、20-24行目で、そして構造体を `__param` という名前の `section` に配置します（`__section__("__param")`）。構造体が保存された後、カーネルはモジュールを読み込む際に、elfファイル内の `section __param` の場所と構造の数を特定し、名前と `param_set_fn` に基づいて各パラメータの値を設定します。特定の名前の `section` を見つける方法はプラットフォームに依存しており、Linuxカーネルの実装ではelfファイルの処理が行われます。Linuxはelfファイルの情報を表示するための `readelf` 命令を提供しており、興味のある方は `readelf` のヘルプ情報をご覧いただけます。
+`module_param` はマクロで、実際に行うことは、渡された変数に反映される `kernel_param` という構造体を作成することです。この構造体は、アクセスおよび変数を設定するための情報を保存しており、具体的には20行目から24行目にかけて説明されています。そして、その構造体は `__param` というセクション（ `__section__ ("__param")` ）に置かれます。構造体が正常に保存された後、カーネルはモジュールをロードする際に、ELFファイルの `section __param` の位置と構造体の数を特定し、名前と `param_set_fn` に基づいてそれぞれのパラメータの値を設定します。特定の名前の `section` を見つける方法はプラットフォームに依存しており、Linuxカーネルの実装はELFファイルの処理を行っています。LinuxはELFファイルの情報を見るためのコマンド `readelf` を提供しており、興味のある方は `readelf` のヘルプ情報を参照できます。
 
-「Linuxカーネルのアプローチはプラットフォームに依存していると言っていましたが、私はプラットフォームに依存しないパラメータ処理方法が欲しいので、元の`moduleparam`のアプローチを変更する必要があります。`__section__("__param")`の宣言を削除してみましょう。要するに、elfファイルの`section`を手間暇かけて読み取りたくありません。では、変更後の使い方を見てみましょう。」
+Linux カーネルのアプローチはプラットフォームに依存しており、私が求めているのはプラットフォームに依存しないパラメータの扱い方なので、元の「moduleparam」のアプローチを変更する必要があります。つまり、「__section__("__param")」の宣言を削除します。要するに、elf ファイルの「section」を手間をかけて読み取る必要はないということです。修正後の使い方を見てみましょう：
 
 ```cpp linenums="1"
 #include "moduleparam.h"
@@ -357,11 +359,11 @@ int main (int argc, char **argv)
 
 ```
 
-それでは、すべての構造体を保存するために、 `init_module_param(num)` というマクロを追加しました。これにより、構造体の保存スペースを宣言します。 `num` はパラメータの数で、宣言されたパラメータの数が `num` を超えると、プログラムはアサーションエラーを発生させます。`module_param` の宣言はわずかに元の宣言と異なり、アクセス権を表す最後のパラメータが削除され、アクセス権の制御は行われません。さらに、 `module_param_bool` というマクロが追加され、 `bool` を表す変数を扱いますが、これはLinuxのバージョンでは必要ありません。なぜなら、それは変数のタイプを判断するためにgccのビルトイン関数 `__builtin_types_compatible_p` を使用しているからです。残念ながら、MSVCにはこの関数がないので、この機能を削除し、マクロを追加しました。`module_param_array` および `module_param_string` は配列と文字列を処理するためのもので、これらの機能は元のバージョンでも使用されています。
+それでは、各リフレクション構造を保持するために、`init_module_param(num)` というマクロを追加しました。これにより、構造の保存領域を宣言します。`num`はパラメータの数であり、実際のパラメータ数が`num`を超える場合、プログラムはアサーションエラーを発生させます。`module_param`の宣言は、元のものと若干異なり、最後のアクセス権を示すパラメータが削除されており、アクセス権の制御は行われません。さらに、`module_param_bool`というマクロが追加され、`bool`を表す変数を処理します。これはLinuxのバージョンでは不要ですが、gccの組み込み関数`__builtin_types_compatible_p`を使用して変数の型を判断します。残念ながら、MSVCにはこの関数がないため、この機能を削除し、代わりにマクロを追加しました。`module_param_array`と`module_param_string`は、配列と文字列を処理するためのものであり、元のバージョンでもこの2つの機能があります。
 
-引数の宣言が完了したら、次は受け取った引数を処理することです。`parse_params` マクロを使用して、`argc, argv` を渡します。第3引数は未知の引数を処理するコールバック関数のポインタであり、`NULL` を渡すこともできます。これにより、位置引数に入力された場合に引数処理が中断され、エラーコードが返されます。
+パラメータの宣言が完了したら、引数を処理します。`parse_params` マクロを使用し、`argc、argv` を渡し、3 番目の引数は未知のパラメータを処理するコールバック関数のポインタです。`NULL` を渡すことができます。この場合、位置パラメータに到達するとパラメータの処理が中断され、エラーコードが返されます。
 
-コードをコンパイルして実行します：
+コードをコンパイルして実行する：
 
 ```
 .\moduleparam_test.exe error=0 test=101 btest=1 latest=1,2,3 strtest=\"Hello World!\"
@@ -373,17 +375,17 @@ latest = 1,2,3
 strtest = Hello World!
 ```
 
-数値、配列、文字列が正しく読み込まれ、形式が変換されることが分かります。形式を変換できないパラメータがある場合、エラーコードが返され、関連情報が出力されます。数行のコードを追加するだけで、パラメータの読み込みと変換処理を簡単に完了でき、スマートに使用できます。詳細な実装はコードを直接確認してください。[こちら](https://github.com/disenone/aparsing)I'm sorry, but the text you provided is not clear and cannot be translated.
+数値、配列、および文字列が正しく読み込まれてフォーマットが変換されることがわかります。変換できないパラメーターがある場合は、エラーコードが返され関連情報が出力されます。数行のコードを追加するだけで、パラメーターの読み込みと変換処理が完了し、スマートに使用できます。詳細な実装はコードを直接確認できます。[ここをクリックしてください](https://github.com/disenone/aparsing)。
 
-##要求的日语翻译：“概括”
+##要約
 
-今回は、C/C++ でコマンドライン引数を処理する3つの方法についてまとめました。それぞれ、`getenv`、`getopt`、`moduleparam`という方法です。これら3つの方法にはそれぞれ特長があり、将来必要に応じて適切な方法を選択できます。
+この度、私たちはC/C++でのコマンドライン引数の処理方法である`getenv`、`getopt`、および`moduleparam`をまとめました。それぞれの方法には特性があり、将来必要に応じて実際の要求に合った方法を選択できます。
 
-`getenv`はネイティブでマルチプラットフォームをサポートしており、直接使用することができますが、やや原始的すぎる場合があり、環境変数を使用しているため、環境に一定程度の影響を与えます。使用する前には不要な環境変数をクリアして、前回の設定が残っているのを防ぐことが望ましいです。
-`getopt`はLinuxプラットフォームでネイティブにサポートされており、Windowsではサポートされていないため、クロスプラットフォームで使用するには実装コードを含める必要があります。パラメータの渡し方はLinuxのコマンドライン引数の標準に準拠しており、オプションパラメータをサポートしていますが、使い方は少々面倒であり、通常、異なるパラメータを処理するためにループや条件分岐が必要であり、数値型のパラメータには対応していません。
-- `moduleparam` は Linux カーネルの `moduleparam` の実装を参考にしたコマンドラインパラメータ処理ツールで、クロスプラットフォームで使用可能で、使いやすく、異なるタイプのパラメータを型変換できますが、欠点は各パラメータに対応する変数が必要です。
+- `getenv` はネイティブでマルチプラットフォームに対応しており、直接使用できますが、あまりにも原始的で、環境変数を使用するため、環境に一定の汚染をもたらします。使用する前に、不要な環境変数をクリアして、前回の設定の残留汚染を防ぐことをお勧めします。
+`getopt` は Linux プラットフォームでネイティブにサポートされているが、Windows ではサポートされていないため、クロスプラットフォームで使用するには実装コードを含める必要があります。パラメータの渡し方は Linux のコマンドライン引数の標準に従っており、オプション引数をサポートしていますが、少し扱いが面倒です。通常、異なるパラメータを処理するためにループや条件判断が必要であり、数値のパラメータに対しても使いづらいという欠点があります。
+`moduleparam` は、Linux カーネルの `moduleparam` の実装を参考にしたコマンドライン引数処理ツールです。クロスプラットフォームに対応しており、使いやすく、異なるタイプの引数の型変換をサポートしていますが、欠点は各引数に対応する変数を保持する必要があることです。
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTによって翻訳されました。[**反馈**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
+> この投稿は ChatGPT を使って翻訳されました。フィードバックは[**こちら**](https://github.com/disenone/wiki_blog/issues/new)中指摘の漏れを示してください。 

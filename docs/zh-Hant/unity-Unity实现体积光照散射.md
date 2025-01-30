@@ -6,7 +6,7 @@ categories:
 catalog: true
 tags:
 - dev
-description: 體積光散射是一個相當不錯的視覺效果，你彷彿看到了光線在空中的傳播，空中的微粒被光照亮，而部分光線又被遮擋住，視覺上會產生從光源輻射出的光線。
+description: 體積光散射是一個挺不錯的視覺效果，你彷彿看到了光線在空中的傳播，空中的微粒被光照亮，而部分光線又被遮擋住，視覺上會產生從光源輻射出的光線。
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
@@ -15,37 +15,37 @@ figures:
 
 ##原理
 
-體積光散射的原理可以參考《GPU Gems 3》[第13章](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)書上有效果圖：
+(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)書中關於效果的圖表：
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-看起來不錯，好的，我們的目標就是要達到這種效果。
+好看吧，那好，我們的目標就是實現這種效果。
 
 書上介紹了原理，一條關鍵的公式是：
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-我的理解是，對於圖像上的每個像素，光線都有可能照射到，那麼對該像素到光源(在投影到圖像上的位置)的連線進行抽樣(對應公式上\\(i\\))，抽樣出的結果進行加權平均(對應公式上\\(\sum\\))並作為該像素的新的顏色值。另外還有關鍵的後置像素著色器，但是如果只是用那個著色器來對相機渲染的結果進行處理，會產生明顯的人工痕跡，有許多的條紋：
+我的理解是，對於圖像上的每個像素，光線都有可能照射到，那麼對該像素到光源（在投影到圖像上的位置）的連線進行採樣（對應公式上\(i\)），採樣出的結果進行加權平均（對應公式上\(\sum\)）並作為該像素的新顏色值。另外還有關鍵的後置像素著色器，但如果只是用那個著色器來對相機渲染的結果進行處理，會產生明顯的人工痕跡，有許多的條紋：
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-書上提及的效果是如何實現的？事實上，書中已經給出了答案，可以用一組圖片來闡述：
+那麼書上的效果是怎麼做出來的？其實書上已經給出了答案，可以用一組圖來闡述：
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
 圖a就是粗糙的效果，細心地可以看到有許多條紋，並且沒有遮擋不夠真實，b、c、d就是為了獲得好的效果需要進行的步驟：
 
-將光線的照射效果呈現在圖像上，並增加物體的遮擋。
+b. 將燈光輻射效果渲染到圖像上，並加上物體的遮擋
 
-對b執行體積光散射像素著色器，得到遮蔽後的效果
+對b執行體積光散射像素著色器，以獲得遮擋後的效果。
 
-在图上添加真实场景的颜色
+d. 添加上真實場景的顏色
 
-那麼接下來，讓我們一步一步地實現。
+接下來讓我們一步一步地實現。
 
-##遮擋物體
+##畫遮蓋物體
 
-在實際操作中，我先使用`RenderWithShader`來把可能會遭遇遮蔽的物體塗黑，其他地方塗白，因為這需要對每個面片進行渲染，所以對於複雜的場景會造成一定的效能消耗。場景中有不透明和透明的物體，我們希望不透明的物體產生完全的光線遮蔽，而透明的物體應該只產生部分的遮蔽，因此我們需要針對不同的RenderType撰寫不同的Shader，RenderType是SubShader的Tag，若不清楚可以參考[這裡](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)寫好後呼叫：
+在實際的操作中，我先用`RenderWithShader`將會發生遮擋的物體畫成黑色，其他地方為白色，因為這需要對每個面片進行渲染，因此對於複雜的場景，會帶來一定的性能消耗。場景中的物體有不透明和透明的，我們希望不透明的物體產生完全的光線遮擋，而透明的物體應該產生部分的遮擋，那麼我們就需要針對不同RenderType的物體寫不同的Shader，RenderType是SubShader的Tag，不清楚的話可以看[這裡](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)，寫好之後調用：
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
@@ -141,13 +141,13 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-請注意不透明和透明物體的Shader之間的區別：不透明的物體直接畫成黑色；透明物體則需要執行blending，獲取物體紋理上的alpha通道，並基於這個alpha值進行blending。上述代碼僅列舉了Opaque和Transparent兩種，還有其他像是TreeOpaque（Shader與Opaque相同，只是改變RenderType）、TreeTransparentCutout（與Transparent相似）等。由於指定了RenderType，為了全面考慮，需要盡可能涵蓋場景中可能會發生遮擋情況的物體，這裡僅提到了前面提到的四種情況。結果大致如下：
+注意不透明和透明物體的Shader之間的差別：不透明的物體直接繪製為黑色；不透明物體需要執行混合，獲取物體紋理上的alpha通道，並基於這個alpha進行混合。上面的代碼只是列舉了Opaque和Transparent，另外還有TreeOpaque（Shader跟Opaque一樣，只是改變RenderType）、TreeTransparentCutout（同Transparent）等。由於指定了RenderType，因此為了全面，需要盡可能穷盡場景中會發生遮擋的物體，我這裡就只有前面提到的四種。結果大致如下：
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
 ##結合物體遮擋畫光源輻射
 
-繪製光源的輻射並不困難，需要留意的是要根據螢幕的大小進行處理，使得光源的輻射呈現圓形狀：
+繪製光源的輻射並不困難，重要的是要根據屏幕的大小做一些處理，使光源的輻射形狀為圓形：
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -199,13 +199,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-這個Shader需要輸入光源在螢幕上的位置(可以使用`camera.WorldToViewportPoint`來計算，得到的是uv座標)，然後根據指定的半徑畫一個亮度往外衰減的圓，並將結果與前面得到的物體遮擋圖像(放在`_MainTex`內)結合，結果大致為：
+這個Shader需要輸入光源在螢幕上的位置（可以用`camera.WorldToViewportPoint`來計算，得到的是uv座標），然後根據指定的半徑畫一個亮度往外衰減的圓，並把結果跟前面得到的物體遮擋圖像（放在`_MainTex`裡）結合，結果大致為：
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-##光散射處理，並結合真實顏色。
+##光散射處理，並結合真實顏色
 
-這裡將使用書中提供的像素着色器，請參考我的版本：
+這裡就要用到書上提供的Pixel Shader，我的版本：
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -290,15 +290,15 @@ Shader "Custom/LightScattering"
 }
 ```
 
-整體來說與書中描述相符，只是我的參數需要從程式中傳遞進來，並結合了真實的顏色圖和Light Scattering圖，得出結果：
+大體上跟書上的一致，只是我的參數需要在程式中傳進來，並且結合了真實的顏色圖和光散射圖，結果：
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
 ##完整代碼
 
-代碼在[這裡](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)將`cs`腳本添加到相機上。
+代碼在[這裡](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)將`cs`腳本新增至相機。
 
 --8<-- "footer_tc.md"
 
 
-> 這篇文章是透過 ChatGPT 翻譯的，如果您有任何[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 
+> 此貼文是透過ChatGPT翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遺漏之處。 

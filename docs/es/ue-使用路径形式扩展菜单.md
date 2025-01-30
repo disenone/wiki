@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE utiliza la extensión de menú en forma de ruta.
+title: UE utiliza el formulario de ruta para expandir el menú.
 tags:
 - dev
 - game
@@ -12,21 +12,15 @@ tags:
 
 <meta property="og:title" content="UE 使用路径形式扩展菜单" />
 
-> ### Cómo implementar menús de extensión en forma de ruta en UE
+> Registrar cómo implementar menús de expansión de forma de ruta en UE.
 
-En este tutorial se explicará cómo implementar menús de extensión en forma de ruta en Unreal Engine (UE). 
+Si no estás familiarizado con el menú de extensiones de UE, te recomendamos que mires brevemente: [Menú del Editor de Extensiones de UE](ue-扩展编辑器菜单.md)
 
-Cada paso será detallado para que puedas entender el proceso correctamente. 
+El código del artículo se basa en el complemento: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-¡Comencemos!
+##Gestión de nodos
 
-Si no estás familiarizado con el menú de extensiones de UE, te recomiendo que eches un vistazo rápido a: [Menú de edición de extensiones de UE](ue-扩展编辑器菜单.md)
-
-Este texto está basado en el complemento: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
-
-##**节点管理**
-
-Organiza el menú siguiendo la estructura de un árbol, donde los nodos padres pueden contener hijos:
+Organiza el menú siguiendo la estructura de un árbol, donde los nodos padres pueden contener nodos hijos:
 
 ```cpp
 class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis<FEditorPlusMenuBase>
@@ -37,7 +31,7 @@ protected:
 }
 ```
 
-En el momento de crear el nodo padre, crea también el nodo hijo:
+Crear nodos secundarios al mismo tiempo que se crea el nodo principal:
 
 ```cpp
 void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
@@ -49,7 +43,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
 }
 ```
 
-Por supuesto, el comportamiento específico de creación de cada nodo puede variar un poco, se sobrescribe una función virtual para implementarlo:
+Por supuesto, el comportamiento específico de creación de cada nodo puede variar un poco. Se sobrescribe la función virtual para implementarlo:
 
 ```cpp
 // Menubar
@@ -103,22 +97,22 @@ void FEditorPlusCommand::Register(FMenuBuilder& MenuBuilder)
 // ......
 ```
 
-##Through the creation of nodes via paths.
+##Generar nodos a través de una ruta.
 
-De acuerdo con la estructura en forma de árbol, organiza el menú de manera adecuada y el formato de la ruta puede definir la estructura en forma de árbol de un menú.
+Organiza el menú en una estructura de árbol; el formato de ruta puede definir la estructura de árbol de un menú:
 
 ```cpp
 "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action"
 ```
 
-La línea anterior define la creación de una serie de menús:
+El camino anterior permite definir una serie de creaciones de menús:
 
-- `<Hook>Help`: Posicionado después del menú con el nombre de Hook Help.
-- `<MenuBar>BarTest`: Crea un menú de tipo Barra de Menú con el nombre BarTest.
-- `<SubMenu>SubTest`: Crea un subnodo de tipo SubMenu con el nombre SubTest.
-- `<Command>Action`：Finalmente crear un comando
+- `<Hook>Ayuda`：ubicado en el menú llamado Help de Hook
+- `<MenuBar>BarTest`: Crea un menú de tipo MenuBar, llamado BarTest.
+- `<SubMenu>SubTest`: Crear un nodo hijo, tipo SubMenu, nombre SubTest
+- `<Command>Action`：Crea un comando al final.
 
-La forma de llamar a la interfaz puede ser muy simple:
+La forma de llamar a la interfaz puede ser muy sencilla:
 
 ```cpp
 const FString Path = "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action";
@@ -131,9 +125,9 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-##Crear nodos con formas personalizadas
+##Generación de nodos con formato personalizado.
 
-Aún mantenemos el método engorroso para crear menús, que permite una configuración más detallada. La forma de organizar el código se asemeja a la escritura de UE's SlateUI:
+Seguimos utilizando un enfoque antiguo para crear menús, este enfoque permite una configuración más detallada y la estructura del código se asemeja un poco a la forma en que se escribe en SlateUI de UE:
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
@@ -150,13 +144,9 @@ EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
 });
 ```
 
-##**混合形式**
+##Forma mixta
 
-*Traducción al español*
-
-**Forma mixta**
-
-Por supuesto, tanto la forma de la ruta original como el menú generado personalizado son iguales, se pueden combinar libremente y son muy flexibles:
+Por supuesto, las formas de menú prediseñadas y las personalizadas son iguales en esencia, y se pueden combinar libremente, lo que ofrece una gran flexibilidad:
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -178,10 +168,8 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-**多个地方定义的菜单，会合并到同一个树形结构中，名字相同的节点会认为是同一个节点。换言之，路径是唯一的，同一个路径可以唯一确定一个菜单节点。**
-
-Varios menús definidos en diferentes lugares se fusionarán en una única estructura de árbol, los nodos con el mismo nombre se considerarán como el mismo nodo. En otras palabras, el camino es único, un mismo camino puede determinar de manera única un nodo de menú.
-Entonces también podemos localizar los nodos y hacer algunos ajustes y modificaciones:
+Varios menús definidos en diferentes lugares se combinarán en una misma estructura jerárquica, y los nodos con el mismo nombre se considerarán el mismo nodo. En otras palabras, la ruta es única, y una misma ruta puede determinar de manera única un nodo del menú.
+Así que también podemos encontrar los nodos y realizar algunos ajustes y modificaciones.
 
 ```cpp
 // set Name and Tips
@@ -189,7 +177,7 @@ FEditorPlusPath::GetNodeByPath("/<MenuBar>BarTest")->SetFriendlyName(LOCTEXT("Me
 ```
 
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este post ha sido traducido utilizando ChatGPT. Por favor, proporcione su [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

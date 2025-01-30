@@ -1,69 +1,63 @@
 ---
 layout: post
-title: Unity realiza la dispersión de luz volumétrica (Volumetric Light Scattering,
-  luz de brechas en las nubes)
+title: Unity implementa la dispersión volumétrica de la luz (Volumetric Light Scattering,
+  también conocida como cloud crevice light)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: La dispersión de la luz volumétrica es un efecto visual muy impresionante,
-  te hace sentir como si estuvieras viendo la propagación de la luz en el aire, las
-  partículas en el aire iluminadas por la luz y parte de la luz bloqueada, lo que
-  crea visualmente los rayos de luz radiantes desde la fuente de luz.
+description: La dispersión de luz volumétrica es un efecto visual bastante interesante,
+  como si pudieras ver la propagación de la luz en el aire, las partículas en el aire
+  iluminadas por la luz, mientras que parte de la luz es obstruida, creando visualmente
+  rayos que parecen irradiar desde la fuente de luz.
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
 
 <meta property="og:title" content="Unity实现体积光照散射 (Volumetric Light Scattering，云隙光)" />
 
-### **原理**
+##Principio
 
-El término **原理** en el contexto proporcionado se traduce al español como **principio**.
-
-El principio de Dispersión de Luz Volumétrica se puede consultar en "GPU Gems 3" [Capítulo 13](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)，Imagen con resultados efectivos en el libro:
+El principio de Volumetric Light Scattering se puede consultar en "GPU Gems 3" [Capítulo 13](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)，libro con imágenes efectivas:
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-Bueno, de acuerdo, nuestro objetivo es lograr este resultado.
+¡Se ve bien, verdad? Bueno, nuestro objetivo es lograr ese efecto.
 
-En el libro se explican los principios, siendo una fórmula clave la siguiente:
+El libro explica los principios, una fórmula clave es:
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-Mi comprensión es que, para cada píxel en la imagen, la luz puede incidir sobre él. Por lo tanto, se realiza un muestreo de la línea que conecta dicho píxel con la fuente de luz (en la posición proyectada en la imagen), lo cual se representa mediante la variable "i" en la fórmula correspondiente. Los resultados de este muestreo se promedian ponderadamente (representado por la suma en la fórmula) y se utilizan como el nuevo valor de color para ese píxel. Además, es importante mencionar el elemento clave del sombreador de píxeles posterior. Sin embargo, si solo se utiliza dicho sombreador para procesar los resultados de la renderización de la cámara, se pueden generar marcas artificiales evidentes, como muchas bandas.
+Mi comprensión es que, para cada píxel en una imagen, la luz puede incidir en él. Por lo tanto, se muestrea la línea que conecta dicho píxel con la fuente de luz (proyectada en la posición de la imagen) (representada en la fórmula como \( i \)), se promedian los resultados muestreados (representado en la fórmula como \( \sum \)) y se utiliza como el nuevo valor de color del píxel. Además, es crucial el sombreador de píxeles posterior, pero si se utiliza solo ese sombreador para procesar los resultados del renderizado de la cámara, se generarán trazas artificiales evidentes, como muchas franjas:
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-Entonces, ¿cómo se logra el efecto descrito en el libro? En realidad, el libro ya proporciona la respuesta, que puede ser ilustrada con un conjunto de imágenes:
+¿Cómo se logra el efecto mostrado en el libro? En realidad, el libro ya ofrece la respuesta, la cual puede ser explicada a través de un conjunto de gráficos.
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
-La imagen a es simplemente el resultado áspero. Si te fijas cuidadosamente, podrás ver muchas rayas y no hay suficiente realismo. Los pasos a seguir para obtener buenos resultados son b, c y d:
+El texto traducido al español sería:
 
-b. Renderizar el efecto de iluminación en la imagen y agregar la occlusión de los objetos.
+"A" representa un efecto rugoso, se pueden apreciar muchas líneas cuidadosamente, sin ocultar la falta de realismo. Los pasos a seguir para obtener un buen efecto son "b", "c" y "d".
 
-c. Aplicar un sombreador de pixel de dispersión volumétrica a b para obtener el efecto de ocultación.
+b. Renderizar el efecto de radiación de luz en la imagen y añadir la oclusión de los objetos.
 
-d. Agregar el color de la escena real
+Aplicar el sombreador de píxeles Volumetric Light Scattering a la entidad b para lograr el efecto de ocultación.
 
-Entonces, a continuación vamos a llevar a cabo paso a paso.
+Agregar el color de la escena real.
 
-##@media(spanish) {
- 画遮挡物体
-}
+Entonces ahora procederemos a llevarlo a cabo paso a paso.
 
-Traduce este texto al español: 
+##Dibuja un objeto que oculte.
 
- Dibujar un objeto de obstrucción.
-
-En la implementación real, primero uso `RenderWithShader` para pintar los objetos que se ocultarán de color negro, mientras que el resto del área se quedará blanco. Dado que esto requiere renderizar cada polígono individualmente, puede afectar el rendimiento en escenas complejas. En la escena hay objetos opacos y transparentes, y queremos que los objetos opacos bloqueen completamente la luz, mientras que los objetos transparentes solo bloqueen parcialmente. Por lo tanto, necesitamos escribir shaders distintos para objetos con diferentes valores de RenderType. RenderType es una etiqueta de SubShader. Si no está seguro, puede consultar [aquí](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)，después de escribirlo, llamar a:
+En la práctica, primero utilizo `RenderWithShader` para pintar los objetos que sufrirán oclusión de color negro, mientras que en otras áreas será blanco. Dado que esto requiere renderizar cada polígrafo, para escenas complejas puede haber un cierto desgaste en el rendimiento. Los objetos en la escena son opacos y transparentes; esperamos que los objetos opacos generen una oclusión total de la luz, mientras que los objetos transparentes deben generar una oclusión parcial. Por lo tanto, necesitamos escribir diferentes Shaders para objetos de diferentes RenderType. RenderType es una etiqueta del SubShader; si no lo entiendes, puedes consultar [aquí](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)Una vez que hayas escrito, llama a:
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
 
 ```
-El segundo parámetro de `RenderWithShader` solicita la sustitución del Shader basado en el RenderType. En pocas palabras, el RenderType del Shader sustituto debe ser idéntico al del Shader original del mismo objeto. De esa manera, podemos utilizar diferentes Shaders para objetos con diferentes RenderTypes.
+El segundo parámetro de `RenderWithShader` requiere reemplazar el Shader según el RenderType. En pocas palabras, el RenderType del Shader que se reemplaza en el mismo objeto debe ser el mismo que el de antes del reemplazo, de esta manera podemos utilizar diferentes Shaders para objetos de diferentes RenderTypes:
 
 ```glsl
 Shader "Custom/ObjectOcclusion" 
@@ -153,15 +147,15 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-注意 la diferencia entre los Shaders de objetos opacos y transparentes: los objetos opacos se dibujan directamente en negro; los objetos transparentes requieren realizar blending para obtener el canal alfa de la textura del objeto y realizar blending basado en ese alfa. El código anterior solo menciona Opaque y Transparent, pero también hay TreeOpaque (el Shader es igual que Opaque, solo cambia el RenderType) y TreeTransparentCutout (igual a Transparent). Dado que se ha especificado el RenderType, para ser exhaustivos, es necesario abarcar todos los objetos que puedan ocultar la escena tanto como sea posible, pero aquí solo menciono estas cuatro mencionadas anteriormente. El resultado es aproximadamente el siguiente:
+Nota la diferencia entre los shaders de objetos opacos y transparentes: los objetos opacos se dibujan directamente en negro; para los objetos opacos se necesita ejecutar el blending, obtener el canal alfa de la textura del objeto y realizar el blending basado en este alfa. El código anterior solo enumera Opaque y Transparent, además hay TreeOpaque (shader igual que Opaque, solo cambia el RenderType), TreeTransparentCutout (igual que Transparent), entre otros. Dado que se ha especificado el RenderType, para ser exhaustivos, es necesario incluir en la medida de lo posible todos los objetos en la escena que puedan causar superposición, y aquí solo tengo los cuatro tipos mencionados anteriormente. Los resultados son aproximadamente los siguientes:
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
-##**结合物体遮挡画光源辐射**
+##Se utiliza la combinación de objetos para ocultar la radiación de fuentes de luz.
 
-Combina la obstrucción de objetos con la representación de la radiación de fuentes de luz.
+Traduce este texto al idioma español:
 
-La proyección de la fuente de luz no es difícil, lo que hay que tener en cuenta es que se debe realizar un procesamiento acorde al tamaño de la pantalla para que la proyección de la fuente de luz sea en forma de círculo.
+Dibujar la radiación de la fuente de luz no es difícil, lo que se debe tener en cuenta es que es necesario realizar ciertos ajustes según el tamaño de la pantalla, para que la radiación de la fuente de luz sea de forma circular:
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -213,13 +207,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-Este Shader requiere la posición de la fuente de luz en la pantalla (puede calcularse utilizando `camera.WorldToViewportPoint`, obteniendo las coordenadas UV). Luego, se dibuja un círculo con un brillo que disminuye hacia afuera de acuerdo con el radio especificado. Este resultado se combina con la imagen de obstrucción del objeto obtenida anteriormente (almacenada en `_MainTex`). El resultado aproximado es el siguiente:
+Este Shader necesita la posición de la fuente de luz en la pantalla (se puede calcular usando `camera.WorldToViewportPoint`, obteniendo así las coordenadas uv), y luego dibuja un círculo cuyo brillo disminuye hacia afuera en función de un radio especificado, combinando el resultado con la imagen de oclusión del objeto obtenida anteriormente (almacenada en `_MainTex`), y el resultado es aproximadamente:
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-##**Light Scattering** es un proceso de procesamiento que se utiliza en combinación con colores reales.
+##Procesamiento de Dispersión de Luz, y combinación con colores reales.
 
-Aquí se utilizará el Pixel Shader proporcionado en el libro, mi versión es:
+Aquí se va a utilizar el Pixel Shader proporcionado en el libro, mi versión:
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -304,17 +298,15 @@ Shader "Custom/LightScattering"
 }
 ```
 
-大体上跟书上的一致，只是我的参数需要在程序中传进来，并且结合了真实的颜色图和Light Scattering图，结果：
+En general, es consistente con lo que dice el libro, solo que mis parámetros necesitan ser pasados en el programa, y se combinan con la imagen de color real y la imagen de dispersión de luz. El resultado:
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
-##完整代码
+##Código completo
 
-Código completo
+El código está [aquí](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)Agrega el script `cs` a la cámara.
 
-El código está [aquí](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip), añade el script `cs` a la cámara.
-
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor, envíe sus comentarios en [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

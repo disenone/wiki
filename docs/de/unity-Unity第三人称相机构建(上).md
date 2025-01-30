@@ -6,38 +6,38 @@ categories:
 catalog: true
 tags:
 - dev
-description: Ich möchte in Unity eine Third-Person-Kamera erstellen, die sich am Verhalten
-  der Third-Person-Kamera in "World of Warcraft" orientiert. Lassen Sie uns zunächst
-  das Rotationsproblem der Kamera lösen.
+description: Ich möchte in Unity eine Third-Person-Kamera erstellen, die sich an der
+  Third-Person-Kamera von "World of Warcraft" orientiert. Lassen Sie uns zunächst
+  das Problem der Kameradrehung lösen.
 figure: null
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(上)" />
 
-Ich möchte in Unity eine Third-Person-Kamera erstellen, die sich am Verhalten der Third-Person-Kamera in "World of Warcraft" orientiert. Die genauen Anforderungen sind:
+Ich möchte in Unity eine Third-Person-Kamera erstellen, deren Verhalten sich an der Third-Person-Kamera aus „World of Warcraft“ orientiert. Die konkreten Anforderungen sind:
 
-1. Linksklick der Maus: Steuert die Kamera, um den Charakter herum zu drehen, der Charakter dreht sich nicht.
-Mit der rechten Maustaste kannst du die Kamera um die Figur herum drehen. Die Blickrichtung der Figur (Unity's tranform.forward) dreht sich entsprechend, während die Oberseite der Figur unverändert bleibt.
-Nachdem die linke Maustaste gedrückt wurde, wird der Charakter gedreht. Wenn dann die rechte Maustaste gedrückt wird, richtet sich die Charakterbewegung sofort nach der Drehung mit der linken Maustaste aus. Danach wird die Bewegung durch die Drehung mit der rechten Maustaste angepasst. Zu diesem Zeitpunkt ist es äquivalent zu zwei aufeinanderfolgenden Drehungen mit der rechten Maustaste.
-Mausrolle: Steuert die Kamera-Zoom-Funktion.
-Die Kamera kann nicht durch irgendeinen starren Körper hindurchgehen.
-Die Kamera kehrt allmählich auf ihre ursprüngliche Entfernung zurück, nachdem sie das starre Objekt verlassen hat.
-Wenn die Kamera auf ein Objekt stößt, sollte sie sofort reagieren, wenn du das Mausrad benutzt, um die Kamera heranzuzoomen. Danach wird Punkt 6 nicht mehr auftreten.
-Die Kamera stößt beim Drehen auf den Boden, hört auf, sich um die Figur zu drehen, und beginnt stattdessen, sich um sich selbst zu drehen, während die seitliche Drehung um die Figur weiterhin erfolgt.
+1. Linke Maustaste: Steuert die Kamera, die sich um die Figur dreht, während die Figur selbst nicht rotiert.
+2. Rechtsklick: Die Kamera dreht sich um die Person, wobei die Vorderseite der Person (transform.forward in Unity) entsprechend rotiert, während die Oberseite der Person unverändert bleibt.
+3. Nachdem die linke Maustaste gedreht wurde, wird bei einer Drehung mit der rechten Maustaste die Vorderansicht des Charakters sofort an die Drehung der linken Maustaste angepasst und anschließend an die Drehung der rechten Maustaste. Zu diesem Zeitpunkt entspricht dies zwei Drehungen mit der rechten Maustaste.
+4. Mausrad: Steuert die Kamera-Zoomfunktion
+5. Die Kamera kann nicht durch feste Objekte hindurchsehen.
+Die Kamera kehrt langsam zu ihrer ursprünglichen Position zurück, nachdem sie den starren Gegenstand berührt hat.
+7. Wenn die Kamera auf ein Objekt trifft, sollte die Kamera sofort reagieren, wenn das Mausrad verwendet wird, um die Kamera heranzuzoomen. Danach tritt Punkt 6 nicht mehr ein.
+8. Die Kamera berührt den Boden während der Drehung, stoppt das Auf- und Abdrehen um die Person und beginnt stattdessen, sich um sich selbst auf- und abzudrehen, während das Drehen nach links und rechts weiterhin um die Person erfolgt.
 
 
 
-Dieses Anliegen kann zunächst in zwei Teile aufgeteilt werden: Kamerarotation und Kamerarigidität. Zur Vereinfachung wird hier zunächst das Problem der Kamerarotation gelöst, das heißt die ersten 3 Punkte des Anliegens.
+Diese Anforderung kann zunächst in zwei Teile unterteilt werden: Kameradrehung und Kamerarigidität. Um es einfach zu halten, betrachten wir hier zunächst das Problem der Kameradrehung, das die ersten drei Punkte der Anforderungen betrifft.
 
 Kameraposition anzeigen
 ----------------
-Bevor wir mit der eigentlichen Lösung des Kameraproblems beginnen, müssen wir noch eine Frage klären: die Darstellung der Kameraposition. Dies kann auf verschiedene Arten erfolgen:
+Bevor die Kamerabedienung offiziell gelöst werden kann, gibt es ein weiteres Problem zu klären: die Darstellung der Kameraposition. Dies kann auf verschiedene Weisen erfolgen:
 
-Die Weltkoordinaten der Kamera
-- Die Kamera im Verhältnis zur Position der Person
-- Die Ausrichtung und Entfernung der Kamera im Personen-Koordinatensystem
+- Weltkoordinaten der Kamera
+Die Kamera in Bezug auf die Position der Person.
+- Die Richtung und der Abstand der Kamera im Koordinatensystem der Person
 
-Da die Kamera in unserem Fall je nach Position der Person verschoben wird, habe ich hier die dritte Methode verwendet, und die Kamera bleibt in der Steuerung immer auf die Person gerichtet, sodass in der Kamera nur die Distanzinformation gespeichert werden muss:
+Aufgrund unserer Anforderungen wird die Kamera entsprechend der Position der Person transformiert. Daher verwende ich hier den dritten Ansatz, und die Kamera zielt ständig auf die Person. Daher muss in der Kamera nur die Distanzinformation gespeichert werden:
 
 ```c#
 float curDistance = 5F;
@@ -45,12 +45,12 @@ float curDistance = 5F;
 
 Kamera drehen
 -------------
-Setzen wir unsere Analyse des Kameraverhaltens fort, können wir zwischen Drehungen nach links und Drehungen nach rechts unterscheiden. Lassen Sie uns nun Schritt für Schritt beide Rotationen durchführen. Zuerst machen wir die Kamera zum Subobjekt des Charakters, so dass die grundlegenden Kamerabewegungen automatisch verfolgt werden.
+Um das Verhalten der Kamer旋转 weiter zu unterteilen, können wir zwischen Linksklick旋转 und Rechtsklick旋转 unterscheiden. Lassen Sie uns diese beiden旋转 Schritt für Schritt durcharbeiten. Zunächst setze ich die Kamera als untergeordnetes Objekt (children) der Figur, sodass die Kamera einige grundlegende Bewegungen der Figur automatisch verfolgt.
 
-###Bitte beachten Sie: Links drehen ###
-Bei der reinen Betrachtung der Linksdrehung ist die Anforderung sehr einfach: Die Kamera dreht sich, die Figur dreht sich nicht. Dies entspricht im Grunde einer Kamera zur Beobachtung des Modells, mit der die Kamera das Zentralobjekt aus beliebigen Winkeln betrachten kann.
+###Bitte entfernen Sie den Text "Links drehen ###"
+Allein das Drehen der linken Maustaste ist einfach: **Die Kamera dreht sich, die Figur dreht sich nicht**. Das entspricht einer Kamera, die ein Modell beobachtet, wobei die Kamera das zentrale Objekt aus beliebigem Winkel betrachten kann.
 
-In Unity kann man den Status der linken Maustaste mit dem Befehl `Input.GetMouseButton(0)` abrufen. Offensichtlich ist die rechte Maustaste `Input.GetMouseButton(1)`. Um die Bewegung des Mauszeigers zu erhalten (als Verschiebung auf der X-Y-Ebene zwischen Frames), verwende `Input.GetAxis("Mouse X"); Input.GetAxis("Mouse Y")`. Lass uns also zunächst die Bewegung des Mauszeigers nach dem Drücken der linken Maustaste abrufen:
+In Unity wird der Status der linken Maustaste mit folgendem Code abgerufen: `Input.GetMouseButton(0)` (Hinweis: Alle Codebeispiele sind in C#). Offensichtlich wird der Status der rechten Maustaste mit `Input.GetMouseButton(1)` abgefragt. Um die Bewegung des Mauszeigers (den Versatz des Cursors auf der X-Y-Ebene zwischen Frames) zu erhalten, können Sie `Input.GetAxis("Mouse X"); Input.GetAxis("Mouse Y")` verwenden. Nun können wir zuerst die Bewegungsinformationen des Cursors erhalten, nachdem die linke Maustaste gedrückt wurde:
 
 ```csharp
 if (Input.GetMouseButton(0))
@@ -60,47 +60,47 @@ if (Input.GetMouseButton(0))
 }
 ```
  
-Der Code ist ziemlich einfach, aber hier kommt der entscheidende Punkt: Wie man die Kamera steuert, um sie zu drehen. Um Rotation zu verstehen, benötigt man etwas Wissen über Quaternionen (es gibt viele Informationen im Internet, hier werde ich sie nicht auflisten). Ein wichtiger Punkt über Quaternionen ist, dass sie Drehungen leicht konstruieren können, insbesondere um einen bestimmten Vektor herum. Nachdem man Quaternionen verstanden hat, ist es nicht schwierig, die Kamera um eine Figur herum zu drehen.
+Der Code ist einfach, der entscheidende Punkt liegt jedoch darunter: Wie man die Kamera steuert, um zu rotieren. Um Rotation zu verstehen, benötigt man hier einige Kenntnisse über Quaternionen (es gibt viele Online-Ressourcen dazu, daher liste ich sie hier nicht auf). Ein wichtiger Punkt von Quaternionen ist, dass sie Rotation sehr einfach konstruieren können, insbesondere Drehungen um einen bestimmten Vektor. Nachdem man Quaternionen verstanden hat, wird es nicht schwierig sein, die Kamera um eine Figur zu rotieren.
 
-Eine weitere wichtige Sache zu beachten ist, dass der Rotationsvektor von Quaternionen nur ein Vektor ist, der vom Ursprung ausgeht. Wenn Sie einen bestimmten Punkt 'O' im Weltkoordinatensystem als Ursprung verwenden möchten und den Vektor 'V', der von diesem Punkt aus geht, als Rotationsachse verwenden möchten, müssen Sie eine Koordinatensystemtransformation durchführen. Vereinfacht ausgedrückt bedeutet dies, dass der Punkt 'P', der rotiert werden soll, in das Koordinatensystem mit 'O' als Ursprung überführt wird, entsprechend 'V' rotiert wird und dann wieder in das Weltkoordinatensystem transformiert wird. Basierend auf diesen Operationen kann eine Funktion erstellt werden:
+Ein weiterer Punkt, den man beachten sollte, ist, dass die Rotationsachse des Quaternion nur ein Vektor ist, der vom Ursprung ausgeht. Wenn man einen bestimmten Punkt `O` im Weltkoordinatensystem als Ursprung nehmen und den Vektor `V`, der von diesem Punkt ausgeht, als Rotationsachse verwenden möchte, ist eine Koordinatentransformation erforderlich. Vereinfacht gesagt, muss der Punkt `P`, der rotiert werden soll, in das Koordinatensystem transformiert werden, das `O` als Ursprung hat. Anschließend wird um `V` rotiert, bevor wieder in das Weltkoordinatensystem zurücktransformiert wird. Basierend auf diesen Operationen kann eine Funktion geschrieben werden:
 
 ```c#
 Vector3 MyRotate(Vector3 oldPosition, float angle, Vector3 axis, Vector3 axisPosition)
 {
-Erstellen Sie einen Quaternion mit der Achse als Rotationsachse. Diese Rotation erfolgt im Koordinatensystem des Charakters.
+Erstellen Sie ein Quaternion mit der Achse als Rotationsachse. Dies erfolgt in Bezug auf das Koordinatensystem der Figur.
     Quaternion rotation = Quaternion.AngleAxis(angle, axis);
-Hier wird einfach die Koordinatentransformation durchgeführt, um die Weltkoordinaten der Kamera in die Koordinaten des Charakters umzuwandeln.
+// Hier wird die Koordinatentransformation durchgeführt, um die Weltkoordinaten der Kamera in die Koordinaten des Personenkoordinatensystems zu verwandeln.
     Vector3 offset = oldPosition - axisPosition;
-Berechnen der Rotation und Rücktransformation in das Weltkoordinatensystem.
+Berechne die Rotation und transformiere sie zurück in das Weltkoordinatensystem.
     return axisPosition + (rotation * offset);
 }
 ```
-`Quaternion` is the type in Unity that represents quaternions. Combined with the previous mouse left-click detection, you can achieve left-click control for rotating the camera left and right.
+`Quaternion` ist der Typ zur Darstellung von Quaternionen in Unity. In Kombination mit der vorherigen Erkennung der linken Maustaste kann somit eine Steuerung der Kameradrehung nach links und rechts erfolgen.
 
-Die Code zum Steuern der Kamera-Rotation nach links und rechts durch Bewegen der Maus nach links und rechts kann direkt bereitgestellt werden:
+Die Codes, die die linke und rechte Bewegung der Maus steuern und die Kamera links und rechts drehen lassen, können direkt bereitgestellt werden:
 
 ```c#
 newForward = MyRotate(newForward, x, up, Vector3.zero);
 ```
-Da nur der Vorwärtsvektor hier gedreht wird und keine Koordinatensystemumwandlung erfolgt, ist der vierte Parameter `Vector3.zero`.
+Da hier nur der Vorwärtsvektor gedreht wird, ohne eine Umwandlung des Koordinatensystems, ist der vierte Parameter `Vector3.zero`.
 
-Die Steuerung der vertikalen Rotation im Vergleich zur horizontalen Rotation ist etwas schwieriger zu verstehen, da sich die Rotationsachse ständig ändert (hier wird angenommen, dass die Aufrichtung der Figur immer in positive Richtung der Y-Achse ist). Beachten Sie, dass die Kamera ebenfalls ständig rotiert und dass der Blickpunkt immer auf die Figur gerichtet ist. So ist die rechte Seite der Kamera unsere gewünschte Rotationsachse (stellen Sie sich die Kamera rechts als die rechte Seite der Figur vor). Mit dieser Erklärung wird auch der Code für die vertikale Rotation sehr einfach.
+Die Kontrolle über die vertikale Drehung im Vergleich zur horizontalen Drehung ist etwas schwieriger zu verstehen, da sich die Drehachse ständig verändert (hier wird angenommen, dass die Aufwärtsbewegung des Charakters immer in die positive Richtung der Y-Achse zeigt). Beachten Sie, dass die Kamera sich ebenfalls ständig dreht und dabei stets auf den Mittelpunkt des Charakters gerichtet bleibt. Somit entspricht die rechte Seite der Kamera (right) der Achse, um die wir rotieren möchten (stell dir die rechte Seite der Kamera als die rechte Seite des Charakters vor). Mit diesem Verständnis wird auch der Code für die vertikale Drehung sehr einfach:
 
 ```csharp
 newForward = MyRotate(newForward, -y, transform.right, Vector3.zero);
 ```
 
-###Drehung mit der rechten Maustaste ###
-Nachdem Sie die linke Drehung gemacht haben, ist die rechte Drehung ganz einfach. Sie müssen nur die Blickrichtung des Charakters beim Drehen nach links und rechts einstellen:
+###Rechtsklick drehen###
+Nachdem Sie die linke Maustaste zum Drehen verwendet haben, ist das Drehen mit der rechten Maustaste sehr einfach. Sie müssen nur beim Drehen nach links und rechts die Blickrichtung der Figur einstellen:
 
 ```csharp
 player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
 ```
 
-Drehen nach oben und unten ist der gleiche Code wie für die linke Taste.
+Die Codes für das Auf- und Abdrehen sind identisch mit dem für die linke Maustaste.
 
-###Press left mouse button first, then right mouse button.
-Obwohl oben links und rechts separat gedreht werden können, entsteht ein Problem, wenn zuerst links gedreht wird und dann mit der rechten Maustaste gearbeitet wird: Die Vorderseite des Charakters und die Vorderseite der Kamera sind nicht mehr gleich! Dadurch trennen sich die Ausrichtungen der Kamera und des Charakters, was die tatsächliche Bedienung seltsam macht. Daher sollte der Charakter beim Drehen mit der rechten Maustaste zuerst in Richtung der Kamera ausgerichtet werden:
+###Zuerst die linke Maustaste, dann die rechte Maustaste###
+Obwohl Sie oben mit der linken Maustaste und der rechten Maustaste drehen können, entsteht ein Problem, wenn Sie zuerst mit der linken Maustaste drehen und dann mit der rechten Maustaste handeln: Die Ausrichtung der Figur und die Ausrichtung der Kamera unterscheiden sich! Dadurch werden die Ausrichtungen von Kamera und Figur voneinander getrennt, was die tatsächliche Handhabung seltsam macht. Daher müssen wir die Figur beim Drehen mit der rechten Maustaste zuerst so anpassen, dass sie mit der Ausrichtung der Kamera übereinstimmt:
 
 ```csharp
 player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
@@ -109,8 +109,8 @@ player.forward = Vector3.Normalize(new Vector3(oldForward.x, 0, oldForward.z));
 
 - - - 
 
-###Die Euler-Winkel-Locks ###
-By now, the camera rotation is almost complete, but there is one more issue to pay attention to: Euler angle gimbal lock. I won't go into details of the principle here, interested friends can search it by themselves. In the case of the camera here, when the camera rotates up to align with the character's upper direction, a sudden change in the camera's perspective will occur. This is because when the camera reaches the top of the character's head or feet, the camera's upper direction will experience a sudden change (because the Y value of the camera's upper direction must always be greater than zero), so we need to restrict the range of the camera's up and down rotation to prevent gimbal lock. The operation is simple, just limit the range of the angle between the camera's forward direction and the character's upper direction:
+###欧拉角万向锁###
+Bis hierhin ist die Drehung der Kamera nahezu abgeschlossen, jedoch gibt es ein Problem, das beachtet werden muss: der Euler-Winkel-Gimbal-Lock. Die Theorie hierzu möchte ich nicht im Detail erläutern; interessierte Leser können selbst nachforschen. Im Kontext der Kamera bedeutet dies, dass der Kamerawinkel einen plötzlichen Wechsel erfährt, wenn die Kamera beim Hoch- oder Runterdrehen mit der Oberseite des Körpers übereinstimmt. Dies geschieht, weil die Kamera entweder den Kopf oder die Füße der Person erreicht, wodurch sich die obere Richtung der Kamera ändert (da der Y-Wert der oberen Richtung der Kamera immer über null liegen muss). Daher müssen wir den vertikalen Drehbereich der Kamera einschränken, um einen Gimbal-Lock zu vermeiden. Die Handhabung ist ganz einfach: Wir beschränken den Winkel zwischen der Vorwärtsrichtung der Kamera und der oberen Richtung der Person.
 
 ```c#
 if ((Vector3.Dot(transform.forward, transform.parent.up) >= -0.95F || y > 0) &&
@@ -169,4 +169,4 @@ Vector3 RotateIt(Vector3 oldForward, Vector3 up, Vector3 right, Transform player
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte bei [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Identify any omissions. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte unter [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Es wird auf etwaige Auslassungen hingewiesen. 

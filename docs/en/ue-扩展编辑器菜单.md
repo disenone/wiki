@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE expands editor menu
+title: UE Extend Editor Menu
 tags:
 - dev
 - game
@@ -8,27 +8,27 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Record how to expand the UE editor menu.
+description: Record how UE expands the editor menu.
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#UE Editor Menu Extension
+#UE Extended Editor Menu
 
-> Record how to extend the editor menu in UE
+> Record how to extend the editor menu in UE.
 
 ## Hook
 
-Hook can be understood as an anchor point for extending menus. We can set the newly added menu commands to appear before or after the Hook. The built-in editor menu commands in UE generally come with a Hook. In UE5, open `Edit - Editor Preferences - General - Others - Show UI extension points` to display all menu Hooks.
+Hook can be understood as an anchor point for expanding menus. We can set new menu commands to appear before or after the Hook. Most of the default editor menu commands in UE come with Hook. To display all menu Hooks, in UE5, go to `Edit - Editor Preferences - General - Miscellaneous - Display UI Extension Points`.
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
 ![](assets/img/2023-ue-extend_menu/show_hook2.png)
 
-##Module dependency
+##Module dependencies
 
-You need to add the required modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus to the .Build.cs file of the project.
+You need to add the dependent modules LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus in the project's .Build.cs file:
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -50,7 +50,7 @@ PrivateDependencyModuleNames.AddRange(
 
 ##Add menu bar
 
-Directly enter the code
+Just get straight to the code.
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,11 +73,11 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Executing the above code, you can see that a menu bar MenuTest has been added after the Help.
+Executing the above code, you will see a menu bar added after the "Help" menu called MenuTest:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-##Add Command
+##Add command.
 
 Using the `MenuBuilder.AddMenuEntry` interface:
 
@@ -91,11 +91,11 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Put the above code into CreateLambda to generate menu commands:
+Place the above code inside CreateLambda to generate the menu command.
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
-##Menu Section
+##Menu sectioned
 
 Use `MenuBuilder.BeginSection` and `MenuBuilder.EndSection`:
 
@@ -115,12 +115,12 @@ MenuBuilder.AddMenuSeparator();
 
 ##Submenu
 
-Submenus are similar to menus and need to be defined inside Lambda:
+Submenus are similar to menu bars and need to be defined within Lambda.
 
 ```cpp
 MenuBuilder.AddSubMenu(
-    FText::FromName("MenuTestSub"),
-    FText::FromName("MenuTestSub"),
+    FText::FromName("MenuTestSub"),	
+    FText::FromName("MenuTestSub"),	
     FNewMenuDelegate::CreateLambda([](FMenuBuilder& MenuBuilder)
     {
         MenuBuilder.AddMenuEntry(
@@ -148,7 +148,7 @@ MenuBuilder.AddWidget(
             .MinDesiredWidth(50)
             .Text(FText::FromName("MenuTestWidget"))
         ]
-
+        
         + SHorizontalBox::Slot()
         .AutoWidth()
         .Padding(5, 0, 0, 0)
@@ -167,9 +167,9 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-The content related to Slate UI is not elaborated here. If you are interested, you can look for another article to read.
+The details regarding Slate UI are not elaborated here. If you are interested, you can look for other articles to read.
 
-#**Hook** Add Menu
+#Add menu, Hook
 
 For example, add a command in `Tools - Programming`:
 
@@ -191,7 +191,7 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-Similarly, you can add other types of menus.
+Similarly, other menu types can be added.
 
 #Complete Code
 
@@ -285,4 +285,4 @@ void BuildTestMenu()
 
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT, please provide feedback in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Please point out any omissions. 

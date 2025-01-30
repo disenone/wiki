@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Unity におけるボリューメトリック・ライト・スキャッタリング（Volumetric Light Scattering、雲隙光）の実装
+title: Unity におけるボリューメトリック ライト スキャッタリング（Volumetric Light Scattering、クラウド シャドウ）の実装
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: 体積光散乱はなかなか素敵な視覚効果だね、まるで光が空中で伝播するのを見ているようだ。空中の微粒子が光で照らされ、一部の光は遮られる中、視覚的には光源から放射される光線が生じる。
+description: 体積光散乱はかなり素敵な視覚効果です。まるで空中で光線が広がっているのが見えるようで、空中の微粒子が光で照らされ、一部の光が遮られると、視覚的に光源から放射された光線が生じます。
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
@@ -15,43 +15,43 @@ figures:
 
 ##原理
 
-(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)書に有効な図表が載っている場合：
+(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)書籍には有効な図があります：
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-見た目いいね、了解した、私たちの目標はこの効果を実現することだ。
+見た目が良いでしょう、それなら、私たちの目標はこのような効果を実現することです。
 
-書には原理が説明され、重要な一つの式が次のようになっています：
+書籍では原理について説明されており、重要な公式の一つは次の通りです：
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-私の理解では、画像の各ピクセルには光が当たる可能性があります。したがって、そのピクセルから光源に向かう直線（画像に投影される位置で）をサンプリング（対応する数式では\\(i\\)）し、サンプリング結果を重み付け平均化（数式では\\(\sum\\)）し、それを新しい色値として使用します。さらに、重要なのはポストピクセルシェーダーですが、カメラのレンダリング結果を処理するためにそのシェーダーだけを使用すると、人工的な痕跡が明らかに現れ、ストライプが多数発生します。
+私の理解では、画像上の各ピクセルに対して、光が当たる可能性があります。そのため、そのピクセルから光源（画像上の位置への投影）への直線をサンプリング（式上の\\(i\\)に対応）し、サンプリングされた結果を重み付け平均（式上の\\(\sum\\)に対応）して、そのピクセルの新しい色値とします。また、重要な後処理ピクセルシェーダーもありますが、そのシェーダーだけでカメラがレンダリングした結果を処理すると、明らかな人工的な痕跡が生じ、多くのストライプが現れます。
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-その場合、書籍の効果はどのように作られるのか？実際には、書籍は既に答えを提供しており、一連の図を用いて説明できます：
+その効果は本でどのように作られていますか？実際、本には答えが既に示されており、一連の図を使用して説明できます：
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
-図aは粗い効果です。注意深く見ると多くの筋が見え、十分にリアルでない遮蔽がないことがわかります。b、c、dが良い効果を得るために必要な手順です。
+图aは荒っぽい効果ですね、じっくり見るとたくさんのしわがあります、そして隠れていないので本物っぽいですね、b、c、dは良い効果を得るために必要なステップです。
 
-画像に照明の放射効果をレンダリングし、オブジェクトの遮蔽を追加します。
+b. ライトの放射効果を画像にレンダリングし、物体の遮蔽を追加する
 
-bを持っているVolumetric Light Scatteringピクセルシェーダーをcに適用して、隠蔽された効果を得ます。
+bにVolumetric Light Scatteringのピクセルシェーダを適用して、遮蔽された効果を得る
 
-d. 真実のシーンの色を追加
+d. 実際のシーンの色を追加する
 
-それでは、次は一歩ずつ実現していきましょう。
+では、次に私たちは一歩ずつ実現していきましょう。
 
-##物体を覆う絵や障害物
+##物体を隠す。
 
-実際の操作では、まず`RenderWithShader`を使用して、遮蔽が発生するオブジェクトを黒く描画し、他の部分を白くします。各面をレンダリングする必要があるため、複雑なシーンではパフォーマンスに影響を与える可能性があります。シーンには不透明と透明なオブジェクトがあり、不透明なオブジェクトは完全な光の遮蔽を生成することを望み、透明なオブジェクトは部分的な遮蔽を生成する必要があります。そのため、異なるRenderTypeのオブジェクトには異なるShaderを書く必要があります。RenderTypeはSubShaderのタグです。詳細は[こちら](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)，文章を書いた後には、次のように呼び出します：
+実際の操作では、まず`RenderWithShader`を使用して、隠れる物体を黒色に描画し、他の場所を白色にしています。各面をレンダリングする必要があるため、複雑なシーンでは一定のパフォーマンスコストがかかります。シーン内の物体には不透明と透明があり、不透明な物体は完全な光線遮蔽を生成し、透明な物体は部分的な遮蔽を生成することを望んでいます。したがって、異なるRenderTypeの物体に対して異なるShaderを書く必要があります。RenderTypeはSubShaderのタグです。分からない場合は[こちら](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)，書き終えたら呼び出します：
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
 
 ```
-`RenderWithShader`関数の第二引数は、RenderTypeに基づいてShaderを置換するように求められます。要するに、同じオブジェクトの置換されるShaderのRenderTypeは置換前と一致している必要があります。これにより、異なるRenderTypeのオブジェクトに異なるShaderを使用することができます。
+`RenderWithShader`の第二引数は、RenderTypeに基づいてShaderを置き換えることを要求します。簡単に言うと、同じオブジェクトの置き換え後のShaderのRenderTypeは、置き換え前と一致する必要があります。これにより、異なるRenderTypeのオブジェクトに異なるShaderを使用することができます。
 
 ```glsl
 Shader "Custom/ObjectOcclusion" 
@@ -141,13 +141,13 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-不透明と透明の物体のシェーダーの違いに注意してください：不透明の物体は直接黒で描画されます。不透明の物体はブレンディングを実行し、物体のテクスチャ上のアルファチャンネルを取得し、そのアルファに基づいてブレンディングを行う必要があります。上記のコードは単に不透明と透明を挙げたものであり、Opaqueとは異なってTreeOpaque（Opaqueと同じShaderだけどRenderTypeが変えられたもの）、TreeTransparentCutout（Transparentと同じ）などもあります。RenderTypeを指定したため、できるだけシーン内で隠蔽が起こる物体を広く網羅する必要がありますが、ここには前述の4種類しかないです。結果はおおよそ以下のようになります：
+不透明と透明オブジェクトのシェーダーの違いに注意してください：不透明なオブジェクトは直接黒色で描画されます。不透明な物体にはblendingが必要で、オブジェクトのテクスチャのアルファチャンネルを取得し、そのアルファに基づいてblendingを行います。上記のコードはOpaqueとTransparentを示していますが、TreeOpaque（RenderTypeを変更するだけでOpaqueと同じ）やTreeTransparentCutout（Transparentと同じ）などもあります。RenderTypeが指定されているため、全体を考慮するためには、シーンでオクルージョンが発生する可能性のあるオブジェクトをできるだけ網羅する必要があります。ここでは、前述の4種類のみを扱います。結果はおおよそ以下のようになります：
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
-##物体が光源の放射を遮ることを考慮に入れる
+##物体が光源の放射線を遮る場合、それを塗ることを意味します。
 
-光源の放射を描くことは難しくありません。注意が必要なのは、画面のサイズに合わせて適切な処理を行い、光源の放射が円形であるようにします。
+画光源的辐射并不困难，需要注意的是根据屏幕的尺寸进行一些调整，确保光源的辐射呈圆形状。
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -199,13 +199,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-このシェーダーは、画面上のライトの位置を入力する必要があります（`camera.WorldToViewportPoint`を使用して計算でき、UV座標が得られます）。その後、指定された半径で外側に輝度が減衰する円を描画し、その結果を前述のオブジェクトの遮蔽画像（`_MainTex`に配置）と組み合わせます。結果はおおよそ次の通りです：
+このシェーダーは、画面上の光源の位置（`camera.WorldToViewportPoint`を使用して計算できるUV座標）を入力する必要があります。そして指定された半径で外側に向かって輝度が減衰する円を描画し、その結果を先に得られたオブジェクトの遮蔽イメージ（`_MainTex`に配置）と組み合わせます。結果はおおよそ以下のようになります：
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-##光散乱処理を行い、実際の色と組み合わせます。
+##光散乱処理と実際の色の組み合わせ
 
-ここでは、書籍で提供されているピクセルシェーダーを使用する必要があります。私のバージョン：
+ここでは、本に提供されているPixel Shaderを使用します。私のバージョン：
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -290,15 +290,15 @@ Shader "Custom/LightScattering"
 }
 ```
 
-基本的に、本に書かれている内容と一致していますが、私のパラメータはプログラム内で渡す必要があり、実際のカラーマップと光の散乱図を組み合わせました。結果は以下の通りです：
+大体的に書籍と一致していますが、私のパラメータはプログラム内で渡す必要があります。また、実際のカラー画像と光散乱画像を組み合わせた結果：
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
 ##完整なコード
 
-「コードは[ここ](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)，`cs`スクリプトをカメラに追加します。
+[ここ](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)カメラに`cs`スクリプトを追加します。
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指で油断なく抜け漏れを見つけ出す。 
+> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)どの箇所でも見落としを指摘してください。 

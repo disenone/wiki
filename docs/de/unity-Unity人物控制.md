@@ -6,10 +6,10 @@ categories:
 catalog: true
 tags:
 - dev
-description: Die Steuerung der Charakterbewegungen ist ein wichtiger Teil des Spiels,
-  eine gute Spielbarkeit kann die Spieler gut anziehen. Hier werde ich versuchen,
-  eine einfache Steuerung für die Charaktere zu erstellen, damit sie grundlegende
-  Bewegungen wie Gehen und Springen ausführen können.
+description: Die Steuerung der Figurenbewegungen ist ein sehr wichtiger Teil des Spiels.
+  Spiele mit hoher Bedienbarkeit können die Spieler gut fesseln. Hier versuche ich,
+  eine einfache Figurensteuerung zu erstellen, bei der die Figur grundlegende Bewegungen
+  wie Gehen und Springen ausführen kann.
 figures:
 - assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif
 ---
@@ -18,29 +18,29 @@ figures:
 
 ![](assets/img/2014-3-15-unity-3rdperson-control0/run_jump.gif)
 
-Die Steuerung der Charakterbewegungen ist ein wichtiger Teil eines Spiels, denn Spiele mit guter Spielbarkeit können die Spieler gut anziehen. Hier werde ich versuchen, eine einfache Steuerung der Charakterbewegungen zu erstellen, damit der Charakter grundlegende Bewegungen ausführen kann, einschließlich Gehen und Springen.
+Die Steuerung der Charakterbewegungen ist ein sehr wichtiger Teil eines Spiels, denn ein Spiel mit guter Spielbarkeit kann die Spieler gut ansprechen. Hier versuche ich, eine einfache Steuerung für die Charakterbewegungen zu entwickeln, so dass der Charakter grundlegende Bewegungen wie Gehen und Springen ausführen kann.
 
-##Nachfrage
-Beginnen wir damit, über die konkreten Anforderungen für das Handling unserer Figuren nachzudenken:
+##需求 translates to "Nachfrage" in German.
+Bitte denken Sie zuerst über die konkreten Anforderungen bezüglich der Handhabung unserer Charaktere nach:
 
-Gehen, um auf der Oberfläche eines starren Körpers zu gehen, gesteuert durch die Eingabe von Tasten für Auf, Ab, Links und Rechts, vorübergehend ohne Beschleunigung oder Verzögerung zu berücksichtigen.
-Die Gehgeschwindigkeit kann je nach Richtung unterschiedlich sein, zum Beispiel sollte rückwärts langsamer sein als vorwärts.
-Springen, gesteuert durch die Taste "Springen", lässt die Figur mit einer bestimmten Anfangsgeschwindigkeit vom Boden abheben und langsam wieder auf den Boden zurückfallen.
+Gehen, in der Lage sein, auf der Oberfläche eines starren Körpers zu gehen, gesteuert durch die Eingabe von oben, unten, links und rechts auf den Tasten, ohne Beschleunigung oder Verzögerung zu berücksichtigen.
+Die Gehgeschwindigkeit kann je nach Richtung variieren, zum Beispiel sollte das Rückwärtsgehen langsamer sein als das Vorwärtsgehen.
+Springen, gesteuert von der Sprungtaste, bei der die Figur mit einer bestimmten Anfangsgeschwindigkeit vom Boden abhebt und langsam wieder auf den Boden zurückkehrt.
 
-Die grundlegende Idee ist also: Man benutzt die Geschwindigkeit, um die Bewegung einer Person zu beschreiben. Die Geschwindigkeit in jeder Richtung kann separat berechnet werden, und am Ende ergibt die Geschwindigkeit multipliziert mit der Zeit die Verschiebung der Position der Person.
+Die grundlegende Idee hier ist folgende: Man verwendet die Geschwindigkeit, um die Bewegung einer Figur zu beschreiben. Die Geschwindigkeitskomponenten in jeder Richtung können separat berechnet werden. Am Ende wird die Geschwindigkeit mit der Zeit multipliziert, um die Positionsverschiebung der Figur zu erhalten.
 
-##Die Einstellungen für das Charakter-Element.
-Bevor Sie das Skript zur Steuerung der Charaktere schreiben, müssen Sie einige Vorbereitungen treffen und die entsprechenden Komponenten des Charakters zuerst konfigurieren:
+##Einstellungen für Personenkomponenten
+Bevor Sie ein Skript für die Charaktersteuerung schreiben, sind einige Vorbereitungen erforderlich, um die relevanten Komponenten des Charakters entsprechend einzurichten:
 
-Um einen Charakter zu steuern und ihm einige steife physikalische Eigenschaften zu geben, muss dem Charakter ein `Character Controller Component` hinzugefügt werden.
-Um die Struktur etwas klarer zu gestalten, trennen wir zuerst die Eingaben bezüglich der Charaktere ab, lesen sie ein und verarbeiten sie vorläufig, bevor wir die Ergebnisse an den Charakter-Controller übergeben. Nennen wir dieses Skript `MyThirdPersonInput.cs`.
-Der Code, der die Bewegung des Charakters steuert, wird als `MyThirdPersonController.cs` bezeichnet.
+Um die Kontrolle über Charaktere zu haben und diesen etwas starre physikalische Eigenschaften zu verleihen, muss man dem Charakter ein `Character Controller Component` hinzufügen.
+2. Um die Struktur klarer zu gestalten, trennen wir zunächst die Eingaben für die Charaktersteuerung. Nachdem wir die Eingaben gelesen und vorläufig verarbeitet haben, geben wir die Ergebnisse an den Charaktercontroller weiter. Dieses Skript benennen wir `MyThirdPersonInput.cs`;
+Das Skript, das die Charakterbewegungen wirklich steuert, wird als `MyThirdPersonController.cs` benannt.
 
-Die resultierende Konfiguration ist wie folgt:
+Das Ergebnis nach der Konfiguration ist wie folgt:
 ![](assets/img/2014-3-15-unity-3rdperson-control0/setting.png)
 
 ##Eingabe
-Die Eingabe besteht aus den Richtungen oben, unten, links, rechts und Springen. Die Richtungen müssen normalisiert werden.
+Eingaben sind nach oben, unten, links, rechts und Sprünge; die Richtung muss normalisiert werden:
 
 ```c#
 // get movement from input
@@ -57,8 +57,8 @@ person.inputMoveDirction = direction;
 person.inputJump = Input.GetButton("Jump");
 ````
 
-##Beschreibung von Bewegung und Springen
-Wir müssen einige Variablen verwenden, um die Bewegungen der Figuren zu beschreiben, wie zum Beispiel Geschwindigkeit beim Laufen, Springen usw. Die Bewegung wird mit den folgenden Variablen beschrieben:
+##Bewegung und Sprünge beschreiben
+Wir benötigen einige Variablen, um die Aktionen von Charakteren zu beschreiben, wie z.B. Bewegungsgeschwindigkeit, Sprungkraft usw. Die Bewegung wird mit den folgenden Variablen beschrieben:
 
 ```c#    
 [System.Serializable]
@@ -71,7 +71,7 @@ public class Movement
 public Movement movement = new Movement();
 ```
 
-`[System.Serializable]` is used to expose these parameters in the Inspector. The description of the jump is as follows:
+`[System.Serializable]` dient dazu, diese Parameter im Inspector sichtbar zu machen. Die Beschreibung des Sprungs lautet wie folgt:
 
 ```c#
 [System.Serializable]
@@ -86,10 +86,10 @@ public class Jumping
 public Jumping jumping = new Jumping();
 ```
 
-##Zersetzungsgeschwindigkeit
-Um verschiedene Bewegungsrichtungen besser beschreiben zu können, werden die Richtungen in drei Komponenten unterteilt: Vorwärts und rückwärts, links und rechts, oben und unten, die jeweils separat berechnet werden.
+##Desintegrationsgeschwindigkeit
+Um die Beschreibung der Bewegungen in verschiedenen Richtungen zu erleichtern, werden die Richtungen in drei Komponenten unterteilt: vorwärts/rückwärts, links/rechts und oben/unten, die jeweils separat gelöst werden.
 
-Die Geschwindigkeit vorwärts und rückwärts ist unterschiedlich. Entscheidend ist das Vorzeichen des Werts:
+Die Vorwärts- und Rückwärtsgeschwindigkeit ist unterschiedlich, basierend auf dem Vorzeichen der Werte.
 
 ```c#
 if (velocity.z > 0)
@@ -98,18 +98,18 @@ else
     velocity.z *= movement.backwardSpeed;
 ```
 
-Gleiche Geschwindigkeit auf beiden Seiten:
+Die Geschwindigkeit links und rechts stimmt überein:
 
 ```c#
 velocity.x = inputMoveDirction.x * movement.sidewardSpeed;
 ```
 
-Springen ist etwas komplizierter, weil der aktuelle Zustand der Figur berücksichtigt werden muss:
+Springen ist etwas kompliziert, da der aktuelle Zustand des Charakters berücksichtigt werden muss:
 
-Wenn du bereits in der Luft bist, berechne die Geschwindigkeit basierend auf der Schwerkraft.
-Wenn es auf dem Boden ist:
-Wenn die Sprungtaste gedrückt wird, ist die Geschwindigkeit gleich der Anfangsgeschwindigkeit des Sprungs.
-Sonst ist die Geschwindigkeit in y-Richtung null.
+- Wenn Sie sich bereits in der Luft befinden, berechnen Sie die Geschwindigkeit mit der Schwerkraft.
+- Wenn es auf dem Boden ist:
+- - Wenn die Sprungtaste gedrückt wird, beträgt die Geschwindigkeit die anfängliche Sprunggeschwindigkeit.
+- - Andernfalls beträgt die Geschwindigkeit in y-Richtung 0.
 
 ```c#
 if (!isOnGround)
@@ -128,9 +128,9 @@ else
 }
 ```
 
-##Aktualisierung der Charakterposition.
+##Aktualisiere die Position der Person
 
-Berechnete Geschwindigkeiten werden als die Geschwindigkeiten ab dem aktuellen Frame angenommen. Die Geschwindigkeit, mit der die Position dieses Frames berechnet wird, sollte die sein, die im vorherigen Frame berechnet wurde. Daher wird die neue Position der Figur vor der Aktualisierung der Geschwindigkeit berechnet:
+Die berechnete Geschwindigkeit wird angenommen, dass sie die Geschwindigkeit von diesem Frame an ist, daher sollte die Geschwindigkeit für die Positionsberechnung dieses Frames die aus dem vorherigen Frame berechnete sein. Daher wird vor der Aktualisierung der Geschwindigkeit zunächst die neue Position der Person berechnet:
 
 ```c#
 // move to new position
@@ -138,7 +138,7 @@ var collisionFlag = controller.Move(velocity * Time.deltaTime);
 isOnGround = (collisionFlag & CollisionFlags.CollidedBelow) != 0;
 ```
 
-Die `controller.Move` Methode gibt die `CollisionFlags` zurück, um den Kollisionsstatus anzuzeigen. Anhand dieses Status kann festgestellt werden, ob die Figur auf dem Boden steht.
+`controller.Move` gibt `CollisionFlags` zurück, um den Kollisionsstatus anzuzeigen. Anhand dieses Status kann man erkennen, ob die Person auf dem Boden steht.
 
 Vollständiger Code:
 
@@ -280,4 +280,4 @@ public class MyThirdPersonController : MonoBehaviour {
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte geben Sie Ihr [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf eventuelle Auslassungen hin. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Hinweise auf etwaige Auslassungen. 

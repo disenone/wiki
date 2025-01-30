@@ -1,16 +1,16 @@
 ---
 layout: post
-title: Verwenden Sie Visual Studio 2015 zum Kompilieren von Python 2.7.11.
+title: Visual Studio 2015 verwenden, um Python 2.7.11 zu kompilieren
 categories:
 - python
 catalog: true
 tags:
 - dev
-description: Die offizielle Version von Python 2.7 unterstützt das Übersetzen mit
-  Versionen von Visual Studio 2010 und früher. Wenn du Python unter Windows selbst
-  kompilieren möchtest, zum Beispiel um eine Debug-Version zu erstellen oder den Quellcode
-  zu ändern, dann ist das einfachste Vorgehen, Visual Studio 2010 zu installieren.
-  Persönlich bevorzuge ich jedoch, Python mit Visual Studio 2015 zu kompilieren, hauptsächlich
+description: Die offizielle Version von Python 2.7 unterstützt die Kompilierung mit
+  Visual Studio 2010 und älteren Versionen. Wenn du Python unter Windows selbst kompilieren
+  möchtest, zum Beispiel eine Debug-Version erstellen oder den Quellcode bearbeiten
+  möchtest, dann ist die einfachste Methode, Visual Studio 2010 zu installieren. Aber
+  für mich persönlich möchte ich Python lieber mit VS2015 kompilieren, hauptsächlich
   aus folgenden Gründen...
 figures:
 - https://img.shields.io/badge/python-2.7.11-brightgreen.svg
@@ -25,69 +25,69 @@ nowidth: 1
 
 ##Ursache
 
-Die offizielle Version von Python 2.7 unterstützt die Kompilierung unter Visual Studio 2010 und älteren Versionen. Siehe `PCbuild\readme.txt` für weitere Informationen:
+Die offizielle Version von Python 2.7 unterstützt zur Kompilierung Versionen von Visual Studio 2010 und älter. Siehe `PCbuild\readme.txt`:
 
 
 	1.  Install Microsoft Visual Studio 2008, any edition.
 	2.  Install Microsoft Visual Studio 2010, any edition, or Windows SDK 7.1 and any version of Microsoft Visual Studio newer than 2010.
 
 
-Wenn Sie Python unter Windows selbst einrichten möchten, zum Beispiel um eine Debug-Version zu kompilieren oder den Quellcode anzupassen, ist der einfachste Weg die Installation von VS2010.
-Für mich persönlich bevorzuge ich es, Python mit VS2015 zu kompilieren, aus folgenden Gründen:
+Wenn Sie mit Python auf Windows herumspielen möchten, zum Beispiel Debug-Versionen kompilieren oder den Quellcode ändern möchten, ist die einfachste Methode die Installation von VS2010.
+Aber persönlich möchte ich lieber Python mit VS2015 kompilieren, aus folgenden Gründen:
 
 
-VS2010 ist wirklich ein bisschen veraltet und die Funktionen und das Benutzererlebnis sind im Vergleich zu VS2015 viel schlechter. Ich benutze immer noch VS2015 und möchte wirklich nicht noch einmal VS2010 installieren.
-Aufgrund der Verwendung von VS2015 schreibst du deine eigenen Programme damit. Wenn du Python einbetten möchtest, musst du die gleiche Version von VS verwenden, um deine Programme zu kompilieren. Die Verwendung einer anderen VS-Version könnte unvorhergesehene Probleme verursachen. [Hier gibt es eine ausführlichere Erklärung](http://siomsystems.com/mixing-visual-studio-versions/)I am sorry, but there is no text to translate in your request.
+VS2010 ist wirklich etwas veraltet und bietet im Vergleich zu VS2015 viel weniger Funktionen und eine schlechtere Benutzererfahrung. Ich benutze schon lange VS2015 und möchte wirklich nicht wieder auf VS2010 umsteigen.
+- Da du immer mit VS2015 gearbeitet hast, wirst du es nutzen, um einige eigene Programme zu schreiben. Wenn du Python einbetten möchtest, musst du die gleiche Version von VS verwenden, um dein Programm zu kompilieren. Wenn du eine andere Version von VS verwendest, können verschiedene unvorhersehbare Probleme auftreten. [Hier gibt es eine detailliertere Erklärung](http://siomsystems.com/mixing-visual-studio-versions/)。
 
-Deshalb habe ich angefangen, mit VS2015 die Python-Version 2.7.11 (die neueste Version von Python 2.7) zu bewältigen.
+Also habe ich angefangen, mit VS2015 die Version 2.7.11 von Python zu lösen (die aktuellste Version von Python 2.7).
 
-Bitte beachten Sie, dass **Python 3.x die Verwendung von VS2015 zum Kompilieren unterstützt**.
+Bitte beachten Sie, dass **Python 3.x bereits die Kompilierung mit VS2015 unterstützt**.
 
-##Quellcode herunterladen.
+##Quellcode-Download
 
-Die Version von Python ist natürlich 2.7.11. Es gibt auch einige Drittanbieter-Module. Du kannst das Skript `PCbuild\get_externals.bat` im Python-Quellcodeverzeichnis ausführen, um alle erforderlichen Kompilierungsmodelle zu erhalten. Beachte, dass du svn installieren und svn.exe zum System-PATH hinzufügen musst.
+Die Version von Python ist natürlich 2.7.11, außerdem gibt es einige Drittanbieter-Module. Genauere Informationen kannst du erhalten, indem du das Skript `PCbuild\get_externals.bat` im Quellverzeichnis von Python ausführst, um alle für die Kompilierung benötigten Module herunterzuladen. Beachte, dass du svn installieren und svn.exe zum System-PATH hinzufügen musst.
 
-Das Herunterladen kann sehr instabil sein, und der gesamte Prozess könnte aufgrund von Netzwerkproblemen abbrechen. Daher empfehle ich Ihnen, das Verzeichnis "Externals" direkt von meinem Github herunterzuladen: [Meine Python-Version](https://github.com/disenone/wpython-2.7.11/tree/e13f43a3b72ae2bdf4d2950c6364750ae668cbf4/externals)
+Der Download kann instabil sein und der gesamte Prozess kann aufgrund von Netzwerkproblemen abgebrochen werden. Es wird daher empfohlen, das "externals"-Verzeichnis direkt von meinem GitHub herunterzuladen: [Meine Python-Version](https://github.com/disenone/wpython-2.7.11/tree/e13f43a3b72ae2bdf4d2950c6364750ae668cbf4/externals)
 
-##Der Kompilierungsprozess.
+##Compile process
 
-###Drittanbietermodul
+###Drittanbieter-Modul
 
-Zunächst müssen die Third-Party-Module gelöst werden, hauptsächlich tcl, tk, tcltk.
+Zuerst müssen wir uns mit den Modulen von Drittanbietern befassen, hauptsächlich tcl, tk und tcltk.
 
-Bearbeiten Sie die Datei `externals/tcl-8.5.15.0/win/makefile.vc` und ändern Sie Zeile 434.
+Ändern Sie die Datei `externals/tcl-8.5.15.0/win/makefile.vc`, ändern Sie die Zeile 434 in
 
 	- cdebug = -Zi -WX $(DEBUGFLAGS)
 	+ cdebug = -Zi -WX- $(DEBUGFLAGS)
 
-In Bezug auf die Option 'WX' können Sie das offizielle Microsoft-Dokument einsehen: [/WX (Behandle Linker-Warnungen als Fehler)](https://msdn.microsoft.com/en-us/library/ms235592.aspx)
+In Bezug auf die Option `WX` können Sie die offizielle Dokumentation von Microsoft einsehen: [/WX (Behandle Linker-Warnungen als Fehler)](https://msdn.microsoft.com/en-us/library/ms235592.aspx)
 
-Bearbeiten Sie die Datei `PCbuild/tk.vcxproj` erneut, öffnen Sie sie mit einem Texteditor und ändern Sie die Zeilen 63 und 64.
+Ändern Sie erneut `PCbuild/tk.vcxproj`, öffnen Sie es mit einem Texteditor und bearbeiten Sie die Zeilen 63 und 64.
 
 	- <TkOpts>msvcrt</TkOpts>
 	- <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt</TkOpts>
 	+ <TkOpts>msvcrt,noxp</TkOpts>
 	+ <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt,noxp</TkOpts>
 
-Ändern Sie `PCbuild/tcltk.props`, öffnen Sie es mit einem Texteditor und bearbeiten Sie Zeile 41.
+Ändere `PCbuild/tcltk.props`, öffne es mit einem Texteditor und ändere die Zeile 41.
 
 	- <BuildDirTop>$(BuildDirTop)_VC9</BuildDirTop>
 	+ <BuildDirTop>$(BuildDirTop)_VC13</BuildDirTop>
 
-Due to the cancellation of the definition of `timezone` in VS2015, it is changed to `_timezone`. Therefore, all occurrences of `timezone` in the code need to be changed to `_timezone`. Third-party modules only need to modify the file `externals/tcl-8.5.15.0/win/tclWinTime.c` by adding the following at the beginning of the file:
+Da VS2015 die Definition von `timezone` aufgehoben hat und nun `_timezone` verwendet wird, müssen alle Stellen im Code, an denen `timezone` verwendet wird, in `_timezone` geändert werden. Für das Drittanbieter-Modul muss nur die Datei `externals/tcl-8.5.15.0/win/tclWinTime.c` geändert werden, indem am Anfang der Datei Folgendes hinzugefügt wird:
 
 	#if defined _MSC_VER && _MSC_VER >= 1900
 	#define timezone _timezone
 	#endif
 
-###Ändern Sie den Python-Quellcode.
+###Python-Quellcode ändern
 
-Das Problem mit der `timezone` ist auch im Python-Modul` time` existent, bitte ändern Sie Zeile 767.
+Das Problem mit `timezone` gibt es auch im Python-Modul `time`, ändere Zeile 767.
 
 	- #ifdef __CYGWIN__
 	+ #if defined(__CYGWIN__) || defined(_MSC_VER) && _MSC_VER >= 1900
 
-Des Weiteren wurde eine spezielle Methode von Python unter Windows verwendet, um die Gültigkeit von Datei-Handles zu prüfen. Diese Methode wurde jedoch in VS2015 komplett verboten, was zu Kompilierfehlern führt. Daher sollte sie zuerst angepasst werden. In der Datei `Include/fileobject.h`, Zeilen 73 und 80:
+Außerdem wurde in Windows eine spezielle Methode verwendet, um die Gültigkeit von Dateihandles in Python zu überprüfen, die in VS2015 vollständig deaktiviert ist, was zu Kompilierungsfehlern führt. Daher muss dies zuerst geändert werden. Datei `Include/fileobject.h`, Zeilen 73 und 80:
 
 	73 - #if defined _MSC_VER && _MSC_VER >= 1400
 	73 + #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
@@ -95,30 +95,28 @@ Des Weiteren wurde eine spezielle Methode von Python unter Windows verwendet, um
 	80 - #elif defined _MSC_VER && _MSC_VER >= 1200
 	80 + #elif defined _MSC_VER && _MSC_VER >= 1200 && _MSC_VER < 1400
 
-Die Datei `Modules/posixmodule.c`, Zeile 532:
+Datei `Modules/posixmodule.c`, Zeile 532:
 
 	- #if defined _MSC_VER && _MSC_VER >= 1400
 	+ #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
 
-An diesem Punkt kann Python nun kompiliert werden. Weitere spezifische Änderungen können in meinem Commit-Verlauf unter [modify to build by vs2015](https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf)
+An dieser Stelle sollte Python erfolgreich kompiliert werden. Weitere spezifische Änderungen finden Sie in meinen Commit-Inhalten: [modify to build by vs2015](https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf)
 
 
-###"Überprüfen Sie den ungültigen Handle."
+###Überprüfung ungültiger Handles
 
-Obwohl der Code erfolgreich kompiliert wurde, führt das brutale Ignorieren ungültiger Datei-Handles dazu, dass bei Zugriff auf solche ungültigen Handles (zum Beispiel beim zweimaligen Schließen derselben Datei) Python einfach einen Assert-Fehler auslöst und das Programm abstürzt. So kann man Python überhaupt nicht verwenden. Python verwendet normalerweise eine spezielle Methode, um diese Situation zu vermeiden, aber leider funktioniert sie nicht in VS2015. Der Kommentar erklärt dies wie folgt:
+Obwohl die Kompilierung erfolgreich war, führt das grobe Ignorieren ungültiger Datei-Handles dazu, dass beim Zugriff auf ungültige Handles (zum Beispiel beim zweimaligen Schließen derselben Datei) ein direkter Assertion-Fehler auftritt und das Programm abstürzt. So kann Python einfach nicht verwendet werden. Python verwendet eine sehr spezielle Methode, um dieses Szenario zu vermeiden, aber leider funktioniert sie nicht mehr in VS2015. Dies wird in den Kommentaren erklärt:
 
 	Microsoft CRT in VS2005 and higher will verify that a filehandle is valid and raise an assertion if it isn't.
 
 
-Zum Glück gibt es bereits eine Lösungsmethode, die ich im Python-Problembericht gefunden habe. Die Adresse lautet hier: [issue23524](http://psf.upfronthosting.co.za/roundup/tracker/issue23524), [issue25759](http://psf.upfronthosting.co.za/roundup/tracker/issue25759)Diese Methode wird auch in der aktuellen Version Python 3.x verwendet.
+Gelukkig is er al een oplossing gevonden, ik heb het gezien in het Python-issue, het adres is hier: [issue23524](http://psf.upfronthosting.co.za/roundup/tracker/issue23524), [issue25759](http://psf.upfronthosting.co.za/roundup/tracker/issue25759)Diese Methode wird auch in der aktuellen Python 3.x Version verwendet.
 
 
-Um Missverständnisse zu vermeiden, übersetze ich den Text ins Deutsche:
-
-Genauer gesagt geht es darum, beim Verwenden von Datei-Handgriffen das assert crash Mechanismus von Windows zu deaktivieren und stattdessen den Fehlercode zu prüfen. Wie kann man also den assert Mechanismus von Windows deaktivieren? Die Antwort besteht darin, seine eigene Fehlerbehandlungsfunktion anstelle der Standardfunktion von Windows zu verwenden. Der entscheidende Code:  
+Konkret bedeutet das, dass beim Umgang mit Datei-Handles die Assert-Crash-Mechanismus von Windows deaktiviert wird und stattdessen der Fehlercode überprüft wird. Wie deaktiviert man also den Assert-Mechanismus von Windows? Die Antwort ist, dass man seine eigene Fehlerbehandlungsfunktion anstelle der standardmäßigen Behandlungsfunktion von Windows verwendet. Der entscheidende Code:
 
 
-Erstellen Sie die Datei `PC/invalid_parameter_handler.c` und definieren Sie unsere eigene Fehlerbehandlungsfunktion, die auftretende Fehler vorübergehend ignorieren kann.
+Neue Datei `PC/invalid_parameter_handler.c` erstellen, um unsere eigene Fehlerbehandlungsfunktion zu definieren; vorübergehend können die aufgetretenen Fehler ignoriert werden.
 
 ```c++
 #ifdef _MSC_VER
@@ -146,7 +144,7 @@ _invalid_parameter_handler _Py_silent_invalid_parameter_handler = _silent_invali
 #endif
 ```
 
-Definieren Sie zwei Makros zur einfachen Änderung der Fehlerbehandlungsfunktion. Bitte beachten Sie, dass dies vorübergehende Änderungen sind und anschließend wieder auf die Standardsystemeinstellungen zurückgesetzt werden müssen.
+Definieren Sie zwei Makros zur bequemen Änderung der Fehlerbehandlungsfunktion. Beachten Sie, dass es sich um eine vorübergehende Änderung handelt, die später auf das Standard-System zurückgesetzt werden muss.
 
 ```c++
 #if defined _MSC_VER && _MSC_VER >= 1900
@@ -164,12 +162,14 @@ extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
 #endif /* _MSC_VER >= 1900 */
 ```
 
-Nachfolgend fügen Sie an Stellen, die möglicherweise einen Windows-Datei-Handle-Fehler auslösen könnten, das Makro`_Py_BEGIN_SUPPRESS_IPH` und `_Py_END_SUPPRESS_IPH` vor und nach dem jeweiligen Code ein. Anschließend können Sie den Fehlercode überprüfen. Es müssen viele Stellen geändert werden, orientieren Sie sich an Commits anderer Personen, um Änderungen vorzunehmen:
+Danach fügen Sie an Stellen, an denen ein Windows-Dateihandlesfehler auftreten könnte, jeweils die Makros `_Py_BEGIN_SUPPRESS_IPH` und `_Py_END_SUPPRESS_IPH` hinzu. Anschließend können Sie den Fehlercode überprüfen. Es gibt viele Stellen, die geändert werden müssen; orientieren Sie sich an den Commits anderer zur Modifikation.
+Translate these text into German language:
+
 [Hier](https://github.com/kovidgoyal/cpython/commit/a9ec814d466d3c0139d10b69666f88eed10e4940)
 
 ##Ende
 
-An dieser Stelle kann Python 2.7.11 erfolgreich in VS2015 kompiliert und ausgeführt werden. Allerdings wird dies von den offiziellen Python-Entwicklern nicht empfohlen.
+Bis hierhin kann Python 2.7.11 in VS2015 normal kompiliert und ausgeführt werden, jedoch wird von der Python-Organisation nicht empfohlen, diese Einstellung so vorzunehmen.
 
 	***WARNING***
 	Building Python 2.7 for Windows using any toolchain that doesn't link
@@ -177,9 +177,9 @@ An dieser Stelle kann Python 2.7.11 erfolgreich in VS2015 kompiliert und ausgef�
 	not be able to use precompiled extension modules that do link against
 	MSVCRT90.dll.
 
-Es ist am besten, darauf zu achten, wenn Sie es verwenden.
+Daher ist es am besten, darauf zu achten, wenn man es benutzt.
 
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte im [Feedback](https://github.com/disenone/wiki_blog/issues/new)Zeigen Sie alle Unklarheiten auf. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt worden. Bitte im [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf etwaige Auslassungen hin. 

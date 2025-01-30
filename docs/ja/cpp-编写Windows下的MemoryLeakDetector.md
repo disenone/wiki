@@ -1,13 +1,13 @@
 ---
 layout: post
-title: Windows対応のメモリーリーク検出ツールの作成
+title: Windows上のメモリリーク検出ツールを作成する
 categories:
 - c++
 tags:
 - dev
-description: 最近、『プログラマの自己啓発：リンク、ロード、およびライブラリ』（以下『リンク』と略す）を読了した。たくさんのことを学び、関連する小さなコードを書いてみることを考えている。ちょうどWindowsにメモリーリークを検出するツール
-  [Visual Leak Detector](https://vld.codeplex.com/)このツールは、Windows のメモリ管理を担当するdllインターフェースを置き換えることでメモリの割り当てと解放を追跡するように設計されています。そのため、Visual
-  Leak Detector（以下VLDと略す）を参考にして、簡易的なメモリリーク検出ツールを作成することに決定しました。dllリンクに関する理解も深めたいと考えています。
+description: 最近《プログラマーの自己修養：リンク、ロード、ライブラリ》（以下《リンク》）を読み終わり、多くのことを学びました。それに関連する小さなコードを作れないかなと考えています。ちょうど
+  Windows で使えるメモリリーク検出ツール [Visual Leak Detector](https://vld.codeplex.com/)このツールは、Windowsでメモリ管理を担当するdllインターフェースを置き換えることによって、メモリの割り当てと解放を追跡することを実現しています。そこで、Visual
+  Leak Detector（以下VLDと略します）を参考にして、簡易的なメモリリーク検出ツールを作成し、dllリンクを理解することにしました。
 figures:
 - assets/post_assets/2016-6-11-memory-leak-detector/depends.png
 ---
@@ -17,59 +17,60 @@ figures:
 ![](https://img.shields.io/badge/windows-10-blue.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 
-##前書き
+##前言
 
-最近読み終えた『プログラマーの自己啓発：リンク、ロード、ライブラリ』（以下、「リンク」と略す）とても勉強になった。関連する小さなコードを書いてみようと思っているんだ。ちょうどWindowsにはメモリーリークを検出するツール [Visual Leak Detector](https://vld.codeplex.com/)このツールは、Windows のメモリ管理を担当している dll インターフェースを置き換えることで、メモリの割り当てと解放を追跡する仕組みです。そのため、Visual Leak Detector（以下、VLDと省略）を参考にして簡易的なメモリリーク検出ツールを作ることに決めました。dllリンクについて理解することが重要です。
+最近《プログラマーの自己修養：リンク、ロードとライブラリ》（以下略して『リンク』）を読み終え、多くの収穫がありました。それに関連する小さなコードを書いてみようと考えています。ちょうどWindows用のメモリリーク検出ツール [Visual Leak Detector](https://vld.codeplex.com/)このツールは、Windowsでメモリ管理を担当するdllインターフェースを置き換えることによって、メモリの割り当てと解放を追跡することが実現されています。そこで、Visual Leak Detector（以下VLDと略します）を参考にして、簡易的なメモリリーク検出ツールを作成し、dllリンクを理解することに決めました。
 
-##事前の知識
-本書では、「リンク」というテーマについて、LinuxとWindowsでの実行可能ファイルのリンクの仕組みを詳しく説明しています。Windowsでは、実行可能ファイルの形式はPE（Portable Executable）ファイルと呼ばれています。そして、DLLファイルについての説明は以下の通りです：
+##用日语翻译这段文字:
+予備知識
+「リンク」という書籍は、LinuxとWindowsで実行可能なファイルのリンク原理を詳しく説明しており、Windowsでの実行可能ファイル形式はPE（Portable Executable）ファイルと呼ばれています。そして、DLLファイルの説明は次のようになります：
 
-> DLL（Dynamic-Link Library）は、Linuxにおける共有オブジェクトに相当するものであり、WindowsシステムではこのDLLメカニズムが広く採用されています。実際、Windowsのカーネル構造さえも大きくDLLメカニズムに依存しています。WindowsのDLLファイルとEXEファイルは実際には同じ概念です。両方ともPE形式のバイナリファイルで、わずかに異なるのはPEファイルヘッダーに、そのファイルがEXEかDLLかを示すシンボルビットがあることです。また、DLLファイルの拡張子は必ずしも.dllであるとは限らず、その他の拡張子である場合もあります。例えば、.ocx（OCXコントロール）や.CPL（コントロールパネルプログラム）などです。
+> DLLは「Dynamic-Link Library」の略で、Linuxの共有オブジェクトに相当します。WindowsシステムではこのDLLメカニズムが広く採用されており、Windowsのカーネル構造さえも大きくDLLメカニズムに依存しています。WindowsのDLLファイルとEXEファイルは実際には同じコンセプトであり、両方ともPEフォーマットのバイナリファイルです。わずかな違いとしてはPEファイルヘッダーに、ファイルがEXEであるかDLLであるかを示すシンボルビットが存在し、DLLファイルの拡張子は必ずしも.dllである必要はなく、たとえば.ocx（OCXコントロール）や.CPL（コントロールパネルプログラム）など、他の拡張子を取ることもあります。
 
-Python の拡張子 .pyd のようなファイルもあります。そして、DLL に関しては、ここでのメモリーリーク検出概念は**symbol export/import table**です。
+例えば、Pythonの拡張ファイルである.pydもあります。また、DLLにおいて私たちがここで扱うメモリリーク検出の概念は**シンボルのエクスポートインポートテーブル**です。
 
-####符号导出表
+####符号エクスポート表
 
-> 他们所需要做的就是将一些函数或变量交给其他 PE 文件使用，这种行为被称为“Symbol Exporting”。
+> 当一个 PE 需要将一些函数或变量提供给其他 PE 文件使用时，我们把这种行为叫做**シンボルエクスポート（Symbol Exporting）**
 
-Windows PEにおいて、すべてのエクスポートシンボルは、**エクスポートテーブル（Export Table）**と呼ばれる構造に集約されて保存されます。これにより、シンボル名とシンボルアドレスのマッピング関係が提供されます。エクスポートする必要があるシンボルには、`__declspec(dllexport)`修飾子を追加する必要があります。
+Windows PE内では、すべてのエクスポートされたシンボルは、**Export Table**と呼ばれる構造に集中して格納されます。これは、シンボル名とシンボルアドレスのマッピングを提供します。エクスポートする必要のあるシンボルには、修飾子`__declspec(dllexport)`を付ける必要があります。
 
-####記号インポートテーブル
+####符号インポートテーブル
 
-符号導入表は、ここでの重要な概念です。符号導出表と対応しています。まずは概念の説明を見てみましょう：
+符号インポート表は、ここでの重要な概念です。これは符号エクスポート表に対応しており、まずは概念の説明を見ていきましょう。
 
-> 「もし、あるプログラムで DLL からの関数や変数を使用している場合、そのような振る舞いを**シンボルインポート（Symbol Importing）**と呼びます。」
+> もし私たちがあるプログラムでDLLからの関数や変数を使用する場合、この行為を**シンボルインポート（Symbol Importing）**と呼びます。
 
-Windows PE 中保存模块需要导入的变量和函数的符号以及所在的模块等信息的结构叫做**インポート テーブル（Import Table）**。Windows が PE ファイルをロードする際、その1つの重要なステップは、すべてのインポート関数のアドレスを確定し、インポート テーブル内の要素を適切なアドレスに調整することです。これにより、実行時にプログラムはインポート テーブルを参照して実際の関数のアドレスを特定し、呼び出すことができます。インポート テーブル内で最も重要な構造は**インポート アドレス テーブル（Import Address Table, IAT）**であり、ここにはインポートされた関数の実際のアドレスが格納されています。
+Windows PE 中に保存されているモジュールが必要とする変数や関数、およびその所属するモジュールに関する情報を保持する構造体を**インポートテーブル(Import Table)**と呼びます。Windows が PE ファイルをロードする際、行う作業の一つは、すべての必要なインポート関数のアドレスを特定し、インポートテーブル内の要素を正しいアドレスに調整することです。ランタイム時に、プログラムは実際の関数のアドレスを特定し、それを呼び出すためにインポートテーブルをクエリしています。インポートテーブルの中で最も重要な構造は**インポートアドレステーブル (Import Address Table、IAT)**であり、ここにはインポートされた関数の実際のアドレスが格納されています。
 
-ここまで読んでいると、私たちが実装しようとしているメモリーリークの検出方法がすでにお分かりでしょう :)。そう、具体的には、インポートテーブルをハックして、検出したいモジュールのインポートテーブル内にあるメモリの割り当てと解放に関する関数のアドレスを自前の関数に変更することです。これにより、モジュールのメモリの割り当てと解放がいつ行われたかが分かり、自由に検出を行うことができます。
+ここまで読んで、私たちが実装しようとしているメモリーリーク検出の方法がすでにお分かりですね :)。その通り、インポートテーブルをハックすることです。具体的には、検出する必要のあるモジュールのインポートテーブル内にあるメモリの割り当てと解放に関する関数のアドレスを、独自の関数に変更することです。これにより、モジュールのメモリの割り当てと解放がどのように行われているかを把握し、必要な検出を行うことができます。
 
-DLL リンクに関する詳細な知識については、「リンク」または他の資料をご参照ください。
+DLLリンクについての詳細な知識は、「リンク」または他の資料を参照してください。
 
 ## Memory Leak Detector
 
-原理がわかったら、次はその原理に基づいてメモリリークの検出を実現する方法です。以下の説明は私自身の実装を基にしています。私のGithubに掲載しています: [LeakDetector](https://github.com/disenone/LeakDetector)I'm sorry, but since the text you provided contains only a punctuation mark ".", there is nothing to translate. If you provide more content, I will be happy to assist you with the translation.
+原理を理解したら、次にその原理に基づいてメモリリーク検出を実装します。以下の説明は私自身の実装に基づいており、私のGitHubに置いています：[LeakDetector](https://github.com/disenone/LeakDetector)I'm sorry, but there is no text to translate in your request.
 
-####置き換え関数
+####置換関数
 
-[RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)Sorry, I can't provide a translation for the colon ":" since it doesn't contain any linguistic content. If you have any other text you'd like me to translate, feel free to send it my way.
+(https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)申し訳ありませんが、翻訳するテキストが見当たりません。翻訳してほしい具体的な内容を教えていただけますか？
 
 ```cpp linenums="1"
-importModule中のIAT (Import Address Table)の特定の関数を別の関数に置き換える
-importModule は他のモジュールの関数を呼び出すことがあります。この関数が修正が必要な関数です。
-私たちがしなければならないことは、import module を私たちが定義した関数を呼び出すように変更することです。
+/* importModule の IAT (インポートアドレステーブル) の特定の関数を別の関数に置き換える、
+* importModule は他のモジュールの関数を呼び出し、その関数がパッチを当てる必要のある関数です。
+私たちがやるべきことは、import moduleを私たちのカスタム関数を呼び出すように変更することです。
  *
-importModule（IN）：パッチが必要な関数を呼び出す、処理する必要のあるモジュール
+- importModule (IN): The module to be processed, which calls functions that need to be patched in other modules.
  *
-- exportModuleName (IN): パッチが必要な関数が属するモジュールの名前
+* - exportModuleName (IN): 需要パッチの関数が属するモジュール名
  *
-- exportModulePath（IN）：エクスポートモジュールのパス。まずはパスを使用してエクスポートモジュールを読み込んでください。
-失敗した場合は、`name`を使用してロードします。
-- importName (IN): 関数名
+- exportModulePath（IN）：エクスポートモジュールのパス。まずパスを使用してエクスポートモジュールを読み込みます。
+失敗したら、nameを使用してロードします。
+-importName (IN): 関数名
  *
-- replacement (IN): 代替関数ポインタ
+* - replacement (IN): 代替関数ポインタ
  *
-戻り値: 成功なら true、それ以外は false
+返り値: 成功 true，それ以外は false
 */
 bool RealDetector::patchImport(
 	HMODULE importModule,
@@ -141,42 +142,42 @@ bool RealDetector::patchImport(
 
 ```
 
-このテキストを日本語に翻訳します：
-
-私たちはこの関数を分析してみましょう。コメントにあるように、この関数の機能は、IAT内のある関数のアドレスを別の関数のアドレスに変更することです。まずは34-35行を見てみましょう：
+この関数を解析してみましょう。コメントに書かれているように、この関数の目的はIAT内のある関数のアドレスを別の関数のアドレスに変更することです。34-35行を見てみましょう：
 
 ``` cpp
 idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```
 
-`ImageDirectoryEntryToDataEx` 関数は、モジュールのファイルヘッダー内の特定の構造体のアドレスを返すことができます。`IMAGE_DIRECTORY_ENTRY_IMPORT` はインポートテーブル構造を指定しているため、返される `idte` はモジュールのインポートテーブルを指しています。
+`ImageDirectoryEntryToDataEx` 関数は、モジュールのファイルヘッダー内の特定の構造体のアドレスを返すことができます。`IMAGE_DIRECTORY_ENTRY_IMPORT` はインポートテーブル構造を指定するので、返される `idte` はモジュールのインポートテーブルを指すようになります。
 
-３６−４０行は、`idte` の有効性を確認する箇所だ。４１行では、`idte->FirstThunk` が実際のIATを指している。そのため、４１−４８行は、置換する必要のある関数を検索する際にモジュール名を基に探す箇所だ。もし見つからなければ、そのモジュールの関数が呼ばれていないことを示し、エラーを通知して処理を返す。
+36-40 行では、`idte` の有効性をチェックしています。41 行では、`idte->FirstThunk` が実際のIATを指しています。そのため、41-48 行は、置換が必要な関数を見つけるためにモジュール名を検索しています。見つからない場合は、そのモジュールの関数が呼び出されていないことを意味し、エラーを表示して戻ります。
 
-モジュールを見つけた後は、自然に、置き換える関数を見つける必要があります。55-62行目で関数が属するモジュールを開いて、64行目で関数のアドレスを見つけます。IATに名前が保存されていないため、元の関数のアドレスに基づいて関数を特定し、その後関数のアドレスを変更する必要があります。68-80行目ではこの作業を行っています。関数を正常に見つけた後は、単純にそのアドレスを「replacement」のアドレスに変更します。
+モジュールを見つけたら、次に置き換える関数を見つける必要があります。55-62行で関数が所属するモジュールを開き、64行で関数のアドレスを見つけます。IATは名前を保存していないため、最初に元の関数のアドレスに基づいて関数を特定し、その後でその関数のアドレスを変更します。68-80行はこの作業を行っています。関数を成功裏に見つけた後は、単純にアドレスを `replacement` のアドレスに変更します。
 
-この点で、私たちはIAT内の関数を正常に置き換えました。
+Here is the translated text:
 
-####モジュールと関数名
+ここまで、私たちはIAT中の関数を成功裏に置き換えました。
 
-`patchImport` 関数を置き換えているが、モジュール名と関数名を特定する必要がある。プログラムのメモリ割り当てと解放にどのモジュールと関数が使われているかを知るためには、Windows のツール [Dependency Walker](http://www.dependencywalker.com/)(https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)（例）：
+####モジュール名と関数名
+
+IAT 関数 `patchImport` をすでに置き換えたとはいえ、この関数にはモジュール名と関数名を指定する必要があるから、プログラムがどのモジュールと関数を使ってメモリ割り当てと解放を行っているかをどうやって知ればいいのかな？この問題を解明するために、Windows のツール [Dependency Walker](http://www.dependencywalker.com/)Visual Studioで新しいプロジェクトを作成し、`main`関数の中で`new`を使ってメモリを割り当てます。Debug版をコンパイルした後、`depends.exe`を使用してコンパイルされたexeファイルを開くと、以下のようなインターフェースが表示されます（私のプロジェクト[LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)例として：
 
 ![](assets/img/2016-6-11-memory-leak-detector/depends.png)
 
-LeakDetectorTest.exe が uscrtbased.dll 内の `malloc` と `_free_dbg` を使用していることが分かります（画面には表示されていませんが）。これらの関数が置き換える必要のある関数です。実際のモジュールの関数名は、Windows と Visual Studio のバージョンに依存する可能性があるので、私の場合は Windows 10 と Visual Studio 2015 です。あなたが必要なのは、depends.exe を使用して実際に呼び出されている関数を確認することです。
+LeakDetectorTest.exe が uscrtbased.dll 内の `malloc` と `_free_dbg` を使用していることが分かりました（画像には表示されていませんが）。これらの関数が私たちが置き換える必要がある関数です。実際のモジュール関数名は、Windows と Visual Studio のバージョンによって異なる可能性があります。私の場合は、Windows 10 と Visual Studio 2015 を使用していますが、あなたがやることは depends.exe を使用して実際に呼び出されている関数を調べることです。
 
 ####解析コールスタック
 
-記憶域の配分を記録するには、当時の呼び出しスタック情報を記録する必要があります。ここでは、Windowsで現在の呼び出しスタック情報を取得する方法について詳しく説明するつもりはありません。関連する関数は `RtlCaptureStackBackTrace` ですが、インターネットには多くの関連情報があり、私のコード内の関数 [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)I'm sorry, but the text you provided is already in Japanese. It means "。" in English.
+メモリ割り当ての記録には、その時の呼び出しスタック情報を記録する必要があります。ここでは、Windows上で現在の呼び出しスタック情報を取得する方法を詳しく説明するつもりはありませんが、関連する関数は `RtlCaptureStackBackTrace` です。ネット上には多くの関連資料がありますし、私のコードの中の関数 [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)てください。
 
-####メモリーリークの検出
+####メモリーリークを検出します。
 
-ここまで、私たちはドラゴンボールをすべて集めましたね。では、神龍を正式に呼び出します。
+ここまで来て、私たちはすべてのドラゴンボールを集めました。これから正式にシェンロンを呼び出します。
 
-私は部分的なメモリーリークの検出が可能なものを作りたいと思っています（これはVLDとは異なります。VLDはグローバルな検出を行い、マルチスレッドもサポートしています）。そこで、実際の関数を置換するクラス`RealDetector`にさらに`LeakDetector`という層を追加し、`LeakDetector`のインターフェースをユーザーに公開しました。使用時には、単純に`LeakDetector`を構築するだけで、関数の置換とメモリーリークの検出が完了し、`LeakDetector`が破棄されると元の関数が復元され、メモリーリークの検出が中止され、結果が出力されます。
+局部的なメモリリーク検出ができるようにしたいと思っています（これは VLD とは異なり、VLD はグローバルな検出を行い、マルチスレッドをサポートしています）。そのため、実際に関数を置き換えるクラス `RealDetector` の上に、もう一層 `LeakDetector` をラップしました。そして、`LeakDetector` のインターフェースを利用者に公開しました。使用時には、`LeakDetector` を構築するだけで関数の置き換えが完了し、メモリリークの検出が始まります。`LeakDetector` が破棄されると、元の関数に戻り、メモリリーク検出を中止し、メモリリーク検出の結果を表示します。
 
-以下のコードをテストしてみてください：
+以下のコードを使ってテストしてください：
 
 ```cpp
 #include "LeakDetector.h"
@@ -198,7 +199,7 @@ int main()
 
 ```
 
-コードはメモリを`new`して、それを解放せずに直ちに終了しました。プログラムは次の結果を出力しました：
+直訳： "コードは直接メモリを`new`して、解放せずに終了しました。プログラムは次の出力をしました："
 
 ```
 ============== LeakDetector::start ===============
@@ -235,15 +236,15 @@ Num 2:
     ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 ```
 
-このコードは、2箇所でメモリを確保したが解放しなかった箇所を正確に特定し、詳細な呼び出しスタック情報を出力することができた。必要な機能はここで完了した。
+プログラムは正しく2つの場所で要求されたメモリを解放せず、完全な呼び出しスタック情報を出力しました。必要な機能はここで完了しました。
 
 ###結語
 
-プログラムのリンク、ロード、およびライブラリについてまだ理解がない場合、共有ライブラリの関数を見つける方法について混乱するかもしれません。そしてその関数を自分たちの関数で置き換えることなど考えられないでしょう。ここでは、メモリリークの検出を例に、Windows DLLの関数を置き換える方法について考察します。より詳細な実装については、VLDのソースコードを参照してください。
+プログラムのリンク、ロード、ライブラリについてまだ理解していないと、共有リンクライブラリの関数を見つける方法については混乱するかもしれませんし、リンクライブラリの関数を自分の関数に置き換えることに関してはなおさらです。ここでは、メモリリークの検出を例として、Windows DLL の関数を置き換える方法について探ってみます。より詳細な実装については、VLD のソースコードを参照してください。
 
-もう一つ言いたいことは、『プログラマの自己修養：リンク、ロード、およびライブラリ』は本当にいい本だよね、純粋に感動した広告じゃない。
+その他に言いたいことは、「プログラマのための自己啓発：リンク、ロード、ライブラリ」は本当にいい本だよね、完全に感動で広告じゃない。
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遺漏之處。 
+> この投稿は ChatGPT を使って翻訳されました。フィードバックは[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 

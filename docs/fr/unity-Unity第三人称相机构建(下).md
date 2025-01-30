@@ -1,38 +1,37 @@
 ---
 layout: post
-title: Unity Third Person Camera Setup Part 2
+title: Construction d'un système de caméra à la troisième personne dans Unity (partie
+  2)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Je veux créer une caméra à la troisième personne dans Unity, basée sur
-  le comportement de la caméra à la troisième personne de "World of Warcraft". Voyons
-  comment résoudre le problème du corps de la caméra.
+description: Je veux créer une caméra troisième personne dans Unity, dont le comportement
+  fait référence à la caméra troisième personne de World of Warcraft. Ici, nous allons
+  résoudre le problème du rigide de la caméra.
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-La dernière diffusion a traité de [la rotation de l'appareil photo](unity-Unity第三人称相机构建(上)Translate these text into French language: 
-
-.md), donc le problème que nous devons résoudre maintenant est la rigidité de l'appareil photo, comment devrions-nous procéder ?
+Le dernier épisode a traité [la rotation de l'appareil photo](unity-Unity第三人称相机构建(上)Les fichiers .md), donc le problème que nous devons résoudre maintenant est la rigidité de l'appareil photo, comment procéder ?
 
 Rigidité de l'appareil photo
 --------------
-Revue des exigences précédemment mentionnées :
+Revenons sur les besoins évoqués précédemment :
 
 Molette de la souris : contrôle du zoom de la caméra
-L'appareil photo ne peut pas passer à travers aucun objet rigide.
-Lorsque l'appareil photo quitte un objet rigide après avoir été frappé, il revient lentement à sa distance d'origine.
-Si la caméra rencontre un objet rigide, utilisez la molette de la souris pour rapprocher la caméra. La réaction de la caméra doit être instantanée, et le point 6 ne se produira plus par la suite. Après avoir heurté le sol, il n'est plus possible d'effectuer de zoom.
-La caméra a heurté le sol en pivotant, cessant de tourner autour du personnage de haut en bas pour tourner autour d'elle-même de haut en bas, tout en continuant de tourner autour du personnage de gauche à droite.
+5. La caméra ne peut pas traverser n'importe quel objet rigide.
+6. L'appareil photo revient lentement à sa distance d'origine après avoir quitté l'objet rigide qui a subi la collision.
+7. Si la caméra entre en contact avec un corps rigide, l'utilisation de la molette de la souris pour zoomer doit entraîner une réaction immédiate de la caméra, après quoi le point 6 ne se produira plus ; il est impossible d'effectuer une opération de zoom après avoir heurté le sol.
+La caméra a heurté le sol en tournant, cessant de tourner autour du personnage de haut en bas, pour tourner autour d'elle-même de haut en bas. La rotation de gauche à droite reste autour du personnage.
 
 
-Ces points signifient que lorsque l'appareil photo rencontre un objet rigide, il est contraint de se rapprocher de la personne, alors nous voulons que l'appareil photo puisse revenir lentement à sa distance d'origine lorsqu'il s'éloigne; mais si après avoir automatiquement rapproché la distance, nous rapprochons manuellement à nouveau avec la molette, cela signifie que l'appareil photo quitte l'objet en collision, alors cette distance rapprochée est la distance réelle de l'appareil photo. Explorons maintenant progressivement ces besoins.
+Ces quelques points signifient que : lorsque la caméra rencontre un objet rigide, elle est contrainte de se rapprocher du personnage. Nous souhaitons ensuite que la caméra, en s'éloignant, puisse revenir lentement à sa distance d'origine. Cependant, si après un rapprochement automatique, nous utilisons la molette pour rapprocher manuellement, cela indique que la caméra s'éloigne de l'objet en collision. Dans ce cas, la distance rapprochée représente la distance réelle de la caméra. Examinons ces besoins point par point.
 
-Contrôle de la molette
+Contrôle à molette
 ----------
-La manipulation de la molette de la souris est très simple, il vous suffit de connaître la commande pour obtenir les informations de la molette : `Input.GetAxis("Mouse ScrollWheel")`, puis de définir les valeurs maximale et minimale de la distance, et c'est tout !
+Contrôler la molette de la souris est assez simple, il suffit simplement de savoir que pour obtenir les informations de la molette, vous pouvez utiliser `Input.GetAxis("Mouse ScrollWheel")`, puis définir les valeurs maximale et minimale de la distance, et c'est bon :
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -51,15 +50,15 @@ if (zoom != 0F)
 
 Ici, `playerTransform` fait référence au personnage.
 
-Impossible de traverser un objet rigide.
+Il est impossible de traverser un objet rigide.
 --------------------
-Cela nécessite de détecter le contact entre la caméra et le corps rigide, il existe une fonction qui peut réaliser cette fonctionnalité :
+Cela nécessite de détecter le contact entre la caméra et le corps rigide, il existe une fonction pour réaliser cette fonctionnalité :
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-(http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)Nous pouvons détecter les collisions de la manière suivante :
+Se référer à la [Référence](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)Nous pouvons réaliser la détection de collision de cette manière :
 
 ```c#
 RaycastHit hitInfo;
@@ -70,12 +69,12 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-`targetPosition` is the position of the collision, setting the camera's position to the collision position will do the trick.
+`targetPosition` is the position of the collision, you just need to set the camera's position to the collision position.
 
-Après avoir quitté le corps rigide, revenir progressivement à la distance initiale.
+Après avoir quitté le corps rigide, revenez lentement à la distance d'origine.
 ---------------------------------
-Pour accomplir cette fonction, il est d'abord nécessaire d'enregistrer séparément la distance à laquelle la caméra devrait être positionnée (`desiredDistance`) et la distance actuelle (`curDistance`). Enregistrez d'abord le résultat de l'opération de la molette dans `desiredDistance`, puis calculez la nouvelle distance de l'objet en fonction de la collision.
-Lorsqu'il est détecté que la caméra s'éloigne du corps rigide ou entre en collision avec un autre corps plus lointain, il n'est pas possible de simplement attribuer la position de la collision à la caméra. Il est nécessaire de déplacer la caméra vers la nouvelle distance en utilisant une vitesse de déplacement. Tout d'abord, obtenons la nouvelle distance :
+Pour réaliser cette fonctionnalité, il faut d'abord enregistrer la distance à laquelle l'appareil photo doit se trouver (`desiredDistance`) et la distance actuelle (`curDistance`). Ensuite, on stocke d'abord le résultat de l'opération de la molette dans `desiredDistance`, puis on calcule la nouvelle distance de l'objet en fonction des collisions.
+Lorsque la caméra quitte le corps rigide ou entre en collision avec un autre corps plus éloigné, il n'est pas possible de simplement attribuer la position de la collision à la caméra. Il est nécessaire d'utiliser une vitesse de déplacement pour se déplacer vers la nouvelle distance. Commençons par obtenir cette nouvelle distance :
 
 ```c#
 float newDistance = desiredDistance;
@@ -87,21 +86,21 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-Alors, comment peut-on identifier si l'appareil photo se déplace vers une distance plus lointaine ? On peut comparer les `newDistances` avec la distance actuelle :
+Alors, comment peut-on déterminer si l'appareil photo se déplace vers une distance plus éloignée ? Vous pouvez comparer les `newDistances` avec la distance actuelle :
 
 ```c#
-Déplacez-vous vers une distance plus proche.
+// Se déplacer vers une distance plus proche
 if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-Déplacer vers une distance plus lointaine
+Déplacez-vous vers une distance plus lointaine
 else if(newDistance > curDistance)
 {
 }
 ```
 
-Alors, une fois qu'il est déterminé que l'on se déplace vers une distance plus éloignée, il est assez évident, il suffit d'ajouter une vitesse pour se déplacer :
+Alors, une fois que vous avez déterminé que vous devez vous déplacer à une plus grande distance, il est assez intuitif de simplement ajouter une vitesse pour se déplacer:
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
@@ -109,21 +108,21 @@ curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDista
 ```
 Nous avons déjà finalisé le fonctionnement général de l'appareil photo, il reste quelques détails à régler.
 
-Lorsque vous heurtez un objet rigide, rapprochez les roues sans modifier l'échelle du sol.
+Lorsqu'on rencontre un rouleau rigide, le rouleau se rapproche, le sol ne se réduit pas.
 ------------------
 Il y a deux exigences ici :
 
-Après avoir rencontré un objet rigide, il est possible de se rapprocher mais pas de s'éloigner.
-Lorsqu'il touche le sol, il ne peut pas se rétracter.
+1. On ne peut que se rapprocher après avoir rencontré un corps rigide, pas s'en éloigner.
+Après avoir touché le sol, il est impossible de redimensionner.
 
-Tout d'abord, utilisez une variable pour enregistrer l'état de collision de la caméra :
+Tout d'abord, utilisez des variables pour sauvegarder l'état de collision de la caméra :
 
 ```c#
-bool isHitGround = false; // Indicates whether it has hit the ground
-bool isHitObject = false;       // Indicates whether a collision with a rigid body (excluding the ground)
+bool isHitGround = false;       // Indique si une collision avec le sol a eu lieu
+bool isHitObject = false;       // Indique si un corps rigide est en collision (autre que le sol)
 ```
 
-Ajoutez une condition de vérification lors de l'analyse pour le zoom de la molette.
+Ajoutez une condition pour identifier le zoom avec la roulette de défilement:
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -132,11 +131,9 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-Rencontrer le sol en tournant autour de soi-même de haut en bas.
+Rencontre le sol et tourne autour de soi-même de haut en bas.
 -----------------
-(unity-Unity第三人称相机构建(上)Translate these text into French language: 
-
-Les fonctions de rotation de (.md) ont été décomposées en rotation selon X (`RotateX`) et en rotation selon Y (`RotateY`). Ainsi, lorsque vous calculez la rotation selon Y de `cameraToPlayer`, ajoutez la condition :
+Cette fonction est un peu complexe à mettre en place, car notre hypothèse selon laquelle la caméra était toujours pointée vers le personnage ne tient plus. Il faut alors diviser en deux vecteurs : **l'orientation de la caméra elle-même (`desireForward`)** et **la direction du joueur vers la caméra (`cameraToPlayer`)**, puis calculer les valeurs de ces deux vecteurs. Le premier détermine l'orientation de la caméra, tandis que le second détermine sa position. Pour simplifier, référez-vous au [épisode précédent](unity-Unity第三人称相机构建(上)La fonction de rotation de (.md) est décomposée en rotation autour de X (`RotateX`) et rotation autour de Y (`RotateY`). Ainsi, lors du calcul de `cameraToPlayer` pour `RotateY`, ajoutez une condition :
 
 ```c#
 if ((!isHitGround) || 
@@ -147,10 +144,10 @@ if ((!isHitGround) ||
 }
 ```
 
-Ce critère se compose de deux parties :
+Cette condition se compose de deux parties :
 
-N'a pas touché le sol.
-Rencontrer le sol mais prêt à le quitter
+- N'a pas touché le sol
+Rencontrer le sol, mais se préparer à le quitter.
 
 Ensuite, utilisez `cameraToPlayer` pour calculer la position de la caméra :
 
@@ -158,7 +155,7 @@ Ensuite, utilisez `cameraToPlayer` pour calculer la position de la caméra :
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-Et calcule l'orientation de la caméra lorsque cela est nécessaire (c'est-à-dire lorsqu'elle rencontre le sol) :
+Et calculez l'orientation de la caméra lorsque nécessaire (c'est-à-dire lorsqu'elle touche le sol) :
 
 ```c#
 if (!isHitGround)
@@ -173,7 +170,7 @@ else
 }
 ```
 
-Nous avons tous pris des mesures pour mettre en œuvre ce comportement de l'appareil photo.
+Nous avons tous réalisé ce type de comportement de l'appareil photo.
 
 Code complet :
 
@@ -382,4 +379,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez signaler [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Indiquez toute omission. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifiez toute omission éventuelle. 

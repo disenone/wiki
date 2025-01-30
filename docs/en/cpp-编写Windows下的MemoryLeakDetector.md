@@ -1,17 +1,18 @@
 ---
 layout: post
-title: Developing a Memory Leak Detector for Windows
+title: Write a Memory Leak Detector for Windows
 categories:
 - c++
 tags:
 - dev
-description: 'Recently, I finished reading "The Self-Taught Programmer: Linking, Loading,
-  and Libraries" (abbreviated as "Linking"). I gained a lot from it and thought about
-  whether I could create some related code. Coincidentally, I found out about a memory
-  leak detection tool for Windows called Visual Leak Detector (VLD) [https://vld.codeplex.com/].
-  This tool tracks memory allocation and release by replacing the DLL interfaces responsible
-  for memory management in Windows. Therefore, I decided to reference Visual Leak
-  Detector and create a simple memory leak detection tool to understand DLL linking.'
+description: 'Recently, I finished reading "The Programmer''s Self-Improvement: Linking,
+  Loading, and Libraries" (hereafter referred to as "Linking") and gained a lot from
+  it. I''m wondering if I could create some related small code. I happened to find
+  out that there is a memory leak detection tool for Windows called [Visual Leak Detector](https://vld.codeplex.com/)This
+  tool works by replacing the DLL interface responsible for memory management in Windows
+  to track memory allocation and deallocation. Therefore, I''ve decided to create
+  a simple memory leak detection tool, referred to as Visual Leak Detector (hereinafter
+  VLD), to understand DLL linking.'
 figures:
 - assets/post_assets/2016-6-11-memory-leak-detector/depends.png
 ---
@@ -21,59 +22,59 @@ figures:
 ![](https://img.shields.io/badge/windows-10-blue.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 
-## Preface
+##Preface
 
-Recently, I finished reading "The Self-Taught Programmer: Linking, Loading, and Libraries" (referred to as "Linking" hereafter) and gained a lot of insights. I thought about whether I could create some related code snippets. Coincidentally, I learned about a memory leak detection tool called Visual Leak Detector for Windows [Visual Leak Detector](https://vld.codeplex.com/). This tool tracks memory allocation and deallocation by replacing the DLL interface responsible for memory management in Windows. Therefore, I have decided to reference Visual Leak Detector (referred to as VLD hereafter) and create a simplified memory leak detection tool to deepen my understanding of DLL linking.
+Recently finished reading "The Self-cultivation of Programmers: Linking, Loading, and Libraries" (referred to as "Linking" for short), gained a lot, and thinking about whether I can create some related short code. Happened to know about a memory leak detection tool [Visual Leak Detector](https://vld.codeplex.com/)This tool implements memory allocation and deallocation tracking by replacing the DLL interfaces responsible for memory management in Windows. Therefore, we decided to create a simple memory leak detection tool by referencing the Visual Leak Detector (hereinafter referred to as VLD) to understand DLL linkage.
 
-## Background Knowledge
+##Prerequisites
+The book "Linking" provides a detailed explanation of the linking principles of executable files under Linux and Windows, where the executable file format in Windows is called PE (Portable Executable) files. The explanation for DLL files is as follows:
 
-The book "Linking" provides a detailed explanation of the linking principles for executable files under Linux and Windows. In Windows, the executable file format is called Portable Executable (PE) file. The interpretation of DLL files is as follows:
+> DLL stands for Dynamic-Link Library, which is analogous to shared objects in Linux. This DLL mechanism is widely adopted in Windows systems, and even the structure of the Windows kernel largely relies on it. In Windows, DLL files and EXE files are essentially the same concept; both are binary files in PE format. The only slight difference is that the PE file header contains a flag indicating whether the file is an EXE or a DLL. Additionally, DLL files do not necessarily have the .dll extension; they can also have other extensions, such as .ocx (for OCX controls) or .CPL (for control panel programs).
 
-DLL, short for Dynamic-Link Library, is the equivalent of shared objects in Linux. The DLL mechanism is widely used in the Windows system, to a great extent, even the structure of the Windows kernel relies heavily on the DLL mechanism. DLL files and EXE files in Windows are essentially the same concept, as they are both binary files in PE format. The only difference is that the PE file header contains a symbol that indicates whether the file is an EXE or a DLL. The extension of DLL files is not necessarily .dll, it could also be something else like .ocx (OCX control) or .CPL (Control Panel program).
+There are also extension files like .pyd for Python. The concept related to memory leak detection in DLLs here is the **export and import table of symbols**.
 
-There are also Python extension files like .pyd. The concept of memory leak detection that we are discussing here is called the symbol export/import table in DLLs.
+####Symbol export table
 
-#### Symbol Export Table
+> When a PE needs to provide some functions or variables for use by other PE files, we refer to this action as **Symbol Exporting**.
 
-When a PE needs to provide some functions or variables to other PE files, we call this behavior **symbol exporting**.
+To put it simply, in Windows PE, all exported symbols are centrally stored in a structure known as the **Export Table**, which provides a mapping between symbol names and their addresses. Symbols that need to be exported must be marked with the modifier `__declspec(dllexport)`.
 
-Simply put, in Windows PE, all exported symbols are centrally stored in a structure called the **Export Table**, which provides a mapping between symbol names and symbol addresses. Symbols that need to be exported should be annotated with the modifier `__declspec(dllexport)`.
+####Symbol Import Table
 
-#### Symbol Import Table
+The symbol import table is the key concept here, corresponding to the symbol export table. Let's start with an explanation of the concept:
 
-Symbol import table is the key concept here, which corresponds to the symbol export table. Let's first take a look at the concept explanation:
+> If we use functions or variables from a DLL in a program, we refer to this behavior as **Symbol Importing**.
 
-If we use functions or variables from a DLL in a program, we refer to this behavior as **symbol importing**.
+The structure in Windows PE that stores the symbols of variables and functions to be imported, as well as information about the modules containing them, is called the **Import Table**. When Windows loads a PE file, one of the tasks is to resolve the addresses of all the functions that need to be imported and adjust the elements in the import table to the correct addresses. This way, during execution, the program can determine the actual addresses of the functions by querying the import table and make calls accordingly. The most important structure in the import table is the **Import Address Table (IAT)**, which contains the actual addresses of the imported functions.
 
-The structure in Windows PE that stores the symbols of variables and functions that modules need to import, as well as information about their location, is called the **Import Table**. When Windows loads a PE file, one of the tasks is to determine the addresses of all the functions that need to be imported and adjust the elements in the Import Table to the correct addresses. This allows the program to locate the actual addresses of the functions and make the necessary calls at runtime by querying the Import Table. The most important structure in the Import Table is the **Import Address Table (IAT)**, which stores the actual addresses of the imported functions.
+By now, you might have guessed how we are going to achieve memory leak detection, right? Yes, it's by hacking the import table. To be more specific, we modify the addresses of memory allocation and deallocation functions in the import table of the modules we want to monitor to our custom functions. This way, we can track every memory allocation and deallocation of the module, enabling us to carry out the detection we desire without constraints.
 
-By now, you might have already guessed how we are going to implement the memory leak detection :) That's right, it's by hacking the import table. Specifically, we will modify the addresses of the memory allocation and deallocation functions in the import table of the modules we want to monitor, replacing them with our own custom functions. This way, we will be able to track every memory allocation and deallocation made by the modules, giving us the freedom to perform the desired checks.
-
-For more detailed knowledge about DLL linking, you can refer to the book "Linking" or other materials.
+More detailed knowledge about DLL linking can be found in "Linking" or other resources.
 
 ## Memory Leak Detector
 
-After understanding the principle, the next step is to implement memory leak detection based on that principle. The following explanation will be based on my own implementation, which I have uploaded to my Github: [LeakDetector](https://github.com/disenone/LeakDetector).
+Having understood the principle, the next step is to implement memory leak detection based on that principle. The following explanation will be based on my own implementation, which I have placed on my GitHub: [LeakDetector](https://github.com/disenone/LeakDetector).
 
-#### Replace Function
+####Replace function
 
-Let's take a look at the key function, located in [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp):
+First, let's take a look at the key function, located in [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)Please provide the text you would like translated into English.
 
 ```cpp linenums="1"
-/* Replace a certain function in the IAT (Import Address Table) of importModule with another function.
-   importModule calls a function from another module, and this is the function that needs to be patched.
-   What we need to do is to make import module call our custom function instead.
+Replace a function in the Import Address Table (IAT) of importModule with a different function,
+The "importModule" will call functions from another module, and the function that needs to be patched is...
+* What we need to do is change import module to call our custom function.
  *
-* - importModule (IN): The module to be processed. This module calls functions from other modules that need to be patched.
+* - importModule (IN): The module to be processed, which requires patching functions that are called from other modules.
  *
-- exportModuleName (IN): The name of the module from which the function to be patched is derived.
+- exportModuleName (IN): The name of the module from which the function needing patch comes.
  *
-* `- exportModulePath (IN): The path where the export module is located. It first tries to load the export module using the path, if that fails, it uses the name to load it.
-* `- importName (IN): The name of the function.
+- exportModulePath (IN): The path where the export module is located, first attempt to load the export module using the path.
+* If it fails, then load with name.
+- importName (IN): Function name
  *
-* - replacement (IN): a function pointer that serves as a substitute
+* - replacement (IN): Alternative function pointer
  *
-* Return Value: true if successful, false otherwise
+Return Value: true if successful, false otherwise
 */
 bool RealDetector::patchImport(
 	HMODULE importModule,
@@ -92,32 +93,32 @@ bool RealDetector::patchImport(
 
 	assert(exportModuleName != NULL);
 
-	idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule,
+	idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 		TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
-	if (idte == NULL)
+	if (idte == NULL) 
 	{
 		logMessage("patchImport failed: idte == NULL\n");
 		return false;
 	}
-	while (idte->FirstThunk != 0x0)
+	while (idte->FirstThunk != 0x0) 
 	{
-		if (strcmp((PCHAR)R2VA(importModule, idte->Name), exportModuleName) == 0)
+		if (strcmp((PCHAR)R2VA(importModule, idte->Name), exportModuleName) == 0) 
 		{
 			break;
 		}
 		idte++;
 	}
-	if (idte->FirstThunk == 0x0)
+	if (idte->FirstThunk == 0x0) 
 	{
 		logMessage("patchImport failed: idte->FirstThunk == 0x0\n");
 		return false;
 	}
 
-	if (exportModulePath != NULL)
+	if (exportModulePath != NULL) 
 	{
 		exportmodule = GetModuleHandleA(exportModulePath);
 	}
-	else
+	else 
 	{
 		exportmodule = GetModuleHandleA(exportModuleName);
 	}
@@ -126,14 +127,14 @@ bool RealDetector::patchImport(
 	assert(import != NULL);
 
 	iate = (IMAGE_THUNK_DATA*)R2VA(importModule, idte->FirstThunk);
-	while (iate->u1.Function != 0x0)
+	while (iate->u1.Function != 0x0) 
 	{
-		if (iate->u1.Function == (DWORD_PTR)import)
+		if (iate->u1.Function == (DWORD_PTR)import) 
 		{
-			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function),
+			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function), 
 				PAGE_READWRITE, &protect);
 			iate->u1.Function = (DWORD_PTR)replacement;
-			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function),
+			VirtualProtect(&iate->u1.Function, sizeof(iate->u1.Function), 
 				protect, &protect);
 			return true;
 		}
@@ -145,41 +146,40 @@ bool RealDetector::patchImport(
 
 ```
 
-Let's analyze this function, as the comment says, the purpose of this function is to change the address of a certain function in the IAT to the address of another function. Let's take a look at lines 34-35:
+Let's analyze this function. As the comments indicate, the purpose of this function is to change the address of a certain function in the IAT to the address of another function. First, let's take a look at lines 34-35:
 
 ``` cpp
-idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule,
+idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```
 
-The `ImageDirectoryEntryToDataEx` function can return the address of a certain structure in the file header of a module. The `IMAGE_DIRECTORY_ENTRY_IMPORT` specifies the import table structure, so the returned `idte` points to the import table of the module.
+The function `ImageDirectoryEntryToDataEx` can return the address of a certain structure in the file header of a module. `IMAGE_DIRECTORY_ENTRY_IMPORT` specifies the import table structure, so the returned `idte` points to the module's import table.
 
-The code in lines 36-40 is checking the validity of `idte`. In line 41, `idte->FirstThunk` points to the actual Import Address Table (IAT). Therefore, lines 41-48 are used to search for the module that contains the function to be replaced based on the module name. If the module is not found, it means that the function from that module is not being called, and an error will be prompted and returned.
+Lines 36 to 40 are checking the validity of `idte`. At line 41, `idte->FirstThunk` points to the actual IAT. Therefore, lines 41 to 48 are about searching for the module that contains the functions needing replacement based on the module name. If it cannot be found, it means the functions of that module are not called, an error message should be prompted, and return.
 
-After finding the module, naturally, we need to locate the function to be replaced. On lines 55-62, we open the module to which the function belongs, and on line 64, we find the address of the function. Since the IAT does not save names, we need to first locate the function based on its original address, and then modify that address. Lines 68-80 are doing exactly that. Once the function is successfully found, we simply modify the address to `replacement`.
+After locating the module, we naturally need to find the function that needs to be replaced. Lines 55-62 open the module to which the function belongs, and line 64 locates the function's address. Since the IAT does not store names, we first need to locate the function based on its original address before modifying that function's address. Lines 68-80 are doing just that. Once the function is successfully found, we simply change the address to that of the `replacement`.
 
-So far, we have successfully replaced the functions in IAT.
+By now, we have successfully replaced the function in the IAT.
 
-#### Module and Function Names
+####Module and function names
 
-Although we have implemented the replacement of the IAT function `patchImport`, this function requires specifying the module name and function name. How can we know which module and function are used for memory allocation and deallocation in the program? To investigate this issue, we need to use the tool [Dependency Walker](http://www.dependencywalker.com/) on Windows. Create a new project in Visual Studio, use `new` to allocate memory in the `main` function, compile in Debug mode, and then use `depends.exe` to open the compiled exe file. You will see a similar interface as shown below (using my project [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest) as an example):
-
+Although we have already implemented the replacement of the IAT function `patchImport`, this function requires specifying the module name and function name. How can we determine which modules and functions are used for memory allocation and release in the program? To clarify this issue, we need to use the tool [Dependency Walker](http://www.dependencywalker.com/)In Visual Studio, create a new project, and use `new` in the `main` function to allocate memory. Compile the Debug version, then use `depends.exe` to open the outputted exe file, and you should see an interface similar to the one below (using my project [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)For example):
 
 ![](assets/img/2016-6-11-memory-leak-detector/depends.png)
 
-It can be seen that LeakDetectorTest.exe uses the `malloc` and `_free_dbg` functions from uscrtbased.dll (not shown in the image). These two functions are the ones we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is use depends.exe to check the actual functions being called.
+It can be seen that LeakDetectorTest.exe is utilizing functions `malloc` and `_free_dbg` from uscrtbased.dll (not shown in the image), which are the functions we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. Mine are Windows 10 and Visual Studio 2015. All you need to do is use depends.exe to determine the actual functions being called.
 
-#### Analyzing Call Stack
+####Analyze the call stack.
 
-To record memory allocation, it is necessary to record the call stack information at the time. Here, I don't intend to provide a detailed guide on how to obtain the current call stack information in Windows. The relevant function is `RtlCaptureStackBackTrace`, and there are many related resources available online. You can also take a look at the `printTrace` function in my code [here](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp).
+(https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)。
 
-#### Detecting Memory Leaks
+####Detecting memory leaks
 
-At this point, we have collected all the Dragon Balls, and now it's time to officially summon Shenron.
+At this point, we have gathered all the Dragon Balls, so let's formally summon the Dragon.
 
-I want to create a feature that can detect memory leaks locally (this is different from VLD, which performs global detection and supports multi-threading). So, I added another layer of encapsulation called `LeakDetector` on top of the actual replacement function class `RealDetector` and exposed the interface of `LeakDetector` to the user. To use it, simply construct a `LeakDetector`, which will replace the function and start detecting memory leaks. When the `LeakDetector` is destroyed, it will restore the original function, terminate the memory leak detection, and print the results of the memory leak detection.
+I want to create a feature for detecting memory leaks locally (which is different from VLD, as VLD performs global detection and supports multi-threading). Therefore, I encapsulated another layer called `LeakDetector` on top of the class `RealDetector` that actually replaces the functions, and exposed the interface of `LeakDetector` to the users. When using it, simply construct `LeakDetector` to replace the functions and start detecting memory leaks. When `LeakDetector` is destructed, it will restore the original functions, terminate the memory leak detection, and print the results of the memory leak detection.
 
-Test with the following code:
+Test it with the code below:
 
 ```cpp
 #include "LeakDetector.h"
@@ -201,7 +201,7 @@ int main()
 
 ```
 
-The code directly `new` some memory, without releasing it and then exits directly. The program prints the following result:
+The code directly `new` some memory without releasing it and just exited, the result printed by the program:
 
 ```
 ============== LeakDetector::start ===============
@@ -238,15 +238,15 @@ Num 2:
     ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 ```
 
-The program correctly identified the two instances where memory was allocated but not released, and printed out the complete call stack information. The required functionality has been completed up to this point.
+The program correctly identified instances where memory was allocated but not released at two specific locations, and printed out the complete call stack information. The desired functionality has been successfully implemented up to this point.
 
-### Conclusion
+###Closing remarks
 
-When you are not familiar with program linking, loading, and libraries, you may be confused about how to find functions in shared libraries, let alone replacing the library's functions with our own. Here, we take detecting memory leaks as an example and discuss how to replace functions in Windows DLLs. For a more detailed implementation, you can refer to the source code of VLD.
+When you are not yet familiar with program linking, loading, and libraries, you might be bewildered about how to locate functions in shared link libraries, let alone replacing the functions of the link library with your own. Taking memory leak detection as an example, let's discuss how to replace functions in Windows DLLs. For a more detailed implementation, you can refer to the source code of VLD.
 
-Also, I want to say that "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" is really a good book. Just expressing my heartfelt admiration, not promotional content.
+Additionally, I'd like to mention that "The Self-Improvement of a Programmer: Linking, Loading, and Libraries" is truly a great book, just my genuine thoughts and not a promotional mention.
 
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT. Please provide feedback in [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

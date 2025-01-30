@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE 使用パス形式でメニューを拡張します
+title: UE 使用パス形式でメニューを拡張
 tags:
 - dev
 - game
@@ -12,15 +12,15 @@ tags:
 
 <meta property="og:title" content="UE 使用路径形式扩展菜单" />
 
-> UE内でパス形式の拡張メニューを実装する方法を記録する
+> UEでパス形式の拡張メニューを実装する方法を記録
 
-UEの拡張メニューに慣れていない場合は、まずこれをチェックすることをお勧めします：[UE拡張エディターメニュー](ue-扩展编辑器菜单.md)
+UE拡張メニューに慣れていない場合は、まず簡単にこちらをご覧ください：[UE拡張エディタメニュー](ue-扩展编辑器菜单.md)
 
-本文のコードはプラグインに基づいている：[UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
+本文のコードは、プラグインに基づいています：[UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
 ##ノード管理
 
-メニューを木構造で管理してください。親ノードに子ノードを含めることができます。
+メニューをツリー構造で管理し、親ノードは子ノードを含むことができます：
 
 ```cpp
 class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis<FEditorPlusMenuBase>
@@ -31,7 +31,7 @@ protected:
 }
 ```
 
-親ノードを作成する際に、同時に子ノードも作成してください：
+親ノードを作成する際に子ノードも同時に作成する:
 
 ```cpp
 void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
@@ -43,7 +43,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
 }
 ```
 
-各ノードの具体的な作成動作は、少し異なる場合があります。オーバーライド仮想関数を使用して実装します：
+各ノードの具体的な作成方法は、もちろん少し異なる場合があります。オーバーライド仮想関数を使用して実装します：
 
 ```cpp
 // Menubar
@@ -97,22 +97,22 @@ void FEditorPlusCommand::Register(FMenuBuilder& MenuBuilder)
 // ......
 ```
 
-##パスを通じてノードを生成します。
+##パスを介してノードを生成します。
 
-ツリー構造でメニューを整理し、パス形式でメニューのツリー構造を定義できます：
+ツリー構造に基づいてメニューを整理し、パス形式でメニューのツリー構造を定義することができます：
 
 ```cpp
 "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action"
 ```
 
-上記の手順に従うことで、メニューの作成手順を定義できます:
+上記の手順に従うと、一連のメニューを作成できます：
 
-- `<Hook>Help`は、メニュー名が Help の Hook の後ろに位置します。
-- `<MenuBar>BarTest`: メニュータイプのMenuBarを作成し、名前をBarTestにします。
-- `<SubMenu>SubTest`：サブメニューを作成し、タイプは SubMenu、名前は SubTest
-- `<Command>Action`：最後にコマンドを作成します。
+- `<Hook>Help`：Hook 名称が Help のメニューの後に位置しています
+- `<MenuBar>BarTest`：MenuBarタイプのメニューを作成し、名前をBarTestとします。
+`<SubMenu>SubTest`：サブノードを作成し、タイプはサブメニューで名前は SubTest
+- `<Command>Action`：最後にコマンドを作成します.
 
-インターフェースの呼び出し形式は非常に簡潔になる可能性があります：
+インターフェース呼び出しの形式は非常にシンプルです：
 
 ```cpp
 const FString Path = "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action";
@@ -125,9 +125,9 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-##カスタムフォーマットでノードを生成します。
+##カスタムフォーマットでノードを生成
 
-私たちはまだ古くて複雑な方法でメニューを作っています。この複雑な方法によって、より詳細な設定が可能になります。コードの構造はUEのSlateUIの書き方に少し似ています：
+私たちはまだ古くて非効率な方法でメニューを作成していますが、このやり方はより詳細な設定を可能にし、コードの構造はUEのSlateUIの構文に似ています：
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
@@ -144,9 +144,9 @@ EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
 });
 ```
 
-##ハイブリッド形式
+##混合形式
 
-当然、通常、固定されたパス形式とカスタムメニュー生成は同様であり、両者を混在させることができ、非常に柔軟性があります。
+もちろん、デフォルトのパス形式とカスタムメニューは同じです。両者を自由に組み合わせることができ、非常に柔軟性があります。
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -168,8 +168,8 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-複数の場所で定義されたメニューは、同じ名前のノードは同じノードと見なされ、同じパスはメニューノードを一意に決定します。つまり、パスは一意であり、同じパスはメニューノードを一意に識別します。
-それにより、私たちはノードを見つけて、設定や修正を行うことができます。
+複数の場所で定義されたメニューは、同じツリー構造に統合され、名前が同じノードは同一のノードと見なされます。言い換えれば、パスは一意であり、同じパスはメニューのノードを一意に特定します。
+そのため、ノードを見つけて、設定や変更を行うこともできます：
 
 ```cpp
 // set Name and Tips
@@ -180,4 +180,4 @@ FEditorPlusPath::GetNodeByPath("/<MenuBar>BarTest")->SetFriendlyName(LOCTEXT("Me
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指すべての欠落箇所を示してください。 
+> この投稿はChatGPTを使用して翻訳されました。こちらで[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指摘任何漏れの部分。 

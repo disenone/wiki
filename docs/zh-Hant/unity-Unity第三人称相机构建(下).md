@@ -1,34 +1,34 @@
 ---
 layout: post
-title: Unity第三人称相机构建(下)
+title: Unity第三人稱相機構建(下)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: 我想在Unity中創建一個第三人稱攝影機，攝影機的行為參考《魔獸世界》的第三人稱攝影機。這裡來解決攝影機的剛體問題。
+description: 我想在Unity中創建一個第三人稱相機，相機的行為參考《魔獸世界》的第三人稱相機。這裡來解決相機的剛體問題。
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-上一集講完了[相機的旋轉](unity-Unity第三人称相机构建(上).md) ，現在我們要解決的問題是相機的剛性，要怎麼做呢？
+上一集講完了[相機的旋轉](unity-Unity第三人称相机构建(上).md)，那麼現在我們要解決的問題是相機的剛性，要怎麼做呢？
 
 相機剛性
 --------------
-Review the previously mentioned requirements:
+回顧之前提到的需求：
 
-滑鼠滾輪：控制相機遠近
-相機不能穿透任何堅硬物體
-當相機離開與堅固物體碰撞後，會慢慢回到原本的位置。
-如果相機碰到剛體時，使用滑鼠滾輪操作相機拉近，相機需要立即回應，此後第6點不再發生；碰撞地面後不能進行縮放操作。
-相機在旋轉時碰到地面，停止繞人物上下旋轉，改為繞自身上下旋轉，左右旋轉仍然是繞人物。
+滑鼠滾輪：控制攝影機的遠近
+相機無法穿過任何堅硬物體。
+相机在与刚性物体发生碰撞后，会逐渐回到原来的位置上。
+7. 如果相機在碰到剛體時，使用滑鼠滾輪操作相機拉近，相機需要馬上反應，此後第6點不再發生；碰撞地面後不能進行縮放操作。
+相機在旋轉中碰到地面，停止圍繞人物上下旋轉，改為圍繞自身上下旋轉，左右旋轉依然是圍繞人物。
 
 
-這幾點的意思是：相機在碰到堅硬的物體時，會被迫拉近跟人物的距離，那麼我們想要相機在離開的時候，可以慢慢地回到原來的距離；但是如果在自動拉近距離後，用滾輪再手動拉近，說明相機離開碰撞的物體，那麼這個拉近的距離就是相機的實際距離。下面我們來一點一點地解這些需求。
+這幾點的意思是：相機在遇到剛性物體時，會被迫拉近與人物的距離，那麼我們希望相機在離開的時候，可以慢慢地回到原來的距離；但是如果在自動拉近距離後，再用滾輪手動拉近，這說明相機已經遠離碰撞的物體，那麼這個拉近的距離就是相機的實際距離。下面我們來一點一點地解釋這些需求。
 
 滾輪控制
 ----------
-滑鼠滾輪的控制相當簡單，只需知道如何獲取滾輪資訊，即`Input.GetAxis("Mouse ScrollWheel")`，並設定最大和最小的距離值就可以了：
+滑鼠滾輪的控制非常簡單，只需要知道如何獲取滾輪資訊`Input.GetAxis("Mouse ScrollWheel")`，然後設定最大和最小的距離值就可以了：
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -47,15 +47,15 @@ if (zoom != 0F)
 
 這裡的 `playerTransform` 指向角色。
 
-無法穿透任何堅硬物體
+不能穿過任何剛性物體
 --------------------
-這需要檢測相機跟剛體的接觸，有一個函數可以實現這個功能：
+需要測試相機與剛體的接觸，有一個函數可以實現這個功能：
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-(http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)我們可以透過以下方式實現碰撞檢測：
+具體用法參考Unity的[Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)，我們可以這樣實現碰撞的檢測：
 
 ```c#
 RaycastHit hitInfo;
@@ -66,12 +66,12 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-`targetPosition`表示碰撞的位置，只要把相機設定到該位置即可。
+`targetPosition`就是碰撞的位置，把相机的位置設到碰撞的位置就可以。
 
-離開剛體後，慢慢回到原來的距離上。
+離開剛體後，慢慢回到原來的距離上
 ---------------------------------
-完成這功能的首要步驟是分別記錄相機應該處於的距離（desiredDistance）和目前的距離（curDistance），將滾輪操作的結果先存放在desiredDistance中，再根據碰撞計算物體的新距離；
-當檢測到相機離開剛體或與更遠的剛體碰撞時，不可直接將碰撞位置賦予相機，而需透過移動速度來移動至新位置。首先取得新的距離：
+完成這項功能的首要步驟是分別記錄相機應該處於的距離(`desiredDistance`)以及當前距離(`curDistance`)，將滾輪操作的結果暫存為`desiredDistance`，然後根據碰撞計算物體的新距離。
+在檢測到相機離開剛體，或者碰撞到更遠的剛體時，不能直接將碰撞的位置賦值給相機，需要用一個移動速度來向新的距離移動。先來獲取新的距離：
 
 ```c#
 float newDistance = desiredDistance;
@@ -83,45 +83,43 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-如何判斷相機正在往更遠的距離移動呢？你可以將 `newDistances` 與當前距離進行比較：
+那麼怎麼判斷相機正在向更遠的距離移動呢？可以用`newDistances`和當前的距離進行比較：
 
 ```c#
-向更近的距離移動
+// 向更近的距離移動
 if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-向更遠的距離移動
+// 向更遠的距離移動
 else if(newDistance > curDistance)
 {
 }
 ```
 
-在距離更遠的移動情況下做出判斷後，情況就變得很清晰了，直接增加速度來移動：
+當你評估移動到更遠的距離後，解決方案就變得更直觀了，只需增加速度進行移動：
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
 
 ```
-我們已經完成了相機的基本功能，接下來需要處理一些細節。
+我們已經大致完成了相機的功能，還有一些細節需要處理。
 
 碰到剛體後滾輪拉近，地面不縮放
 ------------------
 這裡有兩個要求：
 
 碰到剛體後只能拉近，不能拉遠
-碰到地面後無法縮放
+碰到地面後不能縮放
 
-首先使用變數來保存相機的碰撞狀態：
+首先用變數來保存相機的碰撞狀態：
 
 ```c#
-isHitGround 布尔值 = 假;       // 表示是否碰撞地面
-這段文字的翻譯如下：
-
-bool isHitObject = false;       // 表示是否碰撞物體（除地面外）
+bool isHitGround = false;       // 表示是否碰撞地面
+isHitObject 這個布林值變數表示是否碰撞到物體（不包括地面）。
 ```
 
-在判斷滾輪縮放時加上條件判斷：
+在判斷滾輪縮放的時候加上條件判斷：
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -130,9 +128,9 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-遇到地面時繞自身上下旋轉
+碰到地面時围绕自身上下旋转
 -----------------
-這個功能實現起來有點麻煩，因為這時候我們之前假設相機一直對準人物的情況不成立了，現在要分成兩個向量：相機自身的朝向(`desireForward`)和人物到相機的方向(`cameraToPlayer`)，分別計算這兩個向量的值，前者決定相機的朝向，後者則決定相機的位置。為了方便起見，就把[上一集](unity-Unity第三人称相机构建(上)將.md)中的旋轉函式拆分為X旋轉(`RotateX`)和Y旋轉(`RotateY`)，因此在計算`cameraToPlayer`的`RotateY`時，加入以下條件：
+這個功能實現起來有點麻煩，因為這時我們之前假設相機一直對準人物的情況不成立。這時分成兩個向量：**相機自身的朝向(`desireForward`)**和**人物到相機的方向(`cameraToPlayer`)**，分別計算這兩個向量的值，前者決定相機的朝向，後者決定相機的位置。為了方便，把[上一集](unity-Unity第三人称相机构建(上)將.md)的旋轉函數分解為X旋轉(`RotateX`)和Y旋轉(`RotateY`)，所以在計算`cameraToPlayer`的`RotateY`時加上條件：
 
 ```c#
 if ((!isHitGround) || 
@@ -143,18 +141,18 @@ if ((!isHitGround) ||
 }
 ```
 
-這個條件包含兩個部分：
+這個條件有兩部分：
 
-- 未接觸地面
-碰到地面，但是准备离开地面
+未觸及地面
+- 碰到地面，但準備離開地面
 
-然後使用 `cameraToPlayer` 計算相機的位置：
+然後用`cameraToPlayer`計算相機的位置：
 
 ```c#
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-並且在有需要的時候(也就是碰到地面)計算相機的朝向：
+並且在有需要的時候（也就是碰到地面）計算相機的朝向：
 
 ```c#
 if (!isHitGround)
@@ -169,9 +167,9 @@ else
 }
 ```
 
-我們已經實現了這款相機的功能。
+我們已經實現了這相機的功能。
 
-完整代碼：
+完整程式碼：
 
 ```c#
 using UnityEngine;
@@ -378,4 +376,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 --8<-- "footer_tc.md"
 
 
-> 此篇文章是由 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 
+> 此帖子是使用 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)請指出任何遺漏之處。 

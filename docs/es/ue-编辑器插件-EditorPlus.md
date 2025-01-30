@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Extension del Editor UE.EditorPlus - Documentación
+title: UE Editor Plugin UE.EditorPlus Documento de Instrucciones
 tags:
 - dev
 - game
@@ -8,56 +8,59 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: UE.EditorPlus es un complemento de editor para UE (Unreal Engine). Este
-  documento proporciona información y explicaciones sobre UE.EditorPlus.
+- Editor
+- Editor Plus
+- Editor Plugin
+description: 'Traduce estos textos al idioma español:
+
+
+  UE 编辑器插件  UE.EditorPlus 说明文档'
 ---
 
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-#El complemento UE.EditorPlus del editor UE - Documentación
+#UE Editor Plugin UE.EditorPlus Documento de Instrucciones
 
-##**Introducción en video**
+##Presentación en video
 
 ![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
 
-##`插件源码`
+##Código fuente del plugin
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##Proyecto agregando el complemento del código fuente EU.EditorPlus.
+##Descarga de la tienda
 
-Referencia del documento:
+[EditorPlus](https://www.unrealengine.com/marketplace/zh-CN/product/editorplus)
 
-- 中文：[UE 通过插件源码添加插件]
+##Proyecto agregar plugin de código fuente EU.EditorPlus
 
-- Spanish: [UE añadir complementos mediante el código fuente del complemento](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
+Documento de referencia:
+
+- Español: [Agregar un complemento a través del código fuente del complemento en UE.](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 - English: [UE adds plugins through the plugin source code](https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 
 
-###### Descripción del complemento
+##Descripción del complemento
 
-UE.EditorPlus es un complemento del editor de UE que proporciona una forma conveniente de expandir el menú del editor y admite formas avanzadas de expansión, incluyendo algunas herramientas prácticas del editor. Este complemento es compatible con UE5.3+.
+UE.EditorPlus es un complemento para el editor de UE que ofrece una forma conveniente de ampliar el menú del editor, además de soportar métodos avanzados para la expansión, incluyendo algunas herramientas útiles para el editor. Este complemento es compatible con UE5.3+.
 
 
-##**扩展编辑器菜单** sería **Extender el menú del editor** en español.
+##Extender el menú del editor
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
 ![](assets/img/2024-ue-editorplus/toolbar.png)
 
-###**Descripción**
+###Explicación
 
-*Soporte para ampliar el menú del editor de varias formas:*
+Apoyo para ampliar el menú del editor de varias formas:
 
 - Método de ruta: `RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
-- Forma de instanciar: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
-- Modo de combinación: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action", EP_NEW_MENU(FEditorPlusCommand)("Action")`
+Forma de instanciar: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
+- Método de mezcla: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
 
-###**Markdown:**
-路径方式
-
-**Translated:**
-Forma de ruta
+###método de ruta
 
 Puedes registrar un comando de menú del editor de esta manera:
 
@@ -71,26 +74,26 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-De esta manera, puedes agregar una barra de menú "Bar" detrás de la opción "Help" en la barra de menú del editor. Dentro de la barra "Bar", puedes añadir un submenú "SubMenu" y dentro de él, agregar un comando "Action".
+De esta manera, se puede agregar una barra de menú llamada Bar detrás de la opción Help en la barra de menús del editor. Dentro de Bar, se puede incluir un submenú llamado SubMenu, y en SubMenu se puede añadir un comando llamado Action.
 
-La formato completo de la ruta sería así: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, el primer elemento de la ruta debe ser `<Hook>`, los tipos y restricciones soportadas actualmente son:
+El formato completo de la ruta sería el siguiente: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, la primera ruta debe ser `<Hook>`, tipos y restricciones actualmente soportados:
 
-- `<Hook>`: Indica en qué posición del Hook se debe generar el menú, no se deben incluir `<Hook>` en las rutas posteriores.
-- `<MenuBar>`: La barra de menú, la ruta posterior no puede contener `<Hook>, <MenuBar>, <ToolBar>`
-- `<ToolBar>`: `<Barra de herramientas>`, la ruta posterior no puede tener `<Hook>, <MenuBar>, <ToolBar>`
-- `<Section>`: Sección de menú, no se pueden utilizar las rutas `<Hook>, <MenuBar>, <Section>` a continuación.
-- `<Separator>`: Separador de menú, no se puede utilizar después de `<Hook>, <MenuBar>`.
-- `<SubMenu>`: Submenú, la ruta posterior no puede contener `<Hook>, <MenuBar>`
-- `<Comando>`: Comando de menú, no se permite ingresar ninguna ruta después
-- `<Widget>`: Componentes de interfaz de usuario de Slate más personalizables y extensibles. No deben tener ninguna ruta después.
+- `<Hook>`: Indica en qué posición del gancho se debe generar el menú. No debe haber ningún `<Hook>` en la ruta posterior.
+- `<MenuBar>`: barra de menú, la ruta posterior no puede contener `<Hook>, <MenuBar>, <ToolBar>`
+- `<ToolBar>`: Barra de herramientas, no se permite tener `<Hook>, <MenuBar>, <ToolBar>` en el camino posterior.  
+- `<Section>`: Sección del menú, después de este camino no puede haber `<Hook>, <MenuBar>, <Section>`
+- `<Separator>`: Separador de menú, la ruta posterior no puede contener `<Hook>, <MenuBar>`
+- `<SubMenu>`: Submenú, no puede contener los siguientes elementos en su ruta `<Hook>, <MenuBar>`
+- `<Command>`: comando del menú, no puede llevar ninguna ruta después.
+- `<Widget>`: Componentes de interfaz de usuario de Slate con más opciones de personalización y extensibilidad, sin ninguna ruta posterior.
 
-Forma de ruta más sencilla: `/NombreBarra/NombreSubMenu1/NombreSubMenu2/NombreComando`, si no se especifica el tipo, el primer elemento de la ruta es `<MenuBar>`, los del medio son `<SubMenu>` y el último es `<Command>`.
+Una forma de ruta más sencilla: `/BarName/SubMenuName1/SubMenuName2/CommandName`, si no se especifica el tipo, el primer elemento de la ruta por defecto es `<MenuBar>`, el del medio es `<SubMenu>` y el último es `<Command>`.
 
-Si no se especifica `<Hook>`, automáticamente se agrega al principio `<Hook>Help`, lo que indica que se agregará después del menú de Ayuda en la barra de menú.
+Si no se especifica `<Hook>`, se agrega automáticamente al principio `<Hook>Help`, lo que indica que se debe añadir una barra de menú después del menú Ayuda.
 
-###Formas de instanciar
+###Forma de instanciar
 
-La forma de ruta es instanciar automáticamente todos los nodos según su tipo y parámetros predeterminados. También podemos controlar la instanciación nosotros mismos y tener un control más preciso sobre el contenido de la expansión.
+El modo de ruta instancia automáticamente todos los nodos según su tipo y parámetros por defecto. También podemos controlar la instancia nosotros mismos, lo que nos permite tener un control más detallado sobre el contenido de la extensión.
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips"))
@@ -107,11 +110,11 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 });
 ```
 
-Cuando instancia `MyBar`, puede pasar el nombre del gancho, el nombre localizado y los parámetros de la sugerencia localizada (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). El código anterior es equivalente a la forma de ruta `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
+Al instanciar `MyBar`, se puede pasar el nombre del Hook, el nombre localizado y el parámetro de sugerencia localizado (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). El código anterior es equivalente a la forma de ruta `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
 
-###**混合方式** se traduce al español como **modo mixto**.
+###Método de mezcla.
 
-Por supuesto, también se pueden mezclar las dos formas:
+Por supuesto, también se pueden combinar de dos maneras.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -124,9 +127,9 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-En esta situación, el complemento instanciará automáticamente los nodos de las rutas intermedias, mientras que el nodo final utilizará la instancia proporcionada por el usuario.
+En este caso, el plugin instanciará automáticamente los nodos del camino intermedio, y el camino final utilizará los nodos instanciados por el propio usuario.
 
-###**更多用例**
+###Más casos de uso
 
 Archivo de cabecera:
 
@@ -134,7 +137,7 @@ Archivo de cabecera:
 #include <EditorPlusPath.h>
 ```
 
-La localización del idioma se especifica mediante la ruta, `EP_FNAME_HOOK_AUTO` indica que se utilizará automáticamente el nombre de la ruta como nombre del `Hook`:
+La especificación del idioma local a través de la ruta, `EP_FNAME_HOOK_AUTO`, indica que se utilizará automáticamente el nombre de la ruta como nombre del `Hook`:
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -148,9 +151,7 @@ FEditorPlusPath::RegisterPathAction(
         LOCTEXT("ActionTips", "ActionTips"));
 ```
 
-Obtener nodos y establecer texto localizado a través de la ruta:
-
-
+Obtener nodos a través de la ruta y establecer texto localizado:
 
 ```cpp
 FEditorPlusPath::GetNodeByPath("/MenuTest")
@@ -159,7 +160,7 @@ FEditorPlusPath::GetNodeByPath("/MenuTest")
 ```
 
 
-Agregar un componente de interfaz de usuario Slate al final de la ruta
+Agregar un componente de interfaz de usuario Slate al final de la ruta.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -169,24 +170,20 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-En el Hook incorporado de la UE, agregue un nuevo nodo.
+Añadir un nuevo nodo en el Hook incorporado de la UE.
 
 ```cpp
 FEditorPlusPath::RegisterPath("<Hook>EpicGamesHelp/<Separator>ExtendSeparator")
 ```
 
-**多次声明相同的路径，都被识别成同一个路径，因此可以不断扩展相同的路径**
-
-En múltiples ocasiones, declarar la misma ruta se reconoce como una única ruta, por lo tanto, es posible ampliar continuamente la misma ruta.
+Repetir varias veces la misma ruta hace que se reconozca como la misma ruta, lo que permite expandirla continuamente.
 
 ```cpp
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path1", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path1", "Path1"), LOCTEXT("Path1Tips", "Path1Tips"));
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path2", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path2", "Path2"), LOCTEXT("Path2Tips", "Path2Tips"));
 ```
 
-**为一个节点继续扩展路径**
-
-Para expandir la ruta de un nodo.
+Ampliar el camino para un nodo.
 
 ```cpp
 auto node = FEditorPlusPath::GetNodeByPath("/MenuTest");
@@ -199,7 +196,7 @@ Eliminar una ruta
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
-**扩展工具栏**
+Extender la barra de herramientas
 ```cpp
 FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 ->Content({
@@ -208,7 +205,7 @@ FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 });
 ```
 
-###Por favor, proporcione más contexto o detalles sobre el texto que desea traducir.
+###Descripción de la interfaz
 
 ```cpp
 class EDITORPLUS_API FEditorPlusPath
@@ -236,15 +233,15 @@ public:
 };
 ```
 
-- `RegisterPath`: Generar menú de rutas
-- `RegisterPathAction`: Genera un menú de trayectorias y automáticamente vincula una acción al nodo final `<Command>`.
-- `RegisterChildPath`: Genera rutas secundarias para el nodo especificado.
-- `RegisterChildPathAction`: Genera automáticamente rutas secundarias para el nodo especificado y enlaza automáticamente la acción.
-- `UnregisterPath`: Elimina una ruta. Al utilizar `Leaf` con nodos terminales múltiples del mismo nombre, es posible especificar una coincidencia estricta. Durante el proceso de eliminación, se realizará un retroceso en los nodos intermedios y estos serán eliminados si no tienen ningún hijo.
-`GetNodeByPath`: Obtener nodo por ruta
+- `RegisterPath`: menú de generación de rutas
+- `RegisterPathAction`: genera un menú de ruta y vincula automáticamente la operación para el nodo `<Command>` final.
+`RegisterChildPath`: Generar caminos secundarios para el nodo especificado.
+- `RegisterChildPathAction`: Continúa generando subrutas para el nodo especificado y vincula automáticamente la operación.
+`UnregisterPath`: Elimina la ruta. "Leaf" se utiliza para especificar una coincidencia estricta cuando hay múltiples nodos finales con el mismo nombre. Durante el proceso de eliminación, se retrocederá en los nodos intermedios y si un nodo intermedio no tiene hijos también será eliminado.
+- `GetNodeByPath`: Obtener nodo por ruta
 
 
-**节点类型**
+Tipo de nodo
 
 ```cpp
 // base class of all node
@@ -267,14 +264,14 @@ class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}
 class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```
 
-Para obtener más ejemplos e información sobre las interfaces, consulte el código fuente [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus), prueba de caso [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
+Para más ejemplos y la descripción de las interfaces, consulte el código fuente [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，caso de prueba [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-###**模块化管理**
+###Gestión modular
 
-UE.EditorPlus también proporciona un marco de gestión modular para el menú de extensiones, que admite la carga y descarga automática de los menús de las extensiones al cargar y descargar los complementos.
+UE.EditorPlus también proporciona un marco de gestión modular para el menú de extensiones, que soporta la carga y descarga automática del menú de extensiones al cargar y descargar complementos.
 
-Haz que la clase del menú herede de `IEditorPlusToolInterface` y sobrescriba las funciones `OnStartup` y `OnShutdown`. `OnStartup` se encarga de crear el menú y `OnShutdown` se encarga de llamar a la función `Destroy` del nodo para limpiar el menú. Si el número de referencias al nodo es 0, se realizará una limpieza automática.
+Haz que la clase del menú herede de `IEditorPlusToolInterface` y sobrescribe las funciones `OnStartup` y `OnShutdown`. `OnStartup` se encarga de crear el menú, `OnShutdown` llama a la función `Destroy` del nodo para limpiar el menú. Cuando la cantidad de referencias al nodo es 0, se realiza la limpieza automáticamente.
 
 ```cpp
 class FMenuTest: public IEditorPlusToolInterface
@@ -302,7 +299,7 @@ void FMenuTest::OnShutdown()
 }
 ```
 
-La clase de gestión de menús hereda de `IEditorPlusToolManagerInterface` y anula la función `AddTools`, agregando la clase de menú dentro de `AddTools`.
+La clase de gestión de menús hereda de `IEditorPlusToolManagerInterface` y sobrescribe la función `AddTools`, añadiendo la clase del menú dentro de `AddTools`.
 
 ```cpp
 class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
@@ -321,7 +318,7 @@ void FEditorPlusToolsImpl::AddTools()
 }
 ```
 
-Cuando se carga y descarga el complemento, se llaman respectivamente las funciones de la clase de gestión `StartupTools` y `ShutdownTools`.
+Se llaman las funciones `StartupTools` y `ShutdownTools` de la clase de gestión al cargar y descargar el complemento, respectivamente.
 
 ```cpp
 void FEditorPlusToolsModule::StartupModule()
@@ -336,16 +333,16 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```
 
-Para completar la adaptación anterior, se cargará y descargará automáticamente el menú de extensiones al cargar y descargar un complemento.
+Una vez completada la adaptación anterior, se podrán cargar y descargar automáticamente los menús de extensiones al cargar y descargar plugins.
 
 
-##**Editores de herramientas**
+##Herramienta del editor.
 
-UE.EditorPlus también ofrece algunas herramientas útiles para el editor.
+UE.EditorPlus también ofrece algunas herramientas de edición útiles.
 
-##Crear ventana del editor
+##Crear ventana del editor.
 
-Utilizando EditorPlus, puedes crear fácilmente una nueva ventana de editor.
+Con EditorPlus, puedes crear fácilmente una nueva ventana de editor.
 
 ```cpp
 // register spawn tab
@@ -359,7 +356,7 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-`SClassBrowserTab` es un control de interfaz de usuario personalizado.
+`SClassBrowserTab` es un control UI personalizado.
 
 ```cpp
 class SClassBrowserTab final : public SCompoundWidget
@@ -373,17 +370,17 @@ class SClassBrowserTab final : public SCompoundWidget
 
 ### ClassBrowser
 
-**ClassBrowser** es una herramienta de visualización de clases de UE, que se abre a través del menú EditorPlusTools -> ClassBrowser.
+ClassBrowser es un visor de clases de UE, que se puede abrir a través del menú EditorPlusTools -> ClassBrowser.
 
 ![](assets/img/2024-ue-editorplus/classbrowser_menu.png)
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
-Basado en la reflexión de UE, esto permite ver fácilmente la información de los miembros de varios tipos de UE, incluyendo instrucciones de sugerencias, y admite una búsqueda difusa, así como la posibilidad de abrir la información de la clase padre.
+Basado en la reflexión de UE, resulta fácil visualizar la información de los diferentes tipos de miembros de UE, incluyendo descripciones y sugerencias, con soporte para búsquedas difusas y la capacidad de abrir la información de la clase padre.
 
 ### MenuCollections
 
-**MenuCollections** es una herramienta de búsqueda y recopilación rápida de comandos de menú, que te ayuda a encontrar rápidamente los comandos de menú que necesitas ejecutar, y también te permite guardar los comandos más frecuentes para mejorar tu eficiencia.
+MenuCollections es una herramienta de búsqueda y organización rápida de comandos de menú que te ayuda a localizar rápidamente los comandos de menú que necesitas ejecutar, y también te permite guardar los comandos más utilizados para aumentar la eficiencia.
 
 ![](assets/img/2024-ue-editorplus/menucollection_find.png)
 
@@ -392,7 +389,7 @@ Basado en la reflexión de UE, esto permite ver fácilmente la información de l
 
 ### SlateResourceBrowser
 
-El `SlateResourceBrowser` es una herramienta que te permite ver rápidamente los recursos de la interfaz de usuario de `Slate UI`. Puede ayudarte a navegar y buscar los recursos del editor que necesitas, lo que facilita la ampliación del editor.
+SlateResourceBrowser es una herramienta que te permite visualizar rápidamente los recursos de la interfaz de usuario de Slate, ayudándote a navegar y encontrar los recursos del editor que necesitas, facilitando así la expansión del editor.
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
 
@@ -402,7 +399,7 @@ El `SlateResourceBrowser` es una herramienta que te permite ver rápidamente los
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_widgetstyle.png)
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor [**反馈**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 

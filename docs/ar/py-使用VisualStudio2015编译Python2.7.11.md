@@ -6,10 +6,10 @@ categories:
 catalog: true
 tags:
 - dev
-description: قد تدعم الإصدارات الرسمية لـ Python 2.7 تجميعها باستخدام إصدارات أقدم
-  من Visual Studio 2010، إذا كنت ترغب في التلاعب ببيئة Python في نظام Windows، مثلاً
-  تجميع نسخة Debug أو تعديل شيفرة المصدر بنفسك، فإن أسهل طريقة هي تثبيت VS2010. ولكن
-  بالنسبة إليّ، أفضل استخدام VS2015 لتجميع Python، حيث أسبابي الرئيسية تتمثل في...
+description: إصدار Python 2.7 الرسمي يدعم النسخ الأقدم من Visual Studio 2010 للتجميع،
+  إذا كنت ترغب في تجربة Python بنفسك على نظام Windows، مثل تجميع نسخة Debug، أو تعديل
+  الكود المصدري، فإن أسهل طريقة هي تثبيت VS2010. ولكن بالنسبة لي شخصياً، أفضل استخدام
+  VS2015 لتجميع Python، والسبب في ذلك هو...
 figures:
 - https://img.shields.io/badge/python-2.7.11-brightgreen.svg
 - https://img.shields.io/badge/vs-2015-68217A.svg
@@ -21,38 +21,37 @@ nowidth: 1
 ![](https://img.shields.io/badge/python-2.7.11-brightgreen.svg){:style="display: inline-block"}
 ![](https://img.shields.io/badge/vs-2015-68217A.svg){:style="display: inline-block"}
 
-##السبب
+##سبب
 
-إصدار Python 2.7 الرسمي يدعم ترجمة باستخدام إصدارات Visual Studio 2010 وما دونه، راجع `PCbuild\readme.txt`.
-
+يدعم النسخة الرسمية من Python 2.7 الإصدارات السابقة من Visual Studio 2010 للتجميع، راجع `PCbuild\readme.txt`:
 
 
 	1.  Install Microsoft Visual Studio 2008, any edition.
 	2.  Install Microsoft Visual Studio 2010, any edition, or Windows SDK 7.1 and any version of Microsoft Visual Studio newer than 2010.
 
 
-إذا كنت ترغب في تجربة Python على نظام Windows، مثل تجميع إصدار Debug أو تعديل الشيفرة المصدرية بنفسك، فإن أسهل طريقة هي تثبيت برنامج VS2010.
-ومع ذلك، بالنسبة لي شخصيًا، أفضل استخدام VS2015 لترجمة Python، والأسباب الرئيسية لذلك هي:
+إذا كنت تريد العبث بـ Python على نظام Windows، مثل تجميع نسخة Debug أو تعديل الكود المصدر بنفسك، فإن الطريقة الأسهل هي تثبيت VS2010.
+ولكن بالنسبة لي شخصيًا، أفضل استخدام VS2015 لتجميع Python، الأسباب الرئيسية هي:
 
 
-- "VS2010 is a bit outdated, its features and user experience are much worse than VS2015. I've been using VS2015 all along, I really don't want to install VS2010 again."
-نظرًا لاستخدامك المستمر لبرنامج VS2015، ستستخدمه لكتابة بعض البرامج الخاصة بك. إذا كنت ترغب في تضمين Python فيها، فيجب عليك استخدام نفس إصدار VS لتجميع برنامجك. إذا تم استخدام إصدار آخر من VS، فسيحدث العديد من الأمور غير المتوقعة. [يمكنك العثور هنا على شرح أكثر تفصيلاً](http://siomsystems.com/mixing-visual-studio-versions/)I'm sorry, but I can't provide a translation for non-text content.
+- VS2010 بالفعل عتيق قليلاً، إذ أن الوظائف والتجربة الخاصة به أسوأ بكثير مقارنة بـ VS2015. لقد كنت أستخدم VS2015، ولا أرغب حقاً في تثبيت VS2010 مرة أخرى.
+بسبب الاستخدام المستمر لـ VS2015، ستتمكن من استخدامه لكتابة بعض البرامج الخاصة بك. إذا كنت ترغب في تضمين Python فيها، ستحتاج إلى استخدام نفس إصدار VS لترجمة برنامجك. إذا استخدمت إصدارًا مختلفًا من VS، فسوف تواجه مجموعة من المشاكل التي لا يمكن توقعها. [هنا توجد شرحًا أكثر تفصيلًا](http://siomsystems.com/mixing-visual-studio-versions/)。
 
-لذا بدأت في استخدام VS2015 لإكمال إصدار Python 2.7.11 (أحدث إصدار لـ Python 2.7 حالياً).
+所以我开始着手用 VS2015 搞定 Python 2.7.11 版本（当前的 Python 2.7 最新版本）。
 
-يجب ملاحظة أن **Python 3.x يدعم الآن الترجمة باستخدام VS2015**.
+يجب ملاحظة أن **Python 3.x** يدعم الآن ترجمة باستخدام **VS2015**.
 
 ##تحميل المصدر
 
-إصدار Python بالطبع هو 2.7.11. بالإضافة إلى ذلك، هناك بعض الوحدات الخارجية الأخرى. يمكنك تشغيل النص البرمجي `PCbuild\get_externals.bat` داخل دليل تشغيل Python للحصول على جميع الوحدات اللازمة للترجمة. يرجى ملاحظة أنه يجب تثبيت svn وإضافة svn.exe إلى متغير PATH في النظام.
+إصدار Python بالطبع هو 2.7.11، بالإضافة إلى بعض الوحدات الخارجية. يمكنك تشغيل النصوص البرمجية `PCbuild\get_externals.bat` في دليل مصدر Python للحصول على جميع الوحدات اللازمة للترجمة. يرجى ملاحظة أنه يجب تثبيت svn، وإضافة svn.exe إلى مسار النظام.
 
-قد تكون عملية التنزيل غير مستقرة، وقد يتوقف العملية بأكملها بسبب مشكلات الشبكة، لذا من الأفضل تنصيب مجلد externals مباشرةً من GitHub الخاص بي: [إصدار بيثون الخاص بي](https://github.com/disenone/wpython-2.7.11/tree/e13f43a3b72ae2bdf4d2950c6364750ae668cbf4/externals)
+قد يكون تنزيل الملفات غير مستقر، وقد يتوقف العملية بأكملها بسبب مشاكل في الشبكة، لذا يُنصح بتنزيل محتويات مجلد externals مباشرة من GitHub الخاص بي: [إصدار Python الخاص بي](https://github.com/disenone/wpython-2.7.11/tree/e13f43a3b72ae2bdf4d2950c6364750ae668cbf4/externals)
 
 ##عملية الترجمة
 
-###الموديول الخارجي
+###وحدة الطرف الثالث
 
-أولاً، يجب حل مشكلة الوحدات الخارجية، الأهم منها tcl، tk، tcltk.
+أول ما يجب حله هو وحدات الطرف الثالث، الأساسية هي tcl و tk و tcltk.
 
 قم بتعديل الملف `externals/tcl-8.5.15.0/win/makefile.vc`، وقم بتغيير السطر 434 إلى
 
@@ -61,32 +60,36 @@ nowidth: 1
 
 بالنسبة للخيار `WX`، يمكنك الاطلاع على الوثائق الرسمية لمايكروسوفت: [/WX (Treat Linker Warnings as Errors)](https://msdn.microsoft.com/en-us/library/ms235592.aspx)
 
-قم بتعديل "PCbuild/tk.vcxproj" مرة أخرى، افتحه باستخدام محرر نصوص، وقم بتعديل السطرين 63 و 64.
+再来改`PCbuild/tk.vcxproj`，用文本编辑器打开，修改 63, 64 行
+
+ترجمة: 
+
+قم بتعديل `PCbuild/tk.vcxproj`، افتحه باستخدام محرر نصوص، وقم بتعديل السطرين 63 و 64.
 
 	- <TkOpts>msvcrt</TkOpts>
 	- <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt</TkOpts>
 	+ <TkOpts>msvcrt,noxp</TkOpts>
 	+ <TkOpts Condition="$(Configuration) == 'Debug'">symbols,msvcrt,noxp</TkOpts>
 
-عدّل ملف `PCbuild/tcltk.props` بفتحه بواسطة محرر النصوص وقم بتعديل السطر 41.
+عدِّل `PCbuild/tcltk.props` عن طريق فتحه بواسطة محرر نصوص، ثم قم بتعديل السطر 41.
 
 	- <BuildDirTop>$(BuildDirTop)_VC9</BuildDirTop>
 	+ <BuildDirTop>$(BuildDirTop)_VC13</BuildDirTop>
 
-نظرًا لإلغاء VS2015 لتعريف `timezone` واستبداله بـ `_timezone` ، يجب تعديل جميع الأماكن في الرمز التي تستخدم `timezone` لتصبح `_timezone`، يكفي تعديل ملف الطرف الثالث `externals/tcl-8.5.15.0/win/tclWinTime.c` بإضافة السطر التالي في أعلى الملف:
+نظرًا لأن VS2015 ألغى تعريف `timezone` واستبدله بـ `_timezone`، فيجب تعديل جميع الأماكن في الشيفرة التي تستخدم `timezone` إلى `_timezone`، ويحتاج الموديل الخارجي فقط إلى تعديل الملف `externals/tcl-8.5.15.0/win/tclWinTime.c`، بإضافة ما يلي في بداية الملف:
 
 	#if defined _MSC_VER && _MSC_VER >= 1900
 	#define timezone _timezone
 	#endif
 
-###تعديل مصدر برمجية Python
+###ترجمة: تعديل مصدر Python
 
-المشكلة المتعلقة بـ `timezone` موجودة أيضًا في وحدة `time` في Python، يرجى تعديل السطر 767.
+لديك مشكلة في `timezone` في وحدة Python `time` أيضًا، قم بتعديل السطر 767.
 
 	- #ifdef __CYGWIN__
 	+ #if defined(__CYGWIN__) || defined(_MSC_VER) && _MSC_VER >= 1900
 
-بسبب استخدام Python طريقة خاصة في Windows لفحص صحة مقبض الملفات، والتي تم منعها تمامًا في VS2015، قد يحدث خطأ في الترجمة. لذا، يُفضل تعديل ملف `Include/fileobject.h`، السطور 73 و80 أولاً.
+ونظرًا لاستخدام Python طريقة خاصة في التحقق من صحة مقبض الملف في Windows، وهذه الطريقة تم حظرها تمامًا في VS2015، مما يؤدي إلى وجود أخطاء في الترجمة، لذا يتعين تعديلها أولاً. الملف `Include/fileobject.h`، الأسطر 73 و80.
 
 	73 - #if defined _MSC_VER && _MSC_VER >= 1400
 	73 + #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
@@ -94,30 +97,32 @@ nowidth: 1
 	80 - #elif defined _MSC_VER && _MSC_VER >= 1200
 	80 + #elif defined _MSC_VER && _MSC_VER >= 1200 && _MSC_VER < 1400
 
-الملف `Modules/posixmodule.c`، السطر 532:
+ملف `Modules/posixmodule.c`، السطر 532:
 
 	- #if defined _MSC_VER && _MSC_VER >= 1400
 	+ #if defined _MSC_VER && _MSC_VER >= 1400 && _MSC_VER < 1900
 
-وصلنا إلى هنا، يمكن الآن تجميع Python. بإمكانك الاطلاع على التعديلات الدقيقة في التعليق الخاص بـ commit الخاص بي: [modify to build by vs2015](https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf)
+至此，Python 就可以编译通过。更具体的修改可以看我 commit 的内容：[modify to build by vs2015]
+
+ترجمة: 
+
+بهذا، يمكن لـ Python أن يُجمع بنجاح. لمزيد من التعديلات المحددة، يمكنك الاطلاع على محتوى الـ commit الخاص بي: [تعديل للبناء بواسطة vs2015](https://github.com/disenone/wpython-2.7.11/commit/4037e2d806518dbf06ffb8ee5c46f419ef8d7edf)
 
 
-###الرجاء تزويدني بنص باللغة الإنجليزية للترجمة.
+###تحقق من المقابض غير الصالحة
 
-على الرغم من أن عملية الترجمة قد تمت بنجاح، إلا أن نتائج الاستخدام الفظ لمقبض ملف غير صالح مباشرة بمعنى الإحتقان، حيث يؤدي الوصول إلى مقبض غير صالح (مثل إغلاق نفس الملف `close` مرتين) في Python، إلى فشل assertion مباشرًة وتعطل البرنامج، فهذا النوع من Python عديم الفائدة. تستخدم Python طريقة خاصة جدًا لتجنب هذا الوضع، لكن للأسف لا يمكن استخدامها في VS2015، حيث تُفسر التعليقات على النحو التالي:
+على الرغم من تمرير عملية الترجمة، إلا أنه بسبب تجاهل النظام بشكل فظيع لمعالجة المقبض غير الصالح، يتسبب ذلك مباشرة في حدوث فشل عند الوصول إلى مقبض غير صالح (مثل إغلاق نفس الملف مرتين)، حيث يقوم Python بالتحقق مباشرة والبرنامج يتوقف، هذا النوع من Python لا يمكن استخدامه على الإطلاق. ال Python يستخدم طريقة خاصة جدًا لتجنب هذا السيناريو، لكن للأسف لا يمكن استخدامها في VS2015، ويتم شرح هذا في التعليق.
 
 	Microsoft CRT in VS2005 and higher will verify that a filehandle is valid and raise an assertion if it isn't.
 
 
-لحسن الحظ، تم العثور على حلاً بالفعل، لقد شاهدت ذلك في مشكلة Python، يمكنك العثور على التفاصيل هنا: [issue23524](http://psf.upfronthosting.co.za/roundup/tracker/issue23524), [issue25759](http://psf.upfronthosting.co.za/roundup/tracker/issue25759)هذه الطريقة تستخدم أيضًا في Python 3.x حاليًا.
+لحسن الحظ، هناك بالفعل حل. لقد رأيت ذلك في قضية Python، العنوان هنا: [issue23524](http://psf.upfronthosting.co.za/roundup/tracker/issue23524), [issue25759](http://psf.upfronthosting.co.za/roundup/tracker/issue25759)هذه الطريقة تُستخدم أيضًا في Python 3.x الحالي.
 
 
-ترجمة النص إلى اللغة العربية:
-
-تمثل الفكرة الرئيسية في تعطيل آلية الانهيار assert crash في نظام Windows عند استخدام مقبض الملف، واستبدالها بفحص رمز الخطأ. فكيف يمكن تعطيل آلية الانهيار assert في نظام Windows؟ الإجابة تكمن في استخدام وظيفة المعالجة الخاصة بمعالجة الأخطاء الخاصة بك بدلاً من الوظيفة الافتراضية لنظام Windows، وهنا الكود الحاسم:
+قوم عند استخدام مقبض الملفات بتعطيل آلية كراش الـ Windows واستبدالها بفحص رموز الخطأ. كيف يمكن تعطيل آلية الـ assert في Windows؟ الجواب يكمن في استخدام وظيفة معالجة الأخطاء الخاصة بك بدلاً من الوظيفة الافتراضية لـ Windows، وهنا الكود الرئيسي:
 
 
-أنشئ ملفًا جديدًا بعنوان `PC/invalid_parameter_handler.c`، وضع تعريف لدالتنا الخاصة بمعالجة الأخطاء، يمكن تجاهل الأخطاء المحدثة مؤقتًا.
+أنشئ ملف `PC/invalid_parameter_handler.c`، وقم بتعريف دالتنا الخاصة لمعالجة الأخطاء، يُمكن تجاهل الأخطاء المحدثة مؤقتاً.
 
 ```c++
 #ifdef _MSC_VER
@@ -145,7 +150,8 @@ _invalid_parameter_handler _Py_silent_invalid_parameter_handler = _silent_invali
 #endif
 ```
 
-يُرجى تحديد اثنين من الماكرو  لتسهيل استبدال وظيفة معالجة الأخطاء ، يجب الانتباه أن هذا التغيير مؤقت، وبعد ذلك يجب استعادة الوظيفة الافتراضية للنظام.
+定义两个宏方便更换错误处理函数，要注意是暂时的更换，之后是需要换回系统默认的  
+تعريف ماكروين لتسهيل استبدال دالة معالجة الأخطاء، مع مراعاة أن الاستبدال مؤقت، ومن ثم يجب العودة إلى الإعدادات الافتراضية للنظام.
 
 ```c++
 #if defined _MSC_VER && _MSC_VER >= 1900
@@ -163,12 +169,12 @@ extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
 #endif /* _MSC_VER >= 1900 */
 ```
 
-ثم، في الأماكن التي قد تسبب خطأ مقبض ملف Windows، قم بإضافة ما بينهما النص ` _Py_BEGIN_SUPPRESS_IPH` و `_Py_END_SUPPRESS_IPH`، بعد ذلك يمكنك تحقق من رمز الخطأ، هناك العديد من الأماكن التي يجب تعديلها، يمكنك الرجوع إلى تغييرات الآخرين للإشارة.
-(https://github.com/kovidgoyal/cpython/commit/a9ec814d466d3c0139d10b69666f88eed10e4940)
+في الأماكن التي قد تؤدي إلى حدوث أخطاء في مقبض ملفات Windows، يجب إضافة الـ ماكرو `_Py_BEGIN_SUPPRESS_IPH` و `_Py_END_SUPPRESS_IPH` قبل وبعد ذلك على التوالي، بعد ذلك يمكن فحص رمز الخطأ، هناك العديد من الأماكن التي يجب تعديلها، يُرجى الرجوع إلى commit الخاص بشخص آخر لإجراء التعديلات:
+[في هنا](https://github.com/kovidgoyal/cpython/commit/a9ec814d466d3c0139d10b69666f88eed10e4940)
 
-##انتهى
+##انتهاء
 
-حتى الآن، يمكن تصحيح وتشغيل Python 2.7.11 بشكل طبيعي في VS2015، ولكن بسبب عدم توصية الجهة الرسمية لـ Python بهذا الإعداد.
+حتى الآن يمكن ترجمة وتشغيل Python 2.7.11 بشكل طبيعي في VS2015، ولكن من الجدير بالذكر أن الفريق الرسمي لـ Python لا يوصي بهذا الإعداد.
 
 	***WARNING***
 	Building Python 2.7 for Windows using any toolchain that doesn't link
@@ -176,9 +182,9 @@ extern _invalid_parameter_handler _Py_silent_invalid_parameter_handler;
 	not be able to use precompiled extension modules that do link against
 	MSVCRT90.dll.
 
-لذا من الأفضل أن تكون حذرًا عند الاستخدام.
+لذا من الأفضل الانتباه عند الاستخدام.
 
 --8<-- "footer_ar.md"
 
 
-> تم ترجمة هذه المشاركة باستخدام ChatGPT، يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)محتاج حقوق المؤلف لتحويل النصّ. 
+> هذه المشاركة تم ترجمتها باستخدام ChatGPT. يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 

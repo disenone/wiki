@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 使用 FASTBuild 编译 UE4 和 UE5
+title: FASTBuildを使用してUE4とUE5をコンパイルします。
 date: 2023-12-01
 categories:
 - c++
@@ -11,33 +11,33 @@ tags:
 - game
 - ue
 - UnreanEngine
-description: UEの原生FASTBuildサポートは完璧ではないので、UE4とUE5がFASTBuildを完全にサポートするためには、いくつかの設定とソースコードの変更が必要です。以下では、それを一つずつ説明します。
+description: UEのネイティブサポートはFASTBuildに対してあまり充実していません。UE4とUE5がFASTBuildを完璧にサポートするためには、いくつかの設定とソースコードの変更が必要です。以下に詳しく説明します。
 figures: []
 ---
 
 <meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5" />
 
-> 本文の手法は、UE4.27からUE5.3までのテストをサポートしています。他のバージョンについてはテストされていませんが、お試しいただけます。
+> テキストは UE4.27 から UE5.3 をサポートし、他のバージョンはテストされていないため、お試しいただけます。
 
 ##序文
 
-[FASTBuild](https://www.fastbuild.org/docs/home.html)無料でオープンソースの分散コンパイルツールで、UE のコンパイル自体が時間がかかりますが、FASTBuild を使用すれば大幅な時間短縮が可能です。
+[FASTBuild](https://www.fastbuild.org/docs/home.html)それは無料のオープンソースの分散コンパイルツールであり、UE そのもののコンパイルにはかなりの時間がかかります。FASTBuild を使えば、時間を大幅に短縮することができます。
 
-UE は 4.x から FASTBuild をサポートするようになりました。 公式のソースコードには改変された FASTBuild ツールが付属しており、FASTBuild の0.99 バージョンに基づいています。場所は `Engine\Extras\ThirdPartyNotUE\FASTBuild` です。UE5.3 も同じバージョンを使用しています。 これは古いバージョンですが、本文作成時点では FASTBuild の公式最新バージョンは1.11 です。より多くの新機能とバグ修正が加わっています。 本文では、1.11 バージョンを使用して UE4 と UE5 の両方をサポートする方法に焦点を当てます。
+UE 4.xから、FASTBuildをサポートするようになりました。公式ソースコードには、改変されたFASTBuildツールが付属しています。これはFASTBuild 0.99バージョンをベースにしており、`Engine\Extras\ThirdPartyNotUE\FASTBuild`フォルダに位置しています。UE5.3も同じバージョンを使用しています。このバージョンはかなり古いものです。この記事作成時点では、FASTBuildの公式最新バージョンは1.11で、新しい機能やバグ修正があります。この記事では、1.11バージョンを使用してUE4とUE5をサポートする方法を重点的に記録します。
 
-##簡単な設定
+##簡易設定
 
-目的を達成するために、FASTBuild 1.11とUEのソースコードをいくつか変更する必要があります。実は、すでにすべて変更を完了しているので、私が変更したバージョンを直接使用することができます。
+目的を達成するためには、FASTBuild 1.11 と UE ソースコードにいくつかの修正を加える必要があります。実は、ここですでにすべての修正を行っているので、私が修正したバージョンをそのまま使用することができます。
 
-FASTBuild の[最新バージョン](https://github.com/disenone/fastbuild/releases)FBuild.exe、FBuildCoordinator.exe、FBuildWorker.exeの実行ファイルが含まれています。明確にするために、プログラミングにFBuild.exeを使用するマシンを「ローカルマシン」と呼び、CPUを提供して編集に参加する他のリモートマシンを「リモートマシン」と呼びます。
+(https://github.com/disenone/fastbuild/releases)FBuild.exe、FBuildCoordinator.exe、FBuildWorker.exe の実行ファイルがあります。わかりやすく説明するため、FBuild.exe を使用してプログラムするマシンを「ローカルマシン」と呼び、CPU を提供して編集に参加する他のリモートマシンを「リモートマシン」と呼びます。
 
-###機器設定
+###本機構成
 
-FBuild.exe の場所をシステムの環境変数 Path に追加してください。これにより、cmd から直接 FBuild.exe を実行できるようになります。
+FBuild.exe の所在ディレクトリをシステム環境変数 Path に追加し、cmd で直接 FBuild.exe を実行できるようにします。
 
-Cache共有ディレクトリの設定（Cacheの生成が不要な場合は設定しなくても構いません）：空のディレクトリを共有パスとして設定し、リモートマシンがアクセスできることを確認してください。
+キャッシュの共有ディレクトリを配置する（キャッシュを生成する必要がない場合は、設定しなくても構いません）：空のディレクトリを共有パスとして設定し、リモートマシンがアクセスできることを確認してください。
 
-UE4 / UE5のソースコードプロジェクトを開いて、Engine\Saved\UnrealBuildTool\BuildConfiguration.xmlというコンパイル設定ファイルを以下のように変更してください:
+本機のUE4 / UE5のソースプロジェクトを開き、コンパイル構成ファイルEngine\Saved\UnrealBuildTool\BuildConfiguration.xmlを以下のように修正してください：
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -54,24 +54,24 @@ UE4 / UE5のソースコードプロジェクトを開いて、Engine\Saved\Unre
 </Configuration>
 ```
 
-本机運行する前にダウンロードした FBuildCoordinator.exe を実行します。
+FBuildCoordinator.exe をダウンロードしてから、本機を実行してください。
 
-###リモートマシンの設定
+###遠隔機構成
 
-同じキャッシュ構成で、ただしIPアドレスはローカルIPに設定する必要があります。ここでは、192.168.1.100 と仮定します。
+同じ設定のキャッシュを使用しますが、IPはローカルIPに指定する必要があります。ここでは192.168.1.100と仮定します。
 
 - FASTBUILD_CACHE_PATH: \\192.168.1.100\Cache
 - FASTBUILD_CACHE_MODE: rw
 
-同じ構成の Coordinator IP
+同じく、Coordinator IP設定
 
 - FASTBUILD_COORDINATOR: 192.168.1.100
 
-配置完如下の通りです。
+配置が完了しました。以下の図を参照してください。
 
 ![](assets/img/2023-ue-fastbuild/remote_vars.png)
 
-遠隔で FBuildWorker.exe を実行します。構成が成功すると、ローカルの FBuildCoordinator.exe にログが表示されます（ここで 192.168.1.101 は遠隔コンピュータの IP アドレスです）：
+リモートマシン上で FBuildWorker.exe を実行します。設定が成功すると、ローカルの FBuildCoordinator.exe にログが表示されます（ここで 192.168.1.101 はリモートマシンの IP です）。
 
 ```
 FBuildCoordinator - v1.11-UE
@@ -81,9 +81,9 @@ FBuildCoordinator - v1.11-UE
 [2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 ```
 
-###UEコンパイルのテスト
+###テストUEコンパイル
 
-VisualStudio で UE のソースコードプロジェクトの .sln を開き、C++ プロジェクトを選択して Rebuild をクリックします。正しく構成されている場合、以下のようなログが表示されるはずです。
+VisualStudioを使用してUEのソースコードプロジェクトslnを開き、C++のプロジェクトを選択し、Rebuildをクリックします。正常に設定されている場合、次のようなログが表示されるはずです。
 
 ```
 11>FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
@@ -100,72 +100,73 @@ VisualStudio で UE のソースコードプロジェクトの .sln を開き、
 11>Distributed Compilation : 1 Workers in pool '127.0.0.1'
 ```
 
-FASTBuildは、リモートマシンのIPアドレスを見つけ、リモートマシンにコンパイルを開始します。リモートマシンのFBuildWorkerでは、現在実行中のコンパイルタスクが表示されます。
+FASTBuild はリモートマシンの IP アドレスを見つけ、リモートマシンにコンパイルを開始します。リモートマシンの FBuildWorker でも、現在実行中のコンパイルタスクを確認できます。
 
 ##上級設定
 
-###より古いバージョンのUEをサポート
+###より長くサポートされるUEバージョン
 
-もし自分のUEがFASTBuildツール（Engine\Extras\ThirdPartyNotUE\FASTBuild）を持っていないことに気づき、UnrealBuildToolプロジェクトにFASTBuild.csファイルがない場合、おそらくあなたのUEのバージョンはFASTBuildをサポートしていない可能性が非常に高いです。
+もしあなたが自分のUEにFASTBuildツール（Engine\Extras\ThirdParty\FASTBuild）がないことに気づき、そしてUnrealBuildToolプロジェクト内にFASTBuild.csファイルが存在しない場合、おそらくあなたのUEのバージョンはまだFASTBuildをサポートしていない可能性が高いです。
 
-UE4.27のソースコードを参照して、FASTBuild.csファイルを作成し、他の必要なコードの変更も加える必要があります。詳細はここでは説明しません。
+UE4.27のソースコードを参照し、FASTBuild.csの類似物を作成する必要があります。他の関連するコードの変更も行いましょう。詳細はここでは述べません。
 
 
-###自分のFASTBuildをコンパイルする
+###自身のFASTBuildをコンパイルする
 
-もしFASTBuild自体に興味があるか、または何か変更をしたい場合は、FASTBuildを使用してFASTBuildをコンパイルしてみてください。
+もしFASTBuild自体にも興味がある場合や、何か変更を加えたい場合は、FASTBuildを使用してFASTBuildをコンパイルしてみることができます。
 
-- ダウンロードしてください [最新のソースコード](https://github.com/disenone/fastbuild/releases)ファイルを解凍します。
-External\SDK\VisualStudio\VS2019.bff ファイルを編集して、.VS2019_BasePath と .VS2019_Version をローカルマシンに合わせて変更してください。Version は .VS2019_BasePath\Tools\MSVC ディレクトリ内で確認できます。例えば、
+- ダウンロードしてください [最新ソースコード](https://github.com/disenone/fastbuild/releases)そして展開
+- External\SDK\VisualStudio\VS2019.bffを修正し、.VS2019_BasePathと.VS2019_Versionを自分のマシンに対応する内容に変更してください。Versionは.VS2019_BasePath\Tools\MSVCディレクトリの下で確認できます。例えば
     ```
     .VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // <-- Set path here
     .VS2019_Version         = '14.29.30133' // <-- Set version here
     .VS2019_MSC_VER         = '1929' // <-- Set MSC_VER here
     ```
 
-External\SDK\Windows\Windows10SDK.bff の .Windows10_SDKBasePath と .Windows10_SDKVersion を変更してください。バージョンは .Windows10_SDKBasePath/bin 内で確認できます。
+- External\SDK\Windows\Windows10SDK.bff の .Windows10_SDKBasePath と .Windows10_SDKVersion を修正してください。バージョンは .Windows10_SDKBasePath/bin の中で確認できます：
     ```
     .Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // <-- Set path here
     .Windows10_SDKVersion         = '10.0.19041.0' // <-- Set version here
     ```
 
-- External\SDK\Clang\Windows\Clang11.bff の .Clang11_BasePath と .Clang11_Version を変更し、パスは .VS2019_BasePath\Tools\Tools/LLVM/x64 にあります。
+- External\SDK\Clang\Windows\Clang11.bff の .Clang11_BasePath と .Clang11_Version を修正してください。パスは .VS2019_BasePath\Tools\Tools/LLVM/x64 にあります。
     ```
     .Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // <-- Set path here
     .Clang11_Version  = '12.x.x'
     ```
 
-Codeディレクトリに移動し、cmdで`FBuild.exe All-x64-Release`を実行してください。正しく構成されていれば、コンパイルが成功したことが確認でき、tmp\x64-Release\Tools\FBuild\FBuild内にFBuild.exeを見つけることができます。
+- Code ディレクトリに移動し、cmd で `FBuild.exe All-x64-Release` を実行します。設定が正しければ、コンパイルが成功したことが確認でき、tmp\x64-Release\Tools\FBuild\FBuild に FBuild.exe が表示されます。
 
-`FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1`で分散コンパイルを開始できます。
+`FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1` は分散コンパイルを開始できます。
 
-###FBuild 追加のオプション
+###FBuildの追加オプション
 
-私が提供する FBuild は、次のよく使用されるオプションをサポートしています：
+私が提供するFBuild自体は、以下の一般的なオプションをサポートしています：
 
-- coordinator: 指定コーディネーターIPアドレス（システム環境変数の値を上書きできます）
-- brokerage: 指定仲介地址（可以覆蓋系統環境變數的值）
-- nocache: Cache を使用しないように強制します.
+- coordinator: 指定されたコーディネーターのIPアドレス（システム環境変数の値を上書きできます）
+- brokerage: 指定ブローカージアドレス（システム環境変数の値を上書きできます）
+- 「nocache」：キャッシュを使用しないように強制します。
 - dist: 分散コンパイルを有効にする
+- forceremote：强制在远程机编译
 - forceremote: リモートマシンでのコンパイルを強制
-要約：編集完了後、統計レポートを出力します。
+- summary: 編集終了後に統計レポートを出力する
 
-その他、`FBuild.exe -help` を実行してさらにオプションを確認できます。
+ちょっと待って、さらに多くのオプションは `FBuild.exe -help` を実行して確認できます。
 
-FBuildWorkerの一般的な選択肢は次のとおりです：
+FBuildWorkerのよく使われるオプションは次の通りです：
 
-- coordinator: 指定コーディネーターの IP アドレス（システム環境変数の値を上書きできます）
-- brokerage: 指定仲介地的位  （可以覆盖系统环境变量的值）
-nocache：キャッシュを使用しないように強制します
-- CPUs: コンパイルに割り当てるコアの数を指定します。
+- coordinator: 指定されたコーディネーターのIPアドレス（システム環境変数の値を上書きできます）
+- brokerage: 指定されたブローカレッジの住所（システム環境変数の値を上書きできます）
+- nocache：キャッシュを強制的に使用しない
+- cpus: コンパイルに何個のコアを割り当てるかを指定します。
 
-追加オプションに関しては、`FBuildWorder.exe -help` を実行してください。
+追加のオプションについては、`FBuildWorder.exe -help` を実行してください。
 
-###UEの組み込みFASTBuild.csを編集します。
+###UEの標準FASTBuild.csを編集します。
 
-UE の内蔵 FASTBuild.cs はシステム環境変数をうまく処理しておらず、BuildConfiguration.xml で指定されたパラメータとの関係がうまく取れていません。多くのパラメータはシステム環境変数が優先されて読み込まれるため、これは明らかに BuildConfiguration.xml の使用論理とは逆です。
+UE に付属の FASTBuild.cs は、システム環境変数を適切に処理しておらず、BuildConfiguration.xml で指定されたパラメータとの関係が不明瞭です。多くのパラメータはシステム環境変数が優先的に読み込まれるため、これは明らかに BuildConfiguration.xml の使用ロジックに反しています。
 
-この場合、関連するコードをこのように変更することができます。ここではUE5.3を例に挙げます。
+この場合、関連するコードを次のように変更できます。ここではUE5.3を例に挙げます：
 
 ```csharp
 private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
@@ -241,39 +242,39 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 ...
 ```
 
-###BuildConfiguration.xmlを向上させる設定
+###BuildConfiguration.xml の高度な設定
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
     <ProjectFileGenerator>
-<!-- バージョン指定 -->
+<!-- 指定vs版本 -->
         <Format>VisualStudio2022</Format>
     </ProjectFileGenerator>
     <BuildConfiguration>
-<!-- FASTBuildを有効にする -->
+<!-- FASTBuild を有効にする -->
         <bAllowFASTBuild>true</bAllowFASTBuild>
-指定するマシンがコンパイルに参加するCPUコア数
+本机がコンパイルに参加するCPUコア数を指定します。
         <MaxParallelActions>12</MaxParallelActions>
-<!-- Incredibuildをオフにする -->
+<!-- Incredibuildを閉じる -->
         <bAllowXGE>false</bAllowXGE>
     </BuildConfiguration>
     <FASTBuild>
-<!-- FBuildのパスを指定 -->
+<!-- 指定 FBuild パス -->
         <FBuildExecutablePath>d:\libs\FASTBuild\bin\FBuild.exe</FBuildExecutablePath>
 <!-- 分散コンパイルを有効にする -->
         <bEnableDistribution>true</bEnableDistribution>
-<!--指定された仲介経路-->
+<!-- 指定ブローカーのパス -->
         <FBuildBrokeragePath>\\127.0.0.1\Brokerage\</FBuildBrokeragePath>
-指定されたキャッシュパス
+<!-- 指定 cache 路径 -->
         <FBuildCachePath>\\127.0.0.1\Cache\</FBuildCachePath>
 <!-- キャッシュを有効にする -->
         <bEnableCaching>true</bEnableCaching>
-<!-- キャッシュの読み書き権限 読み取り/書き込み/読み書き -->
+<!-- cacheの読み書き権限 読み/書き/読み書き -->
         <CacheMode>ReadWrite</CacheMode>
 <!-- 指定コーディネーターIP -->
         <FBuildCoordinator>127.0.0.1</FBuildCoordinator>
-<!-- リモートコンパイルを強制する -->
+<!-- 強制リモートコンパイル -->
         <!-- <bForceRemote>true</bForceRemote> -->
     </FASTBuild>
 </Configuration>
@@ -282,5 +283,4 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTによって翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
-見落としがないか指摘してください。 
+> この投稿はChatGPTを使って翻訳されました。フィードバックをお願いします[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘された点を見逃さずにご提出ください。 

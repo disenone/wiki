@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE EditorPlus Documentation über das UE-Editor-Plugin UE.EditorPlus
+title: UE.EditorPlus Documentation
 tags:
 - dev
 - game
@@ -11,57 +11,61 @@ tags:
 - Editor
 - Editor Plus
 - Editor Plugin
-description: UE EditorPlus Plugin Documentation
+description: UE 编辑器插件 UE.EditorPlus 说明文档  ⟶  UE EditorPlus Plugin Erklärungsdokument
 ---
 
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-#UE 编辑器插件 UE.EditorPlus 说明文档 - Dokumentation zu UE.EditorPlus-Plugin
+#UE 编辑器插件 UE.EditorPlus 说明文档 
 
-##Please find the translation below:
+würde ins Deutsche übersetzt:
 
-Vorstellungsvideo
+ UE EditorPlus-Editor-Plugin-Dokumentation.
+
+##Vorstellungsvideo
 
 ![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
 
-##Plugin source code
+##Die Übersetzung lautet: "Plugin-Quellcode".
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##Einkaufszentrum herunterladen
+##Marktplatz herunterladen
 
 [EditorPlus](https://www.unrealengine.com/marketplace/zh-CN/product/editorplus)
 
-##Add-on Plugin for the project EU.EditorPlus
+##Please translate the following text into German language:
 
-Referenzdokumente:
+Projekt hinzugefügtes Quellcode-Plugin EU.EditorPlus
 
-Deutsch: [UE fügt Plugins durch das Hinzufügen von Plug-in-Quellcode hinzu](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
+Referenzdokument:
+
+-  Deutsch: [Durch das Hinzufügen von Plug-In-Quellcode fügt UE Plug-Ins hinzu](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 - English: [UE adds plugins through the plugin source code](https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 
 
 ##Plug-in description
 
-UE.EditorPlus is a UE editor plugin that offers a convenient way to expand editor menus and supports advanced methods of extension, as well as including some practical editor tools. This plugin is compatible with UE5.3+.
+UE.EditorPlus ist ein Plugin für den UE-Editor, das eine bequeme Möglichkeit bietet, das Editor-Menü zu erweitern, und unterstützt fortgeschrittene Erweiterungen, während es einige nützliche Editorenwerkzeuge enthält. Dieses Plugin unterstützt UE5.3+.
 
 
-##Erweitern Sie das Editor-Menü.
+##Erweitere den Editor-Menü.
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
 ![](assets/img/2024-ue-editorplus/toolbar.png)
 
-###Erklären
+###Erklärung
 
-Unterstützung für die Erweiterung des Editor-Menüs auf verschiedene Arten:
+Unterstützung für verschiedene Möglichkeiten zur Erweiterung des Editors-Menüs:
 
-- Pfadmethode: `RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
-Instanziierungsart: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
-- Mischungsmodus: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
+Pfadmethode: `RegisterPathAction("/<MenuBar>Leiste/<SubMenu>Untermenü/<Command>Aktion")`
+- Instanziierungsart: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
+Mischmethode: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
 
 ###Pfadmodus
 
-Sie können ein Editor-Menübefehl auf diese Weise registrieren:
+Sie können einen Editor-Menübefehl auf folgende Weise registrieren:
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -73,26 +77,26 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-Auf diese Weise können Sie in der Menüleiste des Editors hinter "Hilfe" eine neue Menüleiste namens "Bar" hinzufügen. In der "Bar" können Sie ein Untermenü namens "SubMenu" erstellen, das eine Aktion enthält.
+Auf diese Weise können Sie im Editor-Menü Hilfe eine Menüleiste "Bar" hinzufügen, in der dann ein Untermenü "SubMenu" mit einer Aktion "Action" erstellt wird.
 
-Die vollständige Pfadformatierung würde folgendermaßen aussehen: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, wobei der erste Pfad `<Hook>` sein muss. Die derzeit unterstützten Typen und Beschränkungen sind:
+Die vollständige Pfadformatierung würde wie folgt aussehen: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`, wobei der erste Pfad `<Hook>` sein muss. Die derzeit unterstützten Typen und Einschränkungen sind:
 
-- `<Hook>`: indicates where the menu should be generated in which Hook position, with no `<Hook>` allowed in subsequent paths
-- `<MenuBar>`: Menüleiste, Pfad darf nicht `<Hook>, <MenuBar>, <ToolBar>` enthalten
-- `<ToolBar>`: Symbolleiste, die keinen `<Hook>, <MenuBar>, <ToolBar>` Pfad dahinter haben darf.
-- `<Section>`: Menüabschnitt; hinter dem Pfad dürfen keine `<Hook>`, `<MenuBar>`, `<Section>` stehen.
-- `<Separator>`: Trennzeichen im Menü, nachfolgender Pfad darf nicht `<Hook>, <MenuBar>` enthalten.
-- `<SubMenu>`: Untermenü, die nachfolgende Pfade dürfen keine `<Hook>, <MenuBar>` enthalten.
-- `<Command>`: Menübefehl, es darf kein Pfad dahinter stehen.
-- `<Widget>`: Weitere anpassbare Slate UI-Komponenten, die erweitert werden können, ohne dass dabei ein Pfad folgt.
+- `<Hook>`: Gibt an, an welcher Stelle des Hooks das Menü generiert werden soll; der nachfolgende Pfad darf kein `<Hook>` enthalten.
+- `<MenuBar>`: Menüleiste, der Pfad hinten darf nicht `<Hook>, <MenuBar>, <ToolBar>` enthalten.
+- `<ToolBar>`: Symbolleiste, darf nicht `<Hook>, <MenuBar>, <ToolBar>` hinter dem Pfad stehen.
+- `<Section>`: Menüabschnitt, der nachfolgende Pfad darf keine `<Hook>, <MenuBar>, <Section>` enthalten.
+- `<Separator>`: Menü-Trennzeichen, der nachfolgende Pfad darf kein `<Hook>, <MenuBar>` enthalten.
+- `<SubMenu>`: Untermenü, der nachfolgende Pfad darf kein `<Hook>, <MenuBar>` enthalten.
+- `<Command>`: Menübefehl, es dürfen keine Pfade folgen.
+- `<Widget>`: Mehr anpassbare Slate UI-Komponenten für Erweiterungen, ohne nachfolgende Pfade.
 
-Eine einfachere Pfadform wäre: `/BarName/SubMenuName1/SubMenuName2/CommandName`. Wenn kein Typ angegeben ist, ist der erste Teil des Pfades `<MenuBar>`, der mittlere Teil `<SubMenu>` und der letzte Teil `<Command>`.
+Eine einfachere Pfadform: `/BarName/SubMenuName1/SubMenuName2/CommandName`. Wenn kein Typ angegeben ist, ist das erste Element des Pfades `<MenuBar>`, das mittlere `<SubMenu>` und das letzte `<Command>`.
 
-Wenn kein `<Hook>` angegeben ist, wird automatisch `<Hook>Help` hinzugefügt, um anzugeben, dass die Menüleiste hinter dem Hilfemenü hinzugefügt werden soll.
+Falls `<Hook>` nicht angegeben ist, wird automatisch `<Hook>Help` vorangestellt, um anzugeben, dass die Menüleiste nach dem Hilfe-Menü hinzugefügt werden soll.
 
-###Instantiation method
+###Instanziierungsart
 
-Der Pfadmodus erstellt automatisch alle Knoten basierend auf Typ und Standardparametern. Wir können auch die Instantiierung selbst steuern, um den Inhalt der Erweiterung genauer zu kontrollieren.
+Der Pfadmodus instanziiert automatisch alle Knoten basierend auf ihrem Typ und den Standardparametern. Wir können jedoch auch selbst die Instanziierung steuern, um die Inhalte der Erweiterungen detaillierter zu kontrollieren.
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips"))
@@ -109,11 +113,11 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 });
 ```
 
-Beim Instanziieren von `MyBar` können der Hook-Name, der lokalisierte Name und die lokalisierungshinweisenden Parameter (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`) übergeben werden. Der obige Code entspricht dem Pfad `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
+Beim Instanziieren von `MyBar` kann der Hook-Name, der lokalisierte Name und die lokalisierte Hinweisparameter übergeben werden (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). Der obige Code entspricht dem Pfadansatz `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
 
-###Mischmodus
+###Gemischte Methode
 
-Natürlich können beide Methoden auch kombiniert werden:
+Natürlich können auch beide Methoden kombiniert werden:
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -126,17 +130,17 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-In this situation, the plugin will automatically instantiate the nodes in the middle path, while the final path will utilize nodes instantiated by the user.
+In this case, the plugin will automatically instantiate the nodes of the intermediate paths, while the final path will use nodes instantiated by the user themselves.
 
-###Mehr Anwendungsbeispiele.
+###Mehr Beispiele
 
-Header-Datei:
+Headerdatei:
 
 ```cpp
 #include <EditorPlusPath.h>
 ```
 
-Die Lokalisierungssprache wird durch den Pfad festgelegt, `EP_FNAME_HOOK_AUTO` bedeutet, dass der Name des Hooks automatisch aus dem Dateipfad generiert wird:
+Der Pfad gibt an, welche Sprache für die Lokalisierung verwendet wird. 'EP_FNAME_HOOK_AUTO' bedeutet, dass der Namen des Betreffs automatisch aus dem Pfadnamen entnommen wird.
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -150,7 +154,7 @@ FEditorPlusPath::RegisterPathAction(
         LOCTEXT("ActionTips", "ActionTips"));
 ```
 
-Holen Sie sich den Knoten über den Pfad und setzen Sie die Lokalisierungstexte:
+Durch den Pfad Knoten abrufen und lokalisierte Texte festlegen:
 
 ```cpp
 FEditorPlusPath::GetNodeByPath("/MenuTest")
@@ -159,7 +163,7 @@ FEditorPlusPath::GetNodeByPath("/MenuTest")
 ```
 
 
-Fügen Sie am Ende des Pfads eine Slate UI-Komponente hinzu.
+Fügen Sie am Ende des Pfades ein Slate UI-Steuerlement hinzu.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -169,33 +173,33 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-Fügen Sie einen neuen Knoten in den integrierten Hook von UE hinzu.
+Neue Knoten im mit UE mitgelieferten Hook hinzufügen.
 
 ```cpp
 FEditorPlusPath::RegisterPath("<Hook>EpicGamesHelp/<Separator>ExtendSeparator")
 ```
 
-Wiederholte Angaben desselben Pfads werden als derselbe Pfad erkannt, daher kann derselbe Pfad kontinuierlich erweitert werden.
+Mehrfach erklärte denselben Pfad werden als derselbe Pfad erkannt, sodass der gleiche Pfad kontinuierlich erweitert werden kann.
 
 ```cpp
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path1", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path1", "Path1"), LOCTEXT("Path1Tips", "Path1Tips"));
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path2", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path2", "Path2"), LOCTEXT("Path2Tips", "Path2Tips"));
 ```
 
-Um einen Knoten auf dem Pfad fortzusetzen.
+Für einen Knoten den Pfad weiter ausbauen.
 
 ```cpp
 auto node = FEditorPlusPath::GetNodeByPath("/MenuTest");
 FEditorPlusPath::RegisterChildPath(node, "<SubMenu>Sub/<Separator>Sep");
 ```
 
-Entfernen Sie einen Pfad.
+Einen Pfad löschen.
 
 ```cpp
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
-Erweiterte Symbolleiste.
+Erweiterungswerkzeugleiste
 ```cpp
 FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 ->Content({
@@ -232,12 +236,12 @@ public:
 };
 ```
 
-`RegisterPath`: Erstellung des Pfadmenüs
-- `RegisterPathAction`: Erzeugt ein Pfadmenü und verknüpft automatisch die Aktionen mit dem Endknoten `<Command>`.
-`RegisterChildPath`: Erzeugt fortlaufend Kindpfade für den angegebenen Knoten.
-`RegisterChildPathAction`: Erzeugt automatisch Subpfade für den angegebenen Knoten und verknüpft die Aktionen automatisch.
-`UnregisterPath`: Lösche den Pfad, `Leaf` kann für strenges Matching verwendet werden, wenn es mehrere Endknoten mit demselben Namen gibt. Während des Löschvorgangs wird der Vorgang zurückverfolgt und ein Zwischenknoten wird gelöscht, sobald er keine weiteren Knoten enthält.
-`GetNodeByPath`: Holen Sie den Knoten anhand des Pfads.
+- `RegisterPath`: Menüpfad erstellen
+- `RegisterPathAction`: Erzeugt ein Pfadmenü und bindet automatisch eine Aktion an das Endknoten `<Command>` Knoten.
+`RegisterChildPath`：Generieren Sie fortlaufende Unterpfade für den angegebenen Knoten.
+- `RegisterChildPathAction`: Fortsetzung der Generierung von Unterpfaden für den angegebenen Knoten und automatische Bindung der Aktion
+- `UnregisterPath`: Löschen des Pfads. `Leaf` kann in Fällen verwendet werden, in denen mehrere Endknoten denselben Namen haben, um eine genaue Übereinstimmung festzulegen. Während des Löschvorgangs wird auf mittlere Knoten zurückverfolgt, und sobald ein mittlerer Knoten keine Unterstützung hat, wird er ebenfalls gelöscht.
+- `GetNodeByPath`: Holen Sie den Knoten anhand des Pfads.
 
 
 Knotentyp
@@ -263,14 +267,14 @@ class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}
 class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```
 
-Für weitere Beispiele und Schnittstellenbeschreibungen bitte im Quellcode nachsehen [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)"Test case [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
+Mehr Beispiele und Schnittstellenerklärungen finden Sie im Quellcode [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，Testfall [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-###Modulares Management
+###Modularmanagement
 
-UE.EditorPlus bietet auch ein Framework zur modularen Verwaltung von Erweiterungsmenüs an, das das automatische Laden und Entladen von Menüerweiterungen beim Laden und Entladen von Plugins unterstützt.
+UE.EditorPlus bietet auch ein modulares Framework zur Verwaltung von Erweiterungsmenüs, das das automatische Laden und Entladen von Menüs während des Plug-in-Lade- und -Entladevorgangs unterstützt.
 
-Lassen Sie die Menüklasse `IEditorPlusToolInterface` erben und überschreiben Sie die Funktionen `OnStartup` und `OnShutdown`. `OnStartup` ist für das Erstellen des Menüs zuständig, `OnShutdown` ruft die `Destroy`-Funktion des Knotens auf, um das Menü zu bereinigen. Sobald die Referenzzahl eines Knotens auf 0 fällt, wird eine automatische Bereinigung durchgeführt.
+Lassen Sie die Menu-Klasse von 'IEditorPlusToolInterface' erben und die Funktionen 'OnStartup' und 'OnShutdown' überschreiben. 'OnStartup' ist für die Erstellung des Menüs verantwortlich, 'OnShutdown' ruft die 'Destroy'-Funktion des Knotens auf, um das Menü zu bereinigen. Wenn die Referenzanzahl des einzelnen Knotens 0 erreicht, erfolgt automatische Bereinigung.
 
 ```cpp
 class FMenuTest: public IEditorPlusToolInterface
@@ -298,7 +302,7 @@ void FMenuTest::OnShutdown()
 }
 ```
 
-Die Menuverwaltungsklasse erbt von `IEditorPlusToolManagerInterface` und überschreibt die Funktion `AddTools`, um die Menüklasse hinzuzufügen.
+Die Menu-Management-Klasse erbt von `IEditorPlusToolManagerInterface` und überschreibt die Funktion `AddTools`, um die Menüklasse hinzuzufügen.
 
 ```cpp
 class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
@@ -317,7 +321,7 @@ void FEditorPlusToolsImpl::AddTools()
 }
 ```
 
-Bei der  Lade- und Entladefunktion von Plugins werden die Funktionen `StartupTools` und `ShutdownTools` der Verwaltungsklasse aufgerufen.
+Beim Laden und Entladen des Plugins werden die Funktionen `StartupTools` und `ShutdownTools` der Verwaltungsklasse aufgerufen.
 
 ```cpp
 void FEditorPlusToolsModule::StartupModule()
@@ -332,14 +336,14 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```
 
-Nachdem die oben genannten Anpassungen abgeschlossen wurden, wird das Menü der Erweiterungen automatisch geladen und entladen, wenn die Plugins geladen und entladen werden.
+Mit der obigen Anpassung können das Laden und Entladen von Plugins automatisch erfolgen, was das automatische Laden und Entladen des erweiterten Menüs ermöglicht.
 
 
-##Editor-Tool
+##Editor-Tools
 
-UE.EditorPlus bietet auch einige praktische Editor-Tools an.
+UE.EditorPlus bietet auch einige nützliche Editor-Tools.
 
-##Erstellen eines Editorfensters.
+##Erstellen eines Editor-Fensters
 
 Mit EditorPlus können Sie ganz einfach ein neues Editorfenster erstellen.
 
@@ -369,17 +373,17 @@ class SClassBrowserTab final : public SCompoundWidget
 
 ### ClassBrowser
 
-Der ClassBrowser ist ein UE-Class-Viewer, der über das Menü EditorPlusTools -> ClassBrowser geöffnet werden kann.
+ClassBrowser ist ein UE Klassenbetrachter, der über das Menü EditorPlusTools -> ClassBrowser geöffnet werden kann.
 
 ![](assets/img/2024-ue-editorplus/classbrowser_menu.png)
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
-Basierend auf der UE-Reflexion realisiert, können Sie bequem verschiedene Arten von UE-Mitgliedsinformationen anzeigen, Erklärungen und Hinweise erhalten, unterstützen eine verschwommene Suche und ermöglichen das Öffnen von Informationen der Elternklasse.
+Basierend auf der UE-Reflexion implementiert, können verschiedene Arten von Mitgliederinformationen, Erklärungen und Hinweise von UE leicht eingesehen werden. Es unterstützt die Fuzzy-Suche und ermöglicht das Öffnen von Informationen der übergeordneten Klasse.
 
 ### MenuCollections
 
-MenuCollections ist ein Tool zur schnellen Suche und Sammlung von Menübefehlen. Es hilft Ihnen, schnell die benötigten Menübefehle zu finden und häufig verwendete Befehle zu speichern, um die Effizienz zu steigern.
+MenuCollections ist ein Tool zum schnellen Suchen und Speichern von Menübefehlen, das Ihnen hilft, schnell die Menübefehle zu finden, die Sie ausführen müssen, und Ihnen ermöglicht, häufig verwendete Befehle zu speichern, um die Effizienz zu steigern.
 
 ![](assets/img/2024-ue-editorplus/menucollection_find.png)
 
@@ -388,7 +392,7 @@ MenuCollections ist ein Tool zur schnellen Suche und Sammlung von Menübefehlen.
 
 ### SlateResourceBrowser
 
-SlateResourceBrowser ist ein Tool, mit dem Sie schnell Slate UI-Ressourcen anzeigen können. Es hilft Ihnen dabei, die benötigten Editor-Ressourcen zu durchsuchen und zu finden, um den Editor einfach zu erweitern.
+SlateResourceBrowser ist ein Tool, mit dem Sie schnell auf Slate UI-Ressourcen zugreifen können. Es hilft Ihnen dabei, die benötigten Editor-Ressourcen zu durchsuchen und zu finden, um den Editor leicht zu erweitern.
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
 
@@ -401,4 +405,4 @@ SlateResourceBrowser ist ein Tool, mit dem Sie schnell Slate UI-Ressourcen anzei
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte[ **feedback**](https://github.com/disenone/wiki_blog/issues/new)Führen Sie eventuelle Auslassungen bitte an. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Benutze deinen Mittelfinger, um irgendwelche vergessenen Stellen zu markieren. 

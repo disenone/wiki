@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE utilise le chemin pour étendre le menu
+title: UE utilise le chemin d'accès pour étendre le menu
 tags:
 - dev
 - game
@@ -12,16 +12,15 @@ tags:
 
 <meta property="og:title" content="UE 使用路径形式扩展菜单" />
 
-> Veuillez traduire ce texte en français :
-> Enregistrer comment mettre en place une extension de menu sous forme de chemin dans UE.
+> Notez comment mettre en place un menu déroulant étendu en forme de chemin dans UE.
 
-Si vous n'êtes pas familier avec le menu d'extension de l'UE, il est conseillé de le consulter brièvement : [Menu de l'éditeur d'extension de l'UE](ue-扩展编辑器菜单.md)
+Si vous n'êtes pas familiarisé avec le menu d'extension UE, il est conseillé de jeter un coup d'œil au : [Menu de l'éditeur d'extension UE](ue-扩展编辑器菜单.md)
 
-Ce texte est basé sur le plugin: [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
+Le code de cet article est basé sur le plugin : [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
 ##Gestion des nœuds
 
-Organiser le menu selon la structure d'un arbre, où les nœuds principaux peuvent inclure des sous-éléments :
+Organiser le menu selon une structure arborescente où les nœuds pères peuvent contenir des nœuds enfants :
 
 ```cpp
 class EDITORPLUS_API FEditorPlusMenuBase: public TSharedFromThis<FEditorPlusMenuBase>
@@ -32,7 +31,7 @@ protected:
 }
 ```
 
-Créez des nœuds enfants en même temps que le nœud parent:
+Créez des nœuds enfants en même temps que vous créez des nœuds parents :
 
 ```cpp
 void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
@@ -44,7 +43,7 @@ void FEditorPlusMenuBase::Register(FMenuBuilder& MenuBuilder)
 }
 ```
 
-Bien sûr, le comportement spécifique à la création de chaque nœud peut varier légèrement, en écrivant des fonctions virtuelles pour le mettre en œuvre :
+Bien sûr, le comportement spécifique de création de chaque nœud sera un peu différent, en écrivant des fonctions virtuelles pour le mettre en œuvre :
 
 ```cpp
 // Menubar
@@ -98,25 +97,22 @@ void FEditorPlusCommand::Register(FMenuBuilder& MenuBuilder)
 // ......
 ```
 
-##Générer des nœuds via un chemin.
+##Générer un nœud à partir du chemin
 
-Organisez les menus selon une structure arborescente, le format du chemin permet de définir la structure arborescente d'un menu :
+Organisez le menu selon une structure arborescente, le format de chemin peut définir la structure arborescente d'un menu :
 
 ```cpp
 "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action"
 ```
 
-Les textes suivants peuvent être traduits en langue française :
+Les éléments ci-dessus permettent de définir la création d'une série de menus:
 
-Les expressions ci-dessus peuvent être interprétées comme définissant la création d'une série de menus :
+- `<Hook>Aide` : situé après le menu ayant pour nom Hook Aide
+- `<MenuBar>BarTest` : Crée un menu de type MenuBar, nommé BarTest.
+- `<SubMenu>SubTest` : Créer un sous-nœud, type SubMenu, nom SubTest
+- `<Command>Action` : Créer enfin une commande
 
-`<Hook>Help`：Positionné après le menu nommé Help de Hook
-`<MenuBar>BarTest` : Crée un menu de type MenuBar nommé BarTest.
-- `<SubMenu>SubTest`：Crée un sous-noeud, de type Sous-menu, nommé SubTest
-`<Command>Action`：Finaliser la création d'une commande
-
-Le format des appels d'API peut être très concis :
-
+La forme d'appel de l'interface peut être très simple :
 
 ```cpp
 const FString Path = "/<Hook>Help/<MenuBar>BarTest/<SubMenu>SubTest/<Command>Action";
@@ -129,9 +125,9 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-##Créer des nœuds à partir de formulaires personnalisés
+##Générer des noeuds à l'aide de formulaires personnalisés.
 
-Nous continuons à utiliser une approche lourde pour créer les menus, ce qui permet des réglages plus détaillés. La structure du code ressemble un peu à la façon dont SlateUI de UE est écrit :
+Nous avons conservé une méthode lourde pour créer le menu, cette méthode lourde permet d'avoir des réglages plus détaillés, l'organisation du code ressemble un peu à la façon d'écrire de SlateUI dans UE :
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
@@ -148,9 +144,9 @@ EP_NEW_MENU(FEditorPlusMenuBar)("BarTest")
 });
 ```
 
-##Forme mixte
+##La forme mixte
 
-Bien sûr, les formats de chemin par défaut et les menus générés sur mesure sont identiques et peuvent être combinés pour offrir une grande flexibilité.
+Bien sûr, la forme du chemin lui-même et le menu généré de manière personnalisée sont identiques ; ils peuvent être utilisés de manière interchangeable, offrant ainsi une grande flexibilité.
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -172,8 +168,8 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-Les menus définis à partir de plusieurs endroits seront regroupés dans une même structure arborescente, où les nœuds de même nom seront considérés comme uniques. Autrement dit, le chemin est unique, une même trajectoire pouvant identifier de façon unique un nœud de menu.
-Nous pouvons alors identifier les nœuds, et procéder à des ajustements et modifications supplémentaires :
+Les menus définis à plusieurs endroits seront fusionnés dans une même structure arborescente, et les nœuds portant le même nom seront considérés comme un seul et même nœud. En d'autres termes, le chemin est unique, et un même chemin peut identifier de manière unique un nœud de menu.
+Alors nous pouvons également identifier les nœuds, puis apporter des ajustements et des modifications :
 
 ```cpp
 // set Name and Tips
@@ -184,4 +180,4 @@ FEditorPlusPath::GetNodeByPath("/<MenuBar>BarTest")->SetFriendlyName(LOCTEXT("Me
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez faire part de vos remarques dans [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)S'il vous plaît signaler toute omission. 
+> Ce post a été traduit à l'aide de ChatGPT, veuillez laisser vos [**retours**](https://github.com/disenone/wiki_blog/issues/new)Signalez tout manquement. 

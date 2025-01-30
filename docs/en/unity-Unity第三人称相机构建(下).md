@@ -1,36 +1,36 @@
 ---
 layout: post
-title: Building a third-person camera in Unity (Part 2)
+title: Building a Third-Person Camera in Unity (Part 2)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: I want to create a third-person camera in Unity, with the camera's behavior
-  referencing the third-person camera in "World of Warcraft". Here we will address
-  the camera's rigid body issue.
+description: I want to create a third-person camera in Unity, and I want the camera's
+  behavior to be similar to the third-person camera in World of Warcraft. Let's tackle
+  the camera's rigid body issue here.
 ---
 
 <meta property="og:title" content="Unity第三人称相机构建(下)" />
 
-The previous episode was about [camera rotation](unity-Unity第三人称相机构建(上).md). So now, the problem we need to solve is the rigidity of the camera. How should we do it?
+The previous episode concluded with [camera rotation](unity-Unity第三人称相机构建(上).md), so now the issue we need to address is the rigidity of the camera, how should we proceed?
 
 Camera rigidity
 --------------
-Reviewing the requirements previously mentioned:
+Looking back at the previously mentioned requirements:
 
-4. Mouse scroll wheel: control camera zooming.
-5. The camera cannot pass through any rigid objects.
-6. After the camera leaves a collision with a rigid object, it slowly returns to its original distance.
-7. If the camera encounters a rigid body and the mouse scroll wheel is used to zoom in, the camera needs to react immediately, and point 6 no longer occurs afterwards; scaling operations cannot be performed after colliding with the ground.
-8. When the camera in rotation touches the ground, stop rotating around the character up and down, and instead rotate up and down around itself, while left and right rotation still revolves around the character.
+Mouse scroll wheel: Control the camera zoom.
+The camera cannot pass through any rigid object
+6. The camera slowly returns to its original distance after leaving the rigid object of the collision.
+If the camera encounters a rigid body, use the mouse wheel to zoom in on the camera, the camera needs to respond immediately, and point 6 will not occur afterwards; after colliding with the ground, scaling operations cannot be performed.
+The camera hit the ground while rotating, stopped spinning around the character vertically, switched to spinning around itself vertically, while still revolving around the character horizontally.
 
 
-The meaning of these points is: When the camera encounters a rigid object, it is forced to get closer to the character. So, we want the camera to slowly return to its original distance when it moves away. However, if after automatically getting closer, you manually zoom in with the scroll wheel, it means that the camera is moving away from the object it collided with, and the zoom distance is the actual distance of the camera. Now let's analyze these requirements step by step.
+These points mean that when the camera encounters a rigid object, it will be forced to move closer to the subject. We want the camera to gradually return to its original distance when it moves away. However, if after the automatic zooming in, the manual zooming in is done using the wheel, it indicates that the camera has moved away from the colliding object, and this zoomed-in distance represents the camera's actual distance. Now, let's break down these requirements step by step.
 
-Scroll control
+Roller control
 ----------
-Scroll wheel control is very simple, you just need to know that obtaining the scroll wheel information is `Input.GetAxis("Mouse ScrollWheel")`, and set the maximum and minimum values for the distance and it's good to go:
+The mouse wheel control is quite simple; you just need to know that obtaining the scroll wheel information is done using `Input.GetAxis("Mouse ScrollWheel")`, and then set the maximum and minimum values for the distance, and it's all set.
 
 ```c#
 public float mouseWheelSensitivity = 2; // control zoom speed
@@ -47,17 +47,17 @@ if (zoom != 0F)
 }
 ```
 
-`playerTransform` here refers to the character.
+Here `playerTransform` points to the character.
 
-Cannot pass through any rigid objects.
+Cannot pass through any rigid object.
 --------------------
-This requires checking the contact between the camera and the object. There is a function that can achieve this functionality:
+This requires detecting the contact between the camera and the rigid body, and there is a function that can achieve this.
 
 ```c#
 static bool Raycast(Ray ray, RaycastHit hitInfo, float distance = Mathf.Infinity, int layerMask = DefaultRaycastLayers);
 ```
 
-Refer to Unity's [Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html) for specific usage. We can implement collision detection as follows:
+Please refer to Unity's [Reference](http://docs.unity3d.com/Documentation/ScriptReference/Physics.Raycast.html)We can achieve collision detection in the following way:
 
 ```c#
 RaycastHit hitInfo;
@@ -68,13 +68,12 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-The `targetPosition` is the position of the collision. Set the camera's position to the collision position and you're good to go.
+`targetPosition` is the position of the collision; just set the camera's position to the collision position.
 
 After leaving the rigid body, slowly return to the original distance.
 ---------------------------------
-To accomplish this functionality, firstly, we need to record the desired distance (`desiredDistance`) and the current distance (`curDistance`) that the camera should be at. We will store the result of the scroll wheel operation in the `desiredDistance` variable and then calculate the new distance based on collision.
-
-When we detect that the camera has moved away from the rigid body or has collided with a farther rigid body, we cannot directly assign the position of the collision to the camera. Instead, we need to use a movement speed to approach the new distance. Let's retrieve the new distance first:
+To achieve this functionality, we first need to separately record the distance the camera should be at (`desiredDistance`) and the current distance (`curDistance`). We then store the result of the scroll wheel operation in `desiredDistance`, and subsequently calculate the new distance of the object based on collisions.
+When the camera is detected to leave the rigid body or collide with a more distant rigid body, the collision position cannot be directly assigned to the camera; instead, a movement speed needs to be used to move towards the new distance. First, we need to obtain the new distance:
 
 ```c#
 float newDistance = desiredDistance;
@@ -86,45 +85,43 @@ if (Physics.Raycast(playerTransform.position, desiredPosition - playerTransform.
 }
 ```
 
-So how can we determine if the camera is moving to a greater distance? We can compare `newDistances` with the current distance:
+So how can you determine if the camera is moving further away? You can compare `newDistances` with the current distance:
 
 ```c#
-// Move closer
+// Move closer.
 if (newDistance < curDistance)
 {
     curDistance = newDistance;
 }
-// Move towards a greater distance
+Move to a greater distance.
 else if(newDistance > curDistance)
 {
 }
 ```
 
-So, to determine the movement to a further distance, it becomes very intuitive, just add a velocity to move:
+So when it comes to determining the movement to a farther distance, it becomes quite intuitive; simply add a velocity to move.
 
 ```c#
 curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, newDistance);
 
 ```
-We have already completed the general behavior of the camera, but there are still some details that need to be handled.
+We have completed the general behavior of the camera, but there are still some details that need to be addressed.
 
-After encountering a rigid body, the roller zooms in and the ground does not scale.
+When encountering a rigid body, the rear roller approaches without scaling the ground.
 ------------------
-Here are two requirements:
+There are two requirements here:
 
-Translate these text into English language:
+1. After encountering a rigid body, you can only move closer, not farther away.
+Cannot shrink after touching the ground.
 
-1. After encountering a rigid body, you can only pull it closer, not farther apart.
-2. After contacting the ground, you cannot scale it.
-
-First, use a variable to store the collision status of the camera:
+First, use a variable to save the camera's collision status:
 
 ```c#
 bool isHitGround = false;       // Indicates whether it has collided with the ground
-bool isHitObject = false;       // Indicates whether it has collided with a rigid body (excluding the ground)
+bool isHitObject = false;       // Indicates whether a rigid body is collided (excluding the ground)
 ```
 
-Add conditional judgment when determining the zooming of the scroll wheel:
+Add conditional judgment when determining the scroll wheel zoom:
 
 ```c#
 if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
@@ -133,31 +130,31 @@ if (zoom != 0F && (!isHitGround || (isHitObject && zoom > 0F)) )
 }
 ```
 
-Meet the ground and rotate around oneself up and down.
+Rotating up and down around itself upon contact with the ground.
 -----------------
-This functionality is a bit complicated to implement. It is necessary because our previous assumption that the camera is always pointed at the character no longer holds true. At this point, we need to split it into two vectors: the camera's orientation (`desireForward`) and the direction from the character to the camera (`cameraToPlayer`). We calculate the values for these two vectors separately. The former determines the camera's orientation, while the latter determines the camera's position. For convenience, we have divided the rotation function from the previous episode into two parts: X rotation (`RotateX`) and Y rotation (`RotateY`). Therefore, when calculating `RotateY` for `cameraToPlayer`, we add a condition:
+(unity-Unity第三人称相机构建(上)Split the rotation function of .md file into X rotation (`RotateX`) and Y rotation (`RotateY`), then when calculating `cameraToPlayer`'s `RotateY`, add the condition:
 
 ```c#
-if ((!isHitGround) ||
+if ((!isHitGround) || 
     (isHitGround && transform.forward.y <= cameraToPlayer.y && yAngle > 0))
 {
-    cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up,
+    cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up, 
         transform.right, yAngle);
 }
 ```
 
-This condition has two parts:
+This condition consists of two parts:
 
-- Did not touch the ground.
-- Touched the ground but is ready to leave the ground.
+Not touched the ground.
+- Touching the ground, but ready to leave the ground
 
-Then use `cameraToPlayer` to calculate the position of the camera:
+Then calculate the position of the camera using `cameraToPlayer`:
 
 ```c#
 transform.position = playerTransform.position - cameraToPlayer * curDistance;
 ```
 
-And calculate the orientation of the camera when necessary (i.e. when it encounters the ground):
+And calculate the camera orientation when needed (when it meets the ground):
 
 ```c#
 if (!isHitGround)
@@ -172,17 +169,9 @@ else
 }
 ```
 
-We have implemented the behavior of this camera.
+We have achieved all the functions of this camera.
 
 Complete code:
-
-def hello_world():
-    print("Hello, world!")
-
-hello_world()
-
-Output:
-Hello, world!
 
 ```c#
 using UnityEngine;
@@ -198,32 +187,32 @@ public class MyThirdPersonCamera : MonoBehaviour {
     public int mouseWheelZoomMin = 2;       // min distance
     public int mouseWheelZoomMax = 10;      // max distance
 
-    public float rotateSpeed = 5F;          // speed of rotate around player
-    public float autoZoomOutSpeed = 10F;    // speed of auto zoom out, camera will auto zoom out
+    public float rotateSpeed = 5F;          // speed of rotate around player    
+    public float autoZoomOutSpeed = 10F;    // speed of auto zoom out, camera will auto zoom out 
                                             // to pre distance when stop colliding object
     float curDistance = 5F;                 // distance to player
-    float desiredDistance = 5F;             // distance should be
+    float desiredDistance = 5F;             // distance should be      
     bool isHitGround = false;               // hit ground flag
     bool isHitObject = false;               // hit object(except ground) flag
-
+    
     // Use this for initialization
     void Awake ()
     {
         playerTransform = transform.parent;
     }
 
-    void Start ()
+    void Start () 
     {
-        transform.position = playerTransform.position - playerTransform.forward
+        transform.position = playerTransform.position - playerTransform.forward 
             * curDistance;
         transform.LookAt(playerTransform);
-
+        
     }
-
+    
     // Update is called once per frame
-    void Update ()
+    void Update () 
     {
-        Vector3 cameraToPlayer =
+        Vector3 cameraToPlayer = 
             (playerTransform.position - transform.position).normalized;
 
         Vector3 desireForward = transform.forward;
@@ -248,7 +237,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         }
 
         // rotate camera by y-axis, if camera is not on ground or camera is going to leave ground
-        if ((!isHitGround)
+        if ((!isHitGround) 
         || (isHitGround && transform.forward.y <= cameraToPlayer.y && yAngle > 0))
         {
             cameraToPlayer = RotateY(cameraToPlayer, playerTransform.up, transform.
@@ -256,7 +245,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         }
 
         // detect collision of camera to rigid body, get the distance camera should be
-        float newDistance = DealWithCollision(playerTransform.position,
+        float newDistance = DealWithCollision(playerTransform.position, 
             -cameraToPlayer, desiredDistance,ref isHitGround, ref isHitObject);
 
         // check the distance
@@ -267,7 +256,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
         else
         {
             // now moving to farther position, use a speed to move it
-            curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed,
+            curDistance = Math.Min(curDistance + Time.deltaTime * autoZoomOutSpeed, 
                 newDistance);
         }
 
@@ -356,7 +345,7 @@ public class MyThirdPersonCamera : MonoBehaviour {
     }
 
     // return distance if no collision, else return distance to rigid body
-    float DealWithCollision(Vector3 origin, Vector3 direction, float distance,
+    float DealWithCollision(Vector3 origin, Vector3 direction, float distance, 
         ref bool ishitGround, ref bool ishitObject)
     {
         // collision detection
@@ -389,4 +378,4 @@ public class MyThirdPersonCamera : MonoBehaviour {
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post was translated using ChatGPT, please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

@@ -1,16 +1,16 @@
 ---
 layout: post
-title: Unity réalise la dispersion de la lumière volumétrique (Volumetric Light Scattering,
-  crepuscular rays)
+title: Unity implements volumetric light scattering (Volumetric Light Scattering,
+  Cloud Gaps Light)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: La diffusion volumétrique de la lumière est un effet visuel assez sympa,
-  on dirait presque que l'on voit la propagation de la lumière dans l'air, les particules
-  en suspension dans l'air sont éclairées par la lumière, tandis qu'une partie des
-  rayons lumineux est masquée, créant visuellement des rayons émis par la source lumineuse.
+description: Le scattering de la lumière volumique est un effet visuel plutôt agréable,
+  comme si vous pouviez voir la lumière se propager dans l'air, les particules dans
+  l'air illuminées par la lumière, tandis qu'une partie de la lumière est obscurcie,
+  créant visuellement des rayons qui semblent émaner de la source lumineuse.
 figures:
 - assets/post_assets/2014-3-30-unity-light-scattering/effect.gif
 ---
@@ -19,43 +19,45 @@ figures:
 
 ##Principe
 
-(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)，Dans le livre, il y a des illustrations utiles :
+(http://http.developer.nvidia.com/GPUGems3/gpugems3_ch13.html)，livre avec des images de résultats :
 
 ![](assets/img/2014-3-30-unity-light-scattering/goodeffect.png)
 
-C'est agréable à voir, d'accord, notre objectif est d'atteindre ce résultat.
+C'est joli, n'est-ce pas ? Très bien, notre objectif est d'atteindre cet effet.
 
 Le livre présente les principes, une formule clé est :
 
 \\[ L(s, \theta, \phi) = exposure \times \sum\_{i=0}^n decay^i \times weight \times \frac{L( s\_i, \theta\_i )}{n} \\]
 
-Mon interprétation est que, pour chaque pixel de l'image, la lumière peut être projetée, donc un échantillonnage est effectué le long de la ligne reliant ce pixel à la source lumineuse (correspondant à la variable \\(i\\)), les résultats de l'échantillonnage sont pondérés et moyennés (correspondant à la somme dans l'équation) pour obtenir la nouvelle valeur de couleur du pixel. De plus, il est essentiel d'avoir un shader de post-traitement, cependant si seul ce shader est utilisé pour traiter le rendu de la caméra, cela laissera des artefacts visibles, avec de nombreuses bandes apparaissant.
+Ma compréhension est que pour chaque pixel sur l'image, la lumière peut potentiellement l'éclairer. Ainsi, il s'agit de prélever un échantillon sur la ligne reliant ce pixel à la source lumineuse (à la position projetée sur l'image) (correspondant à la formule \\(i\\)), d'effectuer une moyenne pondérée des résultats de l'échantillon (correspondant à la formule \\(\sum\\)) et de l'utiliser comme nouvelle valeur de couleur pour ce pixel. De plus, il y a un shader de pixel post-traitement clé, mais si l'on utilise uniquement ce shader pour traiter les résultats du rendu de la caméra, cela produira des traces artificielles évidentes, avec de nombreuses bandes.
 
 ![](assets/img/2014-3-30-unity-light-scattering/badeffect.png)
 
-Alors, comment est produite l'effet décrit dans le livre ? En réalité, le livre fournit déjà une réponse, qui peut être expliquée à l'aide d'un ensemble d'images :
+Comment le résultat du livre est-il obtenu ? En réalité, le livre donne déjà la réponse, il peut être expliqué à l'aide d'un ensemble de graphiques :
 
 ![](assets/img/2014-3-30-unity-light-scattering/steps.png)
 
-La graphique a est un effet grossier, si on regarde de près, on peut voir de nombreuses rayures et il n'est pas assez réaliste. Les étapes b, c et d sont nécessaires pour obtenir un bon résultat :
+Le texte à traduire en français est le suivant :
 
-Rendu des effets d'éclairage diffus sur l'image et ajout des masques d'objet.
+图a 就是粗糙的效果，细心地可以看到有许多条纹，并且没有遮挡不够真实，b、c、 d就是为了获得好的效果需要进行的步骤：
 
-Appliquer le shader de diffusion lumineuse volumétrique à b pour obtenir l'effet de l'occultation.
+b. Appliquer l'effet de rayonnement de la lumière à l'image et ajouter l'occultation des objets.
 
-Ajoutez les couleurs de la scène réelle.
+Appliquer le shader de diffusion de la lumière volumétrique à b pour obtenir l'effet après occultation.
 
-Alors maintenant, passons à la mise en œuvre étape par étape.
+Ajouter les couleurs de scène réelles.
 
-##Peindre des objets obstruants
+Alors, procédons étape par étape pour réaliser cela.
 
-Dans la pratique, j'utilise d'abord `RenderWithShader` pour peindre en noir les objets qui seront occultés et en blanc les autres. Cela nécessite de rendre chaque face individuellement, ce qui peut entraîner une certaine perte de performances pour des scènes complexes. Les objets de la scène peuvent être opaques ou transparents. Nous voulons que les objets opaques bloquent entièrement la lumière, tandis que les objets transparents ne bloquent qu'en partie. Par conséquent, nous devons écrire des shaders différents pour les objets de différents RenderType. Le RenderType est une balise du SubShader, si vous n'êtes pas sûr, vous pouvez consulter [ici](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)Une fois que c'est bien écrit, appelez :
+##Dessiner des objets de遮挡.
+
+Dans la pratique, j'utilise d'abord `RenderWithShader` pour peindre les objets susceptibles d'être occultés en noir, tandis que les autres zones restent blanches. Cela nécessite de rendre chaque face, ce qui peut entraîner une certaine consommation de performances dans des scènes complexes. Dans la scène, il y a des objets opaques et transparents. Nous souhaitons que les objets opaques créent une occlusion complète, tandis que les objets transparents devraient engendrer une occlusion partielle. Par conséquent, nous devons rédiger des shaders différents selon les types de rendu (RenderType) des objets. Le RenderType est une balise (Tag) de SubShader, et si ce n'est pas clair, vous pouvez vérifier [ici](http://docs.unity3d.com/Documentation/Components/SL-SubshaderTags.html)Après l'avoir écrit, appelez :
 
 ```c#
 camera.RenderWithShader(objectOcclusionShader, "RenderType");
 
 ```
-Le deuxième paramètre de `RenderWithShader` demande simplement de remplacer le shader en fonction du type de rendu. En d'autres termes, le type de rendu du shader de remplacement doit correspondre à celui du shader d'origine sur le même objet, ce qui nous permet d'utiliser des shaders différents pour des objets de types de rendu différents.
+Le deuxième paramètre de `RenderWithShader` exige de remplacer le Shader en fonction du RenderType. En d'autres termes, le RenderType du Shader à remplacer doit être identique à celui d'avant le remplacement pour le même objet. Ainsi, nous pouvons utiliser des Shaders différents pour des objets de RenderType différents.
 
 ```glsl
 Shader "Custom/ObjectOcclusion" 
@@ -145,13 +147,13 @@ Shader "Custom/ObjectOcclusion"
 
 ```
 
-Notez la différence entre Shader pour les objets opaques et transparents : les objets opaques sont directement dessinés en noir ; ceux transparents nécessitent un blending, en utilisant le canal alpha de la texture de l'objet pour effectuer ce blending. Le code ci-dessus ne fait que mentionner Opaque et Transparent, mais il y a également TreeOpaque (Shader identique à Opaque, mais en changeant RenderType), TreeTransparentCutout (similaire à Transparent), etc. Étant donné que RenderType est spécifié, afin d'être exhaustif, il est nécessaire d'explorer autant que possible les objets susceptibles d'être occultés dans la scène. Dans mon cas, seules les quatre catégories mentionnées précédemment sont disponibles. Le résultat est globalement le suivant :
+Notez la différence entre les shaders des objets opaques et transparents : les objets opaques sont directement dessinés en noir ; les objets transparents nécessitent un mélange (blending) pour obtenir le canal alpha de la texture de l'objet et effectuer un mélange en fonction de cet alpha. Le code ci-dessus ne mentionne que les shaders Opaque et Transparent, mais il y a aussi TreeOpaque (même shader qu'Opaque, mais change de RenderType) et TreeTransparentCutout (similaire à Transparent). En spécifiant les RenderTypes, pour une couverture complète, il est nécessaire d'explorer le plus exhaustivement possible les objets susceptibles de se superposer dans la scène. Voici seulement les quatre types mentionnés précédemment. Les résultats approximatifs sont les suivants :
 
 ![](assets/img/2014-3-30-unity-light-scattering/objectocclusion.png)
 
-##Combiner l'occlusion des objets avec le rayonnement lumineux.
+##Combiner l'occlusion des objets et le rayonnement des sources lumineuses.
 
-Il n'est pas compliqué de dessiner le rayonnement de la source de lumière, mais il faut veiller à effectuer quelques ajustements en fonction de la taille de l'écran pour que le rayonnement de la source lumineuse soit circulaire :
+Il n'est pas difficile de dessiner la radiation d'une source lumineuse. Il est important de prendre en compte la taille de l'écran pour effectuer quelques ajustements, afin que la forme de la radiation de la source lumineuse soit circulaire.
 
 ```c#
 Shader "Custom/LightRadiate" 
@@ -203,13 +205,13 @@ Shader "Custom/LightRadiate"
 }
 ```
 
-Ce Shader nécessite en entrée la position de la source lumineuse à l'écran (peut être calculée en utilisant `camera.WorldToViewportPoint`, obtenant ainsi les coordonnées UV), puis dessine un cercle de luminosité décroissante vers l'extérieur selon un rayon spécifié. Il combine ensuite ce résultat avec l'image de l'objet précédemment obtenue (stockée dans `_MainTex`), le résultat est approximativement :
+Ce Shader nécessite l'entrée de la position de la source de lumière sur l'écran (peut être calculée avec `camera.WorldToViewportPoint`, qui donne les coordonnées UV), puis dessine un cercle avec une luminosité décroissante à l'extérieur en fonction du rayon spécifié. Ensuite, il combine le résultat avec l'image de l'objet obtenu précédemment (stocké dans `_MainTex`), donnant un rendu approximatif de :
 
 ![](assets/img/2014-3-30-unity-light-scattering/light.png)
 
-##Traitement de la diffusion de la lumière, associé à des couleurs réelles
+##Traitement de la diffusion de la lumière, en combinaison avec des couleurs réelles.
 
-Ici, vous devrez utiliser le Pixel Shader fourni dans le livre, voici ma version :
+Ici, nous allons utiliser le Pixel Shader fourni dans le livre. Voici ma version :
 
 ```glsl
 Shader "Custom/LightScattering" 
@@ -294,15 +296,15 @@ Shader "Custom/LightScattering"
 }
 ```
 
-En gros, ça correspond à ce qui est dans le livre, sauf que mes paramètres doivent être transmis dans le programme, et j'ai intégré de vraies images de couleurs et des graphiques de diffusion de la lumière. Le résultat :
+En gros, cela correspond à ce qui est dans le livre, sauf que mes paramètres doivent être passés dans le programme, et en combinant la véritable carte des couleurs et le graphique de diffusion de lumière, le résultat :
 
 ![](assets/img/2014-3-30-unity-light-scattering/effect.gif)
 
-##Le texte doit être traduit en français.
+##Code complet
 
-Le code est [ici](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)Ajoutez le script `cs` à la caméra.
+Le code se trouve [ici](assets/img/2014-3-30-unity-light-scattering/2014-3-30-unity-light-scattering.zip)Veuillez ajouter le script "cs" à la caméra.
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez signaler toute [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Indiquez tout ce qui aurait pu être omis. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez laisser vos [**commentaires**](https://github.com/disenone/wiki_blog/issues/new)Indiquez tout ce qui manque. 

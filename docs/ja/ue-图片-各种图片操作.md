@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE でさまざまな画像（UTexture2D）操作（読み込み、保存、コピー、クリップボード...）を実現します。
+title: UEでさまざまな画像（UTexture2D）操作を実現します（読み込み、保存、コピー、クリップボード...）
 tags:
 - dev
 - game
@@ -16,28 +16,26 @@ tags:
 - Copy
 - Save
 - Clipboard
-description: UE は、ローカルシステムの画像を読み込む機能を実現する。
+description: UE はローカルシステムの画像を読み込むことを実現しました。
 ---
 
 <meta property="og:title" content="UE 实现读取本地系统图片" />
 
-#UEで様々な画像（UTexture2D）操作を実現する（読み込み、保存、コピー、クリップボード...）
+#UEでは、さまざまな画像 (UTexture2D) の操作 (読み込み、保存、コピー、クリップボード...) を実現します。
 
-> 以下のコードはすべて、UE5.3バージョンを例にしています。
+> 以下のコードはすべてUE5.3バージョンを例にしています。
 
 ##ソースコード
 
-UEストアでプラグイン[AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+UE商店で[AICChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##指定されたテキストを日本語に翻訳するとこうなります：
+##指定テキストを日本語に翻訳してください：UEがローカルシステムの画像をUTexture2Dとして読み込む。
 
-UEは、ローカルシステムの画像をUTexture2Dとして読み込む機能を実現します。
+###通用方法
 
-###一般的な手法
+本方法は、エディターおよびゲームプレイモードの両方で利用可能で、対応する画像ファイル形式は PNG, JPEG, BMP, ICO, EXR, ICNS, HDR, TIFF, DDS, TGA であり、一般的に使用される画像タイプの大部分をカバーしています。
 
-この手法はエディターとゲームプレイモードの両方で機能し、PNG、JPEG、BMP、ICO、EXR、ICNS、HDR、TIFF、DDS、TGAといったサポートされている画像ファイル形式をカバーし、一般的な画像タイプの大部分を基本的にサポートしています。
-
-コードも非常にわかりやすいです：
+コードも非常にシンプルです：
 
 ```cpp
 #include <Engine/Texture2D.h>
@@ -52,11 +50,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 
 ```
 
-返り値は UTexture2D です。
+戻り値は UTexture2D です。
 
-###エディタ専用メソッド
+###エディター専用メソッド
 
-この手法を使用すると、さらに多くの画像形式をサポートできます：UDIMテクスチャマップ、IESファイル、PCX、PSD。
+この方法を使用すると、さらに多くの画像タイプをサポートできます：UDIMテクスチャマップ、IESファイル、PCX、PSD。
 
 コードの実装は少し複雑になります：
 
@@ -90,11 +88,11 @@ UTexture2D* LoadImage(const FString& InLoadPath)
 #endif
 ```
 
-UTextureFactoryのFactoryCreateBinary関数を使用して実装しました。この関数は、先に言及した追加ファイルタイプを読み取ることができます。
+実装は UTextureFactory の FactoryCreateBinary 関数を使用して行われました。この関数は、前述の追加ファイルタイプを読み込むことができます。
 
-##コピー：UE で UTexture2D をコピーする
+##コピー：UEがUTexture2Dを複製する
 
-時折、UTexture2D をコピーして、それを修正する必要があります。画像のコピーには、エンジンに備わった `FImageCore::CopyImage` 関数が必要です。2 つの画像のパラメータを設定し、このインターフェースを呼び出すだけで大丈夫です。
+時には、UTexture2Dをコピーして、そのコピーした画像を修正する必要があります。画像をコピーするには、エンジンに組み込まれている `FImageCore::CopyImage` 関数を使用する必要があります。2つの画像のパラメータを設定し、このインターフェイスを呼び出すだけで良いです。
 
 ```cpp
 UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EObjectFlags Flags)
@@ -150,9 +148,9 @@ UTexture2D* CopyTexture2D(UTexture2D* InTexture, UObject* Outer, FName Name, EOb
 }
 ```
 
-##保存：UEのUTexture2Dをファイルに保存する
+##保存：UE が UTexture2D をファイルに保存する実装
 
-使用引擎函数 `FImageUtils::SaveImageAutoFormat` 来实现这个功能是相对简单的，但需要留意处理失败后的重试情况。
+主要は`FImageUtils::SaveImageAutoFormat`というエンジン関数を使うことで、実装は比較的簡単ですが、失敗時のリトライに注意する必要があります。
 
 ```cpp
 void SaveImage(UTexture2D* InImage, const FString& InSavePath)
@@ -183,11 +181,11 @@ void SaveImage(UTexture2D* InImage, const FString& InSavePath)
 }
 ```
 
-##保存：UE内でUTexture2Dをアセットに保存する
+##保存：UE における UTexture2D のアセットへの保存
 
-メモリ中の UTexture2D をアセットに保存し、リソースブラウザ（Content Browser）で確認できるようにします。
+UTexture2Dをメモリ内に保存し、アセットとして保存し、コンテンツブラウザで表示できます。
 
-核心機能では、上記で実装した `CopyTexture2D` が必要です。まず新しい画像をコピーして、その後に `UPackage::SavePackage` を呼び出して画像が含まれる `Package` をアセットとして保存する必要があります。
+The core function requires the use of the aforementioned "CopyTexture2D" implementation. We need to first create a copy of the image, and then call "UPackage::SavePackage" to save the package where the image is located as an asset.
 
 ```cpp
 
@@ -250,22 +248,22 @@ void SaveTextureToAsset(UTexture2D* InTexture)
 }
 ```
 
-##クリップボード：UEで画像（UTexture2D）をWindowsクリップボードにコピーする。
+##クリップボード：UEで画像（UTexture2D）をWindowsクリップボードにコピーする
 
 ###Windowsに関連する関数
 
-以下のWindows操作に関連する関数を使用します：
+以下の Windows 操作におけるクリップボード関連の関数を使用します：
 
-* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)クリップボードを開いて、クリップボードのハンドラーを取得します。
-* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)剪贴板をクリアし、剪貼板の所有権を現在のウィンドウに割り当てます。
-* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)クリップボードにデータを設定し、画像のデータはこのインターフェースを通じてクリップボードに送信されます。
-* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)データを設定した後、クリップボードを閉じます。
+* [OpenClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard)クリップボードを開いて、クリップボードのハンドラを取得します。
+* [EmptyClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard)クリップボードをクリアし、クリップボードの所有権を現在のウィンドウに割り当てます。
+* [SetClipboardData](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata)クリップボードにデータを設定し、画像データはこのインターフェースを介してクリップボードに送信されます。
+* [CloseClipboard](https://learn.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard)データの設定が完了したら、クリップボードを閉じます。
 
 ###クリップボードの画像形式
 
-(https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)使用可能なクリップボード形式が紹介されており、`CF_DIBV5` は画像を設定するために使用できることが説明されています。
+[標準クリップボード形式](https://learn.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats)中には利用可能なクリップボード形式が紹介されており、その中の `CF_DIBV5` は画像設定に使用できます。
 
-(https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)ここでは、以下の構成を選択します。
+CF_DIBV5 requires a specific definition format [BITMAPV5HEADER structure](https://learn.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header)こちらでは、以下の設定を選択しています。
 
 ```cpp
 BITMAPV5HEADER Header;
@@ -275,7 +273,7 @@ Header.bV5Compression   = BI_BITFIELDS;
 
 ###UTexture2Dの設定
 
-上の選択したクリップボード画像の色空間は `LCS_sRGB`、つまりsRGB色空間ですので、UTexture2Dも対応する形式に設定する必要があります：
+上では、クリップボード画像の色空間に `LCS_sRGB`、つまりsRGB色空間を選択しましたので、UTexture2Dも対応する形式に設定する必要があります：
 
 ```cpp
 bool ConvertTextureToStandard(UTexture2D* InTexture)
@@ -297,9 +295,9 @@ bool ConvertTextureToStandard(UTexture2D* InTexture)
 }
 ```
 
-ConvertTextureToStandard は、UTexture2D を標準形式である TC_VectorDisplacementmap (RGBA8) と SRGB カラー空間に変換する担当です。UTexture2D とWindowsのクリップボードの画像形式を整えたら、画像データをクリップボードにコピーできます。
+ConvertTextureToStandardは、UTexture2Dを標準形式に変換する責任があります：TC_VectorDisplacementmap (RGBA8)およびSRGBカラースペース。UTexture2DとWindowsクリップボードの画像形式を整合させた後、画像データをクリップボードにコピーすることができます。
 
-###具体なコード
+###具体コード
 
 ```cpp
 void CopyTexture2DToClipboard(UTexture2D* InTexture)
@@ -392,9 +390,9 @@ void CopyTexture2DToClipboard(UTexture2D* InTexture)
 }
 ```
 
-###UTexture2DとBase64の間の変換
+###UTexture2D と Base64 との変換
 
-この実装は比較的簡単ですね。コードを記述していきましょう。
+これは実装が比較的簡単なので、直接コードを見てみましょう。
 
 ```cpp
 #include <Misc/Base64.h>
@@ -433,4 +431,4 @@ FString ImageToB64(UTexture2D* InTexture, const int32 InQuality)
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中の指は何か抜け漏れがあれば教えてください。 
+> この投稿はChatGPTを使用して翻訳されました。フィードバックは[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 -> どんな抜け漏れでも指摘してください。 

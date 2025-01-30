@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ملحقات محرر UE.EditorPlus لبرنامج UE - وثائق الشرح
+title: UE محرر الإضافات UE.EditorPlus الوثائق التوضيحية
 tags:
 - dev
 - game
@@ -11,57 +11,55 @@ tags:
 - Editor
 - Editor Plus
 - Editor Plugin
-description: ملحقات محرر UE ‏ UE.EditorPlus ‏ توثيق
+description: ملحق محرر UE.EditorPlus UE! توضيحات توثيقية
 ---
 
 <meta property="og:title" content="UE 编辑器插件 EditorPlus 说明文档" />
 
-#ملحق محرر UE.EditorPlus في وثيقة التوضيح UE.
+#UE محرر المكونات الإضافية UE.EditorPlus وثيقة الشرح
 
-##عفوًا، لا يمكنني تقديم الترجمة لهذا النص لأنه لا يحتوي على معنى بوضوح.
+##فيديو التعريف
 
 ![type:video](assets/img/2024-ue-editorplus/market/video.mp4)
 
-##Source code of the plugin
+##كود مصدر الإضافة
 
 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)
 
-##تحميل المتجر
+##تنزيل المتجر
 
 [EditorPlus](https://www.unrealengine.com/marketplace/zh-CN/product/editorplus)
 
-##إضافة مشروع لمكون الشيفرة EU.EditorPlus
+##إضافة مصدر المشروع الإضافي EU.EditorPlus
 
-المراجع:
+الرجاء تقديم نص باللغة الإنجليزية للترجمة.
 
-ترجمة النص إلى اللغة العربية:
-
-- 中文：[قام UE بإضافة الإضافات عن طريق إضافة كود المصدر الخاص بالإضافات](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
+الصينية: [أوي يضيف المكونات عبر مصدر البرنامج النصي للمكونات](https://wiki.disenone.site/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 - English: [UE adds plugins through the plugin source code](https://wiki.disenone.site/en/ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/)
 
 
-##شرح الإضافة
+##وصف الإضافة
 
-UE.EditorPlus هو إضافة محرر UE توفر طريقة مريحة لتوسيع قوائم المحرر، وتدعم طرقًا متقدمة للتوسيع، بالإضافة إلى تضمين بعض الأدوات المفيدة للمحرر. تدعم هذه الإضافة UE5.3+.
+UE.EditorPlus هو مكون إضافي لمحرر UE، يقدم طريقة مريحة لتوسيع قائمة المحرر، ويدعم طرقًا متقدمة للتوسيع، بالإضافة إلى احتوائه على بعض أدوات المحرر المفيدة. هذا المكون الإضافي يدعم UE5.3+.
 
 
-##وسع قائمة المحرر
+##توسيع قائمة المحرر
 
 ![](assets/img/2024-ue-editorplus/menu.png)
 
 ![](assets/img/2024-ue-editorplus/toolbar.png)
 
-###لا أستطيع ترجمة الحروف الصينية.
+###说明
 
-دعم توسيع قائمة المحرر بأشكال متعددة:
+دعم توسيع قائمة المحرر بطرق متعددة:
 
-سبيل الطريق: `RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
-- طريقة التهيئة: 'EP_NEW_MENU(FEditorPlusMenuBar)("Bar")'
-أسلوب الاختلاط: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action", EP_NEW_MENU(FEditorPlusCommand)("Action")`
+- طريقة المسار: `RegisterPathAction("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action")`
+- طريقة التهيئة: `EP_NEW_MENU(FEditorPlusMenuBar)("Bar")`
+- النوع المختلط: `RegisterPath("/<MenuBar>Bar/<SubMenu>SubMenu/<Command>Action",EP_NEW_MENU(FEditorPlusCommand)("Action")`
 
-###طريقة المسار
+###أسلوب الطريق
 
-يمكنك تسجيل أمر القائمة لمحرر بهذه الطريقة:
+يمكن تسجيل أمر قائمة المحرر بهذه الطريقة:
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -73,26 +71,26 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-بهذه الطريقة يمكنك إضافة شريط قائمة جديد بعد قائمة المساعدة في شريط القوائم في المحرر. يجب أن يتضمن الشريط Bar قائمة فرعية تسمى SubMenu. ويجب أن تحتوي SubMenu على الأمر Action.
+بهذه الطريقة يمكن إضافة شريط قائمة Bar بعد قائمة المساعدة Help في محرر القائمة، حيث يتم إضافة قائمة فرعية SubMenu داخل Bar، وداخل SubMenu يتم إضافة أمر Action.
 
-سيكون تنسيق المسار الكامل على النحو التالي: `/ <Hook> HookName / <Type1> Name1 / <Type2> Name2` ، يجب أن يكون المسار الأول `<Hook>` ، الأنواع المدعومة حاليًا والقيود:
+تكون صيغة المسار الكامل على النحو التالي: `/<Hook>HookName/<Type1>Name1/<Type2>Name2`، يجب أن يكون المسار الأول هو `<Hook>`، والأنواع والقيود المدعومة حالياً:
 
-- `<Hook>`: تعني الحاجة إلى إنشاء القائمة في أي مكان في هوك، لا يمكن أن يكون هناك `<Hook>` في المسار التالي.
-`<MenuBar>`: شريط القوائم، لا يجب أن يحتوي المسار اللاحق على `<Hook>`، `<MenuBar>`، `<ToolBar>`
-- `<ToolBar>`: شريط الأدوات، لا يجب أن يكون هناك `<Hook>، <MenuBar>، <ToolBar>` في المسار اللاحق.
-- `<Section>`: تقسيم القائمة، يجب ألا يحتوي المسار الذي يليه على `<Hook> ، <MenuBar> ، <Section>`
-- `<Separator>`: فاصل في القائمة، لا يمكن أن تحتوي المسارات اللاحقة على `<Hook>، <MenuBar>`
-- `<SubMenu>`: قائمة فرعية، لا يجب أن يحتوي المسار الخلفي على `<Hook>`، `<MenuBar>`
-`<Command>`: أمر القائمة، لا يجب أن يتضمن أي مسار بعده.
-- `<Widget>`: مزيد من عناصر واجهة المستخدم القابلة للتوسيع والتخصيص في Slate، دون وجود أي مسار بعد ذلك.
+- `<Hook>`: تعني الحاجة إلى إنشاء القائمة في موضع الـ Hook المحدد، والمسموح بالمسارات اللاحقة أن لا تحتوي على `<Hook>`
+- `<MenuBar>`: شريط القوائم، لا يمكن وضع `<Hook>` أو `<MenuBar>` أو `<ToolBar>` في المسار الخلفي
+- `<ToolBar>`: شريط الأدوات، يجب ألا يكون هناك `<Hook>`، `<MenuBar>`، أو `<ToolBar>` بعده.
+- `<Section>`: تقسيم القائمة، لا يمكن وجود `<Hook>، <MenuBar>، <Section>` في الطريق الخلفي.
+- `<Separator>`: فاصل القائمة، لا يمكن أن يحتوي المسار التالي على `<Hook>، <MenuBar>`
+- `<SubMenu>`: قائمة فرعية، لا يمكن أن تحتوي المسارات التالية على `<Hook>, <MenuBar>`
+- `<Command>`: أمر القائمة، ولا يمكن أن يتبعه أي مسار.
+- `<Widget>`: مكون واجهة مستخدم Slate الحديث والقابل للتوسيع بشكل مخصص، دون وجود مسارات معينة بعده
 
-أسلوب المسار البسيط أكثر: `/اسم_الشريط/اسم_القائمة_الفرعية1/اسم_القائمة_الفرعية2/اسم_الأمر`، إذا لم يتم تحديد النوع، فإن العنصر في بداية المسار هو `<قائمة الشريط>`، العنصر الأوسط هو `<القائمة الفرعية>`، والعنصر الأخير هو `<الأمر>`。
+مسار شكل أبسط: `/BarName/SubMenuName1/SubMenuName2/CommandName`، إذا لم يتم تحديد النوع، فإن المسار الافتراضي الأول هو `<MenuBar>`، والتي في المنتصف هي `<SubMenu>`، والأخير هو `<Command>`.
 
-إذا لم يتم تحديد "<Hook>", فسيتم إضافة تلقائيًا "<Hook>Help" في الجزء الأمامي، مما يعني إضافة شريط القائمة بعد قائمة المساعدة.
+إذا لم يتم تحديد `<Hook>` ، فسيتم إضافة `<Hook>Help` تلقائيًا في البداية لتمثيل إضافة شريط القائمة بعد قائمة المساعدة.
 
-###نوع تجسيد
+###أسلوب التجسيد
 
-الطريقة Pathway تقوم بتحويل جميع العناصر إلى مثيلات وفقًا للنوع والمعلمات الافتراضية تلقائيًا، وبالإمكان لدينا أيضًا التحكم اليدوي في عملية التحويل، مما يسمح بالتحكم الدقيق في محتوى التوسيع.
+طريقة المسار هي تلقائيًا إنشاء جميع العقد حسب النوع والمعلمات الافتراضية، ويمكننا أيضًا التحكم في عملية الإنشاء بأنفسنا، مما يتيح لنا التحكم بشكل أكثر دقة في محتوى التوسيع.
 
 ```cpp
 EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips"))
@@ -109,9 +107,9 @@ EP_NEW_MENU(FEditorPlusMenuBar)("MyBar", "MyBar", LOCTEXT("MyBar", "MyBar"), LOC
 });
 ```
 
-عند تثبيت `MyBar` ، يُمكن تمرير اسم الخطاف، اسم الدليل المحلي، ومعلمة التلميح المحلية (`"MyBar" ، LOCTEXT("MyBar" ، "MyBar"), LOCTEXT("MyBarTips" ، "MyBarTips")`). يُعادل الكود أعلاه الطريقة المتبَعة `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
+عند تثبيت `MyBar` ، يمكن تمرير اسم الخطاف، الاسم المحلي، ومعاملات الإرشاد المحلية (`"MyBar", LOCTEXT("MyBar", "MyBar"), LOCTEXT("MyBarTips", "MyBarTips")`). الرمز أعلاه يعتبر ما يعادل الطريق `/<Hook>Help/<MenuBar>MyBar/<SubMenu>MySubMenu/<Command>MyAction`.
 
-###الوضع المختلط
+###طريقة المزج
 
 بالطبع يمكن استخدام الطريقتين معًا:
 
@@ -126,17 +124,17 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-في هذا السياق، ستقوم الإضافة التلقائي بتوليد عقد وسيط بشكل تلقائي، وسيتم استخدام العقد النهائي مع العقد الذي يتم توليده من قبل المستخدم.
+في هذه الحالة، ستقوم الوصلة التكميلية بتحويل العقد الوسيطة تلقائيًا، وسيتم استخدام العقد الذي قام المستخدم بتحويله للعقد النهائي.
 
 ###مزيد من الأمثلة
 
-ملف الرأس:
+رأس الملف:
 
 ```cpp
 #include <EditorPlusPath.h>
 ```
 
-تحديد اللغة المحلية باستخدام طريقة المسار، `EP_FNAME_HOOK_AUTO` تعني استخدام اسم المسار تلقائيًا كاسم "الـ Hook" :
+تحديد اللغة المحلية عن طريق المسار، `EP_FNAME_HOOK_AUTO` يشير إلى استخدام اسم المسار تلقائيًا كاسم "Hook"،
 
 ```cpp
 FEditorPlusPath::RegisterPathAction(
@@ -150,7 +148,7 @@ FEditorPlusPath::RegisterPathAction(
         LOCTEXT("ActionTips", "ActionTips"));
 ```
 
-احصل على العقد من خلال المسار وقم بتعيين النص المحلي:
+من خلال المسار الحصول على العقدة وتعيين النص المحلي:
 
 ```cpp
 FEditorPlusPath::GetNodeByPath("/MenuTest")
@@ -159,7 +157,7 @@ FEditorPlusPath::GetNodeByPath("/MenuTest")
 ```
 
 
-أضف عنصر تحكم واجهة المستخدم Slate إلى نهاية المسار
+قم بإضافة عنصر تحكم Slate UI إلى نهاية المسار
 
 ```cpp
 FEditorPlusPath::RegisterPath(
@@ -169,33 +167,33 @@ FEditorPlusPath::RegisterPath(
 );
 ```
 
-أضف مقطعًا جديدًا داخل Hook المضمّن في UE.
+أضف معلومات جديدة إلى الخطاف الذي توفره الوحدة النمطية في منطقة الشرق الأوسط.
 
 ```cpp
 FEditorPlusPath::RegisterPath("<Hook>EpicGamesHelp/<Separator>ExtendSeparator")
 ```
 
-عدة تصريحات لنفس المسار تُعتبر مسارًا واحدًا، مما يمكن من توسيع هذا المسار بشكل متواصل.
+تم التعرف على نفس المسار عند التصريح به عدة مرات كأنه نفس المسار، مما يسمح بالتوسع المستمر لنفس المسار.
 
 ```cpp
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path1", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path1", "Path1"), LOCTEXT("Path1Tips", "Path1Tips"));
 FEditorPlusPath::RegisterPathAction("/MenuTest/SubMenu1/SubMenu1/Path2", Action, EP_FNAME_HOOK_AUTO, LOCTEXT("Path2", "Path2"), LOCTEXT("Path2Tips", "Path2Tips"));
 ```
 
-تواصل توسيع المسار لعقد واحد
+لتمديد المسار لعقدة معينة
 
 ```cpp
 auto node = FEditorPlusPath::GetNodeByPath("/MenuTest");
 FEditorPlusPath::RegisterChildPath(node, "<SubMenu>Sub/<Separator>Sep");
 ```
 
-احذف مسارًا
+مسح مسار
 
 ```cpp
 FEditorPlusPath::UnregisterPath("/MenuTest/SubMenu1/SubMenu1/Path1");
 ```
 
-تمديد شريط الأدوات
+شريط أدوات التوسيع
 ```cpp
 FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 ->Content({
@@ -204,7 +202,7 @@ FEditorPlusPath::RegisterPath("/<Hook>ProjectSettings/<ToolBar>MenuTestToolBar")
 });
 ```
 
-###شرح الواجهة
+###واجهة الشرح
 
 ```cpp
 class EDITORPLUS_API FEditorPlusPath
@@ -232,15 +230,15 @@ public:
 };
 ```
 
-تسجيل المسار: إنشاء قائمة المسارات
-- `RegisterPathAction`: يولّد قائمة مسارات، ويقوم تلقائياً بربط عملية بعقد `<Command>` في النهاية.
-`RegisterChildPath`: لتوليد مسارات فرعية للعقدة المحددة
-"RegisterChildPathAction": لتوليد مسارات فرعية للعقد المحدد وربط الإجراءات تلقائيًا
-- `UnregisterPath`: حذف المسار، `Leaf` يمكن تحديد تطابقًا صارمًا حيث يوجد عديد من الفروع ذات الاسم نفسه. أثناء عملية الحذف، سيتم تتبع الفروع الوسيطة، حيث سيتم حذف الفرع الوسيط في حال عدم وجود أي فرع فرع فرعي تابع له.
-`GetNodeByPath`: الحصول على العقد بواسطة المسار
+`RegisterPath`: إنشاء قائمة مسار
+- `RegisterPathAction`：إنشاء قائمة المسار، وإجراء عملية الربط تلقائيًا لعقدة `<Command>` النهائية
+- `RegisterChildPath`: لمتابعة إنشاء مسارات فرعية للعقدة المحددة
+`RegisterChildPathAction`: إنشاء مسارات فرعية للعقد المحدد وربط الإجراء تلقائيا
+حذف المسار، `Leaf`، عندما يكون هناك عدة أجزاء نهائية بنفس الاسم، يمكن تحديد الانطباق الصارم. خلال عملية الحذف، سيتم التتبع الى الوراء للوصول الى القوقعود، و سيتم حذفه في حال لم يحتوي على أي عقد فرعية.
+- `GetNodeByPath`: الحصول على العقدة بناءً على المسار
 
 
-نوع العقد
+نوع العقدة
 
 ```cpp
 // base class of all node
@@ -263,14 +261,14 @@ class EDITORPLUS_API FEditorPlusCommand: public TEditorPlusMenuBaseLeaf {}
 class EDITORPLUS_API FEditorPlusWidget: public TEditorPlusMenuBaseLeaf {}
 ```
 
-يرجى الرجوع إلى الشيفرة المصدرية لمزيد من الأمثلة وشرح الواجهة [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)، إختبار الحالات [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
+لمزيد من الأمثلة وشرح الواجهات، يرجى الرجوع إلى الشيفرة المصدرية [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)，حالات الاختبار [MenuTest.cpp](https://github.com/disenone/UE.EditorPlus/blob/ue5.3/Source/EditorPlusTools/Private/MenuTest/MenuTest.cpp)
 
 
-###إدارة الوحدات
+###الإدارة القائمة على الوحدات
 
-UE.EditorPlus تقدم أيضًا إطارًا لإدارة القوائم الإضافية بشكل مودولار، يدعم تحميل الوحدات الإضافية وإلغاء تحميلها، مما يسمح بتحميل وإلغاء تحميل قوائم الإضافات تلقائيًا.
+UE.EditorPlus يوفر أيضًا إطارًا لإدارة قائمة التوسيع بشكل مُعَدّل، يدعم تحميل وإلغاء تحميل الإضافات تلقائيًا عند تحميل وإلغاء تحميل القائمة الموسعة.
 
-قم بجعل فئة القائمة تورث من `IEditorPlusToolInterface`، واستبدل الدوال `OnStartup` و `OnShutdown`. فونكشن `OnStartup` مسؤولة عن إنشاء القائمة، و `OnShutdown` مسؤولة عن استدعاء دالة 'Destroy' للقائمة لتنظيفها. عندما يصبح عدد مراجع العقدة صفرً، سيتم تنفيذ التنظيف التلقائي.
+دع الفئة القائمة ترث `IEditorPlusToolInterface`، وتتجاوز دالة `OnStartup` ودالة `OnShutdown`. `OnStartup` مسؤولة عن إنشاء القائمة، و`OnShutdown` مسؤولة عن استدعاء دالة `Destroy` الخاصة بالعقدة لتنظيف القائمة. إذا كانت إشارة العقدة الواحدة 0، فسيتم تنفيذ التنظيف التلقائي.
 
 ```cpp
 class FMenuTest: public IEditorPlusToolInterface
@@ -298,7 +296,7 @@ void FMenuTest::OnShutdown()
 }
 ```
 
-تمتاز فئة إدارة القوائم بالتمديد من `IEditorPlusToolManagerInterface`، وقامت بإعادة كتابة الدالة `AddTools`، حيث تقوم بإضافة فئة القوائم في داخل `AddTools`
+الصف الذي يدير القوائم يرث من واجهة `IEditorPlusToolManagerInterface`، ويعيد تنفيذ الدالة `AddTools`، ويضيف فئة القوائم في داخل `AddTools`.
 
 ```cpp
 class FEditorPlusToolsImpl: public IEditorPlusToolManagerInterface
@@ -317,7 +315,7 @@ void FEditorPlusToolsImpl::AddTools()
 }
 ```
 
-عند تحميل وإلغاء تحميل الإضافات، يتم استدعاء دوال فئة الإدارة `StartupTools` و `ShutdownTools` بشكل منفصل.
+عند تحميل وإلغاء تحميل الإضافات، يتم استدعاء دوال التشغيل `StartupTools` و `ShutdownTools` للفئة الإدارية.
 
 ```cpp
 void FEditorPlusToolsModule::StartupModule()
@@ -332,16 +330,16 @@ void FEditorPlusToolsModule::ShutdownModule()
 }
 ```
 
-عند إكمال التوافق أعلاه، يمكن تحميل وتفريغ قوائم التمديدات تلقائيًا أثناء تحميل وتفريغ الإضافات.
+بمجرد الانتهاء من التعديل أعلاه، يمكن تحميل وإلغاء تحميل قائمة التمديد تلقائيًا عند تحميل وإلغاء تحميل الإضافات.
 
 
-##أداة التحرير
+##أدوات المحرر
 
-UE.EditorPlus يوفر أيضًا بعض أدوات المحرر المفيدة
+يوفر UE.EditorPlus أيضًا بعض أدوات التحرير المفيدة.
 
 ##إنشاء نافذة المحرر
 
-من خلال استخدام البرنامج، يمكنك بسهولة إنشاء نافذة تحرير جديدة
+باستخدام EditorPlus، يمكنك بسهولة إنشاء نافذة محرر جديدة.
 
 ```cpp
 // register spawn tab
@@ -355,7 +353,7 @@ FEditorPlusPath::RegisterPathAction(
 );
 ```
 
-`SClassBrowserTab` هو عنصر تحكم واجهة مستخدم مخصص
+`SClassBrowserTab` هو عنصر واجهة مستخدم مخصص
 
 ```cpp
 class SClassBrowserTab final : public SCompoundWidget
@@ -369,17 +367,17 @@ class SClassBrowserTab final : public SCompoundWidget
 
 ### ClassBrowser
 
-ClassBrowser هو عارض صفحات الـ UE Class، يمكن فتحه عن طريق القائمة EditorPlusTools -> ClassBrowser.
+ClassBrowser هو عارض الصفوف UE ، يمكن فتحه من خلال القائمة EditorPlusTools -> ClassBrowser
 
 ![](assets/img/2024-ue-editorplus/classbrowser_menu.png)
 
 ![](assets/img/2024-ue-editorplus/classbrowser.png)
 
-تعتمد على إيو لتحقيق الانعكاس، يمكنك بسهولة عرض معلومات الأعضاء بجميع أنواعها في إيو، بما في ذلك التعليمات والتلميحات، وتدعم البحث الغامض، ويمكنك الانتقال وفتح معلومات الفئة الأساسية.
+الاستناد إلى الانعكاسات في UE، يمكن عرض معلومات الأعضاء من أنواع مختلفة في UE بسهولة، بما في ذلك الإرشادات والتلميحات، ويدعم البحث الضبابي، ويمكن التنقل لفتح معلومات الفئة الأساسية.
 
 ### MenuCollections
 
-MenuCollections هو أداة للبحث السريع والحفظ لأوامر القوائم، تساعدك في العثور بسرعة على الأوامر التي تحتاج إلى تنفيذها وتمكنك من حفظ الأوامر الشائعة لزيادة الكفاءة.
+MenuCollections هي أداة سريعة للبحث عن أوامر القائمة وتخزينها، تساعدك على العثور بسرعة على أوامر القائمة التي تحتاج إلى تنفيذها، كما يمكنك تخزين الأوامر الشائعة الاستخدام لزيادة الكفاءة.
 
 ![](assets/img/2024-ue-editorplus/menucollection_find.png)
 
@@ -388,7 +386,7 @@ MenuCollections هو أداة للبحث السريع والحفظ لأوامر 
 
 ### SlateResourceBrowser
 
-SlateResourceBrowser هو أداة تُستخدم للاطلاع السريع على موارد واجهة المستخدم Slate UI، وتساعدك في تصفح والبحث عن الموارد التحريرية المطلوبة بسهولة لتوسيع محررك.
+SlateResourceBrowser هو أداة تستطيع من خلالها الاطلاع بسرعة على موارد واجهة المستخدم Slate UI، والتي يمكن أن تساعدك في تصفح والبحث عن الموارد التحريرية المطلوبة، مما يسهل توسيع المحرر.
 
 ![](assets/img/2024-ue-editorplus/slateresourcebrowser_color.png)
 
@@ -401,4 +399,4 @@ SlateResourceBrowser هو أداة تُستخدم للاطلاع السريع ع
 --8<-- "footer_ar.md"
 
 
-> هذه المشاركة تمت ترجمتها باستخدام ChatGPT ، يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)أشر إلى أي شيء تم تفويته. 
+> هذا المنشور تم ترجمته باستخدام ChatGPT، يرجى تقديم [**ملاحظات**](https://github.com/disenone/wiki_blog/issues/new)يرجى الإشارة إلى أي نقاط مفقودة. 

@@ -1,189 +1,176 @@
 ---
 layout: post
-title: KCP Source Code Analysis
+title: Analysis of KCP Source Code
 categories:
 - c++
 catalog: true
 tags:
 - dev
-description: This article provides a simple analysis of the source code of KCP and
-  discusses the implementation of ARQ on KCP, as well as some strategies to improve
-  the flow rate of KCP.
+description: This article briefly analyzes the source code of KCP, discusses the implementation
+  of ARQ on KCP, and some strategies to improve the flow rate of KCP.
 figures: []
 ---
 
 <meta property="og:title" content="KCP 源码剖析" />
 
-Before reading this article, if you have never heard of KCP, or have no understanding of KCP at all, please take some time to read the documentation of the KCP project: [Link](https://github.com/skywind3000/kcp). The purpose of this article is to delve into the implementation details of KCP in order to understand it better.
+Before reading this article, if you haven't heard of KCP or have no understanding of it at all, please take a moment to check out the project's documentation: [Portal](https://github.com/skywind3000/kcp)The purpose of this article is to delve into the implementation details of KCP in order to understand KCP better.
 
-## What is KCP
+##What is KCP
 
-KCP is a fast and reliable protocol that can deliver data with lower latency than TCP, faster data retransmission, and shorter waiting time.
+KCP is a fast and reliable protocol that transmits data with lower latency than TCP, achieves quicker data retransmission, and has shorter waiting times.
 
-TCP is designed for traffic (how much KB of data can be transmitted per second), focusing on fully utilizing bandwidth. KCP, on the other hand, is designed for flow rate (how long it takes for a single data packet to be sent from one end to the other), trading off 10%-20% of bandwidth for a faster transmission speed of 30%-40% compared to TCP. TCP channel is like a large canal with slow flow rate but high traffic per second, while KCP is like a turbulent small stream with swift water flow.
+> TCP is designed for traffic (how much data in KB can be transmitted per second), focusing on maximizing bandwidth utilization. In contrast, KCP is designed for speed (how much time it takes for a single data packet to be sent from one end to another), sacrificing 10%-20% of bandwidth for a 30%-40% faster transfer rate compared to TCP. A TCP channel is like a slow-moving but high-capacity canal, while KCP is akin to a swift and turbulent stream.
 
-The above is written in the KCP document, the key words are **bandwidth** and **throughput**. KCP will consume bandwidth, but the benefit is a larger and more balanced transmission rate. For more information, refer to KCP's own documentation.
+The above is written in the KCP documentation. The keywords are **bandwidth** and **throughput**. KCP will consume bandwidth, but the benefit is a larger and more balanced transmission rate. For further details, please refer to the KCP documentation itself.
 
-## KCP Data Structure
+##KCP data structure
 
-The source code of KCP is located in `ikcp.h` and `ikcp.c`. The core of `ikcp.h` is the declaration of data structures. First of all, there is the `SEGMENT` data packet, which is the smallest unit for processing data in the KCP protocol:
+The source code of KCP is found in `ikcp.h` and `ikcp.c`. The core of `ikcp.h` is the declaration of data structures, primarily the `SEGMENT` packet, which is the smallest unit of data processed by the KCP protocol.
 
 <details>
-<summary> SEGMENT Structure (Click to expand code) </summary>
+<summary> SEGMENT structure (click to expand code) </summary>
 ```cpp
 //=====================================================================
-// A **segment** is a data packet.
+// SEGMENT A SETMENT is a data packet.
 //=====================================================================
 struct IKCPSEG
 {
-// Linked list node, both send and receive queues use this linked list structure
+// Linked list node, both the sending and receiving queues are structured as linked lists here.
     struct IQUEUEHEAD node;
 
-// Session ID, the same session ID is identical.
+Session ID, the same session ID is identical
     IUINT32 conv;
 
-// Packet type, such as DATA or ACK
+Packet type, such as DATA or ACK.
     IUINT32 cmd;
 
-// Due to the limitation of the MTU, large data packets will be split into multiple smaller packets, and this is the numbering of the small packets
+Due to the MTU limitation, large data packets will be fragmented into multiple smaller packets, and this is the sequence number of the small packet.
     IUINT32 frg
 
-// Each data packet is accompanied by the sender's receive window size
+Every data packet will come with the sender's receive window size.
     IUINT32 wnd;
 
-// Send time, if it is an ACK packet, it will be set as the timestamp of the source data packet.
+Transmission time, if it is an ACK packet, will be set as the timestamp of the original data packet.
     IUINT32 ts;
 
-// Number that uniquely identifies the data packet.
+// The unique identifier number for the data packet
     IUINT32 sn;
 
-// Represents that all packets with a sequence number less than "una" have been successfully received, consistent with the meaning of TCP: the oldest unacknowledged sequence number SND.
+// It indicates that all packets smaller than una have been successfully received, consistent with the meaning in TCP: the oldest unacknowledged sequence number SND.
     IUINT32 una;
 
-// Data length
+Data length
     IUINT32 len;
 
-// Timeout Retransmission Time
+Retransmission Timeout.
     IUINT32 resendts;
 
-    // Next timeout waiting time
+// Next timeout waiting time
     IUINT32 rto;
 
-// Fast retransmission, if the number of subsequent packets received after this packet exceeds a certain threshold, fast retransmission is triggered.
+// Fast retransmission. The number of packets received after this data packet, if it exceeds a certain amount, will trigger fast retransmission.
     IUINT32 fastack;
 
-// Number of times sent
+Number of times sent
     IUINT32 xmit;
 
-    // Data
+// Data
     char data[1];
 };
 ```
 </details>
 
-After reading the comments of `SEGMENT`, it can be roughly understood that the core of KCP is also an ARQ protocol, which ensures the delivery of data through automatic timeout retransmission. Next, let's take a look at the definition of the KCP structure `KCPCB`.
+After reading the comments on `SEGMENT`, one can roughly see that the core of KCP is also an ARQ protocol, which ensures data delivery through automatic timeout retransmission. Next, let's take a look at the definition of the KCP structure `KCPCB`:
 
 <details>
-<summary>KCP Structure (Click to Expand Code)</summary>
+<summary> KCP Structure (Click to Expand Code) </summary>
 ```cpp
 //---------------------------------------------------------------------
 // IKCPCB
 //---------------------------------------------------------------------
 struct IKCPCB
 {
-Translate these text into English language:
-
-    // conv: Conversation number
-    // mtu, mss: Maximum transmission unit, Maximum segment size
-    // state: Conversation state, 0 valid, -1 disconnected
+// Session ID
+// mtu, mss: Maximum Transmission Unit, Maximum Segment Size
+// state: Session state, 0 valid, -1 disconnected
     IUINT32 conv, mtu, mss, state;
 
-// snd_una: Packet number waiting for ACK
-// snd_nxt: Next packet number waiting to be sent
-// rcv_nxt: Next packet number waiting to be received
+// snd_una: The packet number waiting for ACK
+// snd_nxt: The packet number of the next data to be sent
+// rcv_nxt: Next sequence number of the data packet waiting to be received
     IUINT32 snd_una, snd_nxt, rcv_nxt;
 
-Translate these text into English language:
-
-// ts_recent, ts_lastack: Unused
-// ssthresh: Congestion control slow start threshold
-
-
+// ts_recent, ts_lastack: Not in use
+// ssthresh: Congestion Control Slow Start Threshold
     IUINT32 ts_recent, ts_lastack, ssthresh;
 
-    // rx_rto: rto (retransmission timeout), timeout for retransmission
-    // rx_rttval, rx_srtt, rx_minrto: intermediate variables for calculating rto
+// rx_rto: rto (retransmission timeout), the time for retransmitting after timeout
+// rx_rttval, rx_srtt, rx_minrto: Intermediate variables for calculating the RTO
     IINT32 rx_rttval, rx_srtt, rx_rto, rx_minrto;
 
-// snd_wnd, rcv_wnd: Maximum send and receive window sizes
-// rmt_wnd: Remote window size, the remaining receive window size of the peer
-// cwnd: Size of the available send window
-// probe: Flag indicating whether to send control messages
+// snd_wnd, rcv_wnd: Maximum sizes of the sending and receiving windows.
+remote window: Remaining Receive Window size on the remote end
+// cwnd: Size of the send window
+// probe: Indicates whether to send the control message
     IUINT32 snd_wnd, rcv_wnd, rmt_wnd, cwnd, probe;
 
-Translate these text into English language:
-
-// current: Current time
-// interval: Update interval
-// ts_flush: Next update time
-// xmit: Number of failed transmissions
+current: current time
+interval: refresh rate
+// ts_flush: The next time the update is needed
+// xmit: Number of transmission failures
     IUINT32 current, interval, ts_flush, xmit;
 
-// Length of the corresponding linked list
+The length of the corresponding linked list.
     IUINT32 nrcv_buf, nsnd_buf;
     IUINT32 nrcv_que, nsnd_que;
 
-Translate these texts into English language:
-
-    // nodelay: Control the rate at which the RTO (Retransmission Time Out) increases for timeout retransmissions.
-    // updated: Whether or not the ikcp_update function has been called.
+// nodelay: Controls the growth rate of the RTO for timeout retransmissions
+// updated: Whether ikcp_update has been called
     IUINT32 nodelay, updated;
 
-// ts_probe, probe_wait: Initiate periodic inquiries when the receiving window of the other party remains 0 for a long time.
+// ts_probe, probe_wait: Actively initiate inquiries periodically when the receiving window on the other end remains 0 for an extended period.
     IUINT32 ts_probe, probe_wait;
 
-// deal_link: No response from the opposite end for a long time
-// incr: Participate in calculating the size of the send window
+deal_link: The other end is not responding for an extended period.
+// incr: Participates in calculating the send window size
     IUINT32 dead_link, incr;
 
-Translate these text into English language:
-
-// queue: The data packet that interacts with the user layer.
-// buf: The data packet that is cached by the protocol.
+// queue: Data packets that interact with the user layer
+// buf: Protocol buffer data packet
     struct IQUEUEHEAD snd_queue;
     struct IQUEUEHEAD rcv_queue;
     struct IQUEUEHEAD snd_buf;
     struct IQUEUEHEAD rcv_buf;
 
-// Packet information that requires sending an ack
+// Information about the packets that need to send an ack
     IUINT32 *acklist;
 
-// Number of packages that need to be ack
+// Number of packets that require ack
     IUINT32 ackcount;
 
-// Memory size of the `acklist`
+// Blacklist memory size
     IUINT32 ackblock;
 
-// Data passed in by the user layer
+// Data passed in from the user layer
     void *user;
 
-// Storage space for a kcp package
+// Space to store a kcp packet
     char *buffer;
 
-// Number of fastack triggers to initiate fast retransmission
+// The number of fastack triggers for fast retransmission
     int fastresend;
 
-// Maximum number of fast retransmissions
+Maximum number of fast retransmissions
     int fastlimit;
 
-    // nocwnd: window size for sending without considering slow start
-    // stream: stream mode
+// nocwnd: Ignore the slow start size of the sending window
+// stream: streaming mode
     int nocwnd, stream;
 
     // debug log
     int logmask;
 
-// Send data interface
+Send data interface
     int (*output)(const char *buf, int len, struct IKCPCB *kcp, void *user);
 
     void (*writelog)(const char *log, struct IKCPCB *kcp, void *user);
@@ -191,25 +178,25 @@ Translate these text into English language:
 ```
 </details>
 
-Annotate each field in the KCP structure one by one. You can have a preliminary feeling that the entire KCP protocol is not too complicated. By carefully analyzing the code, both you and I can read and understand the KCP protocol. :smile:
+Annotate the fields inside the KCP data structure one by one. You will start to get a sense that the KCP protocol suite is not too complex. By carefully analyzing the code, both you and I can read and understand the KCP protocol. 😊
 
-## KCP's ARQ Implementation
+##KCP's ARQ Implementation
 
-KCP is essentially an ARQ (Auto Repeat-reQuest) protocol that primarily focuses on ensuring reliable transmission. So, let's first pay attention to the basic ARQ component of KCP and how KCP achieves reliable transmission.
+KCP is essentially an ARQ (Automatic Repeat reQuest) protocol, whose fundamental goal is to ensure reliable transmission. So let's first focus on the basic ARQ component of KCP and how it achieves reliable transmission.
 
-ARQ, as the name implies, automatically retransmits the corresponding data packet when we believe that the recipient has failed to receive it. This is achieved through two mechanisms: acknowledgement (ACK) and retransmission upon timeout. In terms of specific code implementation, KCP assigns a unique identifier, `sn`, to each data packet (referred to as `SEGMENT` in the previous section). Once the recipient receives a data packet, it responds with an ACK packet (also a `SEGMENT`) that has the same `sn` as the received data packet, indicating successful reception. The `SEGMENT` also includes a field called `una`, which represents the sequence number of the next expected data packet. In other words, it signifies that all data packets with a sequence number lower than `una` have been successfully received. It is equivalent to a full ACK packet, allowing the sender to update the send buffer and send window more efficiently.
+ARQ, as the name implies, automatically retransmits corresponding data packets when we consider that the receiving end has failed to receive them, achieving reliable transmission through two mechanisms: acknowledgment reception and timeout retransmission. In terms of specific code implementation, KCP assigns a unique 'sn' identifier to each data packet (which was mentioned in the previous section as a 'SEGMENT'). Once the receiving end receives a data packet, it replies with an ACK packet (also a 'SEGMENT') where the 'sn' of the ACK packet is the same as the 'sn' of the received data packet, indicating successful reception of that data packet. The 'SEGMENT' also includes a 'una' field, indicating the number of the next expected data packet to be received. In other words, all data packets with numbers before this are already received, essentially serving as a full acknowledgment packet. This allows the sending end to quickly update its sending buffer and sending window.
 
-We can understand the most basic ARQ implementation by tracking the sending and receiving code of KCP packets:
+We can understand the most basic ARQ implementation by tracking the sending and receiving code of KCP packets.
 
-### Send
+###Send
 
-The process of sending is `ikcp_send` -> `ikcp_update` -> `ikcp_output`. The upper layer calls `ikcp_send` to pass the data to KCP, which handles the data transmission in `ikcp_update`.
+The process involves `ikcp_send` -> `ikcp_update` -> `ikcp_output`, where the upper layer invokes `ikcp_send` to pass data to KCP, and KCP handles data transmission in `ikcp_update`.
 
 <details>
-<summary>ikcp_send (Click to expand code)</summary>
+<summary> ikcp_send (click to expand code) </summary>
 ```cpp
 //---------------------------------------------------------------------
-// Send data interface, the user calls `ikcp_send` to let KCP send data.
+// Data transmission interface, users use ikcp_send to instruct kcp to send data
 // user/upper level send, returns below zero for error
 //---------------------------------------------------------------------
 int ikcp_send(ikcpcb *kcp, const char *buffer, int len)
@@ -223,11 +210,11 @@ int ikcp_send(ikcpcb *kcp, const char *buffer, int len)
 
     // append to previous segment in streaming mode (if possible)
     if (kcp->stream != 0) {
-// Processing Stream Mode
+Stream processing mode
         // ......
     }
 
-// Calculate sub-packages, if the data length len is greater than mss, divide it into multiple packages to send, and the receiving end will assemble them afterwards
+// Calculate subpackets. If the data length len is greater than mss, it needs to be divided into multiple packets for sending, which will be reassembled by the recipient upon receipt.
     if (len <= (int)kcp->mss) count = 1;
     else count = (len + kcp->mss - 1) / kcp->mss;
 
@@ -235,9 +222,9 @@ int ikcp_send(ikcpcb *kcp, const char *buffer, int len)
 
     if (count == 0) count = 1;
 
-// Subpackage
+// Subcontracting
     for (i = 0; i < count; i++) {
-// Calculate the length of the packet data and allocate the corresponding seg structure.
+Calculate the length of the packet data and allocate the corresponding seg structure.
         int size = len > (int)kcp->mss ? (int)kcp->mss : len;
         seg = ikcp_segment_new(kcp, size);
         assert(seg);
@@ -245,14 +232,14 @@ int ikcp_send(ikcpcb *kcp, const char *buffer, int len)
             return -2;
         }
 
-// Set the data information of [to_be_replaced[seg]], [to_be_replaced[frg]] represents the fragmentation number.
+// Set the data information for seg, where frg represents the subpackage number.
         if (buffer && len > 0) {
             memcpy(seg->data, buffer, size);
         }
         seg->len = size;
         seg->frg = (kcp->stream == 0)? (count - i - 1) : 0;
 
-# Add to the end of snd_queue, increase nsnd_qua by one
+// Add to the end of the snd_queue, increase nsnd_qua by one
         iqueue_init(&seg->node);
         iqueue_add_tail(&seg->node, &kcp->snd_queue);
         kcp->nsnd_que++;
@@ -267,18 +254,18 @@ int ikcp_send(ikcpcb *kcp, const char *buffer, int len)
 ```
 </details>
 
-The `ikcp_send` is a data sending interface called by the upper layer of KCP. All the data to be sent by KCP should go through this interface. The `ikcp_send` function does something very simple. It mainly divides the data into multiple packets based on the `kcp->mss` (the maximum data length per packet), sets the packet numbers for each segment, and finally puts them at the end of the sending queue `snd_queue`. In stream mode, multiple calls to `ikcp_send` are treated as a continuous stream of data. It will automatically fill the incomplete segments before allocating new ones. The detailed implementation is not discussed in this article. For those who are interested, I believe that after reading this article, you can understand it better by looking at the corresponding code.
+`ikcp_send` is the interface for sending data called by the upper layer of KCP. All data intended for KCP transmission should go through this interface. The function of `ikcp_send` is quite simple; it primarily divides the data into multiple packets based on `kcp->mss` (the maximum data length of a packet), assigns segment numbers, and finally appends them to the end of the send queue `snd_queue`. The stream mode treats the data from multiple calls to `ikcp_send` as a single stream, automatically filling any incomplete `SEGMENT` before allocating new ones. This article will not delve into the detailed implementation, but for those interested, understanding the code after reading this will be insightful.
 
-After the completion of the `ikcp_send` invocation, the data will be placed in the `snd_queue` of KCP. Later, KCP needs to find a suitable opportunity to send the pending data. This part of the code is contained in the `ikcp_update` and `ikcp_flush` functions.
+After the `ikcp_send` function is called, the data is placed in the `snd_queue` of KCP. Later on, KCP needs to find an opportunity to send out the pending data. This part of the code is all located within the `ikcp_update` and `ikcp_flush` functions.
 
 <details>
-<summary>ikcp_update (Click to expand code)</summary>
+<summary> ikcp_update (click to expand code) </summary>
 ```cpp
 //---------------------------------------------------------------------
-// ikcp_update is an interface that needs to be called regularly by the upper layer to update the state of KCP and send data.
-// update state (call it repeatedly, every 10ms-100ms), or you can ask
+// ikcp_update is an interface that should be regularly called by the upper layer to update the kcp status and send data.
+// update state (call it repeatedly, every 10ms-100ms), or you can ask 
 // ikcp_check when to call it again (without ikcp_input/_send calling).
-// 'current' - current timestamp in millisec.
+// 'current' - current timestamp in millisec. 
 //---------------------------------------------------------------------
 void ikcp_update(ikcpcb *kcp, IUINT32 current)
 {
@@ -300,7 +287,7 @@ void ikcp_update(ikcpcb *kcp, IUINT32 current)
     }
 
     if (slap >= 0) {
-// Time of next flush
+// The time for the next flush
         kcp->ts_flush += kcp->interval;
         if (_itimediff(kcp->current, kcp->ts_flush) >= 0) {
             kcp->ts_flush = kcp->current + kcp->interval;
@@ -311,7 +298,7 @@ void ikcp_update(ikcpcb *kcp, IUINT32 current)
 ```
 </details>
 
-The `ikcp_update` function does a simple task: it checks the time of `ts_flush` and if it meets the criteria, it calls `ikcp_flush`. The main processing logic is inside `ikcp_flush` because it is a bit more complex. Currently, we are only concerned with the parts related to ARQ sending.
+The function `ikcp_update` does something very simple - it checks the timestamp of `ts_flush`, if it meets the conditions, it calls `ikcp_flush`. The main processing logic is contained within `ikcp_flush` because it is a bit more complex. Currently, we are only focusing on the parts related to ARQ transmission.
 
 <details>
 <summary> Send Data (Click to Expand Code) </summary>
@@ -323,7 +310,7 @@ void ikcp_flush(ikcpcb *kcp)
 {
     IUINT32 current = kcp->current;
 
-// buffer is the data to be passed to ikcp_output, initialized to 3 times the size of the data packet
+The buffer is the data to be passed to ikcp_output, initialized to 3 times the packet size.
     char *buffer = kcp->buffer;
     char *ptr = buffer;
     int count, size, i;
@@ -341,20 +328,20 @@ void ikcp_flush(ikcpcb *kcp)
     seg.cmd = IKCP_CMD_ACK;
     seg.frg = 0;
 
-// `seg.wnd` represents the current receive window size.
+// seg.wnd represents the current receive window size
     seg.wnd = ikcp_wnd_unused(kcp);
     seg.una = kcp->rcv_nxt;
     seg.len = 0;
     seg.sn = 0;
     seg.ts = 0;
 
-    // Send ack
-    // Calculate sending window
+// Send ack
+// Calculate the send window
     //...
 
-    // Move packets from snd_queue to snd_buf
-    // The movement is subject to the condition that the sending window size is met. If the sending window is full, the movement will stop.
-    // The data placed in snd_buf can be directly passed to the kcp_output function to be sent to the peer.
+Move the data packet from snd_queue to snd_buf.
+// Movement needs to meet the size of the sending window; when the sending window is full, movement stops.
+The data placed inside snd_buf is the data that can be directly sent to the peer by calling ikcp_output.
     while (_itimediff(kcp->snd_nxt, kcp->snd_una + cwnd) < 0) {
         IKCPSEG *newseg;
         if (iqueue_is_empty(&kcp->snd_queue)) break;
@@ -371,10 +358,10 @@ void ikcp_flush(ikcpcb *kcp)
         newseg->wnd = seg.wnd;
         newseg->ts = current;
 
-// seg is a unique sequence number, which is actually an increasing value of kcp->snd_nxt.
+// seg The unique serial number, actually an increment of kcp->snd_nxt
         newseg->sn = kcp->snd_nxt++;
 
-// Set `una` here, notifying the other side of the next packet sequence number to be received.
+// una is set here to inform the other end of the next expected sequence number to receive
         newseg->una = kcp->rcv_nxt;
         newseg->resendts = current;
         newseg->rto = kcp->rx_rto;
@@ -382,7 +369,7 @@ void ikcp_flush(ikcpcb *kcp)
         newseg->xmit = 0;
     }
 
-// Calculate fast retransmission flag and timeout waiting time
+// Calculate fast retransmit flag, timeout waiting time
     // ...
 
 // Send snd_buf
@@ -390,9 +377,9 @@ void ikcp_flush(ikcpcb *kcp)
         IKCPSEG *segment = iqueue_entry(p, IKCPSEG, node);
         int needsend = 0;
         if (segment->xmit == 0) {
-// First transmission
-// set->xmit indicates the number of transmissions
-// resendts represents the waiting time for timeout retransmission
+// First send
+set->xmit indicates the number of transmissions.
+// resendts The waiting time for timeout retransmission
             needsend = 1;
             segment->xmit++;
             segment->rto = kcp->rx_rto;
@@ -416,16 +403,16 @@ void ikcp_flush(ikcpcb *kcp)
             size = (int)(ptr - buffer);
             need = IKCP_OVERHEAD + segment->len;
 
-// Whenever the data in the buffer exceeds the MTU (Maximum Transmission Unit), it should be sent out first to avoid further fragmentation at the lower level.
+// Whenever the data in the buffer exceeds the mtu, it will be sent out first to avoid further segmentation at the lower level.
             if (size + need > (int)kcp->mtu) {
                 ikcp_output(kcp, buffer, size);
                 ptr = buffer;
             }
 
-// Copy the control data of `seg` to the buffer, let KCP handle the endianness issue itself
+Copy the control data from "seg" to the buffer, letting KCP handle endianness on its own.
             ptr = ikcp_encode_seg(ptr, segment);
 
-// Copy data again
+// Copy the data again
             if (segment->len > 0) {
                 memcpy(ptr, segment->data, segment->len);
                 ptr += segment->len;
@@ -444,28 +431,28 @@ void ikcp_flush(ikcpcb *kcp)
         ikcp_output(kcp, buffer, size);
     }
 
-// Calculate ssthresh and update the slow start window
+Calculate ssthresh, update slow start window
     // ...
 }
 ```
 </details>
 
-We are currently only focused on the logic related to sending data in `ikcp_flush` function:
+We are currently only focusing on the logic related to sending data inside `ikcp_flush`.
 
-First, KCP will move the data on `snd_queue` to `snd_buf` based on the receiver's window size. The formula for calculating the number of moved data is `num = snd_nxt - (snd_una + cwnd)`, i.e., if the sum of the successfully sent maximum packet sequence number `snd_una` and the sliding window size `cwnd` is greater than the next packet sequence number to be sent `snd_nxt`, then new data packets can be sent again. While moving the `SEG`, the control fields are set.
+First, KCP will move the data from `snd_queue` to `snd_buf` based on the receiving window size of the peer. The formula to calculate the number of data to move is `num = snd_nxt - (snd_una + cwnd)`, which means: if the sum of the maximum packet number successfully sent `snd_una` and the sliding window size `cwnd` is greater than the next packet number to be sent `snd_nxt`, then new data packets can be sent. While moving the `SEG`, control fields are also set.
 
-* Iterate through `snd_buf`, if there is a need to send a data packet, copy the data to `buffer` and simultaneously use `ikcp_encode_seg` to handle the endianness issue of the control field data.
+Traverse `snd_buf`, if a data packet needs to be sent, copy the data to `buffer`, and at the same time use `ikcp_encode_seg` to handle the endianness of control field data.
 
-Finally, call `ikcp_output` to send the data on `buffer`
+Finally, call `ikcp_output` to send the data on `buffer` out.
 
-Thus far, KCP has completed the transmission of the data.
+At this point, KCP has completed the data transmission.
 
-### Receive
+###Receive
 
-The receiving process is opposite to the sending process: `ikcp_input` -> `ikcp_update` -> `ikcp_recv`. After the user receives data from the network, they need to call `ikcp_input` to pass it to KCP for parsing. When calling `ikcp_update`, ACK packets will be sent back to the sender. The upper layer can then receive the data parsed by KCP by calling `ikcp_recv`.
+The process of receiving is the opposite of sending: `ikcp_input` -> `ikcp_update` -> `ikcp_recv`. After the user receives data from the network, they need to call `ikcp_input` to pass the data to KCP for parsing. When `ikcp_update` is called, an ACK packet will be sent back to the sender, and the upper layer can receive the data parsed by KCP by calling `ikcp_recv`.
 
 <details>
-<summary> Receive data (Click to expand code) </summary>
+<summary>Receive Data (Click to Expand Code)</summary>
 ```cpp
 //---------------------------------------------------------------------
 // input data
@@ -476,20 +463,20 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
     IUINT32 maxack = 0, latest_ts = 0;
     int flag = 0;
 
-// Legitimacy check
+Legitimacy Check
     if (data == NULL || (int)size < (int)IKCP_OVERHEAD) return -1;
 
-// data may be multiple KCP packets, process in a loop
+// data may consist of multiple KCP packets, processed in a loop
     while (1) {
         IUINT32 ts, sn, len, una, conv;
         IUINT16 wnd;
         IUINT8 cmd, frg;
         IKCPSEG *seg;
 
-// Not enough data for a KCP packet, exiting.
+// Not enough for a KCP packet, exiting.
         if (size < (int)IKCP_OVERHEAD) break;
 
-// First, parse the control fields.
+// First, parse out the control fields.
         data = ikcp_decode32u(data, &conv);
         if (conv != kcp->conv) return -1;
 
@@ -505,31 +492,31 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 
         if ((long)size < (long)len || (int)len < 0) return -2;
 
-// Check data packet type
+Packet type check
         if (cmd != IKCP_CMD_PUSH && cmd != IKCP_CMD_ACK &&
-            cmd != IKCP_CMD_WASK && cmd != IKCP_CMD_WINS)
+            cmd != IKCP_CMD_WASK && cmd != IKCP_CMD_WINS) 
             return -3;
 
         kcp->rmt_wnd = wnd;
 
-        // Here, `una` represents the `kcp->rcv_nxt` of the sender, based on this data, the already confirmed received packets can be discarded.
+Here, `una` is the `kcp->rcv_nxt` of the sender. Based on this data, the received data packets that have already been confirmed can be removed.
         ikcp_parse_una(kcp, una);
-// After removing the acknowledged packets, update snd_una to the next sequence number to be sent
+After removing the packets that have been acknowledged, update the next sequence number to be sent, snd_una.
         ikcp_shrink_buf(kcp);
 
         if (cmd == IKCP_CMD_ACK) {
-// Ack Package
+            // ack package
             // ...
         }
         else if (cmd == IKCP_CMD_PUSH) {
 // Data packet
-// If the received packet sequence number sn is within the receive window, process it normally; otherwise, discard it directly and wait for retransmission.
+// If the received packet sequence number sn is within the receiving window, process it normally; otherwise, discard it and wait for retransmission.
             if (_itimediff(sn, kcp->rcv_nxt + kcp->rcv_wnd) < 0) {
 
-// For each received packet, we need to send an acknowledgment packet and keep a record of it.
+For each received data packet, it should send back an acknowledgment packet and keep a record of it.
                 ikcp_ack_push(kcp, sn, ts);
 
-        // The received data is processed by calling ikcp_parse_data.
+// The received data is processed by calling ikcp_parse_data.
                 if (_itimediff(sn, kcp->rcv_nxt) >= 0) {
                     seg = ikcp_segment_new(kcp, len);
                     seg->conv = conv;
@@ -550,11 +537,11 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
             }
         }
         else if (cmd == IKCP_CMD_WASK) {
-// Query Window Package
+Query window package
             // ...
         }
         else if (cmd == IKCP_CMD_WINS) {
-// Reply package for querying window
+// Query window's reply packet
             // ...
         }
         else {
@@ -565,10 +552,10 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
         size -= len;
     }
 
-// Handling fast retransmission logic
+Handle fast retransmission logic.
     // ...
 
-// Update the send window
+// Update the sending window
     // ...
 
     return 0;
@@ -576,10 +563,10 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 ```
 </details>
 
-Loop through each `SEG` packet in `ikcp_input`, first check the legality and type of the packet, because each packet carries `una`, which stores the sequence number of the packet that the sender is waiting to receive. Packets with sequence numbers smaller than `una` have already been successfully received by the other end, so we can delete all packets in `snd_buff` that need to be smaller than `una`, and update `snd_nxt`. This part is handled by `ikcp_parse_una` and `ikcp_shrink_buf`. For each received packet, an ACK packet needs to be replied, which is recorded by `ikcp_ack_push`, and finally `ikcp_parse_data` is called to process the data.
+Process `ikcp_input` loops through each `SEG` packet, first checking the validity and type of the data packet. Since each data packet carries `una`, which holds the sequence number of the packets the sender is waiting to receive, any packet with a sequence number less than `una` has already been successfully received by the other party. Therefore, the packets in `snd_buff` that need to be less than `una` can be deleted, and `snd_nxt` can be updated. This part is handled by `ikcp_parse_una` and `ikcp_shrink_buf`. Each received data packet needs to reply with an ACK packet, which is recorded by `ikcp_ack_push`, and finally `ikcp_parse_data` is called to process the data.
 
 <details>
-<summary>Parse Data (Click to Expand Code)</summary>
+<summary>Parse data (click to expand code)</summary>
 ```cpp
 void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 {
@@ -594,12 +581,12 @@ void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
         return;
     }
 
-// Find the position where `newseg` should be placed, as the received `seg` may be unordered.
+// Find the position where newseg should be placed, because the received seg may be out of order.
     for (p = kcp->rcv_buf.prev; p != &kcp->rcv_buf; p = prev) {
         IKCPSEG *seg = iqueue_entry(p, IKCPSEG, node);
         prev = p->prev;
         if (seg->sn == sn) {
-// Received duplicate
+// Received repeatedly
             repeat = 1;
             break;
         }
@@ -620,7 +607,7 @@ void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 // Move data from rcv_buf to rcv_queue
     while (! iqueue_is_empty(&kcp->rcv_buf)) {
         IKCPSEG *seg = iqueue_entry(kcp->rcv_buf.next, IKCPSEG, node);
-// If the seg number is the waiting to be received number, move it to the rcv_queue.
+Move to the rcv_queue if the segment number is the expected one for reception.
         if (seg->sn == kcp->rcv_nxt && kcp->nrcv_que < kcp->rcv_wnd) {
             iqueue_del(&seg->node);
             kcp->nrcv_buf--;
@@ -635,19 +622,19 @@ void ikcp_parse_data(ikcpcb *kcp, IKCPSEG *newseg)
 ```
 </details>
 
-The main purpose of `ikcp_parse_data` is to place `newseg` on the appropriate position in `kcp->rcv_buf` and move the data from `rcv_buf` to `rcv_queue`. The appropriate position in `rcv_buf` means that `rcv_buf` is arranged in ascending order according to `sn`. `newseg` needs to find the appropriate position based on its own `sn`. The data on `rcv_buf` needs to be moved to `rcv_queue` under the condition that the packet sequence number on `rcv_buf` is equal to the expected packet sequence number `kcp->rcv_nxt` that KCP is waiting to receive. After moving a data packet, `kcp->rcv_nxt` needs to be updated for the next data packet to be processed.
+The main task of `ikcp_parse_data` is to place `newseg` into the appropriate position in `kcp->rcv_buf` and to move the data from `rcv_buf` to `rcv_queue`. The appropriate position in `rcv_buf` means that `rcv_buf` is arranged in increasing order of `sn`, and `newseg` needs to find the correct position based on its own `sn` size. Data in `rcv_buf` is moved to `rcv_queue` when the packet sequence number in `rcv_buf` matches the next expected packet sequence number that KCP is waiting to receive, `kcp->rcv_nxt`. After moving one packet, it is necessary to update `kcp->rcv_nxt` and then process the next packet.
 
-After `ikcp_input`, when `ikcp_update` is called, ACK packets will be sent, and when `ikcp_recv` is called, valid data will be returned to the upper layer. `ikcp_update` and `ikcp_recv` are independent of each other, with no specific order of calling, depending on the calling timing of the upper layer. Let's first take a look at the part related to ACK sending in `ikcp_update`:
+After `ikcp_input`, when the upper layer calls `ikcp_update`, it will send an ACK packet, and calling `ikcp_recv` will return valid data to the upper layer. `ikcp_update` and `ikcp_recv` are independent of each other and have no order of invocation requirements, depending on the timing of the upper layer calls. Let's first look at the part in `ikcp_update` related to sending ACKs:
 
 <details>
 <summary> Reply ACK (Click to expand code) </summary>
 ```cpp
-// As mentioned earlier, `ikcp_update` ultimately calls `ikcp_flush`.
+As mentioned earlier, ikcp_update ultimately calls ikcp_flush.
 void ikcp_flush(ikcpcb *kcp, IUINT32 current)
 {
     // ...
 
-// Reply with ACK packet
+// Reply ACK packet
     count = kcp->ackcount;
     for (i = 0; i < count; i++) {
         size = (int)(ptr - buffer);
@@ -666,10 +653,10 @@ void ikcp_flush(ikcpcb *kcp, IUINT32 current)
 ```
 </details>
 
-The information of ACK packets has been already stored by `ikcp_ack_push`, so here we only need to use `ikcp_ack_get` to obtain the information of each ACK packet and send it to the other party. The upper layer can utilize `ikcp_recv` to retrieve data from KCP.
+The previous ACK packets have been saved by `ikcp_ack_push`, so here you just need to use `ikcp_ack_get` to retrieve the information of each ACK packet and send it to the other party. The upper layer can use `ikcp_recv` to receive data from KCP:
 
 <details>
-<summary>ikcp_recv (click to expand code)</summary>
+ikcp_recv (Click to expand code)
 ```cpp
 //---------------------------------------------------------------------
 // user/upper level recv: returns size, returns below zero for EAGAIN
@@ -696,11 +683,11 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
     if (peeksize > len)
         return -3;
 
-// Check the receive window.
+// Determine the reception window
     if (kcp->nrcv_que >= kcp->rcv_wnd)
         recover = 1;
 
-// Traverse the `rcv_queue` and copy the data to the `buffer`
+Traverse the rcv_queue and copy the data to the buffer.
     for (len = 0, p = kcp->rcv_queue.next; p != &kcp->rcv_queue; ) {
         int fragment;
         seg = iqueue_entry(p, IKCPSEG, node);
@@ -713,24 +700,24 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
 
         len += seg->len;
 
-        // Determine sub-packages
+Determine subpackage.
         fragment = seg->frg;
 
-// Remove data packet
+// Remove packet
         if (ispeek == 0) {
             iqueue_del(&seg->node);
             ikcp_segment_delete(kcp, seg);
             kcp->nrcv_que--;
         }
 
-// All sub-packages have been copied, exit the loop.
+// All subcontracting is completed, exit the loop
         if (fragment == 0)
             break;
     }
 
     assert(len == peeksize);
 
-// rcv_queue has emptied some more, trying to continue moving from rcv_buf to rcv_queue
+The rcv_queue has emptied some more, trying to continue moving from rcv_buf to rcv_queue.
     while (! iqueue_is_empty(&kcp->rcv_buf)) {
         seg = iqueue_entry(kcp->rcv_buf.next, IKCPSEG, node);
         if (seg->sn == kcp->rcv_nxt && kcp->nrcv_que < kcp->rcv_wnd) {
@@ -749,12 +736,12 @@ int ikcp_recv(ikcpcb *kcp, char *buffer, int len)
 ```
 </details>
 
-The `ikcp_recv` function will only return one complete data packet with each call. The upper layer can loop the function until no data is returned. The logic of the function is simple: it copies data from the `rcv_queue` to the `buffer` passed in from the upper layer. At this point, the receiving side has finished processing the received data packet.
+The `ikcp_recv` function will only return a complete data packet for each call. The upper layer can repeatedly call it until no data is returned. The logic of the function is simple: it copies data from the `rcv_queue` to the `buffer` passed in by the upper layer. At this point, the receiver has finished processing the received data packet.
 
-When the recipient processes the data packet, it sends an ACK packet to the sender. Let's now take a look at how the sender handles the received ACK packet:
+When the recipient processes the data packet, it sends an ACK packet to the sender. Let's now examine how the sender handles the received ACK packet:
 
 <details>
-<summary> Processing ACK packets (click to expand the code) </summary>
+<summary> Handle ACK packets (click to expand code) </summary>
 ```cpp
 int ikcp_input(ikcpcb *kcp, const char *data, long size)
 {
@@ -763,12 +750,12 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
     // ...
     while (1) {
         // ...
-// ts is the current of the peer's kcp
+// ts is the kcp->current on the opposite end
         data = ikcp_decode32u(data, &ts);
         data = ikcp_decode32u(data, &sn);
 
         if (cmd == IKCP_CMD_ACK) {
-// Update rot
+Update rot.
             if (_itimediff(kcp->current, ts) >= 0) {
                 ikcp_update_ack(kcp, _itimediff(kcp->current, ts));
             }
@@ -776,7 +763,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
             ikcp_parse_ack(kcp, sn);
             ikcp_shrink_buf(kcp);
 
-// maxack = the largest sn among all ACK packets in this input
+// maxack = the largest sn among all the ACK packets in this input
             if (flag == 0) {
                 flag = 1;
                 maxack = sn;
@@ -798,7 +785,7 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
         // ...
     }
 
-// If an ACK packet is received, record it for fast retransmission
+If an ACK packet is received, record it for fast retransmission.
     if (flag != 0) {
         ikcp_parse_fastack(kcp, maxack, latest_ts);
     }
@@ -806,16 +793,16 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 ```
 </details>
 
-You can see that after receiving the ACK packet, you will also need to use `ikcp_parse_ack` and `ikcp_shrink_buf` to update `snd_buf`. In addition, you need to call `ikcp_update_ack` to calculate and update the retransmission timeout (rto). `ikcp_input` calculates the maximum sequence number in the received ACK packet to record for fast retransmission. That's how it goes - when the sender receives the ACK packet, it removes the transmitted data from `snd_buf`, ensuring that the packet is reliably delivered to the receiver, and completes a full ARQ acknowledgment process.
+After receiving the ACK packet, it is necessary to use `ikcp_parse_ack` and `ikcp_shrink_buf` to update the `snd_buf`, and additionally call `ikcp_update_ack` to calculate the updated RTO (retransmission timeout). The `ikcp_input` function calculates the maximum sequence number from the received ACK packets to record it for fast retransmission purposes. In this way, once the sender receives the ACK packet, it removes the sent data from the `snd_buf`, confirming that the data packet has been reliably delivered to the receiver, thus completing a full ARQ acknowledgment process.
 
-### Timeout retransmission
+###Timeout retransmission
 
-The previous section introduced the acknowledgment-receiving mechanism implemented in KCP's ARQ. However, ARQ also requires a timeout retransmission to ensure reliability. Now let's take a look at how KCP handles timeout retransmission.
+The previous section discussed the acknowledgment mechanism in ARQ implemented by KCP. In addition to acknowledgments, ARQ also requires a timeout retransmission mechanism to ensure reliability. Let's now explore how KCP handles timeout retransmissions.
 
 Let's go back to the `ikcp_flush` function:
 
 <details>
-<summary> Retransmission Timeout (Click to expand code) </summary>
+<summary> Timeout Retransmission (click to expand code) </summary>
 ```cpp
 void ikcp_flush(ikcpcb *kcp)
 {
@@ -825,20 +812,20 @@ void ikcp_flush(ikcpcb *kcp)
         IKCPSEG *segment = iqueue_entry(p, IKCPSEG, node);
         int needsend = 0;
         if (segment->xmit == 0) {
-            // First send
+Initial transmission
             needsend = 1;
             segment->xmit++;
-// Set segment->rto
-// Calculate segment->resendts timeout retransmission time based on segment->rto
+Set segment->rto.
+Calculate the timeout retransmission time based on segment->rto and segment->resendts.
             segment->rto = kcp->rx_rto;
             segment->resendts = current + segment->rto + rtomin;
         }
         else if (_itimediff(current, segment->resendts) >= 0) {
-// Retransmission on timeout
+Timeout retransmission
             needsend = 1;
             segment->xmit++;
             kcp->xmit++;
-// nodelay controls the calculation of the next timeout for retransmission.
+// nodelay controls the calculation of the timeout retransmission time for the next occurrence.
             if (kcp->nodelay == 0) {
                 segment->rto += kcp->rx_rto;
             }    else {
@@ -848,7 +835,7 @@ void ikcp_flush(ikcpcb *kcp)
             lost = 1;
         }
         else if (segment->fastack >= resent) {
-            // Fast retransmission
+// Fast Retransmission
             // ...
         }
         if (needsend) {
@@ -860,20 +847,20 @@ void ikcp_flush(ikcpcb *kcp)
 ```
 </details>
 
-Once the current time `current` is greater than the timeout resend time `segment->resendts`, it means that no ACK packet has been received from the receiver during this period. This triggers the timeout resend mechanism, setting `needsend = 1` to resend the data.
+Once the current time `current` exceeds the `segment->resendts` timeout retransmission time, it indicates that during this period, no ACK packets from the receiver have been received, triggering the timeout retransmission mechanism, `needsend = 1`, to resend the data.
 
-With the confirmation reception and timeout retransmission mechanism, KCP can guarantee basic reliable data transmission. However, in order to maintain a more stable data flow rate, KCP has also done more. Now let's take a look at the optimizations that KCP has made.
+With the addition of acknowledgment of receipt and retransmission on timeout mechanisms, KCP can ensure basic reliable data transmission. However, in order to maintain a more stable data flow rate, KCP has done more. Let's take a look at the optimizations that KCP has implemented.
 
-## Strategies to Increase Flow Rate of KCP
+##KCP strategy to increase flow rate
 
-### Fast Retransmission
+###Fast retransmission
 
-The sender has sent two packets with serial numbers `sn` and `sn + 1`. If only the ACK packet for `sn + 1` is received, it is possible that the ACK packet for `sn` hasn't arrived yet in the network, or the ACK packet has been lost, or the `sn` packet has been lost. If it is not yet time for timeout retransmission and the network is not heavily congested, but rather due to some unexpected packet loss, the sender can proactively send the `sn` packet in advance to help the receiver receive the data faster and improve the flow rate.
+The sender has transmitted two data packets with sequence numbers `sn` and `sn + 1`. If only the ACK packet for `sn + 1` is received, it could be due to the ACK packet for `sn` not yet reaching the network, or being lost, or the data packet for `sn` being lost. If it is not yet time for a timeout retransmission, the network is not too congested, and the loss is sudden due to some reason, the sender can proactively send the `sn` data packet to help the receiver to faster receive the data and improve the throughput.
 
-KCP also implements a fast retransmission mechanism, which is located inside `ikcp_flush`.
+KCP also implements a fast retransmission mechanism, which is reflected in `ikcp_flush`:
 
 <details>
-<summary> Fast Retransmission (click to expand code) </summary>
+<summary> Fast retransmission (click to expand code) </summary>
 ```cpp
 void ikcp_flush(ikcpcb *kcp)
 {
@@ -891,7 +878,7 @@ void ikcp_flush(ikcpcb *kcp)
             // ...
         }
         else if (segment->fastack >= resent) {
-// Fast retransmission
+Fast Retransmission
             if ((int)segment->xmit <= kcp->fastlimit ||
                 kcp->fastlimit <= 0) {
                 needsend = 1;
@@ -902,7 +889,7 @@ void ikcp_flush(ikcpcb *kcp)
             }
         }
         if (needsend) {
-// Sending data
+// Send data
             // ...
         }
     // ...
@@ -910,21 +897,19 @@ void ikcp_flush(ikcpcb *kcp)
 ```
 </details>
 
-To initiate fast retransmission, there are two conditions:
+To initiate fast retransmission, two conditions must be met:
+* `segment->fastack >= resent`, where resent is a configurable parameter `kcp->fastresend`, and setting it to 0 will disable fast retransmission. `segment->fastack` is set in the function `ikcp_parse_fastack`, which is called within `ikcp_input`. This function increments `segment->fastack` for all `sn` less than `maxack`, calculated by `ikcp_input`. Therefore, `segment->fastack` represents the number of times packets larger than `sn` have been received.
+`segment->xmit <= kcp->fastlimit || kcp->fastlimit <= 0`, where `segment->xmit` represents the number of transmissions, and `kcp->fastlimit` is the configurable maximum number of fast retransmissions. The transmission count must be less than the maximum fast retransmission count.
 
-* `segment->fastack >= resent`: The variable `resent` is a configurable parameter `kcp->fastresend`. Setting it to 0 will disable fast retransmission. `segment->fastack` is set in the function `ikcp_parse_fastack`, which is called within `ikcp_input`. It increments `segment->fastack` by one for all segments with `sn` smaller than `maxack` calculated by `ikcp_input`. Therefore, `segment->fastack` represents the number of received packets with a sequence number greater than `sn`.
-* `segment->xmit <= kcp->fastlimit || kcp->fastlimit <= 0`: `segment->xmit` represents the number of times the segment has been sent, while `kcp->fastlimit` is the maximum configurable number of fast retransmissions. The number of transmissions (`segment->xmit`) must be smaller than the maximum fast retransmission limit (`kcp->fastlimit`) or the limit must be set to 0.
+Once the above conditions for fast retransmission are met, KCP will execute the fast retransmission. It is important to note that fast retransmission does not reset the timeout retransmission timer; the original timeout period will still apply.
 
-Once the above conditions for fast retransmission are met, KCP will perform fast retransmission. It is important to note that fast retransmission does not reset the timeout for retransmission, the original timeout will still take effect.
+###Shorten the timeout retransmission time.
 
-### Shorten Timeout Retransmission Time
+Timeout retransmission is a great mechanism, but it can be quite time-consuming. According to TCP's strategy, each timeout doubles the retransmission time, leading to rapidly escalating wait times. During this waiting period, it's likely that the receiver's window has been exhausted and cannot accept new data. Moreover, the packet number waiting for retransmission is at the front, and the receiver needs to receive the retransmitted packet before it can return all data to the upper layer. In such a scenario, the overall network flow rate is nearly zero. KCP introduces a configuration that can lessen the growth of waiting times, and it won't simply double. By configuring `kcp->nodelay`, each wait time can increase by only 1 times the RTO or 0.5 times the RTO, effectively slowing the growth of waiting times and helping the network recover its flow rate more quickly.
 
-Timeout retransmission is a great mechanism, but it takes too much time. According to TCP's strategy, the timeout interval doubles each time, and the waiting time expands quickly. During the waiting time, it is highly likely that the receiving end's receive window is exhausted, making it unable to receive new data. The sequence number of the packet waiting for retransmission is at the very front, and the receiver needs to receive the retransmitted packet in order to return all the data to the upper layer. In this situation, the overall network throughput is almost zero. KCP adds a configuration option that can slow down the growth of waiting time, and it is not a doubling mechanism. By configuring `kcp->nodelay`, the waiting time only increases by a factor of 1 or 0.5 times the RTO (Retransmission Timeout), effectively mitigating the growth of waiting time and helping the network to recover its throughput as quickly as possible.
+###Update send window.
 
-### Update Sending Window
-
-The sending window indicates the number of data packets transmitted simultaneously. The larger the window, the more data can be transmitted simultaneously and the higher the flow rate. However, if the window is too large, it may cause network congestion, increase packet loss rate, and lead to more data retransmission, resulting in a decrease in flow rate. Therefore, the sending window needs to be continuously updated based on the network conditions, gradually approaching the optimal value. The code related to the sending window in KCP is as follows:
-
+The sending window refers to the number of data packets transmitted simultaneously. The larger the window, the more data can be transmitted at the same time, resulting in higher flow rate. However, if the window is too large, it can lead to network congestion, increased packet loss, more data retransmissions, and decreased flow rate. Therefore, the sending window needs to be continuously updated based on the network conditions, gradually approaching the optimal value. Regarding the sending window in KCP, it is expressed in the code as:
 
 <details>
 <summary>Send Window (click to expand code)</summary>
@@ -932,18 +917,18 @@ The sending window indicates the number of data packets transmitted simultaneous
 ikcpcb* ikcp_create(IUINT32 conv, void *user)
 {
     // ...
-// snd_wnd, rcv_wnd The size of the send and receive buffer
+// snd_wnd, rcv_wnd the size of the send and receive buffer
     kcp->snd_wnd = IKCP_WND_SND;    // 32
     kcp->rcv_wnd = IKCP_WND_RCV;    // 128
-// Receiver window size on the other side // 128
+// Receiver window size of the peer              // 128
     kcp->rmt_wnd = IKCP_WND_RCV
-// Initialize sending window cwnd to 0
+Initialize the sending window cwnd to 0.
     kcp->cwnd = 0;
-    // The size of the sent window in bytes, participating in the calculation of cwnd.
+// The size of the send window in bytes, participates in the calculation of cwnd
     kcp->incr = 0
-    // 慢启动阈值，slow start threshold
+// Slow start threshold
     kcp->ssthresh = IKCP_THRESH_INIT;
-// nocwnd is a configurable parameter, 1 means cwnd is not considered.
+// nocwnd is a configurable parameter, where 1 means not to consider cwnd.
     kcp->nocwnd = 0;
     // ...
 }
@@ -951,22 +936,22 @@ ikcpcb* ikcp_create(IUINT32 conv, void *user)
 void ikcp_flush(ikcpcb *kcp)
 {
     // ...
-    // Before sending data, first calculate the size of the sending window, which is the minimum value between the size of the sending buffer and the size of the receiving window of the other party.
+Before sending data, calculate the size of the sending window, which is the minimum value between the sending buffer size and the receiving window size of the other party.
     cwnd = _imin_(kcp->snd_wnd, kcp->rmt_wnd);
-// We also need to consider `kcp->cwnd`, which is the continuously updated sending window.
+// By default, we also need to consider kcp->cwnd, which is the continuously updated sending window.
     if (kcp->nocwnd == 0) cwnd = _imin_(kcp->cwnd, cwnd);
 
-// Move snd_queue to snd_buf based on the size of cwnd
+Move snd_queue to snd_buf based on the size of cwnd.
     while (_itimediff(kcp->snd_nxt, kcp->snd_una + cwnd) < 0) {
     }
 // Send data
     resent = (kcp->fastresend > 0)? (IUINT32)kcp->fastresend : 0xffffffff;
 // Trigger timeout retransmission lost = 1
-// Trigger fast retransmission change++
+// Trigger fast retransmit change++
 
-    // Update the slow start threshold and the congestion window
+Update slow start threshold and congestion window.
     if (change) {
-        // If fast retransmission is triggered, ssthresh is set to half the number of packets currently being transmitted on the network.
+// If fast retransmit is triggered, set ssthresh to half of the number of packets currently being transmitted on the network.
         IUINT32 inflight = kcp->snd_nxt - kcp->snd_una;
         kcp->ssthresh = inflight / 2;
         if (kcp->ssthresh < IKCP_THRESH_MIN)
@@ -978,17 +963,17 @@ void ikcp_flush(ikcpcb *kcp)
     }
 
     if (lost) {
-// If there is a timeout retransmission, trigger slow start. The ssthresh threshold is half of the send window.
+// If there is a timeout retransmission, slow start is triggered, with the ssthresh threshold set to half of the sending window.
         kcp->ssthresh = cwnd / 2;
         if (kcp->ssthresh < IKCP_THRESH_MIN)
             kcp->ssthresh = IKCP_THRESH_MIN;
-// Send the window back to 1 and restart slow start growth
+// Send the window back to 1 and restart slow start growth.
         kcp->cwnd = 1;
         kcp->incr = kcp->mss;
     }
 
     if (kcp->cwnd < 1) {
-// Because it is initialized to 0, it will be set to 1 again here.
+// Because it is initialized to 0, it will be set to 1 here.
         kcp->cwnd = 1;
         kcp->incr = kcp->mss;
     }
@@ -997,38 +982,38 @@ void ikcp_flush(ikcpcb *kcp)
 int ikcp_input(ikcpcb *kcp, const char *data, long size)
 {
     IUINT32 prev_una = kcp->snd_una;
-// Processing received data
+Processing received data
 
     while (1) {
         // ...
         data = ikcp_decode16u(data, &wnd)
-`// rmt_wnd` is the receiving window size of the other party.
+// rmt_wnd is the receiver window size of the other party.
         kcp->rmt_wnd = wnd
         // ...
-// Process data
+Process data
     }
 
-// Finally update the send window
-// kcp->snd_una - prev_una > 0 means that ACK has been received for this input and the send buffer snd_buf has changed.
+Update the last transmission window.
+If kcp->snd_una - prev_una > 0, it means that this input has received an ACK and the send buffer snd_buf has changed.
     if (_itimediff(kcp->snd_una, prev_una) > 0) {
-// Then determine the receiving window of the other party.
+// Re-evaluate the other party's receiving window
         if (kcp->cwnd < kcp->rmt_wnd) {
             IUINT32 mss = kcp->mss;
 
             if (kcp->cwnd < kcp->ssthresh) {
-// Less than slow-start threshold, double the growth
+If less than the slow-start threshold, double the growth.
                 kcp->cwnd++;
                 kcp->incr += mss;
 
             }    else {
-// After exceeding the slow start threshold, update the increment using the formula and then calculate the congestion window (cwnd).
+After exceeding the slow-start threshold, the formula is used to update incr and then calculate cwnd.
                 if (kcp->incr < mss) kcp->incr = mss;
                 kcp->incr += (mss * mss) / kcp->incr + (mss / 16);
                 if ((kcp->cwnd + 1) * mss <= kcp->incr) {
                     kcp->cwnd++;
                 }
             }
-// The updated value also needs to be compared with rmt_wnd.
+The updated value also needs to be compared to rmt_wnd again.
             if (kcp->cwnd > kcp->rmt_wnd) {
                 kcp->cwnd = kcp->rmt_wnd;
                 kcp->incr = kcp->rmt_wnd * mss;
@@ -1039,17 +1024,19 @@ int ikcp_input(ikcpcb *kcp, const char *data, long size)
 ```
 </details>
 
-The code snippet involving the calculation of the sending window size `kcp->cwnd` will be a bit longer, as it needs to be updated both when sending and receiving data. `kcp->cwnd` is initialized as 0 and will be modified to 1 when the `ikcp_flush` function is called for the first time and it is found to be less than 1. Afterwards, the sender will send a corresponding number of data packets based on the sending window size and wait for ACK reply packets. The ACK packets are processed in the `kcp->input` function. If ACK packets are detected and there is a clearing of sent data packets in the sending buffer, it means that some packets have been successfully delivered, and `kcp->cwnd` will be incremented. In fact, it is likely that only one ACK packet is processed in each `kcp->input` call, so it can be understood that each received ACK packet triggers an increment of `kcp->cwnd`, which has a doubling effect. For example, if the current `kcp->cwnd` is 2 and two data packets are sent and two ACK packets are received, then two increments will be triggered, resulting in `kcp->cwnd` becoming 4 through doubling.
+Calculating the size of the sending window `kcp->cwnd` involves a slightly longer code snippet, because it needs to be updated when sending and receiving data. `kcp->cwnd` is initialized as 0,
+After that, when `ikcp_flush` is called for the first time, it will check if it is less than 1 and change it to 1. Then, the sender will send out the corresponding number of packets based on the size of the sending window and wait for the ACK.
+Responding to packets. The ACK packets are processed in `kcp->input`. If ACK packets are detected in `kcp->input` and there is a clearing of the data packets in the sending buffer, it indicates that the data packets have been successfully delivered, `kcp->cwnd++`. In reality, it is highly likely that only one ACK packet is processed in one `kcp->input`. It can be understood that each received ACK packet will trigger `kcp->cwnd++`, this increment achieves a doubling effect. For instance, if the current `kcp->cwnd = 2`, and two data packets are sent, receiving two ACK packets will trigger two increments, resulting in `kcp->cwnd = 4`, a doubling effect.
 
-`cwnd` can continue to grow exponentially until it exceeds the slow start threshold or there is congestion timeout retransmission or fast retransmission. After a congestion timeout retransmission occurs, slow start is triggered, and the slow start threshold `ssthresh = kcp->cwnd / 2`, and the send window `kcp->cwnd = 1` return to initial exponential growth. If fast retransmission occurs, KCP first reduces `ssthresh`, which reduces the space for `cwnd` exponential growth and slows down the growth rate, thereby preemptively mitigating congestion.
+The `cwnd` can keep growing exponentially until it exceeds the slow start threshold or experiences congestion timeout retransmission, or fast retransmission. After a timeout retransmission occurs, it triggers slow start, where the slow start threshold `ssthresh = kcp->cwnd / 2`, and the sending window `kcp->cwnd = 1`, restarts exponential growth from the beginning. If fast retransmission occurs, KCP first reduces `ssthresh` in advance, that is, reducing the space for exponential growth of `cwnd`, slowing down the growth rate in advance to alleviate congestion.
 
-KCP has added a new configuration parameter called `nocwnd`. When `nocwnd = 1`, the sender no longer considers the size of the sending window when sending data. It simply sends the maximum number of data packets that can be sent, meeting the requirements of high-speed mode.
+KCP has also added a configuration `nocwnd`. When `nocwnd = 1`, data is sent without considering the size of the sending window, allowing the maximum possible amount of data packets to be sent, thereby meeting the requirements of high-speed mode.
 
-## Conclusion
+##Summary
 
-This article provides a simple analysis of the source code for KCP and discusses the implementation of ARQ on KCP, as well as some strategies for improving the flow rate of KCP. There are many details that have not been mentioned, so those who are interested can refer to the source code of KCP and compare it themselves. It is believed that there will be many valuable insights to be gained.
+This article briefly analyzes the source code of KCP and discusses the implementation of ARQ on KCP, as well as some strategies for improving flow rates in KCP. There are many details that have not been mentioned; those interested can review the KCP source code for comparison, and I'm sure there will be significant insights to gain.
 
 --8<-- "footer_en.md"
 
 
-> This post is translated using ChatGPT, please [**feedback**](https://github.com/disenone/wiki_blog/issues/new) if any omissions.
+> This post is translated using ChatGPT, please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

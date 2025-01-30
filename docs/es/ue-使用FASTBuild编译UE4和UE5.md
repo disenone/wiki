@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Utilizar FASTBuild para compilar UE4 y UE5
+title: Uso de FASTBuild para compilar UE4 y UE5
 date: 2023-12-01
 categories:
 - c++
@@ -11,34 +11,32 @@ tags:
 - game
 - ue
 - UnreanEngine
-description: La compatibilidad nativa de la UE con FASTBuild no es del todo completa.
-  Para lograr una compatibilidad perfecta de FASTBuild con UE4 y UE5, es necesario
-  realizar algunas configuraciones y modificaciones en el código fuente. A continuación,
-  te explicaré paso a paso cómo hacerlo.
+description: UE 原生对 FASTBuild 支持不太完善, 为了让 UE4 和 UE5 完美支持 FASTBuild, 我们需要做一些配置和源码修改,
+  下面为你一一道来.
 figures: []
 ---
 
 <meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5" />
 
-> Este método de texto ha sido probado y es compatible con UE4.27 - UE5.3. No se ha probado en otras versiones, pero puedes intentarlo.
+> Este método ha sido probado para ser compatible con UE4.27 - UE5.3, otras versiones no han sido probadas, puedes intentarlo.
 
-##**Introducción**
+##Introducción
 
-[FASTBuild](https://www.fastbuild.org/docs/home.html)FASTBuild es una herramienta de compilación distribuida de código abierto y gratuita. El proceso de compilación de UE puede ser bastante largo, pero al utilizar FASTBuild se puede reducir significativamente el tiempo de compilación.
+[FASTBuild](https://www.fastbuild.org/docs/home.html)Se trata de una herramienta de compilación distribuida de código abierto y gratuita. La compilación en UE puede ser bastante lenta, pero si se utiliza FASTBuild, se puede reducir significativamente el tiempo de compilación.
 
-UE a partir de la versión 4.x es capaz de soportar FASTBuild. El código fuente oficial incluye una versión modificada de la herramienta FASTBuild, basada en la versión 0.99 de FASTBuild. Se encuentra en la ubicación `Engine\Extras\ThirdPartyNotUE\FASTBuild`. UE5.3 también utiliza esta versión. Sin embargo, esta es una versión bastante antigua. Hasta la fecha de creación de este documento, la versión más reciente de FASTBuild es la 1.11, que cuenta con nuevas funcionalidades y correcciones de errores. Este documento se centra en cómo utilizar la versión 1.11 para admitir tanto UE4 como UE5.
+UE ha podido admitir FASTBuild desde la versión 4.x, el código fuente oficial viene con una versión modificada de la herramienta FASTBuild, basada en la versión 0.99 de FASTBuild, ubicada en `Engine\Extras\ThirdPartyNotUE\FASTBuild`. UE5.3 también utiliza esta versión. Esta es una versión bastante antigua, ya que hasta la fecha de creación de este texto, la versión más reciente de FASTBuild es la 1.11, que ofrece más funciones nuevas y correcciones de errores. Este texto se centra en cómo utilizar la versión 1.11 para admitir tanto UE4 como UE5 al mismo tiempo.
 
-##**Configuración sencilla**
+##Configuración sencilla
 
-Para lograr nuestro objetivo, necesitamos hacer algunas modificaciones en FASTBuild 1.11 y el código fuente de UE. Aquí, de hecho, ya he terminado de hacer las modificaciones, por lo que podemos usar directamente la versión que he modificado.
+Para lograr nuestros objetivos, necesitamos hacer algunas modificaciones en FASTBuild 1.11 y en el código fuente de UE. De hecho, ya he realizado todas las modificaciones aquí, por lo que podemos usar directamente la versión que he modificado.
 
-FASTBuild descarga la [última versión](https://github.com/disenone/fastbuild/releases)Los archivos ejecutables en el interior son FBuild.exe, FBuildCoordinator.exe y FBuildWorker.exe. Para mayor claridad, a continuación llamaremos "host local" a la máquina que utiliza FBuild.exe para programar, y "máquinas remotas" a aquellas que participan en la edición de la CPU.
+Descarga la [última versión](https://github.com/disenone/fastbuild/releases)Los archivos ejecutables dentro son FBuild.exe, FBuildCoordinator.exe, FBuildWorker.exe. Para expresar con claridad, a la máquina que utiliza FBuild.exe para programar la llamaremos `máquina local`, y a las otras máquinas remotas que proporcionan CPU para participar en la edición las llamaremos `máquinas remotas`.
 
-###**本机配置**
+###Configuración de esta máquina
 
-Agrega el directorio donde se encuentra FBuild.exe al variable de entorno del sistema Path, para asegurarte de que puedas ejecutar FBuild.exe directamente desde la línea de comandos (cmd).
+Agrega el directorio donde se encuentra FBuild.exe al entorno de variables de sistema Path, para asegurarte de que puedas ejecutar FBuild.exe directamente desde la ventana de comandos (cmd).
 
-Configurar el directorio compartido de la caché (si no es necesario generar la caché, puedes omitir esta configuración): establecer un directorio vacío como ruta compartida y asegurarse de que la máquina remota tenga acceso a él.
+Configurar el directorio compartido de Cache (si no se necesita generar Cache, se puede omitir esta configuración): establecer un directorio vacío como ruta compartida y confirmar que la máquina remota pueda acceder.
 
 Abre el proyecto de código fuente de UE4 / UE5 en esta máquina y modifica el archivo de configuración de compilación Engine\Saved\UnrealBuildTool\BuildConfiguration.xml de la siguiente manera:
 
@@ -57,30 +55,24 @@ Abre el proyecto de código fuente de UE4 / UE5 en esta máquina y modifica el a
 </Configuration>
 ```
 
-Descargar FBuildCoordinator.exe antes de ejecutarlo en esta máquina.
+Ejecutar el archivo FBuildCoordinator.exe descargado anteriormente en esta máquina.
 
-###Remote machine configuration
+###Configuración de máquina remota
 
-Al configurar la caché de la misma manera, solo se debe especificar la dirección IP de la máquina local, supongamos que es 192.168.1.100
+La misma configuración de Cache, solo que la IP debe especificarse a la IP local, suponiendo aquí que sea 192.168.1.100.
 
 - FASTBUILD_CACHE_PATH: \\192.168.1.100\Cache
 - FASTBUILD_CACHE_MODE: rw
 
-`同样配置 Coordinator ip`
- 
-`同样配置 Coordinator ip` se traduce al español como: `Configuración de la IP del coordinador igual`
+Configuración de Coordinador con la misma dirección IP.
 
 - FASTBUILD_COORDINATOR: 192.168.1.100
 
-**配置完如下图**
-
-Traducción: 
-
-Después de configurar, el resultado se muestra en la siguiente imagen:
+La configuración es la siguiente:
 
 ![](assets/img/2023-ue-fastbuild/remote_vars.png)
 
-Ejecute FBuildWorker.exe en la máquina remota. Si la configuración es exitosa, se imprimirá un registro en FBuildCoordinator.exe de esta máquina local (donde 192.168.1.101 es la dirección IP de la máquina remota):
+Ejecuta FBuildWorker.exe en la máquina remota; si la configuración es exitosa, podrás ver que se imprimen registros en FBuildCoordinator.exe de esta máquina (aquí 192.168.1.101 es la dirección IP de la máquina remota):
 
 ```
 FBuildCoordinator - v1.11-UE
@@ -90,11 +82,9 @@ FBuildCoordinator - v1.11-UE
 [2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 ```
 
-###**测试 UE 编译**
+###Prueba de compilación de UE
 
-Prueba de compilación de UE.
-
-Usa VisualStudio para abrir el proyecto de código fuente de UE, selecciona un proyecto de C++, haz clic en Rebuild. Si la configuración es correcta, podrás ver registros similares a los que se muestran a continuación:
+Abre el proyecto de código fuente de Unreal Engine en Visual Studio, selecciona un proyecto de C++, y haz clic en Rebuild. Si la configuración es correcta, verás registros similares a los siguientes.
 
 ```
 11>FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
@@ -111,74 +101,74 @@ Usa VisualStudio para abrir el proyecto de código fuente de UE, selecciona un p
 11>Distributed Compilation : 1 Workers in pool '127.0.0.1'
 ```
 
-FASTBuild puede encontrar la dirección IP de la máquina remota y comenzar a enviar la compilación a esa máquina remota. También se puede ver en el FBuildWorker de la máquina remota que hay una tarea de compilación en curso.
+FASTBuild puede encontrar la IP de la máquina remota y comenzar a enviar compilaciones a la máquina remota. También se puede ver en el FBuildWorker de la máquina remota que hay tareas de compilación en ejecución.
 
-#### **Configuración avanzada**
+##Configuración avanzada
 
-###Apoyo a versiones más antiguas de UE
+###Soporte para versiones más antiguas de UE
 
-Si te das cuenta de que tu UE no tiene la herramienta FASTBuild (Engine\Extras\ThirdPartyNotUE\FASTBuild), y en el proyecto UnrealBuildTool no hay un archivo FASTBuild.cs, es muy probable que tu versión de UE aún no sea compatible con FASTBuild.
+Si descubres que tu UE no tiene la herramienta FASTBuild (Engine\Extras\ThirdPartyNotUE\FASTBuild) y que no hay un archivo FASTBuild.cs en el proyecto UnrealBuildTool, es muy probable que tu versión de UE aún no sea compatible con FASTBuild.
 
-Entonces necesitarás consultar el código fuente de UE4.27, y también crear un FASTBuild.cs similar, además de realizar las modificaciones pertinentes en el resto del código relacionado. No detallaremos aquí los cambios específicos.
+Necesitarás consultar el código fuente de UE4.27, y también crear un archivo FASTBuild.cs similar, además de realizar los cambios necesarios en otros códigos relacionados, pero no entraré en detalles aquí.
 
 
-###Compilando tu propio FASTBuild
+###Compilar tu propio FASTBuild
 
-Si estás interesado en FASTBuild en sí mismo, o si quieres hacer algunas modificaciones, puedes intentar compilar FASTBuild con FASTBuild.
+Si también estás interesado en FASTBuild o deseas hacer algunas modificaciones, puedes intentar compilar FASTBuild con FASTBuild.
 
-- Descarga mi [último código fuente](https://github.com/disenone/fastbuild/releases)Con el fin de lograr lo que estás buscando, sería necesario contar con más contexto o información para garantizar una traducción precisa. "并解压" parece ser una combinación de dos palabras en chino que no tienen un significado claro por sí mismas. Por favor, proporciónanos más detalles para que podamos ayudarte de la manera más adecuada posible.
-- Modificar External\SDK\VisualStudio\VS2019.bff, cambiar .VS2019_BasePath y .VS2019_Version por el contenido correspondiente a tu máquina local. Puedes encontrar la versión en el directorio .VS2019_BasePath\Tools\MSVC, por ejemplo:
+- Descarga mi [último código fuente](https://github.com/disenone/fastbuild/releases)，并解压
+- Modifica External\SDK\VisualStudio\VS2019.bff, cambiando .VS2019_BasePath y .VS2019_Version por el contenido correspondiente en tu máquina; la versión se puede ver en el directorio .VS2019_BasePath\Tools\MSVC, por ejemplo.
     ```
     .VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // <-- Set path here
     .VS2019_Version         = '14.29.30133' // <-- Set version here
     .VS2019_MSC_VER         = '1929' // <-- Set MSC_VER here
     ```
 
-- Modifica el archivo .bff de External\SDK\Windows\Windows10SDK, en los campos .Windows10_SDKBasePath y .Windows10_SDKVersion. Puedes ver la versión en la carpeta .Windows10_SDKBasePath/bin.
+Por favor, traduce el siguiente texto al idioma español:
+
+- Modify External\SDK\Windows\Windows10SDK.bff's .Windows10_SDKBasePath and .Windows10_SDKVersion, puedes encontrar la versión en .Windows10_SDKBasePath/bin:
     ```
     .Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // <-- Set path here
     .Windows10_SDKVersion         = '10.0.19041.0' // <-- Set version here
     ```
 
-Modifica el archivo External\SDK\Clang\Windows\Clang11.bff, cambiando los valores de .Clang11_BasePath y .Clang11_Version. La ruta se encuentra en .VS2019_BasePath\Tools\Tools/LLVM/x64.
+- Modificar el .Clang11_BasePath y .Clang11_Version en External\SDK\Clang\Windows\Clang11.bff, la ruta está en .VS2019_BasePath\Tools\Tools/LLVM/x64.
     ```
     .Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // <-- Set path here
     .Clang11_Version  = '12.x.x'
     ```
 
-- Entra en el directorio Code y ejecuta `FBuild.exe All-x64-Release` en el cmd. Si la configuración es correcta, deberías ver la compilación exitosa. En la ruta tmp\x64-Release\Tools\FBuild\FBuild podrás encontrar el archivo FBuild.exe.
+- Accede al directorio de Code y ejecuta `FBuild.exe All-x64-Release` en cmd. Si la configuración es correcta, podrás ver que la compilación fue exitosa. En tmp\x64-Release\Tools\FBuild\FBuild podrás encontrar FBuild.exe.
 
-`FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1` permite activar la compilación distribuida.
+`FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1` can enable distributed compilation.
 
-###**FBuild Más opciones**
+###FBuild Más opciones
 
-**我提供的 FBuild 本身支持以下常用的选项：**
+El FBuild que proporciono soporta las siguientes opciones comunes:
 
-El FBuild que ofrezco en sí mismo admite las siguientes opciones comunes:
+- coordinator: Especificar la dirección IP del Coordinator (puede sobrescribir el valor de la variable de entorno del sistema)
+- brokerage: dirección de corredor (brokerage) designada (puede sobrescribir el valor de las variables de entorno del sistema)
+nocache: forcing to not use cache.
+- dist: Activar la compilación distribuida
+- forceremote：Forzar la compilación en el equipo remoto
+- resumen: generar informe estadístico después de la edición
 
-- coordinator: Especifica la dirección IP del coordinador (puede sobrescribir el valor de la variable de entorno del sistema)
-- brokerage: dirección de intermediación designada (puede sobrescribir el valor de las variables de entorno del sistema)
-- nocache: Obliga a no usar caché.
-- dist: Activar compilación distribuida.
-- forceremote: Compilar de forma remota
-- summary: Generar informe de estadísticas después de finalizar la edición.
+Espera, puedes ver más opciones ejecutando `FBuild.exe -help`.
 
-Espera un momento, puedes ejecutar `FBuild.exe -help` para ver más opciones.
+Las opciones más comunes de FBuildWorker son:
 
-FBuildWorker tiene varias opciones comunes:
+- coordinador: Specifique la dirección IP del coordinador (puede cubrir los valores de las variables de entorno del sistema)
+- brokerage: dirección de corretaje especificada (puede superponer el valor de las variables de entorno del sistema)
+- nocache: forzar no usar caché
+- cpus: Especifica cuántos núcleos se asignarán para la compilación.
 
-- coordinator: Especifica la dirección IP del coordinador (puede sobrescribir el valor de la variable de entorno del sistema)
-- brokerage: dirección de intermediación designada (puede anular el valor de las variables de entorno del sistema)
-- nocache:  Obliga a no utilizar la memoria caché.
-- cpus: Especifica cuántos núcleos se utilizarán para la compilación.
+Para ver más opciones, puedes ejecutar `FBuildWorder.exe -help`.
 
-Más opciones están disponibles al ejecutar `FBuildWorder.exe -help`.
+###Modificar el FASTBuild.cs incorporado de UE.
 
-###Modifica el archivo FASTBuild.cs incorporado en la UE.
+El FASTBuild.cs que viene con UE no maneja adecuadamente las variables de entorno del sistema y su relación con los parámetros especificados en BuildConfiguration.xml; muchos parámetros se leen prioritariamente desde las variables de entorno del sistema, lo cual es claramente opuesto a la lógica de uso de BuildConfiguration.xml.
 
-El archivo FASTBuild.cs incluido en UE no maneja adecuadamente las variables de entorno del sistema en relación con los parámetros especificados en BuildConfiguration.xml. Muchos de los parámetros leen primero las variables de entorno del sistema, lo cual claramente es contrario a la lógica de uso de BuildConfiguration.xml.
-
-Para ello, puedes modificar el código relevante de la siguiente manera, utilizando como ejemplo UE5.3:
+Para ello, se puede modificar el código correspondiente de la siguiente manera, tomando como ejemplo UE5.3:
 
 ```csharp
 private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
@@ -254,7 +244,7 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
 ...
 ```
 
-###BuildConfiguration.xml Configuración avanzada
+###BuildConfiguration.xml Configuración Avanzada
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -266,33 +256,35 @@ private bool ExecuteBffFile(string BffFilePath, ILogger Logger)
     <BuildConfiguration>
         <!-- Activar FASTBuild -->
         <bAllowFASTBuild>true</bAllowFASTBuild>
-<!-- Especifica el número de núcleos de CPU que deben participar en la compilación en esta máquina -->
+Indique el número de núcleos de CPU que participan en la compilación en esta máquina.
         <MaxParallelActions>12</MaxParallelActions>
-        <!-- Cerrar Incredibuild -->
+<!-- Desactivar Incredibuild -->
         <bAllowXGE>false</bAllowXGE>
     </BuildConfiguration>
     <FASTBuild>
 <!-- Especificar la ruta de FBuild -->
         <FBuildExecutablePath>d:\libs\FASTBuild\bin\FBuild.exe</FBuildExecutablePath>
-        <!-- Iniciar la compilación distribuida -->
+<!-- Activar la compilación distribuida -->
         <bEnableDistribution>true</bEnableDistribution>
-<!-- Especifica la ruta del broker -->
+<!-- Especificar la ruta de brokerage -->
         <FBuildBrokeragePath>\\127.0.0.1\Brokerage\</FBuildBrokeragePath>
-<!-- Especifica la ruta de la caché -->
+Por favor traduce este texto al español:
+
+        <!-- Especificar la ruta de la caché -->
         <FBuildCachePath>\\127.0.0.1\Cache\</FBuildCachePath>
-        <!-- Activar caché -->
+<!-- Activar caché -->
         <bEnableCaching>true</bEnableCaching>
-        <!-- permisos de lectura y escritura de cache Leer/Escribir/Leer y Escribir -->
+<!-- permisos de lectura/escritura del caché Read/Write/ReadWrite -->
         <CacheMode>ReadWrite</CacheMode>
-<!-- Especificar la IP del coordinador -->
+<!-- Especificar la ip del coordinador -->
         <FBuildCoordinator>127.0.0.1</FBuildCoordinator>
-        <!-- Forzar compilación remota -->
+<!-- Forzar compilación remota -->
         <!-- <bForceRemote>true</bForceRemote> -->
     </FASTBuild>
 </Configuration>
 ```
 
---8<-- "footer_en.md"
+--8<-- "footer_es.md"
 
 
-> Este post está traducido usando ChatGPT, por favor [**feedback**](https://github.com/disenone/wiki_blog/issues/new) si hay alguna omisión.
+> Este post fue traducido usando ChatGPT, por favor en [**comentarios**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 

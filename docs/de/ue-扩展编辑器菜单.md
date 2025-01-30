@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE erweitern Editor-Menü
+title: UE Erweiterungseditor-Menü
 tags:
 - dev
 - game
@@ -8,19 +8,19 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: Notieren Sie, wie die UE den Editor-Menü erweitert.
+description: Dokumentation, wie UE das Editor-Menü erweitert
 ---
 
 
 <meta property="og:title" content="UE 扩展编辑器菜单" />
 
-#Erweitern Sie das UE-Editor-Menü.
+#UE Erweiterte Editor-Menü
 
-> Protokollieren Sie, wie UE den Editor-Menü erweitert.
+> Aufzeichnung, wie UE das Editor-Menü erweitert.
 
 ## Hook
 
-Hook kann als Ankerpunkt für erweiterte Menüs verstanden werden. Wir können neue Menübefehle vor oder nach einem Hook einstellen. Die meisten integrierten Editor-Menübefehle in UE sind mit einem Hook versehen. Öffne in UE5 die Option `Bearbeiten - Editor-Einstellungen - Allgemein - Andere - UI-Erweiterungspunkte anzeigen`, um alle Hooks für Menüs anzuzeigen:
+Hook kann als Ankerpunkt für erweiterte Menüs verstanden werden. Wir können festlegen, ob die neu hinzugefügten Menübefehle vor oder nach dem Hook angezeigt werden. Die im UE integrierten Editormenübefehle verfügen im Allgemeinen über einen Hook. Um alle Menü-Hooks anzuzeigen, öffnen Sie in UE5 `Bearbeiten - Editor-Einstellungen - Allgemein - Weitere - UI-Erweiterungspunkte anzeigen`.
 
 ![](assets/img/2023-ue-extend_menu/show_hook.png)
 
@@ -28,7 +28,7 @@ Hook kann als Ankerpunkt für erweiterte Menüs verstanden werden. Wir können n
 
 ##Modulabhängigkeit
 
-Die Module LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd und ToolMenus müssen in der .Build.cs-Datei des Projekts hinzugefügt werden.
+In der Datei .Build.cs des Projekts müssen die abhängigen Module LevelEditor, Slate, SlateCore, EditorStyle, EditorWidgets, UnrealEd, ToolMenus hinzugefügt werden:
 
 ```c#
 PrivateDependencyModuleNames.AddRange(
@@ -48,9 +48,9 @@ PrivateDependencyModuleNames.AddRange(
     );
 ```
 
-##Fügen Sie eine Menüleiste hinzu.
+##Bitte fügen Sie eine Menüleiste hinzu.
 
-Bitte senden Sie den Code direkt.
+Direkt zum Code
 
 ```cpp
 auto MenuExtender = MakeShared<FExtender>();
@@ -73,11 +73,11 @@ MenuExtender->AddMenuBarExtension(
 FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor").GetMenuExtensibilityManager()->AddExtender(MenuExtender);
 ```
 
-Durch Ausführen des obigen Codes sehen Sie, dass hinter Hilfe eine Menüleiste MenuTest hinzugefügt wurde:
+Durch das Ausführen des obigen Codes kann man sehen, dass nach Hilfe eine Menüleiste MenuTest hinzugefügt wurde:
 
 ![](assets/img/2023-ue-extend_menu/bar.png)
 
-##Fügen Sie den Befehl hinzu.
+##Fügen Sie einen Befehl hinzu.
 
 Verwenden Sie die Schnittstelle `MenuBuilder.AddMenuEntry`:
 
@@ -91,7 +91,7 @@ MenuBuilder.AddMenuEntry(
     })));
 ```
 
-Legen Sie den obigen Code in CreateLambda, um das Menübefehl zu erstellen:
+Fügen Sie den obigen Code in CreateLambda ein, um das Menükommando zu erzeugen:
 
 ![](assets/img/2023-ue-extend_menu/action.png)
 
@@ -115,9 +115,7 @@ MenuBuilder.AddMenuSeparator();
 
 ##Untermenü
 
-The text translates to:
-
-"Untermenü ähnelt einer Menüleiste und muss in der Lambda definiert werden:"
+Untermenü ähnelt der Menüleiste und muss in Lambda definiert werden:
 
 ```cpp
 MenuBuilder.AddSubMenu(
@@ -138,7 +136,7 @@ MenuBuilder.AddSubMenu(
 
 #SlateUI controls
 
-Es können weitere UI-Steuerelemente hinzugefügt werden:
+Es können auch UI-Steuerelemente hinzugefügt werden:
 
 ```cpp
 MenuBuilder.AddWidget(
@@ -169,11 +167,11 @@ MenuBuilder.AddWidget(
 
 ![](assets/img/2023-ue-extend_menu/widget.png)
 
-Der Inhalt im Zusammenhang mit Slate UI wird hier nicht ausführlich behandelt. Bei Interesse können Sie in anderen Artikeln weiterlesen.
+Inhalte zu Slate UI werden hier nicht im Detail behandelt. Bei Interesse kann man sich andere Artikel dazu ansehen.
 
-#Hook - Menü hinzufügen
+#Hook Menü hinzufügen
 
-Fügen Sie beispielsweise in "Werkzeug - Programmierung" einen Befehl hinzu:
+Fügen Sie beispielsweise einen Befehl unter "Werkzeug - Programmierung" hinzu:
 
 ```cpp
 MenuExtender->AddMenuExtension(
@@ -193,7 +191,7 @@ MenuExtender->AddMenuExtension(
 
 ![](assets/img/2023-ue-extend_menu/other_hook.png)
 
-Sie können auch andere Arten von Menüs hinzufügen.
+Sie können auch andere Menütypen hinzufügen.
 
 #Vollständiger Code
 
@@ -287,4 +285,4 @@ void BuildTestMenu()
 
 
 
-> (https://github.com/disenone/wiki_blog/issues/new)Geben Sie alle übersehenen Punkte an. 
+> (https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf eventuelle Auslassungen hin. 

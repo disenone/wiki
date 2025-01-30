@@ -1,15 +1,15 @@
 ---
 layout: post
-title: Analyse und Leistungsprüfung des AOI-Algorithmus im Spiel.
+title: Spiel AOI Algorithmus Analyse und Leistungsprüfung
 categories:
 - c++
 catalog: true
 tags:
 - dev
 - game
-description: Dieser Text diskutiert zwei Algorithmen, das Sudoku-Gitter und die Kreuzkette,
-  und bietet eine Leistungsanalyse der beiden Algorithmen, damit Sie sie problemlos
-  anwenden können, ohne in Panik zu geraten.
+description: Dieser Artikel erörtert die beiden Algorithmen des Neunfelds und der
+  Kreuzkette und liefert eine praktische Leistungsanalyse beider Algorithmen, damit
+  Sie gut informiert sind und in schwierigen Situationen ruhig bleiben können.
 figures: []
 date: 2021-11-18
 ---
@@ -18,37 +18,37 @@ date: 2021-11-18
 
 ###Einleitung
 
-`AOI` (Area Of Interest) ist eine grundlegende Funktion in Multiplayer-Online-Spielen, bei der Spieler Informationen über andere Spieler oder Entitäten (Entity), die in ihr Sichtfeld gelangen, erhalten müssen. Welche Entitäten sich im Sichtfeld des Spielers befinden, welche Entitäten sich im Sichtfeld bewegen oder verlassen, wird im Allgemeinen als `AOI`-Algorithmus bezeichnet.
+`AOI` (Area Of Interest) ist eine grundlegende Funktion in Mehrspielerspielen, bei der Spieler Informationen über andere Spieler oder Entitäten (Entity) erhalten, die in ihren Sichtbereich eintreten. Die Algorithmen, die berechnen, welche Entitäten sich im Sichtbereich eines Spielers befinden und welche Entitäten diesen Bereich betreten oder verlassen, nennen wir im Allgemeinen den `AOI`-Algorithmus.
 
-Dieser Text diskutiert zwei Arten von `AOI`-Algorithmen, das Nine-Cell-Grid und das Cross-Chain, und liefert eine praktische Leistungsanalyse der beiden Algorithmen, damit Sie sie sicher und gelassen anwenden können.
+Dieser Artikel behandelt zwei `AOI`-Algorithmen, das Neunfeldraster und die Kreuzverkettung, und bietet eine Leistungsanalyse der beiden Algorithmen aus praktischen Tests, damit du genau weißt, wie du sie einsetzen kannst, und in schwierigen Situationen ruhig bleibst.
 
-Im Text wird von Spielern und Entitäten gesprochen. Entitäten sind Konzepte von Objekten im Spiel, während Spieler Entitäten mit einem AOI besitzen.
+Im Text werden die Begriffe Spieler und Entität erwähnt. Eine Entität ist das Konzept eines Objekts im Spiel, während der Spieler eine Entität ist, die über AOI verfügt.
 
-Der Code im Text ist hier zu finden: [AoiTesting](https://github.com/disenone/AoiTesting)I'm sorry, but there is nothing to translate in "".
+Der Code im Text kann hier gefunden werden: [AoiTesting](https://github.com/disenone/AoiTesting)。
 
-###Sudoku
+###Das heißt "Gitter" auf Deutsch.
 
-Die sogenannte Nine-Square-Grid teilt die Positionen aller Entitäten in einer Szene in Gitter auf, beispielsweise in Quadrate mit einer Kantenlänge von 200. Um andere Entitäten im AOI-Bereich des Zentralspielers zu finden, vergleicht man einfach alle Spieler in den Gittern, die sich innerhalb dieses Bereichs befinden.
+Der Begriff "Nine Grid" bezieht sich darauf, dass die Positionen aller Entitäten in einer Szene in Gitter unterteilt werden, beispielsweise in Quadrate mit einer Seitenlänge von 200. Um andere Entitäten im AOI-Bereich des Zentralplayers zu finden, müssen alle Spieler untersucht werden, die sich in den Gittern dieses Bereichs befinden.
 
-For example, the scene will tick once every 100 milliseconds. During the tick, we can update the player's AOI like this:
+For example, in every 100 milliseconds, a tick occurs in the scene. During the tick, we can update the player's AOI in this way:
 
-Berechnung der Zellenmenge, die von dem AOI-Radius um die Spielerposition herum betroffen ist.
-Berechne die Entfernung jedes Elements des Raster-Sets zum Spieler.
-Die Entitätensammlung innerhalb eines Radius kleiner als AOI bildet das neue AOI des Spielers.
+* Basierend auf der Position des Spielers umfasst die AOI-Radiusberechnung die Menge der betroffenen Felder.
+Berechnen Sie den Abstand jedes Elements aus der Gittersammlung zum Spieler.
+Die Menge der Entitäten, deren Abstand kleiner als der AOI-Radius ist, bildet den neuen AOI des Spielers.
 
-Die Umsetzung des Sudoku-Algorithmus ist recht einfach. Der Algorithmus lässt sich in wenigen Sätzen klar beschreiben. Eine detaillierte Leistungsanalyse wird später behandelt. Lassen Sie uns zuerst den Algorithmus für verkettete Listen betrachten.
+Der Sudoku-Algorithmus ist einfach umzusetzen, er lässt sich in wenigen Sätzen klar beschreiben. Eine detaillierte Leistungsanalyse werden wir später durchführen, zunächst schauen wir uns den Kreuzketten-Algorithmus an.
 
-###Crosslinked list
+###Kreuzverkettete Liste
 
-Für 3D-Spiele erstellen wir normalerweise geordnete Listen für die X- und Z-Achsen, wobei jeder Entität in der Liste ein Knoten zugeordnet ist, der den Achsenwert enthält, und die Liste nach aufsteigenden Werten sortiert ist. Allerdings bleibt die Effizienz der Abfrage für diese beiden Listen niedrig, wenn nur die Koordinatenpunkte der Entitäten gespeichert werden.
+Für 3D-Spiele erstellen wir normalerweise geordnete Listen für die X- und Z-Achsenkoordinaten. Jede Entität hat einen Knoten in der Liste, der den Koordinatenwert enthält. Die Werte werden in aufsteigender Reihenfolge gespeichert. Wenn jedoch nur die Koordinatenpunkte der Entität gespeichert werden, ist die Effizienz der Abfrage in diesen beiden Listen immer noch sehr gering.
 
-Das eigentliche Schlüsselelement hier ist, dass wir jedem Spieler, der einen AOI besitzt, in der verketteten Liste zwei Wächterknoten hinzufügen werden. Die Koordinaten der beiden Wächterknoten unterscheiden sich jeweils um den AOI-Radius von den Koordinaten des Spielers selbst. Angenommen ein Spieler `P` hat die Koordinaten `(a, b, c)` und der AOI-Radius beträgt `r`, dann gibt es auf der X-Achse zwei Wächter, `left_x` und `right_x`, mit den Koordinaten `a - r` und `a + r`. Dank der Wächter können wir durch die Verfolgung der Bewegungen der Wächter und anderer Entitätsknoten das AOI aktualisieren. In Bezug auf das frühere Beispiel: Wenn eine Entität `E` sich bewegt und einen Knoten auf der X-Achse von rechts nach links über `left_x` überschreitet, bewegt sie sich von der rechten Seite von `left_x` auf die linke, was bedeutet, dass `E` definitiv den AOI von `P` verlassen hat. Entsprechend verlässt sie den AOI, wenn sie `right_x` von rechts nach links überschreitet. Auf der anderen Seite, wenn `left_x` von rechts nach links überschritten wird, oder `right_x` von links nach rechts, könnte dies bedeuten, dass die Entität in den AOI von `P` eintritt.
+Das wirklich Entscheidende ist, dass wir in der verketteten Liste für jeden Spieler mit AOI zwei Wächterknoten hinzufügen, einen links und einen rechts. Die Koordinaten der beiden Wächter unterscheiden sich genau um den AOI-Radius von den Koordinaten des Spielers selbst. Zum Beispiel, wenn die Koordinaten des Spielers `P` `(a, b, c)` sind und der AOI-Radius `r` beträgt, dann gibt es auf der X-Achse zwei Wächter `left_x` und `right_x`, deren Koordinaten `a - r` und `a + r` sind. Durch das Vorhandensein der Wächter können wir die AOI aktualisieren, indem wir die Bewegung der Wächter und anderer Entitätsknoten verfolgen. Um das vorherige Beispiel fortzuführen: Wenn sich eine Entität `E` bewegt und somit auf der X-Achse vom rechten Bereich von `left_x` nach links über `left_x` hinweg in den linken Bereich von `left_x` gelangt, bedeutet das, dass `E` definitiv die AOI von `P` verlassen hat; ebenso, wenn sie nach rechts über `right_x` hinausgeht, verlässt sie ebenfalls die AOI. Im Gegensatz dazu, wenn sie nach rechts über `left_x` oder nach links über `right_x` überschreitet, könnte dies bedeuten, dass sie möglicherweise in die AOI von `P` eintritt.
 
-Es ist ersichtlich, dass der Algorithmus für kreuzförmige Verknüpfungen viel komplexer ist als bei einem 3x3-Raster. Wir müssen zwei geordnete Listen pflegen und beim Aktualisieren jeder physischen Position die Knoten der Listen synchron verschieben. Beim Überqueren anderer Knoten müssen wir außerdem das sichtbare Gebiet (AOI) aktualisieren.
+Es ist zu erkennen, dass der Algorithmus der Kreuzliste viel komplexer ist als das Sudoku. Wir müssen zwei geordnete Listen pflegen und bei jeder Aktualisierung der Entitätskoordinaten die Knoten in der Liste synchron verschieben und AOI aktualisieren, wenn sie andere Knoten überqueren.
 
-###Die Umsetzung des 9-Feld-Rasters.
+###Die Umsetzung des Sudoku-Rasters
 
-Aufgrund der beteiligten Leistungsprüfung werden wir nun etwas tiefer in die Implementierungsdetails des 9-Punkte-Gitteralgorithmus eintauchen:
+Da es sich um die tatsächliche Leistung handelt, lassen Sie uns zunächst etwas tiefer in die Implementierungsdetails des 3x3-Grid-Algorithmus eintauchen:
 
 ```cpp
 struct Sensor {
@@ -71,7 +71,7 @@ struct PlayerAoi {
 };
 ```
 
-`PlayerAoi` stores player data, including an array called `sensors` used to calculate entities within a certain range. After each `Tick`, the calculated entities are planned to be placed in `aoi_players`. `aoi_players` contains two arrays, used to compare the results of the last `Tick` in order to determine players entering and leaving. The approximate workflow of a `Tick` is as follows:
+`PlayerAoi` speichert die Daten der Spieler, darunter ein `sensors` Array, das zur Berechnung von Entitäten innerhalb eines bestimmten Bereichs dient. Nach jedem `Tick` werden die berechneten Entitäten im `aoi_players` geplant. `aoi_players` enthält zwei Arrays, die verwendet werden, um die Ergebnisse des vorherigen `Ticks` zu vergleichen und die Spieler zu ermitteln, die eingetreten oder ausgestiegen sind. Der grobe Ablauf eines `Ticks` ist wie folgt:
 
 ```cpp
 AoiUpdateInfos SquareAoi::Tick() {
@@ -81,7 +81,7 @@ AoiUpdateInfos SquareAoi::Tick() {
   for (auto& elem : player_map_) {
     auto& player = *elem.second;
     // ...
-// Berechnen Sie Aoi für Spieler mit Sensoren.
+// Berechnung von Aoi für Spieler mit Sensoren
     if (!player.sensors.empty()) {
       auto update_info = _UpdatePlayerAoi(cur_aoi_map_idx_, &player);
       if (!update_info.sensor_update_list.empty()) {
@@ -102,7 +102,7 @@ AoiUpdateInfos SquareAoi::Tick() {
 }
 ```
 
-Das von `Tick` ausgeführte Verhalten ist recht simpel. Es durchläuft die Spieler mit Sensoren, berechnet für jedes Sensorelement die im Bereich liegenden Entitäten - also den *Area of Interest* (AOI). `last_pos` wird verwendet, um zu prüfen, ob eine Entität den AOI betreten hat oder verlassen hat. Der Code für `_UpdatePlayerAoi` ist wie folgt:
+Die von `Tick` ausgeführten Aufgaben sind recht einfach. Es durchläuft die Spieler mit Sensoren und berechnet jeden einzelnen die Entitäten im Bereich des Sensors, also den AOI. `last_pos` wird verwendet, um zu überprüfen, ob eine Entität den AOI betreten oder verlassen hat. Der Code für `_UpdatePlayerAoi` sieht folgendermaßen aus:
 
 ```cpp
 AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* pptr) {
@@ -136,11 +136,11 @@ AoiUpdateInfo SquareAoi::_UpdatePlayerAoi(Uint32 cur_aoi_map_idx, PlayerAoi* ppt
 }
 ```
 
-`old_aoi` is the AOI calculated from the previous `Tick`, and `new_aoi` is the AOI to be calculated for this `Tick`. `new_aoi` selects entities within the AOI radius by iterating through all cells in the AOI range that are closer to the player. Subsequently, using the `_CheckLeave` and `_CheckEnter` functions, the entities leaving and entering the AOI for this `Tick` are calculated. For instance, if the entity `last_pos` in `new_aoi` is not within the AOI range, it indicates that the entity entered the AOI during this `Tick`. Please refer to the source file for specific code details as they will not be further elaborated here.
+`old_aoi` ist die vorherige AOI, die durch den letzten `Tick` berechnet wurde, und `new_aoi` ist die AOI, die im aktuellen `Tick` berechnet werden muss. `new_aoi` wird ermittelt, indem alle Entitäten in der AOI-Reichweite durchsucht werden, um diejenigen auszuwählen, die sich innerhalb des AOI-Radius befinden. Anschließend werden die Funktionen `_CheckLeave` und `_CheckEnter` verwendet, um die Entitäten zu berechnen, die in diesem `Tick` die AOI verlassen oder betreten. Zum Beispiel, wenn die Entität `last_pos` in `new_aoi` nicht innerhalb der AOI-Reichweite ist, bedeutet dies, dass diese Entität in diesem `Tick` in die AOI-Reichweite eingetreten ist. Der spezifische Code kann in den Quelltexten eingesehen werden, hier wird nicht weiter darauf eingegangen.
 
 ###Die Implementierung einer verketteten Liste.
 
-Im Vergleich zum 9x9-Gitter ist die Implementierung einer Kreuzverkettung komplexer. Schauen wir uns zuerst die grundlegende Datenstruktur an:
+Im Vergleich zum 3x3-Gitter ist die Implementierung der Kreuzlisten komplexer. Schauen wir uns zunächst die grundlegende Datenstruktur an:
 
 ```cpp
 struct CoordNode {
@@ -184,15 +184,15 @@ struct PlayerAoi {
 };
 ```
 
-`Sensor` und `PlayerAoi` sind teilweise ähnlich dem Rastersystem, aber zusätzlich mit der knotenbezogenen Struktur `CoordNode`. `CoordNode` ist ein Knoten in der Liste, der den Typ und den Wert des Knotens aufzeichnet. Die Typen sind: Spielerknoten, `Sensor`-linker Knoten, `Sensor`-rechter Knoten.
+`Sensor` und `PlayerAoi` haben einige Ähnlichkeiten mit dem 3x3-Raster, haben jedoch eine zusätzliche verkettete Liste namens `CoordNode`. `CoordNode` ist ein Knoten in der Liste und speichert den Typ und den Wert des Knotens selbst, wobei es drei Typen gibt: Spielerknoten, `Sensor`-Linksknoten und `Sensor`-Rechtsknoten.
 
-Die meiste Arbeit bei einer Kreuzliste besteht darin, die Liste geordnet zu halten:
+Die meiste Arbeit bei einer verketteten Liste wird dafür verwendet, die Ordnung der Liste aufrechtzuerhalten:
 
-Wenn ein Spieler beitritt, muss der Spieler-Knoten an eine geordnete Position verschoben werden. Gleichzeitig müssen beim Verschieben des Spieler-Knotens die Ereignisse für das Betreten oder Verlassen des AOI anderer Spieler verarbeitet werden.
-Sobald sich der Spieler an die richtige Position bewegt hat, starten die `Sensor`-Knoten links und rechts von der Spielerposition und bewegen sich an den korrekten Ort, um die Eintritts- und Austrittsereignisse auszulösen, wenn sie über andere Spielerknoten hinweggehen.
-Wenn der Spieler sich bewegt, werden die Koordinaten des Spielers aktualisiert, und der Knoten des Spielers sowie die linken und rechten Knoten des `Sensor` werden verschoben, um den Eintritt und Austritt aus dem AOI zu handhaben.
+Wenn ein Spieler beitritt, muss der Spielerknoten an eine geordnete Position verschoben werden und dabei gleichzeitig Ereignisse für das Betreten oder Verlassen anderer Spieler im AOI behandeln.
+* Nachdem der Spieler die richtige Position erreicht hat, bewegen sich die `Sensor`-Links und -Rechts von der Vorder- und Rückseite des Spielers aus zur richtigen Position und verarbeiten die Ein- und Austrittsevents, die ausgelöst werden, wenn sie andere Spielernodes überschreiten.
+* Wenn der Spieler sich bewegt, aktualisieren Sie die Koordinaten des Spielers und bewegen Sie den Spieler-Knoten sowie die Knoten `Sensor` nach links und rechts, um das Eintreten und Verlassen des AOI zu verarbeiten.
 
-Der Code für die beweglichen Knoten lautet wie folgt: Jedes Mal, wenn ein Knoten überschritten wird, wird die Funktion `MoveCross` aufgerufen. Anhand der Bewegungsrichtung, des bewegten Knotens und des überschrittenen Knotens entscheidet die Funktion `MoveCross`, ob der Knoten den AOI betritt oder verlässt.
+Der Code für den beweglichen Knoten lautet wie folgt. Jedes Mal, wenn ein Knoten überschritten wird, wird die Funktion `MoveCross` aufgerufen. Abhängig von der Bewegungsrichtung, dem beweglichen Knoten und dem Typ des überschrittenen Knotens entscheidet die Funktion `MoveCross`, ob der Knoten den AOI betritt oder verlässt.
 
 ```cpp
 void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
@@ -225,30 +225,30 @@ void ListUpdateNode(CoordNode **list, CoordNode *pnode) {
 }
 ```
 
-Das Verschieben der verketteten Liste ist sehr langsam und hat eine Komplexität von `O(n)`, besonders wenn neue Spieler der Szene hinzugefügt werden. Die Spieler müssen von sehr weit entfernten Orten allmählich an die richtige Position bewegt werden, was eine große Anzahl von durchzulaufenden Knoten erfordert und einen erheblichen Aufwand verursacht. Um die Leistung zu optimieren, können wir Leuchttürme an festen Positionen in der Szene platzieren. Diese Leuchttürme funktionieren ähnlich wie die Spieler, zeichnen jedoch zusätzlich Daten von `detected_by` auf, um festzuhalten, in welchen Sensoren sich die Wachposten befinden. Wenn ein Spieler die Szene zum ersten Mal betritt, muss er nicht mehr von den entferntesten Orten aus beginnen zu bewegen, sondern sucht nach dem nächstgelegenen Leuchtturm, fügt den Knoten neben dem Leuchtturm ein und betritt schnell den AOI-Bereich anderer Spieler, die von diesem Leuchtturm erfasst werden. Anschließend beginnt er sich an die richtige Position zu bewegen, wobei auch das Betreten und Verlassen berücksichtigt werden muss. Gleiches gilt für Sensoren, die auch durch Vererbung der Daten des Leuchtturms an die richtige Stelle bewegt werden können. Durch diese beiden Optimierungen kann die Leistung bei der Einfügung von Spielern um mehr als das Doppelte verbessert werden.
+Die Bewegung der verketteten Liste ist ziemlich langsam und hat eine Komplexität von `O(n)`, insbesondere wenn ein neuer Spieler in die Szene kommt. Der Spieler muss von weit entfernt allmählich zur richtigen Position bewegt werden, was eine große Menge an durchlaufenden Knoten erfordert und zu erheblichem Ressourcenverbrauch führt. Um die Leistung zu optimieren, können wir in der Szene fest installierte Leuchttürme platzieren. Diese Leuchttürme funktionieren ähnlich wie Spieler, speichern jedoch zusätzlich Daten in Bezug auf `detected_by`, um festzuhalten, welche `Sensor`-Bereiche die Wächterentität erfasst. Wenn ein Spieler zum ersten Mal in die Szene gelangt, beginnt er nicht mehr von den entferntesten Positionen, sondern sucht nach dem nächstgelegenen Leuchtturm. Der Spieler wird dann neben dem Leuchtturm eingefügt und kann durch die Daten in `detected_by` auf dem Leuchtturm schneller in den AOI-Bereich anderer Spieler gelangen, die mit dem Leuchtturm übereinstimmen. Anschließend erfolgt die Bewegung zur richtigen Position, wobei auch das Betreten und Verlassen berücksichtigt wird. Ebenso können Sensoren durch Vererbung der Daten der Leuchttürme optimiert werden, um sich von der Position der Leuchttürme zur richtigen Position zu bewegen. Diese beiden Optimierungsansätze können die Leistung bei der Einfügung von Spielern um mehr als das Doppelte verbessern.
 
-Es gibt auch eine `HashMap` namens `aoi_player_candidates` im `Sensor` (hier wurde [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)Bei einem AOI-Ereignis, das durch das Bewegen von Knoten ausgelöst wird, kann tatsächlich nur ein quadratischer Bereich mit einer Kantenlänge von `2r` entlang der X-Z-Koordinatenachse erfasst werden, der nicht genau unserem kreisförmigen AOI entspricht. Die Entitäten innerhalb dieses quadratischen Bereichs sind in `aoi_player_candidates` aufgezeichnet und werden während des `Tick` durchsucht, um den AOI-Bereich innerhalb des kreisförmigen Bereichs zu berechnen, weshalb sie als `Kandidaten` bezeichnet werden.
+`Sensor` hat auch eine `HashMap` namens `aoi_player_candidates` (hier wurde zu Leistungszwecken [khash](https://github.com/attractivechaos/klib/blob/master/khash.h)Die durch die Bewegung des Knotens ausgelöste AOI-Ereignis kann tatsächlich nur ein quadratisches Gebiet mit einer Seitenlänge von `2r` auf der X-Z-Achse erfassen, nicht das, was wir im strengen Sinne als kreisförmiges Gebiet der AOI betrachten. Alle Entitäten innerhalb dieses quadratischen Gebiets werden in `aoi_player_candidates` aufgezeichnet und im `Tick` durchlaufen, um den AOI-Bereich innerhalb des kreisförmigen Gebiets zu berechnen, weshalb es als `candidates` bezeichnet wird.
 
-Alle Operationen des Kreuzlisten sind darauf ausgerichtet, die Entitäten in dem quadratischen Bereich `candidates` ständig zu verwalten. Die Operationen, die von der `Tick` -Funktion in der Kreuzliste durchgeführt werden, ähneln denen des 3x3-Gitters fast, nur dass die zu berechnenden `candidates` des AOI unterschiedlich sind. Die `candidates` des 3x3-Gitters sind die Entitäten, die vom kreisförmigen AOI-Bereich abgedeckt werden, während die Kreuzliste die Entitäten im quadratischen Bereich mit einer Kantenlänge von `2r` definiert wird von den linken und rechten Knoten des `Sensors`. Qualitativ gesehen sind in der Regel weniger `candidates` in der Kreuzliste als im 3x3-Gitter vorhanden, sodass die Anzahl der Iterationen in `Tick` geringer ist und die Leistung besser ist. Allerdings hat die Kreuzliste immer noch erhebliche zusätzliche Leistungseinbußen durch die Verwaltung der Liste, daher müssen wir die Gesamtperformance der beiden noch genauer messen, um herauszufinden, welche besser ist.
+Alle Operationen der Cross-Linked-Listen sind darauf ausgerichtet, die Entitäten in einem quadratischen Bereich, die sogenannten `candidates`, kontinuierlich zu warten. Die Operationen, die Tick in der Cross-Linked-Liste durchführt, sind fast identisch mit dem Neun-Felder-Raster, nur das Iterieren und Berechnen der `candidates` für den AOI unterscheiden sich. Die `candidates` im Neun-Felder-Raster sind die Entitäten in den Feldern, die vom AOI-Kreisbereich abgedeckt werden, während die Cross-Linked-Liste die Entitäten im quadratischen Bereich mit einer Kantenlänge von `2r` definiert ist, die durch die linke und rechte Nachbarknoten des Sensors begrenzt wird. Qualitativ gesehen werden die `candidates` in den Cross-Linked-Listen normalerweise weniger sein als im Neun-Felder-Raster, was zu weniger Iterationen in Tick führt und somit eine bessere Leistung bringt. Allerdings verursacht die Cross-Linked-Liste zusätzlichen Leistungsverbrauch bei der Listenwartung. Die Gesamtleistung der beiden Ansätze ist daher noch unbekannt. Wir werden dies in den kommenden Tests genauer untersuchen.
 
 ###Leistungstest
 
-Ich habe hier jeweils die Zeitdauer für den Spielerbeitritt zur Szene ("Add Player"), das Berechnen von AOI-Ein- und Austrittsereignissen ("Tick") und das Aktualisieren der Spielerposition ("Update Pos") gemessen.
+Ich habe jeweils die Zeit für drei Situationen gemessen: wenn ein Spieler dem Szenario beitritt („Spieler hinzufügen“), beim Berechnen von AOI-Eintritts- und Austrittsereignissen („Tick“) und wenn sich die Spielerposition aktualisiert („Position aktualisieren“).
 
-Der Ausgangspunkt des Spielers wird zufällig innerhalb des Kartenumfangs generiert, und dann wird der Spieler der Szene hinzugefügt. `player_num` steht für die Anzahl der Spieler, `map_size` bezeichnet den Bereich der X-Z-Koordinatenachse der Karte, wobei die Spielerpositionen in diesem Bereich gleichmäßig zufällig generiert werden. Jeder Spieler hat einen `Sensor` mit einem Radius von `100` als AOI, und die Berechnungszeit erfolgt mit dem `boost::timer::cpu_timer`. Es wurden drei verschiedene Fälle für `player_num` ausgewählt: `100, 1000, 10000`, und vier verschiedene Fälle für `map_size`: `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]`.
+Die Anfangsposition der Spieler wird zufällig innerhalb des Kartenbereichs generiert, gefolgt von der Hinzufügung der Spieler zur Szene. `player_num` ist die Anzahl der Spieler, während `map_size` den Bereich der X-Z-Koordinaten der Karte beschreibt. Die Position der Spieler wird gleichmäßig zufällig innerhalb dieses Bereichs generiert, wobei jeder Spieler einen `Sensor` mit einem Radius von `100` besitzt, der als AOI dient. Die Zeitberechnung erfolgt mit `boost::timer::cpu_timer`. Für `player_num` wurden die drei Werte `100, 1000, 10000` gewählt, während `map_size` die vier Werte `[-50, 50], [-100, 100], [-1000, 1000], [-10000, 10000]` umfasst.
 
-Aktualisieren der Spielerposition führt dazu, dass der Spieler sich mit einer konstant zufälligen Richtung mit einer Geschwindigkeit von `6m/s` bewegt.
+Aktualisieren der Spielerposition wird den Spieler in einer festen zufälligen Richtung bewegen, mit einer Geschwindigkeit von `6m/s`.
 
-Die Testumgebung in diesem Fall ist:
+Die Testumgebung lautet:
 
 * CPU: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-Betriebssystem: Debian GNU/Linux 10 (Buster)
-* gcc Version: gcc Version 8.3.0 (Debian 8.3.0-6)
-boost 版本: boost_1_75_0
+* System: Debian GNU/Linux 10 (buster)
+* gcc 版本: gcc Version 8.3.0 (Debian 8.3.0-6)
+* Boost-Version: boost_1_75_0
 
-####Neunfeldertest
+####Neun-Gitter-Test
 
-Die Testergebnisse des Gitters sind wie folgt:
+Die Testergebnisse des Sudoku-Gitters sind wie folgt:
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -324,11 +324,11 @@ Update Pos (10 times) 0.019033s wall, 0.020000s user + 0.000000s system = 0.0200
 ===End Milestore
 ```
 
-Bei 100 Spielern im Gitter sind die drei Operationen sehr schnell, selbst unter extremen Bedingungen mit einer Kartengröße von [-50, 50], wo alle Spieler sich im AOI-Bereich befinden und ein Tick etwa 0,4 ms benötigt. Das Hinzufügen von Spielern und das Aktualisieren von Koordinaten haben beide eine lineare Komplexität von O(Spielerzahl) und die Leistung ist gut. Wenn die Spielerzahl jedoch 10.000 erreicht und die Karte auf [-50, 50] verbleibt, beanspruchen sowohl das Hinzufügen von Spielern als auch das Aktualisieren von Positionen nur wenige Millisekunden, aber der Tick benötigt etwa 3,8 s, was viel CPU-Leistung erfordert und daher als nicht verwendbar gilt. Bei 10.000 Spielern und einer Karten größe von [-1000, 1000] beträgt der Zeitaufwand für den Tick ungefähr 94 ms. Wenn die Tick-Frequenz verringert werden kann, z. B. auf zweimal pro Sekunde, liegt dies immer noch knapp innerhalb des akzeptablen Bereichs.
+Beim Spielermenge von `100` sind die Zeiten für die drei Operationen sehr gering. Im Extremfall `map_size = [-50, 50]`, befinden sich alle Spieler im AOI-Bereich zueinander, die `Tick`-Dauer beträgt etwa `0,4ms`. Das Hinzufügen von Spielern zur Szene und die Aktualisierung der Koordinaten haben beide eine lineare Komplexität von `O(player_num)`, die Leistungsfähigkeit ist daher recht gut. Bei `player_num = 10000` und `map_size = [-50, 50]`, wenn die Anzahl der Spieler 10.000 erreicht, können `Add Player` und `Update Pos`, aufgrund ihrer linearen Natur, in wenigen Millisekunden abgeschlossen werden. Doch die `Tick`-Dauer steigt auf `3,8s`, was eine enorme CPU-Belastung darstellt und unbrauchbar ist. Bei 10.000 Spielern und einer Karten Größe von `[-1000, 1000]` beträgt die `Tick`-Zeit etwa `94ms`. Falls die `Tick`-Frequenz gesenkt werden kann, beispielsweise auf zweimal pro Sekunde, wäre es immer noch in einem akzeptablen Bereich.
 
-####Kreuzverkettete Liste getestet
+####Kreuzverkettungstest
 
-Die Testergebnisse der Cross Linked List sind wie folgt:
+Die Testergebnisse der Kreuzverkettung sind wie folgt:
 
 ```python
 ===Begin Milestore: player_num = 100, map_size = (-50.000000, 50.000000)
@@ -404,15 +404,15 @@ Update Pos (10 times) 0.042568s wall, 0.040000s user + 0.000000s system = 0.0400
 ===End Milestore
 ```
 
-Wenn wir es durchgehen, dauern die Operationen "Spieler hinzufügen" und "Position aktualisieren" im Gitter mit Kreuzverweisen länger, besonders "Spieler hinzufügen". Im Vergleich zur performance von Sudoku-Gittern ist die Leistung um Hunderte oder sogar Tausende von Malen schlechter. Bei "100, [-50, 50]" dauert das Kreuzgitter 2ms, während das Sudoku-Gitter nur 0,08ms benötigt; bei "10000, [-50, 50]" dauert das Kreuzgitter 21,6s, das Sudoku-Gitter benötigt nur 6ms. Die Leistung der Operation "Position aktualisieren" kann ebenfalls um das Hundertfache variieren; bei "10000, [-100, 100]" dauert die Aktualisierung der Spielerposition im Kreuzgitter 1,5s, im Sudoku-Gitter hingegen nur 18ms. Es ist offensichtlich, dass die obere und untere Grenze der Leistung des Kreuzgitters bei "Spieler hinzufügen" und "Position aktualisieren" größer ist als die des Sudoku-Gitters. Es wird stärker vom Spielern und Kartenmaßstab beeinflusst. In Bereichen mit hoher Spielerdichte sinkt die Performance dieser beiden Operationen dramatisch und wird letztendlich unbrauchbar.
+Wenn wir eine Analyse machen, dauert es bei der Hex-Liste länger für `Add Player` und `Update Pos`, besonders bei `Add Player`. Im Vergleich zur Gitterliste ist die Leistung um Hunderte oder sogar Tausende Male schlechter (`100, [-50, 50]` Hex-Liste braucht `2ms`, während die Gitterliste nur `0,08ms` benötigt; `10000, [-50, 50]` Hex-Liste braucht `21,6s`, die Gitterliste nur `6ms`). Die Dauer von `Update Pos` kann auch um ein Vielfaches unterschiedlich sein, `10000, [-100, 100]` Hex-Liste braucht `1,5s` zur Aktualisierung der Spielerposition, während die Gitterliste nur `18ms` benötigt. Es ist offensichtlich, dass bei der Hex-Liste die oberen und unteren Grenzen der Zeit, die für `Add Player` und `Update Pos` benötigt werden, größer sind als bei der Gitterliste. Sie sind stärker von der Anzahl der Spieler und der Größe der Karte abhängig. In dicht besiedelten Gebieten wird die Leistung dieser beiden Vorgänge stark beeinträchtigt, bis sie unbrauchbar werden.
 
-Bei der Betrachtung der "Tick" -Operation des Cross-Grids ist die Gesamtleistung tatsächlich besser als bei den Nine-Grits. Im besten Fall beträgt die Dauer ungefähr nur die Hälfte der Nine-Grits (bei "1000, [-1000, 1000]" dauert das Cross-Grid 0,8 ms, während das Nine-Grit 1,8 ms dauert), aber im schlimmsten Fall wird das Cross-Grid auf eine Leistung reduziert, die der des Nine-Grits nahe kommt ("10000, [-10000, 10000]" dauert das Cross-Grid 3,7 s, Nine-Grit 3,8 s). Dies liegt daran, dass aufgrund der geringen Szene die Spieler sich alle im AOI-Bereich des anderen befinden. Die Anzahl der "Kandidaten", die das Cross-Grid "Tick" durchläuft, ist tatsächlich schon sehr nahe an der des Nine-Grits.
+Im Vergleich zur `Tick`-Operation der Kreuzkette ist die Gesamtleistung tatsächlich besser als die des 3x3-Rasters. Im besten Fall dauert es nur etwa die Hälfte der Zeit des 3x3-Rasters (bei `1000, [-1000, 1000]` benötigt die Kreuzkette `0,8 ms`, das 3x3-Raster `1,8 ms`). Allerdings kann die Kreuzkette im schlechtesten Fall in die Nähe der Leistung des 3x3-Rasters zurückfallen (bei `10000, [-10000, 10000]` benötigt die Kreuzkette `3,7 s`, das 3x3-Raster `3,8 s`). Das liegt daran, dass die Szenen klein sind und die Spieler sich alle innerhalb der AOI-Bereiche des anderen befinden, sodass die Anzahl der `candidates`, die die Kreuzkette bei `Tick` durchläuft, tatsächlich schon sehr nah an der des 3x3-Rasters ist.
 
-Das Kreuzketten-System muss besser funktionieren als das 9x9-Gittersystem und erfordert daher einige stärkere Annahmen, wie z.B. `player_num = 1000, map_size = [-1000, 1000]`. Unter diesen Bedingungen beträgt die Zeit für einen `Tick` im Kreuzketten-System 0,8 ms und im 9x9-Gittersystem 1,8 ms, und die Zeit für `Update Pos` beträgt im Kreuzketten-System 0,3 ms und im 9x9-Gittersystem 0,18 ms (beachten Sie, dass die Testzeit für `Update Pos` die Summe der Zeiten für 10 Ausführungen ist). Bei der Gesamtzeit von `Tick + Update Pos` darf die Anzahl der `Update Pos`-Aufrufe im Kreuzketten-System nicht mehr als das 8-fache der Anzahl der `Tick`-Aufrufe betragen, oder anders gesagt, zwischen zwei `Ticks` dürfen die `Update Pos`-Aufrufe nicht mehr als 8-mal erfolgen. Darüber hinaus ist aufgrund des großen Zeitaufwands für das Hinzufügen von Spielern im Kreuzketten-System dieses nicht geeignet, wenn Spieler häufig kurz hintereinander in Szenen eintreten oder sich innerhalb der Szene weit bewegen. Außerdem kann eine große Anzahl von Spielern, die innerhalb kurzer Zeit in eine Szene gelangen, leicht zu Leistungseinbußen und einer hohen CPU-Auslastung führen.
+Der Kreuz-Kettenmechanismus muss besser als das 3x3-Gitter sein. Dafür sind einige stärkere Annahmen erforderlich, wie zum Beispiel bei einer Anzahl von `1000` Spielern und einer Kartenfläche von `[-1000, 1000]`, beträgt die Zeit, die ein `Tick` in der Kreuz-Kettenmechanismus nimmt, `0,8ms`, im 3x3-Gitter `1,8ms`, die Aktualisierung der Position in der Kreuz-Kettenmechanismus braucht `0,3ms`, im 3x3-Gitter `0,18ms` (Achten Sie darauf, dass die Zeit für die Aktualisierung der Position die Summe der Zeiten für 10 mal Durchführung ist). Bei der Gesamtzeit von `Tick + Update Pos` darf die Anzahl der `Update Pos`-Aktualisierungen in der Kreuz-Kettenmechanismus nicht mehr als `8` Mal den `Tick` überschreiten, oder anders gesagt, zwischen zwei `Tick`-Operationen sollte die Anzahl der `Update Pos`-Aktualisierungen weniger als `8` Mal erfolgen. Außerdem ist der Prozess für das Hinzufügen von Spielern in der Kreuz-Kettenmechanismus sehr aufwändig und daher nicht für Szenarien geeignet, in denen Spieler häufig kurz hintereinander in oder aus Szenen eintreten oder in Szenen weit teleportiert werden. Darüber hinaus kann eine große Anzahl von Spielern, die kurz hintereinander in eine Szene eintreten, leicht zu einer Leistungsverschlechterung führen und die CPU stark belasten.
 
-In Bezug auf die Cross-Liste gibt es unter einer Bedingung eine Optimierungsmöglichkeit: das Entfernen des `Tick`. Voraussetzung ist, dass das Spiel ein Quadrat-basiertes AOI akzeptieren kann und die zusätzliche Belastung, die ein Quadrat-AOI verursacht (beispielsweise Netzwerk), akzeptabel ist. Tatsächlich ist die Voraussetzung ziemlich streng, da die CPU-Belastung für die AOI-Berechnung im Spiel normalerweise gering ist. Die Umstellung von einem kreisförmigen AOI auf ein quadratisches AOI führt jedoch zu einer größeren Fläche des AOI und zu einer größeren Anzahl von Spielern im Bereich. Unter der Annahme einer gleichmäßigen Verteilung kann die Spieleranzahl möglicherweise um das 1,27-fache gegenüber dem vorherigen Wert zunehmen. Sobald jedoch die Voraussetzung erfüllt ist, kann die Cross-Liste ohne die Notwendigkeit eines `Tick` zur regelmäßigen Aktualisierung von AOI-Ereignissen verwendet werden. Denn in der Implementierung pflegt die Cross-Liste bereits eine Liste von Spielern im Quadrat-AOI anstelle des ursprünglichen Zwecks der Berechnung eines kreisförmigen AOI, der zuvor im `Tick` durch Schleifen durchgeführt werden musste. In solchen Fällen ist es möglich, dass die Cross-Liste eine gute Leistung erbringen kann, da die Leistung die des `Tick` um ein Vielfaches bis hin zu mehreren Zehnerpotenzen übersteigen kann.
+Für die Kreuzverkettungsliste kann unter einer Voraussetzung eine Optimierung vorgenommen werden: das Entfernen von `Tick`, vorausgesetzt, das Spiel akzeptiert quadratische AOIs und die zusätzlich zu den Quadrat-AOIs entstehenden Kosten in Bezug auf das Netzwerk sind akzeptabel. Diese Voraussetzung ist jedoch relativ streng, denn in Spielen nimmt der CPU-Verbrauch durch die AOI-Berechnung normalerweise nicht viel Platz ein. Wenn man jedoch runde AOIs in quadratische AOIs umwandelt, kann dies die Fläche der AOI vergrößern und die Anzahl der Spieler im Bereich erhöhen, sodass die Spielerzahl bei gleichmäßiger Verteilung möglicherweise um das 1,27-Fache ansteigt. Sollte diese Voraussetzung jedoch erfüllt sein, kann die Kreuzverkettungsliste auf eine regelmäßige Aktualisierung von AOI-Ereignissen ohne `Tick` verzichten, da die `candidates` der Kreuzverkettungsliste bereits ein quadratisches AOI verwalten, das ursprünglich nur zur Berechnung des runden AOIs diente, wobei man gezwungen war, im `Tick` zusätzlich die Abstände zu berechnen. In diesem Fall könnte die Kreuzverkettungsliste eine ausgezeichnete Leistung erzielen, denn die Leistung des `Update Pos` der Kreuzverkettungsliste kann um mehrere bis zu Dutzende von Malen im Vergleich zum `Tick` variieren.
 
-Schließlich wird ein Vergleichsdiagramm beider dargestellt:
+Bitte geben Sie schließlich ein Säulendiagramm mit dem Vergleich beider.
 
 ![](assets/img/2021-11-18-aoi-tesing/add_player.png)
 
@@ -423,13 +423,13 @@ Schließlich wird ein Vergleichsdiagramm beider dargestellt:
 
 ###Zusammenfassung
 
-In this article, we introduce the principles and basic implementations of two AOI algorithms (nine-grid and cross-link), and analyze the performance advantages and disadvantages of these two algorithms through empirical data. We hope to provide readers with some assistance or inspiration.
+In this article, we introduced the principles and basic implementations of two AOI algorithms (Nine-patch and Cross-link), and analyzed the performance advantages and disadvantages of these two algorithms through measured data, hoping to provide readers with some help or inspiration.
 
-Im Großen und Ganzen ist die 9x9-Gittermethode einfach umzusetzen, bietet eine ausgewogene Leistung und eignet sich gut für Spiele, bei denen AOI nicht die Leistungsgrenze darstellt. Der Leistungsbereich der 9x9-Gittermethode liegt innerhalb der erwarteten Reichweite, die untere Leistungsgrenze ist relativ hoch und führt nicht leicht zu Engpässen. Andererseits lässt sich der Raum auch nicht besonders optimieren und die Zeitkomplexität ist ziemlich stabil. Im Gegensatz dazu ist die Implementierung der Kreuzkettenmethode komplexer, die untere Leistungsgrenze ist niedriger als die der 9x9-Gittermethode. Wenn jedoch bestimmte Annahmen und Voraussetzungen erfüllt werden können, bietet die Kreuzkettenmethode eine höhere Raumoptimierung, was bedeutet, dass das obere Leistungsniveau höher sein kann. Beide Methoden haben ihre Vor- und Nachteile, und in der Spielebranche haben verschiedene Engines jeweils eine der beiden Methoden ausgewählt, je nach Bedarf und Einschätzung.
+Im Allgemeinen ist die Nine-Cell-Methode einfach umzusetzen und ermöglicht eine ausgewogene Leistung, ohne große Probleme. Sie ist besonders gut geeignet für AOI-Spiele, bei denen die Leistung nicht zum Engpass wird. Die Leistungsschwankungen der Nine-Cell-Methode liegen in einem erwartbaren Rahmen und die Mindestleistung ist ziemlich hoch, sodass sie nicht leicht zum Engpass führt. Auf der anderen Seite bietet sie jedoch wenig Optimierungsspielraum und die Zeitkomplexität ist relativ fest. Im Gegensatz dazu ist die Cross-Chain-Methode komplexer in der Umsetzung und bietet eine niedrigere Mindestleistung im Vergleich zur Nine-Cell-Methode. Allerdings kann die Cross-Chain-Methode, wenn bestimmte Annahmen und Voraussetzungen erfüllt sind, einen höheren Optimierungsspielraum bieten, oder anders ausgedrückt, ein höheres Potenzial haben. Beide Methoden haben Vor- und Nachteile, und in der Spieleindustrie haben verschiedene Engines sich für eine der beiden entschieden, je nach Bedarf und Meinung.
 
-Meine Fähigkeiten sind begrenzt, der Inhalt des Textes repräsentiert nur meine Gedanken. Wenn etwas unzureichend oder unangemessen ist, freue ich mich über Kommentare und Diskussionen.
+Meine Fähigkeiten sind begrenzt, der Inhalt des Textes spiegelt lediglich meine Gedanken wider. Bei Unzulänglichkeiten oder Ungereimtheiten bin ich offen für Kommentare und Diskussionen.
 
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte geben Sie jede übersehene Stelle an. 
+> (https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf alle ausgelassenen Stellen hin. 

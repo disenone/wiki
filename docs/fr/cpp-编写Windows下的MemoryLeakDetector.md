@@ -1,22 +1,16 @@
 ---
 layout: post
-title: Rédiger un détecteur de fuites de mémoire pour Windows
+title: Rédigez un détecteur de fuites de mémoire pour Windows.
 categories:
 - c++
 tags:
 - dev
-description: 'Traduisez ces textes en français:
-
-
-  Récemment, j''ai terminé la lecture de "Programmation - Principes de base et pratiques"
-  (abrégé en "Principes" par la suite). J''ai appris beaucoup de choses et je pense
-  à faire quelques petits codes liés à cela. J''ai justement découvert qu''il existe
-  un outil de détection de fuites de mémoire sur Windows [Visual Leak Detector](https://vld.codeplex.com/)，Ce
-  outil est développé en remplaçant l''interface dll responsable de la gestion de
-  la mémoire sous Windows pour suivre l''allocation et la libération de mémoire. Ainsi,
-  j''ai décidé de m''inspirer du Visual Leak Detector (abrégé par VLD par la suite)
-  pour créer un outil simple de détection de fuites de mémoire, en comprenant les
-  liens dll.'
+description: 这段时间我读完了《程序员的自我修养：链接、装载与库》（以下简称《链接》），收获颇丰，想着能否做一些相关的小代码。恰好知道在 Windows
+  下有一个内存泄露检测工具 [Visual Leak Detector](https://vld.codeplex.com/)Ce outil fonctionne
+  en remplaçant les interfaces dll responsables de la gestion de la mémoire sous Windows
+  pour suivre l'allocation et la libération de mémoire. C'est pourquoi j'ai décidé
+  de m'inspirer de Visual Leak Detector (abrégé VLD par la suite) pour créer un outil
+  simple de détection de fuites de mémoire, en comprenant les liens des dll.
 figures:
 - assets/post_assets/2016-6-11-memory-leak-detector/depends.png
 ---
@@ -28,59 +22,57 @@ figures:
 
 ##Préface
 
-(https://vld.codeplex.com/)Ce outil fonctionne en remplaçant les interfaces dll responsables de la gestion de la mémoire sous Windows pour suivre l'allocation et la libération de mémoire. C'est pourquoi j'ai décidé de m'inspirer du Visual Leak Detector (abrégé par la suite en VLD) pour créer un outil de détection de fuites de mémoire simple, en comprenant les liens dll.
+(https://vld.codeplex.com/)Ce dispositif fonctionne en remplaçant l'interface de la dll chargée de la gestion de la mémoire sous Windows afin de tracer les allocations et libérations de mémoire. Ainsi, j'ai décidé de m'inspirer de Visual Leak Detector (abrégé VLD par la suite) pour créer un outil simplifié de détection de fuites mémoire, en comprenant les liens des dll.
 
 ##Prérequis
-Le livre "Linkage" explique en détail les principes de liaison des fichiers exécutables sous Linux et Windows, dont le format de fichier exécutable sous Windows est appelé PE (Portable Executable). Quant aux fichiers DLL, voici comment ils sont expliqués :
+Le livre 《链接》 explique en détail les principes de liaison des fichiers exécutables sous Linux et Windows, où le format de fichier exécutable sous Windows est appelé fichier PE (Portable Executable). L'explication des fichiers DLL est la suivante :
 
-> DLL, ou Dynamic-Link Library en anglais, est l'équivalent des fichiers partagés sous Linux. Le système Windows utilise largement ce mécanisme de DLL, à tel point que même la structure du noyau de Windows dépend largement de ce mécanisme. Les fichiers DLL et EXE de Windows sont en réalité un concept similaire : ce sont des fichiers binaires au format PE. La seule différence notable est qu'un bit dans l'en-tête du fichier PE indique s'il s'agit d'un EXE ou d'un DLL, et que les fichiers DLL ne possèdent pas nécessairement l'extension .dll, pouvant également avoir d'autres comme .ocx (contrôles OCX) ou .CPL (programmes du Panneau de configuration).
+> DLL est l'abréviation de Dynamic-Link Library, qui correspond à l'objet partagé sous Linux. Le système Windows utilise largement ce mécanisme de DLL, même la structure du noyau de Windows dépend fortement du mécanisme de DLL. Les fichiers DLL et les fichiers EXE sous Windows sont en fait des concepts similaires, ce sont des fichiers binaires au format PE. La différence réside dans un symbole dans l'en-tête du fichier PE indiquant s'il s'agit d'un EXE ou d'un DLL. De plus, l'extension des fichiers DLL n'est pas forcément .dll, elle peut également être autre chose, comme .ocx (contrôle OCX) ou .CPL (programme du panneau de configuration).
 
-Il y a aussi des fichiers d'extension comme les fichiers .pyd de Python. Quant au concept de détection de fuites de mémoire que nous abordons ici dans les DLL, il concerne les **tables d'exportation et d'importation de symboles**.
+Il y a aussi des fichiers d'extension comme .pyd pour Python. Quant au concept de détection de fuites de mémoire ici, dans les DLL, il s'agit de la **table des exportations et des importations de symboles**.
 
-####Tableau d'exportation des caractères
+####Table d'exportation des symboles
 
-> Lorsqu'un PE doit fournir des fonctions ou des variables à d'autres fichiers PE, nous appelons ce comportement **exportation de symboles (Symbol Exporting)**.
+> Lorsque un PE doit fournir certaines fonctions ou variables pour être utilisées par d'autres fichiers PE, nous appelons cette action **exportation de symbole (Symbol Exporting)**.
 
-Pour simplifier, dans Windows PE, tous les symboles exportés sont regroupés dans une structure appelée **table d'exportation (Export Table)**, qui fournit une correspondance entre un nom de symbole et son adresse. Les symboles à exporter doivent être accompagnés du modificateur `__declspec(dllexport)`.
+Pour comprendre simplement, dans Windows PE, tous les symboles exportés sont regroupés dans une structure appelée **Export Table**, qui fournit une correspondance entre le nom du symbole et son adresse. Les symboles devant être exportés doivent être précédés du modificateur `__declspec(dllexport)`.
 
-####Table d'importation des symboles
+####Table des caractères spéciaux
 
-Le tableau d'importation de symboles est un concept clé ici, en opposition au tableau d'exportation de symboles. Commençons par examiner la définition du concept :
+Le tableau d'importation de symboles est un concept clé ici, il correspond au tableau d'exportation de symboles, commençons par examiner les explications conceptuelles :
 
-> Si nous utilisons des fonctions ou des variables provenant d'une DLL dans un programme, nous appelons ce processus **l'importation de symboles**.
+> Si nous utilisons des fonctions ou des variables provenant d'une DLL dans un certain programme, nous appelons ce comportement **importation de symboles (Symbol Importing)**.
 
-Dans Windows PE, la structure qui contient les symboles des variables et des fonctions à importer, ainsi que des informations sur les modules où ils se trouvent, est appelée **table d'importation (Import Table)**. Lorsque Windows charge un fichier PE, l'une des tâches consiste à déterminer toutes les adresses des fonctions à importer, et à ajuster les éléments de la table d'importation à la bonne adresse. Ainsi, lors de l'exécution du programme, il est possible de localiser l'adresse réelle de la fonction en consultant la table d'importation, puis de l'appeler. La structure la plus importante de la table d'importation est l'**table des adresses d'importation (Import Address Table, IAT)**, qui contient les adresses réelles des fonctions importées.
+Dans Windows PE, la structure contenant les symboles des variables et des fonctions à importer, ainsi que des informations sur le module, est appelée **table d'importation (Import Table)**. Lorsque Windows charge un fichier PE, l'une des tâches consiste à déterminer les adresses de toutes les fonctions à importer et à ajuster les éléments de la table d'importation vers les adresses correctes, permettant ainsi au programme, lors de l'exécution, de localiser l'adresse réelle des fonctions via la consultation de la table d'importation et de les appeler. La structure la plus importante de la table d'importation est **le tableau des adresses d'importation (Import Address Table, IAT)**, qui contient les adresses réelles des fonctions importées.
 
-Vous êtes-vous déjà rendu compte de comment nous allons réaliser la détection de fuites de mémoire ici :) ? En effet, nous allons pirater la table d'importation, plus précisément en remplaçant les adresses des fonctions d'allocation et de libération de mémoire des modules à tester par nos propres fonctions personnalisées. Ainsi, nous pourrons suivre chaque allocation et libération de mémoire du module et effectuer les vérifications nécessaires sans contraintes.
+Vous avez probablement deviné comment nous allons réaliser la détection de fuites mémoire, n'est-ce pas ? Exactement, il s'agit de pirater la table d'importation. Plus précisément, il s'agit de remplacer par nos propres fonctions personnalisées les adresses des fonctions d'allocation et de libération de mémoire dans la table d'importation des modules à tester. Ainsi, nous pouvons suivre chaque allocation et libération de mémoire du module, ce qui nous permet de réaliser la détection que nous souhaitons.
 
-Pour plus d'informations détaillées sur les liens DLL, vous pouvez consulter "Linked" ou d'autres sources.
+Des informations plus détaillées sur les liens DLL peuvent être consultées dans le document "Lien" ou d'autres ressources.
 
 ## Memory Leak Detector
 
-Une fois le principe compris, il est temps de passer à la détection des fuites de mémoire en se basant sur ce principe. Les explications suivantes seront basées sur ma propre implémentation, que j'ai mise sur mon GitHub : [LeakDetector](https://github.com/disenone/LeakDetector)Translate these text into French language:
+Une fois que vous avez compris le principe, il est temps de passer à la détection des fuites de mémoire basée sur ce principe. Les explications ci-dessous seront basées sur ma propre implémentation, que j'ai mise sur mon Github : [LeakDetector](https://github.com/disenone/LeakDetector)I'm sorry, but there is no text to translate.
 
-。
+####Remplacement de la fonction
 
-####Remplacement de la fonction.
-
-Regardez d'abord la fonction clé, située dans [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)Veuillez me fournir le texte que vous souhaitez que je traduise en français.
+Commençons par la fonction clé, située dans [RealDetector.cpp](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)Veuillez traduire le texte suivant en français :
 
 ```cpp linenums="1"
-Remplacer une fonction spécifique de la table d'adresses d'importation (IAT) de importModule par une autre fonction,
-importModule appellera une fonction d'un autre module, cette fonction est celle qui doit être patchée,
-Ce que nous devons faire, c'est remplacer l'import du module par l'appel de notre fonction personnalisée.
+Remplacez une fonction de la table d'adresses d'importation (IAT) dans importModule par une autre fonction,
+* importModule appelera une fonction d'un autre module, cette fonction est celle qui doit être patchée.
+* Ce que nous devons faire, c'est remplacer l'importation du module par l'appel de notre fonction personnalisée.
  *
-- importModule (IN) : Le module à traiter, ce module appelle des fonctions d'autres modules qui nécessitent un patch.
+- importModule (IN): Le module à traiter, ce module appelle des fonctions d'autres modules qui doivent être patchées
  *
-- exportModuleName (IN): Nom du module source des fonctions nécessitant un correctif
+* - exportModuleName (IN) : le nom du module d'où provient la fonction nécessitant un patch
  *
-- exportModulePath (IN): chemin où se trouve le module d'export, d'abord essayé de charger le module d'export en utilisant le chemin.
-Si l'échec se produit, charger avec le nom.
-- importName (IN): Nom de la fonction
+* - exportModulePath (IN) : le chemin où se trouve le module d'exportation, d'abord essayer de charger le module d'exportation avec le chemin.
+Si échec, charger avec name
+- importName (IN): nom de la fonction
  *
-- replacement (IN): pointeur de fonction de remplacement
+* - replacement (IN): Pointeur de fonction alternatif
  *
-Retourne la valeur : true si réussi, sinon false
+Retour de la valeur : true si réussi, sinon false
 */
 bool RealDetector::patchImport(
 	HMODULE importModule,
@@ -152,40 +144,40 @@ bool RealDetector::patchImport(
 
 ```
 
-Analysons cette fonction comme dit dans le commentaire, elle a pour but de remplacer l'adresse d'une fonction à l'intérieur de l'IAT par l'adresse d'une autre fonction. Regardons les lignes 34 à 35 :
+Analysons cette fonction comme indiqué dans les commentaires. Cette fonction vise à remplacer l'adresse d'une fonction spécifique dans la table des adresses importées par une autre adresse. Examinons les lignes 34 à 35:
 
 ``` cpp
 idte = (IMAGE_IMPORT_DESCRIPTOR*)ImageDirectoryEntryToDataEx((PVOID)importModule, 
 	TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &size, &section);
 ```
 
-La fonction `ImageDirectoryEntryToDataEx` peut renvoyer l'adresse d'une certaine structure de l'en-tête du fichier du module. L'entrée `IMAGE_DIRECTORY_ENTRY_IMPORT` spécifie la structure de la table d'importation, donc le `idte` renvoyé pointe vers la table d'importation du module.
+La fonction `ImageDirectoryEntryToDataEx` peut renvoyer l'adresse d'une certaine structure dans l'en-tête du fichier du module, `IMAGE_DIRECTORY_ENTRY_IMPORT` spécifie la structure de table d'importation à rechercher, ainsi `idte` renvoie spécifiquement vers la table d'importation du module.
 
-Les lignes 36 à 40 vérifient si "idte" est valide. À la ligne 41, "idte->FirstThunk" pointe vers l'IAT réel. Ainsi, les lignes 41 à 48 recherchent le module contenant les fonctions à remplacer en fonction du nom du module. Si aucun n'est trouvé, cela signifie qu'aucune fonction du module n'a été appelée. Une erreur est alors signalée et le programme retourne.
+Les lignes 36 à 40 vérifient la validité de 'idte'. À la ligne 41, 'idte->FirstThunk' pointe vers l'IAT réel. Par conséquent, les lignes 41 à 48 recherchent le module contenant les fonctions à remplacer en fonction du nom du module. Si rien n'est trouvé, cela signifie que le module appelant les fonctions n'a pas été trouvé, il affiche alors un message d'erreur et retourne.
 
-Une fois le module trouvé, naturellement, nous devons localiser la fonction à remplacer, ouvrir le module auquel la fonction appartient aux lignes 55 à 62, et trouver l'adresse de la fonction à la ligne 64. Comme l'IAT ne conserve pas les noms, il est nécessaire de localiser tout d'abord la fonction en fonction de son adresse d'origine, puis de modifier cette adresse de fonction, éléments abordés aux lignes 68 à 80. Après avoir réussi à trouver la fonction, il suffit simplement de modifier l'adresse en remplaçant par celle de `replacement`.
+Une fois le module trouvé, naturellement, nous devons localiser la fonction à remplacer, ouvrir le module du 55e au 62e ligne, puis trouver l'adresse de la fonction à la 64e ligne. Comme l'IAT ne conserve pas le nom, il est nécessaire de localiser d'abord la fonction en fonction de son adresse d'origine, puis de modifier cette adresse de fonction, ce qui est ce que font les lignes 68 à 80. Une fois que la fonction est trouvée avec succès, il suffit de remplacer simplement l'adresse par l'adresse de `replacement`.
 
-À ce stade, nous avons réussi à remplacer les fonctions dans l'IAT.
+À ce stade, nous avons réussi à remplacer la fonction dans l'IAT.
 
 ####Noms de modules et de fonctions
 
-Bien que nous ayons réussi à remplacer la fonction IAT `patchImport`, cette fonction nécessite de spécifier le nom du module et de la fonction. Comment saurons-nous alors quels modules et fonctions sont utilisés pour l'allocation et la libération de mémoire dans le programme ? Pour résoudre ce problème, nous aurons besoin de l'outil Windows [Dependency Walker](http://www.dependencywalker.com/)Créez un nouveau projet dans Visual Studio, utilisez `new` pour allouer de la mémoire dans la fonction `main`, compilez en mode Debug, puis utilisez `depends.exe` pour ouvrir le fichier exe compilé, vous verrez une interface similaire à celle-ci (en utilisant mon projet [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)Pour exemple :
+Bien que nous ayons réussi à remplacer la fonction IAT `patchImport`, cette fonction nécessite de spécifier le nom du module et le nom de la fonction. Alors, comment savons-nous quel module et quelle fonction sont utilisés pour l'allocation et la libération de mémoire du programme ? Pour clarifier ce point, nous devons recourir à l'outil [Dependency Walker](http://www.dependencywalker.com/)Dans Visual Studio, créez un nouveau projet, puis utilisez `new` dans la fonction `main` pour allouer de la mémoire. Compilez la version Debug, puis utilisez `depends.exe` pour ouvrir le fichier exe compilé. Vous pourrez voir une interface similaire à celle-ci (avec mon projet [LeakDetectorTest](https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest)例如）：
 
 ![](assets/img/2016-6-11-memory-leak-detector/depends.png)
 
-Il est possible de constater que LeakDetectorTest.exe utilise les fonctions `malloc` et `_free_dbg` provenant de uscrtbased.dll (non affichées dans l'image), ces deux fonctions sont celles que nous devons remplacer. Il convient de noter que les noms réels des fonctions de module peuvent varier en fonction de votre version de Windows et de Visual Studio. Les miennes sont Windows 10 et Visual Studio 2015. Ce que vous devez faire est d'utiliser depends.exe pour identifier quelles fonctions sont effectivement appelées.
+On peut voir que LeakDetectorTest.exe utilise les fonctions `malloc` et `_free_dbg` de uscrtbased.dll (non affichées dans l'image), ce sont les fonctions que nous devons remplacer. Il faut faire attention car les noms réels des fonctions peuvent varier en fonction de votre version de Windows et de Visual Studio, pour ma part j'utilise Windows 10 et Visual Studio 2015, votre démarche doit consister à utiliser depends.exe pour identifier les fonctions effectivement appelées.
 
-####Analyser la pile d'appels
+####Analyse de la pile d'appels
 
-Enregistrer l'allocation de mémoire nécessite de conserver les informations de la pile d'appels à ce moment-là. Je ne prévois pas de détailler comment obtenir les informations actuelles de la pile d'appels sous Windows, la fonction associée est `RtlCaptureStackBackTrace`. Il existe de nombreux documents en ligne sur le sujet, vous pouvez également consulter la fonction [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)。
+Enregistrer l'allocation de mémoire nécessite de conserver les informations de la pile d'appels à ce moment-là. Je ne prévois pas de détailler comment obtenir les informations actuelles de la pile d'appels sous Windows. La fonction associée est `RtlCaptureStackBackTrace`, il existe de nombreuses ressources en ligne à ce sujet, vous pouvez également consulter la fonction dans mon code [`printTrace`](https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)。
 
-####Vérifier les fuites de mémoire
+####Détection de fuites de mémoire
 
-Jusqu'à présent, nous avons rassemblé toutes les Dragon Balls, maintenant nous allons officiellement invoquer Shenron.
+Jusqu'ici, nous avons maintenant rassemblé toutes les Dragon Balls, maintenant nous allons officiellement invoquer Shenron.
 
-Je souhaite mettre en place une détection de fuites de mémoire locale (c'est différent de VLD, qui effectue une détection globale et prend en charge le multithreading). Pour cela, j'ai enveloppé la classe `RealDetector`, qui remplace effectivement les fonctions, dans une couche supplémentaire appelée `LeakDetector`, et je rends l'interface de `LeakDetector` accessible aux utilisateurs. Il suffit de créer un `LeakDetector` pour remplacer les fonctions et commencer la détection de fuites de mémoire. Lorsque `LeakDetector` est détruit, les fonctions d'origine sont restaurées, la détection de fuites de mémoire est interrompue et les résultats de la détection de fuites de mémoire sont imprimés.
+Je souhaite réaliser une détection de fuites de mémoire à un niveau local (ce qui est différent de VLD, qui effectue une détection globale et prend en charge le multithreading). Pour cela, j'ai encapsulé la classe de remplacement de fonction `RealDetector` avec une couche supplémentaire `LeakDetector`, et j'ai exposé l'interface de `LeakDetector` aux utilisateurs. Lors de son utilisation, il suffit de créer un `LeakDetector`, ce qui remplace la fonction et commence la détection des fuites de mémoire. Lors de la destruction de `LeakDetector`, la fonction d'origine est restaurée, la détection des fuites de mémoire est annulée, et les résultats de la détection des fuites de mémoire sont imprimés.
 
-Veuillez tester le code ci-dessous :
+Testez avec le code ci-dessous :
 
 ```cpp
 #include "LeakDetector.h"
@@ -207,7 +199,7 @@ int main()
 
 ```
 
-Le code a alloué de la mémoire avec `new`, mais n'a pas libéré la mémoire avant de quitter, voici le résultat affiché par le programme :
+Le code a alloué directement de la mémoire avec `new`, sans la libérer avant de sortir directement, ce qui a entraîné l'impression suivante du programme :
 
 ```
 ============== LeakDetector::start ===============
@@ -244,15 +236,15 @@ Num 2:
     ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 ```
 
-Le programme a correctement identifié deux endroits où la mémoire a été allouée mais pas libérée, et a affiché l'intégralité des informations de la pile d'appels. La fonctionnalité que nous recherchions est maintenant entièrement implémentée.
+Le programme a correctement identifié que la mémoire demandée à deux endroits n'a pas été libérée et a imprimé des informations complètes sur la pile d'appels. La fonctionnalité dont nous avons besoin est désormais complétée.
 
-###Concluding Remarks
+###Conclusion
 
-Lorsque vous ne maîtrisez pas encore les concepts de liaison, de chargement et de bibliothèque en programmation, il est possible que vous ayez du mal à trouver comment accéder aux fonctions des bibliothèques partagées, sans même parler de la substitution des fonctions des bibliothèques par nos propres fonctions. En prenant comme exemple la détection de fuites de mémoire, nous allons discuter comment remplacer les fonctions des DLL Windows. Pour une mise en œuvre plus détaillée, vous pouvez vous référer au code source de VLD.
+Lorsque vous ne comprenez pas encore les liens de programme, le chargement et les bibliothèques, vous pourriez être perdu quant à la façon de trouver les fonctions d'une bibliothèque partagée, sans parler de remplacer les fonctions de la bibliothèque par nos propres fonctions. Prenons l'exemple de la détection des fuites de mémoire pour explorer comment remplacer les fonctions d'un DLL Windows. Pour une mise en œuvre plus détaillée, vous pouvez consulter le code source de VLD.
 
-Another thing I'd like to mention is that "The Self-Cultivation of Programmers: Linking, Loading, and Libraries" is actually a pretty good book, just my honest thoughts, not a soft promotion.
+Je tiens également à dire que "L'autoformation du programmeur : liaison, chargement et bibliothèques" est vraiment un bon livre, c'est juste un constat sans aucune intention publicitaire.
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Indiquez tout oubli. 
+> Ce message a été traduit en utilisant ChatGPT. Veuillez [**donner votre avis**](https://github.com/disenone/wiki_blog/issues/new)Veuillez indiquer toute omission. 

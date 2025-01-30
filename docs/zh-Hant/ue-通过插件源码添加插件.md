@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 透過插件原始碼導入UE插件
+title: UE 透過插件源碼添加插件
 date: 2023-12-01
 categories:
 - c++
@@ -13,22 +13,22 @@ tags:
 - UnreanEngine
 - UE4
 - UE5
-description: 簡單記錄一下如何在擁有插件原始碼的情況下為 UE 添加插件。
+description: 簡單記錄一下如何在擁有插件源碼的情況下為 UE 添加插件
 figures: []
 ---
 
 <meta property="og:title" content="UE 通过插件源码添加插件" />
 
-#UE 透過插件原始碼新增插件
+#UE 透過插件原始碼添加外掛程式
 
-#添加外掛程式
+#添加插件
 
-> 簡單記錄一下如何在擁有插件原始碼的情況下添加插件。
+> 簡單記錄一下如何在擁有插件源碼的情況下添加插件。
 
-使用插件 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)為例
+以插件 [UE.EditorPlus](https://github.com/disenone/UE.EditorPlus)為例
 
-將原始碼放置在「插件」目錄下。
-（這一步可以不執行）修改專案 .uproject 檔案，Plugins 欄位下增加：
+- 將源碼放到 Plugins 目錄下
+- （這一步可以不執行）修改專案 .uproject 文件，Plugins 領域下增加：
     ```json
         "Plugins": [
         {
@@ -39,12 +39,12 @@ figures: []
             ]
         }
     ```
-右鍵 uproject 檔案，執行 "Generate Visual Studio Project Files"，更新 sln 專案檔案
-打開sln檔案，編譯專案。
+右鍵 uproject 檔案，執行"Generate Visual Studio Project Files"，更新 sln 專案檔案
+打開 sln 檔案，進行專案編譯。
 
-#設置多語言
+#設定多語言
 
-請修改 `DefaultEditor.ini` 配置文件，新增以下路徑：
+修改專案的配置檔案 `DefaultEditor.ini`，加入新路徑：
 
 ```ini
 [Internationalization]
@@ -55,4 +55,4 @@ figures: []
 --8<-- "footer_tc.md"
 
 
-> 此貼文是由 ChatGPT 翻譯的，請在 [**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 
+> 此帖子是使用 ChatGPT 翻譯的，請在[**反饋**](https://github.com/disenone/wiki_blog/issues/new)指出任何遺漏之處。 

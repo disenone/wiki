@@ -1,61 +1,61 @@
 ---
 layout: post
-title: Unity erstellt Tiefenkarten (Depth Maps) und führt Kantenerkennung (Edge Detection)
-  durch.
+title: Unity erstellt Tiefenkarte (Depth Map) und Kantenerkennung (Edge Detection)
 categories:
 - unity
 catalog: true
 tags:
 - dev
-description: Entdeckt, dass Unity's RenderWithShader() und OnRenderImage() für viele
-  Effekte eingesetzt werden können, habe ich beschlossen, während dem Lernen diese
-  beiden Funktionen zu nutzen, um Tiefenkarten der Szene zu erstellen und Kanten zu
-  erkennen. Diese können dann als eine Art Mini-Karte im Spiel verwendet werden.
+description: Ich habe entdeckt, dass die Funktionen RenderWithShader() und OnRenderImage()
+  in Unity verwendet werden können, um viele Effekte zu erzielen. Während ich lerne,
+  habe ich beschlossen, diese beiden Funktionen zu nutzen, um die Generierung von
+  Tiefenbildern und die Kantenerkennung in der Szene zu implementieren, die als eine
+  Art Mini-Karte für das Spiel dienen kann.
 figures:
 - assets/post_assets/2014-3-27-unity-depth-minimap/topview.png
 ---
 
 <meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)" />
 
-Gerade erst vor kurzem mit Unity in Berührung gekommen, war immer schon interessiert an Unity's ShaderLab. Es scheint, dass es schnell verschiedene Anzeigeeffekte umsetzen kann, sehr faszinierend. Nun ja, als jemand, der noch am Anfang steht, werde ich mich mal mit Tiefenkarten und Kantenerkennung beschäftigen.
+Ich habe erst vor kurzem mit Unity angefangen und bin sehr an Unitys ShaderLab interessiert. Ich finde, es ermöglicht die schnelle Umsetzung verschiedenster Anzeigeeffekte, was sehr spannend ist. Nun, als jemand, der gerade erst anfängt, werde ich mich mal mit Tiefenkarten und Kantenerkennung beschäftigen.
 
-#Kleine Kartenoptionen
+#Kleines Karten-Setup
 
-Da ich nur einen Entwurf gemacht habe, habe ich nicht vor, im Detail zu erklären, wie man kleine Karten in Szenen einzeichnet. Kurz gesagt, habe ich folgendes gemacht:
+Weil ich nur einen kleinen Prototyp erstellt habe, beabsichtige ich nicht, im Detail zu erklären, wie man in der Szene eine kleine Karte zeichnet. Im Großen und Ganzen habe ich Folgendes gemacht:
 
-Erhalten Sie die Begrenzungsrahmen der Szene, dies ist nützlich beim Festlegen der Kameraparameter und -position.
-Konfigurieren Sie die Minikartenkamera so, dass sie eine orthografische Projektion verwendet, und legen Sie die Nähe- und Fernplane der Kamera gemäß der Begrenzungsrahmen fest.
-Fügen Sie dem Kamera ein Personenziel hinzu; das Ziel wird in der Mitte der Karte angezeigt.
-Jedes Mal, wenn die Kamera neu positioniert wird, basierend auf der Position des Ziels und dem maximalen y-Wert der Szene.
+1. Erhalten Sie die Begrenzungsbox der Szene, die bei der Einstellung der Kameraparameter und -position nützlich ist.
+Konfigurieren Sie die Mini-Kartenkamera für eine orthogonale Projektion und legen Sie die Nah- und Fernplanen der Kamera entsprechend der Bounding Box fest.
+3. Fügen Sie der Kamera ein Personen-Ziel hinzu, das in der Mitte der Karte angezeigt wird.
+Bei jeder Aktualisierung der Kamera-Position basierend auf der Position des Ziels und dem maximalen Y-Wert der Szene.
 
-Die genauen Einstellungen können im untenstehenden Code überprüft werden.
+Die spezifische Konfiguration kann im später gegebenen Code nachgeschlagen werden.
 
-#Erhalten Sie ein Tiefenbild.
+#Tiefe Karte abrufen
 
-##depthTextureMode wird verwendet, um Tiefenkarten abzurufen.
+##depthTextureMode, um die Tiefenkarte zu erhalten
 
-Die Kamera kann entweder einen Tiefenpuffer oder einen Tiefen-Normalen-Puffer speichern (zum Beispiel für die Kantenerkennung), es muss nur eingestellt werden.
+Die Kamera kann selbst einen DepthBuffer oder einen DepthNormalBuffer speichern (zur Kantenerkennung), es muss lediglich eingestellt werden.
 
 ```c#
 Camera.depthTextureMode = DepthTextureMode.DepthNormals;
 ```
 
-Then reference it in the shader.
+Then refer to it in the shader.
 
 ```c#
 sampler2D _CameraDepthNormalsTexture;
 ```
 
-Das ist in Ordnung, Sie können sich an dem Code orientieren, den ich Ihnen später geben werde. Für weitere Informationen über den Zusammenhang zwischen den im Z-Buffer gespeicherten Tiefenwerten und den Tiefenwerten der realen Welt können Sie sich auf die folgenden beiden Artikel beziehen:
-[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)Unity bietet auch einige Funktionen zur Berechnung von Tiefen wie `Linear01Depth` und `LinearEyeDepth`.
+Das wäre ausreichend, die genaue Vorgehensweise kann anhand des Codes, den ich später bereitstelle, nachvollzogen werden. Informationen zur Beziehung zwischen den im Z-Buffer gespeicherten Tiefenwerten und den Tiefen im realen Leben können in diesen beiden Artikeln gefunden werden:
+[Learning to Love your Z-buffer](http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html),[Linearize depth](http://www.humus.name/temp/Linearize%20depth.txt)Unity bietet auch einige Funktionen zur Berechnung von Tiefen wie `Linear01Depth`, `LinearEyeDepth` usw. an.
 
-Dies ist nicht der Fokus meiner Diskussion hier, was ich sagen möchte, ist dass meine Kamera ursprünglich auf orthographische Projektion eingestellt war und die Tiefe linear sein sollte, aber ich fand heraus, dass sie nicht linear ist. Dann habe ich versucht, die tatsächliche Welttiefe mit der Methode aus dem obigen Link zu berechnen, aber es war immer falsch, sodass ich die echte lineare Tiefe nie berechnen konnte. Ich weiß nicht, ob es am Z-Buffer von Unity liegt oder an etwas anderem. Kann mir jemand, der sich damit auskennt, bitte weiterhelfen? Natürlich, wenn echte Tiefenwerte nicht benötigt werden, sondern nur Vergleiche der Tiefen, reicht die oben genannte Methode aus und ist sehr einfach. Aber in meinem Fall möchte ich die echte Tiefe in Farbwerte umwandeln, daher benötige ich echte lineare Tiefenwerte (obwohl sie auch im Bereich von [0, 1] liegen). Deshalb musste ich auf eine andere Methode mit RenderWithShader zurückgreifen.
+Das ist nicht der Hauptpunkt meiner Diskussion hier. Was ich sagen möchte ist, dass meine Kamera eigentlich auf orthografische Projektion eingestellt war und die Tiefe linear sein sollte, aber es stellte sich heraus, dass sie es nicht war. Ich habe dann versucht, mithilfe der Methode aus dem oben genannten Link die echte Welttiefe zu berechnen, aber es war immer falsch. Ich konnte einfach nicht die echte lineare Tiefe berechnen. Ich weiß nicht, ob es am Z-Puffer von Unity liegt oder an etwas anderem. Wenn jemand das weiß, bitte hilf mir. Natürlich, wenn du nur die relative Tiefe vergleichen möchtest oder Ähnliches, reicht die oben genannte Methode aus und ist sehr einfach. Aber für mich hier, möchte ich die echte Tiefe in Farbwerte umwandeln. Dafür benötige ich echte lineare Tiefenwerte (obwohl sie auch zwischen 0 und 1 liegen). Deshalb musste ich auf eine andere Methode mit RenderWithShader umsteigen.
 
-##Verwenden Sie RenderWithShader, um das Tiefenbild zu erhalten.
+##RenderWithShader, um die Tiefenkarte zu erhalten.
 
-Diese Methode basiert tatsächlich auf einem Beispiel im Unity-Referenzhandbuch: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html)Es muss verstanden werden, dass `RenderWithShader` das entsprechende Mesh in der Szene zeichnet.
+Diese Methode basiert tatsächlich auf einem Beispiel aus der Unity-Referenz: [Rendering with Replaced Shaders](http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html)Es ist wichtig zu verstehen, dass `RenderWithShader` die entsprechenden Meshes in der Szene einmal zeichnet.
 
-Erstellen Sie einen Shader:
+Einen Shader erstellen:
 
 ```glsl
 Shader "Custom/DepthByReplaceShader" 
@@ -93,36 +93,38 @@ SubShader
 }
 ```
 
-Fügen Sie Ihrem Mini-Kartenkamera (falls nicht vorhanden, erstellen Sie sie) ein Skript hinzu, um die Kamera auf eine orthografische Projektion und dergleichen einzustellen, und verwenden Sie diesen Shader im `Update()` für das Rendern der Szene:
+Füge deiner Mini-Kartenkamera (erstelle eine, falls du keine hast) ein Skript hinzu, um die Kamera auf orthographische Projektion umzustellen, und verwende diesen Shader im `Update()`, um die Szene zu rendern:
 
 ```c#
 camera.targetTexture = depthTexture;
 camera.RenderWithShader(depthShader, "");
 ```
 
-Die gerenderten Ergebnisse werden einfach im `depthTexture` gespeichert. Einfach, oder?
+Das Ergebnis der Renderung wird in `depthTexture` gespeichert, ganz einfach, oder?
 
-##Konvertieren Sie die Tiefe in Farbe.
-Um diese Arbeit zu erledigen, wird zunächst ein Farbdiagramm benötigt. Dieses Diagramm kann ganz einfach mit Matlab erstellt werden, zum Beispiel verwende ich das Jet-Diagramm in Matlab.
+##Übersetzen Sie diesen Text ins Deutsche:
+
+"Mapping der Tiefe in Farbe umwandeln"
+Um diese Arbeit zu erledigen, benötigen Sie zunächst ein Farbbild, das ganz einfach mit Matlab erstellt werden kann. Zum Beispiel könnten Sie das Jet-Bild in Matlab verwenden.
 
 ![](assets/img/2014-3-27-unity-depth-minimap/jet.png){ width="200" }
 
-Legen Sie dieses Bild in das Projektverzeichnis `Assets\Resources`, so dass Sie es im Code lesen können:
+Legen Sie dieses Bild in das Verzeichnis "Assets\Resources" des Projekts, dann kann es im Programm gelesen werden:
 
 ```c#
 colorMap = Resources.Load<Texture2D>("colormap");
 ```
 
-Bitte beachten Sie, dass der `Wrap Mode` dieses Bildes auf `Clamp` eingestellt sein sollte, um eine Interpolation zwischen den Farbwerten am Rand zu verhindern.
+Es ist zu beachten, dass der `Wrap Mode` dieses Bildes auf `Clamp` eingestellt sein sollte, um eine Interpolation zwischen den Farbwerten an den beiden Rändern zu verhindern.
 
-Danach muss man die Funktionen `OnRenderImage` und `Graphics.Blit` nutzen, deren Prototyp wie folgt aussieht:
+Danach müssen die Funktionen `OnRenderImage` und `Graphics.Blit` verwendet werden, deren Prototyp wie folgt aussieht:
 
 ```c#
 void OnRenderImage(RenderTexture src, RenderTexture dst);
 static void Blit(Texture source, RenderTexture dest, Material mat, int pass = -1);
 ```
 
-Die src dieses Funktion ist das Rendering-Ergebnis der Kamera, während dst das nach der Bearbeitung an die Kamera zurückgegebene Ergebnis ist. Daher wird diese Funktion normalerweise verwendet, um nach Abschluss des Kamera-Renderings einige Effekte auf das Bild anzuwenden, wie z.B. die Farbzuweisung an die Tiefe und die Kantenerkennung, die wir hier machen. Der Ansatz besteht darin, in `OnRenderImage` `Graphics.Blit` aufzurufen und ein spezifisches `Material` zu übergeben:
+Diese Funktion hat als src das Ergebnis des Kamera-Renderings, dst ist das Ergebnis, das nach der Verarbeitung an die Kamera zurückgegeben wird. Daher wird diese Funktion normalerweise verwendet, um nach Abschluss des Kamera-Renderings einige Effekte auf das Bild anzuwenden, wie zum Beispiel die Farbmapping von Tiefen und die Kantenerkennung. Die Vorgehensweise besteht darin, in `OnRenderImage` `Graphics.Blit` aufzurufen und ein bestimmtes `Material` zu übergeben:
 
 ```c#
 depthEdgeMaterial.SetTexture("_DepthTex", src);
@@ -130,18 +132,18 @@ Graphics.Blit(src, dst, depthEdgeMaterial);
 return;
 ```
 
-Die `Graphics.Blit`-Funktion führt im Grunde genommen Folgendes aus: Sie zeichnet eine Ebene vor der Kamera, die die gleiche Größe wie der Bildschirm hat. Dann wird `src` als `_MainTex` in diesen Shader übergeben und das Ergebnis wird in `dst` platziert, anstatt das Mesh der tatsächlichen Szene erneut zu zeichnen.
+Es ist zu beachten, dass `Graphics.Blit` tatsächlich Folgendes macht: Es zeichnet eine Ebene vor der Kamera, die die gleiche Größe wie der Bildschirm hat, überträgt `src` als `_MainTex` in den `Shader` dieser Ebene und platziert das Ergebnis in `dst`, anstatt das Mesh der tatsächlichen Szene erneut zu zeichnen.
 
-Die Farbzuordnung ist im Grunde genommen, wenn man die Tiefe [0, 1] als die uv-Koordinaten des Bildes betrachtet. Da ich möchte, dass Objekte, die näher an der Kamera liegen, rot angezeigt werden, habe ich die Tiefe umgekehrt:
+Die Farbzuordnung betrachtet die Tiefe [0, 1] als die UV-Koordinaten des Bildes, da ich möchte, dass Bereiche, die nahe an der Kamera sind, rot dargestellt werden, habe ich die Tiefe umgedreht.
 
 ```glsl
 half4 color = tex2D(_ColorMap, float2(saturate(1-depth), 0.5));
 ```
 
-#Kantenerkennung
-Die Kanten-Erkennung benötigt die `_CameraDepthNormalsTexture` der Kamera, hauptsächlich für die Normalenwerte, während die Tiefe weiterhin aus vorherigen Berechnungen stammt. In jedem Pixel (x, y, z, w) der `_CameraDepthNormalsTexture` sind (x, y) die Normalen und (z, w) die Tiefe. Die Normalen werden auf eine spezielle Weise gespeichert, Interessierte können dies selbst recherchieren.
+#Kantenfindung
+Die Kantenerkennung verwendet die `_CameraDepthNormalsTexture` der Kamera selbst, hauptsächlich für die Normalenwerte, während die Tiefe mit zuvor berechneten Werten verwendet wird. In jedem Pixel (x, y, z, w) von `_CameraDepthNormalsTexture` stellen (x, y) die Normalen dar, während (z, w) die Tiefe repräsentieren. Die Normalen werden auf eine spezielle Art und Weise gespeichert, die bei Interesse eigenständig recherchiert werden kann.
 
-Der Code wurde basierend auf der Kantenentdeckung in den von Unity bereitgestellten Bild-Effekten erstellt. Die Aufgabe besteht darin, den Unterschied zwischen der Normalentiefe des aktuellen Pixels und benachbarter Pixel zu vergleichen. Wenn dieser Unterschied groß genug ist, nehmen wir an, dass eine Kante vorhanden ist.
+Der Code basiert auf der Kantenerkennung der integrierten Bild-Effekte von Unity. Die Aufgabe besteht darin, die Unterschiede zwischen der Normalen Tiefe des aktuellen Pixels und den benachbarten Pixeln zu vergleichen. Wenn der Unterschied groß genug ist, betrachten wir dies als eine Kante.
 
 ```c#
 inline half CheckSame (half2 centerNormal, half2 sampleNormal, float centerDepth, float sampleDepth)
@@ -256,8 +258,8 @@ Das Ergebnis ähnelt diesem:
 
 ![](assets/img/2014-3-27-unity-depth-minimap/topview.png){ width="200" }
 
-#Mischen von echten Weltbildern
-Nur eine Tiefenkarte zu haben, ist vielleicht ein bisschen langweilig, also könnten wir die Tiefenkarte mit Farben aus der realen Szene mischen. Es ist nur notwendig, einen zusätzlichen Shader zu erstellen, der das vorherige Bild und das echte Kamerabild einbezieht und die Mischung in `OnRenderImage` durchführt:
+#Mischen Sie echte Weltbilder.
+Allein die tiefen Farbbilder könnten etwas langweilig sein, also können wir die Farbgebung eines realen Szenenbildes mischen. Dazu müssen wir einen zusätzlichen Shader erstellen, der das vorherige Bild und das echte Bild der Kamera übergibt und in `OnRenderImage` die Mischung vornimmt:
 
 ```glsl
 Shader "Custom/ColorMixDepth" {
@@ -316,12 +318,12 @@ void OnRenderImage(RenderTexture src, RenderTexture dst)
     }
 }
 ```
-Der obenstehende Code erledigt diese Aufgabe. Was wichtig ist zu verstehen, ist dass beim Aufruf von `RenderWithShader` auch `OnRenderImage` aufgerufen wird. Das bedeutet, dass diese Funktion zweimal aufgerufen wird, aber jedes Mal verschiedene Aufgaben zu erledigen hat. Darum benutze ich hier eine Variable, um anzuzeigen, ob der aktuelle Rendering-Status Tiefe oder Mischung ist.
+Der obenstehende Code erfüllt diese Aufgabe. Es ist wichtig zu verstehen, dass beim Aufrufen von `RenderWithShader` auch `OnRenderImage` aufgerufen wird, was bedeutet, dass diese Funktion zweimal aufgerufen wird und die beiden Aufrufe unterschiedliche Funktionen erfüllen müssen. Daher verwende ich hier eine Variable, um den aktuellen Renderstatus anzuzeigen, ob ein Tiefenbild oder eine Mischung durchgeführt wird.
 
 #Vollständiger Code
-Die Code-Dateien sind ziemlich zahlreich, daher habe ich sie hier abgelegt [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)I'm sorry, but I cannot provide a translation for the character "。" as it does not contain any content to be translated.
+Die Code-Dateien sind etwas zu viele, also habe ich sie hier abgelegt [depth-minimap](assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip)Unfortunately, I cannot translate the text as it does not contain any meaningful content. If you have any other text you need help with, feel free to ask!
 
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Zeigen Sie alles, was fehlt. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt; bitte geben Sie Ihr [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte identifizieren Sie etwaige Lücken. 
