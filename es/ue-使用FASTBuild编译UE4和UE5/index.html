@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="La compatibilidad nativa de la UE con FASTBuild no es del todo completa. Para lograr una compatibilidad perfecta de FASTBuild con UE4 y UE5, es necesario realizar algunas configuraciones y modificaciones en el código fuente. A continuación, te explicaré paso a paso cómo hacerlo.">
+        <meta name="description" content="UE 原生对 FASTBuild 支持不太完善, 为了让 UE4 和 UE5 完美支持 FASTBuild, 我们需要做一些配置和源码修改, 下面为你一一道来.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Utilizar FASTBuild para compilar UE4 y UE5 - Disenone's Wiki</title>
+        <title>Uso de FASTBuild para compilar UE4 y UE5 - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Utilizar FASTBuild para compilar UE4 y UE5
+              Uso de FASTBuild para compilar UE4 y UE5
             
           </span>
         </div>
@@ -542,7 +542,7 @@
         
   
   <span class="md-ellipsis">
-    Resumen del manejo de los argumentos de línea de comandos en C/C++
+    Resumen del manejo de argumentos de línea de comandos en C/C++
   </span>
   
 
@@ -563,7 +563,7 @@
         
   
   <span class="md-ellipsis">
-    Análisis de programación macro en C/C++
+    C/C++ Análisis de programación con macros
   </span>
   
 
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    Escribir un Detector de Fugas de Memoria para Windows.
+    Escribir un Detector de Fugas de Memoria en Windows
   </span>
   
 
@@ -605,7 +605,7 @@
         
   
   <span class="md-ellipsis">
-    KCP Analysis of Source Code
+    Análisis del código fuente de KCP
   </span>
   
 
@@ -682,7 +682,7 @@
         
   
   <span class="md-ellipsis">
-    Usa Visual Studio 2015 para compilar Python 2.7.11.
+    Compilando Python 2.7.11 con Visual Studio 2015
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - Explorando __builtins__
+    Python Conversaciones 1 - Explorando __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chit-Chat 2 - Actualización en caliente de Python3.12
+    Python Conversaciones 2 - Actualización en caliente de Python 3.12
   </span>
   
 
@@ -860,7 +860,7 @@
         
   
   <span class="md-ellipsis">
-    "Análisis y prueba de rendimiento del algoritmo AOI de juegos"
+    Analisis y pruebas de rendimiento del algoritmo AOI de juegos
   </span>
   
 
@@ -959,7 +959,7 @@
           
   
   <span class="md-ellipsis">
-    Utilizar FASTBuild para compilar UE4 y UE5
+    Uso de FASTBuild para compilar UE4 y UE5
   </span>
   
 
@@ -970,7 +970,7 @@
         
   
   <span class="md-ellipsis">
-    Utilizar FASTBuild para compilar UE4 y UE5
+    Uso de FASTBuild para compilar UE4 y UE5
   </span>
   
 
@@ -1009,37 +1009,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#configuracion-de-esta-maquina" class="md-nav__link">
     <span class="md-ellipsis">
-      本机配置
+      Configuración de esta máquina
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#remote-machine-configuration" class="md-nav__link">
+  <a href="#configuracion-de-maquina-remota" class="md-nav__link">
     <span class="md-ellipsis">
-      Remote machine configuration
+      Configuración de máquina remota
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ue" class="md-nav__link">
+  <a href="#prueba-de-compilacion-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      测试 UE 编译
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="测试 UE 编译">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-avanzada" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuración avanzada
+      Prueba de compilación de UE
     </span>
   </a>
   
@@ -1049,20 +1039,30 @@
     </nav>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-avanzada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuración avanzada
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuración avanzada">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#apoyo-a-versiones-mas-antiguas-de-ue" class="md-nav__link">
+  <a href="#soporte-para-versiones-mas-antiguas-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Apoyo a versiones más antiguas de UE
+      Soporte para versiones más antiguas de UE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#compilando-tu-propio-fastbuild" class="md-nav__link">
+  <a href="#compilar-tu-propio-fastbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      Compilando tu propio FASTBuild
+      Compilar tu propio FASTBuild
     </span>
   </a>
   
@@ -1078,9 +1078,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#modifica-el-archivo-fastbuildcs-incorporado-en-la-ue" class="md-nav__link">
+  <a href="#modificar-el-fastbuildcs-incorporado-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Modifica el archivo FASTBuild.cs incorporado en la UE.
+      Modificar el FASTBuild.cs incorporado de UE.
     </span>
   </a>
   
@@ -1089,7 +1089,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml-configuracion-avanzada" class="md-nav__link">
     <span class="md-ellipsis">
-      BuildConfiguration.xml Configuración avanzada
+      BuildConfiguration.xml Configuración Avanzada
     </span>
   </a>
   
@@ -1120,7 +1120,7 @@
         
   
   <span class="md-ellipsis">
-    UE permite agregar complementos mediante el código fuente del complemento.
+    UE agrega plugins a través del código fuente del plugin
   </span>
   
 
@@ -1141,7 +1141,7 @@
         
   
   <span class="md-ellipsis">
-    UE Extender el menú del editor
+    Ampliar menú del editor de UE
   </span>
   
 
@@ -1162,7 +1162,7 @@
         
   
   <span class="md-ellipsis">
-    UE utiliza la extensión de menú en forma de ruta.
+    UE utiliza el formulario de ruta para expandir el menú.
   </span>
   
 
@@ -1183,7 +1183,7 @@
         
   
   <span class="md-ellipsis">
-    UE (Unreal Engine) permite la configuración de localización y soporte para múltiples idiomas.
+    UE establece la localización multilingüe.
   </span>
   
 
@@ -1204,7 +1204,7 @@
         
   
   <span class="md-ellipsis">
-    Lograr varias operaciones de imágenes (UTexture2D) en el Unreal Engine (UE) como leer, guardar, copiar, y pegar desde/hacia el portapapeles...
+    UE logra diversas operaciones de imágenes (UTexture2D) (lectura, guardado, copia, portapapeles...)
   </span>
   
 
@@ -1225,7 +1225,7 @@
         
   
   <span class="md-ellipsis">
-    Extension del Editor UE.EditorPlus - Documentación
+    UE Editor Plugin UE.EditorPlus Documento de Instrucciones
   </span>
   
 
@@ -1246,7 +1246,9 @@
         
   
   <span class="md-ellipsis">
-    UE Plugin AIChatPlus Documentación
+    # UE Plugin AIChatPlus Documentación
+
+
   </span>
   
 
@@ -1330,7 +1332,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona de Unity (Parte 1)
+    Construcción de un sistema de cámara en tercera persona en Unity (Parte 1)
   </span>
   
 
@@ -1351,7 +1353,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona en Unity (Parte 2)
+    Construir cámara en tercera persona Unity (parte 3)
   </span>
   
 
@@ -1372,7 +1374,7 @@
         
   
   <span class="md-ellipsis">
-    Control de personajes en Unity
+    Controles de personaje en Unity
   </span>
   
 
@@ -1393,7 +1395,7 @@
         
   
   <span class="md-ellipsis">
-    Unity genera mapas de profundidad ("Depth Map") y realiza detección de bordes ("Edge Detection").
+    Unity genera mapas de profundidad (Depth Map) y detección de bordes (Edge Detection).
   </span>
   
 
@@ -1414,7 +1416,7 @@
         
   
   <span class="md-ellipsis">
-    Unity realiza la dispersión de luz volumétrica (Volumetric Light Scattering, luz de brechas en las nubes)
+    Unity implementa la dispersión volumétrica de la luz (Volumetric Light Scattering, también conocida como cloud crevice light)
   </span>
   
 
@@ -1483,37 +1485,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#configuracion-de-esta-maquina" class="md-nav__link">
     <span class="md-ellipsis">
-      本机配置
+      Configuración de esta máquina
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#remote-machine-configuration" class="md-nav__link">
+  <a href="#configuracion-de-maquina-remota" class="md-nav__link">
     <span class="md-ellipsis">
-      Remote machine configuration
+      Configuración de máquina remota
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ue" class="md-nav__link">
+  <a href="#prueba-de-compilacion-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      测试 UE 编译
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="测试 UE 编译">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-avanzada" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuración avanzada
+      Prueba de compilación de UE
     </span>
   </a>
   
@@ -1523,20 +1515,30 @@
     </nav>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-avanzada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuración avanzada
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuración avanzada">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#apoyo-a-versiones-mas-antiguas-de-ue" class="md-nav__link">
+  <a href="#soporte-para-versiones-mas-antiguas-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Apoyo a versiones más antiguas de UE
+      Soporte para versiones más antiguas de UE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#compilando-tu-propio-fastbuild" class="md-nav__link">
+  <a href="#compilar-tu-propio-fastbuild" class="md-nav__link">
     <span class="md-ellipsis">
-      Compilando tu propio FASTBuild
+      Compilar tu propio FASTBuild
     </span>
   </a>
   
@@ -1552,9 +1554,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#modifica-el-archivo-fastbuildcs-incorporado-en-la-ue" class="md-nav__link">
+  <a href="#modificar-el-fastbuildcs-incorporado-de-ue" class="md-nav__link">
     <span class="md-ellipsis">
-      Modifica el archivo FASTBuild.cs incorporado en la UE.
+      Modificar el FASTBuild.cs incorporado de UE.
     </span>
   </a>
   
@@ -1563,7 +1565,7 @@
           <li class="md-nav__item">
   <a href="#buildconfigurationxml-configuracion-avanzada" class="md-nav__link">
     <span class="md-ellipsis">
-      BuildConfiguration.xml Configuración avanzada
+      BuildConfiguration.xml Configuración Avanzada
     </span>
   </a>
   
@@ -1597,21 +1599,21 @@
   
 
 
-  <h1>Utilizar FASTBuild para compilar UE4 y UE5</h1>
+  <h1>Uso de FASTBuild para compilar UE4 y UE5</h1>
 
 <div><p><meta property="og:title" content="使用 FASTBuild 编译 UE4 和 UE5"></p>
 <blockquote>
-<p>Este método de texto ha sido probado y es compatible con UE4.27 - UE5.3. No se ha probado en otras versiones, pero puedes intentarlo.</p>
+<p>Este método ha sido probado para ser compatible con UE4.27 - UE5.3, otras versiones no han sido probadas, puedes intentarlo.</p>
 </blockquote>
-<h2 id="introduccion"><strong>Introducción</strong></h2>
-<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>FASTBuild es una herramienta de compilación distribuida de código abierto y gratuita. El proceso de compilación de UE puede ser bastante largo, pero al utilizar FASTBuild se puede reducir significativamente el tiempo de compilación.</p>
-<p>UE a partir de la versión 4.x es capaz de soportar FASTBuild. El código fuente oficial incluye una versión modificada de la herramienta FASTBuild, basada en la versión 0.99 de FASTBuild. Se encuentra en la ubicación <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>. UE5.3 también utiliza esta versión. Sin embargo, esta es una versión bastante antigua. Hasta la fecha de creación de este documento, la versión más reciente de FASTBuild es la 1.11, que cuenta con nuevas funcionalidades y correcciones de errores. Este documento se centra en cómo utilizar la versión 1.11 para admitir tanto UE4 como UE5.</p>
-<h2 id="configuracion-sencilla"><strong>Configuración sencilla</strong></h2>
-<p>Para lograr nuestro objetivo, necesitamos hacer algunas modificaciones en FASTBuild 1.11 y el código fuente de UE. Aquí, de hecho, ya he terminado de hacer las modificaciones, por lo que podemos usar directamente la versión que he modificado.</p>
-<p>FASTBuild descarga la <a href="https://github.com/disenone/fastbuild/releases">última versión</a>Los archivos ejecutables en el interior son FBuild.exe, FBuildCoordinator.exe y FBuildWorker.exe. Para mayor claridad, a continuación llamaremos "host local" a la máquina que utiliza FBuild.exe para programar, y "máquinas remotas" a aquellas que participan en la edición de la CPU.</p>
-<h3 id="_1"><strong>本机配置</strong></h3>
-<p>Agrega el directorio donde se encuentra FBuild.exe al variable de entorno del sistema Path, para asegurarte de que puedas ejecutar FBuild.exe directamente desde la línea de comandos (cmd).</p>
-<p>Configurar el directorio compartido de la caché (si no es necesario generar la caché, puedes omitir esta configuración): establecer un directorio vacío como ruta compartida y asegurarse de que la máquina remota tenga acceso a él.</p>
+<h2 id="introduccion">Introducción</h2>
+<p><a href="https://www.fastbuild.org/docs/home.html">FASTBuild</a>Se trata de una herramienta de compilación distribuida de código abierto y gratuita. La compilación en UE puede ser bastante lenta, pero si se utiliza FASTBuild, se puede reducir significativamente el tiempo de compilación.</p>
+<p>UE ha podido admitir FASTBuild desde la versión 4.x, el código fuente oficial viene con una versión modificada de la herramienta FASTBuild, basada en la versión 0.99 de FASTBuild, ubicada en <code>Engine\Extras\ThirdPartyNotUE\FASTBuild</code>. UE5.3 también utiliza esta versión. Esta es una versión bastante antigua, ya que hasta la fecha de creación de este texto, la versión más reciente de FASTBuild es la 1.11, que ofrece más funciones nuevas y correcciones de errores. Este texto se centra en cómo utilizar la versión 1.11 para admitir tanto UE4 como UE5 al mismo tiempo.</p>
+<h2 id="configuracion-sencilla">Configuración sencilla</h2>
+<p>Para lograr nuestros objetivos, necesitamos hacer algunas modificaciones en FASTBuild 1.11 y en el código fuente de UE. De hecho, ya he realizado todas las modificaciones aquí, por lo que podemos usar directamente la versión que he modificado.</p>
+<p>Descarga la <a href="https://github.com/disenone/fastbuild/releases">última versión</a>Los archivos ejecutables dentro son FBuild.exe, FBuildCoordinator.exe, FBuildWorker.exe. Para expresar con claridad, a la máquina que utiliza FBuild.exe para programar la llamaremos <code>máquina local</code>, y a las otras máquinas remotas que proporcionan CPU para participar en la edición las llamaremos <code>máquinas remotas</code>.</p>
+<h3 id="configuracion-de-esta-maquina">Configuración de esta máquina</h3>
+<p>Agrega el directorio donde se encuentra FBuild.exe al entorno de variables de sistema Path, para asegurarte de que puedas ejecutar FBuild.exe directamente desde la ventana de comandos (cmd).</p>
+<p>Configurar el directorio compartido de Cache (si no se necesita generar Cache, se puede omitir esta configuración): establecer un directorio vacío como ruta compartida y confirmar que la máquina remota pueda acceder.</p>
 <p>Abre el proyecto de código fuente de UE4 / UE5 en esta máquina y modifica el archivo de configuración de compilación Engine\Saved\UnrealBuildTool\BuildConfiguration.xml de la siguiente manera:</p>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
@@ -1626,32 +1628,28 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nt">&lt;/Configuration&gt;</span>
 </code></pre></div>
-<p>Descargar FBuildCoordinator.exe antes de ejecutarlo en esta máquina.</p>
-<h3 id="remote-machine-configuration">Remote machine configuration</h3>
-<p>Al configurar la caché de la misma manera, solo se debe especificar la dirección IP de la máquina local, supongamos que es 192.168.1.100</p>
+<p>Ejecutar el archivo FBuildCoordinator.exe descargado anteriormente en esta máquina.</p>
+<h3 id="configuracion-de-maquina-remota">Configuración de máquina remota</h3>
+<p>La misma configuración de Cache, solo que la IP debe especificarse a la IP local, suponiendo aquí que sea 192.168.1.100.</p>
 <ul>
 <li>FASTBUILD_CACHE_PATH: \192.168.1.100\Cache</li>
 <li>FASTBUILD_CACHE_MODE: rw</li>
 </ul>
-<p><code>同样配置 Coordinator ip</code></p>
-<p><code>同样配置 Coordinator ip</code> se traduce al español como: <code>Configuración de la IP del coordinador igual</code></p>
+<p>Configuración de Coordinador con la misma dirección IP.</p>
 <ul>
 <li>FASTBUILD_COORDINATOR: 192.168.1.100</li>
 </ul>
-<p><strong>配置完如下图</strong></p>
-<p>Traducción: </p>
-<p>Después de configurar, el resultado se muestra en la siguiente imagen:</p>
+<p>La configuración es la siguiente:</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-fastbuild/remote_vars.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-fastbuild/remote_vars.png"></a></p>
-<p>Ejecute FBuildWorker.exe en la máquina remota. Si la configuración es exitosa, se imprimirá un registro en FBuildCoordinator.exe de esta máquina local (donde 192.168.1.101 es la dirección IP de la máquina remota):</p>
+<p>Ejecuta FBuildWorker.exe en la máquina remota; si la configuración es exitosa, podrás ver que se imprimen registros en FBuildCoordinator.exe de esta máquina (aquí 192.168.1.101 es la dirección IP de la máquina remota):</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>FBuildCoordinator - v1.11-UE
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>[2023-12-01-20:06:38] Listening on port 31392
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[2023-12-01-20:06:38] current [0] workers: []
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[2023-12-01-20:06:42] New worker available: 192.168.1.101
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>[2023-12-01-20:06:42] current [1] workers: [192.168.1.101]
 </code></pre></div>
-<h3 id="ue"><strong>测试 UE 编译</strong></h3>
-<p>Prueba de compilación de UE.</p>
-<p>Usa VisualStudio para abrir el proyecto de código fuente de UE, selecciona un proyecto de C++, haz clic en Rebuild. Si la configuración es correcta, podrás ver registros similares a los que se muestran a continuación:</p>
+<h3 id="prueba-de-compilacion-de-ue">Prueba de compilación de UE</h3>
+<p>Abre el proyecto de código fuente de Unreal Engine en Visual Studio, selecciona un proyecto de C++, y haz clic en Rebuild. Si la configuración es correcta, verás registros similares a los siguientes.</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>11&gt;FBuild Command Line Arguments: '-monitor -summary -dist -cache -ide -j12 -clean -config "E:\UE\ue5.3_git\Engine\Intermediate\Build\fbuild.bff" -nostoponerror
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>11&gt;FBuild Executable: 'd:\libs\FASTBuild\bin\FBuild.exe
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>11&gt;FBuild Coordinator: '127.0.0.1
@@ -1665,58 +1663,60 @@
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>11&gt;Worker list received: 1 workers
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>11&gt;Distributed Compilation : 1 Workers in pool '127.0.0.1'
 </code></pre></div>
-<p>FASTBuild puede encontrar la dirección IP de la máquina remota y comenzar a enviar la compilación a esa máquina remota. También se puede ver en el FBuildWorker de la máquina remota que hay una tarea de compilación en curso.</p>
-<h4 id="configuracion-avanzada"><strong>Configuración avanzada</strong></h4>
-<h3 id="apoyo-a-versiones-mas-antiguas-de-ue">Apoyo a versiones más antiguas de UE</h3>
-<p>Si te das cuenta de que tu UE no tiene la herramienta FASTBuild (Engine\Extras\ThirdPartyNotUE\FASTBuild), y en el proyecto UnrealBuildTool no hay un archivo FASTBuild.cs, es muy probable que tu versión de UE aún no sea compatible con FASTBuild.</p>
-<p>Entonces necesitarás consultar el código fuente de UE4.27, y también crear un FASTBuild.cs similar, además de realizar las modificaciones pertinentes en el resto del código relacionado. No detallaremos aquí los cambios específicos.</p>
-<h3 id="compilando-tu-propio-fastbuild">Compilando tu propio FASTBuild</h3>
-<p>Si estás interesado en FASTBuild en sí mismo, o si quieres hacer algunas modificaciones, puedes intentar compilar FASTBuild con FASTBuild.</p>
+<p>FASTBuild puede encontrar la IP de la máquina remota y comenzar a enviar compilaciones a la máquina remota. También se puede ver en el FBuildWorker de la máquina remota que hay tareas de compilación en ejecución.</p>
+<h2 id="configuracion-avanzada">Configuración avanzada</h2>
+<h3 id="soporte-para-versiones-mas-antiguas-de-ue">Soporte para versiones más antiguas de UE</h3>
+<p>Si descubres que tu UE no tiene la herramienta FASTBuild (Engine\Extras\ThirdPartyNotUE\FASTBuild) y que no hay un archivo FASTBuild.cs en el proyecto UnrealBuildTool, es muy probable que tu versión de UE aún no sea compatible con FASTBuild.</p>
+<p>Necesitarás consultar el código fuente de UE4.27, y también crear un archivo FASTBuild.cs similar, además de realizar los cambios necesarios en otros códigos relacionados, pero no entraré en detalles aquí.</p>
+<h3 id="compilar-tu-propio-fastbuild">Compilar tu propio FASTBuild</h3>
+<p>Si también estás interesado en FASTBuild o deseas hacer algunas modificaciones, puedes intentar compilar FASTBuild con FASTBuild.</p>
 <ul>
-<li>Descarga mi <a href="https://github.com/disenone/fastbuild/releases">último código fuente</a>Con el fin de lograr lo que estás buscando, sería necesario contar con más contexto o información para garantizar una traducción precisa. "并解压" parece ser una combinación de dos palabras en chino que no tienen un significado claro por sí mismas. Por favor, proporciónanos más detalles para que podamos ayudarte de la manera más adecuada posible.</li>
-<li>Modificar External\SDK\VisualStudio\VS2019.bff, cambiar .VS2019_BasePath y .VS2019_Version por el contenido correspondiente a tu máquina local. Puedes encontrar la versión en el directorio .VS2019_BasePath\Tools\MSVC, por ejemplo:
+<li>Descarga mi <a href="https://github.com/disenone/fastbuild/releases">último código fuente</a>，并解压</li>
+<li>Modifica External\SDK\VisualStudio\VS2019.bff, cambiando .VS2019_BasePath y .VS2019_Version por el contenido correspondiente en tu máquina; la versión se puede ver en el directorio .VS2019_BasePath\Tools\MSVC, por ejemplo.
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>.VS2019_BasePath        = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC'    // &lt;-- Set path here
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>.VS2019_Version         = '14.29.30133' // &lt;-- Set version here
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>.VS2019_MSC_VER         = '1929' // &lt;-- Set MSC_VER here
 </code></pre></div></li>
 </ul>
+<p>Por favor, traduce el siguiente texto al idioma español:</p>
 <ul>
-<li>Modifica el archivo .bff de External\SDK\Windows\Windows10SDK, en los campos .Windows10_SDKBasePath y .Windows10_SDKVersion. Puedes ver la versión en la carpeta .Windows10_SDKBasePath/bin.
+<li>Modify External\SDK\Windows\Windows10SDK.bff's .Windows10_SDKBasePath and .Windows10_SDKVersion, puedes encontrar la versión en .Windows10_SDKBasePath/bin:
     <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>.Windows10_SDKBasePath        = 'C:\Program Files (x86)\Windows Kits/10'    // &lt;-- Set path here
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>.Windows10_SDKVersion         = '10.0.19041.0' // &lt;-- Set version here
 </code></pre></div></li>
 </ul>
-<p>Modifica el archivo External\SDK\Clang\Windows\Clang11.bff, cambiando los valores de .Clang11_BasePath y .Clang11_Version. La ruta se encuentra en .VS2019_BasePath\Tools\Tools/LLVM/x64.
-    </p><div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
+<ul>
+<li>Modificar el .Clang11_BasePath y .Clang11_Version en External\SDK\Clang\Windows\Clang11.bff, la ruta está en .VS2019_BasePath\Tools\Tools/LLVM/x64.
+    <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>.Clang11_BasePath = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/LLVM/x64'    // &lt;-- Set path here
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>.Clang11_Version  = '12.x.x'
-</code></pre></div>
-<ul>
-<li>Entra en el directorio Code y ejecuta <code>FBuild.exe All-x64-Release</code> en el cmd. Si la configuración es correcta, deberías ver la compilación exitosa. En la ruta tmp\x64-Release\Tools\FBuild\FBuild podrás encontrar el archivo FBuild.exe.</li>
+</code></pre></div></li>
 </ul>
-<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> permite activar la compilación distribuida.</p>
-<h3 id="fbuild-mas-opciones"><strong>FBuild Más opciones</strong></h3>
-<p><strong>我提供的 FBuild 本身支持以下常用的选项：</strong></p>
-<p>El FBuild que ofrezco en sí mismo admite las siguientes opciones comunes:</p>
 <ul>
-<li>coordinator: Especifica la dirección IP del coordinador (puede sobrescribir el valor de la variable de entorno del sistema)</li>
-<li>brokerage: dirección de intermediación designada (puede sobrescribir el valor de las variables de entorno del sistema)</li>
-<li>nocache: Obliga a no usar caché.</li>
-<li>dist: Activar compilación distribuida.</li>
-<li>forceremote: Compilar de forma remota</li>
-<li>summary: Generar informe de estadísticas después de finalizar la edición.</li>
+<li>Accede al directorio de Code y ejecuta <code>FBuild.exe All-x64-Release</code> en cmd. Si la configuración es correcta, podrás ver que la compilación fue exitosa. En tmp\x64-Release\Tools\FBuild\FBuild podrás encontrar FBuild.exe.</li>
 </ul>
-<p>Espera un momento, puedes ejecutar <code>FBuild.exe -help</code> para ver más opciones.</p>
-<p>FBuildWorker tiene varias opciones comunes:</p>
+<p><code>FBuild.exe All-x64-Release -dist -coordinator=127.0.0.1</code> can enable distributed compilation.</p>
+<h3 id="fbuild-mas-opciones">FBuild Más opciones</h3>
+<p>El FBuild que proporciono soporta las siguientes opciones comunes:</p>
 <ul>
-<li>coordinator: Especifica la dirección IP del coordinador (puede sobrescribir el valor de la variable de entorno del sistema)</li>
-<li>brokerage: dirección de intermediación designada (puede anular el valor de las variables de entorno del sistema)</li>
-<li>nocache:  Obliga a no utilizar la memoria caché.</li>
-<li>cpus: Especifica cuántos núcleos se utilizarán para la compilación.</li>
+<li>coordinator: Especificar la dirección IP del Coordinator (puede sobrescribir el valor de la variable de entorno del sistema)</li>
+<li>brokerage: dirección de corredor (brokerage) designada (puede sobrescribir el valor de las variables de entorno del sistema)
+nocache: forcing to not use cache.</li>
+<li>dist: Activar la compilación distribuida</li>
+<li>forceremote：Forzar la compilación en el equipo remoto</li>
+<li>resumen: generar informe estadístico después de la edición</li>
 </ul>
-<p>Más opciones están disponibles al ejecutar <code>FBuildWorder.exe -help</code>.</p>
-<h3 id="modifica-el-archivo-fastbuildcs-incorporado-en-la-ue">Modifica el archivo FASTBuild.cs incorporado en la UE.</h3>
-<p>El archivo FASTBuild.cs incluido en UE no maneja adecuadamente las variables de entorno del sistema en relación con los parámetros especificados en BuildConfiguration.xml. Muchos de los parámetros leen primero las variables de entorno del sistema, lo cual claramente es contrario a la lógica de uso de BuildConfiguration.xml.</p>
-<p>Para ello, puedes modificar el código relevante de la siguiente manera, utilizando como ejemplo UE5.3:</p>
+<p>Espera, puedes ver más opciones ejecutando <code>FBuild.exe -help</code>.</p>
+<p>Las opciones más comunes de FBuildWorker son:</p>
+<ul>
+<li>coordinador: Specifique la dirección IP del coordinador (puede cubrir los valores de las variables de entorno del sistema)</li>
+<li>brokerage: dirección de corretaje especificada (puede superponer el valor de las variables de entorno del sistema)</li>
+<li>nocache: forzar no usar caché</li>
+<li>cpus: Especifica cuántos núcleos se asignarán para la compilación.</li>
+</ul>
+<p>Para ver más opciones, puedes ejecutar <code>FBuildWorder.exe -help</code>.</p>
+<h3 id="modificar-el-fastbuildcs-incorporado-de-ue">Modificar el FASTBuild.cs incorporado de UE.</h3>
+<p>El FASTBuild.cs que viene con UE no maneja adecuadamente las variables de entorno del sistema y su relación con los parámetros especificados en BuildConfiguration.xml; muchos parámetros se leen prioritariamente desde las variables de entorno del sistema, lo cual es claramente opuesto a la lógica de uso de BuildConfiguration.xml.</p>
+<p>Para ello, se puede modificar el código correspondiente de la siguiente manera, tomando como ejemplo UE5.3:</p>
 <div class="language-csharp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">private</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">ExecuteBffFile</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">BffFilePath</span><span class="p">,</span><span class="w"> </span><span class="n">ILogger</span><span class="w"> </span><span class="n">Logger</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="n">CacheArgument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
@@ -1789,7 +1789,7 @@
 <a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a><span class="p">...</span>
 </code></pre></div>
-<h3 id="buildconfigurationxml-configuracion-avanzada">BuildConfiguration.xml Configuración avanzada</h3>
+<h3 id="buildconfigurationxml-configuracion-avanzada">BuildConfiguration.xml Configuración Avanzada</h3>
 <div class="language-xml highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">&lt;Configuration</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"https://www.unrealengine.com/BuildConfiguration"</span><span class="nt">&gt;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">&lt;ProjectFileGenerator&gt;</span>
@@ -1799,36 +1799,38 @@
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">&lt;BuildConfiguration&gt;</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="cm">&lt;!-- Activar FASTBuild --&gt;</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">&lt;bAllowFASTBuild&gt;</span>true<span class="nt">&lt;/bAllowFASTBuild&gt;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="cm">&lt;!-- Especifica el número de núcleos de CPU que deben participar en la compilación en esta máquina --&gt;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>Indique<span class="w"> </span>el<span class="w"> </span>número<span class="w"> </span>de<span class="w"> </span>núcleos<span class="w"> </span>de<span class="w"> </span>CPU<span class="w"> </span>que<span class="w"> </span>participan<span class="w"> </span>en<span class="w"> </span>la<span class="w"> </span>compilación<span class="w"> </span>en<span class="w"> </span>esta<span class="w"> </span>máquina.
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">&lt;MaxParallelActions&gt;</span>12<span class="nt">&lt;/MaxParallelActions&gt;</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">        </span><span class="cm">&lt;!-- Cerrar Incredibuild --&gt;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cm">&lt;!-- Desactivar Incredibuild --&gt;</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="nt">&lt;bAllowXGE&gt;</span>false<span class="nt">&lt;/bAllowXGE&gt;</span>
 <a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nt">&lt;/BuildConfiguration&gt;</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="nt">&lt;FASTBuild&gt;</span>
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="cm">&lt;!-- Especificar la ruta de FBuild --&gt;</span>
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">        </span><span class="nt">&lt;FBuildExecutablePath&gt;</span>d:\libs\FASTBuild\bin\FBuild.exe<span class="nt">&lt;/FBuildExecutablePath&gt;</span>
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">        </span><span class="cm">&lt;!-- Iniciar la compilación distribuida --&gt;</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="cm">&lt;!-- Activar la compilación distribuida --&gt;</span>
 <a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="nt">&lt;bEnableDistribution&gt;</span>true<span class="nt">&lt;/bEnableDistribution&gt;</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- Especifica la ruta del broker --&gt;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cm">&lt;!-- Especificar la ruta de brokerage --&gt;</span>
 <a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">        </span><span class="nt">&lt;FBuildBrokeragePath&gt;</span>\\127.0.0.1\Brokerage\<span class="nt">&lt;/FBuildBrokeragePath&gt;</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="cm">&lt;!-- Especifica la ruta de la caché --&gt;</span>
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">        </span><span class="cm">&lt;!-- Activar caché --&gt;</span>
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">        </span><span class="cm">&lt;!-- permisos de lectura y escritura de cache Leer/Escribir/Leer y Escribir --&gt;</span>
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- Especificar la IP del coordinador --&gt;</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">        </span><span class="cm">&lt;!-- Forzar compilación remota --&gt;</span>
-<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
-<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
-<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="nt">&lt;/Configuration&gt;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>Por<span class="w"> </span>favor<span class="w"> </span>traduce<span class="w"> </span>este<span class="w"> </span>texto<span class="w"> </span>al<span class="w"> </span>español:
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">        </span><span class="cm">&lt;!-- Especificar la ruta de la caché --&gt;</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">        </span><span class="nt">&lt;FBuildCachePath&gt;</span>\\127.0.0.1\Cache\<span class="nt">&lt;/FBuildCachePath&gt;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="cm">&lt;!-- Activar caché --&gt;</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nt">&lt;bEnableCaching&gt;</span>true<span class="nt">&lt;/bEnableCaching&gt;</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="cm">&lt;!-- permisos de lectura/escritura del caché Read/Write/ReadWrite --&gt;</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">        </span><span class="nt">&lt;CacheMode&gt;</span>ReadWrite<span class="nt">&lt;/CacheMode&gt;</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="cm">&lt;!-- Especificar la ip del coordinador --&gt;</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="nt">&lt;FBuildCoordinator&gt;</span>127.0.0.1<span class="nt">&lt;/FBuildCoordinator&gt;</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="cm">&lt;!-- Forzar compilación remota --&gt;</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">        </span><span class="cm">&lt;!-- &lt;bForceRemote&gt;true&lt;/bForceRemote&gt; --&gt;</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span><span class="nt">&lt;/FASTBuild&gt;</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="nt">&lt;/Configuration&gt;</span>
 </code></pre></div>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
 <blockquote>
-<p>Original: <a href="https://wiki.disenone.site/en">https://wiki.disenone.site/en</a></p>
+<p>Original: <a href="https://wiki.disenone.site/es">https://wiki.disenone.site/es</a></p>
 <p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
 </blockquote>
 <!-- 转载 -->
@@ -1843,13 +1845,13 @@
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="es" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este post está traducido usando ChatGPT, por favor <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a> si hay alguna omisión.</p>
+<p>Este post fue traducido usando ChatGPT, por favor en <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>comentarios</strong></a>Señale cualquier omisión. </p>
 </blockquote></div>
 
 
@@ -1873,7 +1875,7 @@
     <span class="md-icon" title="Última actualización">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -1918,7 +1920,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Pie" >
         
           
-          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: &#34;Análisis y prueba de rendimiento del algoritmo AOI de juegos&#34;">
+          <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Analisis y pruebas de rendimiento del algoritmo AOI de juegos">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1928,20 +1930,20 @@
                 Anterior
               </span>
               <div class="md-ellipsis">
-                "Análisis y prueba de rendimiento del algoritmo AOI de juegos"
+                Analisis y pruebas de rendimiento del algoritmo AOI de juegos
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: UE permite agregar complementos mediante el código fuente del complemento.">
+          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: UE agrega plugins a través del código fuente del plugin">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Siguiente
               </span>
               <div class="md-ellipsis">
-                UE permite agregar complementos mediante el código fuente del complemento.
+                UE agrega plugins a través del código fuente del plugin
               </div>
             </div>
             <div class="md-footer__button md-icon">

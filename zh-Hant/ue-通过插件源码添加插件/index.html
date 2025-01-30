@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="簡單記錄一下如何在擁有插件原始碼的情況下為 UE 添加插件。">
+        <meta name="description" content="簡單記錄一下如何在擁有插件源碼的情況下為 UE 添加插件">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>透過插件原始碼導入UE插件 - Disenone's Wiki</title>
+        <title>UE 透過插件源碼添加插件 - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              透過插件原始碼導入UE插件
+              UE 透過插件源碼添加插件
             
           </span>
         </div>
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -982,7 +982,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1004,7 +1004,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1067,7 +1067,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1088,7 +1088,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1193,7 +1193,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1214,7 +1214,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1256,7 +1256,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1344,15 +1344,16 @@
 
 
 <div><p><meta property="og:title" content="UE 通过插件源码添加插件"></p>
-<h1 id="ue">UE 透過插件原始碼新增插件</h1>
-<h1 id="_1">添加外掛程式</h1>
+<h1 id="ue">UE 透過插件原始碼添加外掛程式</h1>
+<h1 id="_1">添加插件</h1>
 <blockquote>
-<p>簡單記錄一下如何在擁有插件原始碼的情況下添加插件。</p>
+<p>簡單記錄一下如何在擁有插件源碼的情況下添加插件。</p>
 </blockquote>
-<p>使用插件 <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a>為例</p>
-<p>將原始碼放置在「插件」目錄下。
-（這一步可以不執行）修改專案 .uproject 檔案，Plugins 欄位下增加：
-    </p><div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">"Plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<p>以插件 <a href="https://github.com/disenone/UE.EditorPlus">UE.EditorPlus</a>為例</p>
+<ul>
+<li>將源碼放到 Plugins 目錄下</li>
+<li>（這一步可以不執行）修改專案 .uproject 文件，Plugins 領域下增加：
+    <div class="language-json highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="nt">"Plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EditorPlus"</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">"Enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
@@ -1361,10 +1362,11 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">]</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-右鍵 uproject 檔案，執行 "Generate Visual Studio Project Files"，更新 sln 專案檔案
-打開sln檔案，編譯專案。
-<h1 id="_2">設置多語言</h1>
-<p>請修改 <code>DefaultEditor.ini</code> 配置文件，新增以下路徑：</p>
+右鍵 uproject 檔案，執行"Generate Visual Studio Project Files"，更新 sln 專案檔案
+打開 sln 檔案，進行專案編譯。</li>
+</ul>
+<h1 id="_2">設定多語言</h1>
+<p>修改專案的配置檔案 <code>DefaultEditor.ini</code>，加入新路徑：</p>
 <div class="language-ini highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[Internationalization]</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">+LocalizationPaths</span><span class="o">=</span><span class="s">%GAMEDIR%Plugins/UE.EditorPlus/Content/Localization/EditorPlusTools</span>
 </code></pre></div>
@@ -1393,7 +1395,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此貼文是由 ChatGPT 翻譯的，請在 <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此帖子是使用 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1450,13 +1452,13 @@
         
         
           
-          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--next" aria-label="下一頁: UE 擴展編輯器選單">
+          <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-footer__link md-footer__link--next" aria-label="下一頁: UE 擴展編輯器菜單">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一頁
               </span>
               <div class="md-ellipsis">
-                UE 擴展編輯器選單
+                UE 擴展編輯器菜單
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Le but de ce texte est d'expliquer les règles et les méthodes de mise en œuvre de la programmation de macros en C/C++, pour que vous ne craigniez plus de voir des macros dans le code.">
+        <meta name="description" content="L'objectif de cet article est d'expliquer clairement les règles et les méthodes de mise en œuvre de la programmation de macros en C/C++, afin que vous ne craigniez plus de voir des macros dans le code.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Analyse de la programmation de macros en C/C++ - Disenone's Wiki</title>
+        <title>Analyse de la programmation des macros en C/C++ - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prelude" class="md-skip">
+        <a href="#_1" class="md-skip">
           Aller au contenu
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Analyse de la programmation de macros en C/C++
+              Analyse de la programmation des macros en C/C++
             
           </span>
         </div>
@@ -552,7 +552,7 @@
         
   
   <span class="md-ellipsis">
-    Résumé du traitement des arguments de ligne de commande en C/C++
+    C/C++ : résumé de la gestion des paramètres de ligne de commande
   </span>
   
 
@@ -580,7 +580,7 @@
           
   
   <span class="md-ellipsis">
-    Analyse de la programmation de macros en C/C++
+    Analyse de la programmation des macros en C/C++
   </span>
   
 
@@ -591,7 +591,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse de la programmation de macros en C/C++
+    Analyse de la programmation des macros en C/C++
   </span>
   
 
@@ -611,28 +611,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prelude" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Prélude
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prélude">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#reentrance" class="md-nav__link">
+  <a href="#recursivite-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Réentrance
+      Récursivité réentrante
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#concatenation-de-chaines" class="md-nav__link">
+  <a href="#concatenation-de-chaines-de-caracteres" class="md-nav__link">
     <span class="md-ellipsis">
-      Concaténation de chaînes.
+      Concaténation de chaînes de caractères
     </span>
   </a>
   
@@ -644,28 +644,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#derouler-les-reglements-macro-expansion" class="md-nav__link">
+  <a href="#regles-de-developpement-macroscopique" class="md-nav__link">
     <span class="md-ellipsis">
-      Dérouler les règlements Macro-Expansion
+      Règles de développement macroscopique
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Dérouler les règlements Macro-Expansion">
+    <nav class="md-nav" aria-label="Règles de développement macroscopique">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#separation-des-parametres" class="md-nav__link">
+  <a href="#parametre-separe" class="md-nav__link">
     <span class="md-ellipsis">
-      Séparation des paramètres
+      Paramètre séparé
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#developpement-des-macros" class="md-nav__link">
+  <a href="#developpement-des-parametres-macro" class="md-nav__link">
     <span class="md-ellipsis">
-      Développement des macros.
+      Développement des paramètres macro
     </span>
   </a>
   
@@ -674,34 +674,40 @@
           <li class="md-nav__item">
   <a href="#operateur" class="md-nav__link">
     <span class="md-ellipsis">
-      Opérateur #
+      # Opérateur
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="# Opérateur">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#operateur_1" class="md-nav__link">
     <span class="md-ellipsis">
-      ## Opérateur
+      opérateur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balayage-repete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Balayage répété
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#repetition-de-balayage" class="md-nav__link">
+  <a href="#interdiction-de-la-recursion-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Répétition de balayage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interdiction-de-reentrer-recursivement" class="md-nav__link">
-    <span class="md-ellipsis">
-      Interdiction de réentrer récursivement
+      Interdiction de la récursion réentrante
     </span>
   </a>
   
@@ -713,13 +719,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#observer-le-processus-de-deploiement-via-clang" class="md-nav__link">
+  <a href="#observer-le-processus-de-depliage-a-travers-clang" class="md-nav__link">
     <span class="md-ellipsis">
-      Observer le processus de déploiement via Clang.
+      Observer le processus de dépliage à travers Clang.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Observer le processus de déploiement via Clang.">
+    <nav class="md-nav" aria-label="Observer le processus de dépliage à travers Clang.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -755,37 +761,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#programmation-macroscopique-mise-en-uvre" class="md-nav__link">
+  <a href="#programmation-macro" class="md-nav__link">
     <span class="md-ellipsis">
-      Programmation macroscopique mise en œuvre
+      Programmation macro.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Programmation macroscopique mise en œuvre">
+    <nav class="md-nav" aria-label="Programmation macro.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#symboles-de-base" class="md-nav__link">
+  <a href="#symbole-de-base" class="md-nav__link">
     <span class="md-ellipsis">
-      Symboles de base
+      Symbole de base
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#evaluation-demandee" class="md-nav__link">
+  <a href="#evaluation-demande" class="md-nav__link">
     <span class="md-ellipsis">
-      Évaluation demandée
+      Évaluation-demande
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#assemblage" class="md-nav__link">
+  <a href="#assembler" class="md-nav__link">
     <span class="md-ellipsis">
-      Assemblage
+      Assembler
     </span>
   </a>
   
@@ -801,27 +807,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#selection-de-criteres" class="md-nav__link">
+  <a href="#selection-des-conditions" class="md-nav__link">
     <span class="md-ellipsis">
-      Sélection de critères
+      Sélection des conditions
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#increment-decroissant" class="md-nav__link">
+  <a href="#augmentation-diminuation" class="md-nav__link">
     <span class="md-ellipsis">
-      Incrément décroissant
+      augmentation diminuation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#les-parametres-variables" class="md-nav__link">
+  <a href="#parametres-de-longueur-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      Les paramètres variables
+      paramètres de longueur variable
     </span>
   </a>
   
@@ -837,27 +843,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#commence-par-parenthese" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Commence par parenthèse.
+      以括号开始
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#parametre-variable-vide" class="md-nav__link">
+  <a href="#parametres-variables-vides" class="md-nav__link">
     <span class="md-ellipsis">
-      Paramètre variable vide
+      Paramètres variables vides
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#acces-en-indice" class="md-nav__link">
+  <a href="#acces-par-indice" class="md-nav__link">
     <span class="md-ellipsis">
-      Accès en indice
+      Accès par indice
     </span>
   </a>
   
@@ -884,16 +890,16 @@
           <li class="md-nav__item">
   <a href="#demander-le-nombre-de-parametres" class="md-nav__link">
     <span class="md-ellipsis">
-      Demander le nombre de paramètres.
+      Demander le nombre de paramètres
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#parcourir-lacces" class="md-nav__link">
+  <a href="#parcours-dacces" class="md-nav__link">
     <span class="md-ellipsis">
-      Parcourir l'accès
+      parcours d'accès
     </span>
   </a>
   
@@ -909,9 +915,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rentree-recursive" class="md-nav__link">
+  <a href="#recursion-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Rentrée récursive
+      Récursion réentrante
     </span>
   </a>
   
@@ -927,9 +933,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#les-operations-arithmetiques" class="md-nav__link">
+  <a href="#operations-arithmetiques" class="md-nav__link">
     <span class="md-ellipsis">
-      Les opérations arithmétiques
+      Opérations arithmétiques
     </span>
   </a>
   
@@ -987,7 +993,7 @@
         
   
   <span class="md-ellipsis">
-    Rédiger un détecteur de fuites de mémoire pour Windows
+    Rédigez un détecteur de fuites de mémoire pour Windows.
   </span>
   
 
@@ -1008,7 +1014,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse du code source de KCP
+    Analyse du code source KCP
   </span>
   
 
@@ -1109,7 +1115,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chatter 1 - Exploring __builtins__
+    Python Discussions 1 - Exploration de __builtins__
   </span>
   
 
@@ -1130,7 +1136,7 @@
         
   
   <span class="md-ellipsis">
-    Python Discussions 2 - Mise à jour en direct de Python 3.12
+    Python Discussions 2 - Python3.12 Mise à jour à chaud
   </span>
   
 
@@ -1258,7 +1264,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse algorithmique et tests de performance du jeu AOI
+    Analyse et test de performance de l'algorithme AOI de jeu.
   </span>
   
 
@@ -1366,7 +1372,7 @@
         
   
   <span class="md-ellipsis">
-    UE peut ajouter des plugins en utilisant le code source du plugin.
+    UE ajoute des plugins via le code source du plugin.
   </span>
   
 
@@ -1387,7 +1393,7 @@
         
   
   <span class="md-ellipsis">
-    Élargir le menu de l'éditeur UE
+    UE Étendre le menu de l'éditeur
   </span>
   
 
@@ -1408,7 +1414,7 @@
         
   
   <span class="md-ellipsis">
-    UE utilise le chemin pour étendre le menu
+    UE utilise le chemin d'accès pour étendre le menu
   </span>
   
 
@@ -1429,7 +1435,7 @@
         
   
   <span class="md-ellipsis">
-    UE met en place une localisation multilingue
+    UE configure la localisation multilingue
   </span>
   
 
@@ -1450,7 +1456,7 @@
         
   
   <span class="md-ellipsis">
-    Réaliser diverses opérations sur les images (UTexture2D) dans l'UE (lecture, sauvegarde, copie, presse-papiers...).
+    UE réalise diverses opérations sur les images (UTexture2D) (lecture, sauvegarde, copie, presse-papiers...)
   </span>
   
 
@@ -1471,7 +1477,7 @@
         
   
   <span class="md-ellipsis">
-    Plugin de l'éditeur UE.EditorPlus de l'UE - Documentation
+    UE éditeur plugin UE.EditorPlus documentation explicative
   </span>
   
 
@@ -1492,7 +1498,7 @@
         
   
   <span class="md-ellipsis">
-    Documentation sur le plugin UE AIChatPlus
+    Document d'instructions du plug-in UE AIChatPlus
   </span>
   
 
@@ -1573,7 +1579,7 @@
         
   
   <span class="md-ellipsis">
-    Unité construction de caméra à la troisième personne (Partie 1)
+    Construction du système de caméra à la troisième personne dans Unity (Partie 1)
   </span>
   
 
@@ -1594,7 +1600,7 @@
         
   
   <span class="md-ellipsis">
-    Unity Third Person Camera Setup Part 2
+    Construction d'un système de caméra à la troisième personne dans Unity (partie 2)
   </span>
   
 
@@ -1636,7 +1642,7 @@
         
   
   <span class="md-ellipsis">
-    Unity crée des cartes de profondeur (Depth Map) et détecte les bords (Edge Detection).
+    Unity crée une carte de profondeur (Depth Map) et une détection de contours (Edge Detection)
   </span>
   
 
@@ -1657,7 +1663,7 @@
         
   
   <span class="md-ellipsis">
-    Unity réalise la dispersion de la lumière volumétrique (Volumetric Light Scattering, crepuscular rays)
+    Unity implements volumetric light scattering (Volumetric Light Scattering, Cloud Gaps Light)
   </span>
   
 
@@ -1707,28 +1713,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prelude" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Prélude
+      引子
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Prélude">
+    <nav class="md-nav" aria-label="引子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#reentrance" class="md-nav__link">
+  <a href="#recursivite-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Réentrance
+      Récursivité réentrante
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#concatenation-de-chaines" class="md-nav__link">
+  <a href="#concatenation-de-chaines-de-caracteres" class="md-nav__link">
     <span class="md-ellipsis">
-      Concaténation de chaînes.
+      Concaténation de chaînes de caractères
     </span>
   </a>
   
@@ -1740,28 +1746,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#derouler-les-reglements-macro-expansion" class="md-nav__link">
+  <a href="#regles-de-developpement-macroscopique" class="md-nav__link">
     <span class="md-ellipsis">
-      Dérouler les règlements Macro-Expansion
+      Règles de développement macroscopique
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Dérouler les règlements Macro-Expansion">
+    <nav class="md-nav" aria-label="Règles de développement macroscopique">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#separation-des-parametres" class="md-nav__link">
+  <a href="#parametre-separe" class="md-nav__link">
     <span class="md-ellipsis">
-      Séparation des paramètres
+      Paramètre séparé
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#developpement-des-macros" class="md-nav__link">
+  <a href="#developpement-des-parametres-macro" class="md-nav__link">
     <span class="md-ellipsis">
-      Développement des macros.
+      Développement des paramètres macro
     </span>
   </a>
   
@@ -1770,34 +1776,40 @@
           <li class="md-nav__item">
   <a href="#operateur" class="md-nav__link">
     <span class="md-ellipsis">
-      Opérateur #
+      # Opérateur
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="# Opérateur">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#operateur_1" class="md-nav__link">
     <span class="md-ellipsis">
-      ## Opérateur
+      opérateur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#balayage-repete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Balayage répété
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#repetition-de-balayage" class="md-nav__link">
+  <a href="#interdiction-de-la-recursion-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Répétition de balayage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#interdiction-de-reentrer-recursivement" class="md-nav__link">
-    <span class="md-ellipsis">
-      Interdiction de réentrer récursivement
+      Interdiction de la récursion réentrante
     </span>
   </a>
   
@@ -1809,13 +1821,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#observer-le-processus-de-deploiement-via-clang" class="md-nav__link">
+  <a href="#observer-le-processus-de-depliage-a-travers-clang" class="md-nav__link">
     <span class="md-ellipsis">
-      Observer le processus de déploiement via Clang.
+      Observer le processus de dépliage à travers Clang.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Observer le processus de déploiement via Clang.">
+    <nav class="md-nav" aria-label="Observer le processus de dépliage à travers Clang.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1851,37 +1863,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#programmation-macroscopique-mise-en-uvre" class="md-nav__link">
+  <a href="#programmation-macro" class="md-nav__link">
     <span class="md-ellipsis">
-      Programmation macroscopique mise en œuvre
+      Programmation macro.
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Programmation macroscopique mise en œuvre">
+    <nav class="md-nav" aria-label="Programmation macro.">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#symboles-de-base" class="md-nav__link">
+  <a href="#symbole-de-base" class="md-nav__link">
     <span class="md-ellipsis">
-      Symboles de base
+      Symbole de base
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#evaluation-demandee" class="md-nav__link">
+  <a href="#evaluation-demande" class="md-nav__link">
     <span class="md-ellipsis">
-      Évaluation demandée
+      Évaluation-demande
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#assemblage" class="md-nav__link">
+  <a href="#assembler" class="md-nav__link">
     <span class="md-ellipsis">
-      Assemblage
+      Assembler
     </span>
   </a>
   
@@ -1897,27 +1909,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#selection-de-criteres" class="md-nav__link">
+  <a href="#selection-des-conditions" class="md-nav__link">
     <span class="md-ellipsis">
-      Sélection de critères
+      Sélection des conditions
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#increment-decroissant" class="md-nav__link">
+  <a href="#augmentation-diminuation" class="md-nav__link">
     <span class="md-ellipsis">
-      Incrément décroissant
+      augmentation diminuation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#les-parametres-variables" class="md-nav__link">
+  <a href="#parametres-de-longueur-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      Les paramètres variables
+      paramètres de longueur variable
     </span>
   </a>
   
@@ -1933,27 +1945,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#commence-par-parenthese" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Commence par parenthèse.
+      以括号开始
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#parametre-variable-vide" class="md-nav__link">
+  <a href="#parametres-variables-vides" class="md-nav__link">
     <span class="md-ellipsis">
-      Paramètre variable vide
+      Paramètres variables vides
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#acces-en-indice" class="md-nav__link">
+  <a href="#acces-par-indice" class="md-nav__link">
     <span class="md-ellipsis">
-      Accès en indice
+      Accès par indice
     </span>
   </a>
   
@@ -1980,16 +1992,16 @@
           <li class="md-nav__item">
   <a href="#demander-le-nombre-de-parametres" class="md-nav__link">
     <span class="md-ellipsis">
-      Demander le nombre de paramètres.
+      Demander le nombre de paramètres
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#parcourir-lacces" class="md-nav__link">
+  <a href="#parcours-dacces" class="md-nav__link">
     <span class="md-ellipsis">
-      Parcourir l'accès
+      parcours d'accès
     </span>
   </a>
   
@@ -2005,9 +2017,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rentree-recursive" class="md-nav__link">
+  <a href="#recursion-reentrante" class="md-nav__link">
     <span class="md-ellipsis">
-      Rentrée récursive
+      Récursion réentrante
     </span>
   </a>
   
@@ -2023,9 +2035,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#les-operations-arithmetiques" class="md-nav__link">
+  <a href="#operations-arithmetiques" class="md-nav__link">
     <span class="md-ellipsis">
-      Les opérations arithmétiques
+      Opérations arithmétiques
     </span>
   </a>
   
@@ -2086,75 +2098,74 @@
   
 
 
-  <h1>Analyse de la programmation de macros en C/C++</h1>
+  <h1>Analyse de la programmation des macros en C/C++</h1>
 
 <div><p><meta property="og:title" content="C/C++ 宏编程解析"></p>
-<p>Le but de ce texte est d'expliquer les règles et les méthodes de programmation de macros en C/C++, pour que vous ne redoutiez plus de voir des macros dans le code. Je vais d'abord aborder les règles d'expansion de macros mentionnées dans la norme C++ 14, puis observer l'expansion des macros en modifiant le code source de Clang, pour enfin discuter de la mise en œuvre de la programmation de macros sur la base de ces connaissances.</p>
-<p>Le code complet de cet article se trouve ici : <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Télécharger</a>，<a href="https://godbolt.org/z/coWvc5Pse">démonstration en ligne</a>Je vous remercie pour votre demande, mais il semble qu'il n'y ait aucun texte à traduire. Pouvez-vous vérifier et me fournir le contenu à traduire ?</p>
-<h2 id="prelude">Prélude</h2>
-<p>Nous pouvons utiliser la commande <code>gcc -P -E a.cpp -o a.cpp.i</code> pour demander au compilateur d'effectuer uniquement la précompilation du fichier <code>a.cpp</code> et de sauvegarder le résultat dans <code>a.cpp.i</code>.</p>
+<p>L'objectif de cet article est d'expliquer les règles et les méthodes de mise en œuvre de la programmation macro en C/C++, afin que vous ne craigniez plus de voir des macros dans le code. Je vais d'abord aborder les règles de l'expansion des macros mentionnées dans la norme C++14, puis nous observerons l'expansion des macros en modifiant le code source de Clang, et enfin, nous discuterons de la mise en œuvre de la programmation macro sur la base de ces connaissances.</p>
+<p>Le code de cet article se trouve ici : <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Télécharger</a>，<a href="https://godbolt.org/z/coWvc5Pse">démonstration en ligne</a>Je vous prie d'ajouter du texte à traduire.</p>
+<h2 id="_1">引子</h2>
+<p>Nous pouvons utiliser la commande <code>gcc -P -E a.cpp -o a.cpp.i</code> pour demander au compilateur d'effectuer uniquement le prétraitement du fichier <code>a.cpp</code> et de sauvegarder le résultat dans <code>a.cpp.i</code>.</p>
 <p>Tout d'abord, commençons par examiner quelques exemples :</p>
-<h4 id="reentrance">Réentrance</h4>
+<h4 id="recursivite-reentrante">Récursivité réentrante</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define ITER(arg0, arg1) ITER(arg1, arg0)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">ITER</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; ITER(2, 1)</span>
 </code></pre></div>
-<p>Le macro 'ITER' a échangé les positions de 'arg0' et 'arg1'. Après expansion de la macro, on obtient 'ITER(2, 1)'.</p>
-<p>On peut voir que les positions de <code>arg0</code> et <code>arg1</code> ont été échangées avec succès. Ici, la macro a été déroulée une fois avec succès, mais une seule fois, sans réentrée récursive. En d'autres termes, pendant le déroulement de la macro, il n'est pas possible de se réinsérer de manière récursive. Si, au cours de la récursion, il est constaté que la même macro a déjà été déroulée lors d'une récursion antérieure, elle ne sera pas déroulée à nouveau. Ceci constitue l'une des règles importantes du déroulement des macros. La raison de l'interdiction de la récursion récursive est également très simple, c'est pour éviter la récursion infinie.</p>
-<h4 id="concatenation-de-chaines">Concaténation de chaînes.</h4>
+<p>Le macro <code>ITER</code> a échangé les positions de <code>arg0</code> et <code>arg1</code>. Après le développement du macro, on obtient <code>ITER(2, 1)</code>.</p>
+<p>On peut voir que les positions de <code>arg0</code> et <code>arg1</code> ont été échangées avec succès. Ici, le macro s'est développé une fois, mais il ne se développe plus de manière récursive. En d'autres termes, pendant le processus de développement du macro, il n'est pas autorisé à se réentrer. Si, lors d'un processus récursif, on découvre qu'un même macro a déjà été développé dans une récursion précédente, alors il ne se développera plus. C'est l'une des règles importantes du développement des macros. La raison pour interdire la réentrance récursive est également très simple : c'est pour éviter une récursivité infinie.</p>
+<h4 id="concatenation-de-chaines-de-caracteres">Concaténation de chaînes de caractères</h4>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; HelloWorld</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Bonjour</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Monde</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; BonjourCONCAT(Monde, !)</span>
 </code></pre></div>
-<p>Le but de la macro <code>CONCAT</code> est de concaténer <code>arg0</code> et <code>arg1</code>. Une fois la macro développée, <code>CONCAT(Bonjour, Monde)</code> peut obtenir le résultat correct <code>BonjourMonde</code>. Cependant, <code>CONCAT(Bonjour, CONCAT(Monde, !))</code> ne développe que la macro externe. La macro interne <code>CONCAT(Monde, !)</code> n'est pas développée mais est directement concaténée avec <code>Bonjour</code>, ce qui est différent de ce que nous avons anticipé. Ce que nous voulons vraiment comme résultat est <code>BonjourMonde!</code>. C'est une autre règle importante de l'expansion des macros : les paramètres de la macro qui suivent l'opérateur <code>##</code> ne seront pas développés, mais seront directement concaténés avec le contenu précédent.</p>
-<p>En observant les deux exemples ci-dessus, on peut remarquer que certaines règles de développement des macros peuvent sembler contre-intuitives. Sans une compréhension claire des règles spécifiques, il est possible d'écrire des macros qui ne produisent pas l'effet désiré.</p>
-<h2 id="derouler-les-reglements-macro-expansion">Dérouler les règlements Macro-Expansion</h2>
-<p>À travers les deux exemples donnés dans l'introduction, nous comprenons que l'expansion des macros obéit à un ensemble de règles standard définies dans les normes C/C++. Le contenu de ces règles est assez succinct, je vous recommande donc de les lire attentivement à plusieurs reprises. En passant, voici le lien vers la version N4296 des normes, où l'expansion des macros est traitée à la section 16.3 : <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">lien</a>Je vais extraire quelques règles importantes de la version n4296 ci-dessous, ces règles détermineront comment écrire correctement les macros (il est recommandé de prendre le temps de lire attentivement les macros à l'intérieur de la norme).</p>
-<h4 id="separation-des-parametres">Séparation des paramètres</h4>
-<p>Les exigences des paramètres de la macro sont qu'ils doivent être séparés par des virgules, et le nombre de paramètres doit être égal au nombre de définitions de macro. Dans les paramètres transmis à la macro, tout contenu supplémentaire encadré de parenthèses est considéré comme un paramètre, et les paramètres sont autorisés à être vides.</p>
+<p>Le macro <code>CONCAT</code> vise à concaténer <code>arg0</code> et <code>arg1</code>. Une fois la macro développée, <code>CONCAT(Hello, World)</code> devrait donner le résultat correct <code>HelloWorld</code>. Cependant, <code>CONCAT(Hello, CONCAT(World, !))</code> ne développe que la macro extérieure. La macro interne <code>CONCAT(World, !)</code> n'est pas développée mais simplement concaténée à <code>Hello</code>, ce qui diffère de nos attentes. Le résultat souhaité est <code>HelloWorld!</code>. C'est une autre règle importante du développement des macros : les paramètres de macro suivant l'opérateur <code>##</code> ne sont pas développés, mais directement concaténés au contenu précédent.</p>
+<p>À travers les deux exemples ci-dessus, on peut voir que les règles de développement des macros peuvent parfois sembler contre-intuitives. Si l'on ne comprend pas exactement ces règles, il est possible que les macros écrites n'aient pas l'effet que nous souhaitons obtenir.</p>
+<h2 id="regles-de-developpement-macroscopique">Règles de développement macroscopique</h2>
+<p>À travers les deux exemples d'introduction, nous comprenons que l'expansion des macros obéit à un ensemble de règles standard définies dans les normes C/C++. Ces règles sont succinctement exposées et il est recommandé de les lire attentivement. Je vous propose également le lien vers la version n4296 de la norme pour référence, la section 16.3 traite de l'expansion des macros : <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf">lien</a>Voici quelques règles importantes extraites de la version n4296, qui détermineront comment écrire correctement des macros (il est recommandé de prendre le temps de lire attentivement les macros dans le standard).</p>
+<h4 id="parametre-separe">Paramètre séparé</h4>
+<p>Les paramètres de la macro doivent être séparés par des virgules, et le nombre de paramètres doit être conforme au nombre de définitions de la macro. Dans les paramètres transmis à la macro, tout élément supplémentaire entre parenthèses est considéré comme un seul paramètre. Les paramètres peuvent être vides.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define ADD_COMMA(arg1, arg2) arg1, arg2</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; a, b</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">AJOUTER_VIRGULE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// Erreur "la macro "MACRO" nécessite 2 arguments, mais seulement 1 donné"</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// Erreur "la macro "MACRO" nécessite 2 arguments, mais seulement 1 a été fourni"</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ADD_COMMA</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w">        </span><span class="c1">// -&gt; (a, b), c</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ADD_COMMA</span><span class="p">(,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; , b</span>
 </code></pre></div>
-<p>Ajoutez une virgule entre les éléments <code>(a, b)</code> et <code>c</code>. Dans <code>ADD_COMMA(, b)</code>, le premier argument est vide, donc cela se développe en <code>, b</code>.</p>
-<h4 id="developpement-des-macros">Développement des macros.</h4>
-<p>Lors de l'expansion d'une macro, si les arguments de la macro sont également des macros expansibles, les arguments seront d'abord entièrement développés, puis la macro sera dépliée, par exemple</p>
+<p><code>ADD_COMMA((a, b), c)</code> considère <code>(a, b)</code> comme le premier paramètre. Dans <code>ADD_COMMA(, b)</code>, le premier paramètre est vide, ce qui se développe en <code>, b</code>.</p>
+<h4 id="developpement-des-parametres-macro">Développement des paramètres macro</h4>
+<p>Lorsque vous développez un macro, si les paramètres de la macro peuvent également être développés, les paramètres seront d'abord complètement développés avant de développer la macro, par exemple</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ADD_COMMA</span><span class="p">(</span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ADD_COMMA</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 1, 2, 3, 4</span>
 </code></pre></div>
-<p>Dans la plupart des cas, l'expansion des macros peut être considérée comme l'évaluation des paramètres d'abord, puis l'évaluation de la macro, sauf en présence des opérateurs <code>#</code> et <code>##</code>.</p>
-<h4 id="operateur">Opérateur <code>#</code></h4>
-<p>Le paramètre macro suivi de l'opérateur <code>#</code> ne sera pas étendu, mais sera directement converti en chaîne, par exemple :</p>
+<p>En règle générale, l'expansion des macros peut être considérée comme une évaluation des paramètres d'abord, puis une évaluation de la macro, sauf lorsqu'on rencontre les opérateurs <code>#</code> et <code>##</code>.</p>
+<h4 id="operateur"><code>#</code> Opérateur</h4>
+<p>Les arguments de macro suivant l'opérateur <code>#</code> ne seront pas déroulés, mais directement transformés en chaînes de caractères, par exemple :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; "a"</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">STRINGIZE</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; "STRINGIZE(a)"</span>
 </code></pre></div>
-<p>Selon cette règle, <code>STRINGIZE(STRINGIZE(a))</code> peut uniquement être développé en <code>"STRINGIZE(a)"</code>.</p>
-<h4 id="operateur_1"><code>##</code> Opérateur</h4>
-<p>Les paramètres de macro avant et après l'opérateur <code>##</code> ne seront pas développés, ils seront directement concaténés, par exemple :</p>
+<p>Selon cette règle, <code>STRINGIZE(STRINGIZE(a))</code> ne peut être développé qu'en <code>"STRINGIZE(a)"</code>.</p>
+<h6 id="operateur_1">opérateur</h6>
+<p><code>##</code> Les paramètres de macro avant et après l'opérateur ne seront pas développés, mais seront d'abord concaténés, par exemple :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w">                        </span><span class="c1">// -&gt; HelloWorld</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">World</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="p">))</span><span class="w">             </span><span class="c1">// -&gt; HelloCONCAT(World, !)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">Hello</span><span class="p">,</span><span class="w"> </span><span class="n">World</span><span class="p">)</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="o">!</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; CONCAT(Hello, World) CONCAT(!)</span>
 </code></pre></div>
-<p>Concaténer ces textes en français :</p>
-<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> ne peut être concaténé qu'en premier pour obtenir <code>CONCAT(Hello, World) CONCAT(!)</code>.</p>
-<h4 id="repetition-de-balayage">Répétition de balayage</h4>
-<p>Une fois que le préprocesseur a effectué une fois l'expansion des macros, il re-scanne le contenu obtenu pour continuer l'expansion, jusqu'à ce qu'il n'y ait plus de contenu à développer.</p>
-<p>Une fois l'expansion macro effectuée, on peut la comprendre comme le fait de déployer entièrement les paramètres (sauf en cas de rencontre avec <code>#</code> et <code>##</code>), puis en fonction de la définition de la macro, de remplacer la macro et les paramètres complètement déployés conformément à la définition, puis de traiter tous les opérateurs <code>#</code> et <code>##</code> dans la définition.</p>
+<p><code>CONCAT(CONCAT(Hello, World) C, ONCAT(!))</code> ne peut être que combiné ensemble pour obtenir <code>CONCAT(Hello, World) CONCAT(!)</code>.</p>
+<h4 id="balayage-repete">Balayage répété</h4>
+<p>Le préprocesseur, après avoir effectué un premier développement de macros, va rescanner le contenu obtenu et continuer à élargir, jusqu'à ce qu'il n'y ait plus rien à développer.</p>
+<p>Une expansion complète d'une macro peut être comprise comme l'étape où les paramètres sont complètement développés (sauf en cas de rencontre avec <code>#</code> et <code>##</code>), puis, en fonction de la définition de la macro, la macro et les paramètres entièrement développés sont remplacés selon la définition, en traitant ensuite tous les opérateurs <code>#</code> et <code>##</code> présents dans la définition.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#define STRINGIZE(arg0) # arg0</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">IZE</span><span class="p">(</span><span class="n">Hello</span><span class="p">))</span><span class="w">        </span><span class="c1">// -&gt; STRINGIZE(Hello) -&gt; "Hello"</span>
 </code></pre></div>
-<p><code>CONCAT(STRING, IZE(Hello))</code> is initially expanded to <code>STRINGIZE(Hello)</code> on the first scan. Then, on the second scan, it is found that <code>STRINGIZE</code> can be further expanded, resulting in <code>"Hello"</code>.</p>
-<h4 id="interdiction-de-reentrer-recursivement">Interdiction de réentrer récursivement</h4>
-<p>Pendant le processus de balayage répété, il est interdit de dérouler de manière récursive les mêmes macros. On peut comprendre le déroulement des macros comme une structure arborescente, où le nœud racine est la macro à dérouler initialement, et où le contenu de chaque macro déroulée est connecté comme un nœud enfant à l'arbre. Par conséquent, interdire la récursivité signifie que lors du déroulement des macros des nœuds enfants, si cette macro est identique à n'importe quelle macro des nœuds ancestraux, son déroulement est interdit. Voici quelques exemples :</p>
+<p><code>CONCAT(STRING, IZE(Hello))</code> La première analyse se développe en <code>STRINGIZE(Hello)</code>, puis lors de la deuxième analyse, il est découvert que <code>STRINGIZE</code> peut être développé à nouveau, pour finalement obtenir <code>"Hello"</code>.</p>
+<h4 id="interdiction-de-la-recursion-reentrante">Interdiction de la récursion réentrante</h4>
+<p>Dans le processus de l'analyse répété, il est interdit de déplier de manière récursive les mêmes macros. On peut comprendre le déploiement des macros comme une structure en arbre, où le nœud racine est la macro à déplier initialement, et chaque contenu déployé d'une macro est connecté à l'arbre en tant que nœud enfant de cette macro. Ainsi, interdire la récursivité signifie que lors du déploiement d'une macro enfant, si celle-ci est identique à une macro de n'importe quel nœud ancêtre, son déploiement est prohibé. Regardons quelques exemples :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="cp">#define CONCAT_SPACE(arg0, arg1) arg0 arg1</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2164,21 +2175,20 @@
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">IDENTITY_IMPL</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">   </span><span class="c1">// -&gt; CONCAT(a, b)</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">CON</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span><span class="w">        </span><span class="c1">// -&gt; IDENTITY_IMPL(CONCAT(a, b)) -&gt; CONCAT(a, b)</span>
 </code></pre></div>
-<p><code>CONCAT(CON, CAT(a, b))</code> : Comme <code>CONCAT</code> joint deux paramètres avec <code>##</code>, selon la règle de <code>##</code>, elle ne déroule pas les paramètres, elle les joint directement. Ainsi, lors du premier déroulement, on obtient <code>CONCAT(a, b)</code>. Comme <code>CONCAT</code> a déjà été déroulé, il ne sera pas déroulé de nouveau, donc il s'arrête là.</p>
-<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code>： <code>IDENTITY_IMPL</code> can be understood as evaluating the parameter <code>arg0</code>, where the parameter <code>arg0</code> evaluates to <code>CONCAT(a, b)</code>. Due to recursive being marked as non-reentrant, the subsequent expansion of <code>IDENTITY_IMPL</code> is terminated. Upon the second scan, encountering the non-reentrant <code>CONCAT(a, b)</code>, the expansion is halted. Here, <code>CONCAT(a, b)</code> is obtained through the expansion of the parameter <code>arg0</code>, maintaining the non-reentrant marking during subsequent expansions, thus akin to the parent node being the parameter <code>arg0</code>, consistently holding the non-reentrant marking.</p>
-<p><code>IDENTITY(CONCAT(CON,CAT(a,b)))</code>: Cet exemple vise principalement à renforcer la compréhension des nœuds parent-enfant. Lorsque les paramètres sont développés par eux-mêmes, le paramètre lui-même agit en tant que nœud parent, et le contenu développé agit comme nœud enfant pour déterminer la récursivité. Une fois les paramètres développés transmis à la définition de la macro, le marquage d'interdiction de réentrance restera en place (si les paramètres développés n'ont pas été modifiés après avoir été transmis à la définition de la macro). On peut considérer le processus de développement des paramètres comme un autre arbre, où le résultat du développement des paramètres correspond aux nœuds enfants les plus bas de l'arbre. Ce nœud enfant est transmis à la macro pour exécuter le déploiement tout en conservant toujours la propriété d'interdiction de réentrance.</p>
-<p>Par exemple ici, après avoir complètement déroulé <code>IDENTITY_IMPL(CONCAT(a, b))</code> pour la première fois, <code>CONCAT(a, b)</code> est marqué comme non réentrant. Même si <code>IDENTITY_IMPL</code> évalue les paramètres, ceux-ci sont interdits de déploiement, donc les paramètres sont transmis tels quels à la définition, aboutissant finalement à <code>CONCAT(a, b)</code>.</p>
-<p>J'ai simplement énuméré quelques règles que je considère importantes ou difficiles à comprendre. Pour une explication détaillée des règles, je vous conseille de prendre le temps de consulter directement le document standard.</p>
-<h2 id="observer-le-processus-de-deploiement-via-clang">Observer le processus de déploiement via Clang.</h2>
-<p>(https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz)Les fichiers modifiés sont accessibles ici : <a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">lien</a>Veuillez traduire ce texte en français :</p>
-<p>"）。下面简单通过例子来验证我们之前介绍的宏展开规则："</p>
+<p><code>CONCAT(CON, CAT(a, b))</code>：Given that <code>CONCAT</code> concatenates two parameters using <code>##</code>, according to the rules of <code>##</code>, it does not expand the parameters but concatenates them directly. Therefore, the first expansion results in <code>CONCAT(a, b)</code>. Since <code>CONCAT</code> has already been expanded and does not recursively expand further, it stops.</p>
+<p><code>IDENTITY_IMPL(CONCAT(CON, CAT(a, b)))</code> : <code>IDENTITY_IMPL</code> peut être compris comme l'évaluation du paramètre <code>arg0</code>, où l'évaluation du paramètre <code>arg0</code> donne <code>CONCAT(a, b)</code>. En raison de la récursivité, cela est marqué comme interdisant la réentrance. Ensuite, <code>IDENTITY_IMPL</code> se développe et lors du second scan, il découvre que c'est <code>CONCAT(a, b)</code> qui est interdit de réentrer, il s'arrête donc de se développer. Ici, <code>CONCAT(a, b)</code> est obtenu par l'expansion du paramètre <code>arg0</code>, mais lors des expansions suivantes, le marquage d'interdiction de réentrance sera également maintenu, ce qui peut être compris comme le nœud parent étant le paramètre <code>arg0</code>, conservant toujours le marquage d'interdiction de réentrance.</p>
+<p><code>IDENTITY(CONCAT(CON, CAT(a, b)))</code> : Cet exemple vise principalement à renforcer la compréhension des nœuds parents et enfants. Lorsque les paramètres sont déroulés, le paramètre en lui-même agit en tant que nœud parent, et le contenu déroulé agit comme un nœud enfant pour déterminer la récursivité. Une fois que les paramètres sont déroulés et transmis à la macro-définition, les indicateurs d'interdiction de réentrance continueront à être conservés (si les paramètres déroulés n'ont pas été modifiés après transmission à la macro-définition). Le processus de déroulement des paramètres peut être considéré comme un autre arbre, où le résultat du déroulement des paramètres correspond à la couche la plus profonde de l'arbre, et cette couche est transmise à la macro pour être exécutée tout en conservant la caractéristique d'interdiction de réentrance.</p>
+<p>Par exemple ici, après le premier déploiement complet, <code>IDENTITY_IMPL(CONCAT(a, b))</code> est obtenu, <code>CONCAT(a, b)</code> est marqué comme interdit de réentrer, même si <code>IDENTITY_IMPL</code> évalue les paramètres, mais les paramètres sont interdits de déploiement, donc les paramètres sont transmis intacts à la définition, finalement nous obtenons <code>CONCAT(a, b)</code>.</p>
+<p>J'ai simplement énuméré quelques règles que je considère importantes ou pas très faciles à comprendre. Pour une explication détaillée de ces règles, je vous recommande de consacrer du temps à consulter directement le document standard.</p>
+<h2 id="observer-le-processus-de-depliage-a-travers-clang">Observer le processus de dépliage à travers Clang.</h2>
+<p>Nous pouvons ajouter quelques messages d'impression au code source de Clang pour observer le processus d'expansion des macros. Je n'ai pas l'intention d'expliquer en profondeur le code source de Clang, ici je fournis un fichier diff modifié. Ceux qui sont intéressés peuvent compiler Clang eux-mêmes pour l'étudier. Ici, j'utilise la version 11.1.0 de llvm (<a href="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-11.1.0.tar.gz">lien</a>），fichier modifié（<a href="../../assets/img/2021-3-31-cpp-preprocess/clang-modify.zip">portail</a>"）。Pour vérifier les règles d'expansion des macros que nous avons précédemment introduites, passons rapidement à travers un exemple :"</p>
 <h4 id="translate-these-text-into-french-language">Translate these text into French language:</h4>
 <p>Exemple 1</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">      </span><span class="c1">// CONCAT(a, b)</span>
 </code></pre></div>
-<p>Utilisez Clang modifié pour prétraiter le code ci-dessus : <code>clang -P -E a.cpp -o a.cpp.i</code>, vous obtenez les informations imprimées ci-dessous:</p>
+<p>Utilisez Clang modifié pour prétraiter le code ci-dessus : <code>clang -P -E a.cpp -o a.cpp.i</code>, et obtenez les informations d'impression suivantes :</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
@@ -2232,13 +2242,13 @@
 <a id="__codelineno-9-26" name="__codelineno-9-26"></a>Macro is not ok to expand
 </code></pre></div></td></tr></table></div>
 <p>Translate these text into French language:</p>
-<p>第 <a href="#__codelineno-9-1">1</a>Lorsque la fonction <code>HandleIdentifier</code> rencontre une macro, elle va l'imprimer, puis afficher les informations de la macro (de <a href="#__codelineno-9-2">2-4</a>Le macro est OK pour se développer, puis entrez dans le macro <code>EnterMacro</code>.</p>
-<p>La fonction qui effectue réellement le déroulement des macros est <code>ExpandFunctionArguments</code>, qui imprime ensuite à nouveau les informations sur la macro à développer, en notant que la macro est désormais marquée comme <code>utilisée</code> (line <a href="#__codelineno-9-9">9</a>Après cela, procédez à l'expansion de chaque "token" successivement en fonction de la définition du macro (un "token" est un concept dans le préprocesseur Clang, mais je ne rentre pas dans les détails ici).</p>
-<p>Le premier <code>Token</code> est le paramètre <code>arg0</code>, et son argument correspondant est <code>C</code>. Comme aucune expansion n'est nécessaire pour l'évaluation, il est directement copié dans le résultat (lignes <a href="#__codelineno-9-11">11-13</a>(Pas de traduction appropriée disponible，veuillez fournir un autre texte à traduire).</p>
-<p>(#__codelineno-9-14)(Veuillez fournir plus de contexte pour mieux comprendre le texte à traduire. Merci.)</p>
-<p>Le deuxième <code>Token</code> est le paramètre formel <code>arg1</code>, avec l'argument correspondant <code>ONCAT(a, b)</code>. Le préprocesseur traitera également l'argument en une série de <code>Token</code>, ce qui explique que le résultat imprimé est entouré de crochets, délimitant chaque <code>Token</code> de l'argument (ligne 18). En raison de <code>##</code>, cet argument n'a pas besoin d'être développé, il est donc directement copié dans le résultat (lignes <a href="#__codelineno-9-16">16-18</a>(Vierge).</p>
-<p>(#__codelineno-9-19)Dans ce cas, une fois que le préprocesseur a terminé son travail, tous les tokens résultants sont traduits en <code>C ## ONCAT(a, b)</code>, et ensuite le préprocesseur exécute l'opérateur <code>##</code> pour générer du nouveau contenu.</p>
-<p>Après exécution, on obtient <code>CONCAT(a, b)</code>. En rencontrant le macro <code>CONCAT</code>, le prétraitement passe d'abord par <code>HandleIdentifier</code>, où les informations du macro sont affichées. On constate que l'état de ce macro est <code>disable used</code>, ce qui signifie qu'il a déjà été développé et ne peut plus être réutilisé. Ainsi, le message <code>Macro is not ok to expand</code> est affiché, indiquant que le préprocesseur ne le développera pas davantage. En conséquence, le résultat final reste <code>CONCAT(a, b)</code>.</p>
+<p>第 <a href="#__codelineno-9-1">1</a>Lorsqu'il rencontre un macro, <code>HandleIdentifier</code> imprime cela, puis imprime les informations du macro (page <a href="#__codelineno-9-2">2-4</a><code>Macro is ok to expand</code> après avoir vérifié que <code>Macro</code> n'est pas désactivé, il est possible de le développer conformément à sa définition, puis de passer à <code>EnterMacro</code>.</p>
+<p>La fonction qui exécute réellement l'expansion des macros est <code>ExpandFunctionArguments</code>, puis les informations sur la macro à développer sont à nouveau imprimées, notant qu'à ce stade, la macro a déjà été marquée comme <code>used</code> (numéro <a href="#__codelineno-9-9">9</a>Ensuite, selon la définition de la macro, nous procédons à l'expansion de chaque <code>Token</code> (le <code>Token</code> est un concept dans le préprocesseur de <code>Clang</code>, nous n'entrerons pas dans les détails ici).</p>
+<p>Le premier <code>Token</code> est l'argument <code>arg0</code>, correspondant à <code>C</code>, sans besoin d'être développé, donc il est directement copié dans le résultat (lignes <a href="#__codelineno-9-11">11-13</a>Parcours professionnel.</p>
+<p>(#__codelineno-9-14)行）。</p>
+<p>Le deuxième <code>Token</code> est le paramètre formel <code>arg1</code>, correspondant à l'argument effectif <code>ONCAT(a, b)</code>. Le préprocesseur traitera également l'argument effectif en un ensemble de <code>Token</code>, d'où l'impression des résultats entre crochets pour chaque <code>Token</code> de l'argument effectif (ligne 18). En raison de l'opérateur <code>##</code>, cet argument effectif n'a pas besoin d'être développé, il est donc directement copié dans le résultat (lignes <a href="#__codelineno-9-16">16-18</a>行）。</p>
+<p>Enfin, "Leave ExpandFunctionArguments" imprime les résultats de la dernière expansion de numérisation (page <a href="#__codelineno-9-19">19</a>En le faisant, traduire tous les <code>Token</code> du résultat nous donne <code>C ## ONCAT(a, b)</code>, puis le préprocesseur exécute l'opérateur <code>##</code> pour générer un nouveau contenu.</p>
+<p>Après exécution, on obtient <code>CONCAT(a, b)</code>. Lorsqu'on rencontre la macro <code>CONCAT</code>, le préprocesseur entre d'abord dans <code>HandleIdentifier</code>, imprime les informations sur la macro, et remarque que son état est <code>disable used</code>, ce qui signifie qu'elle a déjà été développée et ne peut pas être appelée à nouveau. On affiche alors <code>Macro is not ok to expand</code>, et le préprocesseur cesse l'expansion, aboutissant ainsi à <code>CONCAT(a, b)</code>.</p>
 <h4 id="translate-these-text-into-french-language_1">Translate these text into French language:</h4>
 <p>Exemple 2</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
@@ -2247,7 +2257,7 @@
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
 </code></pre></div>
 <details>
-<summary> <font> Clang printing information (click to expand):</font> </summary>
+Résumé: Clang imprime des informations (cliquez pour développer).
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
@@ -2360,13 +2370,13 @@
 </details>
 
 <p>Translate these text into French language:</p>
-<p>第 <a href="#__codelineno-11-12">12</a>Commencez l'exécution de <code>IDENTITY</code>, en constatant que le paramètre <code>Token 0</code> est une fonction <code>CONCAT(...)</code>, qui est également une macro. Par conséquent, évaluez d'abord ce paramètre.</p>
+<p>第 <a href="#__codelineno-11-12">12</a>La ligne commence à se déployer <code>IDENTITY</code>, découvrant que le paramètre <code>Token 0</code> est <code>CONCAT(...)</code>, qui est aussi un macro, donc nous allons d'abord évaluer ce paramètre.</p>
+<p>Le <a href="#__codelineno-11-27">27</a>(#__codelineno-11-46)Translatez ce texte en français, s'il vous plaît : "行）".</p>
+<p>Numéro <a href="#__codelineno-11-47">47</a>Arrêt de l'expansion de <code>IDENTITY</code>, le résultat obtenu est <code>CONCAT(a, b)</code>.</p>
 <p>Translate these text into French language:</p>
-<p>第 <a href="#__codelineno-11-27">27</a>Commencez à dérouler le paramètre de macro <code>CONCAT(...)</code> et, comme dans l'exemple 1, une fois qu'il est déroulé plusieurs fois, vous obtiendrez <code>CONCAT(a, b)</code> à la fin du processus (voir <a href="#__codelineno-11-46">46</a>(Pas de traduction disponible)</p>
-<p>(#__codelineno-11-47)Terminer le déploiement de <code>IDENTITY</code>, le résultat obtenu est <code>CONCAT(a, b)</code>.</p>
-<p>(#__codelineno-11-51)Veuillez renumériser <code>CONCAT(a, b)</code> et remarquer qu' bien que ce soit une macro, elle a été préalablement configurée en tant que <code>utilisée</code> lors de l'expansion des paramètres précédents, elle ne sera donc pas développée de manière récursive mais directement utilisée comme résultat final.</p>
+<p>第 <a href="#__codelineno-11-51">51</a>Re-analysez <code>CONCAT(a, b)</code> et constatez qu' même s'il s'agit d'une macro, elle a été définie comme <code>utilisée</code> lors du processus de déploiement des paramètres précédents, elle ne sera donc plus développée récursivement et sera directement utilisée comme résultat final.</p>
 <h4 id="translate-these-text-into-french-language_2">Translate these text into French language:</h4>
-<p>Exemple 3</p>
+<p>例子 3</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">#define CONCAT(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="cp">#define IDENTITY_IMPL(arg0) arg0</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="cp">#define IDENTITY(arg0) IDENTITY_IMPL(arg0)</span>
@@ -2374,7 +2384,7 @@
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">IDENTITY</span><span class="p">(</span><span class="n">CONCAT</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">ONCAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)))</span>
 </code></pre></div>
 <details>
-<summary> <font>Clang printing information (click to expand):</font> </summary>
+<summary> <font>Clang print information (click to expand):</font> </summary>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
@@ -2562,45 +2572,48 @@
 
 </details>
 
-<p>Seize <a href="#__codelineno-13-16">16</a>Commencez à développer <code>IDENTITY</code>, puisque le préprocesseur voit que <code>Token 2</code> (c'est-à-dire <code>arg0</code>) est une macro, il procède d'abord à développer <code>CONCAT(C, ONCAT(a, b))</code>.</p>
-<p>Déployez <code>arg0</code> pour obtenir <code>CONCAT(a, b)</code> (de la <a href="#__codelineno-13-23">23-54</a>(The text cannot be translated as it does not contain any meaningful content in any language)</p>
+<p>Translate these text into French language:</p>
 <ul>
-<li><code>IDENTITY</code> is eventually expanded to <code>IDENTITY_IMPL(CONCAT(a, b))</code> (page <a href="#__codelineno-13-57">57</a>Je vous remercie de votre demande.</li>
+<li>第 <a href="#__codelineno-13-16">16</a>Commencer à déployer <code>IDENTITY</code>, le préprocesseur voit que <code>Token 2</code> (c'est-à-dire <code>arg0</code>) est une macro, il déploie donc d'abord <code>CONCAT(C, ONCAT(a, b))</code>.</li>
 </ul>
-<p>Re-scan, continue expanding <code>IDENTITY_IMPL</code> (from <a href="#__codelineno-13-61">61-72</a>Veuillez traduire ce texte en français :</p>
-<p>行），发现此时的 <code>Token 0</code> 是宏 <code>CONCAT(a, b)</code>，但处于 <code>used</code> 状态，中止展开并返回（第 75-84行），最终得到的结果还是 <code>CONCAT(a, b)</code>（第 <a href="#__codelineno-13-85">85</a>Veuillez traduire ce texte en français :</p>
-<p>行） 。</p>
-<p>Re-scan results, it turns out that the macro <code>CONCAT(a, b)</code> is in a <code>used</code> state, so we stop expanding it and get the final result.</p>
-<p>En utilisant les trois exemples simples ci-dessus, on peut avoir une idée générale du processus de développement des macros par le préprocesseur. Nous n'allons pas approfondir davantage le sujet du préprocesseur ici, mais si vous êtes intéressé, vous pouvez étudier en comparant les fichiers modifiés que j'ai fournis.</p>
-<h2 id="programmation-macroscopique-mise-en-uvre">Programmation macroscopique mise en œuvre</h2>
-<p>Nous allons maintenant passer au sujet (la grande partie précédente visait à mieux comprendre les règles de l'expansion des macros), la programmation de macros.</p>
-<h4 id="symboles-de-base">Symboles de base</h4>
-<p>Tout d'abord, nous pouvons définir les symboles spéciaux des macros, qui seront utilisés lors de l'évaluation et de la concaténation.</p>
+<p>Déplier "arg0" donne "CONCAT(a, b)" (de <a href="#__codelineno-13-23">23-54</a>行）</p>
+<ul>
+<li><code>IDENTITY</code> se développe finalement en <code>IDENTITY_IMPL(CONCAT(a, b))</code> (page <a href="#__codelineno-13-57">57</a>行）</li>
+</ul>
+<p>Re-scan, continue expanding <code>IDENTITY_IMPL</code> (lines <a href="#__codelineno-13-61">61-72</a>(#__codelineno-13-85)(Caractère non traduit.)</p>
+<ul>
+<li>En réanalyzant les résultats, on constate que l'état de la macro <code>CONCAT(a, b)</code> est <code>used</code>, on arrête l'expansion et on obtient le résultat final.</li>
+</ul>
+<p>À travers ces trois exemples simples, nous pouvons comprendre de manière générale le processus d'expansion des macros par le préprocesseur. Nous n'allons pas approfondir davantage le sujet du préprocesseur ici, mais ceux qui sont intéressés peuvent étudier en se référant aux fichiers modifiés que j'ai fournis.</p>
+<h2 id="programmation-macro">Programmation macro.</h2>
+<p>Nous allons maintenant entrer dans le vif du sujet (le long paragraphe précédent avait pour but de mieux comprendre les règles d'expansion de macro), la mise en œuvre de la programmation par macros.</p>
+<h4 id="symbole-de-base">Symbole de base</h4>
+<p>Tout d'abord, on peut définir les symboles spéciaux des macros, qui seront utilisés lors de l'évaluation et de la concaténation.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">#define PP_LPAREN() (</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#define PP_RPAREN() )</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#define PP_COMMA() ,</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#define PP_EMPTY()</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#Définir PP_HASHHASH # ## # </span><span class="c1">// Représente une chaîne ##, mais seulement en tant que chaîne, et non pas comme un opérateur ## à traiter</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#définir PP_HASHHASH # ## #      </span><span class="c1">// représente ## chaîne de caractères, mais seulement en tant que chaîne, ne sera pas traité comme un ## opérateur</span>
 </code></pre></div>
-<h4 id="evaluation-demandee">Évaluation demandée</h4>
-<p>En utilisant une règle de priorité des paramètres, il est possible d'écrire une macro d'évaluation :</p>
+<h4 id="evaluation-demande">Évaluation-demande</h4>
+<p>En utilisant les règles de déroulement des paramètres en priorité, il est possible d'écrire une macro d'évaluation :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#define PP_IDENTITY(arg0) arg0</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">()</span><span class="w">                </span><span class="c1">// -&gt; PP_COMMA ( )</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">()</span><span class="w"> </span><span class="n">PP_RPAREN</span><span class="p">())</span><span class="w">   </span><span class="c1">// -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p>Si vous écrivez simplement "PP_COMMA PP_LPAREN() PP_RPAREN()", le préprocesseur traitera chaque macro séparément sans fusionner les résultats des expansions. En ajoutant "PP_IDENTITY", le préprocesseur peut évaluer le résultat de l'expansion de "PP_COMMA()" pour obtenir ",".</p>
-<h4 id="assemblage">Assemblage</h4>
-<p>Lors de la concaténation avec <code>##</code>, les paramètres des côtés ne sont pas développés. Pour permettre l'évaluation préalable des paramètres avant la concaténation, vous pouvez écrire de la sorte :</p>
+<p>Si l'on se limite à écrire <code>PP_COMMA PP_LPAREN() PP_RPAREN()</code>, le préprocesseur traitera chaque macro séparément et ne combinera pas les résultats développés. En ajoutant <code>PP_IDENTITY</code>, le préprocesseur peut évaluer <code>PP_COMMA()</code> obtenu par développement pour obtenir <code>,</code>.</p>
+<h4 id="assembler">Assembler</h4>
+<p>Puisque lors de la concaténation avec <code>##</code>, les paramètres de gauche et de droite ne sont pas évalués, pour permettre aux paramètres d'être évalués avant la concaténation, on peut écrire comme ceci :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">#define PP_CONCAT(arg0, arg1) PP_CONCAT_IMPL(arg0, arg1)</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="cp">#define PP_CONCAT_IMPL(arg0, arg1) arg0 ## arg1</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">PP_CONCAT</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">         </span><span class="c1">// -&gt; 12</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; Error</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">PP_CONCAT_IMPL</span><span class="p">(</span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">PP_IDENTITY</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; PP_IDENTITY(1)PP_IDENTITY(2) -&gt; Erreur</span>
 </code></pre></div>
-<p>Ici, la méthode utilisée pour <code>PP_CONCAT</code> est appelée la concaténation différée. Lorsqu'elle est déployée en <code>PP_CONCAT_IMPL</code>, à la fois <code>arg0</code> et <code>arg1</code> seront évalués et déployés en premier, puis <code>PP_CONCAT_IMPL</code> effectuera l'opération de concaténation réelle.</p>
+<p>Ici, la méthode utilisée par <code>PP_CONCAT</code> s'appelle la concaténation différée. Lorsqu'elle est déployée en <code>PP_CONCAT_IMPL</code>, <code>arg0</code> et <code>arg1</code> seront tous deux déployés et évalués en premier lieu, puis <code>PP_CONCAT_IMPL</code> effectuera l'opération de concaténation réelle.</p>
 <h4 id="operation-logique">Opération logique</h4>
-<p>Avec l'aide de <code>PP_CONCAT</code>, il est possible d'effectuer des opérations logiques. Commencez par définir des valeurs <code>BOOL</code> :</p>
+<p>Avec <code>PP_CONCAT</code>, il est possible d'effectuer des opérations logiques. Commencez par définir la valeur <code>BOOL</code> :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cp">#define PP_BOOL(arg0) PP_CONCAT(PP_BOOL_, arg0)</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="cp">#define PP_BOOL_0 0</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="cp">#define PP_BOOL_1 1</span>
@@ -2611,7 +2624,7 @@
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">PP_BOOL</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; PP_BOOL_3 -&gt; 1</span>
 </code></pre></div>
-<p>Utilisez d'abord <code>PP_CONCAT</code> pour combiner <code>PP_BOOL_</code> et <code>arg0</code>, puis évaluez le résultat de cette combinaison. Ici, <code>arg0</code> doit être évalué pour obtenir un nombre dans la plage <code>[0, 256]</code>, en évaluant après son ajout à <code>PP_BOOL_</code>, vous obtiendrez une valeur booléenne. Opérations logiques ET, OU et NON :</p>
+<p>Utilisez d'abord <code>PP_CONCAT</code> pour assembler <code>PP_BOOL_</code> et <code>arg0</code> ensemble, puis évaluez le résultat de l'assemblage. Ici, <code>arg0</code> doit être un chiffre dans la plage de <code>[0, 256]</code> après évaluation, assemblez-le après <code>PP_BOOL_</code> pour obtenir une valeur booléenne. Opérations booléennes : et, ou, non :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#define PP_NOT(arg0) PP_CONCAT(PP_NOT_, PP_BOOL(arg0))</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#define PP_NOT_0 1</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="cp">#define PP_NOT_1 0</span>
@@ -2633,8 +2646,8 @@
 <a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="n">PP_AND</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">            </span><span class="c1">// -&gt; PP_CONCAT(PP_AND_, 10) -&gt; PP_AND_10 -&gt; 0</span>
 <a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="n">PP_OR</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; PP_CONCAT(PP_OR_, 10) -&gt; PP_OR_10, -&gt; 1</span>
 </code></pre></div>
-<p>Utilisez d'abord <code>PP_BOOL</code> pour évaluer les paramètres, puis assemblez les résultats des opérations logiques en fonction des combinaisons <code>0 1</code>. Si vous n'utilisez pas <code>PP_BOOL</code> pour évaluer, les paramètres ne prendront en charge que les valeurs <code>0 1</code>, ce qui réduirait considérablement leur adaptabilité. De la même manière, vous pouvez également écrire des opérations telles que XOR, OR, NOT, etc. Si vous êtes intéressé, vous pouvez essayer par vous-même.</p>
-<h4 id="selection-de-criteres">Sélection de critères</h4>
+<p>Utilisez d'abord <code>PP_BOOL</code> pour évaluer les paramètres, puis combinez les résultats des opérations logiques en fonction de la combinaison <code>0 1</code>. Si vous n'utilisez pas <code>PP_BOOL</code> pour l'évaluation, les paramètres ne prendront en charge que les valeurs <code>0 1</code>, ce qui réduit considérablement leur polyvalence. De la même manière, vous pouvez également écrire des opérations telles que XOR, OR, NOT, etc. Si vous êtes intéressé, vous pouvez les essayer vous-même.</p>
+<h4 id="selection-des-conditions">Sélection des conditions</h4>
 <p>En utilisant <code>PP_BOOL</code> et <code>PP_CONCAT</code>, il est également possible d'écrire des instructions de sélection conditionnelle :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#define PP_IF(if, then, else) PP_CONCAT(PP_IF_, PP_BOOL(if))(then, else)</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="cp">#define PP_IF_1(then, else) then</span>
@@ -2643,9 +2656,9 @@
 <a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_1(2, 3) -&gt; 2</span>
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; PP_IF_0(2, 3) -&gt; 3</span>
 </code></pre></div>
-<p><code>if</code> is evaluated to <code>1</code>, concatenate with <code>PP_CONCAT</code> to form <code>PP_IF_1</code>, and finally expand to the value of <code>then</code>; similarly, if <code>if</code> is evaluated to <code>0</code>, <code>PP_IF_0</code> is obtained.</p>
-<h4 id="increment-decroissant">Incrément décroissant</h4>
-<p>Nombres entiers croissants décroissants :</p>
+<p>Si la valeur de <code>if</code> est <code>1</code>, concaténez avec <code>PP_CONCAT</code> pour former <code>PP_IF_1</code>, puis développez en la valeur de <code>then</code> ; de même, si la valeur de <code>if</code> est <code>0</code>, obtenez <code>PP_IF_0</code>.</p>
+<h4 id="augmentation-diminuation">augmentation diminuation</h4>
+<p>Les entiers en augmentation ou en diminution :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cp">#define PP_INC(arg0) PP_CONCAT(PP_INC_, arg0)</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="cp">#define PP_INC_0 1</span>
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="cp">#define PP_INC_1 2</span>
@@ -2667,31 +2680,31 @@
 <a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">PP_INC</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_INC_2 -&gt; 3</span>
 <a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="n">PP_DEC</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">                   </span><span class="c1">// -&gt; PP_DEC_3 -&gt; 2</span>
 </code></pre></div>
-<p>Similaire à <code>PP_BOOL</code>, l'incrémentation et la décrémentation des entiers ont également des limites. Ici, la plage est définie comme <code>[0, 256]</code>, après avoir atteint <code>256</code>, par mesure de sécurité, <code>PP_INC_256</code> renverra lui-même <code>256</code> comme limite, de même que <code>PP_DEC_0</code> renverra <code>0</code>.</p>
-<h4 id="les-parametres-variables">Les paramètres variables</h4>
-<p>Hong Kong accepte les arguments variables, le format est :</p>
+<p>Tout comme pour <code>PP_BOOL</code>, l'incrémentation et la décrémentation des entiers sont également soumises à des limites. Dans ce cas, la plage est définie sur <code>[0, 256]</code>. En atteignant <code>256</code>, pour des raisons de sécurité, <code>PP_INC_256</code> renverra <code>256</code> comme limite. De même, <code>PP_DEC_0</code> renverra <code>0</code>.</p>
+<h4 id="parametres-de-longueur-variable">paramètres de longueur variable</h4>
+<p>Les macros peuvent accepter des paramètres de longueur variable, le format est :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">#define LOG(format, ...) printf("log: " format, __VA_ARGS__)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Hello World", ); An additional comma was added, causing a compilation error</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">LOG</span><span class="p">(</span><span class="s">"Bonjour le monde"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Bonjour le monde", ); 多了个逗号，编译报错</span>
 </code></pre></div>
-<p>En raison du risque que les paramètres variables soient vides et entraînent une erreur de compilation, C++ 20 a introduit <code>__VA_OPT__</code>, qui renvoie une chaîne vide si les paramètres variables sont vides, sinon il renvoie les paramètres d'origine :</p>
+<p>En raison de la possibilité que les arguments variables soient vides, ce qui peut entraîner un échec de la compilation, C++ 20 a introduit <code>__VA_OPT__</code>. Si les arguments variables sont vides, il renvoie vide, sinon il renvoie les arguments d'origine :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">#define LOG2(format, ...) printf("log: " format __VA_OPT__(,) __VA_ARGS__)</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s\n", "World");</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span><span class="w"> </span><span class="c1">// -&gt; printf("log: " "Hello World" ); No commas, compiles correctly</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">LOG2</span><span class="p">(</span><span class="s">"Bonjour le monde"</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; printf("log: " "Bonjour le monde" ); pas de virgule, compilation normale</span>
 </code></pre></div>
-<p>Malheureusement, seul le standard C++ 20 et supérieur dispose de ce macro. Dans la suite du texte, nous présenterons la méthode de mise en œuvre de <code>__VA_OPT__</code>.</p>
+<p>Mais il est dommage que ce macro ne soit disponible qu'à partir de la norme C++ 20. Dans ce qui suit, nous allons donner la méthode d'implémentation de <code>__VA_OPT__</code>.</p>
 <h4 id="evaluation-paresseuse">évaluation paresseuse</h4>
-<p>Considérez ce scénario :</p>
-<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; Error unterminated argument list invoking macro "PP_IF_1"</span>
+<p>Considérez cette situation :</p>
+<div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">(),</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">())</span><span class="w">     </span><span class="c1">// -&gt; PP_IF_1(,,)) -&gt; erreur : liste d'arguments non terminée lors de l'invocation de la macro "PP_IF_1"</span>
 </code></pre></div>
-<p>Nous savons que lors de l'expansion macro, l'évaluation se fait d'abord sur les paramètres. <code>PP_COMMA()</code> et <code>PP_LPAREN()</code> sont évalués avant d'être transmis à <code>PP_IF_1</code>, ce qui donne <code>PP_IF_1(,,))</code>, entraînant une erreur de prétraitement. À ce stade, on peut utiliser une méthode appelée évaluation paresseuse :</p>
+<p>Nous savons que lors de l'expansion macro, les arguments initiaux sont évalués. Après l'évaluation de <code>PP_COMMA()</code> et <code>PP_LPAREN()</code>, ils sont ensuite transmis à <code>PP_IF_1</code>, ce qui donne <code>PP_IF_1(,,))</code>, provoquant une erreur de prétraitement. À ce stade, il est possible d'utiliser une méthode appelée évaluation paresseuse :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">PP_IF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">PP_COMMA</span><span class="p">,</span><span class="w"> </span><span class="n">PP_LPAREN</span><span class="p">)()</span><span class="w">       </span><span class="c1">// -&gt; PP_IF_1(PP_COMMA, PP_LPAREN)() -&gt; PP_COMMA() -&gt; ,</span>
 </code></pre></div>
-<p>Modifier de cette manière, transmettez uniquement le nom de la macro, permettez à <code>PP_IF</code> de sélectionner le nom de la macro requis, puis assemblez-le avec des parenthèses <code>()</code> pour former une macro complète, puis expandez-la. Dans la programmation des macros, l'évaluation paresseuse est également très courante.</p>
-<h4 id="commence-par-parenthese">Commence par parenthèse.</h4>
-<p>Vérifier si les arguments de longueur variable commencent par une parenthèse :</p>
+<p>Modifiez cela en utilisant cette écriture, en ne transmettant que le nom de la macro, permettant à <code>PP_IF</code> de sélectionner les noms de macros nécessaires, puis en les concaténant avec des parenthèses <code>()</code> pour former la macro complète, avant de l'expandre finalement. L'évaluation paresseuse est également très courante dans la programmation de macros.</p>
+<h4 id="_2">以括号开始</h4>
+<p>Déterminez si les paramètres de longueur variable commencent par une parenthèse :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="cp">#define PP_IS_BEGIN_PARENS(...) \</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="cp">    PP_IS_BEGIN_PARENS_PROCESS( \</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="cp">        PP_IS_BEGIN_PARENS_CONCAT( \</span>
@@ -2717,14 +2730,14 @@
 <a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(()</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">    </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-25-24" name="__codelineno-25-24" href="#__codelineno-25-24"></a><span class="n">PP_IS_BEGIN_PARENS</span><span class="p">(</span><span class="n">aa</span><span class="p">(</span><span class="n">bb</span><span class="p">()</span><span class="n">cc</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p><code>PP_IS_BEGIN_PARENS</code> est utilisé pour vérifier si les arguments passés commencent par une parenthèse. Cela peut être utile lors du traitement d'arguments entre parenthèses (comme l'implémentation de <code>__VA_OPT__</code> mentionnée plus tard). Cela peut sembler complexe, mais l'idée principale est de créer une macro qui, si les arguments variables commencent par une parenthèse, peut les évaluer avec cette parenthèse pour obtenir un résultat, sinon les évaluer séparément pour obtenir un autre résultat. Examinons cela en détail :</p>
-<p>Les macros <code>PP_IS_BEGIN_PARENS_PROCESS</code> et <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> fonctionnent ensemble pour évaluer d'abord les arguments variables passés en entrée, puis récupérer le 0ème argument.</p>
-<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code> consiste à évaluer d'abord <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>, puis à concaténer le résultat de l'évaluation avec <code>PP_IS_BEGIN_PARENS_PRE_</code>.</p>
-<p>La macro <code>PP_IS_BEGIN_PARENS_EAT(...)</code> va absorber tous les arguments, et retourner 1 si dans l'étape précédente <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>, <code>__VA_ARGS__</code> commence par une parenthèse. Dans ce cas, cela correspondra à l'évaluation de <code>PP_IS_BEGIN_PARENS_EAT(...)</code> et renverra 1. Sinon, s'il ne commence pas par une parenthèse, il n'y aura pas de correspondance et <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> restera inchangé.</p>
-<p>Si <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> évalue à<code>1</code>, <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1</code>, attention il y a une virgule après <code>1</code>, transmettez <code>1,</code> à <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>, prenez le 0ème argument, pour finalement obtenir <code>1</code>, indiquant que l'argument commence par une parenthèse.</p>
-<p>Si 'PP_IS_BEGIN_PARENS_EAT <strong>VA_ARGS</strong>' évalue non pas à '1', mais reste inchangé, alors 'PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT <strong>VA_ARGS</strong>) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT <strong>VA_ARGS</strong> -&gt; 0, <strong>VA_ARGS</strong>', en passant à 'PP_IS_BEGIN_PARENS_PROCESS_0', obtiendra '0', ce qui signifie que l'argument ne commence pas par une parenthèse.</p>
-<h4 id="parametre-variable-vide">Paramètre variable vide</h4>
-<p>Vérifier si les paramètres de longueur variable sont vides est également une macro couramment utilisée, notamment lors de la mise en œuvre de <code>__VA_OPT__</code>. En utilisant <code>PP_IS_BEGIN_PARENS</code> ici, nous pouvons commencer par ébaucher une version incomplète :</p>
+<p><code>PP_IS_BEGIN_PARENS</code> peut être utilisé pour déterminer si les paramètres passés commencent par une parenthèse, ce qui est nécessaire lors du traitement des paramètres entre parenthèses (comme dans l'implémentation de <code>__VA_OPT__</code> mentionnée plus tard). Cela peut sembler un peu complexe, mais l'idée principale est de construire un macro qui, si les paramètres à longueur variable commencent par une parenthèse, peut être associés à la parenthèse pour obtenir un résultat, sinon, un autre calcul sera fait pour obtenir un résultat différent. Regardons cela de plus près :</p>
+<p>La fonction de la macro composée de <code>PP_IS_BEGIN_PARENS_PROCESS</code> et <code>PP_IS_BEGIN_PARENS_PROCESS_0</code> consiste d'abord à évaluer les paramètres variables passés, puis à prendre le 0ème paramètre.</p>
+<p><code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__)</code> signifie évaluer d'abord <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>, puis concaténer le résultat de l'évaluation avec <code>PP_IS_BEGIN_PARENS_PRE_</code>.</p>
+<p>La macro <code>PP_IS_BEGIN_PARENS_EAT(...)</code> va avaler tous les arguments, renvoyer 1 si dans l'étape précédente <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code>, <code>__VA_ARGS__</code> commence par une parenthèse, alors il y aura un match avec l'évaluation de <code>PP_IS_BEGIN_PARENS_EAT(...)</code>, puis renvoyer <code>1</code>; sinon, s'il ne commence pas par une parenthèse, il n'y aura pas de correspondance et <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> restera inchangé.</p>
+<p>Si <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> renvoie <code>1</code>, alors <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, 1) -&gt; PP_IS_BEGIN_PARENS_PRE_1 -&gt; 1</code>, notez que le <code>1</code> est suivi d'une virgule, passez <code>1,</code> à <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>, prenez le 0ème paramètre, et finalement obtenez <code>1</code>, ce qui indique que le paramètre commence par une parenthèse.</p>
+<p>Si <code>PP_IS_BEGIN_PARENS_EAT __VA_ARGS__</code> évalue à quelque chose d'autre que <code>1</code>, mais reste inchangé, alors <code>PP_IS_BEGIN_PARENS_CONCAT(PP_IS_BEGIN_PARENS_PRE_, PP_IS_BEGIN_PARENS_EAT __VA_ARGS__) -&gt; PP_IS_BEGIN_PARENS_PRE_PP_IS_BEGIN_PARENS_EAT __VA_ARGS__ -&gt; 0, __VA_ARGS__</code>. En passant cela à <code>PP_IS_BEGIN_PARENS_PROCESS_0</code>, le résultat sera <code>0</code>, ce qui indique que l'argument ne commence pas par une parenthèse.</p>
+<h4 id="parametres-variables-vides">Paramètres variables vides</h4>
+<p>Déterminer si les paramètres de longueur variable sont vides est également une macro courante, utilisée lors de l'implémentation de <code>__VA_OPT__</code>. Ici, nous pouvons utiliser <code>PP_IS_BEGIN_PARENS</code> et d'abord écrire une version incomplète :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cp">#define PP_IS_EMPTY_PROCESS(...) \</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cp">    PP_IS_BEGIN_PARENS(PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ())</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="cp">#define PP_IS_EMPTY_PROCESS_EAT(...) ()</span>
@@ -2734,10 +2747,10 @@
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="n">PP_IS_EMPTY_PROCESS</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>La fonction de <code>PP_IS_EMPTY_PROCESS</code> est de vérifier si <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__()</code> commence par une parenthèse.</p>
-<p>Si <code>__VA_ARGS__</code> est vide, <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code>, on obtient une paire de parenthèses <code>()</code>, qu'on transmet ensuite à <code>PP_IS_BEGIN_PARENS</code> pour obtenir <code>1</code>, indiquant que le paramètre est vide.</p>
-<p>Sinon, <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__()</code> est transmis tel quel à <code>PP_IS_BEGIN_PARENS</code>, renvoyant 0 pour indiquer que ce n'est pas vide.</p>
-<p>Notez le quatrième exemple  <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>, <code>PP_IS_EMPTY_PROCESS</code> ne peut pas traiter correctement les arguments de longueur variable commençant par des parenthèses car les parenthèses introduites par ces arguments correspondent à <code>PP_IS_EMPTY_PROCESS_EAT</code>, ce qui entraîne une évaluation de <code>()</code>. Pour résoudre ce problème, il est nécessaire de distinguer les cas où les arguments commencent par des parenthèses.</p>
+<p>Le rôle de <code>PP_IS_EMPTY_PROCESS</code> est de déterminer si <code>PP_IS_EMPTY_PROCESS __VA_ARGS__()</code> commence par des parenthèses.</p>
+<p>Si <code>__VA_ARGS__</code> est vide, <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ () -&gt; PP_IS_EMPTY_PROCESS_EAT() -&gt; ()</code>, on obtient une paire de parenthèses <code>()</code>, qui est ensuite passée à <code>PP_IS_BEGIN_PARENS</code>, retournant <code>1</code>, ce qui indique que le paramètre est vide.</p>
+<p>Sinon, <code>PP_IS_EMPTY_PROCESS_EAT __VA_ARGS__ ()</code> est transmis tel quel à <code>PP_IS_BEGIN_PARENS</code>, renvoyant 0, ce qui indique qu'il n'est pas vide.</p>
+<p>Notez le quatrième exemple <code>PP_IS_EMPTY_PROCESS(()) -&gt; 1</code>. <code>PP_IS_EMPTY_PROCESS</code> ne peut pas traiter correctement les arguments de longueur variable qui commencent par une parenthèse, car dans ce cas, la parenthèse apportée par les arguments de longueur variable va correspondre à <code>PP_IS_EMPTY_PROCESS_EAT</code>, ce qui conduit à ce que l'évaluation donne <code>()</code>. Pour résoudre ce problème, nous devons traiter différemment les cas où les arguments commencent par une parenthèse.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">#define PP_IS_EMPTY(...) \</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">    PP_IS_EMPTY_IF(PP_IS_BEGIN_PARENS(__VA_ARGS__)) \</span>
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">        (PP_IS_EMPTY_ZERO, PP_IS_EMPTY_PROCESS)(__VA_ARGS__)</span>
@@ -2753,11 +2766,11 @@
 <a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="n">PP_IS_EMPTY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="n">PP_IS_EMPTY</span><span class="p">(())</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>La fonction <code>PP_IS_EMPTY_IF</code> renvoie le premier ou le deuxième argument en fonction de la condition <code>if</code>.</p>
-<p>Si les arguments variables entrants commencent par des parenthèses, <code>PP_IS_EMPTY_IF</code> renvoie <code>PP_IS_EMPTY_ZERO</code>, puis renvoie finalement <code>0</code>, ce qui indique que les arguments variables ne sont pas vides.</p>
-<p>Inversément, <code>PP_IS_EMPTY_IF</code> renvoie <code>PP_IS_EMPTY_PROCESS</code>, puis finalement <code>PP_IS_EMPTY_PROCESS</code> détermine si les arguments variables ne sont pas vides.</p>
-<h4 id="acces-en-indice">Accès en indice</h4>
-<p>Obtenir l'élément spécifié à une position donnée des arguments à longueur variable :</p>
+<p><code>PP_IS_EMPTY_IF</code> renvoie le 0ème ou le 1er paramètre en fonction de la condition <code>if</code>.</p>
+<p>Si les arguments variadiques passant sont entourés de parenthèses, <code>PP_IS_EMPTY_IF</code> renvoie <code>PP_IS_EMPTY_ZERO</code>, et finalement renvoie <code>0</code>, indiquant que les arguments variadiques ne sont pas vides.</p>
+<p>À l'inverse, <code>PP_IS_EMPTY_IF</code> retourne <code>PP_IS_EMPTY_PROCESS</code>, qui détermine finalement si les arguments de longueur variable sont non vides.</p>
+<h4 id="acces-par-indice">Accès par indice</h4>
+<p>Obtenir l'élément à la position spécifiée des paramètres de longueur variable :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="cp">#define PP_ARGS_ELEM(I, ...) PP_CONCAT(PP_ARGS_ELEM_, I)(__VA_ARGS__)</span>
 <a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="cp">#define PP_ARGS_ELEM_0(a0, ...) a0</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="cp">#define PP_ARGS_ELEM_1(a0, a1, ...) a1</span>
@@ -2770,9 +2783,9 @@
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_0("Hello", "World") -&gt; "Hello"</span>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">PP_ARGS_ELEM</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">)</span><span class="w">   </span><span class="c1">// -&gt; PP_ARGS_ELEM_1("Hello", "World") -&gt; "World"</span>
 </code></pre></div>
-<p>Le premier argument de <code>PP_ARGS_ELEM</code> est l'indice de l'élément <code>I</code>, suivi par des arguments de longueur variable. En utilisant <code>PP_CONCAT</code> pour concaténer <code>PP_ARGS_ELEM_</code> et <code>I</code>, on peut ainsi obtenir la macro <code>PP_ARGS_ELEM_0..8</code> qui renvoie l'élément correspondant à la position donnée, en lui transmettant les arguments de longueur variable pour déplier et retourner l'élément correspondant à l'indice.</p>
+<p>Le premier argument de <code>PP_ARGS_ELEM</code> est l'indice de l'élément <code>I</code>, suivi d'arguments de longueur variable. En utilisant <code>PP_CONCAT</code> pour concaténer <code>PP_ARGS_ELEM_</code> et <code>I</code>, on peut obtenir la macro <code>PP_ARGS_ELEM_0..8</code> renvoyant l'élément situé à la position correspondante, puis transmettre les arguments de longueur variable à cette macro pour déplier et renvoyer l'élément correspondant à l'indice.</p>
 <h4 id="pp_is_empty2">PP_IS_EMPTY2</h4>
-<p>Utilisez <code>PP_ARGS_ELEM</code> pour créer une autre version de <code>PP_IS_EMPTY</code> :</p>
+<p>En utilisant <code>PP_ARGS_ELEM</code>, il est également possible de mettre en œuvre une autre version de <code>PP_IS_EMPTY</code> :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="cp">#define PP_IS_EMPTY2(...) \</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="cp">    PP_AND( \</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="cp">        PP_AND( \</span>
@@ -2794,13 +2807,15 @@
 <a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(())</span><span class="w">            </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="n">PP_IS_EMPTY2</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>Utilisez <code>PP_ARGS_ELEM</code> pour déterminer si un argument contient une virgule avec <code>PP_HAS_COMMA</code>. <code>PP_COMMA_ARGS</code> absorbera n'importe quel argument passé, puis renverra une virgule.</p>
-<p>La logique de base pour déterminer si les arguments variables sont vides est que <code>PP_COMMA_ARGS __VA_ARGS__()</code> renvoie une virgule, c'est-à-dire que <code>__VA_ARGS__</code> est vide, <code>PP_COMMA_ARGS</code> et <code>()</code> sont concaténés pour être évalués, la formulation exacte est <code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__())</code>.</p>
+<p>Utilisez <code>PP_ARGS_ELEM</code> pour vérifier si les arguments contiennent une virgule avec <code>PP_HAS_COMMA</code>. <code>PP_COMMA_ARGS</code> consommera n'importe quels arguments fournis et renverra une virgule.</p>
+<p>La logique de base pour déterminer si les paramètres de longueur variable sont vides est que <code>PP_COMMA_ARGS __VA_ARGS__ ()</code> renvoie une virgule, ce qui signifie que <code>__VA_ARGS__</code> est vide. <code>PP_COMMA_ARGS</code> et <code>()</code> sont évalués ensemble, la formulation concrète étant <code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code>.</p>
 <p>Cependant, il peut y avoir des exceptions :</p>
-<p><code>__VA_ARGS__</code> itself may bring commas;
-<code>__VA_ARGS__ ()</code> 拼接在一起发生求值带来逗号；
-<code>PP_COMMA_ARGS __VA_ARGS__</code> Joindre ensemble provoque une évaluation avec une virgule;</p>
-<p>Pour les trois cas d'exception mentionnés ci-dessus, il convient de les exclure, de sorte que la formulation finale équivaut à l'application de l'opérateur logique "ET" à quatre conditions suivantes :</p>
+<ul>
+<li><code>__VA_ARGS__</code> peut lui-même contenir des virgules ;</li>
+<li><code>__VA_ARGS__ ()</code> la concaténation entraîne une évaluation et produit une virgule ;</li>
+<li><code>PP_COMMA_ARGS __VA_ARGS__</code> est concaténé ensemble, provoquant une évaluation qui entraîne une virgule ;</li>
+</ul>
+<p>Pour les trois cas exceptionnels mentionnés ci-dessus, il est nécessaire de les exclure, donc la dernière écriture est équivalente à l'exécution d'une logique "ET" sur les quatre conditions suivantes :</p>
 <ul>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__))</code> &amp;&amp;</li>
 <li><code>PP_NOT(PP_HAS_COMMA(__VA_ARGS__()))</code> &amp;&amp;</li>
@@ -2808,7 +2823,7 @@
 <li><code>PP_HAS_COMMA(PP_COMMA_ARGS __VA_ARGS__ ())</code></li>
 </ul>
 <h4 id="__va_opt__"><code>__VA_OPT__</code></h4>
-<p>En utilisant <code>PP_IS_EMPTY</code>, il est enfin possible de mettre en œuvre des macros similaires à <code>__VA_OPT__</code> :</p>
+<p>Utiliser <code>PP_IS_EMPTY</code> permet enfin de réaliser un macro similaire à <code>__VA_OPT__</code>:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="cp">#define PP_REMOVE_PARENS(tuple) PP_REMOVE_PARENS_IMPL tuple</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="cp">#define PP_REMOVE_PARENS_IMPL(...) __VA_ARGS__</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
@@ -2820,17 +2835,17 @@
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="n">PP_ARGS_OPT</span><span class="p">((</span><span class="n">data</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">empty</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">     </span><span class="c1">// -&gt; data</span>
 <a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="n">PP_ARGS_OPT</span><span class="p">((,),</span><span class="w"> </span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">             </span><span class="c1">// -&gt; ,</span>
 </code></pre></div>
-<p><code>PP_ARGS_OPT</code> takes two fixed parameters and a variable number of parameters. It returns <code>data</code> if the variable parameters are not empty, otherwise it returns <code>empty</code>. To support commas in both <code>data</code> and <code>empty</code>, it is required that both are enclosed in parentheses with the actual parameters, and finally <code>PP_REMOVE_PARENS</code> is used to remove the outer parentheses.</p>
-<p>Avec <code>PP_ARGS_OPT</code>, vous pouvez simuler la fonctionnalité implémentée par <code>LOG2</code> en utilisant <code>LOG3</code> :</p>
+<p><code>PP_ARGS_OPT</code> accepte deux paramètres fixes et des paramètres de longueur variable. Lorsque les paramètres de longueur variable ne sont pas vides, il retourne <code>data</code>, sinon il retourne <code>empty</code>. Afin de permettre à <code>data</code> et <code>empty</code> de supporter la virgule, il est requis d'encapsuler les deux dans des parenthèses. Enfin, utilisez <code>PP_REMOVE_PARENS</code> pour enlever les parenthèses externes.</p>
+<p>Avec <code>PP_ARGS_OPT</code>, vous pouvez implémenter <code>LOG3</code> pour simuler les fonctionnalités réalisées par <code>LOG2</code>:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">#define LOG3(format, ...) \</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    printf("log: " format PP_ARGS_OPT((,), (), __VA_ARGS__) __VA_ARGS__)</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span><span class="w">                  </span><span class="c1">// -&gt; printf("log: " "Hello" );</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">LOG3</span><span class="p">(</span><span class="s">"Hello %s"</span><span class="p">,</span><span class="w"> </span><span class="s">"World"</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; printf("log: " "Hello %s" , "World");</span>
 </code></pre></div>
-<p>Le <code>data_tuple</code> est <code>(,)</code>, et s'il y a des arguments variables, il renverra tous les éléments de <code>data_tuple</code>, qui sont simplement des virgules <code>,</code>.</p>
-<h4 id="demander-le-nombre-de-parametres">Demander le nombre de paramètres.</h4>
-<p>Obtenir le nombre de paramètres variables :</p>
+<p><code>data_tuple</code> est <code>(,)</code>, si les paramètres de longueur variable ne sont pas vides, toutes les éléments de <code>data_tuple</code>, ici ce sont des virgules <code>,</code>, seront retournés.</p>
+<h4 id="demander-le-nombre-de-parametres">Demander le nombre de paramètres</h4>
+<p>Obtenir le nombre de paramètres de longueur variable :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="cp">#define PP_ARGS_SIZE_IMCOMPLETE(...) \</span>
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="cp">    PP_ARGS_ELEM(8, __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
@@ -2839,9 +2854,9 @@
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">(</span><span class="n">PP_COMMA</span><span class="p">())</span><span class="w">    </span><span class="c1">// -&gt; 2</span>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="n">PP_ARGS_SIZE_IMCOMPLETE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>Calculer le nombre d'arguments variables se fait en fonction de leur position. <code>__VA_ARGS__</code> décale tous les arguments suivants vers la droite, en utilisant la macro <code>PP_ARGS_ELEM</code> pour obtenir le 8ᵉ argument. Si <code>__VA_ARGS__</code> a un seul argument, le 8ᵉ argument est égal à <code>1</code>; de même, avec deux arguments, le 8ᵉ argument devient <code>2</code>, correspondant donc au nombre d'arguments variables.</p>
-<p>Les exemples fournis ici n'acceptent qu'un maximum de 8 arguments variables, car cela dépend de la longueur maximale prise en charge par <code>PP_ARGS_ELEM</code>.</p>
-<p>Cependant, cette macro n'est pas complète. Lorsque les paramètres variables sont vides, cette macro renverra incorrectement <code>1</code>. Si vous devez traiter des paramètres variables vides, vous aurez besoin de la macro <code>PP_ARGS_OPT</code> mentionnée précédemment.</p>
+<p>Le nombre de paramètres de longueur variable est obtenu par la position des paramètres. <code>__VA_ARGS__</code> entraîne un décalage vers la droite de tous les paramètres suivants. On utilise la macro <code>PP_ARGS_ELEM</code> pour obtenir le paramètre à la 8ème position ; si <code>__VA_ARGS__</code> ne contient qu'un seul paramètre, alors le 8ème paramètre est égal à <code>1</code> ; de même, si <code>__VA_ARGS__</code> contient deux paramètres, le 8ème paramètre devient <code>2</code>, ce qui équivaut exactement au nombre de paramètres de longueur variable.</p>
+<p>Les exemples fournis ici ne prennent en charge que jusqu'à 8 arguments de longueur variable, en fonction de la longueur maximale prise en charge par <code>PP_ARGS_ELEM</code>.</p>
+<p>Cependant, ce macro n'est pas complet; dans le cas où les paramètres de longueur variable sont vides, ce macro retournera incorrectement <code>1</code>. Si vous devez traiter des paramètres de longueur variable vides, vous devez utiliser le macro <code>PP_ARGS_OPT</code> que nous avons mentionné précédemment :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="cp">#define PP_COMMA_IF_ARGS(...) PP_ARGS_OPT((,), (), __VA_ARGS__)</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="cp">#define PP_ARGS_SIZE(...) PP_ARGS_ELEM(8, __VA_ARGS__ PP_COMMA_IF_ARGS(__VA_ARGS__) 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0)</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
@@ -2851,9 +2866,9 @@
 <a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="n">PP_ARGS_SIZE</span><span class="p">()</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="n">PP_ARGS_SIZE</span><span class="p">(,,,)</span><span class="w">           </span><span class="c1">// -&gt; 4</span>
 </code></pre></div>
-<p>Le point clé du problème réside dans la virgule <code>,</code> ; lorsque <code>__VA_ARGS__</code> est vide, en supprimant la virgule, on peut renvoyer correctement <code>0</code>.</p>
-<h4 id="parcourir-lacces">Parcourir l'accès</h4>
-<p>Similaire au <code>for_each</code> en C++, nous pouvons mettre en œuvre le <code>PP_FOR_EACH</code> en tant que macro.</p>
+<p>Le point clé du problème est la virgule <code>,</code>. Lorsque <code>__VA_ARGS__</code> est vide, omettre la virgule permet de renvoyer correctement <code>0</code>.</p>
+<h4 id="parcours-dacces">parcours d'accès</h4>
+<p>Semblable à <code>for_each</code> en C++, nous pouvons implémenter le macro <code>PP_FOR_EACH</code> :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="cp">#define PP_FOR_EACH(macro, contex, ...) \</span>
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="cp">    PP_CONCAT(PP_FOR_EACH_, PP_ARGS_SIZE(__VA_ARGS__))(0, macro, contex, __VA_ARGS__)</span>
 <a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
@@ -2877,10 +2892,10 @@
 <a id="__codelineno-34-21" name="__codelineno-34-21" href="#__codelineno-34-21"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span><span class="w">    </span><span class="c1">// -&gt; int x, y, z;</span>
 <a id="__codelineno-34-22" name="__codelineno-34-22" href="#__codelineno-34-22"></a><span class="n">PP_FOR_EACH</span><span class="p">(</span><span class="n">DECLARE_EACH</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w">      </span><span class="c1">// -&gt; bool a, b;</span>
 </code></pre></div>
-<p><code>PP_FOR_EACH</code> accepts two fixed parameters: <code>macro</code>, which can be understood as the macro called during iteration, and <code>context</code>, which can be passed as a fixed value parameter to <code>macro</code>. First, <code>PP_FOR_EACH</code> uses <code>PP_ARGS_SIZE</code> to obtain the length <code>N</code> of the variable parameters, then concatenates using <code>PP_CONCAT</code> to obtain <code>PP_FOR_EACH_N</code>. Afterwards, <code>PP_FOR_EACH_N</code> will iteratively call <code>PP_FOR_EACH_N-1</code> to achieve the same number of iterations as the variable parameter count.</p>
-<p>Dans l'exemple, nous déclarons <code>DECLARE_EACH</code> en tant que paramètre de la macro, la fonction de <code>DECLARE_EACH</code> est de renvoyer <code>contex arg</code>, si <code>contex</code> est le nom du type et <code>arg</code> est le nom de la variable, <code>DECLARE_EACH</code> peut alors être utilisé pour déclarer des variables.</p>
+<p><code>PP_FOR_EACH</code> reçoit deux paramètres fixes : <code>macro</code>, que l'on peut comprendre comme le macro appelé lors de l'itération, et <code>contex</code>, qui peut être utilisé comme paramètre à valeur fixe pour passer à <code>macro</code>. <code>PP_FOR_EACH</code> commence par obtenir la longueur des paramètres variable avec <code>PP_ARGS_SIZE</code>, que l'on appelle <code>N</code>, puis utilise <code>PP_CONCAT</code> pour assembler et obtenir <code>PP_FOR_EACH_N</code>. Ensuite, <code>PP_FOR_EACH_N</code> appellera de manière itérative <code>PP_FOR_EACH_N-1</code> pour réaliser un nombre d'itérations égal au nombre de paramètres variables.</p>
+<p>Dans cet exemple, nous avons déclaré <code>DECLARE_EACH</code> en tant que paramètre du <code>macro</code>. L'objectif de <code>DECLARE_EACH</code> est de renvoyer <code>contex arg</code>. Si <code>contex</code> est un nom de type et <code>arg</code> est un nom de variable, alors <code>DECLARE_EACH</code> peut être utilisé pour déclarer des variables.</p>
 <h4 id="boucle-conditionnelle">Boucle conditionnelle</h4>
-<p>Avec <code>FOR_EACH</code>, il est également possible d'écrire <code>PP_WHILE</code> de manière similaire :</p>
+<p>Après avoir introduit <code>FOR_EACH</code>, il est également possible d'écrire <code>PP_WHILE</code> de manière similaire :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="cp">#define PP_WHILE PP_WHILE_1</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>
 <a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="cp">#define PP_WHILE_1(pred, op, val) PP_WHILE_1_IMPL(PP_BOOL(pred(val)), pred, op, val)</span>
@@ -2919,16 +2934,16 @@
 <a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a><span class="n">PP_WHILE</span><span class="p">(</span><span class="n">SUM_PRED</span><span class="p">,</span><span class="w"> </span><span class="n">SUM_OP</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">))</span><span class="w">      </span><span class="c1">// -&gt; (0, a + 2 + 1)</span>
 <a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a><span class="n">SUM</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">                               </span><span class="c1">// -&gt; a + 2 + 1</span>
 </code></pre></div>
-<p><code>PP_WHILE</code> accepts three parameters: <code>pred</code> for the conditional check function, <code>op</code> for the operation function, and <code>val</code> as the initial value; during the loop, it continuously uses <code>pred(val)</code> for the loop termination check, passing the value obtained from <code>op(val)</code> to the subsequent macro, which can be understood as executing the following code:</p>
+<p><code>PP_WHILE``accepte trois paramètres :</code>pred<code>, une fonction de condition,</code>op<code>, une fonction d'opération, et</code>val<code>, la valeur initiale. Pendant la boucle, la fonction</code>pred(val)<code>est constamment utilisée pour définir la condition d'arrêt de la boucle. La valeur obtenue par</code>op(val)` est ensuite transmise aux futures macros, ce qui peut être interprété comme l'exécution du code suivant :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">pred</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
 <a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="p">}</span>
 </code></pre></div>
-<p>Tout d'abord, utilisez <code>pred(val)</code> pour obtenir le résultat de la condition, puis transmettez ce résultat de la condition et les autres paramètres à <code>PP_WHILE_N_IMPL</code>.
-<code>PP_WHILE_N_IMPL</code> peut être divisé en deux parties : la seconde moitié <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> est passée en tant qu'argument à la première moitié, <code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> évalue <code>op(val)</code> si <code>cond</code> est vrai, sinon renvoie un résultat vide avec <code>PP_EMPTY_EAT(val)</code>. La première moitié <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code> renvoie <code>PP_WHILE_N+1</code> si <code>cond</code> est vrai, poursuivant ainsi la boucle avec les paramètres de la seconde moitié. Sinon elle renvoie <code>val PP_EMPTY_EAT</code>, qui devient le résultat final, tandis que <code>PP_EMPTY_EAT</code> absorbera le résultat de la seconde moitié.</p>
-<p>La fonction <code>SUM</code> réalise la somme de <code>N + N-1 + ... + 1</code>. Elle démarre avec les valeurs initiales <code>(max_num, origin_num)</code> ; <code>SUM_PRED</code> prend le premier élément de la valeur <code>x</code> et vérifie s'il est supérieur à 0 ; <code>SUM_OP</code> opère une diminution de <code>x</code> avec l'opération <code>x = x - 1</code> et une addition de <code>y</code> avec l'opération <code>y = y + x</code>. Ces éléments sont directement transmis à la fonction <code>PP_WHILE</code> en utilisant <code>SUM_PRED</code> et <code>SUM_OP</code>, le résultat renvoyé est un tuple, et ce que l'on veut vraiment est le deuxième élément de ce tuple, pour cela nous utilisons à nouveau <code>SUM</code> pour obtenir la valeur du deuxième élément.</p>
-<h4 id="rentree-recursive">Rentrée récursive</h4>
-<p>Jusqu'à présent, nos boucles de parcours et nos boucles conditionnelles ont bien fonctionné, les résultats correspondent à nos attentes. Vous vous souvenez de notre mention de l'interdiction de la réentrance récursive lors de l'exposé des règles de développement macro ? Malheureusement, nous avons rencontré cette interdiction lors de notre tentative d'exécution de boucles imbriquées.</p>
+<p><code>PP_WHILE_N</code> Tout d'abord, utilisez <code>pred(val)</code> pour obtenir le résultat du test conditionnel, puis transmettez le résultat de la condition <code>cond</code> et les autres paramètres à <code>PP_WHILE_N_IMPL</code>.
+<code>PP_WHILE_N_IMPL</code> peut être divisé en deux parties : la seconde partie <code>(pred, op, PP_IF(cond, op, PP_EMPTY_EAT)(val))</code> sert de paramètre à la première partie, où <code>PP_IF(cond, op, PP_EMPTY_EAT)(val)</code> évalue <code>op(val)</code> si <code>cond</code> est vrai, sinon elle évalue <code>PP_EMPTY_EAT(val)</code> pour obtenir un résultat vide. La première partie <code>PP_IF(cond, PP_WHILE_N+1, val PP_EMPTY_EAT)</code> renvoie <code>PP_WHILE_N+1</code> si <code>cond</code> est vrai, et continue la boucle avec le paramètre de la seconde partie ; sinon, elle renvoie <code>val PP_EMPTY_EAT</code>, où <code>val</code> devient alors le résultat final du calcul, tandis que <code>PP_EMPTY_EAT</code> élimine le résultat de la seconde partie.</p>
+<p><code>SUM</code> réalise <code>N + N-1 + ... + 1</code>. Valeur initiale <code>(max_num, origin_num)</code>; <code>SUM_PRED</code> prend la première valeur <code>x</code> de la valeur de <code>SUM</code>, vérifie si elle est supérieure à 0; <code>SUM_OP</code> - opération de décrémentation de <code>x = x - 1</code>, opération d'addition de <code>x</code> à <code>y</code>  <code>y = y + x</code>. Transmettez directement <code>SUM_PRED</code> et <code>SUM_OP</code> à <code>PP_WHILE</code>, le résultat renvoyé est un tuple, le résultat réellement désiré est le deuxième élément du tuple, puis utilisez à nouveau <code>SUM</code> pour obtenir la valeur du deuxième élément.</p>
+<h4 id="recursion-reentrante">Récursion réentrante</h4>
+<p>Jusqu'à présent, nos parcours d'accès et nos boucles conditionnelles fonctionnent très bien, et les résultats sont conformes aux attentes. Vous vous souvenez de ce que nous avons mentionné sur l'interdiction de la récursivité réentrante en parlant des règles d'expansion des macros ? Malheureusement, nous sommes confrontés à cette interdiction lorsque nous souhaitons effectuer une double boucle :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="cp">#define SUM_OP2(xy_tuple) SUM_OP_OP_IMPL2 xy_tuple</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="cp">#define SUM_OP_OP_IMPL2(x, y) (PP_DEC(x), y + SUM(x, 0))</span>
 <a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
@@ -2937,7 +2952,7 @@
 <a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
 <a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="n">SUM2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">      </span><span class="c1">// -&gt; a + SUM_IMPL PP_WHILE_1(SUM_PRED, SUM_OP, (1, a))</span>
 </code></pre></div>
-<p>Remplacer le paramètre <code>op</code> par <code>SUM_OP2</code> dans <code>SUM2</code>, <code>SUM_OP2</code> fera appel à <code>SUM</code>, qui se déroulera en <code>PP_WHILE_1</code>, donc <code>PP_WHILE_1</code> se rappelle de lui-même de manière récursive, et le préprocesseur arrête le déroulement.</p>
+<p><code>SUM2</code> remplace le paramètre <code>op</code> par <code>SUM_OP2</code>, qui appellera <code>SUM</code>, et <code>SUM</code> se développera encore en <code>PP_WHILE_1</code>, ce qui équivaut à un appel récursif de <code>PP_WHILE_1</code> à lui-même, entraînant l'arrêt de l'expansion par le préprocesseur.</p>
 <p>Pour résoudre ce problème, nous pouvons utiliser une méthode de déduction automatique récursive (Automatic Recursion) :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="cp">#define PP_AUTO_WHILE PP_CONCAT(PP_WHILE_, PP_AUTO_REC(PP_WHILE_PRED))</span>
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>
@@ -2971,12 +2986,12 @@
 <a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
 <a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="n">SUM4</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; a + 0 + 2 + 1 + 0 + 1</span>
 </code></pre></div>
-<p><code>PP_AUTO_WHILE</code> is the recursive automatic deduction version of <code>PP_WHILE</code>, with the core macro being <code>PP_AUTO_REC(PP_WHILE_PRED)</code>, which can identify the current available version number <code>N</code> of <code>PP_WHILE_N</code>.</p>
-<p>Le principe de déduction est très simple : recherche de toutes les versions pour trouver celle qui peut se dérouler correctement, renvoie le numéro de cette version. Pour accélérer la recherche, on utilise généralement une recherche binaire, c'est ce que fait <code>PP_AUTO_REC</code>. <code>PP_AUTO_REC</code> prend un paramètre <code>check</code> qui est chargé de vérifier la disponibilité de la version. Ici, la plage de versions recherchée est <code>[1, 4]</code>. <code>PP_AUTO_REC</code> vérifiera d'abord <code>check(2)</code>. Si <code>check(2)</code> est vrai, alors il appellera <code>PP_AUTO_REC_12</code> pour rechercher dans la plage <code>[1, 2]</code>, sinon il utilisera <code>PP_AUTO_REC_34</code> pour rechercher dans <code>[3, 4]</code>. <code>PP_AUTO_REC_12</code> vérifie <code>check(1)</code>. Si c'est vrai, alors la version <code>1</code> est disponible sinon ce sera la version <code>2</code>. Même fonctionnement pour <code>PP_AUTO_REC_34</code>.</p>
-<p>Vérification de la façon dont vous devez écrire le méta-programme pour savoir si la version est disponible. Ici, <code>PP_WHILE_PRED</code> sera décomposé en deux parties concaténées. Regardons la partie arrière <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>: si <code>PP_WHILE_ ## n</code> est disponible, cette partie sera décomposée pour obtenir la valeur de l'argument <code>val</code>, qui est <code>PP_WHILE_FALSE</code> car <code>PP_WHILE_FALSE</code> renvoie toujours <code>0</code>. Sinon, ce méta-programme restera inchangé, restant donc <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>.</p>
-<p>Concatenez le résultat de la seconde partie avec <code>PP_WHILE_CHECK_</code> de la première partie pour obtenir deux résultats possibles : <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> ou <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>. Ainsi, on fait en sorte que <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> renvoie <code>1</code> pour signaler que c'est utilisable, tandis que <code>PP_WHILE_CHECK_PP_WHILE_n</code> renvoie <code>0</code> pour dire que ce n'est pas utilisable. Avec cela, nous avons achevé la fonction de déduction automatique de la récursivité.</p>
+<p><code>PP_AUTO_WHILE</code> is the automatic deduced recursive version of <code>PP_WHILE</code>, the core macro being <code>PP_AUTO_REC(PP_WHILE_PRED)</code>, which identifies the current available version number <code>N</code> for <code>PP_WHILE_N</code>.</p>
+<p>Le principe de déduction est assez simple, il consiste à parcourir toutes les versions, trouver la version qui peut se développer correctement, retourner le numéro de cette version. Pour accélérer la recherche, on utilise généralement une recherche par dichotomie, c'est ce que fait <code>PP_AUTO_REC</code>. <code>PP_AUTO_REC</code> prend un paramètre <code>check</code>, qui est responsable de vérifier la disponibilité de la version. Ici, il est indiqué que la recherche concerne les versions comprises entre <code>[1, 4]</code>. <code>PP_AUTO_REC</code> vérifie d'abord <code>check(2)</code>, si <code>check(2)</code> est vrai, alors on appelle <code>PP_AUTO_REC_12</code> pour rechercher dans la plage <code>[1, 2]</code>, sinon on utilise <code>PP_AUTO_REC_34</code> pour rechercher dans <code>[3, 4]</code>. <code>PP_AUTO_REC_12</code> vérifie <code>check(1)</code>, si c'est vrai, alors la version <code>1</code> est disponible, sinon on utilise la version <code>2</code>. De même pour <code>PP_AUTO_REC_34</code>.</p>
+<p>Comment écrire le macro <code>check</code> pour savoir si la version est disponible ? Ici, <code>PP_WHILE_PRED</code> se décompose en deux parties, concentrons-nous sur la seconde partie <code>PP_WHILE_ ## n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code> : si <code>PP_WHILE_ ## n</code> est disponible, étant donné que <code>PP_WHILE_FALSE</code> renvoie constamment <code>0</code>, cette partie se développera pour obtenir la valeur du paramètre <code>val</code>, c'est-à-dire <code>PP_WHILE_FALSE</code> ; sinon, cette partie du macro restera inchangée, restant <code>PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code>.</p>
+<p>Concaténez les résultats de la partie arrière avec ceux de la partie avant <code>PP_WHILE_CHECK_</code>, ce qui nous donne deux résultats : <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> ou <code>PP_WHILE_CHECK_PP_WHILE_n(PP_WHILE_FALSE, PP_WHILE_FALSE, PP_WHILE_FALSE)</code> ; ainsi, nous faisons en sorte que <code>PP_WHILE_CHECK_PP_WHILE_FALSE</code> retourne <code>1</code> pour indiquer qu'il est disponible, et <code>PP_WHILE_CHECK_PP_WHILE_n</code> retourne <code>0</code> pour indiquer qu'il n'est pas disponible. Nous avons ainsi terminé la fonctionnalité d'inférence automatique de la récursivité.</p>
 <h4 id="comparaison-arithmetique">Comparaison arithmétique</h4>
-<p>Non égal :</p>
+<p>Non équivalent :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="cp">#define PP_NOT_EQUAL(x, y) PP_NOT_EQUAL_IMPL(x, y)</span>
 <a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="cp">#define PP_NOT_EQUAL_IMPL(x, y) \</span>
 <a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="cp">    PP_CONCAT(PP_NOT_EQUAL_CHECK_, PP_NOT_EQUAL_ ## x(0, PP_NOT_EQUAL_ ## y))</span>
@@ -3001,30 +3016,30 @@
 <a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a><span class="n">PP_NOT_EQUAL</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">          </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>Vérifiez si les valeurs sont égales en utilisant la caractéristique de non-réentrance récursive. Concaténez de manière récursive <code>x</code> et <code>y</code> en tant que macro <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code>. Si <code>x == y</code>, alors <code>PP_NOT_EQUAL_y</code> ne sera pas développé, et sera concaténé avec <code>PP_NOT_EQUAL_CHECK_</code> en <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code> renvoyant ainsi <code>0</code>. En revanche, si les deux sont développés avec succès, vous obtiendrez finalement <code>PP_EQUAL_NIL</code>, et concaténé en <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code> renvoyant <code>1</code>.</p>
-<p>Équivalent :</p>
+<p>Pour déterminer si les valeurs sont égales, on utilise la caractéristique d'interdiction de réentrance récursive, en concaténant <code>x</code> et <code>y</code> de façon récursive en une macro <code>PP_NOT_EQUAL_x PP_NOT_EQUAL_y</code>. Si <code>x == y</code>, alors la macro <code>PP_NOT_EQUAL_y</code> ne sera pas développée, ce qui donne <code>PP_NOT_EQUAL_CHECK_</code> concaténé avec <code>PP_NOT_EQUAL_CHECK_PP_NOT_EQUAL_y</code>, retournant <code>0</code>. En revanche, si les deux se développent avec succès, on obtient finalement <code>PP_EQUAL_NIL</code>, qui se concatène pour donner <code>PP_NOT_EQUAL_CHECK_PP_EQUAL_NIL</code>, retournant <code>1</code>.</p>
+<p>Égalité :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="cp">#define PP_EQUAL(x, y) PP_NOT(PP_NOT_EQUAL(x, y))</span>
 <a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>
 <a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="n">PP_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">              </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>Inférieur ou égal à :</p>
+<p>moins que ou égal à :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="cp">#define PP_LESS_EQUAL(x, y) PP_NOT(PP_SUB(x, y))</span>
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="n">PP_LESS_EQUAL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">         </span><span class="c1">// -&gt; 1</span>
 </code></pre></div>
-<p>Inférieur à :</p>
+<p>inférieur à :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="cp">#define PP_LESS(x, y) PP_AND(PP_LESS_EQUAL(x, y), PP_NOT_EQUAL(x, y))</span>
 <a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>
 <a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 <a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">PP_LESS</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">               </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>De plus, il existe des comparaisons arithmétiques telles que supérieur à, supérieur ou égal, etc., qui ne seront pas détaillées ici.</p>
-<h4 id="les-operations-arithmetiques">Les opérations arithmétiques</h4>
-<p>En utilisant <code>PP_AUTO_WHILE</code>, nous pouvons réaliser des opérations arithmétiques de base, et même prendre en charge les opérations imbriquées.</p>
+<p>Il y a également des comparaisons arithmétiques telles que "plus grand que" et "plus grand ou égal à", que je ne vais pas détailler ici.</p>
+<h4 id="operations-arithmetiques">Opérations arithmétiques</h4>
+<p>En utilisant <code>PP_AUTO_WHILE</code>, nous pouvons réaliser des opérations arithmétiques de base, tout en prenant en charge les opérations imbriquées.</p>
 <p>Addition :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cp">#define PP_ADD(x, y) \</span>
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="cp">    PP_IDENTITY(PP_ADD_IMPL PP_AUTO_WHILE(PP_ADD_PRED, PP_ADD_OP, (x, y)))</span>
@@ -3053,7 +3068,7 @@
 <a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="n">PP_SUB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 0</span>
 </code></pre></div>
-<p>Multiplication:</p>
+<p>Multiplication :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="cp">#define PP_MUL(x, y) \</span>
 <a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="cp">    IDENTITY(PP_MUL_IMPL PP_AUTO_WHILE(PP_MUL_PRED, PP_MUL_OP, (0, x, y)))</span>
 <a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="cp">#define PP_MUL_IMPL(ret, x, y) ret</span>
@@ -3067,7 +3082,7 @@
 <a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                </span><span class="c1">// -&gt; 1</span>
 <a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="n">PP_MUL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">PP_ADD</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">     </span><span class="c1">// -&gt; 2</span>
 </code></pre></div>
-<p>Dans cette implémentation de la multiplication, un paramètre <code>ret</code> a été ajouté, avec une valeur initiale de <code>0</code>, et à chaque itération, <code>ret = ret + x</code> est exécuté.</p>
+<p>La multiplication implémente ici un paramètre supplémentaire <code>ret</code>, initialisé à <code>0</code>, et à chaque itération effectue <code>ret = ret + x</code>.</p>
 <p>Division :</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="cp">#define PP_DIV(x, y) \</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="cp">    IDENTITY(PP_DIV_IMPL PP_AUTO_WHILE(PP_DIV_PRED, PP_DIV_OP, (0, x, y)))</span>
@@ -3085,26 +3100,26 @@
 </code></pre></div>
 <p>La division utilise <code>PP_LESS_EQUAL</code>, la boucle continue uniquement si <code>y &lt;= x</code>.</p>
 <h4 id="structure-de-donnees">Structure de données</h4>
-<p>Hong peut aussi avoir des structures de données, en fait nous avons utilisé légèrement une structure de données <code>tuple</code> précédemment, <code>PP_REMOVE_PARENS</code> peut enlever les parenthèses extérieures du <code>tuple</code>, et renvoyer les éléments à l'intérieur. Nous prenons le <code>tuple</code> comme exemple pour discuter de sa mise en œuvre, les autres structures de données comme <code>list, array</code>, etc. peuvent être explorées dans les implémentations de <code>Boost</code>.</p>
-<p>Le terme <code>tuple</code> est défini comme un ensemble d'éléments séparés par des virgules et enveloppés entre parenthèses : <code>(a, b, c)</code>.</p>
+<p>Hong peut aussi avoir des structures de données, en fait nous avons déjà utilisé légèrement une structure de données appelée <code>tuple</code> précédemment, <code>PP_REMOVE_PARENS</code> permet de supprimer les parenthèses extérieures du <code>tuple</code> pour renvoyer les éléments à l'intérieur. Nous allons utiliser le <code>tuple</code> comme exemple pour discuter de sa mise en œuvre, pour d'autres structures de données comme les listes, les tableaux, etc., vous pouvez consulter les implémentations de <code>Boost</code> qui pourraient vous intéresser.</p>
+<p>Un <code>tuple</code> est défini comme un ensemble d'éléments séparés par des virgules et entourés de parenthèses : <code>(a, b, c)</code>.</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="cp">#define PP_TUPLE_REMOVE_PARENS(tuple) PP_REMOVE_PARENS(tuple)</span>
 <a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>
-<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="n">Obtenir</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">élément</span><span class="w"> </span><span class="n">à</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">index</span><span class="w"> </span><span class="n">spécifié</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="n">Obtenir</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">élément</span><span class="w"> </span><span class="n">à</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">index</span><span class="w"> </span><span class="n">spécifié</span><span class="p">.</span>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="cp">#define PP_TUPLE_ELEM(i, tuple) PP_ARGS_ELEM(i, PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="n">Avalez</span><span class="w"> </span><span class="n">tout</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">tuple</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">retournes</span><span class="w"> </span><span class="n">vide</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="n">Dévorer</span><span class="w"> </span><span class="n">tout</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">tuple</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">renvoyer</span><span class="w"> </span><span class="n">vide</span><span class="p">.</span>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="cp">#define PP_TUPLE_EAT() PP_EMPTY_EAT</span>
 <a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>
-<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="n">Obtenir</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">taille</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="c1">// Obtenir la taille</span>
 <a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="cp">#define PP_TUPLE_SIZE(tuple) PP_ARGS_SIZE(PP_TUPLE_REMOVE_PARENS(tuple))</span>
 <a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>
-<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="n">Ajouter</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">élément</span>
+<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="n">Ajouter</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">éléments</span><span class="p">.</span>
 <a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a><span class="cp">#define PP_TUPLE_PUSH_BACK(elem, tuple) \</span>
 <a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a><span class="cp">    PP_TUPLE_PUSH_BACK_IMPL(PP_TUPLE_SIZE(tuple), elem, tuple)</span>
 <a id="__codelineno-47-15" name="__codelineno-47-15" href="#__codelineno-47-15"></a><span class="cp">#define PP_TUPLE_PUSH_BACK_IMPL(size, elem, tuple) \</span>
 <a id="__codelineno-47-16" name="__codelineno-47-16" href="#__codelineno-47-16"></a><span class="cp">    (PP_TUPLE_REMOVE_PARENS(tuple) PP_IF(size, PP_COMMA, PP_EMPTY)() elem)</span>
 <a id="__codelineno-47-17" name="__codelineno-47-17" href="#__codelineno-47-17"></a>
-<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="n">Insérer</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">éléments</span>
+<a id="__codelineno-47-18" name="__codelineno-47-18" href="#__codelineno-47-18"></a><span class="c1">// Insérer des éléments</span>
 <a id="__codelineno-47-19" name="__codelineno-47-19" href="#__codelineno-47-19"></a><span class="cp">#define PP_TUPLE_INSERT(i, elem, tuple) \</span>
 <a id="__codelineno-47-20" name="__codelineno-47-20" href="#__codelineno-47-20"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
 <a id="__codelineno-47-21" name="__codelineno-47-21" href="#__codelineno-47-21"></a><span class="cp">        3, \</span>
@@ -3132,7 +3147,7 @@
 <a id="__codelineno-47-43" name="__codelineno-47-43" href="#__codelineno-47-43"></a><span class="cp">    tuple \</span>
 <a id="__codelineno-47-44" name="__codelineno-47-44" href="#__codelineno-47-44"></a><span class="cp">    )</span>
 <a id="__codelineno-47-45" name="__codelineno-47-45" href="#__codelineno-47-45"></a>
-<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="n">Supprimer</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">élément</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">fin</span><span class="p">.</span>
+<a id="__codelineno-47-46" name="__codelineno-47-46" href="#__codelineno-47-46"></a><span class="n">Supprimer</span><span class="w"> </span><span class="n">l</span><span class="err">'</span><span class="n">élément</span><span class="w"> </span><span class="n">à</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">fin</span><span class="p">.</span>
 <a id="__codelineno-47-47" name="__codelineno-47-47" href="#__codelineno-47-47"></a><span class="cp">#define PP_TUPLE_POP_BACK(tuple) \</span>
 <a id="__codelineno-47-48" name="__codelineno-47-48" href="#__codelineno-47-48"></a><span class="cp">    PP_TUPLE_ELEM( \</span>
 <a id="__codelineno-47-49" name="__codelineno-47-49" href="#__codelineno-47-49"></a><span class="cp">        1, \</span>
@@ -3197,21 +3212,23 @@
 <a id="__codelineno-47-108" name="__codelineno-47-108" href="#__codelineno-47-108"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (1, 3)</span>
 <a id="__codelineno-47-109" name="__codelineno-47-109" href="#__codelineno-47-109"></a><span class="n">PP_TUPLE_REMOVE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">   </span><span class="c1">// -&gt; (2, 3)</span>
 </code></pre></div>
-<p>Voici une brève explication sur l'implémentation de l'insertion d'éléments, les autres opérations comme la suppression d'éléments sont également réalisées selon un principe similaire. <code>PP_TUPLE_INSERT(i, elem, tuple)</code> permet d'insérer l'élément <code>elem</code> à la position <code>i</code> dans le <code>tuple</code>. Pour réaliser cette opération, on commence par ajouter tous les éléments de position inférieure à <code>i</code> dans un nouveau <code>tuple</code> (<code>ret</code>) avec <code>PP_TUPLE_PUSH_BACK</code>, puis on insère l'élément <code>elem</code> à la position <code>i</code>, enfin on place les éléments de l'<code>tuple</code> initial ayant une position supérieure ou égale à <code>i</code> à la suite de <code>ret</code>. Enfin, <code>ret</code> contiendra le résultat souhaité.</p>
+<p>Ici, je vais expliquer brièvement la mise en œuvre de l'insertion d'éléments, et d'autres opérations comme la suppression d'éléments sont également réalisées selon un principe similaire. <code>PP_TUPLE_INSERT(i, elem, tuple)</code> permet d'insérer l'élément <code>elem</code> à la position <code>i</code> dans le <code>tuple</code>. Pour accomplir cette opération, on commence par placer tous les éléments à une position inférieure à <code>i</code> dans un nouveau <code>tuple</code> (appelé <code>ret</code>) en utilisant <code>PP_TUPLE_PUSH_BACK</code>. Ensuite, on insère l'élément <code>elem</code> à la position <code>i</code>, puis on ajoute à <code>ret</code> les éléments de l'ancien <code>tuple</code> qui se trouvent à une position supérieure ou égale à <code>i</code>. Enfin, <code>ret</code> contient le résultat souhaité.</p>
 <h2 id="resume">Résumé</h2>
-<p>(https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression)Les macros liées à <code>REPEAT</code> à l'intérieur de BOOST_PP, etc., peuvent être consultées par ceux qui s'y intéressent.</p>
-<p>Le débogage de la programmation macro est une tâche laborieuse, nous pouvons :</p>
-<p>Utilisez l'option <code>-P -E</code> pour afficher les résultats du prétraitement.
-Utilisez la version modifiée de <code>clang</code> mentionnée plus tôt par moi-même pour examiner attentivement le processus de déploiement.
-Démontez les macros complexes pour examiner les résultats de leur expansion.
-Filtrer les fichiers d'en-tête et les macros non pertinents.
-Enfin, il est temps de visualiser mentalement le processus de développement des macros. Une fois que vous maîtrisez le développement des macros, votre efficacité de débogage augmentera également.</p>
-<p>Les macros dans ce texte ont été réimplémentées par moi-même après avoir compris les principes. Certaines ont été inspirées de la mise en œuvre de <code>Boost</code> et des articles référencés. Si vous repérez des erreurs, n'hésitez pas à me les signaler et à me contacter pour discuter de sujets connexes.</p>
-<p>Le code de cet article est entièrement disponible ici : <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Télécharger</a>，<a href="https://godbolt.org/z/coWvc5Pse">démonstration en ligne</a>Translate these text into French language: "."</p>
+<p>(https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression)Veuillez consulter vous-même les macros liées à <code>REPEAT</code> dans <code>BOOST_PP</code>.</p>
+<p>Le débogage de la programmation macro est un processus douloureux, nous pouvons :</p>
+<ul>
+<li>Utilisez les options <code>-P -E</code> pour afficher les résultats du prétraitement ;</li>
+<li>Étudier attentivement le processus de développement en utilisant ma version modifiée de <code>clang</code> mentionnée précédemment ;
+Décomposez les macros complexes et examinez les résultats de l'expansion des macros intermédiaires;</li>
+<li>Masquer les fichiers d'en-tête et les macros non pertinents ;
+Enfin, il faut imaginer le processus d'expansion des macros ; une fois familiarisé avec l'expansion des macros, l'efficacité du débogage sera également améliorée.</li>
+</ul>
+<p>Les macros dans cet article sont une réimplémentation personnelle que j'ai réalisée après avoir compris les principes. Certaines macros s'inspirent de l'implémentation de <code>Boost</code> et des articles référencés. Si vous remarquez des erreurs, n'hésitez pas à me corriger, et je suis également ouvert à discuter de toute question connexe.</p>
+<p>Le code de cet article est entièrement disponible ici : <a href="../../assets/img/2021-3-31-cpp-preprocess/macros.cpp">Télécharger</a>，<a href="https://godbolt.org/z/coWvc5Pse">Démonstration en ligne</a>。</p>
 <h2 id="citation">Citation</h2>
 <ul>
-<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a>
-(https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art)</li>
+<li><a href="https://www.boost.org/doc/libs/1_75_0/libs/preprocessor/doc/">Boost.Preprocessor</a></li>
+<li><a href="https://bot-man-jl.github.io/articles/?post=2020/Macro-Programming-Art">L'art de la programmation macro en C/C++</a></li>
 </ul>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -3238,7 +3255,7 @@ Enfin, il est temps de visualiser mentalement le processus de développement des
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Ce message a été traduit en utilisant ChatGPT. Veuillez donner votre <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a>Identifier tout manquement. </p>
+<p>Ce message a été traduit en utilisant ChatGPT, veuillez donner votre <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a>Signalez toute omission éventuelle. </p>
 </blockquote></div>
 
 
@@ -3262,7 +3279,7 @@ Enfin, il est temps de visualiser mentalement le processus de développement des
     <span class="md-icon" title="Dernière mise à jour">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -3307,7 +3324,7 @@ Enfin, il est temps de visualiser mentalement le processus de développement des
       <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
         
           
-          <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Résumé du traitement des arguments de ligne de commande en C/C++">
+          <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: C/C++ : résumé de la gestion des paramètres de ligne de commande">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -3317,20 +3334,20 @@ Enfin, il est temps de visualiser mentalement le processus de développement des
                 Précédent
               </span>
               <div class="md-ellipsis">
-                Résumé du traitement des arguments de ligne de commande en C/C++
+                C/C++ : résumé de la gestion des paramètres de ligne de commande
               </div>
             </div>
           </a>
         
         
           
-          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Rédiger un détecteur de fuites de mémoire pour Windows">
+          <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Rédigez un détecteur de fuites de mémoire pour Windows.">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Suivant
               </span>
               <div class="md-ellipsis">
-                Rédiger un détecteur de fuites de mémoire pour Windows
+                Rédigez un détecteur de fuites de mémoire pour Windows.
               </div>
             </div>
             <div class="md-footer__button md-icon">

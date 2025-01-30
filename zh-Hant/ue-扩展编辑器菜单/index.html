@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="記錄 UE 如何擴展編輯器選單">
+        <meta name="description" content="記錄 UE 如何擴展編輯器菜單">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>UE 擴展編輯器選單 - Disenone's Wiki</title>
+        <title>UE 擴展編輯器菜單 - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              UE 擴展編輯器選單
+              UE 擴展編輯器菜單
             
           </span>
         </div>
@@ -584,7 +584,7 @@
         
   
   <span class="md-ellipsis">
-    編寫 Windows 下的 Memory Leak Detector
+    編寫 Windows 下的記憶體洩漏檢測工具
   </span>
   
 
@@ -703,7 +703,7 @@
         
   
   <span class="md-ellipsis">
-    Python 閒談 1 - 探究 __builtins__
+    Python 杂谈 1 - 探究 __builtins__
   </span>
   
 
@@ -724,7 +724,7 @@
         
   
   <span class="md-ellipsis">
-    Python 筆記 2 - Python 3.12 熱更新
+    Python 閒談 2 - Python 3.12 熱更新
   </span>
   
 
@@ -973,7 +973,7 @@
         
   
   <span class="md-ellipsis">
-    透過插件原始碼導入UE插件
+    UE 透過插件源碼添加插件
   </span>
   
 
@@ -1003,7 +1003,7 @@
           
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1014,7 +1014,7 @@
         
   
   <span class="md-ellipsis">
-    UE 擴展編輯器選單
+    UE 擴展編輯器菜單
   </span>
   
 
@@ -1047,7 +1047,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      模塊依賴
+      模組依賴
     </span>
   </a>
   
@@ -1056,7 +1056,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      新增選單列
+      添加菜單欄
     </span>
   </a>
   
@@ -1160,7 +1160,7 @@
         
   
   <span class="md-ellipsis">
-    UE 實現各種圖片 (UTexture2D) 操作（讀取、保存、複製、剪貼簿...）
+    UE 實現各種圖片（UTexture2D）操作（讀取、保存、複製、剪貼簿...）
   </span>
   
 
@@ -1181,7 +1181,7 @@
         
   
   <span class="md-ellipsis">
-    UE 編輯器插件 UE.EditorPlus 說明文件
+    UE 編輯器插件 UE.EditorPlus 說明文檔
   </span>
   
 
@@ -1286,7 +1286,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(上)
+    Unity第三人稱相機構建(上)
   </span>
   
 
@@ -1307,7 +1307,7 @@
         
   
   <span class="md-ellipsis">
-    Unity第三人称相机构建(下)
+    Unity第三人稱相機構建(下)
   </span>
   
 
@@ -1349,7 +1349,7 @@
         
   
   <span class="md-ellipsis">
-    Unity畫深度圖（Depth Map）和邊緣檢測（Edge Detection）
+    使用Unity繪製深度圖和邊緣檢測。
   </span>
   
 
@@ -1433,7 +1433,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      模塊依賴
+      模組依賴
     </span>
   </a>
   
@@ -1442,7 +1442,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      新增選單列
+      添加菜單欄
     </span>
   </a>
   
@@ -1508,16 +1508,16 @@
 
 
 <div><p><meta property="og:title" content="UE 扩展编辑器菜单"></p>
-<h1 id="ue">UE 擴充編輯器選單</h1>
+<h1 id="ue">UE 擴展編輯器菜單</h1>
 <blockquote>
 <p>記錄 UE 如何擴展編輯器選單</p>
 </blockquote>
 <h2 id="hook">Hook</h2>
-<p>Hook 可以理解為擴展功能選單的錨點，我們可以設定新增的功能選單命令在 Hook 的前面或者後面。UE 內建的編輯器功能選單指令基本上都帶有 Hook。在 UE5 中，請打開 <code>編輯 - 編輯器偏好設定 - 通用 - 其他 - 顯示 UI 擴展點</code> 來顯示所有功能選單的 Hook:</p>
+<p>Hook 可以理解為擴展選單的錨點，我們可以在 Hook 的前面或後面設置新添加的選單命令，UE 自帶的編輯器選單命令基本都帶有 Hook，UE5 下打開 <code>編輯 - 編輯器偏好設置 - 通用 - 其他 - 顯示 UI 擴展點</code> 來顯示所有選單的 Hook：</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/show_hook2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/show_hook2.png"></a></p>
-<h2 id="_1">模塊依賴</h2>
-<p>請在專案 .Build.cs 檔案中加入所需的模組 LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus：</p>
+<h2 id="_1">模組依賴</h2>
+<p>請在專案的.Build.cs檔案裡加入依賴的模組 LevelEditor、Slate、SlateCore、EditorStyle、EditorWidgets、UnrealEd、ToolMenus：</p>
 <div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">PrivateDependencyModuleNames</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">{</span>
@@ -1534,8 +1534,8 @@
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="p">);</span>
 </code></pre></div>
-<h2 id="_2">新增選單列</h2>
-<p>請直接輸入程式碼。</p>
+<h2 id="_2">添加菜單欄</h2>
+<p>直接上程式碼</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuBarExtension</span><span class="p">(</span>
@@ -1555,7 +1555,7 @@
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">);</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">FModuleManager</span><span class="o">::</span><span class="n">LoadModuleChecked</span><span class="o">&lt;</span><span class="n">FLevelEditorModule</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"LevelEditor"</span><span class="p">).</span><span class="n">GetMenuExtensibilityManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddExtender</span><span class="p">(</span><span class="n">MenuExtender</span><span class="p">);</span>
 </code></pre></div>
-<p>執行以上程式碼可以看到在「幫助」後面加上了一個選單列 MenuTest:</p>
+<p>執行以上代碼可以看到在 幫助 後面加上了一個菜單欄 MenuTest:</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/bar.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/bar.png"></a></p>
 <h2 id="_3">新增指令</h2>
 <p>使用 <code>MenuBuilder.AddMenuEntry</code> 接口：</p>
@@ -1567,7 +1567,7 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="c1">// do action</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">})));</span>
 </code></pre></div>
-<p>將以上程式碼放入 CreateLambda 中，即可生成選單命令：</p>
+<p>將上述程式碼放入 CreateLambda 中，即可生成選單命令：</p>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/action.png"></a></p>
 <h2 id="_4">菜單分節</h2>
 <p>使用 <code>MenuBuilder.BeginSection</code> 和 <code>MenuBuilder.EndSection</code>：</p>
@@ -1580,7 +1580,7 @@
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/section%26sperator.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/section%26sperator.png"></a></p>
 <h2 id="_6">子選單</h2>
-<p>子選單類似於選單欄，需要在 Lambda 內定義：</p>
+<p>子選單類似於選單列，需在 Lambda 內定義：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddSubMenu</span><span class="p">(</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">"MenuTestSub"</span><span class="p">),</span><span class="w"> </span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">FText</span><span class="o">::</span><span class="n">FromName</span><span class="p">(</span><span class="s">"MenuTestSub"</span><span class="p">),</span><span class="w"> </span>
@@ -1595,8 +1595,8 @@
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="p">}));</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/submenu.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/submenu.png"></a></p>
-<h1 id="slateui">SlateUI 控制元件</h1>
-<p>可以新增 UI 元件：</p>
+<h1 id="slateui">SlateUI 控件</h1>
+<p>還可以添加 UI 控件：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">MenuBuilder</span><span class="p">.</span><span class="n">AddWidget</span><span class="p">(</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">SNew</span><span class="p">(</span><span class="n">SHorizontalBox</span><span class="p">)</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="n">SHorizontalBox</span><span class="o">::</span><span class="n">Slot</span><span class="p">()</span>
@@ -1623,9 +1623,9 @@
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="p">);</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/widget.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/widget.png"></a></p>
-<p>這裡不會詳細展開有關 Slate UI 的內容，如果您感興趣，可以去其他地方找文章閱讀。</p>
-<h1 id="_7">新增選單</h1>
-<p>在「工具 - 程式設計」中添加一個指令，例如：</p>
+<p>這裡不會詳細展開有關 Slate UI 的內容，如果有興趣的話，可以去尋找其他文章觀看。</p>
+<h1 id="hook_1">增加 Hook 選單</h1>
+<p>譬如在 <code>工具 - 編程</code> 裡面增加一個命令：</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">MenuExtender</span><span class="o">-&gt;</span><span class="n">AddMenuExtension</span><span class="p">(</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="s">"Programming"</span><span class="p">,</span><span class="w"> </span><span class="n">EExtensionHook</span><span class="o">::</span><span class="n">After</span><span class="p">,</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">nullptr</span><span class="p">,</span>
@@ -1641,8 +1641,8 @@
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">);</span>
 </code></pre></div>
 <p><a class="glightbox" href="../../assets/img/2023-ue-extend_menu/other_hook.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2023-ue-extend_menu/other_hook.png"></a></p>
-<p>可以新增其他種類的菜單。</p>
-<h1 id="_8">完整代碼</h1>
+<p>同樣的道理，您可以新增其他種類的菜單。</p>
+<h1 id="_7">完整代碼</h1>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">BuildTestMenu</span><span class="p">()</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">MenuExtender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeShared</span><span class="o">&lt;</span><span class="n">FExtender</span><span class="o">&gt;</span><span class="p">();</span>
@@ -1751,7 +1751,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此貼文是由 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何被忽略的地方。 </p>
+<p>此訊息是使用 ChatGPT 翻譯的，若有<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>請指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -1791,7 +1791,7 @@
       <nav class="md-footer__inner md-grid" aria-label="頁脚" >
         
           
-          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 透過插件原始碼導入UE插件">
+          <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: UE 透過插件源碼添加插件">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1801,7 +1801,7 @@
                 上一頁
               </span>
               <div class="md-ellipsis">
-                透過插件原始碼導入UE插件
+                UE 透過插件源碼添加插件
               </div>
             </div>
           </a>

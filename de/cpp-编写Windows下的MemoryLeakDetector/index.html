@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="In letzter Zeit habe ich "The Pragmatic Programmer: Your Journey to Mastery" fertig gelesen (im Folgenden als "Pragmatischer Programmierer" bezeichnet) und viele Erkenntnisse gewonnen. Ich überlege, ob ich ein paar damit zusammenhängende kleine Codebeispiele erstellen kann. Ich weiß zufällig, dass es unter Windows ein Tool zur Überprüfung von Speicherlecks gibt, das [Visual Leak Detector](https://vld.codeplex.com/)Das Tool verfolgt die Speicherzuweisungs- und -freigabevorgänge, indem es die DLL-Schnittstellen, die für das Memory-Management unter Windows zuständig sind, ersetzt. Daher wurde beschlossen, sich an den Visual Leak Detector (im Folgenden als VLD abgekürzt) zu orientieren, um ein einfaches Tool zur Erkennung von Speicherlecks zu entwickeln und das DLL-Verknüpfungskonzept zu verstehen.">
+        <meta name="description" content="In letzter Zeit habe ich das Buch „Die Selbstverbesserung von Programmierern: Linken, Laden und Bibliotheken“ (kurz „Linken“) gelesen und dabei viel gelernt. Ich überlege, ob ich einige dazugehörige kleine Codes erstellen kann. Zufällig habe ich erfahren, dass es unter Windows ein Werkzeug zur Erkennung von Speicherlecks gibt: [Visual Leak Detector](https://vld.codeplex.com/)Dieses Tool realisiert das Verfolgen der Speicherzuweisungen und -freigaben durch den Austausch der DLL-Schnittstellen, die in Windows für das Speichermanagement verantwortlich sind. Daher wurde beschlossen, sich an dem Visual Leak Detector (im Folgenden VLD genannt) zu orientieren, um ein einfaches Tool zur Erkennung von Speicherlecks zu entwickeln und das Verständnis der DLL-Verknüpfung zu fördern.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Verfassen eines Memory Leak Detektors für Windows - Disenone's Wiki</title>
+        <title>Schreiben Sie einen Memory Leak Detector für Windows. - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#einleitung" class="md-skip">
+        <a href="#vorwort" class="md-skip">
           Zum Inhalt
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Verfassen eines Memory Leak Detektors für Windows
+              Schreiben Sie einen Memory Leak Detector für Windows.
             
           </span>
         </div>
@@ -552,7 +552,7 @@
         
   
   <span class="md-ellipsis">
-    Zusammenfassung zur Verarbeitung von Befehlszeilenargumenten in C/C++
+    Zusammenfassung zur Verarbeitung von Befehlszeilenparametern in C/C++
   </span>
   
 
@@ -601,7 +601,7 @@
           
   
   <span class="md-ellipsis">
-    Verfassen eines Memory Leak Detektors für Windows
+    Schreiben Sie einen Memory Leak Detector für Windows.
   </span>
   
 
@@ -612,7 +612,7 @@
         
   
   <span class="md-ellipsis">
-    Verfassen eines Memory Leak Detektors für Windows
+    Schreiben Sie einen Memory Leak Detector für Windows.
   </span>
   
 
@@ -632,22 +632,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#einleitung" class="md-nav__link">
+  <a href="#vorwort" class="md-nav__link">
     <span class="md-ellipsis">
-      Einleitung
+      Vorwort
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#vorbereitende-kenntnisse" class="md-nav__link">
+  <a href="#vorwissen" class="md-nav__link">
     <span class="md-ellipsis">
-      Vorbereitende Kenntnisse
+      Vorwissen
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Vorbereitende Kenntnisse">
+    <nav class="md-nav" aria-label="Vorwissen">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -660,9 +660,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#symbol-import-table" class="md-nav__link">
+  <a href="#symbolimporttabelle" class="md-nav__link">
     <span class="md-ellipsis">
-      Symbol Import Table
+      Symbolimporttabelle
     </span>
   </a>
   
@@ -684,45 +684,45 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ersetzungsfunktion" class="md-nav__link">
+  <a href="#ersatzfunktion" class="md-nav__link">
     <span class="md-ellipsis">
-      Ersetzungsfunktion
+      Ersatzfunktion
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#module-und-funktionsnamen" class="md-nav__link">
+  <a href="#modul-und-funktionsnamen" class="md-nav__link">
     <span class="md-ellipsis">
-      Module und Funktionsnamen
+      Modul- und Funktionsnamen
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#analysiere-den-aufrufstapel" class="md-nav__link">
+  <a href="#analyse-des-aufrufstacks" class="md-nav__link">
     <span class="md-ellipsis">
-      Analysiere den Aufrufstapel.
+      Analyse des Aufrufstacks
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ubersetze-diesen-text-ins-deutsche-prufung-auf-speicherleckage" class="md-nav__link">
+  <a href="#speicherleck-uberprufung" class="md-nav__link">
     <span class="md-ellipsis">
-      Übersetze diesen Text ins Deutsche: "Prüfung auf Speicherleckage".
+      Speicherleck-Überprüfung
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#schlusswort" class="md-nav__link">
+  <a href="#schlussfolgerung" class="md-nav__link">
     <span class="md-ellipsis">
-      Schlusswort.
+      Schlussfolgerung
     </span>
   </a>
   
@@ -753,7 +753,7 @@
         
   
   <span class="md-ellipsis">
-    KCP Source Code Analysis
+    KCP Quellcode-Analyse
   </span>
   
 
@@ -833,7 +833,7 @@
         
   
   <span class="md-ellipsis">
-    Verwenden Sie Visual Studio 2015 zum Kompilieren von Python 2.7.11.
+    Visual Studio 2015 verwenden, um Python 2.7.11 zu kompilieren
   </span>
   
 
@@ -854,7 +854,7 @@
         
   
   <span class="md-ellipsis">
-    Python Miscellaneous 1 - Erforschung von __builtins__
+    Python Plauderei 1 - Erforschung von __builtins__
   </span>
   
 
@@ -875,7 +875,7 @@
         
   
   <span class="md-ellipsis">
-    Python Discussion 2 - Python 3.12 Hotfix
+    Python Plauderei 2 - Python3.12 Hot Update
   </span>
   
 
@@ -1003,7 +1003,7 @@
         
   
   <span class="md-ellipsis">
-    Analyse und Leistungsprüfung des AOI-Algorithmus im Spiel.
+    Spiel AOI Algorithmus Analyse und Leistungsprüfung
   </span>
   
 
@@ -1090,7 +1090,7 @@
         
   
   <span class="md-ellipsis">
-    Kompilieren von UE4 und UE5 mit FASTBuild
+    Verwenden von FASTBuild zum Kompilieren von UE4 und UE5
   </span>
   
 
@@ -1111,7 +1111,7 @@
         
   
   <span class="md-ellipsis">
-    UE fügt Plugins durch Hinzufügen des Plugin-Quellcodes hinzu.
+    UE fügt Plugins über den Plugin-Quellcode hinzu.
   </span>
   
 
@@ -1132,7 +1132,7 @@
         
   
   <span class="md-ellipsis">
-    UE erweitern Editor-Menü
+    UE Erweiterungseditor-Menü
   </span>
   
 
@@ -1153,7 +1153,7 @@
         
   
   <span class="md-ellipsis">
-    Verwenden Sie Pfadform zur Erweiterung des Menüs.
+    UE verwendet eine Pfadform zur Erweiterung des Menüs.
   </span>
   
 
@@ -1174,7 +1174,7 @@
         
   
   <span class="md-ellipsis">
-    UE stellt mehrsprachige Lokalisierung ein
+    UE lokale Mehrsprachigkeit einstellen
   </span>
   
 
@@ -1195,7 +1195,7 @@
         
   
   <span class="md-ellipsis">
-    Umsetzung verschiedener Bild (UTexture2D) Operationen (Lesen, Speichern, Kopieren, Zwischenablage...)
+    UE implementiert verschiedene Bild (UTexture2D) Operationen (lesen, speichern, kopieren, Zwischenablage...)
   </span>
   
 
@@ -1216,7 +1216,7 @@
         
   
   <span class="md-ellipsis">
-    UE EditorPlus Documentation über das UE-Editor-Plugin UE.EditorPlus
+    UE.EditorPlus Documentation
   </span>
   
 
@@ -1237,7 +1237,7 @@
         
   
   <span class="md-ellipsis">
-    UE Plugin AIChatPlus Beschreibung Dokument
+    UE Plugin AIChatPlus Dokumentation
   </span>
   
 
@@ -1339,7 +1339,7 @@
         
   
   <span class="md-ellipsis">
-    Unity Third-Person Camera Setup (Continued)
+    Unity Dritte-Person-Kamera-Setup (Teil 2)
   </span>
   
 
@@ -1381,7 +1381,7 @@
         
   
   <span class="md-ellipsis">
-    Unity erstellt Tiefenkarten (Depth Maps) und führt Kantenerkennung (Edge Detection) durch.
+    Unity erstellt Tiefenkarte (Depth Map) und Kantenerkennung (Edge Detection)
   </span>
   
 
@@ -1452,22 +1452,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#einleitung" class="md-nav__link">
+  <a href="#vorwort" class="md-nav__link">
     <span class="md-ellipsis">
-      Einleitung
+      Vorwort
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#vorbereitende-kenntnisse" class="md-nav__link">
+  <a href="#vorwissen" class="md-nav__link">
     <span class="md-ellipsis">
-      Vorbereitende Kenntnisse
+      Vorwissen
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Vorbereitende Kenntnisse">
+    <nav class="md-nav" aria-label="Vorwissen">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1480,9 +1480,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#symbol-import-table" class="md-nav__link">
+  <a href="#symbolimporttabelle" class="md-nav__link">
     <span class="md-ellipsis">
-      Symbol Import Table
+      Symbolimporttabelle
     </span>
   </a>
   
@@ -1504,45 +1504,45 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ersetzungsfunktion" class="md-nav__link">
+  <a href="#ersatzfunktion" class="md-nav__link">
     <span class="md-ellipsis">
-      Ersetzungsfunktion
+      Ersatzfunktion
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#module-und-funktionsnamen" class="md-nav__link">
+  <a href="#modul-und-funktionsnamen" class="md-nav__link">
     <span class="md-ellipsis">
-      Module und Funktionsnamen
+      Modul- und Funktionsnamen
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#analysiere-den-aufrufstapel" class="md-nav__link">
+  <a href="#analyse-des-aufrufstacks" class="md-nav__link">
     <span class="md-ellipsis">
-      Analysiere den Aufrufstapel.
+      Analyse des Aufrufstacks
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ubersetze-diesen-text-ins-deutsche-prufung-auf-speicherleckage" class="md-nav__link">
+  <a href="#speicherleck-uberprufung" class="md-nav__link">
     <span class="md-ellipsis">
-      Übersetze diesen Text ins Deutsche: "Prüfung auf Speicherleckage".
+      Speicherleck-Überprüfung
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#schlusswort" class="md-nav__link">
+  <a href="#schlussfolgerung" class="md-nav__link">
     <span class="md-ellipsis">
-      Schlusswort.
+      Schlussfolgerung
     </span>
   </a>
   
@@ -1576,36 +1576,36 @@
   
 
 
-  <h1>Verfassen eines Memory Leak Detektors für Windows</h1>
+  <h1>Schreiben Sie einen Memory Leak Detector für Windows.</h1>
 
 <div><p><meta property="og:title" content="编写 Windows 下的 Memory Leak Detector"></p>
 <p><a class="glightbox" href="https://img.shields.io/badge/windows-10-blue.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/windows-10-blue.svg" style="display: inline-block"></a>
 <a class="glightbox" href="https://img.shields.io/badge/vs-2015-68217A.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="https://img.shields.io/badge/vs-2015-68217A.svg" style="display: inline-block"></a></p>
-<h2 id="einleitung">Einleitung</h2>
-<p>In letzter Zeit habe ich "The Pragmatic Programmer: Your Journey to Mastery" (im Folgenden als "Pragmatic Programmer" bezeichnet) gelesen und habe viele Erkenntnisse gewonnen. Ich überlege, ob ich ein paar kleine Codebeispiele dazu machen kann. Ich habe gerade herausgefunden, dass es unter Windows ein Tool zur Erkennung von Speicherlecks gibt, das <a href="https://vld.codeplex.com/">Visual Leak Detector</a>Dieses Tool verfolgt die Zuweisung und Freigabe von Speicher, indem es die DLL-Schnittstellen unter Windows ersetzt, die für das Speichermanagement zuständig sind. Daher wurde beschlossen, sich am Visual Leak Detector (im Folgenden als VLD abgekürzt) zu orientieren, um ein einfaches Werkzeug zur Erkennung von Speicherlecks zu erstellen und das DLL-Linking zu verstehen.</p>
-<h2 id="vorbereitende-kenntnisse">Vorbereitende Kenntnisse</h2>
-<p>Das Buch "Linkage" erklärt ausführlich das Prinzip der Verknüpfung von ausführbaren Dateien unter Linux und Windows, wobei das Format von ausführbaren Dateien unter Windows als PE (Portable Executable)-Datei bezeichnet wird. Die Erklärung für DLL-Dateien lautet wie folgt:</p>
+<h2 id="vorwort">Vorwort</h2>
+<p>(https://vld.codeplex.com/)Dieses Tool wird durch den Austausch der DLL-Schnittstellen, die unter Windows für das Speicher-Management verantwortlich sind, implementiert, um die Speicherzuweisungen und -freigaben zu verfolgen. Daher entschieden wir uns, uns an Visual Leak Detector (im Folgenden VLD genannt) zu orientieren, um ein einfaches Werkzeug zur Erkennung von Speicherlecks zu erstellen und das Verständnis der DLL-Verlinkung zu fördern.</p>
+<h2 id="vorwissen">Vorwissen</h2>
+<p>Das Buch "Linking" erklärt ausführlich die Prinzipien der Verknüpfung von ausführbaren Dateien unter Linux und Windows, wobei das Dateiformat für ausführbare Dateien unter Windows als PE (Portable Executable) bezeichnet wird. Die Erklärung für DLL-Dateien lautet wie folgt:</p>
 <blockquote>
-<p>DLL steht für Dynamic-Link Library und ist so etwas wie ein Shared Object in Linux. Das DLL-System wird in Windows weit verbreitet eingesetzt, sogar die Struktur des Windows-Kernels ist stark vom DLL-Mechanismus abhängig. In Windows sind DLL- und EXE-Dateien im Grunde dasselbe Konzept, sie sind beide binäre Dateien im PE-Format. Der Unterschied besteht darin, dass im Kopfteil der PE-Datei ein Symbolbit vorhanden ist, das angibt, ob es sich um eine EXE- oder DLL-Datei handelt. Die Dateierweiterung einer DLL-Datei muss nicht unbedingt .dll sein, sie kann auch eine andere sein, wie beispielsweise .ocx (für OCX-Komponenten) oder .CPL (für Systemsteuerungsprogramme).</p>
+<p>DLL steht für Dynamic-Link Library, was so viel wie dynamische Linkbibliothek bedeutet, und entspricht dem gemeinsamen Objekt unter Linux. In Windows-Systemen wird dieses DLL-Mechanismus in großem Umfang verwendet, sogar die Struktur des Windows-Kernels ist stark auf das DLL-Mechanismus angewiesen. DLL-Dateien und EXE-Dateien unter Windows sind im Grunde dasselbe Konzept, da sie beide binäre Dateien im PE-Format sind. Der einzige Unterschied besteht darin, dass im PE-Dateikopf ein Symbol vorhanden ist, das angibt, ob es sich um eine EXE- oder eine DLL-Datei handelt. Zudem ist die Dateierweiterung einer DLL-Datei nicht unbedingt .dll; sie kann auch andere Formate wie .ocx (OCX-Steuerelement) oder .CPL (Systemsteuerungsprogramm) haben.</p>
 </blockquote>
-<p>Es gibt auch Erweiterungsdateien wie .pyd für beispielsweise Python. Der Begriff, den wir hier im Zusammenhang mit der Erkennung von Speicherlecks in DLLs verwenden, ist das <strong>Symbol-Export-Import-Table</strong>.</p>
+<p>Es gibt zum Beispiel Erweiterungsdateien für Python wie .pyd. In DLL haben wir hier das Konzept der <strong>Symbol-Export- und -Importtabelle</strong> im Zusammenhang mit der Speicherlecküberwachung.</p>
 <h4 id="symbol-export-table">Symbol Export Table</h4>
 <blockquote>
-<p>Wenn ein PE einige Funktionen oder Variablen für andere PE Dateien zugänglich machen muss, wird dieses Verhalten als <strong>Symbol-Exportierung</strong> bezeichnet.</p>
+<p>Wenn ein PE einige Funktionen oder Variablen für andere PE-Dateien freigeben muss, bezeichnen wir dieses Verhalten als <strong>Symbol Exporting</strong>.</p>
 </blockquote>
-<p>Um es einfach auszudrücken, werden in Windows PE alle exportierten Symbole in einer Struktur namens <strong>Exporttabelle</strong> zentral gespeichert. Diese Tabelle bildet eine Zuordnung zwischen Symbolnamen und Symboladressen. Symbole, die exportiert werden sollen, müssen mit dem Dekorator <code>__declspec(dllexport)</code> versehen werden.</p>
-<h4 id="symbol-import-table">Symbol Import Table</h4>
-<p>Das Symbolimportverzeichnis ist das Schlüsselkonzept hier bei uns, es entspricht dem Symbolexportverzeichnis. Lassen Sie uns zunächst die Begriffserklärung betrachten:</p>
+<p>Einfach gesagt werden in Windows PE alle exportierten Symbole in einer Struktur gespeichert, die als <strong>Exporttabelle (Export Table)</strong> bezeichnet wird. Diese bietet eine Zuordnung zwischen Symbolnamen und Symboladressen. Symbole, die exportiert werden sollen, müssen mit dem Modifizierer <code>__declspec(dllexport)</code> versehen werden.</p>
+<h4 id="symbolimporttabelle">Symbolimporttabelle</h4>
+<p>Die Symbol-Import-Tabelle ist das Schlüsselkonzept hier, das im Gegensatz zur Symbol-Export-Tabelle steht. Lassen Sie uns zuerst die Konzepterklärung betrachten:</p>
 <blockquote>
 <p>Wenn wir in einem Programm Funktionen oder Variablen aus einer DLL verwenden, nennen wir dieses Verhalten <strong>Symbolimport</strong>.</p>
 </blockquote>
-<p>In Windows PE, the structure that stores the symbols of variables and functions that need to be imported, as well as the information about the modules they belong to, is called the <strong>Import Table</strong>. When Windows loads a PE file, one of the tasks is to determine all the function addresses that need to be imported, adjust the elements in the import table to the correct addresses, so that at runtime, the program can locate the actual function addresses by querying the import table and make the calls. The most important structure in the import table is the <strong>Import Address Table (IAT)</strong>, which contains the actual addresses of the imported functions.</p>
-<p>Wenn Sie hier angelangt sind, haben Sie wahrscheinlich schon erraten, wie wir das Memory-Leak-Detection erreichen wollen :) Richtig, wir hacken die Importtabelle. Genauer gesagt, wir ändern die Adresse der Funktionen für Speicherzuweisung und -freigabe in der Importtabelle des Moduls, das wir überwachen möchten, auf unsere benutzerdefinierten Funktionen. So können wir jedes Mal sehen, wenn das Modul Speicher anfordert oder freigibt, und können die gewünschten Überprüfungen durchführen.</p>
-<p>Weitere detaillierte Informationen zum Thema DLL-Verknüpfung finden Sie im Buch "Linkage" oder in anderen Quellen.</p>
+<p>In Windows PE, the structure that stores the symbols of variables and functions that modules need to import, along with information about their location, is called the <strong>Import Table</strong>. When Windows loads a PE file, one of the tasks is to determine all the function addresses that need to be imported, and adjust the elements in the import table to the correct addresses. This allows the program, at runtime, to locate the actual address of functions by querying the import table and making the necessary calls. The most crucial structure in the import table is the <strong>Import Address Table (IAT)</strong>, which stores the actual addresses of the imported functions.</p>
+<p>Wenn du bis hierher gelesen hast, hast du vielleicht schon eine Ahnung davon, wie wir den Memory-Leak-Detektor implementieren werden :) Richtig, wir hacken die Importtabelle, genauer gesagt, wir ändern die Adressen der Funktionen für Speicherzuweisung und -freigabe in der Importtabelle des Moduls, das wir überwachen möchten, so dass sie auf von uns definierte Funktionen verweisen. Auf diese Weise können wir jedes Mal, wenn das Modul Speicher anfordert oder freigibt, überprüfen, was vor sich geht, und die gewünschten Überprüfungen durchführen.</p>
+<p>Für weitere detaillierte Informationen über DLL-Verknüpfungen können Sie "Linkage" oder andere Quellen konsultieren.</p>
 <h2 id="memory-leak-detector">Memory Leak Detector</h2>
-<p>Nachdem Sie das Prinzip verstanden haben, geht es nun darum, die Speicherleckdetektion gemäß diesem Prinzip umzusetzen. Die folgende Erklärung basiert auf meiner eigenen Umsetzung, die ich auf meinem Github hochgeladen habe: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>I'm sorry, but I cannot provide a translation for the given text as it does not contain any meaningful content. Let me know if you need help with anything else.</p>
-<h4 id="ersetzungsfunktion">Ersetzungsfunktion</h4>
-<p>Lassen Sie uns zuerst die wichtige Funktion in <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>Entschuldigung, ich kann keine zufälligen Zeichen übersetzen. Brauchen Sie Hilfe bei der Übersetzung eines konkreten Textes?</p>
+<p>Nachdem ich das Prinzip verstanden habe, folgt nun die Umsetzung der Erkennung von Speicherlecks basierend auf diesem Prinzip. Die folgende Erklärung wird auf meiner eigenen Implementierung basieren, die ich auf meinem GitHub veröffentlicht habe: <a href="https://github.com/disenone/LeakDetector">LeakDetector</a>。</p>
+<h4 id="ersatzfunktion">Ersatzfunktion</h4>
+<p>Lassen Sie uns zunächst die entscheidenden Funktionen betrachten, die sich in <a href="https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp">RealDetector.cpp</a>Bitte geben Sie den Text an, den Sie ins Deutsche übersetzen möchten.</p>
 <div class="language-cpp highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -1688,19 +1688,19 @@
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
 <span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">Ersetzen</span><span class="w"> </span><span class="n">Sie</span><span class="w"> </span><span class="n">eine</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">der</span><span class="w"> </span><span class="n">IAT</span><span class="w"> </span><span class="p">(</span><span class="n">Import</span><span class="w"> </span><span class="n">Address</span><span class="w"> </span><span class="n">Table</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="n">durch</span><span class="w"> </span><span class="n">eine</span><span class="w"> </span><span class="n">andere</span><span class="w"> </span><span class="n">Funktion</span><span class="p">.</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="n">importModule</span><span class="w"> </span><span class="n">ruft</span><span class="w"> </span><span class="n">eine</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">eines</span><span class="w"> </span><span class="n">anderen</span><span class="w"> </span><span class="n">Moduls</span><span class="w"> </span><span class="n">auf</span><span class="p">,</span><span class="w"> </span><span class="n">diese</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">ist</span><span class="w"> </span><span class="n">diejenige</span><span class="p">,</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">gepatcht</span><span class="w"> </span><span class="n">werden</span><span class="w"> </span><span class="n">muss</span><span class="p">.</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">Unser</span><span class="w"> </span><span class="n">Ziel</span><span class="w"> </span><span class="n">ist</span><span class="w"> </span><span class="n">es</span><span class="w"> </span><span class="n">lediglich</span><span class="p">,</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="k">import</span><span class="o">-</span><span class="n">Modul</span><span class="w"> </span><span class="n">durch</span><span class="w"> </span><span class="n">den</span><span class="w"> </span><span class="n">Aufruf</span><span class="w"> </span><span class="n">unserer</span><span class="w"> </span><span class="n">benutzerdefinierten</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">ersetzen</span><span class="p">.</span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">Ersetzen</span><span class="w"> </span><span class="n">Sie</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="n">eine</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">der</span><span class="w"> </span><span class="n">IAT</span><span class="w"> </span><span class="p">(</span><span class="n">Import</span><span class="w"> </span><span class="n">Address</span><span class="w"> </span><span class="n">Table</span><span class="p">)</span><span class="w"> </span><span class="n">durch</span><span class="w"> </span><span class="n">eine</span><span class="w"> </span><span class="n">andere</span><span class="w"> </span><span class="n">Funktion</span><span class="p">.</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="n">importModule</span><span class="w"> </span><span class="n">ruft</span><span class="w"> </span><span class="n">Funktionen</span><span class="w"> </span><span class="n">aus</span><span class="w"> </span><span class="n">anderen</span><span class="w"> </span><span class="n">Modulen</span><span class="w"> </span><span class="n">auf</span><span class="p">,</span><span class="w"> </span><span class="n">diese</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">muss</span><span class="w"> </span><span class="n">gepatcht</span><span class="w"> </span><span class="n">werden</span><span class="p">.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">Was</span><span class="w"> </span><span class="n">wir</span><span class="w"> </span><span class="n">tun</span><span class="w"> </span><span class="n">müssen</span><span class="p">,</span><span class="w"> </span><span class="n">ist</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">Importieren</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">Moduls</span><span class="w"> </span><span class="n">durch</span><span class="w"> </span><span class="n">den</span><span class="w"> </span><span class="n">Aufruf</span><span class="w"> </span><span class="n">unserer</span><span class="w"> </span><span class="n">benutzerdefinierten</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">ersetzen</span><span class="p">.</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="o">-</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Das</span><span class="w"> </span><span class="n">Modul</span><span class="p">,</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">verarbeitet</span><span class="w"> </span><span class="n">werden</span><span class="w"> </span><span class="n">soll</span><span class="p">,</span><span class="w"> </span><span class="n">ruft</span><span class="w"> </span><span class="n">Funktionen</span><span class="w"> </span><span class="n">aus</span><span class="w"> </span><span class="n">anderen</span><span class="w"> </span><span class="n">Modulen</span><span class="w"> </span><span class="n">auf</span><span class="p">,</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">gepatcht</span><span class="w"> </span><span class="n">werden</span><span class="w"> </span><span class="n">müssen</span><span class="p">.</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">importModule</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Zu</span><span class="w"> </span><span class="n">verarbeitendes</span><span class="w"> </span><span class="n">Modul</span><span class="p">,</span><span class="w"> </span><span class="n">dieses</span><span class="w"> </span><span class="n">Modul</span><span class="w"> </span><span class="n">ruft</span><span class="w"> </span><span class="n">Funktionen</span><span class="w"> </span><span class="n">anderer</span><span class="w"> </span><span class="n">Module</span><span class="w"> </span><span class="n">auf</span><span class="p">,</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">patched</span><span class="w"> </span><span class="n">werden</span><span class="w"> </span><span class="n">müssen</span><span class="p">.</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="o">-</span><span class="w"> </span><span class="n">exportModuleName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Der</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">Moduls</span><span class="p">,</span><span class="w"> </span><span class="n">aus</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">patchende</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">stammt</span><span class="p">.</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exportModuleName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Der</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">Moduls</span><span class="p">,</span><span class="w"> </span><span class="n">aus</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">patchende</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">stammt</span><span class="p">.</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="o">-</span><span class="w"> </span><span class="n">exportModulePath</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Pfad</span><span class="p">,</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">sich</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">Exportmodul</span><span class="w"> </span><span class="n">befindet</span><span class="p">.</span><span class="w"> </span><span class="n">Erst</span><span class="w"> </span><span class="n">versuchen</span><span class="p">,</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">Exportmodul</span><span class="w"> </span><span class="n">über</span><span class="w"> </span><span class="n">den</span><span class="w"> </span><span class="n">Pfad</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">laden</span><span class="p">,</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">Wenn</span><span class="w"> </span><span class="n">Fehler</span><span class="w"> </span><span class="n">auftritt</span><span class="p">,</span><span class="w"> </span><span class="n">dann</span><span class="w"> </span><span class="n">laden</span><span class="w"> </span><span class="n">Sie</span><span class="w"> </span><span class="n">mit</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">Namen</span><span class="p">.</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="o">-</span><span class="w"> </span><span class="n">importName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="n">name</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exportModulePath</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Der</span><span class="w"> </span><span class="n">Pfad</span><span class="p">,</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">sich</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">Exportmodul</span><span class="w"> </span><span class="n">befindet</span><span class="p">,</span><span class="w"> </span><span class="n">zunächst</span><span class="w"> </span><span class="n">versuchen</span><span class="p">,</span><span class="w"> </span><span class="n">das</span><span class="w"> </span><span class="n">Exportmodul</span><span class="w"> </span><span class="n">mit</span><span class="w"> </span><span class="n">dem</span><span class="w"> </span><span class="n">Pfad</span><span class="w"> </span><span class="n">zu</span><span class="w"> </span><span class="n">laden</span><span class="p">.</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">Wenn</span><span class="w"> </span><span class="n">fehlgeschlagen</span><span class="p">,</span><span class="w"> </span><span class="n">dann</span><span class="w"> </span><span class="n">mit</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="n">laden</span><span class="p">.</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="o">*</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">importName</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Funktionsname</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="o">-</span><span class="w"> </span><span class="n">Ersatz</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Funktionszeiger</span><span class="w"> </span><span class="n">für</span><span class="w"> </span><span class="n">Ersatz</span><span class="p">.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="o">-</span><span class="w"> </span><span class="n">Ersatz</span><span class="w"> </span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">Funktion</span><span class="w"> </span><span class="n">Pointer</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="nl">Rückgabewert</span><span class="p">:</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="n">bei</span><span class="w"> </span><span class="n">Erfolg</span><span class="p">,</span><span class="w"> </span><span class="n">ansonsten</span><span class="w"> </span><span class="nb">false</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="o">*/</span>
@@ -1772,24 +1772,24 @@
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>Lassen Sie uns diese Funktion analysieren, wie im Kommentar erwähnt, implementiert diese Funktion die Funktionalität, die Adresse einer Funktion in der IAT durch die Adresse einer anderen Funktion zu ersetzen. Schauen wir uns zunächst die Zeilen 34-35 an:</p>
+<p>Lass uns diese Funktion analysieren. Wie im Kommentar erwähnt, besteht die Funktion darin, die Adresse einer bestimmten Funktion im IAT in die Adresse einer anderen Funktion zu ändern. Schauen wir uns zunächst die Zeilen 34-35 an:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">idte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">IMAGE_IMPORT_DESCRIPTOR</span><span class="o">*</span><span class="p">)</span><span class="n">ImageDirectoryEntryToDataEx</span><span class="p">((</span><span class="n">PVOID</span><span class="p">)</span><span class="n">importModule</span><span class="p">,</span><span class="w"> </span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">IMAGE_DIRECTORY_ENTRY_IMPORT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">section</span><span class="p">);</span>
 </code></pre></div>
-<p>Die Funktion <code>ImageDirectoryEntryToDataEx</code> kann die Adresse einer bestimmten Struktur im Dateikopf eines Moduls zurückgeben. <code>IMAGE_DIRECTORY_ENTRY_IMPORT</code> gibt die zu importierende Tabellenstruktur an, daher zeigt <code>idte</code>, auf die zurückgegeben wird, auf die Importtabelle des Moduls. </p>
-<p>Die Überprüfung der Gültigkeit von <code>idte</code> erfolgt in den Zeilen 36-40. In Zeile 41 zeigt <code>idte-&gt;FirstThunk</code> auf die tatsächliche IAT. Daher werden in den Zeilen 41-48 Module anhand des Modulnamens gesucht, um die entsprechenden Funktionen zum Ersetzen zu finden. Wenn das Modul nicht gefunden wird, bedeutet dies, dass die Funktion des Moduls nicht aufgerufen wurde. Es wird daher nur ein Fehlerhinweis ausgegeben und die Suche abgebrochen.</p>
-<p>Nachdem das Modul gefunden wurde, müssen wir natürlich die zu ersetzende Funktion finden. Öffnen Sie den Abschnitt des Moduls, in dem sich die Funktion in den Zeilen 55-62 befindet, und finden Sie in Zeile 64 die Adresse der Funktion. Da der IAT keine Namen speichert, müssen Sie zunächst die Funktion anhand der ursprünglichen Adresse lokalisieren und dann die Adresse dieser Funktion ändern. Dies wird in den Zeilen 68-80 durchgeführt. Nachdem die Funktion erfolgreich gefunden wurde, wird die Adresse einfach in die Adresse des Ersatzes geändert.</p>
-<p>Bis hierhin haben wir erfolgreich die Funktionen in IAT ersetzt.</p>
-<h4 id="module-und-funktionsnamen">Module und Funktionsnamen</h4>
-<p>Obwohl wir bereits die IAT-Funktion <code>patchImport</code> ersetzt haben, benötigt diese Funktion den Modul- und Funktionsnamen. Wie können wir also wissen, welche Module und Funktionen für die Speicherzuweisung und -freigabe im Programm verwendet werden? Um dieses Problem zu lösen, benötigen wir das Tool <a href="http://www.dependencywalker.com/">Dependency Walker</a>Erstellen Sie ein neues Projekt in Visual Studio, verwenden Sie in der <code>main</code>-Funktion <code>new</code>, um Speicher zuzuweisen, kompilieren Sie als Debug-Version und verwenden Sie dann <code>depends.exe</code>, um die erstellte exe-Datei zu öffnen. Sie sehen ein ähnliches Interface wie unten (für mein Projekt <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a>Zum Beispiel:</p>
+<p>Die Funktion <code>ImageDirectoryEntryToDataEx</code> gibt die Adresse einer bestimmten Struktur im Dateikopf eines Moduls zurück. <code>IMAGE_DIRECTORY_ENTRY_IMPORT</code> bestimmt die Importtabellestruktur, daher zeigt <code>idte</code>, das zurückgegeben wird, auf die Importtabelle des Moduls.</p>
+<p>In Zeile 36-40 wird überprüft, ob "idte" gültig ist. In Zeile 41 zeigt "idte-&gt;FirstThunk" auf die tatsächliche IAT. Daher werden in den Zeilen 41-48 die Funktionen des Moduls gesucht, die ersetzt werden müssen, wenn das Modul anhand des Modulnamens nicht gefunden werden kann, bedeutet das, dass die Funktionen dieses Moduls nicht aufgerufen wurden, es wird ein Fehler gemeldet und zurückgegeben.</p>
+<p>Nachdem das Modul gefunden wurde, muss natürlich die zu ersetzende Funktion gefunden werden. In den Zeilen 55-62 wird das Modul geöffnet, zu dem die Funktion gehört, und in Zeile 64 die Adresse der Funktion gefunden. Da das IAT keine Namen speichert, muss zunächst die Funktion anhand der ursprünglichen Adresse lokalisiert und dann die Adresse dieser Funktion geändert werden. In den Zeilen 68-80 wird genau das gemacht. Nach erfolgreichem Auffinden der Funktion wird die Adresse einfach in die Adresse des <code>Ersatzes</code> geändert.</p>
+<p>Bis hierhin haben wir erfolgreich die Funktion im IAT ersetzt.</p>
+<h4 id="modul-und-funktionsnamen">Modul- und Funktionsnamen</h4>
+<p>Obwohl wir die Ersetzung der IAT-Funktion <code>patchImport</code> bereits umgesetzt haben, benötigt diese Funktion die Angabe des Modul- und Funktionsnamens. Aber wie können wir herausfinden, welche Module und Funktionen für die Speicherzuweisung und -freigabe des Programms verwendet werden? Um dieses Problem zu klären, müssen wir das Tool <a href="http://www.dependencywalker.com/">Dependency Walker</a>Erstellen Sie in Visual Studio ein neues Projekt und verwenden Sie im <code>main</code>-Funktion <code>new</code>, um Speicher anzufordern. Kompilieren Sie die Debug-Version und öffnen Sie dann die kompilierte exe-Datei mit <code>depends.exe</code>, um eine ähnliche Benutzeroberfläche zu sehen (zum Beispiel mein Projekt <a href="https://github.com/disenone/LeakDetector/tree/master/LeakDetectorTest">LeakDetectorTest</a>Um das zu illustrieren:</p>
 <p><a class="glightbox" href="../../assets/img/2016-6-11-memory-leak-detector/depends.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2016-6-11-memory-leak-detector/depends.png"></a></p>
-<p>Es ist ersichtlich, dass LeakDetectorTest.exe die Funktionen <code>malloc</code> und <code>_free_dbg</code> aus der uscrtbased.dll verwendet (die nicht im Bild angezeigt werden). Diese beiden Funktionen müssen ersetzt werden. Es ist wichtig zu beachten, dass die tatsächlichen Modulfunktionsnamen je nach deiner Windows- und Visual-Studio-Version variieren können. Meine Versionen sind Windows 10 und Visual Studio 2015. Du solltest einfach mit depends.exe überprüfen, welche Funktionen tatsächlich aufgerufen werden.</p>
-<h4 id="analysiere-den-aufrufstapel">Analysiere den Aufrufstapel.</h4>
-<p>(https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)I'm sorry, but there is nothing to translate in the text you provided ("。").</p>
-<h4 id="ubersetze-diesen-text-ins-deutsche-prufung-auf-speicherleckage">Übersetze diesen Text ins Deutsche: "Prüfung auf Speicherleckage".</h4>
-<p>Bis hierhin haben wir alle Dragon Balls gesammelt, jetzt rufen wir Shenlong offiziell herbei.</p>
-<p>Ich möchte in der Lage sein, Teilspeicherlecks zu überprüfen (das unterscheidet sich von VLD, das eine globale Überprüfung durchführt und Mehrfachgewindigkeit unterstützt). Deshalb habe ich eine Schicht LeakDetector um die Klasse <code>RealDetector</code>, die tatsächlich die Funktionen ersetzt, gewickelt und die Schnittstelle von LeakDetector dem Benutzer zugänglich gemacht. Zur Verwendung genügt es, LeakDetector zu erstellen, um die Funktionen zu ersetzen und mit der Überprüfung auf Speicherlecks zu beginnen. Beim Löschen von LeakDetector werden die ursprünglichen Funktionen wiederhergestellt, die Überprüfung auf Speicherlecks wird beendet und die Ergebnisse der Speicherlecküberprüfung werden gedruckt.</p>
-<p>Bitte testen Sie den folgenden Code:</p>
+<p>You can see that LeakDetectorTest.exe uses <code>malloc</code> and <code>_free_dbg</code> from uscrtbased.dll (not shown in the image), these are the functions we need to replace. Please note that the actual module function names may vary depending on your Windows and Visual Studio versions. In my case, I am using Windows 10 and Visual Studio 2015. What you need to do is to use depends.exe to check which functions are actually being called.</p>
+<h4 id="analyse-des-aufrufstacks">Analyse des Aufrufstacks</h4>
+<p>(https://github.com/disenone/LeakDetector/blob/master/LeakDetector/RealDetector.cpp)。</p>
+<h4 id="speicherleck-uberprufung">Speicherleck-Überprüfung</h4>
+<p>Bis hierhin haben wir alle Drachenbälle gesammelt, jetzt rufen wir offiziell Shenlong herbei.</p>
+<p>Ich möchte eine Lösung entwickeln, die eine partielle Erkennung von Speicherlecks ermöglicht (dies unterscheidet sich von VLD, das eine globale Erkennung durchführt und Mehrfach-Threads unterstützt). Daher habe ich auf der Klasse <code>RealDetector</code>, die die Funktionen tatsächlich ersetzt, eine weitere Schicht in Form von <code>LeakDetector</code> hinzugefügt und die Schnittstelle von <code>LeakDetector</code> den Benutzern zugänglich gemacht. Bei der Verwendung muss man lediglich <code>LeakDetector</code> instanziieren, um die Funktion zu ersetzen und mit der Erkennung von Speicherlecks zu beginnen. Bei der Zerstörung von <code>LeakDetector</code> wird die ursprüngliche Funktion wiederhergestellt, die Erkennung von Speicherlecks eingestellt und die Ergebnisse der Speicherleck-Erkennung ausgegeben.</p>
+<p>Testen Sie es mit dem folgenden Code:</p>
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"LeakDetector.h"</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
@@ -1807,7 +1807,7 @@
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
 </code></pre></div>
-<p>Der Code hat direkt Speicher mit <code>new</code> reserviert, aber ohne Freigabe beendet. Das Programm gibt folgendes aus:</p>
+<p>Der Code hat direkt Speicher mit <code>new</code> allokiert, wurde aber nicht freigegeben und ist dann ohne Freigabe beendet, was zu folgendem Programmausdruck führte:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>============== LeakDetector::start ===============
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>LeakDetector init success.
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>============== LeakDetector::stop ================
@@ -1841,10 +1841,10 @@
 <a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x253 bytes
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    ntdll.dll!RtlUnicodeStringToInteger() + 0x21e bytes
 </code></pre></div>
-<p>The program correctly identified two memory allocations that were not released and printed the complete call stack information. The functionality we needed has been successfully implemented at this point.</p>
-<h3 id="schlusswort">Schlusswort.</h3>
-<p>Wenn du dich nicht mit Programmverknüpfungen, dem Laden von Programmen und Bibliotheken auskennst, könntest du Schwierigkeiten haben, herauszufinden, wie man Funktionen aus gemeinsam genutzten Bibliotheken findet, geschweige denn, wie man Bibliotheksfunktionen durch eigene Funktionen ersetzt. Zum Beispiel wird hier diskutiert, wie man die Funktionen einer Windows DLL zur Überprüfung von Speicherlecks ersetzt. Für eine ausführlichere Umsetzung empfehle ich einen Blick auf den Quellcode von VLD.</p>
-<p>Außerdem möchte ich sagen, dass "The Self-Taught Programmer: Linking, Loading, and Libraries" wirklich ein gutes Buch ist, kein reiner Werbungsgehalt.</p>
+<p>The program successfully identified the two memory allocations that were not released, printed the complete call stack information, and thus the required functionality has been completed.</p>
+<h3 id="schlussfolgerung">Schlussfolgerung</h3>
+<p>Wenn du noch nicht mit Programmverlinkung, Laden und Bibliotheken vertraut bist, könntest du verwirrt sein, wie man die Funktionen einer gemeinsamen Linkbibliothek findet, ganz zu schweigen davon, diese Funktionen durch unsere eigenen Funktionen zu ersetzen. Hier nehmen wir als Beispiel die Erkennung von Speicherlecks, um zu erörtern, wie man die Funktionen einer Windows DLL ersetzt. Detailliertere Implementierungen können im Quellcode von VLD nachgelesen werden.</p>
+<p>Außerdem möchte ich sagen, dass "Die Selbstverbesserung des Programmierers: Verlinkung, Laden und Bibliotheken" wirklich ein gutes Buch ist, ich äußere lediglich meine Gedanken, ohne Werbung zu machen.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
@@ -1870,7 +1870,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Identify any omissions. </p>
+<p>Dieser Beitrag wurde mit ChatGPT übersetzt, bitte geben Sie Ihr <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Bitte weisen Sie auf etwaige Auslassungen hin. </p>
 </blockquote></div>
 
 
@@ -1894,7 +1894,7 @@
     <span class="md-icon" title="Letztes Update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -1956,13 +1956,13 @@
         
         
           
-          <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-footer__link md-footer__link--next" aria-label="Weiter: KCP Source Code Analysis">
+          <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-footer__link md-footer__link--next" aria-label="Weiter: KCP Quellcode-Analyse">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Weiter
               </span>
               <div class="md-ellipsis">
-                KCP Source Code Analysis
+                KCP Quellcode-Analyse
               </div>
             </div>
             <div class="md-footer__button md-icon">

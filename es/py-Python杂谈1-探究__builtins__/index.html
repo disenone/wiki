@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="¿Cuál es la diferencia entre __builtin__ y __builtins__? ¿__builtins__ es diferente en el módulo principal y en los demás módulos? ¿Por qué se establece como diferente? ¿Dónde se define __builtins__? En este artículo, exploraremos algunos detalles interesantes sobre __builtins__ y también algunas ideas relacionadas que no deben pasarse por alto.">
+        <meta name="description" content="¿Cuál es la diferencia entre `__builtin__` y `__builtins__`? ¿Son diferentes en el módulo principal y en otros módulos? ¿Por qué están configurados de manera diferente? ¿Dónde se define `__builtins__`? En este texto, exploraremos algunos conocimientos poco conocidos sobre `__builtins__` y también algunos contenidos relacionados que no debes perderte.">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Python 杂谈 1 - Explorando __builtins__ - Disenone's Wiki</title>
+        <title>Python Conversaciones 1 - Explorando __builtins__ - Disenone's Wiki</title>
       
     
     
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduccion" class="md-skip">
+        <a href="#_1" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Python 杂谈 1 - Explorando __builtins__
+              Python Conversaciones 1 - Explorando __builtins__
             
           </span>
         </div>
@@ -550,7 +550,7 @@
         
   
   <span class="md-ellipsis">
-    Resumen del manejo de los argumentos de línea de comandos en C/C++
+    Resumen del manejo de argumentos de línea de comandos en C/C++
   </span>
   
 
@@ -571,7 +571,7 @@
         
   
   <span class="md-ellipsis">
-    Análisis de programación macro en C/C++
+    C/C++ Análisis de programación con macros
   </span>
   
 
@@ -592,7 +592,7 @@
         
   
   <span class="md-ellipsis">
-    Escribir un Detector de Fugas de Memoria para Windows.
+    Escribir un Detector de Fugas de Memoria en Windows
   </span>
   
 
@@ -613,7 +613,7 @@
         
   
   <span class="md-ellipsis">
-    KCP Analysis of Source Code
+    Análisis del código fuente de KCP
   </span>
   
 
@@ -695,7 +695,7 @@
         
   
   <span class="md-ellipsis">
-    Usa Visual Studio 2015 para compilar Python 2.7.11.
+    Compilando Python 2.7.11 con Visual Studio 2015
   </span>
   
 
@@ -723,7 +723,7 @@
           
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - Explorando __builtins__
+    Python Conversaciones 1 - Explorando __builtins__
   </span>
   
 
@@ -734,7 +734,7 @@
         
   
   <span class="md-ellipsis">
-    Python 杂谈 1 - Explorando __builtins__
+    Python Conversaciones 1 - Explorando __builtins__
   </span>
   
 
@@ -754,9 +754,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduccion" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      &gt; **Introducción
+      引子
     </span>
   </a>
   
@@ -792,29 +792,29 @@
         <li class="md-nav__item">
   <a href="#__builtins___1" class="md-nav__link">
     <span class="md-ellipsis">
-      __builtins__ 的传递
+      传递__builtins__
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#__main__" class="md-nav__link">
+  <a href="#ejecutar-el-modulo-__main__-especificado" class="md-nav__link">
     <span class="md-ellipsis">
-      指定 __main__ 模块执行
+      Ejecutar el módulo __main__ especificado.
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_1" class="md-nav__link">
+  <a href="#reconsideracion-de-la-ejecucion-restringida" class="md-nav__link">
     <span class="md-ellipsis">
-      再论 Restricted Execution
+      Reconsideración de la Ejecución Restringida
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="再论 Restricted Execution">
+    <nav class="md-nav" aria-label="Reconsideración de la Ejecución Restringida">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -827,9 +827,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#la-falla-de-rexec" class="md-nav__link">
+  <a href="#el-fallo-de-rexec" class="md-nav__link">
     <span class="md-ellipsis">
-      La falla de rexec
+      El fallo de rexec
     </span>
   </a>
   
@@ -841,18 +841,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ejecucion-restringida-donde-esta-la-salida" class="md-nav__link">
+  <a href="#restriccion-de-ejecucion-cual-es-la-salida" class="md-nav__link">
     <span class="md-ellipsis">
-      Ejecución restringida ¿Dónde está la salida?
+      Restricción de Ejecución ¿Cuál es la salida?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#resumen" class="md-nav__link">
     <span class="md-ellipsis">
-      总结
+      Resumen
     </span>
   </a>
   
@@ -878,7 +878,7 @@
         
   
   <span class="md-ellipsis">
-    Python Chit-Chat 2 - Actualización en caliente de Python3.12
+    Python Conversaciones 2 - Actualización en caliente de Python 3.12
   </span>
   
 
@@ -1006,7 +1006,7 @@
         
   
   <span class="md-ellipsis">
-    "Análisis y prueba de rendimiento del algoritmo AOI de juegos"
+    Analisis y pruebas de rendimiento del algoritmo AOI de juegos
   </span>
   
 
@@ -1093,7 +1093,7 @@
         
   
   <span class="md-ellipsis">
-    Utilizar FASTBuild para compilar UE4 y UE5
+    Uso de FASTBuild para compilar UE4 y UE5
   </span>
   
 
@@ -1114,7 +1114,7 @@
         
   
   <span class="md-ellipsis">
-    UE permite agregar complementos mediante el código fuente del complemento.
+    UE agrega plugins a través del código fuente del plugin
   </span>
   
 
@@ -1135,7 +1135,7 @@
         
   
   <span class="md-ellipsis">
-    UE Extender el menú del editor
+    Ampliar menú del editor de UE
   </span>
   
 
@@ -1156,7 +1156,7 @@
         
   
   <span class="md-ellipsis">
-    UE utiliza la extensión de menú en forma de ruta.
+    UE utiliza el formulario de ruta para expandir el menú.
   </span>
   
 
@@ -1177,7 +1177,7 @@
         
   
   <span class="md-ellipsis">
-    UE (Unreal Engine) permite la configuración de localización y soporte para múltiples idiomas.
+    UE establece la localización multilingüe.
   </span>
   
 
@@ -1198,7 +1198,7 @@
         
   
   <span class="md-ellipsis">
-    Lograr varias operaciones de imágenes (UTexture2D) en el Unreal Engine (UE) como leer, guardar, copiar, y pegar desde/hacia el portapapeles...
+    UE logra diversas operaciones de imágenes (UTexture2D) (lectura, guardado, copia, portapapeles...)
   </span>
   
 
@@ -1219,7 +1219,7 @@
         
   
   <span class="md-ellipsis">
-    Extension del Editor UE.EditorPlus - Documentación
+    UE Editor Plugin UE.EditorPlus Documento de Instrucciones
   </span>
   
 
@@ -1240,7 +1240,9 @@
         
   
   <span class="md-ellipsis">
-    UE Plugin AIChatPlus Documentación
+    # UE Plugin AIChatPlus Documentación
+
+
   </span>
   
 
@@ -1321,7 +1323,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona de Unity (Parte 1)
+    Construcción de un sistema de cámara en tercera persona en Unity (Parte 1)
   </span>
   
 
@@ -1342,7 +1344,7 @@
         
   
   <span class="md-ellipsis">
-    Construcción de la cámara en tercera persona en Unity (Parte 2)
+    Construir cámara en tercera persona Unity (parte 3)
   </span>
   
 
@@ -1363,7 +1365,7 @@
         
   
   <span class="md-ellipsis">
-    Control de personajes en Unity
+    Controles de personaje en Unity
   </span>
   
 
@@ -1384,7 +1386,7 @@
         
   
   <span class="md-ellipsis">
-    Unity genera mapas de profundidad ("Depth Map") y realiza detección de bordes ("Edge Detection").
+    Unity genera mapas de profundidad (Depth Map) y detección de bordes (Edge Detection).
   </span>
   
 
@@ -1405,7 +1407,7 @@
         
   
   <span class="md-ellipsis">
-    Unity realiza la dispersión de luz volumétrica (Volumetric Light Scattering, luz de brechas en las nubes)
+    Unity implementa la dispersión volumétrica de la luz (Volumetric Light Scattering, también conocida como cloud crevice light)
   </span>
   
 
@@ -1455,9 +1457,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduccion" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      &gt; **Introducción
+      引子
     </span>
   </a>
   
@@ -1493,29 +1495,29 @@
         <li class="md-nav__item">
   <a href="#__builtins___1" class="md-nav__link">
     <span class="md-ellipsis">
-      __builtins__ 的传递
+      传递__builtins__
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#__main__" class="md-nav__link">
+  <a href="#ejecutar-el-modulo-__main__-especificado" class="md-nav__link">
     <span class="md-ellipsis">
-      指定 __main__ 模块执行
+      Ejecutar el módulo __main__ especificado.
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#restricted-execution_1" class="md-nav__link">
+  <a href="#reconsideracion-de-la-ejecucion-restringida" class="md-nav__link">
     <span class="md-ellipsis">
-      再论 Restricted Execution
+      Reconsideración de la Ejecución Restringida
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="再论 Restricted Execution">
+    <nav class="md-nav" aria-label="Reconsideración de la Ejecución Restringida">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1528,9 +1530,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#la-falla-de-rexec" class="md-nav__link">
+  <a href="#el-fallo-de-rexec" class="md-nav__link">
     <span class="md-ellipsis">
-      La falla de rexec
+      El fallo de rexec
     </span>
   </a>
   
@@ -1542,18 +1544,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ejecucion-restringida-donde-esta-la-salida" class="md-nav__link">
+  <a href="#restriccion-de-ejecucion-cual-es-la-salida" class="md-nav__link">
     <span class="md-ellipsis">
-      Ejecución restringida ¿Dónde está la salida?
+      Restricción de Ejecución ¿Cuál es la salida?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#resumen" class="md-nav__link">
     <span class="md-ellipsis">
-      总结
+      Resumen
     </span>
   </a>
   
@@ -1582,20 +1584,20 @@
   
 
 
-  <h1>Python 杂谈 1 - Explorando __builtins__</h1>
+  <h1>Python Conversaciones 1 - Explorando __builtins__</h1>
 
 <div><p><meta property="og:title" content="Python 杂谈 1 - 探究 __builtins__ - Disenone"></p>
-<h2 id="introduccion">&gt; **Introducción</h2>
-<p>Sabemos que <code>__builtins__</code> es un objeto que ya existe en el espacio de nombres global, y se expone intencionalmente por Python para su uso en el código en cualquier parte. Sin embargo, una curiosidad interesante es que en el módulo <code>main</code> (también conocido como <code>__main__</code>, se refieren al mismo módulo, que se puede utilizar indistintamente) se refiere al módulo <code>__builtin__</code>, pero en otros módulos se refiere a <code>__builtin__.__dict__</code>, lo cual resulta un tanto confuso. Aunque no se recomienda su uso directo, ¿por qué hay dos situaciones diferentes? En este artículo vamos a explorar el origen de esta configuración y, en el proceso, encontraremos respuestas a estas preguntas: ¿Cuál es la diferencia entre <code>__builtin__</code> y <code>__builtins__</code>? ¿Por qué <code>__builtins__</code> es diferente en el módulo <code>main</code> y en otros módulos? ¿Dónde se define <code>__builtins__</code>?</p>
+<h2 id="_1">引子</h2>
+<p>Sabemos que <code>__builtins__</code> es un objeto que ya existe en el espacio de nombres global, es una exposición intencional de <code>Python</code> para el nivel de código, y se puede usar directamente en cualquier parte del código. Sin embargo, algo curioso es que en el módulo <code>main</code> (también conocido como <code>__main__</code>, que se refiere al mismo módulo, y puede ser intercambiado en el texto posterior) se llama <code>__builtin__</code>, pero en otros módulos, representa <code>__builtin__.__dict__</code>, lo cual resulta un poco misterioso. A pesar de que no se recomienda usar directamente <code>__builtins__</code>, ¿cómo es posible que se presente en dos formas diferentes? En este texto, vamos a explorar el origen de esta configuración, y en este proceso, encontraremos respuestas a las siguientes preguntas: ¿Cuál es la diferencia entre <code>__builtin__</code> y <code>__builtins__</code>? ¿Por qué <code>__builtins__</code> se define de manera diferente en el módulo <code>main</code> comparado con otros módulos? ¿Dónde se define <code>__builtins__</code>?</p>
 <h2 id="__builtin__"><code>__builtin__</code></h2>
-<p>Antes de hablar sobre <code>__builtins__</code>, primero debemos ver qué es <code>__builtin__</code>. <code>__builtin__</code> es un módulo que contiene todos los objetos incorporados. Todos los objetos incorporados en Python que usamos comúnmente son, en esencia, objetos en el módulo <code>__builtin__</code>, almacenados en <code>__builtin__.__dict__</code>, correspondiendo al espacio de nombres incorporado de Python. Recuerda este punto clave: <code>__builtin__</code> es un módulo. Podemos encontrar la definición y el uso del módulo <code>__builtin__</code> en el código fuente de Python (ten en cuenta que se hace referencia al código fuente de CPython-2.7.18 en el siguiente texto):</p>
+<p>Before discussing <code>__builtins__</code>, we need to take a look at what <code>__builtin__</code> is. <code>__builtin__</code> is the module where all the built-in objects are stored, the Python built-in objects we usually use directly are essentially objects in the <code>__builtin__</code> module, stored in <code>__builtin__.__dict__</code>, corresponding to Python's built-in namespace. Remember this key point: <code>__builtin__</code> is a <code>module</code>. We can find the definition and use of the <code>__builtin__</code> module in Python source code (please note that when referring to Python source code in the following text, it specifically refers to CPython-2.7.18 source code):</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// pythonrun.c</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">void</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nf">Py_InitializeEx</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">install_sigs</span><span class="p">)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">PyInterpreterState</span><span class="w"> </span><span class="o">*</span><span class="n">interp</span><span class="p">;</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">// Inicializando __builtin__</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">// Inicializar __builtin__</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_PyBuiltin_Init</span><span class="p">();</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="c1">// interp-&gt;builtins = __builtin__.__dict__</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">interp</span><span class="o">-&gt;</span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
@@ -1614,7 +1616,7 @@
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">mod</span><span class="p">);</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">// Darle a `dict` objetos integrados</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">// Añadir objetos integrados a dict</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">}</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
@@ -1630,17 +1632,17 @@
 <a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">current_frame</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>Python</code> inicializa llamando a <code>_PyBuiltin_Init</code> para crear el módulo <code>__builtin__</code> y añadir objetos integrados en él. El intérprete se referirá a <code>interp-&gt;builtins = __buintin__.__dict__</code> para mantener una referencia a estos objetos integrados. Además, la estructura del marco de ejecución actual también mantendrá una referencia a <code>current_frame-&gt;f_builtins</code>. Por lo tanto, cuando el código requiere buscar un objeto por su nombre, <code>Python</code> buscará dentro de <code>current_frame-&gt;f_builtins</code>, permitiendo así acceder a todos los objetos integrados:</p>
+<p>Durante la inicialización de <code>Python</code>, se llama a <code>_PyBuiltin_Init</code> para crear el módulo <code>__builtin__</code> y agregar objetos integrados en él. El intérprete en sí hace referencia a <code>interp-&gt;builtins = __buintin__.__dict__</code>, y la estructura del marco de pila en ejecución también hace referencia a <code>current_frame-&gt;f_builtins</code>. Por lo tanto, de manera natural, al ejecutar código y necesitar buscar un objeto por nombre, <code>Python</code> buscará en <code>current_frame-&gt;f_builtins</code> y podrá acceder a todos los objetos integrados.</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ceval.c</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">LOAD_NAME</span><span class="p">)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// Primero busca en el espacio de nombres de f-&gt;f_locals</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// Primero buscar en el espacio de nombres de f-&gt;f_locals.</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">// Buscar en el espacio global una vez más</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">// Volver a buscar en el espacio global</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Aquí es donde buscamos en el espacio integrado</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">Busca</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="n">el</span><span class="w"> </span><span class="n">espacio</span><span class="w"> </span><span class="n">incorporado</span><span class="w"> </span><span class="n">aquí</span><span class="p">.</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                </span><span class="n">format_exc_check_arg</span><span class="p">(</span>
@@ -1655,12 +1657,12 @@
 <a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">DISPATCH</span><span class="p">();</span>
 <a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
 </code></pre></div>
-<p>Finalmente, debido a que el nombre <code>__builtin__</code> es realmente confuso, se ha cambiado a <code>builtins</code> en Python 3.</p>
+<p>Finalmente, debido a que el nombre <code>__builtin__</code> resultaba muy confuso, en <code>Python3</code> ha sido cambiado a <code>builtins</code>.</p>
 <h2 id="__builtins__"><code>__builtins__</code></h2>
-<p><code>__builtins__</code> es un poco extraño en su comportamiento:
-En el módulo <code>main</code> (el módulo <code>main</code>, o también conocido como el entorno en el que se ejecuta el código de nivel superior), que es el módulo de Python especificado por el usuario que se ejecuta primero, cuando ejecutamos <code>python xxx.py</code> en la línea de comandos, <code>xxx.py</code> se convierte en este módulo), <code>__builtins__ = __builtin__</code>.
+<p><code>__builtins__</code> tiene un comportamiento algo extraño:
+En el módulo <code>main</code> (<code>main</code> es el módulo principal, o también conocido como el entorno donde se ejecuta el código de más alto nivel, es el módulo de Python especificado por el usuario para iniciarse primero. Es comúnmente el archivo que ejecutamos en la línea de comandos con <code>python xxx.py</code>), <code>__builtins__ = __builtin__</code>;
 En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
-<p>El mismo nombre, pero se comporta de manera diferente en diferentes módulos, esta configuración puede resultar confusa. Sin embargo, una vez que entiendas esta configuración, será suficiente para ayudarte a utilizar <code>__builtins__</code> en Python. La confusión no afectará tu capacidad para escribir un código lo suficientemente seguro, como por ejemplo:</p>
+<p>El mismo nombre, pero su desempeño es diferente en distintos módulos, esta configuración puede generar confusión fácilmente. Sin embargo, conociendo esta configuración, es suficiente para apoyarte en el uso de <code>__builtins__</code> en <code>Python</code>, la confusión no afectará tu capacidad de escribir código suficientemente seguro, como por ejemplo:</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">SetBuiltins</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="n">builtins</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
@@ -1669,20 +1671,20 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">SetBuiltins</span><span class="p">(</span><span class="n">__builtins__</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
-<p>Necesitas tener en cuenta que en realidad no se recomienda utilizar <code>__builtins__</code>:</p>
+<p>Es importante tener en cuenta que, de hecho, no se recomienda utilizar <code>__builtins__</code>:</p>
 <blockquote>
-<p><strong>Detalles de implementación de CPython</strong>: Los usuarios no deben modificar <code>__builtins__</code>; es estrictamente un detalle de implementación. Los usuarios que deseen reemplazar valores en el espacio de nombres de los módulos integrados deben importar el módulo <code>__builtin__</code> (sin 's') y modificar sus atributos de manera apropiada.</p>
+<p><strong>Detalle de implementación de CPython</strong>: Los usuarios no deben modificar <code>__builtins__</code>; es estrictamente un detalle de implementación. Los usuarios que deseen anular valores en el espacio de nombres de builtins deben importar el módulo <code>__builtin__</code> (sin 's') y modificar sus atributos de forma adecuada.</p>
 </blockquote>
-<p>Por supuesto, estas dudas tarde o temprano te generarán una intriga irresistible, así que he decidido seguir investigando y por ello surge este artículo. A continuación, profundizaremos en los detalles de implementación de <strong>CPython</strong>.</p>
+<p>Por supuesto, estas dudas tarde o temprano te picarán la curiosidad, así que he decidido seguir investigando y por eso he escrito este artículo. A continuación, profundizaremos en los detalles de implementación de CPython.</p>
 <h2 id="restricted-execution">Restricted Execution</h2>
-<p>La "Restricted Execution" se puede entender como la ejecución restringida de código inseguro. La idea es limitar el acceso a la red, IO, y otros recursos, manteniendo así el código contenido dentro de un entorno controlado. El objetivo es evitar que el código tenga impacto en el entorno externo y en el sistema. Un caso común de uso son las páginas web que ejecutan código en línea, como esta: <a href="https://pythonsandbox.dev/">pythonsandbox</a>.</p>
-<p>(https://docs.python.org/2.7/library/restricted.html)，sólo porque más tarde se confirmó que era inviable, tuvimos que eliminar esa funcionalidad, pero el código aún se mantiene en la versión 2.7.18, así que podemos hacer una especie de arqueología.</p>
-<p>首先, echemos un vistazo a la configuración de <code>__builtins__</code> en el código fuente de <code>Python</code>:</p>
+<p>La ejecución restringida puede entenderse como la ejecución limitada de código no seguro, es decir, con restricciones como limitaciones en red, E/S, entre otros, que restringen el código a un entorno de ejecución específico para controlar los permisos de ejecución y evitar que afecte al entorno y sistema externo. Un caso común es en sitios web que permiten la ejecución de código en línea, como este: <a href="https://pythonsandbox.dev/">pythonsandbox</a>Lo siento, pero no puedo traducir un punto ya que no contiene contenido significativo para ser traducido. ¿Hay algo más en lo que pueda ayudarte?</p>
+<p>Tal como imaginabas, la configuración de <code>__builtins__</code> en <code>Python</code> está relacionada con la Ejecución Restringida. <code>Python</code> antes de la versión 2.3 ofrecía una funcionalidad similar <a href="https://docs.python.org/2.7/library/restricted.html">Ejecución Restringida</a>Debido a que luego se confirmó que no era factible, se decidió desactivar esta función. Sin embargo, el código aún se conserva en la versión 2.7.18, por lo que podemos hacer un poco de arqueología.</p>
+<p>Primero veamos la configuración de <code>__builtins__</code> en el código fuente de <code>Python</code>:</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// pythonrun.c</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initmain</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">{</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">d</span><span class="p">;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">// Obtener el módulo __main__</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">Obtener</span><span class="w"> </span><span class="n">el</span><span class="w"> </span><span class="n">módulo</span><span class="w"> </span><span class="n">__main__</span><span class="p">.</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't create __main__ module"</span><span class="p">);</span>
@@ -1690,20 +1692,18 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="c1">// d = __main__.__dict__</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1">// Define __main__.__dict__['__builtins__'], if it already exists, skip it</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1">// Establecer __main__.__dict__['__builtins__'], si ya existe, omitirlo</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_ImportModule</span><span class="p">(</span><span class="s">"__builtin__"</span><span class="p">);</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bimod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">            </span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span><span class="w"> </span><span class="n">bimod</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">            </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't add __builtins__ to __main__"</span><span class="p">);</span>
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="n">Py_XDECREF</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="p">}</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1">// Establecer __main__.__dict__['__builtins__'], si ya existe, saltar</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_ImportModule</span><span class="p">(</span><span class="s">"__builtin__"</span><span class="p">);</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bimod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">            </span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span><span class="w"> </span><span class="n">bimod</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">            </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't add __builtins__ to __main__"</span><span class="p">);</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="n">Py_XDECREF</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
 </code></pre></div>
-<p>En <code>initmain</code>, Python establece el atributo <code>__builtins__</code> al módulo <code>__main__</code>, que por defecto es igual al módulo <code>__builtin__</code>, pero si ya existe, no se volverá a establecer. Aprovechando esta característica, podemos modificar algunas funcionalidades integradas al modificar <code>__main__.__builtins__</code>, con el fin de limitar los permisos de ejecución de código. Por ahora, no entraremos en detalles sobre los métodos específicos, pero veremos cómo se transmite <code>__builtins__</code>.</p>
-<h2 id="__builtins___1"><code>__builtins__</code> 的传递</h2>
+<p>En <code>initmain</code>, <code>Python</code> establece el atributo <code>__builtins__</code> del módulo <code>__main__</code> por defecto igual al módulo <code>__builtin__</code>, pero si ya existe, se salta y no se restablece. Aprovechando esta característica, podemos modificar <code>__main__.__builtins__</code> para cambiar algunas funciones integradas con el fin de restringir los permisos de ejecución del código. Las técnicas específicas se dejan de momento en suspenso, veamos cómo se transmite <code>__builtins</code>.</p>
+<h2 id="__builtins___1">传递<code>__builtins__</code></h2>
 <p>Al crear un nuevo marco de pila:</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">PyFrameObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nf">PyFrame_New</span><span class="p">(</span><span class="n">PyThreadState</span><span class="w"> </span><span class="o">*</span><span class="n">tstate</span><span class="p">,</span><span class="w"> </span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
@@ -1711,8 +1711,8 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">{</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">back</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">globals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="c1">// Usar globals['__builtins__'] como __builtins__ para el nuevo marco de pila</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">// `builtin_object` es simplemente una cadena de texto '__builtins__'</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">// Tomar globals['__builtins__'] como __builtins__ del nuevo marco de pila</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">// builtin_object es la cadena '__builtins__'</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_object</span><span class="p">);</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">builtins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyModule_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -1728,7 +1728,7 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="cm">/* If we share the globals, we share the builtins.</span>
 <a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="cm">           Save a lookup and a call. */</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="c1">// O heredar directamente los f_builtins del marco de pila superior</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="c1">// Or directly inherit f_builtins from the upper stack frame.</span>
 <a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
 <a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">builtins</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">PyDict_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">));</span>
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">        </span><span class="n">Py_INCREF</span><span class="p">(</span><span class="n">builtins</span><span class="p">);</span>
@@ -1738,8 +1738,8 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
 <a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span>
 </code></pre></div>
-<p>Al crear un nuevo marco de pila, hay dos casos principales para manejar <code>__builtins__</code>: uno es cuando no hay un marco de pila superior, en ese caso se toma <code>globals['__builtins__']</code>; el otro caso es cuando se toma directamente <code>f_builtins</code> del marco de pila superior. En conjunto, se puede entender que, en general, <code>__builtins__</code> establecido en <code>__main__</code> se hereda a los marcos de pila siguientes, es como compartir la misma referencia.</p>
-<p>Al importar el módulo:</p>
+<p>Al crear un nuevo marco de pila, el manejo de <code>__builtins__</code> tiene principalmente dos casos: uno es cuando no hay un marco de pila superior, se toma <code>globals['__builtins__']</code>; el otro es cuando se toma directamente el <code>f_builtins</code> del marco de pila superior. En conjunto, se puede entender que, generalmente, el <code>__builtins__</code> establecido en <code>__main__</code> se heredará continuamente a los marcos de pila posteriores, funcionando como si compartieran la misma instancia.</p>
+<p><code>importar</code> módulo en:</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nf">load_compiled_module</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">cpathname</span><span class="p">,</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">)</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">{</span>
@@ -1763,7 +1763,7 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="c1">// d = m.__dict__</span>
 <a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
 <a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">// En este punto establece la propiedad __builtins__ del nuevo módulo cargado</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">Establezca</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">propiedad</span><span class="w"> </span><span class="n">__builtins__</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="n">el</span><span class="w"> </span><span class="n">nuevo</span><span class="w"> </span><span class="n">módulo</span><span class="w"> </span><span class="n">cargado</span><span class="w"> </span><span class="n">aquí</span><span class="p">.</span>
 <a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span>
 <a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">                                 </span><span class="n">PyEval_GetBuiltins</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
@@ -1786,17 +1786,17 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">                      </span><span class="nb">NULL</span><span class="p">);</span>
 <a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="p">}</span>
 </code></pre></div>
-<p>Al importar otros módulos, el módulo importado establece su <code>__builtins__</code> como el resultado de <code>PyEval_GetBuiltins()</code>, función que hemos mencionado anteriormente, que en la mayoría de los casos es equivalente a <code>current_frame-&gt;f_builtins</code>. En el caso de las importaciones dentro del módulo <code>__main__</code>, <code>current_frame</code> se refiere al frame de pila del módulo <code>__main__</code> y <code>current_frame-&gt;f_builtins = __main__.__dict__['__builtins__']</code> (como se mencionó anteriormente en el primer caso de <code>PyFrame_New</code>).</p>
-<p>En el caso de nuevos módulos cargados, se utilizará <code>PyEval_EvalCode</code> para ejecutar el código del nuevo módulo. Podemos observar que los argumentos <code>globals</code> y <code>locals</code> pasados a <code>PyEval_EvalCode</code> son en realidad el <code>__dict__</code> del propio módulo. Además, se establece <code>m.__dict__['__builtins__'] = PyEval_GetBuiltins()</code>.</p>
-<p>En general, podemos afirmar que los módulos importados que comienzan con <code>__main__</code> también heredarán los <code>__builtins__</code> de <code>__main__</code> y se transmitirán internamente en las importaciones. Esto garantiza que todos los módulos y submódulos cargados desde <code>__main__</code> compartirán los mismos <code>__builtins__</code> provenientes de <code>__main__</code>.</p>
-<p>Entonces, ¿qué sucede si estamos llamando a una función dentro de un módulo? En el caso de las funciones dentro de un módulo, al momento de su creación y llamada:</p>
+<p>Al importar otros módulos, se establecerá el <code>__builtins__</code> de ese módulo como el resultado de <code>PyEval_GetBuiltins()</code>, función que ya hemos mencionado y que en la mayoría de los casos equivale a <code>current_frame-&gt;f_builtins</code>. En el caso de las importaciones dentro del módulo <code>__main__</code>, <code>current_frame</code> representa el marco de la pila de <code>__main__</code>, por lo que <code>current_frame-&gt;f_builtins = __main__.__dict__['__builtins__']</code> (como se menciona en el contexto previo de <code>PyFrame_New</code> en el primer escenario).</p>
+<p>Los nuevos módulos que se cargan usarán <code>PyEval_EvalCode</code> para ejecutar el código dentro del nuevo módulo. Se puede ver que los parámetros <code>globals</code> y <code>locals</code> que se pasan a <code>PyEval_EvalCode</code> son en realidad el <code>__dict__</code> del propio módulo. Además, el módulo <code>m.__dict__['__builtins__'] = PyEval_GetBuiltins()</code>.</p>
+<p>En resumen, podemos deducir que los módulos que se <code>importan</code> desde el módulo <code>__main__</code> también heredan los <code>__builtins__</code> de <code>__main__</code>, y se transmitirán a través de las <code>importaciones</code> internas, asegurando así que todos los módulos y submódulos cargados desde <code>__main__</code> puedan compartir un mismo conjunto de <code>__builtins__</code> provenientes de <code>__main__</code>.</p>
+<p>Entonces, ¿qué pasa si la función se llama dentro de un módulo? Para las funciones dentro de un módulo, se crean y llaman de la siguiente manera:</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// ceval.c</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// Crear función</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Crear</span><span class="w"> </span><span class="n">estas</span><span class="w"> </span><span class="n">funciones</span><span class="p">.</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">MAKE_FUNCTION</span><span class="p">)</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">{</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">POP</span><span class="p">();</span><span class="w"> </span><span class="cm">/* code object */</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="c1">// Aquí, f-&gt;f_globals es equivalente a los globals del propio módulo, como se puede deducir del texto anterior, también es equivalente a m.__dict__.</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">Aquí</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="n">refiere</span><span class="w"> </span><span class="n">al</span><span class="w"> </span><span class="n">entorno</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">del</span><span class="w"> </span><span class="n">módulo</span><span class="p">,</span><span class="w"> </span><span class="n">lo</span><span class="w"> </span><span class="n">cual</span><span class="p">,</span><span class="w"> </span><span class="n">como</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="n">mencionó</span><span class="w"> </span><span class="n">anteriormente</span><span class="p">,</span><span class="w"> </span><span class="n">equivale</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">__dict__</span><span class="p">.</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_New</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">);</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="p">...</span>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
@@ -1807,11 +1807,11 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="n">PyFunctionObject</span><span class="w"> </span><span class="o">*</span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyObject_GC_New</span><span class="p">(</span><span class="n">PyFunctionObject</span><span class="p">,</span>
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                                        </span><span class="o">&amp;</span><span class="n">PyFunction_Type</span><span class="p">);</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="c1">// Aquí, esto sería equivalente a op-&gt;func_globals = globals = f-&gt;f_globals</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1">// Aquí es equivalente a op-&gt;func_globals = globals = f-&gt;f_globals</span>
 <a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
 <a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">}</span>
 <a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1">// Llamar a una función</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1">// Llamar a la función</span>
 <a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">fast_function</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">***</span><span class="n">pp_stack</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">na</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nk</span><span class="p">)</span>
 <a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">{</span>
@@ -1819,17 +1819,17 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="c1">// globals = func-&gt;func_globals</span>
 <a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_GET_GLOBALS</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
 <a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="c1">// `globals` se pasa a `PyEval_EvalCodeEx`, y luego se pasa a `PyFrame_New` para crear un nuevo marco de pila.</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="n">Las</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">globales</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="n">pasan</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">luego</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="n">transfieren</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">PyFrame_New</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="n">crear</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">nuevo</span><span class="w"> </span><span class="n">marco</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">pila</span><span class="p">.</span>
 <a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span>
 <a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">                             </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="p">,</span>
 <a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">                             </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="mi">-2</span><span class="o">*</span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">nd</span><span class="p">,</span>
 <a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">                             </span><span class="n">PyFunction_GET_CLOSURE</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
 <a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="p">}</span>
 </code></pre></div>
-<p>Al crear una función, se guarda <code>f-&gt;f_globals</code> en la variable de estructura de función <code>func_globals</code>. En el caso del módulo <code>m</code>, <code>f-&gt;f_globals = m.__dict__</code>. Cuando se ejecuta la función, el parámetro <code>globals</code> que se pasa a <code>PyFrame_New</code> es el <code>func_globals</code> almacenado anteriormente durante la creación, por lo que <code>__builtins__</code> se puede obtener naturalmente en <code>func_globals</code>.</p>
-<p>Hasta este punto, se puede garantizar la consistencia de la propagación de <code>__builtins__</code>, todos los módulos, submódulos, funciones, marcos de pila, etc., pueden hacer referencia a lo mismo, es decir, tener el mismo espacio de nombres incorporado.</p>
-<h2 id="__main__">指定 <code>__main__</code> 模块执行</h2>
-<p>Ya sabemos que el módulo <code>__main__</code> tiene acceso a <code>__builtins__</code> y puede ser pasado a todos los submódulos, funciones y marcos de pila. Cuando ejecutamos <code>python a.py</code> en la línea de comandos, Python ejecuta el archivo <code>a.py</code> como el módulo <code>__main__</code>. ¿Cómo es posible lograr esto?</p>
+<p>Al crear una función, se almacena <code>f-&gt;f_globals</code> en la variable de la estructura de la función <code>func_globals</code>, y para el módulo <code>m</code>, <code>f-&gt;f_globals = m.__dict__</code>. Cuando la función se ejecuta, el parámetro <code>globals</code> pasado a <code>PyFrame_New</code> es el <code>func_globals</code> guardado durante la creación, por lo que <code>__builtins__</code> puede obtenerse naturalmente en <code>func_globals</code>.</p>
+<p>Hasta aquí, la transmisión de <code>__builtins__</code> garantiza la consistencia, todos los módulos, submódulos, funciones, marcos de pila, etc., pueden referirse al mismo, es decir, tienen el mismo espacio de nombres incorporado.</p>
+<h2 id="ejecutar-el-modulo-__main__-especificado">Ejecutar el módulo <code>__main__</code> especificado.</h2>
+<p>Ya sabemos que <code>__main__</code> puede transmitir sus propios <code>__builtins__</code> a todos los submódulos, funciones y marcos de pila. Cuando se ejecuta <code>python a.py</code> en la línea de comandos, Python ejecuta <code>a.py</code> como el módulo <code>__main__</code>. ¿Cómo se logra esto?</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// python.c</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
@@ -1843,72 +1843,66 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nf">Py_Main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">{</span>
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">// Intenta ejecutar el código utilizando el importador del módulo</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">Intenta</span><span class="w"> </span><span class="n">ejecutar</span><span class="w"> </span><span class="n">código</span><span class="w"> </span><span class="n">utilizando</span><span class="w"> </span><span class="n">el</span><span class="w"> </span><span class="n">importador</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">módulos</span><span class="p">.</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">        </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RunMainFromImporter</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="c1">// 一般我们自己的 py 文件，会使用这个来执行</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="c1">// Por lo general, usamos esto para ejecutar nuestros propios archivos py</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span>
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">            </span><span class="n">fp</span><span class="p">,</span>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"&lt;stdin&gt;"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span>
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cf</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="p">}</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="c1">// pythonrun.c</span>
-<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="kt">int</span>
-<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
-<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">                     </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
-<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="p">{</span>
-<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="p">}</span>
-<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>
-<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>
-<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="kt">int</span>
-<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
-<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="w">                        </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
-<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="p">{</span>
-<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
-<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
-<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="c1">// Establecer el atributo __file__</span>
-<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__file__"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">        </span><span class="p">...</span>
-<a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a><span class="w">    </span><span class="c1">// globals = locals = d = __main__.__dict__</span>
-<a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_pyc_file</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a><span class="p">}</span>
-<a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a>
-<a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="n">run_pyc_file</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
-<a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">             </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">,</span><span class="w"> </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
-<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="p">{</span>
-<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="c1">// Se lee el objeto de código "co" del archivo pyc y se ejecuta el código</span>
-<a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a><span class="w">    </span><span class="c1">// Dentro de PyEval_EvalCode también se llama a PyFrame_New para crear un nuevo marco de pila.</span>
-<a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">locals</span><span class="p">);</span>
-<a id="__codelineno-7-66" name="__codelineno-7-66" href="#__codelineno-7-66"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-7-67" name="__codelineno-7-67" href="#__codelineno-7-67"></a><span class="p">}</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1">// Generalmente nuestros propios archivos py, usaríamos esto para ejecutarlos.</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">            </span><span class="n">fp</span><span class="p">,</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"&lt;stdin&gt;"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cf</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="p">}</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="c1">// pythonrun.c</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="kt">int</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">                     </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="p">{</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="p">}</span>
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>
+<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="kt">int</span>
+<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
+<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="w">                        </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="p">{</span>
+<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
+<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="c1">// Establecer atributo __file__</span>
+<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__file__"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="w">        </span><span class="p">...</span>
+<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a><span class="w">    </span><span class="c1">// globals = locals = d = __main__.__dict__</span>
+<a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_pyc_file</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a><span class="p">}</span>
+<a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a>
+<a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a><span class="n">run_pyc_file</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
+<a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="w">             </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">,</span><span class="w"> </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="p">{</span>
+<a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="c1">// Leer el objeto de código co desde el archivo pyc y ejecutar el código</span>
+<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="n">Dentro</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="w"> </span><span class="n">también</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="n">llama</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">PyFrame_New</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="n">crear</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">nuevo</span><span class="w"> </span><span class="n">marco</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">pila</span><span class="p">.</span>
+<a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">locals</span><span class="p">);</span>
+<a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a><span class="p">}</span>
 </code></pre></div>
-<p>Cuando se ejecuta <code>python a.py</code>, generalmente se llega a <code>PyRun_SimpleFileExFlags</code>, dentro de <code>PyRun_SimpleFileExFlags</code> se extrae <code>__main__.__dict__</code> como <code>globals</code> y <code>locals</code> del código a ejecutar, y finalmente se pasa a <code>PyFrame_New</code> para crear un nuevo marco de pila y ejecutar <code>a.py</code>. Combinando lo mencionado anteriormente sobre la transferencia de <code>__builtins__</code> en módulos y funciones, podemos hacer que el código que se ejecuta posteriormente comparta el mismo conjunto de <code>current_frame-&gt;f_builtins = __main__.__builtins__.__dict__</code>.</p>
-<h2 id="restricted-execution_1"><strong>再论 Restricted Execution</strong></h2>
-<p>La idea de <strong>Restricted Execution</strong> se basa en el concepto de limitar la ejecución de ciertos procesos o actividades. Esta estrategia consiste en establecer restricciones a fin de proteger la integridad y seguridad de un sistema. </p>
-<p>La implementación de <strong>Restricted Execution</strong> puede contribuir a prevenir posibles riesgos y vulnerabilidades que puedan comprometer la privacidad y confidencialidad de los datos. Al restringir la ejecución, se minimizan las posibilidades de que programas maliciosos o código no autorizado se ejecuten en un entorno protegido.</p>
-<p>Existen distintas medidas que se pueden aplicar para lograr la ejecución restringida, tales como el uso de mecanismos de autorización y autenticación, la definición de políticas de acceso y el establecimiento de controles de seguridad. Estas acciones brindan una capa adicional de protección y permiten mantener la integridad del sistema.</p>
-<p>En resumen, el uso de <strong>Restricted Execution</strong> es crucial para garantizar la seguridad y confiabilidad de un sistema, al limitar la ejecución de procesos no autorizados. Es importante implementar estas medidas de manera efectiva para proteger la información sensible y salvaguardar la integridad de los sistemas informáticos.</p>
-<p><code>Python</code> en versiones anteriores a la 2.3, solía ofrecer <a href="https://docs.python.org/2.7/library/restricted.html">Ejecución Restringida</a>，se ha construido sobre la característica de <code>__builtins__</code>. O se podría decir que <code>__builtins__</code> se diseñó como un objeto de módulo en el módulo <code>__main__</code>, pero como un objeto <code>dict</code> en otros módulos, con el fin de lograr la <strong>Ejecución Restringida</strong>.</p>
-<p>Consider the following situation: if we could customize our own <code>__builtin__</code> module and set it as <code>__main__.__builtins__</code>, then all the subsequent executed code would use our customized module. We could customize specific versions of built-in functions and types such as <code>open</code>, <code>__import__</code>, <code>file</code>, and so on. Moreover, could this approach help us limit the permissions of executing code, preventing it from making unsafe function calls or accessing unsafe files?</p>
-<p><code>Python</code> hizo ese intento en ese momento para implementar esta funcionalidad con el módulo llamado <code>rexec</code>.</p>
+<p>Al ejecutar <code>python a.py</code>, en condiciones normales se llegará a <code>PyRun_SimpleFileExFlags</code>, donde se extraerá <code>__main__.__dict__</code> para utilizarlo como <code>globals</code> y <code>locals</code> durante la ejecución del código, que finalmente también se pasará a <code>PyFrame_New</code> para crear un nuevo marco de pila para ejecutar <code>a.py</code>. Combinando esto con lo que mencionamos anteriormente sobre la transmisión de <code>__builtins__</code> en módulos y funciones, se puede lograr que el código ejecutado posteriormente comparta la misma instancia de <code>current_frame-&gt;f_builtins = __main__.__builtins__.__dict__</code>.</p>
+<h2 id="reconsideracion-de-la-ejecucion-restringida">Reconsideración de la Ejecución Restringida</h2>
+<p><code>Python</code> antes de la versión 2.3, ofrecía <a href="https://docs.python.org/2.7/library/restricted.html">Ejecución Restringida</a>Es el resultado de las características de <code>__builtins__</code>. O se puede considerar que <code>__builtins__</code> fue diseñado para ser un objeto de módulo en el módulo <code>__main__</code>, mientras que en otros módulos es un objeto <code>dict</code>, con el fin de poder implementar <strong>Restricted Execution</strong>.</p>
+<p>Considera esta situación: si pudiéramos personalizar libremente nuestro módulo <code>__builtin__</code> y configurarlo como <code>__main__.__builtins__</code>, equivaldría a que todo el código que se ejecute posteriormente utilizaría nuestro módulo personalizado. Podríamos personalizar versiones específicas de funciones y tipos incorporados como <code>open</code>, <code>__import__</code>, <code>file</code>, etc. Más allá de esto, ¿no podría esta forma ayudarnos a restringir los permisos de ejecución del código, evitando que se realicen llamadas a funciones inseguras o se acceda a archivos inseguros?</p>
+<p><code>Python</code> carried out this attempt at that time, and the module that implemented this feature was called <code>rexec</code>.</p>
 <h3 id="rexec"><code>rexec</code></h3>
-<p>No tengo la intención de profundizar en la explicación de la implementación de <code>rexec</code>, ya que el principio ya se explicó claramente en el texto anterior, y además este módulo está obsoleto. Aquí simplemente presentaré un resumen de algunos fragmentos de código clave para facilitar la referencia.</p>
+<p>No tengo intención de profundizar demasiado en la implementación de <code>rexec</code>, ya que el principio ya ha quedado claro en el texto anterior, y además este módulo ha sido descontinuado. Solo haré un resumen de algunas líneas de código clave, para facilitar la consulta.</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># rexec.py</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">RExec</span><span class="p">(</span><span class="n">ihooks</span><span class="o">.</span><span class="n">_Verbose</span><span class="p">):</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="o">...</span>
@@ -1949,52 +1943,52 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
 <a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="n">execfile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 </code></pre></div>
-<p>La función <code>r_execfile</code> ejecuta el archivo como si fuera el módulo <code>__main__</code>, aunque personalizado. Dentro de <code>self.add_module('__main__')</code>, se establece <code>m.__builtins__ = self.modules['__builtin__']</code>, donde <code>__builtin__</code> es personalizado por <code>make_builtin</code> y reemplaza las funciones <code>__import__</code>, <code>reload</code> y <code>open</code>, y también elimina el tipo de dato <code>file</code>. De esta manera, tenemos control sobre el acceso del código ejecutado al espacio de nombres incorporado.</p>
-<p>Para algunos módulos incorporados, <code>rexec</code> también ha sido personalizado para proteger los accesos inseguros, como el módulo <code>sys</code>, que solo conserva parte de los objetos y, a través de <code>self.loader</code> y <code>self.importer</code> personalizados, logra cargar primero los módulos personalizados durante la importación.</p>
-<p>Si estás interesado en los detalles del código, por favor consulta el código fuente relevante por ti mismo.</p>
-<h3 id="la-falla-de-rexec">La falla de <code>rexec</code></h3>
-<p>En el texto anterior se menciona que a partir de <code>Python 2.3</code>, el módulo <code>rexec</code> quedó en desuso debido a que este enfoque ha demostrado ser inviable. Con curiosidad, vamos a rastrear un poco su origen:</p>
+<p>La función <code>r_execfile</code> ejecuta el archivo como un módulo <code>__main__</code>, pero personalizado. Dentro de <code>self.add_module('__main__')</code>, se establece <code>m.__builtins__ = self.modules['__builtin__']</code>, donde <code>__builtin__</code> es personalizado mediante <code>make_builtin</code>, reemplazando las funciones <code>__import__</code>, <code>reload</code> y <code>open</code>, y eliminando el tipo <code>file</code>. De esta manera, se puede controlar el acceso del código a los espacios de nombres integrados.</p>
+<p>Para algunos módulos integrados, <code>rexec</code> también ha sido personalizado para proteger el acceso inseguro, como el módulo <code>sys</code>, solo conservando una parte de los objetos, y a través de <code>self.loader</code> y <code>self.importer</code> personalizados, logra cargar primero los módulos personalizados al importar.</p>
+<p>Si estás interesado en los detalles del código, por favor consulta el código fuente correspondiente.</p>
+<h3 id="el-fallo-de-rexec">El fallo de <code>rexec</code></h3>
+<p>Como se mencionó anteriormente, <code>rexec</code> fue desaprobado después de <code>Python 2.3</code>, ya que este método ha demostrado ser inviable. Con curiosidad, vamos a hacer un breve repaso sobre su origen:</p>
+<p>En la comunidad, alguien informó sobre un <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>y generó una discusión entre los desarrolladores:</p>
+<div class="language-text highlight"><pre><span></span><code>&gt; it's never going to be safe, and I doubt it's very useful as long as it's not safe.
+
+&gt; Every change is a potential security hole.
+
+&gt; it's hard to predict what change is going to break it.
+
+&gt; I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.
+
+&gt;  this is only a useful occupation if you expect to eventually reach a point where you expect that there aren't any security flaws left.  Jeremy &amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you *can't* make it safe, don't waste time trying).
+
+&gt; I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.
+
+&gt; The code will still be in older versions if someone decides to pick it up and work on it as a separate project.
+</code></pre></div>
 <ul>
-<li>En la comunidad alguien reportó un <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">Bug</a>，并引发了开发者之间的讨论：<blockquote>
-<p>it's never going to be safe, and I doubt it's very useful as long as it's not safe.</p>
-<p>Every change is a potential security hole.</p>
-<p>it's hard to predict what change is going to break it.</p>
-<p>I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.</p>
-<p>this is only a useful occupation if you expect to eventually reach a point where you expect that there aren't any security flaws left.  Jeremy &amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you <em>can't</em> make it safe, don't waste time trying).</p>
-<p>I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.</p>
-<p>The code will still be in older versions if someone decides to pick it up and work on it as a separate project.</p>
-</blockquote>
-</li>
+<li>La causa de este error fue la introducción de la nueva clase <code>object</code> en <code>Python</code>, lo que provocó que <code>rexec</code> no funcionara correctamente. Por lo tanto, los desarrolladores indicaron que, en el futuro previsible, sería difícil evitar esta situación, ya que cualquier modificación podría llevar a que <code>rexec</code> presentara vulnerabilidades, no funcionara adecuadamente o superara las limitaciones de permisos, haciendo prácticamente imposible ofrecer un entorno seguro sin fallas. Los desarrolladores se vieron obligados a realizar constantes reparaciones, lo que resultó en una gran pérdida de tiempo. Finalmente, el módulo <code>rexec</code> fue descontinuado y <code>Python</code> no volvió a proporcionar una funcionalidad similar. Sin embargo, la configuración de <code>__builtins__</code> se mantuvo debido a problemas de compatibilidad, entre otros.</li>
 </ul>
-<p>El origen de este error es que <code>Python</code> introdujo la clase de nuevo estilo <code>object</code>, lo cual causó que <code>rexec</code> no funcionara correctamente. Como resultado, los desarrolladores expresaron que en un futuro previsible sería difícil evitar esta situación, cualquier modificación podría provocar vulnerabilidades en <code>rexec</code>, hacer que no funcione correctamente o superar las restricciones de permisos. Básicamente, resultaba casi imposible proporcionar un entorno seguro sin vulnerabilidades, por lo que los desarrolladores tuvieron que dedicar mucho tiempo a arreglar y parchar continuamente. Finalmente, se abandonó el módulo <code>rexec</code> y <code>Python</code> no proporcionó una funcionalidad similar. Sin embargo, debido a problemas de compatibilidad y otros, la configuración de <code>__builtins__</code> se mantuvo.</p>
-<p>Después, aproximadamente en el año 2010, un programador lanzó <a href="https://github.com/vstinner/pysandbox">pysandbox</a>，dedicado a proporcionar un entorno de sandbox en <code>Python</code> que pueda reemplazar a <code>rexec</code>. Sin embargo, después de 3 años, el autor decidió abandonar este proyecto y explicó en detalle por qué consideraba que había fracasado: <a href="https://mail.python.org/pipermail/python-dev/2013-November/130132.html">El proyecto pysandbox está roto</a>，también ha habido otros autores que han resumido el fracaso de este proyecto: <a href="https://lwn.net/Articles/574215/">El fracaso de pysandbox</a>Si estás interesado, puedes leer el texto original para obtener más información. Aquí te proporciono un resumen para ayudarte a entender:</p>
+<p>Más tarde, alrededor del año 2010, un programador lanzó <a href="https://github.com/vstinner/pysandbox">pysandbox</a>Se dedicó a ofrecer un entorno de sandbox en <code>Python</code> que pudiera reemplazar a <code>rexec</code>. Sin embargo, tres años después, el autor decidió abandonar voluntariamente este proyecto y explicó detalladamente por qué consideraba que había fracasado: <a href="https://mail.python.org/pipermail/python-dev/2013-November/130132.html">The pysandbox project is broken</a>También otros autores han escrito resúmenes sobre el fracaso de este proyecto: <a href="https://lwn.net/Articles/574215/">The failure of pysandbox</a>Si estás interesado, puedes echar un vistazo al texto original para más detalles. Aquí te dejo un resumen para ayudarte a comprender:</p>
 <blockquote>
 <p>After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.</p>
 <p>I now agree that putting a sandbox in CPython is the wrong design. There are too many ways to escape the untrusted namespace using the various introspection features of the Python language. To guarantee the [safety] of a security product, the code should be [carefully] audited and the code to review must be as small as possible. Using pysandbox, the "code" is the whole Python core which is a really huge code base. For example, the Python and Objects directories of Python 3.4 contain more than 126,000 lines of C code.</p>
 <p>The security of pysandbox is the security of its weakest part. A single bug is enough to escape the whole sandbox.</p>
 <p>pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like "del dict[key]" are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating "1+(2*3)", pysandbox cannot be used in practice, because of all these protections.</p>
 </blockquote>
-<p>El autor de <strong>pysandbox</strong> considera que es un diseño erróneo tener un entorno de sandbox en <code>Python</code>, ya que hay demasiadas formas de escapar de dicho sandbox. Las características del lenguaje que ofrece <code>Python</code> son muy diversas y el código fuente de <code>CPython</code> es muy extenso, por lo que es prácticamente imposible garantizar la seguridad adecuada. El proceso de desarrollo de <strong>pysandbox</strong> consistió en aplicar parches de forma continua, pero se han aplicado tantos parches y restricciones que el autor considera que <strong>pysandbox</strong> ya no puede utilizarse en la práctica, ya que muchas características y funcionalidades han sido restringidas y no se pueden utilizar, como por ejemplo la operación sencilla <code>del dict[key]</code>.</p>
-<h2 id="ejecucion-restringida-donde-esta-la-salida">Ejecución restringida ¿Dónde está la salida?</h2>
-<p>Dado que los métodos como <code>rexec</code> y <strong>pysandbox</strong>, que proporcionaban un entorno de sandbox mediante el parcheo de Python, ya no funcionan, me pregunto: ¿cómo podemos proporcionar un entorno de sandbox funcional para Python?</p>
-<p>Aquí continué recopilando algunos otros métodos de implementación o casos de estudio para facilitar su consulta y referencia:</p>
+<p>El autor de <strong>pysandbox</strong> cree que es un error de diseño incluir un entorno de sandbox en <code>Python</code>, ya que hay demasiadas formas de escapar del sandbox. <code>Python</code> ofrece características del lenguaje muy ricas y el código fuente de <code>CPython</code> es extenso, lo que hace prácticamente imposible garantizar suficiente seguridad. El proceso de desarrollo de <strong>pysandbox</strong> ha consistido en aplicar continuamente parches; hay demasiados parches y demasiadas restricciones, hasta el punto de que el autor considera que <strong>pysandbox</strong> ya no es utilizable en la práctica, ya que muchas características y funciones de la sintaxis están limitadas y no se pueden usar, como por ejemplo <code>del dict[key]</code>.</p>
+<h2 id="restriccion-de-ejecucion-cual-es-la-salida">Restricción de Ejecución ¿Cuál es la salida?</h2>
+<p>Dado que métodos como <code>rexec</code> y <strong>pysandbox</strong> que ofrecen un entorno de sandbox a través del parcheo de Python (llamaremos a este método parcheo de Python) ya no son viables, no puedo evitar preguntarme: ¿cómo se puede proporcionar a Python un entorno de sandbox funcional?</p>
+<p>Aquí continúo recopilando algunos otros métodos de implementación o casos, para facilitar su referencia y consulta:</p>
 <ul>
-<li><a href="https://doc.pypy.org/en/latest/sandbox.html">PyPy</a>Hay una <a href="https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2">rama</a>Se ha proporcionado la funcionalidad de la caja de arena, en combinación con <a href="https://foss.heptapod.net/pypy/sandboxlib">sandboxlib</a>，puedes compilar tú mismo una versión de PyPy con entorno sandbox. Si estás interesado, puedes intentar configurarlo por tu cuenta, consulta algunas <a href="https://foss.heptapod.net/pypy/pypy/-/issues/3192">instrucciones</a>La implementación de PyPy se basa en la creación de un subproceso en el que todas las entradas, salidas y llamadas al sistema se redirigen a un proceso externo, que controla estos permisos. También es posible controlar el uso de memoria y CPU. Es importante tener en cuenta que esta rama ha estado un tiempo sin nuevas confirmaciones, así que utilízala con precaución.</li>
+<li><a href="https://doc.pypy.org/en/latest/sandbox.html">PyPy</a>Hay una <a href="https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2">rama</a>Proporciona la funcionalidad de un sandbox, combinado con la librería <a href="https://foss.heptapod.net/pypy/sandboxlib">sandboxlib</a>Se puede compilar por sí mismo una versión de PyPy con entorno de sandbox. Si estás interesado, puedes intentar configurarlo por tu cuenta, consultando algunas <a href="https://foss.heptapod.net/pypy/pypy/-/issues/3192">instrucciones</a>El principio de implementación de PyPy consiste en crear un subproceso, el cual redirige todas las entradas, salidas y llamadas al sistema a un proceso externo, que controla esos permisos. Además, se puede controlar el uso de memoria y CPU. Es importante señalar que esta rama también ha estado sin nuevas contribuciones durante un tiempo, así que se recomienda usarla con precaución.</li>
 </ul>
-<ul>
-<li>Utilizar la herramienta del entorno del sistema operativo conocida como "sandbox" <a href="https://en.wikipedia.org/wiki/Seccomp">seccomp</a>Es una herramienta de seguridad computacional proporcionada por el núcleo de Linux, <a href="https://github.com/seccomp/libseccomp/tree/main/src/python">libsecomp</a>Se ha proporcionado una interfaz de Python que se puede incrustar en el código para su uso, o puede utilizar herramientas basadas en seccomp para ejecutar código, como <a href="https://firejail.wordpress.com/">Firejail</a><a href="https://apparmor.net/">AppArmor</a>Es un módulo de seguridad del kernel de Linux que permite al administrador controlar los recursos y funciones a los que un programa puede acceder, protegiendo el sistema operativo. <a href="https://github.com/openedx/codejail">codejail</a>Es un entorno de sandbox de Python implementado basado en AppArmor. Si estás interesado, puedes probarlo. Hay muchas herramientas similares, pero no se enumeran todas aquí.</li>
-</ul>
-<ul>
-<li>Utiliza un entorno de sandbox o contenedor. <a href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">Windows Sandbox</a>，<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://www.docker.com/">Docker</a>Espere un momento, aquí no se detalla más.</li>
-</ul>
-<h2 id="_1"><strong>总结</strong></h2>
-<p>El término "总结" en chino se traduce al español como "resumen".</p>
-<p>Este texto es un poco largo, gracias por llegar hasta aquí, todas las preguntas mencionadas al comienzo del artículo estoy seguro de que ya han sido respondidas.</p>
+<p>Utiliza las herramientas de entorno de sandbox proporcionadas por el sistema operativo. <a href="https://en.wikipedia.org/wiki/Seccomp">seccomp</a>Es una herramienta de seguridad informática proporcionada por el núcleo de Linux, <a href="https://github.com/seccomp/libseccomp/tree/main/src/python">libseccomp</a>Se han proporcionado los enlaces de Python para incorporar en el código; o también se puede utilizar herramientas basadas en seccomp para ejecutar el código, como <a href="https://firejail.wordpress.com/">Firejail</a><a href="https://apparmor.net/">AppArmor</a>Es un módulo de seguridad del núcleo de Linux que permite a los administradores controlar los recursos y funciones del sistema a los que pueden acceder los programas, protegiendo así el sistema operativo. <a href="https://github.com/openedx/codejail">codejail</a>Es un entorno de sandboxing en Python basado en AppArmor, si tienes interés, puedes probarlo. Hay muchas herramientas similares, aquí no se enumeran una por una.</p>
+<p>Utilice un entorno virtual sandbox o contenedor. <a href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">Windows Sandbox</a>，<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://www.docker.com/">Docker</a>Espera un momento, aquí no se detallará más.</p>
+<h2 id="resumen">Resumen</h2>
+<p>La longitud de este texto es un poco extensa, gracias por llegar hasta aquí, creo que todas las preguntas planteadas al comienzo del artículo han sido respondidas.</p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- 转载声明 && visit -->
 <blockquote>
-<p>Original: <a href="https://wiki.disenone.site/en">https://wiki.disenone.site/en</a></p>
+<p>Original: <a href="https://wiki.disenone.site/es">https://wiki.disenone.site/es</a></p>
 <p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
 </blockquote>
 <!-- 转载 -->
@@ -2009,13 +2003,13 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
 <script async src="https://static.addtoany.com/menu/page.js"></script>
 
 <!-- 评论 -->
-<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="es" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este post está traducido usando ChatGPT, por favor <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a> si hay alguna omisión.</p>
+<p>Este mensaje fue traducido utilizando ChatGPT, por favor <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>proporciona tu opinión</strong></a>Señale cualquier omisión. </p>
 </blockquote></div>
 
 
@@ -2039,7 +2033,7 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
     <span class="md-icon" title="Última actualización">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2024-04-19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-01-31</span>
   </span>
 
     
@@ -2084,7 +2078,7 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
       <nav class="md-footer__inner md-grid" aria-label="Pie" >
         
           
-          <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Usa Visual Studio 2015 para compilar Python 2.7.11.">
+          <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Compilando Python 2.7.11 con Visual Studio 2015">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2094,20 +2088,20 @@ En otros módulos, <code>__builtins__ = __builtin__.__dict__</code>.</p>
                 Anterior
               </span>
               <div class="md-ellipsis">
-                Usa Visual Studio 2015 para compilar Python 2.7.11.
+                Compilando Python 2.7.11 con Visual Studio 2015
               </div>
             </div>
           </a>
         
         
           
-          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Python Chit-Chat 2 - Actualización en caliente de Python3.12">
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Python Conversaciones 2 - Actualización en caliente de Python 3.12">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Siguiente
               </span>
               <div class="md-ellipsis">
-                Python Chit-Chat 2 - Actualización en caliente de Python3.12
+                Python Conversaciones 2 - Actualización en caliente de Python 3.12
               </div>
             </div>
             <div class="md-footer__button md-icon">
