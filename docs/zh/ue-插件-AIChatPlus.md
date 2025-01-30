@@ -445,6 +445,16 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
+### 编辑器使用 Gemini 发送音频
+
+* 选择 从文件读取音频 / 从 Asset 读取音频 / 从麦克风录取音频，生成需要发送的音频
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png)
+
+* 开始聊天
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png)
+
 ### 蓝图使用 Gemini 聊天
 
 创建如下蓝图，设置好 Gemini Options，点击运行，即可看到屏幕上打印 Gemini 返回的聊天信息
@@ -452,6 +462,14 @@ void AddTestCommand()
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
+
+### 蓝图使用 Gemini 发送音频
+
+创建如下蓝图，设置加载音频，设置好 Gemini Options，点击运行，即可看到屏幕上打印 Gemini 处理音频后返回的聊天信息
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_sound_1.png)
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_sound_2.png)
 
 ## Deepseek
 
@@ -474,6 +492,24 @@ void AddTestCommand()
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png)
 
 ## 更新日志
+
+### v1.5.1 - 2025.01.30
+
+#### 新功能
+
+* 只允许 Gemini 发音频
+
+* 优化获取 PCMData 的方法，生成 B64 的时候再解压缩音频数据
+
+* request 增加两个回调 OnMessageFinished OnImagesFinished
+
+* 优化 Gemini Method，自动根据 bStream 获取 Method
+
+* 增加一些蓝图函数，方便转换 Wrapper 到实际类型，并且获取 Response Message 和 Error
+
+#### Bug Fix
+
+* 修复 Request Finish 多次调用问题
 
 ### v1.5.0 - 2025.01.29
 
