@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UE Plugin AIChatPlus Dokumentation
+title: UE Plugin AIChatPlus User Guide
 tags:
 - dev
 - game
@@ -19,85 +19,85 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: UE Plugin AIChatPlus Anleitung
+description: UE Plugin AIChatPlus Documentation
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#UE 插件 AIChatPlus User Manual
+#UE 插件 AIChatPlus User Guide
 
 ##Öffentliches Lagerhaus
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##Plugin erhalten.
+##Erweiterung erhalten
 
 [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
-##Plugin-Beschreibung
+##Plugin-Einführung
 
 Dieses Plugin unterstützt UE5.2+.
 
-UE.AIChatPlus ist ein UnrealEngine-Plugin, das die Kommunikation mit verschiedenen GPT AI-Chat-Diensten ermöglicht. Derzeit unterstützte Dienste sind OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama und llama.cpp lokal im Offline-Modus. In Zukunft werden weiterhin weitere Dienstanbieter unterstützt. Die Implementierung basiert auf asynchronen REST-Anfragen, ist leistungsfähig und erleichtert es UE-Entwicklern, diese AI-Chat-Dienste zu integrieren.
+UE.AIChatPlus ist ein UnrealEngine-Plugin, das die Kommunikation mit verschiedenen GPT KI-Chat-Services ermöglicht. Aktuell werden Dienste wie OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama und llama.cpp lokal offline unterstützt. In Zukunft werden noch mehr Serviceanbieter hinzukommen. Die Implementierung basiert auf asynchronen REST-Anfragen, um eine effiziente Leistung zu gewährleisten und es Entwicklern in der UnrealEngine leicht zu machen, diese KI-Chat-Services zu integrieren.
 
-Gleichzeitig enthält UE.AIChatPlus ein Editor-Tool, mit dem man diese KI-Chat-Dienste direkt im Editor nutzen kann, um Texte und Bilder zu generieren, Bilder zu analysieren usw.
+UE.AIChatPlus enthält auch ein Editor-Tool, mit dem Sie direkt in dem Editor auf diese AI-Chat-Services zugreifen können, um Texte und Bilder zu erstellen, Bilder zu analysieren usw.
 
 ##Gebrauchsanweisung
 
-###Editor-Chat-Tool
+###Editor Chat-Tool
 
-Menüleiste Werkzeuge -> AIChatPlus -> AIChat öffnet das von dem Plugin bereitgestellte Editor-Chat-Tool.
+Das Menü "Tools" -> "AIChatPlus" -> "AIChat" öffnet das Chat-Tool des Plugins.
 
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-Das Tool unterstützt die Textgenerierung, Textchat, die Bilderzeugung und Bildanalyse.
+Das Tool unterstützt die Erstellung von Texten, Textchats, Bildgenerierung und Bildanalyse.
 
-Die Benutzeroberfläche des Werkzeugs sieht ungefähr so aus:
+Die Benutzeroberfläche des Tools ist ungefähr wie folgt:
 
 ![text chat](assets/img/2024-ue-aichatplus/chat_tool2.png)
 
 ![image chat](assets/img/2024-ue-aichatplus/chat_tool.png)
 
-####Hauptfunktionen
+####Hauptfunktion
 
-Offline Large Model: Integration of the llama.cpp library, supporting local offline execution of large models.
+Offline Big Model: Integration of the llama.cpp library to support local offline execution of big models.
 
-* Text-Chat: Klicken Sie auf die Schaltfläche `Neuen Chat` in der linken unteren Ecke, um eine neue Text-Chat-Sitzung zu erstellen.
+Textnachricht: Klicken Sie auf die Schaltfläche `Neuer Chat` in der linken unteren Ecke, um eine neue Textnachricht zu erstellen.
 
-* Bildgenerierung: Klicken Sie auf die Schaltfläche `Neues Bild-Chat` in der linken unteren Ecke, um eine neue Bildgenerierungssitzung zu erstellen.
+Bildgenerierung: Klicken Sie auf die Schaltfläche "New Image Chat" unten links, um eine neue Bildgenerierungssitzung zu erstellen.
 
-Bildanalyse: Einige Chat-Dienste von 'New Chat' unterstützen das Senden von Bildern, wie zum Beispiel Claude, Google Gemini. Klicken Sie einfach auf die Schaltfläche 🖼️ oder 🎨 oben im Eingabefeld, um das zu sendende Bild zu laden.
+Bildanalyse: Einige Chat-Dienste in "New Chat" unterstützen das Senden von Bildern, wie z.B. Claude, Google Gemini. Klicken Sie einfach auf die Schaltfläche 🖼️ oder 🎨 über dem Eingabefeld, um das zu sendende Bild zu laden.
 
-* Unterstützte Blaupausen (Blueprint): Unterstützung für die Erstellung von API-Anfragen für Textchats, Bildgenerierung und weitere Funktionen.
+Unterstützung für Blaupausen (Blueprint): Unterstützung für die Erstellung von API-Anfragen über Blaupausen für Textchats, Bildgenerierung und andere Funktionen.
 
-Festlegen des aktuellen Chat-Charakters: Das Dropdown-Menü über dem Chat-Fenster ermöglicht die Auswahl des aktuellen Charakters, von dem die Texte gesendet werden. Dies ermöglicht die Simulation verschiedener Charaktere zur Anpassung des KI-Chats.
+Legen Sie die aktuelle Chatrolle fest: Das Dropdown-Menü oben im Chat kann die Rolle festlegen, aus der der Text gesendet wird. Durch das Simulieren verschiedener Rollen kann der KI-Chat angepasst werden.
 
-Leeren der Konversation: Das X-Symbol oben im Chatfenster kann verwendet werden, um den Verlaufsnachrichten der aktuellen Konversation zu löschen.
+Leeren Sie den Chat: Klicken Sie auf das ❌-Symbol oben im Chatfenster, um den Verlauf des aktuellen Chats zu löschen.
 
-Gesprächsvorlage: Hunderte von integrierten Gesprächssettings stehen zur Verfügung, um häufig auftretende Probleme einfach zu behandeln.
+Gesprächsvorlage: Hunderte von integrierten Gesprächsvorlagen erleichtern die Bearbeitung häufiger Probleme.
 
-Globale Einstellungen: Klicken Sie auf die Schaltfläche "Einstellungen" unten links, um das Fenster für die globalen Einstellungen zu öffnen. Hier können Sie den Standard-Text-Chat, den API-Dienst für die Bildgenerierung und die spezifischen Parameter für jeden API-Dienst festlegen. Die Einstellungen werden automatisch im Projektverzeichnis `$(ProjectFolder)/Saved/AIChatPlusEditor` gespeichert.
+Global Settings: By clicking on the `Setting` button in the bottom left corner, you can open the global settings window. Here, you can configure default text chat, image generation API services, and specify parameters for each API service. The settings will be automatically saved in the project's path `$(ProjectFolder)/Saved/AIChatPlusEditor`.
 
-* Gesprächseinstellungen: Klicken Sie auf die Schaltfläche "Einstellungen" oberhalb des Chatfensters, um das Einstellungsfenster des aktuellen Gesprächs zu öffnen. Es wird unterstützt, den Gesprächsnamen zu ändern, den verwendeten API-Dienst anzupassen und spezifische Parameter für die API jeder Sitzung unabhängig festzulegen. Die Gesprächst Einstellungen werden automatisch im `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions` gespeichert.
+Konversations-Einstellungen: Klicke auf die Schaltfläche "Einstellungen" oben im Chatfenster, um das Einstellungsfenster der aktuellen Konversation zu öffnen. Hier kannst du den Konversationsnamen ändern, den für die Konversation verwendeten API-Dienst modifizieren und spezifische Parameter für jede Konversation festlegen. Die Konversations-Einstellungen werden automatisch unter `$(Projektordner)/Saved/AIChatPlusEditor/Sessions` gespeichert.
 
-Ändern des Chat-Inhalts: Wenn Sie mit der Maus über einen Chat-Inhalt fahren, wird eine Schaltfläche zur Inhaltssteuerung für diesen einzelnen Chat-Inhalt angezeigt. Zu den Optionen gehören das Neugenerieren des Inhalts, das Bearbeiten, Kopieren, Löschen sowie das erneute Generieren von Inhalten unten (für Inhalte, bei denen der Benutzer die Rolle des Absenders hat).
+Ändern der Chat-Nachricht: Wenn Sie mit der Maus über den Chat-Inhalt fahren, wird eine Schaltfläche zur Nachrichteneinstellung angezeigt, die das Neugenerieren, Bearbeiten, Kopieren, Löschen und das Neuerzeugen des Inhalts unten (für benutzerbezogene Inhalte) unterstützt.
 
-* Bildanzeige: Bei der Bilderzeugung öffnet ein Klick auf das Bild das Bildansichtsfenster (ImageViewer), das das Speichern des Bildes als PNG/UE-Textur unterstützt. Die Textur kann direkt im Inhaltsbrowser (Content Browser) angezeigt werden, was die Verwendung von Bildern im Editor erleichtert. Außerdem werden Funktionen wie das Löschen von Bildern, das erneute Generieren von Bildern und das Fortsetzen der Generierung weiterer Bilder unterstützt. Für den Editor unter Windows wird zusätzlich das Kopieren von Bildern unterstützt, sodass Bilder direkt in die Zwischenablage kopiert werden können, was die Benutzung erleichtert. Die Bilder, die während der Sitzung generiert werden, werden automatisch in jedem Sitzungsordner gespeichert, normalerweise unter dem Pfad `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
+*Durchsuchen von Bildern: Wenn Sie ein Bild generieren, klicken Sie darauf, um das Bildanzeigefenster (ImageViewer) zu öffnen. Sie können das Bild im PNG/UE-Texturformat speichern, die Textur kann direkt im Inhaltsbrowser (Content Browser) angesehen werden, um Bilder bequem im Editor zu verwenden. Es gibt auch Funktionen zum Löschen von Bildern, Neugenerieren von Bildern und Fortfahren mit der Generierung weiterer Bilder. Für Editoren unter Windows wird auch das Kopieren von Bildern unterstützt, damit können Bilder direkt in die Zwischenablage kopiert werden, um sie bequem zu verwenden. Die generierten Bilder werden automatisch im Ordner jeder Sitzung gespeichert, normalerweise unter dem Pfad `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.*
 
-Bauplan:
+Der Text lautet: "Die Blaupause:"
 
 ![blueprint](assets/img/2024-ue-aichatplus/blueprint.png)
 
-Allgemeine Einstellungen:
+Global Settings:
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
-Konversationseinstellungen:
+Gesprächseinstellungen:
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
-Bearbeiten Sie den Chat-Inhalt:
+Ändern Sie den Chatinhalt:
 
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
@@ -113,35 +113,35 @@ Dialogvorlage
 
 ![system template](assets/img/2024-ue-aichatplus/system_template.png)
 
-###Kerncode Einführung
+###Einführung in den Kerncode
 
-Derzeit ist das Plugin in folgende Module unterteilt:
+Derzeit unterteilt sich das Plugin in folgende Module:
 
-AIChatPlusCommon: Runtime-Modul, das für die Verarbeitung von verschiedenen AI-API-Anfragen und die Analyse von Antwortinhalten zuständig ist.
+AIChatPlusCommon: Das Runtime-Modul, das dafür zuständig ist, verschiedene AI-API-Anfragen zu verarbeiten und die Antwortinhalte zu analysieren.
 
-AIChatPlusEditor: Editor-Modul, verantwortlich für die Implementierung des Editor-KI-Chat-Tools.
+AIChatPlusEditor: Editor-Modul, das die Implementierung des Editor-KI-Chat-Tools steuert.
 
-AIChatPlusCllama: Laufzeitmodul (Runtime), das die Schnittstelle und Parameter von llama.cpp kapselt und die Offline-Ausführung großer Modelle ermöglicht.
+AIChatPlusCllama: Runtime-Modul, das die Schnittstelle und Parameter von llama.cpp kapselt und die Offline-Ausführung großer Modelle ermöglicht.
 
-* Thirdparty/LLAMACpp: Laufzeit-Drittanbieter-Modul, das die dynamischen Bibliotheken und Header-Dateien von llama.cpp integriert.
+Drittanbieter/LLAMACpp: Laufzeit-Drittanbietermodul (Runtime), das die dynamische Bibliothek und Header-Datei von llama.cpp integriert.
 
-Der UClass, der für das Senden von Anfragen zuständig ist, ist FAIChatPlus_xxxChatRequest. Jeder API-Dienst hat sein eigenes unabhängiges Request UClass. Die Antworten auf die Anfragen werden durch die UClass UAIChatPlus_ChatHandlerBase/UAIChatPlus_ImageHandlerBase erhalten, es ist nur erforderlich, die entsprechenden Rückruffunktionen zu registrieren.
+Der `UClass`, der für das Senden von Anfragen verantwortlich ist, ist `FAIChatPlus_xxxChatRequest`. Jeder API-Dienst hat seine eigene separate `Request UClass`. Die Antwort auf die Anfrage wird über `UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase` `UClass` erhalten, es ist nur erforderlich, die entsprechenden Rückruf-Delegaten zu registrieren.
 
-Bevor eine Anfrage gesendet wird, müssen die API-Parameter und die Nachricht festgelegt werden. Dies geschieht über FAIChatPlus_xxxChatRequestBody. Der spezifische Inhalt der Antwort wird im FAIChatPlus_xxxChatResponseBody analysiert, und beim Empfang des Rückrufs kann das ResponseBody über eine spezielle Schnittstelle abgerufen werden.
+Before sending a request, you need to set the parameters of the API and the message to be sent. This is done by using FAIChatPlus_xxxChatRequestBody. The specific content of the response is also parsed into FAIChatPlus_xxxChatResponseBody, and when receiving a callback, you can retrieve the ResponseBody through a specific interface.
 
-Weitere Quellcodedetails sind im UE Shop erhältlich: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
+Weitere Quelldetails sind im UE Store erhältlich: [AIChatPlus](https://www.unrealengine.com/marketplace/zh-CN/product/aichatplus-ai-chat-integration-openai-azure-claude-gemini)
 
 ## Cllama(llama.cpp)
 
-###Verwenden Sie das Offline-Modell Cllama (llama.cpp) mit dem Editor-Tool.
+###Die Editor-Tools verwenden das Offline-Modell Cllama(llama.cpp).
 
-Dieser Text lautet auf Deutsch:
+The text translates into German as:
 
-Hier sind Anweisungen zur Verwendung des Offline-Modells llama.cpp im AIChatPlus-Editor-Tool.
+"Die folgende Anleitung zeigt, wie man das Offline-Modell llama.cpp im Editor-Tool AIChatPlus verwendet."
 
-* Zuerst das Offline-Modell von der HuggingFace-Website herunterladen: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+Zunächst einmal, laden Sie das Offline-Modell von der HuggingFace-Website herunter: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-Legen Sie das Modell in einen bestimmten Ordner, zum Beispiel im Verzeichnis Content/LLAMA des Spielprojekts.
+Legen Sie das Modell in einen bestimmten Ordner, beispielsweise im Verzeichnis Content/LLAMA des Spiels.
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA
@@ -149,37 +149,37 @@ E:/UE/projects/FP_Test1/Content/LLAMA
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-* Öffnen Sie das AIChatPlus-Bearbeitungswerkzeug: Tools -> AIChatPlus -> AIChat, erstellen Sie eine neue Chatsitzung und öffnen Sie die Konfigurationsseite der Sitzung.
+Öffnen Sie das AIChatPlus-Editor-Tool: Tools -> AIChatPlus -> AIChat, erstellen Sie eine neue Chat-Sitzung und öffnen Sie die Sitzungseinstellungen Seite.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
 
-Stellen Sie die API auf Cllama ein, aktivieren Sie die benutzerdefinierten API-Einstellungen, fügen Sie den Modellsuchpfad hinzu und wählen Sie ein Modell aus.
+Setzen Sie die API auf Cllama, aktivieren Sie die benutzerdefinierten API-Einstellungen, fügen Sie den Modell-Suchpfad hinzu und wählen Sie ein Modell aus.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
 
-* Lass uns chatten!!
+Beginnen Sie mit der Unterhaltung!
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-###Der Editor verwendet das Offline-Modell Cllama (llama.cpp) zur Bearbeitung von Bildern.
+###Verwenden Sie das Offline-Modell Cllama (llama.cpp) im Editor-Tool zur Bildverarbeitung.
 
-Laden Sie das Offline-Modell MobileVLM_V2-1.7B-GGUF von der HuggingFace-Website herunter und legen Sie es ebenfalls im Verzeichnis Content/LLAMA ab: [ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)I am sorry, but there is nothing to translate in the text you provided.
+Laden Sie das Offline-Modell MobileVLM_V2-1.7B-GGUF von der HuggingFace-Website herunter und speichern Sie es im Verzeichnis Content/LLAMA als [ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)I'm sorry, but I cannot provide a translation for non-textual content.
 
-* Modell für die Sitzung festlegen:
+Setzen Sie das Modell der Sitzung:
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png)
 
-* Bild senden, um den Chat zu starten
+Send a picture to start chatting.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png)
 
 ###Der Code verwendet das Offline-Modell Cllama (llama.cpp).
 
-Die folgende Anleitung beschreibt, wie man das Offline-Modell llama.cpp im Code verwendet.
+Die folgende Erklärung zeigt, wie man das Offline-Modell llama.cpp im Code verwendet.
 
-Zuerst müssen die Modell-Dateien ebenfalls in den Ordner Content/LLAMA heruntergeladen werden.
+Zunächst müssen Sie die Modelldateien auch in den Ordner "Content/LLAMA" herunterladen.
 
-Ändern Sie den Code, um einen Befehl hinzuzufügen und über diesen Befehl eine Nachricht an das Offline-Modell zu senden.
+Ändern Sie den Code, fügen Sie einen Befehl hinzu und senden Sie eine Nachricht an das Offline-Modell innerhalb des Befehls.
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -239,19 +239,19 @@ void AddTestCommand()
 }
 ```
 
-* Nach der erneuten Kompilierung können Sie im Editor Cmd den Befehl verwenden, um die Ausgaberesultate des großen Modells im Protokoll OutputLog zu sehen.
+Nachdem Sie neu kompiliert haben, können Sie im Editor Cmd Befehle verwenden, um die Ausgabenergebnisse des großen Modells im Protokoll OutputLog zu sehen.
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
-###Blueprint verwendet das Offline-Modell llama.cpp
+###Bitte benutzen Sie das Offline-Modell Blueprint llama.cpp.
 
-Die folgende Anleitung erläutert, wie man Offline-Modelle wie llama.cpp in Blueprints verwendet.
+The following explains how to use the offline model llama.cpp in a blueprint.
 
-* Klicken Sie mit der rechten Maustaste im Blueprint und erstellen Sie einen Knoten `Send Cllama Chat Request`.
+In der Blaupause mit der rechten Maustaste einen Knoten namens `Send Cllama Chat Request` erstellen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
-* Erstellen Sie den Options-Knoten und setzen Sie `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`
+Erstellen Sie den Knoten "Options" und legen Sie `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"` fest.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
 
@@ -261,37 +261,59 @@ Erstellen Sie Nachrichten, fügen Sie jeweils eine Systemnachricht und eine Benu
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Erstellen Sie einen Delegaten, der die Ausgaben des Modells annimmt und auf dem Bildschirm ausgibt.
+Erstellen Sie einen Delegaten, der Informationen aus dem Modell entgegennimmt und auf dem Bildschirm ausgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-Eine vollständige Blaupause sieht so aus, führen Sie die Blaupause aus und Sie werden die Nachricht sehen, die auf dem Bildschirm erscheint, die das Drucken eines großen Modells bestätigt.
+Eine vollständige Blaupause sieht so aus, führen Sie die Blaupause aus und Sie sehen die Nachricht, die auf dem Bildschirm erscheint, wenn das große Modell gedruckt wird. 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
+###Die Datei llama.cpp nutzt die GPU.
+
+"Cllama Chat Request Options" hat einen neuen Parameter "Num Gpu Layer" hinzugefügt, mit dem das GPU-Payload in llama.cpp konfiguriert werden kann, wie im Bild gezeigt.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
+
+Sie können mit Blueprints-Nodes überprüfen, ob die aktuelle Umgebung GPU unterstützt und die unterstützten Backends abrufen:
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_2.png)
+
+###Verarbeitung der Modelldateien in der .Pak-Datei.
+
+Nach dem Aktivieren von Pak werden alle Ressourcendateien des Projekts in der .Pak-Datei gespeichert, einschließlich der Offline-Modell-GGUF-Datei.
+
+Da llama.cpp kann keine direkte Unterstützung zum Lesen von .Pak-Dateien bieten, ist es notwendig, die Offline-Modelldateien aus der .Pak-Datei ins Dateisystem zu kopieren.
+
+AIChatPlus bietet eine Funktion, die automatisch Modelldateien aus .Pak kopiert und in den Ordner "Saved" verschiebt.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png)
+
+Oder Sie können die Modelldateien in der .Pak-Datei selbst verarbeiten, das Hauptproblem liegt darin, dass die Dateien kopiert werden müssen, da llama.cpp die .Pak-Datei nicht korrekt lesen kann.
+
 ## OpenAI
 
-###Editor verwendet OpenAI-Chat
+###Der Editor verwendet OpenAI Chat.
 
-* Öffnen Sie das Chat-Tool Tools -> AIChatPlus -> AIChat, erstellen Sie eine neue Chatsitzung New Chat, setzen Sie die Sitzung ChatApi auf OpenAI, setzen Sie die Schnittstellenparameter.
+Öffnen Sie das Chat-Tool Tools -> AIChatPlus -> AIChat, erstellen Sie eine neue Chat-Sitzung New Chat, setzen Sie die Sitzung ChatApi auf OpenAI, setzen Sie die Schnittstellenparameter.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
 
-* Chat starten:
+Begin chatting:
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
 
-Wechseln Sie das Modell auf gpt-4o / gpt-4o-mini, um die Bildanalysefunktionen von OpenAI zu nutzen.
+Ändern Sie das Modell auf gpt-4o / gpt-4o-mini, um die Bildanalysefunktionen von OpenAI zu nutzen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
 
-###Der Editor verwendet OpenAI, um Bilder zu bearbeiten (erstellen/ändern/variieren).
+###Der Editor verwendet OpenAI, um Bilder zu verarbeiten (erstellen/modifizieren/variieren).
 
-* Erstellen Sie im Chat-Tool eine neue Bildunterhaltung New Image Chat, ändern Sie die Sitzungseinstellungen auf OpenAI und passen Sie die Parameter an.
+Erstellen Sie in der Chat-App einen neuen Bild-Chat, ändern Sie die Chat-Einstellungen auf OpenAI und konfigurieren Sie die Parameter.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
 
@@ -299,45 +321,45 @@ Erstellen von Bildern
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png)
 
-* Ändern Sie das Bild, ändern Sie den Bild-Chattyp in Bearbeiten und laden Sie zwei Bilder hoch, eines ist das Originalbild und das andere ist die Maske, wobei die transparenten Bereiche (Alpha-Kanal = 0) die Stellen darstellen, die geändert werden müssen.
+Ändern Sie das Bild, ändern Sie den Bild Chat Typ in "Bearbeiten" und laden Sie zwei Bilder hoch, eines ist das Originalbild und das andere ist das maskierte Bild, bei dem die transparenten Stellen (Alpha-Kanal 0) die zu bearbeitenden Bereiche anzeigen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
 
-* Ändern Sie den Konversationstyp von Image Chat in Variation und laden Sie ein Bild hoch. OpenAI wird eine Variation des originalen Bildes zurückgeben.
+Ändern Sie das Bildformat, ändern Sie den Bild-Chat-Typ in "[Variation]" und laden Sie ein Bild hoch. OpenAI wird eine Variante des Originalbildes zurückgeben.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
 
-###Blueprint nutzt OpenAI Model Chats.
+###Use OpenAI models to chat with Blueprint.
 
-In der Blaupause mit der rechten Maustaste einen Knoten `Send OpenAI Chat Request In World` erstellen.
+In der Blueprint einen Knoten mit der rechten Maustaste erstellen: `Send OpenAI Chat Request In World`.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_1.png)
 
-* Erstellen Sie einen Options-Knoten und setzen Sie `Stream=true, Api Key="Ihr API-Schlüssel von OpenAI"`
+Erstellen Sie den Options-Knoten und legen Sie `Stream=true, Api Key="Ihr API-Schlüssel von OpenAI"` fest.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_2.png)
 
-* Erstellen Sie Nachrichten und fügen Sie jeweils eine Systemnachricht und eine Benutzernachricht hinzu.
+Erstellen Sie Nachrichten, fügen Sie jeweils eine Systemnachricht und eine Benutzernachricht hinzu.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Erstellen Sie einen Delegaten, der die Ausgabeinformationen des Modells empfängt und auf dem Bildschirm ausgibt.
+Erstellen Sie einen Delegierten, der die Ausgabeinformationen des Modells annimmt und auf dem Bildschirm ausgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-* Der vollständige Blueprint sieht so aus, wenn Sie den Blueprint ausführen, können Sie den Spielbildschirm sehen, der die Nachrichten des zurückgegebenen großen Modells anzeigt.
+Eine vollständige Blaupause sieht so aus, führe die Blaupause aus und du wirst die Nachricht sehen, die auf dem Bildschirm erscheint, wenn das Spiel das große Modell druckt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_3.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_blueprint_4.png)
 
-###Entwurf mit OpenAI erstelltes Bild.
+###Die Blaupause wurde mit OpenAI erstellt, um ein Bild zu erstellen.
 
-In der Blaupause mit der rechten Maustaste einen Knoten namens "Send OpenAI Image Request" erstellen und "In Prompt="a beautiful butterfly"" einstellen.
+In der Blaupause mit der rechten Maustaste einen Knoten mit dem Namen `Send OpenAI Image Request` erstellen und `In Prompt="a beautiful butterfly"` festlegen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_1.png)
 
@@ -345,11 +367,11 @@ Erstellen Sie den Options-Knoten und legen Sie `Api Key="Ihr API-Schlüssel von 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_2.png)
 
-* Binde das On Images-Ereignis und speichere die Bilder auf der lokalen Festplatte.
+Binden Sie das Ereignis "On Images" und speichern Sie das Bild auf der lokalen Festplatte.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_3.png)
 
-* Der vollständige Plan sieht so aus, indem Sie den Plan ausführen, können Sie die Bilder am angegebenen Speicherort sehen.
+Eine vollständige Blaupause sieht so aus, wenn Sie die Blaupause ausführen, können Sie sehen, dass das Bild an einem festgelegten Ort gespeichert wird.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_image_blueprint_4.png)
 
@@ -357,71 +379,73 @@ Erstellen Sie den Options-Knoten und legen Sie `Api Key="Ihr API-Schlüssel von 
 
 ## Azure
 
-###Der Editor verwendet Azure.
+###Der Editor nutzt Azure.
 
-Erstellen einer neuen Unterhaltung (New Chat), indem Sie ChatApi auf Azure umstellen und die Api-Parameter von Azure einrichten.
+Erstellen Sie einen neuen Chat, ändern Sie ChatApi auf Azure und konfigurieren Sie die Azure API-Parameter.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png)
 
-Beginnen Sie zu plaudern.
+Beginnen wir mit der Unterhaltung.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png)
 
-###Editor verwendet Azure, um Bilder zu erstellen.
+###Der Editor erstellt Bilder mit Azure.
 
-Erstellen Sie ein neues Bild-Chat-Gespräch (*New Image Chat*), ändern Sie *ChatApi* auf *Azure* und konfigurieren Sie die Azure-API-Parameter. Beachten Sie, dass bei Verwendung des *dall-e-2*-Modells die Parameter *Quality* und *Stype* auf *not_use* gesetzt werden müssen.
+Erstellen Sie eine neue Bildunterhaltung (New Image Chat), tauschen Sie ChatApi gegen Azure aus und konfigurieren Sie die Azure API-Parameter. Beachten Sie, wenn das Modell dall-e-2 verwendet wird, müssen die Parameter Quality und Stype auf not_use eingestellt werden.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png)
 
-* Beginnen Sie den Chat und lassen Sie Azure Bilder erstellen.
+Beginnen Sie mit dem Chat und lassen Sie Azure ein Bild erstellen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png)
 
-###Blueprint verwenden Azure Chat.
+###Blueprint verwenden Azure Chat
 
-Erstellen Sie das folgende Blueprint, richten Sie die Azure-Optionen ein, und klicken Sie auf Ausführen, um die von Azure zurückgegebenen Chatnachrichten auf dem Bildschirm zu sehen.
+Erstellen Sie das folgende Schema, konfigurieren Sie die Azure Optionen, klicken Sie auf Ausführen und Sie werden die Chatnachrichten von Azure auf dem Bildschirm sehen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_chat_2.png)
 
-###Blueprint verwendet Azure zur Erstellung von Bildern.
+###Erstellen Sie ein Bild mit Azure-Blueprints.
 
-Erstelle das folgende Schema, konfiguriere die Azure-Optionen, klicke auf "Ausführen". Wenn das Erstellen des Bildes erfolgreich ist, wird die Meldung "Bild erstellen erfolgreich" auf dem Bildschirm angezeigt.
+Erstellen Sie das folgende Blueprint, konfigurieren Sie die Azure-Optionen, klicken Sie auf Ausführen. Wenn das Bild erfolgreich erstellt wurde, wird die Meldung "Bild erstellt" auf dem Bildschirm angezeigt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_blueprint_image_1.png)
 
-Gemäß den oben genannten Einstellungen wird das Bild im Pfad D:\Dwnloads\butterfly.png gespeichert.
+Basierend auf den Einstellungen des obigen   Entwurfs wird das Bild im Pfad D:\Downloads\butterfly.png gespeichert.
 
 ## Claude
 
-###Der Editor verwendet Claude für Chat und Bildanalyse.
+###Der Editor verwendet Claude, um Bilder zu chatten und zu analysieren.
 
-* Neue Unterhaltung erstellen (New Chat), ändern Sie ChatApi in Claude und stellen Sie die Api-Parameter für Claude ein.
+Erstellen Sie einen neuen Chat, ändern Sie ChatApi in Claude und konfigurieren Sie die API-Parameter von Claude.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png)
 
-* Chat starten
+Beginnen Sie mit dem Chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png)
 
-###Blueprint verwenden Claude zum Chatten und Analysieren von Bildern.
+###Translate these text into German language:
 
-In der Blaupause mit der rechten Maustaste einen Knoten namens "Send Claude Chat Request" erstellen.
+Der Plan verwendet Claude zum Chatten und Analysieren von Bildern.
+
+In der Baupläne rechte Maustaste klicken und einen Knoten "Send Claude Chat Request" erstellen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_1.png)
 
-* Erstellen Sie einen Options-Knoten und setzen Sie `Stream=true, Api Key="Ihr API-Schlüssel von Clude", Max Output Tokens=1024`
+Erstellen Sie den Options-Knoten und legen Sie `Stream=true, Api Key="Ihr API-Schlüssel von Clude", Max Output Tokens=1024` fest.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_2.png)
 
-Erstellen von Nachrichten, Erstellen eines Texture2D aus einer Datei und Erstellen von AIChatPlusTexture aus dem Texture2D, dann Hinzufügen des AIChatPlusTexture zur Nachricht.
+Erstellen von Nachrichten, Erstellen von Texture2D aus einer Datei und Erstellen von AIChatPlusTexture aus Texture2D, um AIChatPlusTexture zur Nachricht hinzuzufügen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_3.png)
 
-* Erstelle ein Event wie im obigen Tutorial und drucke die Informationen auf den Spielbildschirm.
+Wie im obigen Tutorial, erstellen Sie ein Ereignis und drucken Sie die Informationen auf den Bildschirm des Spiels.
 
-Die vollständige Blaupause sieht so aus, führe die Blaupause aus und du wirst auf dem Spielschirm die Nachricht sehen, die das gedruckte große Modell zurückgibt.
+Eine vollständige Blaupause sieht so aus. Wenn du die Blaupause ausführst, siehst du die Nachricht, die auf dem Bildschirm angezeigt wird, wenn das große Modell gedruckt wird.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_blueprint_4.png)
 
@@ -429,15 +453,15 @@ Die vollständige Blaupause sieht so aus, führe die Blaupause aus und du wirst 
 
 ## Ollama
 
-###Ollama abrufen
+###Erhalten Sie Ollama.
 
-* Die Installationspakete können über die offizielle Ollama-Website heruntergeladen werden: [ollama.com](https://ollama.com/)
+Sie können die Installationsdatei direkt von der Ollama-Website herunterladen und lokal installieren: [ollama.com](https://ollama.com/)
 
-Sie können Ollama über die von anderen bereitgestellte Ollama-Schnittstelle verwenden.
+Sie können Ollama über die von anderen bereitgestellte Ollama-Schnittstelle nutzen.
 
-###Editor verwendet Ollama, um zu chatten und Bilder zu analysieren.
+###Der Editor verwendet Ollama zum Chatten und Analysieren von Bildern.
 
-Erstellen Sie einen neuen Chat und ändern Sie ChatApi in Ollama. Legen Sie die Api-Parameter für Ollama fest. Wenn es sich um einen Text-Chat handelt, setzen Sie das Modell auf den Text-Modus, wie z.B. llama3.1; Wenn Bilder verarbeitet werden müssen, wählen Sie ein Modell aus, das die Bildverarbeitung unterstützt, z.B. moondream.
+Erstellen Sie ein neues Chatfenster, ändern Sie ChatApi in Ollama und konfigurieren Sie die Api-Parameter von Ollama. Wenn es sich um einen Text-Chat handelt, setzen Sie das Modell auf ein Textmodell wie llama3.1. Wenn Bilder verarbeitet werden müssen, wählen Sie ein Modell aus, das Bildverarbeitung unterstützt, beispielsweise moondream.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png)
 
@@ -445,9 +469,9 @@ Beginnen Sie mit dem Chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
 
-###Blueprint verwenden Ollama zum Chatten und Analysieren von Bildern.
+###Das bedeutet "Blueprints verwenden Ollama zum Chatten und Analysieren von Bildern"
 
-Erstellen Sie das folgende Schema, konfigurieren Sie die Ollama-Optionen, klicken Sie auf Ausführen und Sie werden die Chat-Nachrichten sehen, die von Ollama auf dem Bildschirm ausgegeben werden.
+Erstellen Sie die folgende Blaupause, konfigurieren Sie die Ollama-Optionen, klicken Sie auf Ausführen, um die Chat-Nachrichten zu sehen, die Ollama auf dem Bildschirm ausgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_blueprint_chat_1.png)
 
@@ -457,37 +481,35 @@ Erstellen Sie das folgende Schema, konfigurieren Sie die Ollama-Optionen, klicke
 
 ###Der Editor verwendet Gemini.
 
-* Neue Sitzung (New Chat), ändern Sie ChatApi zu Gemini und setzen Sie die Api-Parameter von Gemini.
+Erstellen Sie einen neuen Chat, ändern Sie ChatApi in Gemini und konfigurieren Sie die API-Parameter von Gemini.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png)
 
-Bitte übersetzen Sie den folgenden Text ins Deutsche: 
-
-"Beginne den Chat."
+Beginne den Chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
-###Der Editor verwendet Gemini, um Audio zu senden.
+###Der Editor nutzt Gemini, um Audiodateien zu versenden.
 
-* Wählen Sie Audio aus Datei lesen / Audio aus Asset lesen / Audio vom Mikrofon aufnehmen, um die zu sendende Audio zu generieren.
+Wählen Sie aus, ob Sie Audio aus einer Datei lesen, aus einer Ressource lesen oder über ein Mikrofon aufnehmen möchten, um das benötigte Audio für den Versand zu erstellen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png)
 
-Beginnen Sie mit dem Chatten.
+Beginne den Chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png)
 
-###Verwenden Sie den Blueprint für Chats mit Gemini.
+###Verwenden Sie in der Blaupause die Gemini-Chatfunktion.
 
-Erstellen Sie folgendes Blueprint, stellen Sie die Gemini Options ein, klicken Sie auf Ausführen, und Sie können die von Gemini zurückgegebenen Chatnachrichten auf dem Bildschirm sehen.
+Erstellen Sie das folgende Schema, konfigurieren Sie die Gemini-Optionen, klicken Sie auf Ausführen und Sie werden die Chat-Informationen sehen, die Gemini auf dem Bildschirm ausgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_chat_2.png)
 
-###Blueprint verwendet Gemini zum Senden von Audio.
+###Blueprint verwendet Gemini, um Audio zu senden.
 
-Erstellen Sie das folgende Blueprint, laden Sie die Audio-Datei, konfigurieren Sie die Gemini-Optionen und klicken Sie auf Ausführen. Dann können Sie die im Bildschirm ausgegebenen Chat-Nachrichten sehen, die von Gemini nach der Verarbeitung der Audiodatei zurückgegeben werden.
+Erstellen Sie die folgende Blaupause, konfigurieren Sie das Laden von Audio, konfigurieren Sie die Gemini-Optionen, klicken Sie auf Ausführen und Sie sehen die Chat-Nachrichten von Gemini nach der Audiobearbeitung auf dem Bildschirm gedruckt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_blueprint_sound_1.png)
 
@@ -497,137 +519,220 @@ Erstellen Sie das folgende Blueprint, laden Sie die Audio-Datei, konfigurieren S
 
 ###Der Editor verwendet Deepseek.
 
-Erstellen Sie einen neuen Chat, ändern Sie ChatApi in OpenAi und konfigurieren Sie die API-Parameter von Deepseek. Fügen Sie ein neues Kandidatenmodell namens Deepseek-Chat hinzu und setzen Sie das Modell auf Deepseek-Chat.
+Erstellen Sie einen neuen Chat, ersetzen Sie ChatApi durch OpenAi und konfigurieren Sie die API-Parameter von Deepseek. Fügen Sie das Kandidatenmodell mit dem Namen deepseek-chat hinzu und setzen Sie das Modell auf deepseek-chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png)
 
-Beginnen Sie mit dem Gespräch.
+Beginnen Sie zu chatten
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png)
 
-###Blaupause verwendet Deepseek-Chat
+###Please provide the text you would like me to translate.
 
-Erstellen Sie das folgende Blueprint und richten Sie die entsprechenden Request-Optionen für Deepseek ein, einschließlich Model, Base Url, End Point Url, ApiKey und weiteren Parametern. Klicken Sie auf Ausführen, um die von Gemini zurückgegebenen Chatinformationen auf dem Bildschirm anzuzeigen.
+Erstellen Sie das folgende Schema und konfigurieren Sie die Deepseek-bezogenen Anforderungsoptionen, einschließlich Modell, Basis-URL, Endpunkt-URL, ApiKey und andere Parameter. Klicken Sie auf Ausführen, um die Chatnachrichten von Gemini auf dem Bildschirm angezeigt zu bekommen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_1.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png)
 
-##Änderungsprotokoll
+##Zusätzlich bereitgestellte Blaupausen-Funktionsknoten
+
+###Cllama related
+
+"Cllama Is Valid": Überprüfen, ob Cllama llama.cpp ordnungsgemäß initialisiert ist.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
+
+"Cllama Is Support Gpu" wird übersetzt zu "Entscheiden Sie, ob llama.cpp die GPU-Backend in der aktuellen Umgebung unterstützt".
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
+
+"Holen Sie sich Support-Backends von Cllama": Fetch alle Backends, die von llama.cpp unterstützt werden.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
+
+"Cllama Prepare ModelFile In Pak": Automatische Kopie von Modelldateien aus Pak in das Dateisystem.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
+
+###Bildbezogen
+
+"Konvertieren Sie UTexture2D in Base64": Konvertieren Sie das Bild von UTexture2D in das PNG-Base64-Format.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_5.png)
+
+"Speichern Sie UTexture2D als .png-Datei": Speichern Sie UTexture2D als .png-Datei
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_6.png)
+
+"Lade die .png-Datei in UTexture2D"
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_7.png)
+
+"Duplicate UTexture2D": Dupliziere UTexture2D
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_8.png)
+
+###Audio related
+
+"Laden Sie die .wav-Datei in USoundWave."
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_9.png)
+
+Konvertiere die .wav-Daten in USoundWave: Convert .wav data to USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_10.png)
+
+"Speichern Sie USoundWave als .wav-Datei"
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_11.png)
+
+"Holen Sie sich USoundWave Raw PCM-Daten": Convert USoundWave into binary audio data.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_12.png)
+
+"USoundWave in Base64 umwandeln": "Convertiere USoundWave in Base64"
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_13.png)
+
+"Dupliziere USoundWave": Dupliziere USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_14.png)
+
+Konvertieren Sie die Audioaufzeichnungsdaten in einen USoundWave.
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_15.png)
+
+##Aktualisierungsprotokoll
+
+### v1.6.0 - 2025.03.02
+
+####Neue Funktion
+
+llama.cpp upgraded to version b4604.
+Cllama supports GPU backends: cuda and metal.
+Das Chat-Tool Cllama unterstützt die Verwendung von GPUs.
+Unterstützung zum Lesen von Modelldateien im Paket Pak.
+
+#### Bug Fix
+
+Fix the problem of Cllama crashing when reloading during reasoning.
+
+Fix iOS compilation error.
 
 ### v1.5.1 - 2025.01.30
 
 ####Neue Funktion
 
-* Nur Gemini darf Audio abspielen.
+Erlauben Sie nur Gemini, Audio abzuspielen.
 
-* Optimierung der Methode zur Erfassung von PCMData, um die Audiodaten erst beim Erzeugen von B64 zu dekomprimieren.
+Optimieren Sie die Methode zum Abrufen von PCM-Daten, und dekomprimieren Sie die Audiodaten beim Generieren von B64.
 
-Bitte füge zwei Callbacks hinzu: OnMessageFinished und OnImagesFinished.
+Bitte fügen Sie zwei Callbacks hinzu: OnMessageFinished und OnImagesFinished.
 
-Optimieren Sie die Gemini-Methode, um automatisch die Methode basierend auf bStream zu erhalten.
+Optimiere die Gemini-Methode, um automatisch die Methode über bStream zu erhalten. 
 
-Fügen Sie einige Blueprint-Funktionen hinzu, um das Umwandeln von Wrapper in tatsächliche Typen zu erleichtern und Response-Nachrichten und Fehler abzurufen.
+Fügen Sie einige Blueprint-Funktionen hinzu, um Wrapper in tatsächliche Typen umzuwandeln und Response Message und Error abzurufen.
 
 #### Bug Fix
 
-Behebung des Problems mit mehrfachem Aufruf von "Request Finish".
+Beheben Sie das Problem mit mehrfachen Aufrufen von Request Finish.
 
 ### v1.5.0 - 2025.01.29
 
-####Neue Funktion
+####Neue Funktion.
 
-* Unterstützung für die Audioübertragung an Gemini
+Unterstützung für die Bereitstellung von Audio für Gemini.
 
-* Die Editor-Tools unterstützen das Senden von Audio und Aufnahmen.
+Die Editor-Tools unterstützen den Versand von Audio und Aufnahmen.
 
 #### Bug Fix
 
-* Behebung des Bugs beim Kopieren von Sitzungen
+Beheben Sie den Fehler beim Kopieren der Sitzung.
 
 ### v1.4.1 - 2025.01.04
 
 ####Problembehebung
 
-* Der Chat-Tool unterstützt das Senden von Bildern ohne Textnachrichten.
+Die Chat-App unterstützt das Senden von Bildern ohne Text.
 
-* Behebung des Problems mit dem Senden von Bildern über die OpenAI-Schnittstelle fehlgeschlagen.
+Behebung des Problems beim Senden von Bildern über die OpenAI-Schnittstelle fehlgeschlagen.
 
-Beheben der fehlenden Parameter Quality, Style und ApiVersion in den Einstellungen von OpanAI und Azure-Chat-Tools.
+Fix für das Problem, dass beim Einrichten der OpanAI- und Azure-Chat-Tools die Parameter Qualität, Stil und API-Version fehlen.
 
 ### v1.4.0 - 2024.12.30
 
-####Neue Funktionen
+####Neue Funktion
 
-* (Experimentelle Funktion) Cllama (llama.cpp) unterstützt multimodale Modelle und kann Bilder verarbeiten.
+（Experimental feature）Cllama (llama.cpp) supports multimodal models and can process images.
 
-Alle Blauprint-Typenparameter wurden mit detaillierten Hinweisen versehen.
+Alle Blaupausen-Typenparameter wurden mit ausführlichen Hinweisen versehen.
 
 ### v1.3.4 - 2024.12.05
 
-####Neue Funktionen
+####Neue Funktion
 
-* OpenAI unterstützt die Vision-API
-
-####Fehlerbehebung
-
-* Behebung des Fehlers, wenn OpenAI stream=false ist.
-
-### v1.3.3 - 2024.11.25
-
-####Neue Funktionen
-
-Unterstützt UE-5.5.
+OpenAI unterstützt die Vision API.
 
 ####Problembehebung
 
-Fixing the issue of certain blueprints not working.
+Beheben Sie den Fehler bei OpenAI stream=false.
 
-### v1.3.2 - 2024.10.10
+### v1.3.3 - 2024.11.25
+
+####Neue Funktion
+
+Unterstützt UE-5.5.
 
 ####Fehlerbehebung
 
-* Beheben Sie den Absturz von cllama beim manuellen Stoppen der Anfrage.
+Fixing the issue where some blueprints are not working.
 
-* Behebung des Problems, dass die ggml.dll und llama.dll Dateien in der heruntergeladenen Win-Version des Marktplatzes nicht gefunden werden können.
+### v1.3.2 - 2024.10.10
 
-Beim Erstellen der Anfrage überprüfen, ob sich im GameThread befindet.
+####Problembehebung
+
+Reparatur: Absturz von cllama beim manuellen Stoppen des Requests.
+
+Fix das Problem beim Packen des Win-Downloads im Shop, bei dem die ggml.dll- und llama.dll-Dateien nicht gefunden werden konnten.
+
+Überprüfen Sie beim Erstellen der Anfrage, ob sich der GameThread befindet.
 
 ### v1.3.1 - 2024.9.30
 
 ####Neue Funktion
 
-Fügen Sie einen SystemTemplateViewer hinzu, mit dem Sie Hunderte von Systemeinstellungs-Templates anzeigen und verwenden können.
+Erstellen Sie einen SystemTemplateViewer, um Hunderte von Systemeinstellungs-Vorlagen anzuzeigen und zu verwenden.
 
-####Fehlerbehebung
+####Problembehebung
 
-Repariere das Plugin, das aus dem App Store heruntergeladen wurde. Llama.cpp kann die Verknüpfungsbibliothek nicht finden.
+Beheben Sie das Problem mit dem Plugin, das aus dem App Store heruntergeladen wurde. Llama.cpp konnte die Verbindungsbibliothek nicht finden.
 
 Behebung des Problems mit zu langen Pfaden in LLAMACpp.
 
-Beheben Sie den Linkfehler llama.dll nach dem Windows-Paket.
+Beheben Sie den Fehler der Verknüpfung llama.dll nach dem Windows-Paketieren.
 
-Beheben Sie das Problem beim Lesen des Dateipfads in iOS/Android.
+Behebung des Problems bei der Dateipfad-Lesevorgänge auf iOS/Android.
 
-* Behebung des Namensfehlers in den Cllame-Einstellungen
+* Beheben Sie den Fehler beim Einstellen des Namens Cllame
 
 ### v1.3.0 - 2024.9.23
 
-####Wichtige neue Funktionen
+####Wichtige neue Funktion
 
-Integriert llama.cpp, unterstützt die Ausführung großer Modelle offline lokal.
+Integriert llama.cpp für die lokale Offline-Ausführung großer Modelle.
 
 ### v1.2.0 - 2024.08.20
 
 ####Neue Funktion
 
-* Unterstützung für OpenAI Bildbearbeitung/Bildvariation
+Unterstützung für OpenAI Image Edit/Image Variation.
 
-Unterstützt Ollama API, um die Liste der von Ollama unterstützten Modelle automatisch abzurufen.
+Unterstützt die Ollama API und ermöglicht das automatische Abrufen der Liste der von Ollama unterstützten Modelle.
 
 ### v1.1.0 - 2024.08.07
 
-####Neue Funktionen
+####Neue Funktion
 
 Unterstützung der Blaupause
 
@@ -635,13 +740,13 @@ Unterstützung der Blaupause
 
 ####Neue Funktion
 
-* Vollständige Grundfunktionen
+Grundlegende Vollfunktion
 
-* Unterstützung für OpenAI, Azure, Claude, Gemini
+Unterstützung für OpenAI, Azure, Claude, Gemini.
 
-* Integrierter, funktionaler Editor-Chat-Tool
+Integriertes Tool für umfassende Editor-Chat-Funktionen
 
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte hinterlassen Sie Ihr [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)weist auf etwaige Auslassungen hin. 
+> (https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf alle ausgelassenen Stellen hin. 
