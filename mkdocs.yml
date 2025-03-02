@@ -168,8 +168,8 @@ plugins:
   - glightbox
   - mkdocs-video
   - exclude:
-    glob:
-      - asset/ext/*.md
+      glob:
+        - asset/ext/*.md
 
 markdown_extensions:
   - pymdownx.arithmatex:
