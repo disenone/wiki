@@ -588,8 +588,11 @@ AIChatPlus 提供了一个功能函数可以自动把 .Pak 中的模型文件拷
 #### 新功能
 
 * llama.cpp 升级至 b4604 版本
+
 * Cllama 支持 GPU backends: cuda 和 metal
+
 * chat tool Cllama 支持使用 GPU
+
 * 支持读取打包 Pak 中的模型文件
 
 #### Bug Fix
