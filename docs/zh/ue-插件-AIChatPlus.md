@@ -253,6 +253,28 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
+### llama.cpp 使用 GPU
+
+"Cllama Chat Request Options" 增加参数 "Num Gpu Layer" ，可以设置 llama.cpp 的 gpu payload，如图
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
+
+可以使用蓝图节点判断当前环境下是否支持 GPU 并获取当前环境支持的 backends：
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_2.png)
+
+### 处理打包后 .Pak 中的模型文件
+
+开启 Pak 打包后，项目的所有资源文件都会放在 .Pak 文件中，当然也包含了离线模型 gguf 文件。
+
+由于 llama.cpp 无法支持直接读取 .Pak 文件，因此需要把 .Pak 文件中的离线模型文件拷贝出来文件系统中。
+
+AIChatPlus 提供了一个功能函数可以自动把 .Pak 中的模型文件拷贝处理，并放在 Saved 文件夹中：
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png)
+
+又或者你可以自己处理 .Pak 中的模型文件，关键就是需要把文件复制处理，llama.cpp 无法正确读取 .Pak。
+
 ## OpenAI
 
 ### 编辑器使用 OpenAI 聊天
@@ -491,7 +513,90 @@ void AddTestCommand()
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_blueprint_chat_2.png)
 
+## 额外提供的蓝图功能节点
+
+### Cllama 相关
+
+"Cllama Is Valid"：判断 Cllama llama.cpp 是否正常初始化
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
+
+"Cllama Is Support Gpu"：判断 llama.cpp 在当前环境下是否支持 GPU backend
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
+
+"Cllama Get Support Backends": 获取当前 llama.cpp 支持的所有 backends
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
+
+"Cllama Prepare ModelFile In Pak": 自动把 Pak 中的模型文件复制到文件系统中
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
+
+### 图像相关
+
+"Convert UTexture2D to Base64": 把 UTexture2D 的图像转成 png base64 格式
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_5.png)
+
+"Save UTexture2D to .png file": 把 UTexture2D 保存成 png 文件
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_6.png)
+
+"Load .png file to UTexture2D": 读取 png 文件为 UTexture2D
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_7.png)
+
+"Duplicate UTexture2D": 复制 UTexture2D
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_8.png)
+
+### 音频相关
+
+"Load .wav file to USoundWave": 读取 wav 文件为 USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_9.png)
+
+"Convert .wav data to USoundWave": 把 wav 二进制数据转成 USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_10.png)
+
+"Save USoundWave to .wav file": 把 USoundWave 保存为 .wav 文件
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_11.png)
+
+"Get USoundWave Raw PCM Data": 把 USoundWave 转成二进制音频数据
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_12.png)
+
+"Convert USoundWave to Base64": 把 USoundWave 转成 Base64 数据
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_13.png)
+
+"Duplicate USoundWave": 复制 USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_14.png)
+
+"Convert Audio Capture Data to USoundWave": 把 Audio Capture 录音数据转成 USoundWave
+
+![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_15.png)
+
 ## 更新日志
+
+### v1.6.0 - 2025.03.02
+
+#### 新功能
+
+* llama.cpp 升级至 b4604 版本
+* Cllama 支持 GPU backends: cuda 和 metal
+* chat tool Cllama 支持使用 GPU
+* 支持读取打包 Pak 中的模型文件
+
+#### Bug Fix
+
+* 修复 Cllama 在推理的时候 reload 会崩溃的问题
+
+* 修复 ios 编译报错
 
 ### v1.5.1 - 2025.01.30
 
