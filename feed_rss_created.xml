@@ -13,8 +13,8 @@
     <language>fr</language>
 
     
-    <pubDate>Sun, 02 Mar 2025 13:40:43 -0000</pubDate>
-    <lastBuildDate>Sun, 02 Mar 2025 13:40:43 -0000</lastBuildDate>
+    <pubDate>Sun, 02 Mar 2025 14:34:48 -0000</pubDate>
+    <lastBuildDate>Sun, 02 Mar 2025 14:34:48 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ar/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:43:06 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:37:13 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ar/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/fr/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:38:52 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:32:57 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/fr/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/de/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:36:28 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:30:32 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/de/blog/</guid>
@@ -84,7 +84,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ja/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:34:01 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:28:07 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ja/blog/</guid>
@@ -99,7 +99,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:31:35 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:25:42 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -114,7 +114,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:30:49 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:24:56 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -129,7 +129,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/zh-Hant/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:28:24 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:22:32 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/zh-Hant/blog/</guid>
@@ -144,7 +144,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Sun, 02 Mar 2025 13:27:38 +0000</pubDate>
+      <pubDate>Sun, 02 Mar 2025 14:21:46 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
@@ -1319,8 +1319,14 @@
 &lt;h4 id=&#34;_12&#34;&gt;新功能&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;llama.cpp 升级至 b4604 版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;Cllama 支持 GPU backends: cuda 和 metal&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;chat tool Cllama 支持使用 GPU&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
 &lt;li&gt;支持读取打包 Pak 中的模型文件&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;bug-fix&#34;&gt;Bug Fix&lt;/h4&gt;
