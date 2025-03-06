@@ -92,6 +92,14 @@ Translate_Into = {
 			'--8<-- "footer.md"': '--8<-- "footer_ar.md"',
 		},
 	},
+
+	# 韩语
+	'ko': {
+		'name': 'Korean',
+		'replace_rules': {
+			'--8<-- "footer.md"': '--8<-- "footer_ko.md"',
+		},
+	},
 }
 
 # endregion 增加新语言需要改这些内容

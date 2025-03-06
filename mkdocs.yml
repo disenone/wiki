@@ -119,6 +119,14 @@ plugins:
             编程技术: تقنيات البرمجة
             游戏开发: تطوير الألعاب
             基础: الأساسيات
+        - locale: ko
+          name: Korean
+          build: true
+          nav_translations:
+            Home: Home
+            编程技术: Programming
+            游戏开发: Game Dev
+            基础: Basic
 
   - search
   - macros
