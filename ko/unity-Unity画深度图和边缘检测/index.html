@@ -1,0 +1,2404 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Unity의 RenderWithShader()와 OnRenderImage() 함수를 활용하면 다양한 효과를 구현할 수 있다. 학습 기회를 활용하여 이 두 함수를 이용해 장면 깊이 맵 및 장면 가장자리 감지를 구현하기로 결정했다. 이는 게임에서 사용될 수 있는 한 종류의 작은 지도로 활용할 수 있다.">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/ko/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">
+      
+      
+        <link rel="prev" href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/">
+      
+      
+        <link rel="next" href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 피드 생성완료" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS 피드 업데이트완료" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>Unity에서 깊이 맵(Depth Map)과 가장자리 감지(Edge Detection)를 구현합니다. - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unity에서 깊이 맵(Depth Map)과 가장자리 감지(Edge Detection)를 구현합니다.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="언어설정">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh-Hant/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ja/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ko" class="md-select__link">
+              Korean
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  Programming
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  Game Dev
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-tabs__link">
+          
+  
+    
+  
+  UE.AIChatPlus
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Programming
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Programming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++의 명령줄 인수 처리 요약
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 매크로 프로그래밍 분석
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows 운영 체제에서 Memory Leak Detector 작성하기
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP 소스 코드 분석
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visual Studio 2015을 사용하여 Python 2.7.11을 컴파일합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python 잡담 1 - __builtins__ 탐구
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    파이썬 이야기 2 - 파이썬 3.12 핫 업데이트
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Game Dev
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Game Dev
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Basic
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basic
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    게임 AOI 알고리즘 분석 및 성능 테스트
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FASTBuild를 사용하여 UE4 및 UE5를 컴파일합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE에서 플러그인 소스 코드를 사용하여 플러그인을 추가합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 확장 편집기 메뉴
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 사용 경로 형식으로 메뉴 확장
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 설정 지역화 다국어
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE에서는 각종 이미지 (UTexture2D) 작업을 수행할 수 있습니다 (로드, 저장, 복사, 클립보드...).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 에디터 플러스 플러그인 UE.EditorPlus 설명 문서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    설명서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity 세 번째 인칭 카메라 구축(상)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity 세 번째 인칭 카메라 설정 (하)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    통합 캐릭터 제어
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Unity에서 깊이 맵(Depth Map)과 가장자리 감지(Edge Detection)를 구현합니다.
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity에서 부피 광 성산 (Volumetric Light Scattering, 클라우드 간격 광)을 구현합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    UE.AIChatPlus
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            UE.AIChatPlus
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Intro
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Intro
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    설명서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Blueprint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Blueprint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-OpenAI/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenAI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Cllama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cllama (llama.cpp)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-DeepSeek/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DeepSeek
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Azure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Azure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Ollama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ollama
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Claude/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Claude
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Gemini/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gemini
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    기능 노드
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    EditorTool
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            EditorTool
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Changes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    버전 로그
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/ko/unity-Unity画深度图和边缘检测.md" title="이 페이지를 편집" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<div><p><meta property="og:title" content="Unity画深度图(Depth Map)和边缘检测(Edge Detection)"></p>
+<p>Unity에 대해 최근에 접해 본 지 얼마 안 된 터라 ShaderLab에 항상 흥미를 느끼고 있습니다. 다양한 효과를 빠르게 구현할 수 있다는 느낌이 들어, 매우 흥미롭다고 생각해요. 그러니 입문자인 내가 깊이 맵과 가장자리 검출을 시도해 보겠습니다.</p>
+<h1 id="_1">작은 지도 설정</h1>
+<p>내가 그저 작은 초안을 만들었을 뿐이기 때문에 장면에 작은 지도를 그리는 방법을 자세히 설명할 계획은 없어. 대략적으로 내가 다음과 같은 몇 가지를 했어:</p>
+<p>씬의 바운딩 박스를 얻어요. 카메라 매개변수와 위치를 설정할 때 유용해요.
+작은 지도 카메라를 직교 투영으로 설정하여 바운딩 박스에 따라 카메라의 Near 및 Far 평면을 설정합니다.
+이 카메라에 인물 대상을 추가하여 대상이 지도 중앙에 표시되도록 합니다.
+카메라 위치를 갱신할 때마다 대상 위치와 장면의 최대 y 값에 따라 설정합니다.</p>
+<p>구체적인 구성은 뒤에 제공된 코드를 참고하십시오.</p>
+<h1 id="_2">깊이 그림 획득</h1>
+<h2 id="_3">深度텍스처 모드를 사용하여 깊이 이미지를 획득합니다.</h2>
+<p>카메라는 DepthBuffer 또는 DepthNormalBuffer(가장자리 감지에 사용)를 직접 저장할 수 있습니다. 설정만 하면 됩니다.</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Camera</span><span class="p">.</span><span class="n">depthTextureMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DepthTextureMode</span><span class="p">.</span><span class="n">DepthNormals</span><span class="p">;</span>
+</code></pre></div>
+<p>차후에 Shader 안에서 호출</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">sampler2D</span><span class="w"> </span><span class="n">_CameraDepthNormalsTexture</span><span class="p">;</span>
+</code></pre></div>
+<p>당신은 한국어로 번역요청을 하셨군요. 여기 번역본이에요:</p>
+<p>그대로 해 주시고, 구체적인 방법은 저가 제시한 코드를 참고하세요. Z-버퍼에 저장된 깊이 값과 실제 세계의 깊이와의 관계에 대해서는 이 두 문서를 참조해 주세요:
+<a href="http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html">Learning to Love your Z-buffer</a>,<a href="http://www.humus.name/temp/Linearize%20depth.txt">Linearize depth</a>또한 Unity는 깊이를 계산하기 위한 몇 가지 함수도 제공합니다: <code>Linear01Depth</code>, <code>LinearEyeDepth</code> 등.</p>
+<p>이 부분은 내가 토론하고 싶은 중점이 아니야. 내가 말하고 싶은 건, 내 카메라가 원래 정사영 투영으로 설정되어 있어서 깊이가 선형이어야 하는데, 하지만 내가 테스트해보니까 선형이 아니더라고. 그래서 위 링크에서 소개한 방법을 사용해서 실제 세계의 깊이를 계산해 보았지만, 계속해서 올바르지 않았어. 계속해서 실제 선형 깊이를 계산할 수 없어서, Unity의 Z_Buffer 문제인지 무엇인지 모르겠어. 이것에 대해 알고 있는 친구가 있으면 가르쳐 주십시오. 물론, 실제 깊이 값이 필요하지 않다면, 단지 깊이의 상대적 크기를 비교하는 것과 같은 경우, 위의 방법만으로도 충분하며 매우 간단해. 그러나 내 경우에는 실제 깊이를 색상 값으로 매핑하고 싶어서, 실제 선형 깊이 값을 얻어야 해([0, 1] 범위 내라도). 그래서 다른 RenderWithShader 방법을 사용하게 되었어.</p>
+<h2 id="renderwithshader">RenderWithShader를 사용하여 깊이 맵을 가져옵니다.</h2>
+<p>이 방법은 실제로 Unity 참조에 있는 한 예제를 사용하는 것입니다: <a href="http://docs.unity3d.com/Documentation/Components/SL-ShaderReplacement.html">Rendering with Replaced Shaders</a><code>. 이해해야 할 점은 'RenderWithShader'가 씬 내에서 해당 Mesh를 그려준다는 것입니다.</code></p>
+<p>샤더를 만드세요:</p>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthByReplaceShader</span><span class="err">"</span><span class="w"> </span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">SubShader</span><span class="w"> </span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">Pass</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="n">Fog</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Mode</span><span class="w"> </span><span class="n">Off</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">CGPROGRAM</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="cp">#pragma vertex vert</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="cp">#pragma fragment frag</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="cp">#include "UnityCG.cginc"</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="n">v2f</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">            </span><span class="n">float4</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">SV_POSITION</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">            </span><span class="n">float2</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TEXCOORD0</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="n">v2f</span><span class="w"> </span><span class="n">vert</span><span class="w"> </span><span class="p">(</span><span class="n">appdata_base</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">            </span><span class="n">v2f</span><span class="w"> </span><span class="n">o</span><span class="p">;</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">            </span><span class="n">o</span><span class="p">.</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mul</span><span class="w"> </span><span class="p">(</span><span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">vertex</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">            </span><span class="n">UNITY_TRANSFER_DEPTH</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">depth</span><span class="p">);</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">o</span><span class="p">;</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">        </span><span class="n">float4</span><span class="w"> </span><span class="n">frag</span><span class="p">(</span><span class="n">v2f</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">COLOR</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">            </span><span class="c1">//UNITY_OUTPUT_DEPTH(i.depth);</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">depth</span><span class="p">.</span><span class="n">x</span><span class="o">/</span><span class="n">i</span><span class="p">.</span><span class="n">depth</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">float4</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">        </span><span class="n">ENDCG</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="p">}</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="p">}</span>
+</code></pre></div>
+<p>당신의 작은 미니맵 카메라에 (없다면 만들어주세요) 스크립트를 추가하여 카메라를 등각 투영 등으로 설정하고 <code>Update()</code>에서 이 셰이더를 사용하여 씬을 렌더링합니다:</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">camera</span><span class="p">.</span><span class="n">targetTexture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">depthTexture</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">camera</span><span class="p">.</span><span class="n">RenderWithShader</span><span class="p">(</span><span class="n">depthShader</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+</code></pre></div>
+<p><code>depthTexture</code>에 렌더링 결과가 저장됩니다. 간단하죠?</p>
+<h2 id="_4">깊이를 색상으로 매핑합니다.</h2>
+<p>이 작업을 완료하려면 먼저 컬러 맵이 필요합니다. 이 그래프는 Matlab을 사용해서 쉽게 생성할 수 있는데, 예를 들면 전 Jet 그래프를 사용했습니다.</p>
+<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/jet.png" width="200"></a></p>
+<p>이 그림을 프로젝트 폴더 'Assets\Resources'에 넣으면 프로그램에서 읽을 수 있습니다.</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">colorMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">Load</span><span class="o">&lt;</span><span class="n">Texture2D</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"colormap"</span><span class="p">);</span>
+</code></pre></div>
+<p>주의해야 할 점은 이 그림의 <code>Wrap Mode</code>가 <code>Clamp</code>여야 하며, 양쪽 가장자리 색상 값 사이에서 보간이 발생하지 않도록해야 한다.</p>
+<p>이후에는 <code>OnRenderImage</code> 및 <code>Graphics.Blit</code> 함수를 사용해야 합니다. 함수의 원형은 다음과 같습니다:</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">void</span><span class="w"> </span><span class="nf">OnRenderImage</span><span class="p">(</span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dst</span><span class="p">);</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">static</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Blit</span><span class="p">(</span><span class="n">Texture</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">Material</span><span class="w"> </span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+<p>이 함수의 src는 카메라 렌더링 결과물이고, dst는 처리된 후 다시 카메라로 전달되는 결과물입니다. 따라서 이 함수는 보통 카메라 렌더링이 완료된 후 이미지에 몇 가지 효과를 적용하기 위해 사용됩니다. 예를 들어, 여기서는 깊이에 대한 색상 매핑 및 가장자리 감지 등이 있습니다. <code>OnRenderImage</code>에서 <code>Graphics.Blit</code>을 호출하고 특정 <code>Material</code>을 전달하는 방식입니다.</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">depthEdgeMaterial</span><span class="p">);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">return</span><span class="p">;</span>
+</code></pre></div>
+<p>주의해야 할 점은 <code>Graphics.Blit</code>이 사실 이렇게 동작한다는 것입니다: 카메라 앞에 화면과 같은 크기의 평면을 그리고, <code>src</code>를 이 평면의 <code>_MainTex</code>로 쉐이더에 전달하고, 결과를 <code>dst</code>에 넣는다는 것입니다. 실제 장면의 메쉬를 다시 그리는 것이 아니라는 것이죠.</p>
+<p>색상 매핑에 대해서 실제로는 깊이 [0, 1]를 이미지의 UV로 간주하는 것이며, 카메라와의 거리가 가까운 부분을 빨간색으로 만들기 위해 깊이를 반전시켰습니다:</p>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">half4</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="p">(</span><span class="n">_ColorMap</span><span class="p">,</span><span class="w"> </span><span class="n">float2</span><span class="p">(</span><span class="n">saturate</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">depth</span><span class="p">),</span><span class="w"> </span><span class="mf">0.5</span><span class="p">));</span>
+</code></pre></div>
+<h1 id="_5">가장자리 감지</h1>
+<p>모서리 감지에는 카메라의 <code>_CameraDepthNormalsTexture</code>가 필요합니다. 이것은 주로 Normal 값에 사용되며, 깊이는 이전에 계산한 값이 사용됩니다. <code>_CameraDepthNormalsTexture</code>의 각 픽셀 (x, y, z, w)에서 (x, y)는 법선을 나타내고, (z, w)는 깊이를 나타냅니다. 법선은 특정 방법으로 저장되었으며, 관심이 있다면 직접 검색해보세요.</p>
+<p>코드는 Unity의 내장 이미지 효과 중 가장자리 감지를 참고합니다. 해야 할 일은 현재 픽셀의 법선 깊이와 인접 픽셀의 차이를 비교하는 것입니다. 충분히 크다면 가장자리가 있다고 간주합니다:</p>
+<div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">inline</span><span class="w"> </span><span class="n">half</span><span class="w"> </span><span class="nf">CheckSame</span><span class="w"> </span><span class="p">(</span><span class="n">half2</span><span class="w"> </span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c1">// difference in normals</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="c1">// do not bother decoding normals - there's no need here</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">half2</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerNormal</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">);</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">half</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="c1">// difference in depth</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">zdiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerDepth</span><span class="o">-</span><span class="n">sampleDepth</span><span class="p">);</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="c1">// scale the required threshold by the distance</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="n">half</span><span class="w"> </span><span class="n">isSameDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">zdiff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.09</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">centerDepth</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">);</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="c1">// return:</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="c1">// 1 - if normals and depth are similar enough</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="c1">// 0 - otherwise</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">isSameDepth</span><span class="p">;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>다음은 완전한 Shader입니다:</p>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">DepthColorEdge</span><span class="err">"</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">Properties</span><span class="w"> </span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Depth</span><span class="w"> </span><span class="n">Tex</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">_ColorMap</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Color</span><span class="w"> </span><span class="n">Map</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">SubShader</span><span class="w"> </span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">        </span><span class="n">LOD</span><span class="w"> </span><span class="mi">200</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="n">Pass</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">            </span><span class="n">ZTest</span><span class="w"> </span><span class="n">Always</span><span class="w"> </span><span class="n">Cull</span><span class="w"> </span><span class="n">Off</span><span class="w"> </span><span class="n">ZWrite</span><span class="w"> </span><span class="n">Off</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">            </span><span class="n">Fog</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Mode</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">            </span><span class="n">CGPROGRAM</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">            </span><span class="cp">#pragma vertex vert</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">            </span><span class="cp">#pragma fragment frag</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">            </span><span class="cp">#include "UnityCG.cginc"</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">            </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_CameraDepthNormalsTexture</span><span class="p">;</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">            </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_DepthTex</span><span class="p">;</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">            </span><span class="k">uniform</span><span class="w"> </span><span class="n">float4</span><span class="w"> </span><span class="n">_DepthTex_TexelSize</span><span class="p">;</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">            </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_ColorMap</span><span class="p">;</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">_ZNear</span><span class="p">;</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">_ZFar</span><span class="p">;</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">            </span><span class="k">struct</span><span class="w"> </span><span class="n">v2f</span><span class="w"> </span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">                </span><span class="n">float4</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">SV_POSITION</span><span class="p">;</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">                </span><span class="n">float2</span><span class="w"> </span><span class="n">uv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TEXCOORD0</span><span class="p">;</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">            </span><span class="p">};</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">            </span><span class="n">v2f</span><span class="w"> </span><span class="n">vert</span><span class="w"> </span><span class="p">(</span><span class="n">appdata_base</span><span class="w"> </span><span class="n">v</span><span class="p">)</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">                </span><span class="n">v2f</span><span class="w"> </span><span class="n">o</span><span class="p">;</span>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">                </span><span class="n">o</span><span class="p">.</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mul</span><span class="w"> </span><span class="p">(</span><span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">vertex</span><span class="p">);</span>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="w">                </span><span class="n">o</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mo">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MultiplyUV</span><span class="p">(</span><span class="w"> </span><span class="n">UNITY_MATRIX_TEXTURE0</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">texcoord</span><span class="w"> </span><span class="p">);</span>
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="w">                </span><span class="n">o</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mo">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">float2</span><span class="p">(</span><span class="o">-</span><span class="n">_DepthTex_TexelSize</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">_DepthTex_TexelSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="w">                </span><span class="n">o</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mo">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">float2</span><span class="p">(</span><span class="o">+</span><span class="n">_DepthTex_TexelSize</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">_DepthTex_TexelSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">o</span><span class="p">;</span>
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>
+<a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="w">            </span><span class="kr">inline</span><span class="w"> </span><span class="kr">half</span><span class="w"> </span><span class="n">CheckSame</span><span class="w"> </span><span class="p">(</span><span class="n">half2</span><span class="w"> </span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth</span><span class="p">)</span>
+<a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="w">                </span><span class="c1">// difference in normals</span>
+<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">                </span><span class="c1">// do not bother decoding normals - there's no need here</span>
+<a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a><span class="w">                </span><span class="n">half2</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerNormal</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sampleNormal</span><span class="p">);</span>
+<a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">                </span><span class="kr">half</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
+<a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>
+<a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="w">                </span><span class="c1">// difference in depth</span>
+<a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">zdiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">centerDepth</span><span class="o">-</span><span class="n">sampleDepth</span><span class="p">);</span>
+<a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a><span class="w">                </span><span class="c1">// scale the required threshold by the distance</span>
+<a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a><span class="w">                </span><span class="kr">half</span><span class="w"> </span><span class="n">isSameDepth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">zdiff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.09</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">centerDepth</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">centerDepth</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">);</span>
+<a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>
+<a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a><span class="w">                </span><span class="c1">// return:</span>
+<a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a><span class="w">                </span><span class="c1">// 1 - if normals and depth are similar enough</span>
+<a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a><span class="w">                </span><span class="c1">// 0 - otherwise</span>
+<a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">isSameNormal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">isSameDepth</span><span class="p">;</span>
+<a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>
+<a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="w">            </span><span class="n">half4</span><span class="w"> </span><span class="n">frag</span><span class="p">(</span><span class="n">v2f</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">COLOR</span><span class="w"> </span>
+<a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="w">                </span><span class="c1">// get color based on depth</span>
+<a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_DepthTex</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mo">0</span><span class="p">]).</span><span class="n">r</span><span class="p">;</span>
+<a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a><span class="w">                </span><span class="n">half4</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="p">(</span><span class="n">_ColorMap</span><span class="p">,</span><span class="w"> </span><span class="n">float2</span><span class="p">(</span><span class="n">saturate</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">depth</span><span class="p">),</span><span class="w"> </span><span class="mf">0.5</span><span class="p">));</span>
+<a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a>
+<a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a><span class="w">                </span><span class="c1">// detect normal diff</span>
+<a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a><span class="w">                </span><span class="n">half2</span><span class="w"> </span><span class="n">centerNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="p">(</span><span class="n">_CameraDepthNormalsTexture</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mo">0</span><span class="p">]).</span><span class="n">xy</span><span class="p">;</span>
+<a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a><span class="w">                </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_CameraDepthNormalsTexture</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">xy</span><span class="p">;</span>
+<a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a><span class="w">                </span><span class="n">half2</span><span class="w"> </span><span class="n">sampleNormal2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_CameraDepthNormalsTexture</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">2</span><span class="p">]).</span><span class="n">xy</span><span class="p">;</span>
+<a id="__codelineno-9-72" name="__codelineno-9-72" href="#__codelineno-9-72"></a><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_DepthTex</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">r</span><span class="p">;</span>
+<a id="__codelineno-9-73" name="__codelineno-9-73" href="#__codelineno-9-73"></a><span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">sampleDepth2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_DepthTex</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">uv</span><span class="p">[</span><span class="mi">2</span><span class="p">]).</span><span class="n">r</span><span class="p">;</span>
+<a id="__codelineno-9-74" name="__codelineno-9-74" href="#__codelineno-9-74"></a><span class="w">                </span><span class="n">color</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">CheckSame</span><span class="p">(</span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">sampleNormal1</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">,</span><span class="w"> </span><span class="n">sampleDepth1</span><span class="p">);</span>
+<a id="__codelineno-9-75" name="__codelineno-9-75" href="#__codelineno-9-75"></a><span class="w">                </span><span class="n">color</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">CheckSame</span><span class="p">(</span><span class="n">centerNormal</span><span class="p">,</span><span class="w"> </span><span class="n">sampleNormal2</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">,</span><span class="w"> </span><span class="n">sampleDepth2</span><span class="p">);</span>
+<a id="__codelineno-9-76" name="__codelineno-9-76" href="#__codelineno-9-76"></a>
+<a id="__codelineno-9-77" name="__codelineno-9-77" href="#__codelineno-9-77"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
+<a id="__codelineno-9-78" name="__codelineno-9-78" href="#__codelineno-9-78"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-9-79" name="__codelineno-9-79" href="#__codelineno-9-79"></a><span class="w">            </span><span class="n">ENDCG</span>
+<a id="__codelineno-9-80" name="__codelineno-9-80" href="#__codelineno-9-80"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-9-81" name="__codelineno-9-81" href="#__codelineno-9-81"></a>
+<a id="__codelineno-9-82" name="__codelineno-9-82" href="#__codelineno-9-82"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-83" name="__codelineno-9-83" href="#__codelineno-9-83"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
+<a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="p">}</span>
+</code></pre></div>
+<p>이 내용을 한국어로 번역해주세요:</p>
+<p><a class="glightbox" href="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2014-3-27-unity-depth-minimap/topview.png" width="200"></a></p>
+<h1 id="_6">혼합 현실 세계 이미지</h1>
+<p>깊이 색상 그림 하나만으로는 다소 지루할 수 있습니다. 실제 장면의 색상 그림을 섞어 볼까요? 이를 위해 새로운 셰이더를 작성하여 앞서 언급한 그림과 카메라의 실제 그림을 혼합하는 방법이 있습니다. 그때 <code>OnRenderImage</code>에서 혼합 작업을 수행하면 됩니다.</p>
+<div class="language-glsl highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Shader</span><span class="w"> </span><span class="err">"</span><span class="n">Custom</span><span class="o">/</span><span class="n">ColorMixDepth</span><span class="err">"</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">Properties</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">        </span><span class="n">_MainTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Base</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">        </span><span class="n">_DepthTex</span><span class="w"> </span><span class="p">(</span><span class="err">"</span><span class="n">Depth</span><span class="w"> </span><span class="p">(</span><span class="n">RGBA</span><span class="p">)</span><span class="err">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">"</span><span class="n">white</span><span class="err">"</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="n">SubShader</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span><span class="n">Tags</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">"</span><span class="n">RenderType</span><span class="err">"</span><span class="o">=</span><span class="err">"</span><span class="n">Opaque</span><span class="err">"</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">        </span><span class="n">LOD</span><span class="w"> </span><span class="mi">200</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="n">CGPROGRAM</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">        </span><span class="cp">#pragma surface surf Lambert</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">        </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_MainTex</span><span class="p">;</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span><span class="kt">sampler2D</span><span class="w"> </span><span class="n">_DepthTex</span><span class="p">;</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="n">Input</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">            </span><span class="n">float2</span><span class="w"> </span><span class="n">uv_MainTex</span><span class="p">;</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">            </span><span class="n">float2</span><span class="w"> </span><span class="n">uv_DepthTex</span><span class="p">;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">surf</span><span class="w"> </span><span class="p">(</span><span class="n">Input</span><span class="w"> </span><span class="n">IN</span><span class="p">,</span><span class="w"> </span><span class="k">inout</span><span class="w"> </span><span class="n">SurfaceOutput</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">            </span><span class="n">half4</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_MainTex</span><span class="p">,</span><span class="w"> </span><span class="n">IN</span><span class="p">.</span><span class="n">uv_MainTex</span><span class="p">);</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">            </span><span class="n">half4</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tex2D</span><span class="w"> </span><span class="p">(</span><span class="n">_DepthTex</span><span class="p">,</span><span class="w"> </span><span class="n">IN</span><span class="p">.</span><span class="n">uv_DepthTex</span><span class="p">);</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">            </span><span class="c1">//d = d.x == 1? 0 : d;</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">            </span><span class="n">o</span><span class="p">.</span><span class="n">Albedo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">rgb</span><span class="o">*</span><span class="mf">0.1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">rgb</span><span class="o">*</span><span class="mf">0.9</span><span class="p">;</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">            </span><span class="n">o</span><span class="p">.</span><span class="n">Alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">        </span><span class="n">ENDCG</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">    </span><span class="n">FallBack</span><span class="w"> </span><span class="err">"</span><span class="n">Diffuse</span><span class="err">"</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="p">}</span>
+</code></pre></div>
+<p></p><div class="language-c# highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">void</span><span class="w"> </span><span class="nf">OnRenderImage</span><span class="p">(</span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">RenderTexture</span><span class="w"> </span><span class="n">dst</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="c1">// if now rendering depth map</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isRenderDepth</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="n">depthEdgeMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">isUseColorMap</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">            </span><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">depthEdgeMaterial</span><span class="p">);</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="k">else</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">            </span><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">);</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="c1">// else rendering real color scene, mix the real color with depth map</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="k">else</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_MainTex"</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">        </span><span class="n">mixMaterial</span><span class="p">.</span><span class="n">SetTexture</span><span class="p">(</span><span class="s">"_DepthTex"</span><span class="p">,</span><span class="w"> </span><span class="n">depthTexture</span><span class="p">);</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">        </span><span class="n">Graphics</span><span class="p">.</span><span class="n">Blit</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">mixMaterial</span><span class="p">);</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">        </span><span class="n">ReleaseTexture</span><span class="p">();</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="p">}</span>
+</code></pre></div>
+위의 코드는이 작업을 수행하는 데 사용됩니다. 이해해야 할 점은 'RenderWithShader'를 호출할 때 'OnRenderImage'도 호출된다는 것입니다. 즉, 이 함수가 두 번 호출된다는 것이고, 두 번의 호출에서 수행해야 할 기능은 다릅니다. 그래서 여기서는 현재 렌더링 상태가 깊이 맵을 만들어야 하는지 블렌딩을 해야 하는지를 나타내는 변수를 사용했습니다.
+<h1 id="_7">완전한 코드</h1>
+<p>소스 코드 파일이 좀 많아서 여기에 놔두겠습니다 <a href="../../assets/img/2014-3-27-unity-depth-minimap/2014-3-27-unity-depth-minimap.zip">depth-minimap</a>"。" --&gt; "。"</p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://wiki.disenone.site/ko">https://wiki.disenone.site/ko</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="ko" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>이 게시물은 ChatGPT를 사용하여 번역되었습니다. <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>피드백</strong></a>모든 누락된 부분을 찾아내세요. </p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="마지막 업데이트">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="작성일">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="하단/푸터" >
+        
+          
+          <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-footer__link md-footer__link--prev" aria-label="이전: 통합 캐릭터 제어">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                이전
+              </span>
+              <div class="md-ellipsis">
+                통합 캐릭터 제어
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-footer__link md-footer__link--next" aria-label="다음: Unity에서 부피 광 성산 (Volumetric Light Scattering, 클라우드 간격 광)을 구현합니다.">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                다음
+              </span>
+              <div class="md-ellipsis">
+                Unity에서 부피 광 성산 (Volumetric Light Scattering, 클라우드 간격 광)을 구현합니다.
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

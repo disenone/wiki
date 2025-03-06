@@ -1,0 +1,2566 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Get Started">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/en/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/">
+      
+      
+        <link rel="prev" href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/">
+      
+      
+        <link rel="next" href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>Get Started - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#editorial-section-get-started" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Get Started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh-Hant/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ja/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ko/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" hreflang="ko" class="md-select__link">
+              Korean
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  Programming
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  Game Dev
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-tabs__link">
+          
+  
+    
+  
+  UE.AIChatPlus
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Programming
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Programming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Summary of Command Line Argument Handling in C/C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ Macro Programming Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Write a Memory Leak Detector for Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analysis of KCP Source Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compile Python 2.7.11 using Visual Studio 2015
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Talk 1 - Exploring __builtins__
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Chat 2 - Python 3.12 Hot Update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Game Dev
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Game Dev
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Basic
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basic
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analysis and Performance Evaluation of the Game AOI Algorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using FASTBuild to Compile UE4 and UE5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE adds plugins through plugin source code.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE Extend Editor Menu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE uses path format to extend the menu.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE sets up localized multilingual options.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Carry out various operations on images (UTexture2D) in Unreal Engine (UE) (such as reading, saving, copying, clipboard...).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE Editor Plugin UE.EditorPlus Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Document Explanation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building a third-person camera in Unity (Part 1)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building a Third-Person Camera in Unity (Part 2)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity Character Control
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity Depth Map and Edge Detection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity implements volumetric light scattering (Volumetric Light Scattering, crepuscular rays).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    UE.AIChatPlus
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            UE.AIChatPlus
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Intro
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Intro
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Document Explanation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Blueprint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Blueprint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-OpenAI/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenAI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Cllama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cllama (llama.cpp)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-DeepSeek/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DeepSeek
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Azure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Azure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Ollama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ollama
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Claude/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Claude
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Gemini/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gemini
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Functional Node
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    EditorTool
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            EditorTool
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#editor-chat-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Editor chat tool.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main functions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-offline-model-cllama-llamacpp-to-edit-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using offline model Cllama (llama.cpp) to edit tool.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-offline-model-cllama-llamacpp-in-the-editor-tool-to-process-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the offline model Cllama (llama.cpp) in the editor tool to process images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-openai-chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses OpenAI chat.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-utilizes-openai-to-process-images-createmodifyalter" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor utilizes OpenAI to process images (create/modify/alter).
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Azure.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-azure-to-create-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Azure to create images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-utilizes-claude-for-chatting-and-analyzing-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor utilizes Claude for chatting and analyzing images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-ollama-for-chatting-and-analyzing-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Ollama for chatting and analyzing images.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The editor uses Ollama for chatting and analyzing images.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-editor-uses-gemini" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Gemini.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-gemini-to-send-audio" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Gemini to send audio.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Deepseek.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Changes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version Log
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#editor-chat-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Editor chat tool.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main functions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-offline-model-cllama-llamacpp-to-edit-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using offline model Cllama (llama.cpp) to edit tool.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-offline-model-cllama-llamacpp-in-the-editor-tool-to-process-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the offline model Cllama (llama.cpp) in the editor tool to process images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-openai-chat" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses OpenAI chat.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-utilizes-openai-to-process-images-createmodifyalter" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor utilizes OpenAI to process images (create/modify/alter).
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Azure.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-azure-to-create-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Azure to create images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-utilizes-claude-for-chatting-and-analyzing-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor utilizes Claude for chatting and analyzing images.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-ollama-for-chatting-and-analyzing-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Ollama for chatting and analyzing images.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The editor uses Ollama for chatting and analyzing images.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-editor-uses-gemini" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Gemini.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-gemini-to-send-audio" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Gemini to send audio.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-editor-uses-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      The editor uses Deepseek.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/en/ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 编辑器篇 - Get Started"></p>
+<h1 id="editorial-section-get-started">Editorial Section - Get Started</h1>
+<h2 id="editor-chat-tool">Editor chat tool.</h2>
+<p>Menu bar Tools -&gt; AIChatPlus -&gt; AIChat can open the editor chatting tool provided by the plugin</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/chat_tool3.png"></a></p>
+<p>The tool supports text generation, text chat, image generation, and image analysis.</p>
+<p>The interface of the tool is roughly as follows:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="text chat" src="../../assets/img/2024-ue-aichatplus/chat_tool2.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image chat" src="../../assets/img/2024-ue-aichatplus/chat_tool.png"></a></p>
+<h2 id="main-functions">Main functions</h2>
+<ul>
+<li><strong>Offline large models</strong>: Integrated llama.cpp library, supporting local offline execution of large models</li>
+</ul>
+<ul>
+<li><strong>Text Chat</strong>: Click on the <code>New Chat</code> button in the bottom left corner to start a new text chat session.</li>
+</ul>
+<ul>
+<li><strong>Image Generation</strong>: Click the <code>New Image Chat</code> button in the bottom left corner to start a new image generation session.</li>
+</ul>
+<p><strong>Image Analysis</strong>: Some chat services of 'New Chat' support sending images, such as Claude, Google Gemini. You can simply click the 🖼️ or 🎨 button above the input box to load the image you want to send.</p>
+<ul>
+<li><strong>Audio Processing</strong>: The tool allows reading audio files (.wav) and recording function, enabling communication with AI using the obtained audio.</li>
+</ul>
+<p><em>Set Current Chat Role</em>: The drop-down menu at the top of the chat box can be used to set the role of the character currently sending messages. This allows for simulating different roles to adjust the AI chat.</p>
+<ul>
+<li><strong>Clear Chat</strong>: The ❌ button at the top of the chat box can clear the history of messages in the current conversation.</li>
+</ul>
+<ul>
+<li><strong>Dialogue Templates</strong>: Hundreds of built-in dialogue templates are available to easily manage common issues.</li>
+</ul>
+<p><strong>Global Settings</strong>: Click on the <code>Setting</code> button in the lower left corner to open the global settings window. You can customize default text chat, image generation API services, and configure specific parameters for each API service. The settings will be automatically saved in the project path <code>$(ProjectFolder)/Saved/AIChatPlusEditor</code>.</p>
+<ul>
+<li><strong>Conversation Settings</strong>: Click the settings button above the chat box to open the settings window for the current conversation. You can change the conversation name, the API service used for the conversation, and customize specific parameters for each conversation's API. Conversation settings are automatically saved in <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions</code>.</li>
+</ul>
+<ul>
+<li><strong>Chat Content Editing</strong>: When hovering over a chat message, a settings button for that specific message will appear. It supports functions like regenerating content, editing content, copying content, deleting content, as well as regenerating content below (for messages where the user is the sender).</li>
+</ul>
+<p><strong>Image browsing</strong>: For image generation, clicking on an image will open the image viewing window (ImageViewer), supporting saving images as PNG/UE Texture. Textures can be viewed directly in the Content Browser, making it convenient for image use within the editor. Additionally, functionalities include deleting images, regenerating images, and continuing to generate more images. For editors on Windows, copying images is also supported, enabling direct copying to the clipboard for easy use. Images generated during sessions will automatically be saved in each session folder, typically located at <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images</code>.</p>
+<p>Global Settings:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/global_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="global settings" src="../../assets/img/2024-ue-aichatplus/global_setting.png"></a></p>
+<p>Conversation settings:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/session_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="session settings" src="../../assets/img/2024-ue-aichatplus/session_setting.png"></a></p>
+<p>Edit Chat Content:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/chat_edit.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="chat edit" src="../../assets/img/2024-ue-aichatplus/chat_edit.png"></a></p>
+<p>Image Viewer:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/image_viewer.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image viewer" src="../../assets/img/2024-ue-aichatplus/image_viewer.png"></a></p>
+<p>Using offline large models</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/offline_model.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="offline model" src="../../assets/img/2024-ue-aichatplus/offline_model.png"></a></p>
+<p>Dialogue Template</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/system_template.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="system template" src="../../assets/img/2024-ue-aichatplus/system_template.png"></a></p>
+<h2 id="using-offline-model-cllama-llamacpp-to-edit-tool">Using offline model Cllama (llama.cpp) to edit tool.</h2>
+<p>The following instructions explain how to use the offline model llama.cpp in the AIChatPlus editor tool.</p>
+<p>Firstly, download the offline model from the HuggingFace website: <a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
+<p>Place the model in a specific folder, such as within the Content/LLAMA directory of the game project.</p>
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&gt;<span class="w"> </span>ls
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>qwen1.5-1_8b-chat-q8_0.gguf*
+</code></pre></div>
+<p>Open the AIChatPlus editor tool: Tools -&gt; AIChatPlus -&gt; AIChat, create a new chat session, and open the session settings page.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_1.png"></a></p>
+<p>Set the API to Cllama, enable Custom API Settings, add the model search path, and select the model.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_2.png"></a></p>
+<p>Start chatting!!</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
+<h2 id="use-the-offline-model-cllama-llamacpp-in-the-editor-tool-to-process-images">Use the offline model Cllama (llama.cpp) in the editor tool to process images.</h2>
+<p>Download the offline model MobileVLM_V2-1.7B-GGUF from the HuggingFace website and place it in the directory Content/LLAMA: <a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf">ggml-model-q4_k.gguf</a>Translate these text into English language:</p>
+<p>和 <a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf">mmproj-model-f16.gguf</a>I'm sorry, but the text you provided is not meaningful or intelligible.</p>
+<p>Set the session model:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png"></a></p>
+<p>Start chatting by sending a picture.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png"></a></p>
+<h2 id="the-editor-uses-openai-chat">The editor uses OpenAI chat.</h2>
+<p>Open the chat tool, go to Tools -&gt; AIChatPlus -&gt; AIChat, create a new chat session, set the session to ChatApi as OpenAI, and configure the interface parameters.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png"></a></p>
+<p>Start chatting:</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png"></a></p>
+<p>Switching the model to GPT-4o / GPT-4o-mini enables the use of OpenAI's visual feature to analyze images.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png"></a></p>
+<h2 id="the-editor-utilizes-openai-to-process-images-createmodifyalter">The editor utilizes OpenAI to process images (create/modify/alter).</h2>
+<p>Create a new image chat session in the messaging tool, name it "New Image Chat," adjust session settings to OpenAI, and configure parameters.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png"></a></p>
+<p>Create an image.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png"></a></p>
+<p>Edit the image by changing the Image Chat Type to Edit, and upload two images. One should be the original image, and the other should be a masked image where the transparent areas (with an alpha value of 0) indicate the areas that need to be edited.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png"></a></p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png"></a></p>
+<p>Modify the type of the image chat to "Variation" and upload an image. OpenAI will provide a variation of the original image.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png"></a></p>
+<h2 id="the-editor-uses-azure">The editor uses Azure.</h2>
+<p>Create a new conversation (New Chat), change ChatApi to Azure, and configure Azure's API parameters.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png"></a></p>
+<p>Start chatting.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png"></a></p>
+<h2 id="the-editor-uses-azure-to-create-images">The editor uses Azure to create images.</h2>
+<p>Create a new Image Chat session, switch from ChatApi to Azure, and configure the Azure API parameters. Please note that if using the dall-e-2 model, the Quality and Stype parameters should be set to not_use.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png"></a></p>
+<p>Start chatting to let Azure create an image.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png"></a></p>
+<h2 id="the-editor-utilizes-claude-for-chatting-and-analyzing-images">The editor utilizes Claude for chatting and analyzing images.</h2>
+<p>Create a new conversation (New Chat), change ChatApi to Claude, and configure Claude's Api parameters.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png"></a></p>
+<p>Start chatting</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png"></a></p>
+<h2 id="the-editor-uses-ollama-for-chatting-and-analyzing-images">The editor uses Ollama for chatting and analyzing images.</h2>
+<p>Create a new chat session, change ChatApi to Ollama, and configure Ollama's API parameters. If it's a text chat, set the model to a text model like llama3.1; if image processing is needed, set the model to one that supports vision, such as moondream.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png"></a></p>
+<p>Start chatting</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png"></a></p>
+<h3 id="the-editor-uses-gemini">The editor uses Gemini.</h3>
+<p>Create a new chat session, change ChatApi to Gemini, and configure Gemini's API parameters.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png"></a></p>
+<p>Start chatting</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png"></a></p>
+<h2 id="the-editor-uses-gemini-to-send-audio">The editor uses Gemini to send audio.</h2>
+<p>Choose to read audio from a file, from an asset, or record audio from the microphone to generate the audio to be sent.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png"></a></p>
+<p>Start chatting</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png"></a></p>
+<h2 id="the-editor-uses-deepseek">The editor uses Deepseek.</h2>
+<p>Create a new chat session, change ChatApi to OpenAi, and configure the Deepseek API parameters. Add a new candidate model named deepseek-chat and set the model to deepseek-chat.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png"></a></p>
+<p>Start chatting</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png"></a></p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://wiki.disenone.site/en">https://wiki.disenone.site/en</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="en" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>This post has been translated using ChatGPT. Please provide your feedback in <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Point out any omissions. </p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Get Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Get Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/" class="md-footer__link md-footer__link--next" aria-label="Next: Version Log">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Version Log
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

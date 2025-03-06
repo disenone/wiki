@@ -1,0 +1,2792 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="__builtin__ 과 __builtins__ 사이에는 어떤 차이가 있는가? __builtins__ 가 main 모듈과 다른 모듈에서 다른 이유가 있다고? 왜 그렇게 설정되었는가? __builtins__ 는 어디에 정의되어 있는가? 본 문서에서는 __builtins__ 에 관한 재미있는 내용을 탐구하고, 그에 따른 파생적인 주제도 다뤄보겠습니다. 놓치지 마십시오.">
+      
+      
+        <meta name="author" content="Disenone">
+      
+      
+        <link rel="canonical" href="https://wiki.disenone.site/ko/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/">
+      
+      
+        <link rel="prev" href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/">
+      
+      
+        <link rel="next" href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 피드 생성완료" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS 피드 업데이트완료" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/favicon/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>Python 잡담 1 - __builtins__ 탐구 - Disenone's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC+-+local:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC - local";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-header__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disenone's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Python 잡담 1 - __builtins__ 탐구
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="4051b5" data-md-color-accent="blue"  aria-label="切换暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="切换亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="언어설정">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="zh" class="md-select__link">
+              简体中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../zh-Hant/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="zh-Hant" class="md-select__link">
+              繁體中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../en/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../es/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ja/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../de/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="de" class="md-select__link">
+              Deutsch
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../fr/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ar/py-Python%E6%9D%82%E8%B0%881-%E6%8E%A2%E7%A9%B6__builtins__/" hreflang="ar" class="md-select__link">
+              العربية
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ko" class="md-select__link">
+              Korean
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/disenone/wiki_blog" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  Programming
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-tabs__link">
+          
+  
+    
+  
+  Game Dev
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-tabs__link">
+          
+  
+    
+  
+  UE.AIChatPlus
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Disenone&#39;s Wiki" class="md-nav__button md-logo" aria-label="Disenone's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/favicon/android-chrome-512x512.png" alt="logo">
+
+    </a>
+    Disenone's Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/disenone/wiki_blog" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Programming
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Programming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    C/C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            C/C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++의 명령줄 인수 처리 요약
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-C%E5%92%8CCpp%E5%AE%8F%E7%BC%96%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C/C++ 매크로 프로그래밍 분석
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-%E7%BC%96%E5%86%99Windows%E4%B8%8B%E7%9A%84MemoryLeakDetector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows 운영 체제에서 Memory Leak Detector 작성하기
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp-KCP%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KCP 소스 코드 분석
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visual Studio 2015을 사용하여 Python 2.7.11을 컴파일합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Python 잡담 1 - __builtins__ 탐구
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Python 잡담 1 - __builtins__ 탐구
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      서문
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtin__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtin__
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtins__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtins__
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricted-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Restricted Execution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtins___1" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtins__ 객체의 전달
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__main__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __main__ 모듈을 실행하도록 지정하기
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      재한된 실행을 다시 논하겠습니다.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="재한된 실행을 다시 논하겠습니다.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      rexec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rexec_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      rexec의 실패
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      제한된 실행 - 어디에 탈출구가 있는가
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      요약
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    파이썬 이야기 2 - 파이썬 3.12 핫 업데이트
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Game Dev
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Game Dev
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Basic
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basic
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-%E6%B8%B8%E6%88%8FAOI%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E6%80%A7%E8%83%BD%E5%AE%9E%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    게임 AOI 알고리즘 분석 및 성능 테스트
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    UE
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            UE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8FASTBuild%E7%BC%96%E8%AF%91UE4%E5%92%8CUE5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FASTBuild를 사용하여 UE4 및 UE5를 컴파일합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E6%BA%90%E7%A0%81%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE에서 플러그인 소스 코드를 사용하여 플러그인을 추가합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%89%A9%E5%B1%95%E7%BC%96%E8%BE%91%E5%99%A8%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 확장 편집기 메뉴
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E4%BD%BF%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BD%A2%E5%BC%8F%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 사용 경로 형식으로 메뉴 확장
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E8%AE%BE%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%A4%9A%E8%AF%AD%E8%A8%80/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 설정 지역화 다국어
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E5%9B%BE%E7%89%87-%E5%90%84%E7%A7%8D%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE에서는 각종 이미지 (UTexture2D) 작업을 수행할 수 있습니다 (로드, 저장, 복사, 클립보드...).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6-EditorPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UE 에디터 플러스 플러그인 UE.EditorPlus 설명 문서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    설명서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Unity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8A%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity 세 번째 인칭 카메라 구축(상)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E7%9B%B8%E6%9C%BA%E6%9E%84%E5%BB%BA%28%E4%B8%8B%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity 세 번째 인칭 카메라 설정 (하)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E4%BA%BA%E7%89%A9%E6%8E%A7%E5%88%B6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    통합 캐릭터 제어
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E7%94%BB%E6%B7%B1%E5%BA%A6%E5%9B%BE%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity에서 깊이 맵(Depth Map)과 가장자리 감지(Edge Detection)를 구현합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-Unity%E5%AE%9E%E7%8E%B0%E4%BD%93%E7%A7%AF%E5%85%89%E7%85%A7%E6%95%A3%E5%B0%84/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unity에서 부피 광 성산 (Volumetric Light Scattering, 클라우드 간격 광)을 구현합니다.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    UE.AIChatPlus
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            UE.AIChatPlus
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Intro
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Intro
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    설명서
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Blueprint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Blueprint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-OpenAI/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenAI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Cllama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cllama (llama.cpp)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-DeepSeek/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DeepSeek
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Azure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Azure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Ollama/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ollama
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Claude/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Claude
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Gemini/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gemini
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    기능 노드
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    EditorTool
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            EditorTool
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Changes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    버전 로그
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      서문
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtin__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtin__
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtins__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtins__
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricted-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Restricted Execution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__builtins___1" class="md-nav__link">
+    <span class="md-ellipsis">
+      __builtins__ 객체의 전달
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__main__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __main__ 모듈을 실행하도록 지정하기
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      재한된 실행을 다시 논하겠습니다.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="재한된 실행을 다시 논하겠습니다.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      rexec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rexec_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      rexec의 실패
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      제한된 실행 - 어디에 탈출구가 있는가
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      요약
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/disenone/wiki_blog/edit/main/docs/ko/py-Python杂谈1-探究__builtins__.md" title="이 페이지를 편집" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+  <h1>Python 잡담 1 - __builtins__ 탐구</h1>
+
+<div><p><meta property="og:title" content="Python 杂谈 1 - 探究 __builtins__ - Disenone"></p>
+<h2 id="_1">서문</h2>
+<p>우리는 알고 있죠, <code>__builtins__</code> 는 전역 네임 스페이스에 있는 객체로, <code>Python</code> 이 Absicht 로 코드 계층에 노출시켜 놓은 거야. 어디에서든 직접 사용할 수 있어. 근데 조금 춥고 알기 어려운 사실은, <code>main</code> 모듈(<code>__main__</code> 도 같은 모듈을 가리키는데, 이후에 혼용될 거야) 안에서 <code>__builtin__</code> 모듈을 나타내지만, 다른 모듈 안에서는 <code>__builtin__.__dict__</code> 를 나타낸다는 거야. 조금 이해하기 어려운 부분이죠. 공식적으로 <code>__builtins__</code> 를 직접 사용하지 않는 걸 권장하지만, 두 가지 상황을 나한테 보여줬다고? 이 글에서는 여기에 대한 원인을 살펴보고, 이 과정에서 우리는 다음 질문의 답을 찾을 수 있어: <code>__builtin__</code> 이랑 <code>__builtins__</code> 의 차이는 뭘까요? <code>__builtins__</code> 가 <code>main</code> 모듈과 다른 모듈에서 다르게 설정되는 이유는 뭐에요? <code>__builtins__</code> 는 어디에서 정의돼요?</p>
+<h2 id="__builtin__"><code>__builtin__</code></h2>
+<p><code>__builtins__</code>를 논의하기 전에 <code>__builtin__</code>이 무엇인지 살펴볼 필요가 있습니다. <code>__builtin__</code>은 모든 내장 객체를 보관하는 모듈입니다. 우리가 일반적으로 사용하는 <code>Python</code> 내장 객체들은 본질적으로 <code>__builtin__</code> 모듈 안에 있으며, 즉 <code>__builtin__.__dict__</code>에 위치해 있는 것이며, 이는 <code>Python</code>의 내장 네임스페이스를 나타냅니다. 이 핵심 지식을 기억해 두세요: <code>__builtin__</code>은 <code>module</code> 모듈입니다. <code>Python</code> 소스 코드에서 <code>__builtin__</code> 모듈의 정의와 사용을 찾을 수 있습니다. (참고: 여기서 언급하는 <code>Python</code> 소스 코드는 CPython-2.7.18 소스 코드를 의미합니다)</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// pythonrun.c</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">void</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nf">Py_InitializeEx</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">install_sigs</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">PyInterpreterState</span><span class="w"> </span><span class="o">*</span><span class="n">interp</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">__builtin__을</span><span class="w"> </span><span class="n">초기화합니다</span><span class="p">.</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_PyBuiltin_Init</span><span class="p">();</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="c1">// interp-&gt;builtins = __builtin__.__dict__</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">interp</span><span class="o">-&gt;</span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1">// bltinmodule.c</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nf">_PyBuiltin_Init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">{</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">dict</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">debug</span><span class="p">;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Py_InitModule4</span><span class="p">(</span><span class="s">"__builtin__"</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_methods</span><span class="p">,</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">                         </span><span class="n">builtin_doc</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">                         </span><span class="n">PYTHON_API_VERSION</span><span class="p">);</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">mod</span><span class="p">);</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">// 내장된 객체를 dict에 추가합니다.</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">}</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1">// ceval.c</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="n">내장</span><span class="w"> </span><span class="n">함수</span><span class="w"> </span><span class="n">받아오기</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="n">PyEval_GetBuiltins</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">{</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">    </span><span class="n">PyFrameObject</span><span class="w"> </span><span class="o">*</span><span class="n">current_frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_GetFrame</span><span class="p">();</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current_frame</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">PyThreadState_GET</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">interp</span><span class="o">-&gt;</span><span class="n">builtins</span><span class="p">;</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">    </span><span class="k">else</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">current_frame</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="p">}</span>
+</code></pre></div>
+<p>파이썬이 초기화될 때 <code>_PyBuiltin_Init</code>를 호출하여 <code>__builtin__</code> 모듈을 생성하고 내장 객체를 추가합니다. 인터프리터 자체는 <code>interp-&gt;builtins = __buintin__.__dict__</code>를 참조합니다. 현재 실행 중인 스택 프레임 구조도 <code>current_frame-&gt;f_builtins</code>를 참조합니다. 따라서 객체를 이름으로 찾아야 하는 코드가 실행될 때 파이썬은 <code>current_frame-&gt;f_builtins</code>에서 찾아 모든 내장 객체에 액세스할 수 있습니다.</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ceval.c</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">LOAD_NAME</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">// 먼저 f-&gt;f_locals 네임스페이스에서 찾습니다.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">전역</span><span class="w"> </span><span class="n">공간을</span><span class="w"> </span><span class="n">다시</span><span class="w"> </span><span class="n">찾아보세요</span><span class="p">.</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">내장된</span><span class="w"> </span><span class="n">공간에서</span><span class="w"> </span><span class="n">찾아주세요</span><span class="p">.</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">                </span><span class="n">format_exc_check_arg</span><span class="p">(</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">                            </span><span class="n">PyExc_NameError</span><span class="p">,</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">                            </span><span class="n">NAME_ERROR_MSG</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="n">Py_INCREF</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">PUSH</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">DISPATCH</span><span class="p">();</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
+</code></pre></div>
+<p>마지막으로, <code>__builtin__</code> 이라는 이름은 혼란을 주기 때문에 <code>Python3</code>에서는 <code>builtins</code>로 이름이 변경되었습니다.</p>
+<h2 id="__builtins__"><code>__builtins__</code></h2>
+<p><code>__builtins__</code>의 동작 방식은 약간 이상합니다.
+<code>main</code> 모듈에서(<code>main</code> 모듈 또는 <code>최상위 코드 실행 환경</code>이라 불리는 것은 사용자가 처음 실행되는 <code>Python</code> 모듈을 지정하는 것이며, 보통 우리가 명령줄에서 <code>python xxx.py</code>를 실행할 때 <code>xxx.py</code> 모듈입니다), <code>__builtins__ = __builtin__</code>입니다.
+다른 모듈에서 <code>__builtins__ = __builtin__.__dict__</code>를 사용합니다.</p>
+<p>같은 이름을 가졌지만 다른 모듈에서는 서로 다른 방식으로 작동하는 경우가 있습니다. 이런 설정은 혼란스러울 수 있지만, 이를 이해하면 충분히 <code>Python</code>에서 <code>__builtins__</code>를 사용할 수 있습니다. 이해하면서 궁금증이 해결될 것이며 안전한 코드를 작성하는 데 지장이 되지 않습니다.</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">SetBuiltins</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="n">builtins</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="nb">setattr</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">SetBuiltins</span><span class="p">(</span><span class="n">__builtins__</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p><code>__builtins__</code> 사용을 권장하지 않는 것이 좋다는 점을 유의하십시오:</p>
+<blockquote>
+<p><strong>CPython 구현 상세 내용</strong>: 사용자는 <code>__builtins__</code>에 손 대서는 안 된다; 이는 엄격히 구현 세부 사항이다. 내장된 이름 공간의 값을 재정의하려는 사용자는 <code>__builtin__</code> (‘s’ 없음) 모듈을 가져와 적절히 속성을 수정해야 한다.</p>
+</blockquote>
+<p>당연히 이런 의문은 언젠가는 너를 궁금하게 만들 거야. 나는 여기서 계속 파고들기로 결정했어. 그래서야 이 글이 나왔지. 이후 내용은 CPython 세부 구현 내용까지 들어가 있을 거야.</p>
+<h2 id="restricted-execution">Restricted Execution</h2>
+<p>제한된 실행은 안전하지 않은 코드를 한정적으로 실행하는 것으로 이해할 수 있습니다. 한정적이란 네트워크, I/O 등을 제한하는 것을 말할 수 있으며, 코드를 특정 실행 환경으로 제한함으로써 코드 실행 권한을 제어하여 외부 환경과 시스템에 영향을 줄 수 있는 코드를 방지합니다. 일반적인 사용 사례는 온라인 코드 실행 웹사이트인데, 예를 들어 이것: <a href="https://pythonsandbox.dev/">pythonsandbox</a>당신은 유일한 사람이기 때문에 나는 당신을 사용할 수 없습니다.</p>
+<p>(https://docs.python.org/2.7/library/restricted.html)나중에 적용되지 않는 것으로 확인돼서 해당 기능을 폐기했지만, 코드는 2.7.18 버전에 계속 남아 있어서 고고학적 연구를 할 수 있습니다.</p>
+<p>먼저 <code>Python</code> 소스 코드에서 <code>__builtins__</code>의 설정을 살펴보겠습니다:</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// pythonrun.c</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initmain</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">d</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">// __main__ 모듈을 가져옵니다.</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't create __main__ module"</span><span class="p">);</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="c1">// d = __main__.__dict__</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1">// 기존에 존재하면 __main__.__dict__['__builtins__']를 설정합니다.</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">bimod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_ImportModule</span><span class="p">(</span><span class="s">"__builtin__"</span><span class="p">);</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bimod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">            </span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span><span class="w"> </span><span class="n">bimod</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">            </span><span class="n">Py_FatalError</span><span class="p">(</span><span class="s">"can't add __builtins__ to __main__"</span><span class="p">);</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="n">Py_XDECREF</span><span class="p">(</span><span class="n">bimod</span><span class="p">);</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>initmain</code>에서는 Python이 <code>__main__</code> 모듈에 <code>__builtins__</code> 속성을 설정하는데, 기본적으로 <code>__builtin__</code> 모듈과 동일하게 설정됩니다. 이미 설정된 경우에는 건너뛰고 다시 설정하지 않습니다. 이 특성을 활용하여 <code>__main__.__builtins__</code>를 수정하여 일부 내장 기능을 수정하여 코드 실행 권한을 제한할 수 있습니다. 구체적인 방법은 지금은 언급하지 않겠습니다. 대신 <code>__builtins__</code>가 어떻게 전달되는지 살펴봅시다.</p>
+<h2 id="__builtins___1"><code>__builtins__</code> 객체의 전달</h2>
+<p>새로운 스택 프레임을 생성할 때:</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">PyFrameObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nf">PyFrame_New</span><span class="p">(</span><span class="n">PyThreadState</span><span class="w"> </span><span class="o">*</span><span class="n">tstate</span><span class="p">,</span><span class="w"> </span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">            </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">back</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">globals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">globals</span><span class="p">[</span><span class="err">'</span><span class="n">__builtins__</span><span class="err">'</span><span class="p">]</span><span class="n">를</span><span class="w"> </span><span class="n">새로운</span><span class="w"> </span><span class="n">프레임의</span><span class="w"> </span><span class="n">__builtins__로</span><span class="w"> </span><span class="n">사용합니다</span><span class="p">.</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">// builtin_object is a string called '__builtins__'</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_GetItem</span><span class="p">(</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">builtin_object</span><span class="p">);</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">builtins</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyModule_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">                </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">builtins</span><span class="p">);</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">                </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">builtins</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">PyDict_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">));</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">PyDict_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">                </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="p">...</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="cm">/* If we share the globals, we share the builtins.</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="cm">           Save a lookup and a call. */</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="c1">// 또는 이전 스택 프레임의 f_builtins를 직접 상속받을 수도 있습니다.</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="n">builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="p">;</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">builtins</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">PyDict_Check</span><span class="p">(</span><span class="n">builtins</span><span class="p">));</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">        </span><span class="n">Py_INCREF</span><span class="p">(</span><span class="n">builtins</span><span class="p">);</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_builtins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builtins</span><span class="p">;</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span>
+</code></pre></div>
+<p>새로운 스택 프레임을 생성할 때, <code>__builtins__</code>을 다루는 주요한 두 가지 경우가 있습니다: 하나는 상위 스택 프레임이 없는 경우, <code>globals['__builtins__']</code>를 가져오는 경우이고, 다른 하나는 직접 상위 스택 프레임의 <code>f_builtins</code>를 가져오는 경우입니다. 종합적으로 보면, 보통 <code>__main__</code>에서 설정한 <code>__builtins__</code>은 후속 스택 프레임에 계속 상속되어 나중에도 동일한 것을 공유하는 것으로 이해할 수 있습니다.</p>
+<p><code>import</code> 모듈을 할 때:</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nf">load_compiled_module</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">cpathname</span><span class="p">,</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">magic</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">co</span><span class="p">;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">co</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_compiled_module</span><span class="p">(</span><span class="n">cpathname</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">);</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_ExecCodeModuleEx</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">cpathname</span><span class="p">);</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">}</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="nf">PyImport_ExecCodeModuleEx</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="p">{</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="c1">// d = m.__dict__</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">이</span><span class="w"> </span><span class="n">위치에서</span><span class="w"> </span><span class="n">새로운</span><span class="w"> </span><span class="n">로드된</span><span class="w"> </span><span class="n">모듈의</span><span class="w"> </span><span class="n">__builtins__</span><span class="w"> </span><span class="n">속성을</span><span class="w"> </span><span class="n">설정합니다</span><span class="p">.</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_GetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__builtins__"</span><span class="p">,</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">                                 </span><span class="n">PyEval_GetBuiltins</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">    </span><span class="c1">// globals = d, locals = d</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="p">((</span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">);</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="p">}</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="nf">PyEval_EvalCode</span><span class="p">(</span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">)</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="p">{</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="p">(</span><span class="n">co</span><span class="p">,</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">                      </span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">locals</span><span class="p">,</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">                      </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="w">                      </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="w">                      </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">                      </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>import</code> 다른 모듈을 할 때, 해당 모듈의 <code>__builtins__</code>를 <code>PyEval_GetBuiltins()</code>의 반환 값으로 설정한다. 이 함수는 이미 언급했듯이 대부분의 경우 <code>current_frame-&gt;f_builtins</code>와 같다. <code>__main__</code> 모듈 내부에서의 <code>import</code>에 대해서는, <code>current_frame</code>은 <code>__main__</code> 모듈의 프레임이며, <code>current_frame-&gt;f_builtins = __main__.__dict__['__builtins__']</code>이 적용된다(앞서 언급된 <code>PyFrame_New</code>의 첫 번째 경우와 일치).</p>
+<p>새 모듈을 로드하면, <code>PyEval_EvalCode</code>를 사용하여 새 모듈의 코드를 실행합니다. <code>PyEval_EvalCode</code>에 전달된 <code>globals</code>, <code>locals</code> 매개변수는 사실 모듈 자체의 <code>__dict__</code>이며, 모듈 <code>m.__dict__['__builtins__'] = PyEval_GetBuiltins()</code>를 할당합니다.</p>
+<p>종합적으로 볼 때, 우리는 알 수 있습니다. <code>__main__</code> 모듈부터 <code>import</code>된 모듈은 <code>__main__</code>에서의 <code>__builtins__</code>를 상속받고 내부의 <code>import</code>에서도 전달되어 모든 <code>__main__</code>에서 로드된 모듈과 하위 모듈이 동일한 <code>__main__</code>의 <code>__builtins__</code>를 공유할 수 있도록 보장할 수 있습니다.</p>
+<p>그렇다면 모듈 안에서 호출되는 함수의 경우 어떻게 될까요? 모듈 안에 있는 함수의 경우, 생성과 호출 시:</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// ceval.c</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">함수</span><span class="w"> </span><span class="n">생성</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">TARGET</span><span class="p">(</span><span class="n">MAKE_FUNCTION</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">{</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">POP</span><span class="p">();</span><span class="w"> </span><span class="cm">/* code object */</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">여기서</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals는</span><span class="w"> </span><span class="n">모듈</span><span class="w"> </span><span class="n">자체의</span><span class="w"> </span><span class="n">전역</span><span class="w"> </span><span class="n">변수에</span><span class="w"> </span><span class="n">해당하며</span><span class="p">,</span><span class="w"> </span><span class="n">앞서</span><span class="w"> </span><span class="n">본</span><span class="w"> </span><span class="n">것과</span><span class="w"> </span><span class="n">같이</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">__dict__와</span><span class="w"> </span><span class="n">같다</span><span class="p">.</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_New</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals</span><span class="p">);</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">PyFunction_New</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="p">{</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="n">PyFunctionObject</span><span class="w"> </span><span class="o">*</span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyObject_GC_New</span><span class="p">(</span><span class="n">PyFunctionObject</span><span class="p">,</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                                        </span><span class="o">&amp;</span><span class="n">PyFunction_Type</span><span class="p">);</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="n">여기서는</span><span class="w"> </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">f_globals와</span><span class="w"> </span><span class="n">같습니다</span><span class="p">.</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="n">op</span><span class="o">-&gt;</span><span class="n">func_globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">globals</span><span class="p">;</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">}</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">함수</span><span class="w"> </span><span class="n">호출</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">fast_function</span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">***</span><span class="n">pp_stack</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">na</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nk</span><span class="p">)</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">{</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">    </span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="n">co</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PyCodeObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">PyFunction_GET_CODE</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="c1">// globals = func-&gt;func_globals</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyFunction_GET_GLOBALS</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="c1">// globals will be passed to PyEval_EvalCodeEx, which will then be passed to PyFrame_New to create a new frame stack.</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyEval_EvalCodeEx</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">                             </span><span class="p">(</span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="p">,</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">                             </span><span class="p">(</span><span class="o">*</span><span class="n">pp_stack</span><span class="p">)</span><span class="mi">-2</span><span class="o">*</span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">nk</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">nd</span><span class="p">,</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">                             </span><span class="n">PyFunction_GET_CLOSURE</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="p">}</span>
+</code></pre></div>
+<p>함수를 만들 때, <code>f-&gt;f_globals</code>를 함수 구조체 변수 <code>func_globals</code>에 저장하고, 모듈 <code>m</code>에 대해서는 <code>f-&gt;f_globals = m.__dict__</code>로 처리됩니다. 함수가 실행될 때 <code>PyFrame_New</code>에 전달되는 <code>globals</code> 매개 변수는 생성 시점에 저장된 <code>func_globals</code>이며, 이로 인해 <code>__builtins__</code>은 자연스럽게 <code>func_globals</code>에서 가져올 수 있습니다.</p>
+<p>이로써 <code>__builtins__</code>의 전파는 일관성을 보장할 수 있으며, 모든 모듈, 하위 모듈, 함수, 스택 프레임 등이 동일한 것을 참조할 수 있게 됩니다. 즉, 동일한 내장 이름 공간을 가지게 됩니다.</p>
+<h2 id="__main__"><code>__main__</code> 모듈을 실행하도록 지정하기</h2>
+<p>우리는 이미 <code>__main__</code> 모듈 자체의 <code>__builtins__</code>가 모든 하위 모듈, 함수 및 스택 프레임에 전달될 수 있다는 것을 알고 있습니다. 그리고 명령행에서 <code>python a.py</code>를 실행할 때, Python은 <code>a.py</code>를 <code>__main__</code> 모듈로 실행합니다. 이것이 어떻게 이루어지는 것일까요:</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// python.c</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">{</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Py_Main</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1">// main.c</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="kt">int</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nf">Py_Main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">{</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">모듈의</span><span class="w"> </span><span class="n">importer를</span><span class="w"> </span><span class="n">사용하여</span><span class="w"> </span><span class="n">코드를</span><span class="w"> </span><span class="n">실행하는</span><span class="w"> </span><span class="n">시도를</span><span class="w"> </span><span class="n">해보십시오</span><span class="p">.</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">        </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RunMainFromImporter</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">보통</span><span class="w"> </span><span class="n">우리</span><span class="w"> </span><span class="n">자신의</span><span class="w"> </span><span class="n">py</span><span class="w"> </span><span class="n">파일을</span><span class="w"> </span><span class="n">실행할</span><span class="w"> </span><span class="n">때는</span><span class="w"> </span><span class="n">이것을</span><span class="w"> </span><span class="n">사용합니다</span><span class="p">.</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="n">sts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">            </span><span class="n">fp</span><span class="p">,</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"&lt;stdin&gt;"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">            </span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cf</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="p">}</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="c1">// pythonrun.c</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="kt">int</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="n">PyRun_AnyFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">                     </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="p">{</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="p">}</span>
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>
+<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="kt">int</span>
+<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="n">PyRun_SimpleFileExFlags</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">closeit</span><span class="p">,</span>
+<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="w">                        </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="p">{</span>
+<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyImport_AddModule</span><span class="p">(</span><span class="s">"__main__"</span><span class="p">);</span>
+<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_GetDict</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="c1">// __file__ 속성 설정</span>
+<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">PyDict_SetItemString</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s">"__file__"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="w">        </span><span class="p">...</span>
+<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a><span class="w">    </span><span class="c1">// globals = locals = d = __main__.__dict__</span>
+<a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run_pyc_file</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a><span class="p">}</span>
+<a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a>
+<a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a><span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a><span class="n">run_pyc_file</span><span class="p">(</span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">globals</span><span class="p">,</span>
+<a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a><span class="w">             </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">locals</span><span class="p">,</span><span class="w"> </span><span class="n">PyCompilerFlags</span><span class="w"> </span><span class="o">*</span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a><span class="p">{</span>
+<a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a><span class="c1">// pyc 파일에서 코드 객체 co를 읽고 코드를 실행합니다.</span>
+<a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a><span class="c1">// PyEval_EvalCode also calls PyFrame_New inside to create a new stack frame.</span>
+<a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyEval_EvalCode</span><span class="p">(</span><span class="n">co</span><span class="p">,</span><span class="w"> </span><span class="n">globals</span><span class="p">,</span><span class="w"> </span><span class="n">locals</span><span class="p">);</span>
+<a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>python a.py</code>를 실행하면 일반적으로 <code>PyRun_SimpleFileExFlags</code>로 이동하게 되는데, 이 함수 안에서는 <code>__main__.__dict__</code>를 가져와 코드 실행 시의 <code>globals</code>와 <code>locals</code>로 사용하며, 결국은 <code>PyFrame_New</code>로 넘어가 새로운 프레임을 생성하여 <code>a.py</code>를 실행합니다. 앞서 언급한 <code>__builtins__</code>가 모듈과 함수 사이에서 전달되는 것과 합쳐져 나중에 실행되는 코드들이 모두 <code>current_frame-&gt;f_builtins = __main__.__builtins__.__dict__</code>를 공유할 수 있게 됩니다.</p>
+<h2 id="_2">재한된 실행을 다시 논하겠습니다.</h2>
+<p><code>Python</code>은 2.3 버전 이전에 <a href="https://docs.python.org/2.7/library/restricted.html">Restricted Execution</a><code>__builtins__</code> is created based on the feature of <code>__builtins__</code>. Alternatively, one could consider that the reason <code>__builtins__</code> is designed as a module object in the <code>__main__</code> module and as a <code>dict</code> object in other modules is to achieve Restricted Execution.</p>
+<p>이런 상황을 고려해 보세요: 우리가 스스로 <code>__builtin__</code> 모듈을 자유롭게 맞춤 설정하고 <code>__main__.__builtins__</code>로 설정할 수 있다면, 그러면 이후에 실행되는 모든 코드가 우리가 맞춤 설정한 모듈을 사용하게 됩니다. 특정 버전의 <code>open</code>, <code>__import__</code>, <code>file</code> 등 내장 함수와 타입을 맞춤 설정할 수 있습니다. 더 나아가, 이러한 방식은 코드 실행 권한을 제한하여 안전하지 않은 함수 호출을 방지하거나 안전하지 않은 파일에 접근하는 것을 막을 수 있는 방법이 될 수 있을까요?</p>
+<p><code>Python</code> 당시에는 이미 이러한 시도를 했는데, 이 기능을 구현하는 모듈은 <code>rexec</code>라고 불렀다.</p>
+<h3 id="rexec"><code>rexec</code></h3>
+<p>저는 <code>rexec</code>의 구현에 대해 자세히 설명하고 싶지 않습니다. 왜냐하면 원리는 이미 이전에 충분히 설명되었고, 이 모듈 자체도 더 이상 사용되지 않기 때문입니다. 제가 작성한 것은 주요 코드 일부를 간단하게 요약한 것뿐이며, 참고 용이를 위해 남깁니다. </p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># rexec.py</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">RExec</span><span class="p">(</span><span class="n">ihooks</span><span class="o">.</span><span class="n">_Verbose</span><span class="p">):</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="o">...</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">nok_builtin_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'open'</span><span class="p">,</span> <span class="s1">'file'</span><span class="p">,</span> <span class="s1">'reload'</span><span class="p">,</span> <span class="s1">'__import__'</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hooks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="o">...</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="o">...</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">make_builtin</span><span class="p">()</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">make_initial_modules</span><span class="p">()</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">make_sys</span><span class="p">()</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">RModuleLoader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hooks</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">importer</span> <span class="o">=</span> <span class="n">RModuleImporter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_builtin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_except</span><span class="p">(</span><span class="n">__builtin__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nok_builtin_names</span><span class="p">)</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        <span class="n">m</span><span class="o">.</span><span class="n">__import__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_import</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        <span class="n">m</span><span class="o">.</span><span class="n">reload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_reload</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        <span class="n">m</span><span class="o">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_open</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mname</span><span class="p">):</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mname</span><span class="p">)</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">mname</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hooks</span><span class="o">.</span><span class="n">new_module</span><span class="p">(</span><span class="n">mname</span><span class="p">)</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>        <span class="n">m</span><span class="o">.</span><span class="n">__builtins__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">'__builtin__'</span><span class="p">]</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>        <span class="k">return</span> <span class="n">m</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">r_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>        <span class="n">exec</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">r_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">r_execfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="n">execfile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+</code></pre></div>
+<p><code>r_execfile</code> 함수는 파일을 <code>__main__</code> 모듈로 실행하는 함수인데, 그냥 <code>__main__</code>이 수정된 모듈이어서다. <code>self.add_module('__main__')</code> 안에서 모듈의 <code>m.__builtins__ = self.modules['__builtin__']</code>를 설정하는데, 이 <code>__builtin__</code>은 <code>make_builtin</code>으로 만들어져서 <code>__import__</code>, <code>reload</code>, <code>open</code> 함수를 대체하고 <code>file</code> 타입을 삭제했다. 그러니까, 우리는 실행할 코드가 내장 네임스페이스에 접근하는 것을 제어할 수 있다.</p>
+<p>일부 내장 모듈에 대해 'rexec'는 안전하지 않은 액세스를 보호하기 위해 맞춤형 작업을 수행했습니다. 예를 들어 'sys' 모듈은 일부 객체만 남겨두고 'self.loader', 'self.importer'를 통해 맞춤형 모듈을 우선적으로로드하도록하여 'import' 시에 보다 안전하게 작동하도록 했습니다.</p>
+<p>코드 세부 사항에 관심이 있다면 관련 소스 코드를 직접 참조하십시오.</p>
+<h3 id="rexec_1"><code>rexec</code>의 실패</h3>
+<p>앞서 말한 대로, <code>Python 2.3</code> 이후로 <code>rexec</code> 는 이미 폐기되었습니다. 이 방법이 불가능하다는 것이 이미 입증되어 있기 때문입니다. 호기심을 가지고 간단히 역사를 살펴보겠습니다:</p>
+<p>커뮤니티에서 <a href="https://mail.python.org/pipermail/python-dev/2002-December/031160.html">버그</a>개발자들 간에 논의를 일으켰습니다.</p>
+<div class="language-text highlight"><pre><span></span><code>&gt; it's never going to be safe, and I doubt it's very useful as long as it's not safe.
+
+&gt; Every change is a potential security hole.
+
+&gt; it's hard to predict what change is going to break it.
+
+&gt; I don't expect you'll ever reach the point where it'll be wise to advertise this as safe.  I certainly won't.
+
+&gt;  this is only a useful occupation if you expect to eventually reach a point where you expect that there aren't any security flaws left.  Jeremy &amp; I both doubt that Python will ever reach that level, meaning that the whole exercise of fixing security flaws is a waste of time (if you know you *can't* make it safe, don't waste time trying).
+
+&gt; I agree (but I have said that in past) the best thing is to deprecate/rip out rexec.
+
+&gt; The code will still be in older versions if someone decides to pick it up and work on it as a separate project.
+</code></pre></div>
+<p>이 버그의 원인은 <code>Python</code>에서 새로운 스타일 클래스인 <code>object</code>를 도입하여 <code>rexec</code>가 제대로 작동하지 않게 되었다는 것이었습니다. 따라서 개발자들은 미래에도 이런 상황을 피하기 어렵다고 말했습니다. 어떤 변경이든 <code>rexec</code>에 취약점을 유발하거나 제대로 작동하지 않게 할 수 있으며 권한이 침해될 수 있을 것이라고 이야기했습니다. 거의 완벽한 보안 환경을 구축하는 것이 불가능하다고 봤기 때문에, 개발자들은 지속적으로 수정하고 시간을 낭비해야 했습니다. 결국 <code>rexec</code> 모듈은 폐기되었고, <code>Python</code>은 이와 비슷한 기능을 더 이상 제공하지 않았습니다. 그러나 <code>__builtins__</code> 설정은 호환성 등의 이유로 유지되었습니다.</p>
+<p>2010년쯤에, 한 프로그래머가 <a href="https://github.com/vstinner/pysandbox">pysandbox</a><code>Python</code>의 <code>rexec</code>를 대체할 수 있는 <code>Python</code> 샌드박스 환경을 제공하는 데 헌신했습니다. 그러나 3년 후에, 저자가 이 프로젝트를 자진 포기하고, 이 프로젝트가 실패했다고 판단한 이유를 자세히 설명했습니다: <a href="https://mail.python.org/pipermail/python-dev/2013-November/130132.html">The pysandbox project is broken</a>다른 작가들도 이 프로젝트의 실패에 대해 요약한 글을 썼습니다: <a href="https://lwn.net/Articles/574215/">pysandbox의 실패</a>만약 관심이 있다면, 본문을 직접 확인하시는 것을 권장합니다. 제가 준 내용 요약도 함께 보시면 도움이 될 것입니다:</p>
+<blockquote>
+<p>After having work during 3 years on a pysandbox project to sandbox untrusted code, I now reached a point where I am convinced that pysandbox is broken by design. Different developers tried to convinced me before that pysandbox design is unsafe, but I had to experience it myself to be convineced.</p>
+<p>I now agree that putting a sandbox in CPython is the wrong design. There are too many ways to escape the untrusted namespace using the various introspection features of the Python language. To guarantee the [safety] of a security product, the code should be [carefully] audited and the code to review must be as small as possible. Using pysandbox, the "code" is the whole Python core which is a really huge code base. For example, the Python and Objects directories of Python 3.4 contain more than 126,000 lines of C code.</p>
+<p>The security of pysandbox is the security of its weakest part. A single bug is enough to escape the whole sandbox.</p>
+<p>pysandbox cannot be used in practice. To protect the untrusted namespace, pysandbox installs a lot of different protections. Because of all these protections, it becomes hard to write Python code. Basic features like "del dict[key]" are denied. Passing an object to a sandbox is not possible to sandbox, pysandbox is unable to proxify arbitary objects. For something more complex than evaluating "1+(2*3)", pysandbox cannot be used in practice, because of all these protections.</p>
+</blockquote>
+<p><strong>pysandbox</strong>'s author believes that having a sandbox environment in <code>Python</code> is a flawed design. There are too many ways to escape from the sandbox. <code>Python</code> offers a rich set of language features, and the codebase of <code>CPython</code> is so extensive that it is practically impossible to ensure sufficient security. The development process of <strong>pysandbox</strong> involves constantly patching up. With so many patches and restrictions, the author now believes that <strong>pysandbox</strong> is no longer practical to use because many language features and functions are restricted and cannot be used, such as the simple <code>del dict[key]</code>.</p>
+<h2 id="-">제한된 실행 - 어디에 탈출구가 있는가</h2>
+<p><code>rexec</code>와 <code>__pysandbox__</code> 같은 Python을 수정하여 샌드박스 환경을 제공하는 방법이 이미 통하지 않는다면, 어떻게 하면 Python에 유용한 샌드박스 환경을 제공할 수 있을지 궁금해지네요.</p>
+<p>여기서 몇 가지 다른 구현 방법이나 사례를 계속 수집하여 참고하고 검토했습니다.</p>
+<ul>
+<li><a href="https://doc.pypy.org/en/latest/sandbox.html">PyPy</a>하나의 <a href="https://foss.heptapod.net/pypy/pypy/-/tree/branch/sandbox-2">지점</a>채받기 기능을 제공하며 추가 <a href="https://foss.heptapod.net/pypy/sandboxlib">sandboxlib</a>PyPy로 샌드박스 환경 버전을 직접 컴파일할 수 있습니다. 관심이 있다면 직접 설정을 시도해보고, 여기 <a href="https://foss.heptapod.net/pypy/pypy/-/issues/3192">설명</a>PyPy의 구현 원리는 하위 프로세스를 생성하여 하위 프로세스의 모든 입력 및 출력 및 시스템 호출을 외부 프로세스로 리디렉션하고, 외부 프로세스가 이러한 권한을 제어하도록하는 것입니다. 또한 메모리 및 CPU 사용량도 제어할 수 있습니다. 주의해야 할 점은 이 분기도 일정 기간 동안 새로운 커밋이 없었으므로 신중하게 사용해야 합니다.</li>
+</ul>
+<p>운영 체제에서 제공하는 샌드박스 환경 도구를 활용하세요. <a href="https://en.wikipedia.org/wiki/Seccomp">seccomp</a>리눅스 커널에서 제공하는 보안 계산 도구인 <a href="https://github.com/seccomp/libseccomp/tree/main/src/python">libseccomp</a>(https://firejail.wordpress.com/)(https://apparmor.net/)(https://github.com/openedx/codejail)AppArmor 기반의 Python 샌드박스 환경입니다. 흥미가 있다면 시도해보세요. 비슷한 도구들도 많이 있지만 이곳에서는 일일이 열거하지는 않겠습니다.</p>
+<ul>
+<li>샌드박스 가상 환경이나 컨테이너를 사용하십시오. <a href="https://learn.microsoft.com/zh-cn/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview">Windows Sandbox</a>，<a href="https://linuxcontainers.org/">LXC</a>, <a href="https://www.docker.com/">Docker</a>잠시만요, 여기에서는 더 이상 상세히 설명하지 않겠습니다.</li>
+</ul>
+<h2 id="_3">요약</h2>
+<p>이 글이 조금 길지만 여기까지 읽어 주셔서 감사합니다. 글 초반에 제기된 질문들은 모두 이미 해결되었다고 믿습니다.</p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- 转载声明 && visit -->
+<blockquote>
+<p>Original: <a href="https://wiki.disenone.site/ko">https://wiki.disenone.site/ko</a></p>
+<p>This post is protected by <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY-NC-SA 4.0</a> agreement, should be reproduced with attribution.</p>
+</blockquote>
+<!-- 转载 -->
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#4051b5">
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+    <a class="a2a_button_copy_link"></a>
+    <a class="a2a_button_wechat"></a>
+    <a class="a2a_button_reddit"></a>
+    <a class="a2a_button_google_gmail"></a>
+    <a class="a2a_button_pocket"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<!-- 评论 -->
+<script src="https://giscus.app/client.js" data-repo="disenone/wiki" data-repo-id="R_kgDOKz9PQg" data-category="Announcements" data-category-id="DIC_kwDOKz9PQs4Cbbvv" data-mapping="og:title" data-strict="1" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="ko" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+
+<!-- visit -->
+<blockquote>
+<p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
+<p>이 게시물은 ChatGPT를 사용하여 번역되었습니다. <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>피드백</strong></a>어떠한 빠뜨림도 지적하십시오. </p>
+</blockquote></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="마지막 업데이트">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="작성일">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="하단/푸터" >
+        
+          
+          <a href="../py-%E4%BD%BF%E7%94%A8VisualStudio2015%E7%BC%96%E8%AF%91Python2.7.11/" class="md-footer__link md-footer__link--prev" aria-label="이전: Visual Studio 2015을 사용하여 Python 2.7.11을 컴파일합니다.">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                이전
+              </span>
+              <div class="md-ellipsis">
+                Visual Studio 2015을 사용하여 Python 2.7.11을 컴파일합니다.
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../py-Python%E6%9D%82%E8%B0%882-Python312-%E7%83%AD%E6%9B%B4%E6%96%B0/" class="md-footer__link md-footer__link--next" aria-label="다음: 파이썬 이야기 2 - 파이썬 3.12 핫 업데이트">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                다음
+              </span>
+              <div class="md-ellipsis">
+                파이썬 이야기 2 - 파이썬 3.12 핫 업데이트
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2014 - 2024 by <a href="https://github.com/disenone"> Disenone </a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "content.code.select", "content.action.edit", "content.tooltips", "navigation.tracking", "navigation.tabs", "navigation.footer", "navigation.sections", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
