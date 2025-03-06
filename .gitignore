@@ -3,3 +3,4 @@ env
 env.py
 __pycache__
 docs/blog
+docs/zh/assets

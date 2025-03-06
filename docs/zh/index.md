@@ -20,5 +20,7 @@ Hi there~ 欢迎来到我的知识库。
 为了避免遗忘、便于分享，我在这里收录知识。
 请随意浏览～
 
-[编程技术](cpp-C和Cpp的命令行参数处理总结){ .md-button }
-[游戏开发](game-游戏AOI算法解析和性能实测){ .md-button }
+[编程技术](cpp-C和Cpp的命令行参数处理总结.md){ .md-button }
+[游戏开发](game-游戏AOI算法解析和性能实测.md){ .md-button }
+
+[UE.AIChatPlus](ue-插件-AIChatPlus.md){ .md-button }

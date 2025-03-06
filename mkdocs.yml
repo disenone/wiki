@@ -251,3 +251,22 @@ nav:
       - unity-Unity人物控制.md
       - unity-Unity画深度图和边缘检测.md
       - unity-Unity实现体积光照散射.md
+  - UE.AIChatPlus:
+    - Intro:
+      - ue-插件-AIChatPlus.md
+    - Blueprint:
+      - ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-OpenAI.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Cllama.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-DeepSeek.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Azure.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Ollama.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Claude.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Gemini.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Utils.md
+    - C++:
+      - ue-插件-AIChatPlus-Usage-Source-GetStarted.md
+    - EditorTool:
+      - ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md
+    - Changes:
+      - ue-插件-AIChatPlus-ChangeLogs.md
