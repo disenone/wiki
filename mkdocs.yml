@@ -120,7 +120,7 @@ plugins:
             游戏开发: تطوير الألعاب
             基础: الأساسيات
         - locale: ko
-          name: Korean
+          name: 한국어
           build: true
           nav_translations:
             Home: Home
