@@ -276,5 +276,7 @@ nav:
       - ue-插件-AIChatPlus-Usage-Source-GetStarted.md
     - EditorTool:
       - ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md
+    - Package:
+      - ue-插件-AIChatPlus-Usage-Package-GetStarted.md
     - Changes:
       - ue-插件-AIChatPlus-ChangeLogs.md

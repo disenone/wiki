@@ -12,13 +12,13 @@ description: Get Started
 
 目前插件分成以下几个模块：
 
-* AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。
+* **AIChatPlusCommon**: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。
 
-* AIChatPlusEditor: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。
+* **AIChatPlusEditor**: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。
 
-* AIChatPlusCllama: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型
+* **AIChatPlusCllama**: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型
 
-* Thirdparty/LLAMACpp: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。
+* **Thirdparty/LLAMACpp**: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。
 
 具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。
 
@@ -28,9 +28,9 @@ description: Get Started
 
 以下说明如何在代码中使用离线模型 llama.cpp
 
-* 首先，同样需要下载模型文件到 Content/LLAMA 下
+首先，同样需要下载模型文件到 Content/LLAMA 下
 
-* 修改代码添加一条命令，并在命令里面给离线模型发送消息
+修改代码添加一条命令，并在命令里面给离线模型发送消息
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -93,7 +93,7 @@ void AddTestCommand()
 }
 ```
 
-* 重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果
+重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
