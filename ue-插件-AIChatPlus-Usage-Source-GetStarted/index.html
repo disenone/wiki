@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -1949,7 +1951,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -1958,6 +1960,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    打包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2071,27 +2149,23 @@
 <h2 id="_1">核心代码介绍</h2>
 <p>目前插件分成以下几个模块：</p>
 <ul>
-<li>AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。</li>
+<li><strong>AIChatPlusCommon</strong>: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。</li>
 </ul>
 <ul>
-<li>AIChatPlusEditor: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。</li>
+<li><strong>AIChatPlusEditor</strong>: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。</li>
 </ul>
 <ul>
-<li>AIChatPlusCllama: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型</li>
+<li><strong>AIChatPlusCllama</strong>: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型</li>
 </ul>
 <ul>
-<li>Thirdparty/LLAMACpp: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。</li>
+<li><strong>Thirdparty/LLAMACpp</strong>: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。</li>
 </ul>
 <p>具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。</p>
 <p>发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。</p>
 <h2 id="cllamallamacpp">代码使用离线模型 Cllama(llama.cpp)</h2>
 <p>以下说明如何在代码中使用离线模型 llama.cpp</p>
-<ul>
-<li>首先，同样需要下载模型文件到 Content/LLAMA 下</li>
-</ul>
-<ul>
-<li>修改代码添加一条命令，并在命令里面给离线模型发送消息</li>
-</ul>
+<p>首先，同样需要下载模型文件到 Content/LLAMA 下</p>
+<p>修改代码添加一条命令，并在命令里面给离线模型发送消息</p>
 <div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -2151,9 +2225,7 @@
 <a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="p">);</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="p">}</span>
 </code></pre></div>
-<ul>
-<li>重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果</li>
-</ul>
+<p>重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2199,7 +2271,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-09</span>
   </span>
 
     

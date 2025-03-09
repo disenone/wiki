@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#c-articulo-empezar" class="md-skip">
+        <a href="#c-article-empezar" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -1806,9 +1808,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#presentacion-del-codigo-central" class="md-nav__link">
+  <a href="#introduccion-al-codigo-principal" class="md-nav__link">
     <span class="md-ellipsis">
-      Presentación del código central
+      Introducción al código principal.
     </span>
   </a>
   
@@ -1817,7 +1819,7 @@
         <li class="md-nav__item">
   <a href="#el-codigo-utiliza-el-modelo-fuera-de-linea-cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      El código utiliza el modelo fuera de línea Cllama(llama.cpp).
+      El código utiliza el modelo fuera de línea Cllama(llama.cpp)
     </span>
   </a>
   
@@ -1949,7 +1951,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -1958,6 +1960,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Empaque
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2026,9 +2104,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#presentacion-del-codigo-central" class="md-nav__link">
+  <a href="#introduccion-al-codigo-principal" class="md-nav__link">
     <span class="md-ellipsis">
-      Presentación del código central
+      Introducción al código principal.
     </span>
   </a>
   
@@ -2037,7 +2115,7 @@
         <li class="md-nav__item">
   <a href="#el-codigo-utiliza-el-modelo-fuera-de-linea-cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      El código utiliza el modelo fuera de línea Cllama(llama.cpp).
+      El código utiliza el modelo fuera de línea Cllama(llama.cpp)
     </span>
   </a>
   
@@ -2067,19 +2145,25 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started"></p>
-<h1 id="c-articulo-empezar">C++ Artículo - Empezar</h1>
-<h2 id="presentacion-del-codigo-central">Presentación del código central</h2>
+<h1 id="c-article-empezar">C++ Article - Empezar</h1>
+<h2 id="introduccion-al-codigo-principal">Introducción al código principal.</h2>
 <p>En la actualidad, el complemento se divide en los siguientes módulos:</p>
-<p>AIChatPlusCommon: Módulo de tiempo de ejecución responsable de procesar las solicitudes enviadas a través de diversas interfaces de API de IA y analizar el contenido de las respuestas.</p>
-<p>AIChatPlusEditor: Módulo del editor, encargado de implementar la herramienta de chat AI del editor.</p>
-<p>AIChatPlusCllama: Módulo de tiempo de ejecución (Runtime) responsable de encapsular la interfaz y los parámetros de llama.cpp para lograr la ejecución sin conexión de modelos grandes.</p>
-<p>Terceros/LLAMACpp: Módulo de tercero en tiempo de ejecución que integra la biblioteca dinámica y archivos de cabecera de llama.cpp.</p>
-<p>El UClass responsable de enviar la solicitud específica es FAIChatPlus_xxxChatRequest, cada servicio API tiene su propio UClass de solicitud independiente. Las respuestas de la solicitud se obtienen a través de UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase, solo es necesario registrar el delegado de devolución de llamada correspondiente.</p>
-<p>Antes de enviar la solicitud, es necesario configurar los parámetros de la API y el mensaje a enviar, esto se hace a través de FAIChatPlus_xxxChatRequestBody. El contenido específico de la respuesta también se analiza en FAIChatPlus_xxxChatResponseBody, y al recibir la devolución, se puede obtener el ResponseBody a través de una interfaz específica.</p>
-<h2 id="el-codigo-utiliza-el-modelo-fuera-de-linea-cllamallamacpp">El código utiliza el modelo fuera de línea Cllama(llama.cpp).</h2>
-<p>Les paso las instrucciones sobre cómo utilizar el modelo fuera de línea llama.cpp en el código.</p>
-<p>Primero, también es necesario descargar el archivo del modelo en Content/LLAMA.</p>
-<p>Modificar el código para incluir un comando y enviar un mensaje al modelo sin conexión dentro de dicho comando.</p>
+<ul>
+<li><strong>AIChatPlusCommon</strong>: Módulo de tiempo de ejecución (Runtime), responsable de manejar las solicitudes enviadas a través de diversas interfaces de API de inteligencia artificial y analizar el contenido de las respuestas.</li>
+</ul>
+<ul>
+<li><strong>AIChatPlusEditor</strong>: Módulo del editor, encargado de implementar la herramienta de chat de IA del editor.</li>
+</ul>
+<ul>
+<li><strong>AIChatPlusCllama</strong>: Módulo de tiempo de ejecución, encargado de encapsular la interfaz y los parámetros de llama.cpp para lograr la ejecución offline de modelos complejos.</li>
+</ul>
+<p><strong>Thirdparty/LLAMACpp</strong>: Módulo de terceros en tiempo de ejecución, que integra la biblioteca dinámica y los archivos de cabecera de llama.cpp.</p>
+<p>El UClass específico responsable de enviar la solicitud es FAIChatPlus_xxxChatRequest. Cada servicio API tiene su propio UClass de solicitud independiente. Las respuestas a las solicitudes se obtienen a través de dos UClass diferentes, UAIChatPlus_ChatHandlerBase y UAIChatPlus_ImageHandlerBase, solo es necesario registrar los delegados de devolución de llamada correspondientes.</p>
+<p>Antes de enviar una solicitud, es necesario configurar los parámetros de la API y el mensaje a enviar. Esto se hace a través de FAIChatPlus_xxxChatRequestBody. La respuesta específica también se analiza en FAIChatPlus_xxxChatResponseBody, que se puede obtener a través de una interfaz específica al recibir una devolución de llamada.</p>
+<h2 id="el-codigo-utiliza-el-modelo-fuera-de-linea-cllamallamacpp">El código utiliza el modelo fuera de línea Cllama(llama.cpp)</h2>
+<p>La siguiente explicación detalla cómo utilizar el modelo fuera de línea llama.cpp en el código.</p>
+<p>Primero, también necesitas descargar el archivo del modelo en la carpeta Content/LLAMA.</p>
+<p>Editar el código para agregar un comando y enviar un mensaje al modelo sin conexión dentro de dicho comando.</p>
 <div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -2139,7 +2223,7 @@
 <a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="p">);</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="p">}</span>
 </code></pre></div>
-<p>Una vez que hayas recompilado, puedes usar el comando en la ventana del editor Cmd para ver los resultados de salida del modelo grande en el registro OutputLog.</p>
+<p>Después de compilar de nuevo, con el comando en el editor Cmd, podrás ver los resultados de la salida del gran modelo en el registro OutputLog.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2166,7 +2250,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este mensaje ha sido traducido utilizando ChatGPT, por favor déjenos su <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a>Señale cualquier omisión. </p>
+<p>Este mensaje fue traducido utilizando ChatGPT, por favor en<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反馈</strong></a>Señale cualquier omisión. </p>
 </blockquote></div>
 
 
@@ -2190,7 +2274,7 @@
     <span class="md-icon" title="Última actualización">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
   </span>
 
     

@@ -18,7 +18,7 @@
         <link rel="prev" href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/">
       
       
-        <link rel="next" href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/">
+        <link rel="next" href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/">
       
       
         <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../feed_rss_created.xml">
@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -2054,7 +2056,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -2063,6 +2065,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    打包
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2286,42 +2364,18 @@
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_tool2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="text chat" src="../assets/img/2024-ue-aichatplus/chat_tool2.png"></a></p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/chat_tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image chat" src="../assets/img/2024-ue-aichatplus/chat_tool.png"></a></p>
 <h2 id="_2">主要功能</h2>
-<ul>
-<li><strong>离线大模型</strong>：整合了 llama.cpp 库，支持本地离线执行大模型</li>
-</ul>
-<ul>
-<li><strong>文本聊天</strong>：点击左下角的 <code>New Chat</code> 按钮，创建新的文本聊天会话。</li>
-</ul>
-<ul>
-<li><strong>图像生成</strong>：点击左下角的 <code>New Image Chat</code> 按钮，创建新的图像生成会话。</li>
-</ul>
-<ul>
-<li><strong>图像分析</strong>：<code>New Chat</code> 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。</li>
-</ul>
-<ul>
-<li><strong>音频处理</strong>：工具提供读取音频文件 (.wav) 和 录音功能，可以使用获得的音频跟 AI 聊天。</li>
-</ul>
-<ul>
-<li><strong>设置当前聊天角色</strong>：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。</li>
-</ul>
-<ul>
-<li><strong>清空会话</strong>：聊天框上方的 ❌ 按可以清空当前会话的历史消息。</li>
-</ul>
-<ul>
-<li><strong>对话模版</strong>：内置几百种对话设置模版，方便处理常用的问题。</li>
-</ul>
-<ul>
-<li><strong>全局设置</strong>：点击左下角的 <code>Setting</code> 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 <code>$(ProjectFolder)/Saved/AIChatPlusEditor</code> 下。</li>
-</ul>
-<ul>
-<li><strong>会话设置</strong>：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions</code></li>
-</ul>
-<ul>
-<li><strong>聊天内容修改</strong>：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）</li>
-</ul>
-<ul>
-<li><strong>图像浏览</strong>：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images</code>。</li>
-</ul>
+<p><strong>离线大模型</strong>：整合了 llama.cpp 库，支持本地离线执行大模型</p>
+<p><strong>文本聊天</strong>：点击左下角的 <code>New Chat</code> 按钮，创建新的文本聊天会话。</p>
+<p><strong>图像生成</strong>：点击左下角的 <code>New Image Chat</code> 按钮，创建新的图像生成会话。</p>
+<p><strong>图像分析</strong>：<code>New Chat</code> 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。</p>
+<p><strong>音频处理</strong>：工具提供读取音频文件 (.wav) 和 录音功能，可以使用获得的音频跟 AI 聊天。</p>
+<p><strong>设置当前聊天角色</strong>：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。</p>
+<p><strong>清空会话</strong>：聊天框上方的 ❌ 按可以清空当前会话的历史消息。</p>
+<p><strong>对话模版</strong>：内置几百种对话设置模版，方便处理常用的问题。</p>
+<p><strong>全局设置</strong>：点击左下角的 <code>Setting</code> 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 <code>$(ProjectFolder)/Saved/AIChatPlusEditor</code> 下。</p>
+<p><strong>会话设置</strong>：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions</code></p>
+<p><strong>聊天内容修改</strong>：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）</p>
+<p><strong>图像浏览</strong>：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 <code>$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images</code>。</p>
 <p>全局设置：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/global_setting.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="global settings" src="../assets/img/2024-ue-aichatplus/global_setting.png"></a></p>
 <p>会话设置：</p>
@@ -2336,133 +2390,75 @@
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/system_template.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="system template" src="../assets/img/2024-ue-aichatplus/system_template.png"></a></p>
 <h2 id="cllamallamacpp">编辑器工具使用离线模型 Cllama(llama.cpp)</h2>
 <p>以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp</p>
-<ul>
-<li>首先，从 HuggingFace 网站下载离线模型：<a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></li>
-</ul>
-<ul>
-<li>把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下</li>
-</ul>
+<p>首先，从 HuggingFace 网站下载离线模型：<a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
+<p>把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下</p>
 <div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&gt;<span class="w"> </span>ls
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>qwen1.5-1_8b-chat-q8_0.gguf*
 </code></pre></div>
-<ul>
-<li>打开 AIChatPlus 编辑器工具：Tools -&gt; AIChatPlus -&gt; AIChat，新建聊天会话，并打开会话设置页面</li>
-</ul>
+<p>打开 AIChatPlus 编辑器工具：Tools -&gt; AIChatPlus -&gt; AIChat，新建聊天会话，并打开会话设置页面</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_1.png"></a></p>
-<ul>
-<li>设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型</li>
-</ul>
+<p>设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_2.png"></a></p>
-<ul>
-<li>开始聊天！！</li>
-</ul>
+<p>开始聊天！！</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_editor_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_editor_3.png"></a></p>
 <h2 id="cllamallamacpp_1">编辑器工具使用离线模型 Cllama(llama.cpp) 处理图片</h2>
-<ul>
-<li>从 HuggingFace 网站下载离线模型 MobileVLM_V2-1.7B-GGUF 同样放到目录 Content/LLAMA 下：<a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf">ggml-model-q4_k.gguf</a> 和 <a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf">mmproj-model-f16.gguf</a>。</li>
-</ul>
-<ul>
-<li>设置会话的模型：</li>
-</ul>
+<p>从 HuggingFace 网站下载离线模型 MobileVLM_V2-1.7B-GGUF 同样放到目录 Content/LLAMA 下：<a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf">ggml-model-q4_k.gguf</a> 和 <a href="https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf">mmproj-model-f16.gguf</a>。</p>
+<p>设置会话的模型：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png"></a></p>
-<ul>
-<li>发送图片开始聊天</li>
-</ul>
+<p>发送图片开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide editor" src="../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png"></a></p>
 <h2 id="openai">编辑器使用 OpenAI 聊天</h2>
-<ul>
-<li>打开聊天工具 Tools -&gt; AIChatPlus -&gt; AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置接口参数</li>
-</ul>
+<p>打开聊天工具 Tools -&gt; AIChatPlus -&gt; AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置接口参数</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天：</li>
-</ul>
+<p>开始聊天：</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png"></a></p>
-<ul>
-<li>切换模型为 gpt-4o / gpt-4o-mini，可以使用 OpenAI 的视觉功能分析图片</li>
-</ul>
+<p>切换模型为 gpt-4o / gpt-4o-mini，可以使用 OpenAI 的视觉功能分析图片</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png"></a></p>
 <h2 id="openai_1">编辑器使用 OpenAI 处理图片（创建/修改/变种）</h2>
-<ul>
-<li>在聊天工具中创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置参数</li>
-</ul>
+<p>在聊天工具中创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置参数</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png"></a></p>
-<ul>
-<li>创建图片</li>
-</ul>
+<p>创建图片</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png"></a></p>
-<ul>
-<li>修改图片，把会话 Image Chat Type 修改为 Edit，并上传两张图片，一张是原图片，一张是 mask 其中透明的位置（alpha 通道为 0）表示需要修改的地方</li>
-</ul>
+<p>修改图片，把会话 Image Chat Type 修改为 Edit，并上传两张图片，一张是原图片，一张是 mask 其中透明的位置（alpha 通道为 0）表示需要修改的地方</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png"></a></p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png"></a></p>
-<ul>
-<li>图片变种，把会话 Image Chat Type 修改为 Variation，并上传一张图片，OpenAI 会返回一张原图片的变种</li>
-</ul>
+<p>图片变种，把会话 Image Chat Type 修改为 Variation，并上传一张图片，OpenAI 会返回一张原图片的变种</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png"></a></p>
 <h2 id="azure">编辑器使用 Azure</h2>
-<ul>
-<li>新建会话（New Chat），把 ChatApi 改为 Azure，并设置 Azure 的 Api 参数</li>
-</ul>
+<p>新建会话（New Chat），把 ChatApi 改为 Azure，并设置 Azure 的 Api 参数</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png"></a></p>
 <h2 id="azure_1">编辑器使用 Azure 创建图片</h2>
-<ul>
-<li>新建图片会话（New Image Chat），把 ChatApi 改为Azure，并设置 Azure 的 Api 参数，注意，如果是 dall-e-2 模型，需要把参数 Quality 和 Stype 设置成 not_use</li>
-</ul>
+<p>新建图片会话（New Image Chat），把 ChatApi 改为Azure，并设置 Azure 的 Api 参数，注意，如果是 dall-e-2 模型，需要把参数 Quality 和 Stype 设置成 not_use</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png"></a></p>
-<ul>
-<li>开始聊天，让 Azure 创建图片</li>
-</ul>
+<p>开始聊天，让 Azure 创建图片</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png"></a></p>
 <h2 id="claude">编辑器使用 Claude 聊天和分析图片</h2>
-<ul>
-<li>新建会话（New Chat），把 ChatApi 改为 Claude，并设置 Claude 的 Api 参数</li>
-</ul>
+<p>新建会话（New Chat），把 ChatApi 改为 Claude，并设置 Claude 的 Api 参数</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png"></a></p>
 <h2 id="ollama">编辑器使用 Ollama 聊天和分析图片</h2>
-<ul>
-<li>新建会话（New Chat），把 ChatApi 改为 Ollama，并设置 Ollama 的 Api 参数。如果是文本聊天，则设置模型为文本模型，如 llama3.1；如果需要处理图片，则设置模型为支持 vision 的模型，例如 moondream。</li>
-</ul>
+<p>新建会话（New Chat），把 ChatApi 改为 Ollama，并设置 Ollama 的 Api 参数。如果是文本聊天，则设置模型为文本模型，如 llama3.1；如果需要处理图片，则设置模型为支持 vision 的模型，例如 moondream。</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png"></a></p>
 <h3 id="gemini">编辑器使用 Gemini</h3>
-<ul>
-<li>新建会话（New Chat），把 ChatApi 改为 Gemini，并设置 Gemini 的 Api 参数。</li>
-</ul>
+<p>新建会话（New Chat），把 ChatApi 改为 Gemini，并设置 Gemini 的 Api 参数。</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png"></a></p>
 <h2 id="gemini_1">编辑器使用 Gemini 发送音频</h2>
-<ul>
-<li>选择 从文件读取音频 / 从 Asset 读取音频 / 从麦克风录取音频，生成需要发送的音频</li>
-</ul>
+<p>选择 从文件读取音频 / 从 Asset 读取音频 / 从麦克风录取音频，生成需要发送的音频</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png"></a></p>
 <h2 id="deepseek">編輯器使用 Deepseek</h2>
-<ul>
-<li>新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat</li>
-</ul>
+<p>新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png"></a></p>
-<ul>
-<li>开始聊天</li>
-</ul>
+<p>开始聊天</p>
 <p><a class="glightbox" href="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2508,7 +2504,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-09</span>
   </span>
 
     
@@ -2570,13 +2566,13 @@
         
         
           
-          <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/" class="md-footer__link md-footer__link--next" aria-label="下一页: 版本日志">
+          <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-footer__link md-footer__link--next" aria-label="下一页: 打包">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                版本日志
+                打包
               </div>
             </div>
             <div class="md-footer__button md-icon">
