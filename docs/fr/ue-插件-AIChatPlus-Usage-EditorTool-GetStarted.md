@@ -24,70 +24,68 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 编辑器篇 - Get Started" />
 
-#Article de l'éditeur - Commencer
+#Traduction en français : 
+
+Article de l'éditeur - Pour commencer
 
 ##Outil de messagerie de l'éditeur
 
-Dans la barre de menu, allez sur Outils -> AIChatPlus -> AIChat pour ouvrir l'éditeur de discussion proposé par le plugin.
+La barre de menus Outils -> AIChatPlus -> AIChat permet d'ouvrir l'éditeur de chat fourni par le plug-in.
 
 ![](assets/img/2024-ue-aichatplus/chat_tool3.png)
 
 
-Le logiciel prend en charge la génération de texte, les discussions textuelles, la génération d'images et l'analyse d'images.
+Le logiciel propose des fonctionnalités de génération de texte, de messagerie textuelle, de création d'images et d'analyse d'images.
 
-L'interface de l'outil est approximativement comme suit:
+L'interface de l'outil est approximativement la suivante :
 
 ![text chat](assets/img/2024-ue-aichatplus/chat_tool2.png)
 
 ![image chat](assets/img/2024-ue-aichatplus/chat_tool.png)
 
-##Les caractères chinois "主要功能" se traduisent en français par "fonction principale".
+##Fonction principale
 
-* **Modèle hors ligne**: Intégration de la bibliothèque llama.cpp, prenant en charge l'exécution hors ligne locale des grands modèles.
+**Modèle en ligne hors connexion** : Intégration de la bibliothèque llama.cpp pour prendre en charge l'exécution hors ligne de grands modèles locaux
 
-* **Chat textuel** : Cliquez sur le bouton `Nouvelle discussion` en bas à gauche pour créer une nouvelle session de chat textuel.
+**Chat textuel** : Cliquez sur le bouton `Nouveau Chat` en bas à gauche pour créer une nouvelle conversation de chat textuel.
 
-* **Image generation**: Cliquez sur le bouton `New Image Chat` en bas à gauche pour créer une nouvelle session de génération d'images.
+**Génération d'image** : Cliquez sur le bouton `Nouvelle conversation d'image` en bas à gauche pour créer une nouvelle session de génération d'image.
 
-* **Analyse d'images**: Certaines fonctions de chat de "Nouveau Chat" prennent en charge l'envoi d'images, par exemple Claude, Google Gemini. Cliquez sur les icônes 🖼️ ou 🎨 au-dessus de la zone de saisie pour charger l'image à envoyer.
+**Analyse d'images**: Certaines fonctions de messagerie de `New Chat` prennent en charge l'envoi d'images, telles que Claude, Google Gemini. Cliquez sur l'icône 🖼️ ou 🎨 au-dessus de la zone de texte pour charger l'image à envoyer.
 
-* **Traitement audio** : L'outil permet de lire des fichiers audio (.wav) et d'enregistrer des sons, afin de pouvoir discuter avec une intelligence artificielle en utilisant l'audio obtenu.
+**Traitement audio** : L'outil permet de lire des fichiers audio (.wav) et d'enregistrer des sons, afin de pouvoir discuter avec une Intelligence Artificielle en utilisant l'audio obtenu.
 
-* **Définir le rôle de discussion actuel** : La liste déroulante en haut de la fenêtre de discussion permet de choisir le rôle depuis lequel vous envoyez des messages, vous permettant de simuler différents rôles pour ajuster la conversation avec l'IA.
+**Définir le rôle du personnage de discussion actuel** : le menu déroulant en haut de la fenêtre de discussion peut être utilisé pour définir le personnage qui envoie actuellement du texte, permettant de simuler différents rôles pour ajuster la discussion de l'IA.
 
-* **Effacer la conversation** : Le bouton ❌ en haut de la fenêtre de chat permet de supprimer l'historique des messages de la conversation en cours.
+**Effacer la conversation** : Le bouton ❌ en haut de la fenêtre de discussion permet d'effacer l'historique des messages actuel de la conversation.
 
-*Modèle de conversation* : Intègre des centaines de modèles de configurations de conversation pour faciliter la gestion des problèmes courants.
+**Modèle de dialogue** : Intègre des centaines de modèles de dialogues prédéfinis pour faciliter le traitement des problèmes courants.
 
-**Paramètres globaux** : En cliquant sur le bouton `Paramètres` en bas à gauche, vous pouvez ouvrir la fenêtre des paramètres globaux. Vous pourrez y définir le chat textuel par défaut, le service API de génération d'images, et configurer les paramètres spécifiques à chaque service API. Les paramètres seront automatiquement enregistrés dans le répertoire du projet `$(ProjectFolder)/Saved/AIChatPlusEditor`.
+**Paramètres globaux** : En cliquant sur le bouton `Paramètres` en bas à gauche, vous pouvez ouvrir la fenêtre des paramètres globaux. Vous pouvez définir les paramètres par défaut pour le chat textuel, le service API de génération d'images, et spécifier les paramètres précis pour chaque service API. Les réglages seront automatiquement sauvegardés dans le chemin du projet `$(ProjectFolder)/Saved/AIChatPlusEditor`.
 
-**Paramètres de la conversation** : En cliquant sur l'icône de paramètres située en haut de la fenêtre de chat, vous pouvez ouvrir la fenêtre des paramètres de la conversation en cours. Vous pouvez y modifier le nom de la conversation, le service API utilisé et personnaliser les paramètres spécifiques de l'API pour chaque conversation. Les paramètres de la conversation sont automatiquement enregistrés dans `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`.
+**Paramètres de conversation** : En cliquant sur l'icône des paramètres en haut de la fenêtre de discussion, vous pouvez ouvrir la fenêtre de paramètres de la conversation en cours. Vous pouvez modifier le nom de la conversation, le service API utilisé pour la conversation, et spécifier des paramètres spécifiques à chaque conversation pour l'utilisation de l'API. Les paramètres de la conversation sont automatiquement enregistrés dans `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions`.
 
-Modifier le contenu de la conversation : Lorsque vous survolez le contenu de la conversation avec la souris, un bouton de paramétrage du contenu individuel de la conversation apparaît, ce qui permet de régénérer le contenu, le modifier, le copier, le supprimer, le régénérer en bas (pour les contenus avec des utilisateurs en tant que personnages).
+Modifier le contenu de la conversation : lorsque vous survolez le contenu de la conversation avec la souris, un bouton de réglage pour ce contenu s'affiche. Vous pouvez générer à nouveau, modifier, copier, supprimer le contenu ou générer un nouveau contenu en dessous (pour les contenus des utilisateurs).
 
-* **Visionneuse d'images** : Pour la génération d'images, en cliquant sur une image, une fenêtre de visualisation d'images (Visionneuse) s'ouvrira, prenant en charge l'enregistrement d'images au format PNG/Texture UE, permettant de visualiser directement le Texture dans le navigateur de contenu pour une utilisation facile des images dans l'éditeur. Il est également possible de supprimer des images, de les regénérer, de continuer à générer plus d'images, entre autres fonctionnalités. Pour les éditeurs sous Windows, la copie d'images est également prise en charge, permettant de copier directement une image dans le presse-papiers pour une utilisation aisée. Les images générées lors d'une session sont automatiquement enregistrées dans le dossier de chaque session, généralement à l'emplacement suivant : `$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images`.
+**Visualisation des images** : Pour la génération d'images, cliquer sur une image ouvrira la fenêtre de visionnage d'images (ImageViewer), qui prend en charge l'enregistrement d'images au format PNG/Texture UE, lesquelles peuvent être visualisées directement dans le navigateur de contenu (Content Browser), facilitant ainsi leur utilisation dans l'éditeur. De plus, il est possible de supprimer des images, de regénérer des images, et de continuer à en générer davantage. Pour les utilisateurs de l'éditeur sous Windows, il est également possible de copier des images pour les coller directement dans le presse-papiers, facilitant ainsi leur utilisation. Les images générées lors de la session seront automatiquement sauvegardées dans le dossier de chaque session, généralement situé à l'adresse suivante : $(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images.
 
-
-
-
-
-Paramètres généraux :
+Paramètres globaux :
 
 ![global settings](assets/img/2024-ue-aichatplus/global_setting.png)
 
-Paramètres de conversation :
+Paramètres de la conversation :
 
 ![session settings](assets/img/2024-ue-aichatplus/session_setting.png)
 
-Modifier le contenu de la discussion :
+Modifier le contenu de la conversation :
 
 ![chat edit](assets/img/2024-ue-aichatplus/chat_edit.png)
 
-Visualiseur d'images :
+Visionneuse d'images :
 
 ![image viewer](assets/img/2024-ue-aichatplus/image_viewer.png)
 
-Utilisation de modèles de grande taille hors ligne
+Utilisation de modèles hors ligne à grande échelle
 
 ![offline model](assets/img/2024-ue-aichatplus/offline_model.png)
 
@@ -95,13 +93,13 @@ Modèle de conversation
 
 ![system template](assets/img/2024-ue-aichatplus/system_template.png)
 
-##Utilise un modèle hors ligne Cllama avec l'outil de l'éditeur (llama.cpp).
+##Utilisation de l'outil d'édition avec le modèle hors ligne Cllama (llama.cpp)
 
-Voici comment utiliser le modèle hors ligne llama.cpp dans l'outil d'édition AIChatPlus.
+Voici comment utiliser le modèle hors ligne llama.cpp dans l'outil éditeur AIChatPlus.
 
-Téléchargez d'abord le modèle hors ligne depuis le site web de HuggingFace : [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+Tout d'abord, téléchargez le modèle hors ligne depuis le site de HuggingFace : [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-Placez le modèle dans un dossier spécifique, par exemple dans le répertoire du projet de jeu Content/LLAMA.
+Placez le modèle dans un dossier spécifique, par exemple dans le répertoire Content/LLAMA du projet de jeu.
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA
@@ -109,51 +107,47 @@ E:/UE/projects/FP_Test1/Content/LLAMA
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-Ouvrez l'outil d'édition AIChatPlus: Outils -> AIChatPlus -> AIChat, créez une nouvelle session de discussion et ouvrez la page des paramètres de la session.
+Ouvrez l'outil d'édition AIChatPlus : Outils -> AIChatPlus -> AIChat, créez une nouvelle session de chat et ouvrez la page de paramètres de la session.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_1.png)
 
-Définissez l'API sur Cllama, activez les paramètres d'API personnalisés, ajoutez un chemin de recherche de modèle et sélectionnez le modèle.
-
+Configurer l'API sur Cllama, activer les Paramètres d'API Personnalisés, ajouter un chemin de recherche de modèle et sélectionner un modèle.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_2.png)
 
-Commencer à discuter!!
+Commencez la conversation !!
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_editor_3.png)
 
-##Utiliser l'outil d'éditeur pour traiter les images avec le modèle hors ligne Cllama (llama.cpp).
+##Utilisation de l'outil d'édition avec le modèle hors ligne Cllama (llama.cpp) pour traiter les images.
 
-Téléchargez le modèle hors ligne MobileVLM_V2-1.7B-GGUF depuis le site Web de HuggingFace et placez-le également dans le répertoire Content/LLAMA : [ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)Translate these text into French language:
-
-和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)I'm sorry, but there is no text to translate.
+Téléchargez le modèle hors ligne MobileVLM_V2-1.7B-GGUF depuis le site web de HuggingFace et mettez-le également dans le répertoire Content/LLAMA : [ggml-model-q4_k.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf)和 [mmproj-model-f16.gguf](https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf)I'm sorry, but there is no text to translate.
 
 Définir le modèle de la session :
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png)
 
-
-Envoyer une image pour commencer la discussion
+Commencez la conversation en envoyant une photo.
 
 ![guide editor](assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png)
 
-##Le rédacteur utilise OpenAI pour discuter.
+##L'éditeur utilise OpenAI pour discuter.
 
-Ouvrez l'outil de discussion Outils -> AIChatPlus -> AIChat, créez une nouvelle conversation New Chat, et configurez la session ChatApi sur OpenAI, en définissant les paramètres de l'interface.
+Ouvrez l'outil de messagerie Tools -> AIChatPlus -> AIChat, créez une nouvelle discussion New Chat, configurez la session ChatApi avec OpenAI, définissez les paramètres de l'interface.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png)
 
-Commencer la discussion :
+Commencer la conversation :
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png)
 
-Changer le modèle en gpt-4o / gpt-4o-mini permet d'utiliser la fonctionnalité de vision par ordinateur d'OpenAI pour analyser les images.
+Changer le modèle en gpt-4o / gpt-4o-mini, vous permet d'utiliser les fonctionnalités de vision artificielle d'OpenAI pour analyser des images.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png)
 
-##Utilisation par l'éditeur d'OpenAI pour traiter les images (création/modification/variation)
+##Le logiciel utilise OpenAI pour traiter les images (créer/modifier/altérer).
 
-Créez une nouvelle conversation d'image New Image Chat dans l'outil de messagerie, modifiez les paramètres de la conversation en OpenAI et configurez les paramètres.
+Créer une nouvelle conversation avec images sur l'outil de messagerie, nommée New Image Chat, configurer la conversation en tant que OpenAI, et définir les paramètres.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png)
 
@@ -161,51 +155,49 @@ Créer une image
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png)
 
-Please translate the following text into French:
-
-* Edit the image by changing the "Image Chat Type" to "Edit", and upload two pictures. One should be the original image, and the other should be a mask with transparent areas (where the alpha channel is 0) indicating the areas that need to be edited.
+Modifier l'image en remplaçant "Type d'image de chat" par "Edit", puis télécharger deux images : une originale et une autre avec les zones transparentes (canal alpha à 0) indiquant les emplacements à modifier.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png)
 
-Modifier l'image en changeant le type de conversation de "Image Chat Type" en "Variation", puis télécharger une image. OpenAI renverra une variante de l'image originale.
+Modifier l'image en changeant le type de conversation de "Image Chat" à "Variation" et télécharger une image. OpenAI renverra une variante de l'image d'origine.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png)
 
-##L'éditeur utilise Azure.
+##Utiliser Azure dans l'éditeur.
 
-Créer une nouvelle conversation (New Chat), remplacer ChatApi par Azure, et configurer les paramètres de l'API Azure.
+Créer une nouvelle conversation (New Chat), changer ChatApi pour Azure et configurer les paramètres d'API d'Azure.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png)
 
-Commencer la conversation
+Commencer la discussion
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png)
 
-##Le rédacteur utilise Azure pour créer des images.
+##Le logiciel utilise Azure pour créer des images.
 
-Créer une nouvelle session d'image (New Image Chat), changer ChatApi en Azure, et configurer les paramètres d'API d'Azure. Remarque : si le modèle est dall-e-2, il faut définir les paramètres Quality et Stype sur not_use.
+Créer une nouvelle session d'image (New Image Chat), changer ChatApi en Azure, et configurer les paramètres de l'API Azure. Notez que si le modèle est dall-e-2, les paramètres Quality et Stype doivent être définis sur not_use.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png)
 
-Commencez la conversation pour que Azure crée une image.
+Commencez la discussion pour que Azure crée une image.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png)
 
-##Le rédacteur utilise Claude pour discuter et analyser des images.
+##Le logiciel utilise Claude pour discuter et analyser les images.
 
-Créer une nouvelle discussion (New Chat), changer ChatApi en Claude, et configurer les paramètres Api de Claude.
+Créer une nouvelle conversation, changer ChatApi en Claude, et configurer les paramètres de l'API de Claude.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png)
 
-Commencer la conversation
+Commencer la discussion
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png)
 
-##Le logiciel utilise Ollama pour discuter et analyser des images.
+##Le rédacteur utilise Ollama pour discuter et analyser les images.
 
-Créer une nouvelle discussion (New Chat), changer ChatApi en Ollama et configurer les paramètres Api d'Ollama. Pour une conversation textuelle, définir le modèle en tant que modèle textuel, comme llama3.1 ; pour le traitement des images, choisir un modèle prenant en charge la vision, par exemple moondream.
+Créer une nouvelle conversation (New Chat), changer ChatApi en Ollama, et configurer les paramètres Api d'Ollama. Si c'est une conversation textuelle, définir le modèle comme modèle de texte, tel que llama3.1 ; s'il est nécessaire de traiter des images, définir le modèle comme un modèle prenant en charge la vision, comme moondream.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png)
 
@@ -213,38 +205,37 @@ Commencer la discussion
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png)
 
+###Utiliser Gemini dans l'éditeur.
 
-###Utilisons Gemini comme éditeur.
-
-Créez une nouvelle discussion (New Chat), remplacez ChatApi par Gemini, et configurez les paramètres d'Api de Gemini.
+Créer une nouvelle conversation (New Chat), renommer ChatApi en Gemini, et configurer les paramètres Api de Gemini.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png)
 
-Commencer la conversation
+Commencer la discussion
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png)
 
-##L'éditeur utilise Gemini pour envoyer de l'audio.
+##Le logiciel utilise Gemini pour envoyer des fichiers audio.
 
-Choisissez de lire l'audio à partir du fichier / de l'actif / de l'enregistrement du microphone pour générer l'audio à envoyer.
+Lire l'audio à partir du fichier / lire l'audio à partir de l'Asset / enregistrer l'audio depuis le microphone, pour générer l'audio à envoyer.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png)
 
-Commencer la conversation
+Commencez la conversation.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png)
 
-##Le logiciel utilise Deepseek.
+##L'éditeur utilise Deepseek.
 
-Créer une nouvelle session (New Chat), remplacer ChatApi par OpenAi, et configurer les paramètres Api de Deepseek. Ajouter un nouveau modèle de candidat appelé deepseek-chat, et définir le modèle comme deepseek-chat.
+Créer une nouvelle conversation (New Chat), changer ChatApi par OpenAi et configurer les paramètres de l'API Deepseek. Ajouter un modèle de candidat appelé deepseek-chat et définir le modèle comme deepseek-chat.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png)
 
-Commencer la conversation
+Commencer la discussion
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png)
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Signalez tout oubli. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez laisser vos commentaires dans la section [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Signalez tout oubli. 

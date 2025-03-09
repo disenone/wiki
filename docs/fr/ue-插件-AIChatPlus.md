@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Document d'explication
+title: Document d'instructions
 tags:
 - dev
 - game
@@ -24,69 +24,71 @@ description: Document d'explication
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#Documentation du plug-in UE AIChatPlus
+#Document d'instructions de l'extension AIChatPlus de l'UE
 
-##Magasin d'extensions
+##Boutique de modules complémentaires
 
 [AIChatPlus](https://www.fab.com/zh-cn/listings/0e49d138-10e1-452e-ba07-9a4bea578ace)
 
-##Entrepôt public
+##Entrepôt public.
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##Présentation du plug-in
+##Présentation du module complémentaire
 
 La dernière version v1.6.0.
 
-Ce plug-in prend en charge UE5.2 - UE5.5.
+Ce plugin est compatible avec UE5.2 - UE5.5.
 
-UE.AIChatPlus est un plugin Unreal Engine qui permet de communiquer avec divers services de discussion GPT AI. Les services actuellement pris en charge incluent OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, ainsi qu'une version locale hors ligne llama.cpp. À l'avenir, davantage de fournisseurs de services seront pris en charge. Son implémentation repose sur des requêtes REST asynchrones, offrant une performance efficace et permettant aux développeurs d'Unreal Engine d'intégrer facilement ces services de discussion AI.
+UE.AIChatPlus est un plug-in pour UnrealEngine qui permet de communiquer avec divers services de discussion AI GPT. Les services actuellement pris en charge sont OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama et une version locale hors ligne de llama.cpp. À l'avenir, il prendra également en charge d'autres fournisseurs de services. Son implémentation repose sur des requêtes REST asynchrones, offrant ainsi des performances élevées et permettant aux développeurs d'Unreal Engine de se connecter facilement à ces services de discussion AI.
 
-Le UE.AIChatPlus comprend également un outil d'édition qui permet d'utiliser directement ces services de chat AI dans l'éditeur pour générer du texte et des images, analyser des images, etc.
+Le UE.AIChatPlus comprend également un outil d'édition qui permet d'utiliser directement ces services de discussion IA dans l'éditeur, pour générer du texte et des images, analyser des images, etc.
 
-##Fonctions principales
+##Les caractéristiques principales
 
-**Nouveau !** La mise à jour de l'IA hors ligne llama.cpp est passée à la version b4604.
+**Nouveau!** Le fichier AI llama.cpp hors ligne a été mis à jour vers la version b4604.
 
-**Nouveau !** Le fichier AI llama.cpp prend désormais en charge les GPU Cuda et Metal hors ligne.
+**Nouveau !** Prise en charge GPU Cuda et Metal pour AI llama.cpp hors ligne.
 
-Nouveau ! Prend en charge la transcription vocale en texte pour Gemini.
+**Nouveau !** Prise en charge du service de transcription vocale en texte Gemini.
 
-**API** : Supporte OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek.
+**API**：Prise en charge d'OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek
 
-**API temps réel hors ligne** : prend en charge l'exécution hors ligne de l'IA avec llama.cpp, avec prise en charge de CUDA GPU et Metal.
+**API en temps réel hors ligne** : prend en charge l'exécution hors ligne de l'IA avec llama.cpp, compatible avec les technologies GPU Cuda et Metal.
 
 Traduisez ce texte en français :
 
-**文本转文本** : Prise en charge de diverses API pour la génération de texte.
+**文本转文本** : Plusieurs API prennent en charge la génération de texte.
 
-**Text-to-Image** : OpenAI Dall-E
+**Translation**: **Transformation de texte en image** : OpenAI Dall-E
 
-**Transcription d'image** : OpenAI Vision, Claude, Gemini, Ollama, llama.cpp
+**Conversion d'image en texte** : OpenAI Vision, Claude, Gemini, Ollama, llama.cpp
 
 **Image to Image**: OpenAI Dall-E
 
-**Texte traduit** : Gemini
+**Transcription vocale** : Gemini
 
-**Blueprint** : Tous les API et fonctionnalités supportent le blueprint.
+**Blueprint** : toutes les API et fonctionnalités prennent en charge le blueprint
 
-Outil de messagerie de l'éditeur : un outil de messagerie AI riche en fonctionnalités et soigneusement conçu.
+Outil de discussion de l'éditeur : un outil de chat AI sophistiqué et riche en fonctionnalités, spécialement conçu.
 
-**Appel asynchrone** : Toutes les API peuvent être appelées de manière asynchrone.
+**Appel asynchrone** : Toutes les API peuvent être appelées de manière asynchrone
 
-Outils pratiques : divers outils d'images et de son.
+**Outils pratiques** : divers outils d'image et audio
 
 ##API supportée :
 
-**Offline llama.cpp**: Intégré à la bibliothèque llama.cpp, permet d'exécuter hors ligne des modèles d'IA ! Prend aussi en charge les modèles multimodaux (expérimental). Compatible avec Win64/Mac/Android/IOS. Prend en charge CUDA et METAL GPU.
+**llama.cpp hors ligne**: Intégrez la bibliothèque llama.cpp pour exécuter hors ligne des modèles d'IA ! Prend également en charge les modèles multi-modaux (expérimental). Compatible avec Win64/Mac/Android/IOS. Prise en charge des GPU CUDA et METAL.
 
 OpenAI: /chat/completions, /completions, /images/generations, /images/edits, /images/variations
 
 Azure OpenAI : /chat/completions, /images/generations
 
-**Claude**：/messages、/complete
+Claude：/messages、/complete
 
-**Gemini**：:générerTexte、:générerContenu、:générerContenuEnStreaming
+**Gémeaux** : generateText, generateContent, streamGenerateContent
+
+**Ollama**：/api/chat、/api/generate、/api/tags
 
 **Ollama**：/api/chat、/api/generate、/api/tags
 
@@ -94,27 +96,27 @@ Azure OpenAI : /chat/completions, /images/generations
 
 ##Instructions d'utilisation
 
-[**Instructions d'utilisation - Chapitre sur les plans**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+[**Instructions d'utilisation - chapitre sur la feuille de route**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-Veuillez traduire ce texte en français : 
+(ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-[**Guide d'utilisation - Partie C++**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+(ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
-[**Instructions d'utilisation - Section éditeur**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+(ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
 
-##Changer les journaux
+##Changer le journal
 
-(ue-插件-AIChatPlus-ChangeLogs.md)
+[**Changelog**](ue-插件-AIChatPlus-ChangeLogs.md)
 
-##Assistance technique
+##Support technique
 
-**Commentaire** : N'hésitez pas à poser vos questions dans la section des commentaires ci-dessous.
+**Commentaire** : N'hésitez pas à laisser un message dans la section des commentaires ci-dessous si vous avez des questions.
 
 **Email**: Vous pouvez également m'envoyer un email à l'adresse suivante : disenonec@gmail.com
 
-**discord** : Bientôt disponible
+**discord**: Bientôt disponible
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifiez toute omission éventuelle. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifier toute omission possible. 

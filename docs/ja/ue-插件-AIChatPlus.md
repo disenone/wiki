@@ -24,7 +24,7 @@ description: 説明書
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#UE プラグイン AIChatPlus 説明書
+#UEプラグインAIChatPlusの説明書
 
 ##プラグインストア
 
@@ -34,85 +34,89 @@ description: 説明書
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##プラグインの紹介
+##プラグイン紹介
 
-最新バージョンv1.6.0。
+最新バージョンはv1.6.0です。
 
 このプラグインはUE5.2からUE5.5をサポートしています。
 
-UE.AIChatPlus は、Unreal Engine のプラグインであり、様々な GPT AI チャットサービスとの通信を実現しています。現在サポートされているサービスは、OpenAI（ChatGPT、DALL-E）、Azure OpenAI（ChatGPT、DALL-E）、Claude、Google Gemini、Ollama、llama.cpp、そしてローカルオフラインです。将来的にはさらに多くのサービスプロバイダーをサポートする予定です。この実装は非同期の REST リクエストに基づいており、パフォーマンスが高く、UE 開発者がこれらのAIチャットサービスに簡単にアクセスできるようになっています。
+UE.AIChatPlus は UnrealEngine プラグインで、さまざまな GPT AI チャットサービスとの通信を実現しています。現在サポートされているサービスは OpenAI（ChatGPT、DALL-E）、Azure OpenAI（ChatGPT、DALL-E）、Claude、Google Gemini、Ollama、llama.cpp のローカルオフラインです。将来的にはさらに多くのサービスプロバイダーをサポートする予定です。実装は非同期の REST リクエストに基づいており、性能が高く、UE 開発者がこれらのAIチャットサービスにアクセスしやすくなっています。
 
-UE.AIChatPlusには、エディタツールも含まれており、このツールを使用してAIチャットサービスを直接エディタ内で利用し、テキストや画像を生成したり、画像を分析したりすることができます。
+UE.AIChatPlusにはエディターツールも含まれており、このツールを使用すると、AIチャットサービスを直接エディターで利用してテキストや画像を生成し、画像を分析することができます。
 
-##主要な機能
+##主要機能
 
-**Brand new!** オフラインAI llama.cpp がバージョンb4604にアップグレードされました。
+**新登場！** オフライン AI llama.cpp がバージョン b4604 にアップグレードされました。
 
-新しい！オフラインAI llama.cppはGPUのCudaとMetalをサポートしています。
+新しい！オフラインAI llama.cppは、GPUのCudaとMetalをサポートしています。
 
-新着！Geminiの音声からテキストへの変換をサポートしています。
+新発売！Geminiの音声からテキストへの変換に対応。
 
-**API**：OpenAI、Azure OpenAI、Claude、Gemini、Ollama、llama.cpp、DeepSeek をサポート
+**API**: OpenAI、Azure OpenAI、Claude、Gemini、Ollama、llama.cpp、DeepSeek をサポート
 
-**オフラインリアルタイムAPI**：llama.cppのオフライン実行AIをサポートし、GPUのCudaとMetalに対応しています。
+オフラインリアルタイムAPI：llama.cppのオフラインでのAI実行をサポートし、GPUのCudaとMetalをサポートします。
 
-これらのテキストを日本語に翻訳してください：
+このテキストは、日本語に翻訳されました：
 
-**Text to text**：さまざまなAPIがテキスト生成をサポートしています。
+**文本转文本**：さまざまなAPIがテキスト生成をサポートしています。
 
-**Text Translation**: OpenAI DALL-E
+**テキストから画像への変換**：OpenAI Dall-E
 
-**画像をテキストに変換する**：OpenAI Vision、Claude、Gemini、Ollama、llama.cpp
+**画像からテキストへの変換**：OpenAI Vision、Claude、Gemini、Ollama、llama.cpp
 
-**画像から画像へ**：OpenAI DALL-E
+画像から画像へ：OpenAIのDALL-E
 
 **音声テキスト変換**：ジェミニ
 
-**設計図**：すべてのAPIと機能が設計図をサポートしています。
+**設計図**: すべてのAPIと機能は設計図をサポートしています。
 
-**Editor Chat Tool**: A feature-rich, meticulously crafted editor AI chat tool.
+**Editor Chat Tool**: A feature-rich, carefully crafted editor AI chat tool.
 
-非同期呼び出し：すべてのAPIは非同期で呼び出すことができます。
+「非同期呼び出し」：すべての API は非同期で呼び出すことができます
 
 **実用ツール**：さまざまな画像、音声ツール
 
-##APIサポート：
+##サポートされている API：
 
-**オフライン llama.cpp**：llama.cppライブラリと統合してAIモデルをオフラインで実行できます！実験的に、マルチモードモデルもサポートされます。Win64/Mac/Android/IOSをサポートしています。GPU CUDAとMETALをサポートしています。
+**オフライン llama.cpp**：llama.cppライブラリと統合して、AIモデルをオフラインで実行できます！さらに、マルチモードモデル（実験的）もサポートしています。Win64/Mac/Android/IOSをサポートしています。GPU CUDAとMETALにも対応しています。
 
-OpenAI：/chat/completions、/completions、/images/generations、/images/edits、/images/variations
+**OpenAI**：/chat/completions、/completions、/images/generations、/images/edits、/images/variations
 
 **Azure OpenAI**: /chat/completions、/images/generations
 
 **クロード**：/メッセージ、/完了
 
-**Gemini**：generateText、generateContent、streamGenerateContent
+**ジェミニ**：generateText、generateContent、streamGenerateContent
 
 **Ollama**：/api/chat、/api/generate、/api/tags
 
 **DeepSeek**：/chat/completions
 
-##使用説明
+##ご使用案内
 
-(ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+[**Instructions for Use - Blueprint Section**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-[**Instructions for Use - C++ Chapter**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+(ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-[**Instructions for Use - Editor Section**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+(ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
-##変更ログ
+[**Instructions for use - Packing**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
+
+##変更履歴
 
 (ue-插件-AIChatPlus-ChangeLogs.md)
 
 ##技術サポート
 
-「コメント」：何か質問があれば、以下のコメント欄にメッセージを残してください。
+「コメント」：何か質問があれば、下記のコメント欄にメッセージを残してください。
 
-"Email: または電子メールで私にメッセージを送ることもできます (disenonec@gmail.com)"
+"メール：または私にメールを送ることもできます（disenonec@gmail.com）"
 
-**discord**: Coming soon.
+**discord**: 即将上線
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)どんなミスでも指摘してください。 
+> この投稿はChatGPTを使って翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指定されたテキストを日本語に翻訳します:
+
+どんな遺漏も指摘してください。 

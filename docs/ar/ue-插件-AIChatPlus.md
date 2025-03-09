@@ -1,6 +1,6 @@
 ---
 layout: post
-title: وثيقة توضيحية
+title: الوثيقة الشرحية
 tags:
 - dev
 - game
@@ -19,12 +19,14 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: وثيقة الشرح
+description: وثيقة توضيحية
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#مستند تعليمات ملحق UE AIChatPlus
+#ترجمة هذه النص إلى اللغة العربية: 
+
+وثيقة شرح UE إضافة AIChatPlus
 
 ##متجر الإضافات
 
@@ -34,87 +36,92 @@ description: وثيقة الشرح
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##مقدمة الإضافة
+##مقدمة حول الإضافة
 
-الإصدار الأحدث v1.6.0.
+أحدث إصدار v1.6.0.
 
-هذا الملحق يدعم UE5.2 - UE5.5.
+هذا الإضافة تدعم UE5.2 - UE5.5.
 
-UE.AIChatPlus هو إضافة لـ UnrealEngine، تمنحك القدرة على التواصل مع مختلف خدمات الدردشة الاصطناعية مثل GPT AI، حيث يدعم حاليا خدمات مثل OpenAI (ChatGPT، DALL-E)، Azure OpenAI (ChatGPT، DALL-E)، Claude، Google Gemini، Ollama، وllama.cpp للعمل دون الحاجة إلى الاتصال بالإنترنت. كما سيتم دعم المزيد من مقدمي الخدمات في المستقبل. يستند تنفيذه على طلبات REST غير المتزامنة، مما يجعله فعالاً من حيث الأداء وملائماً لمطوري UnrealEngine للوصول إلى هذه الخدمات الذكية للدردشة.
+UE.AIChatPlus هو إضافة لـ UnrealEngine تمكن التواصل مع مختلف خدمات GPT AI ، والتي تدعم حاليًا خدمات مثل OpenAI (ChatGPT، DALL-E) ،و Azure OpenAI (ChatGPT، DALL-E) ، Claude ، Google Gemini ، Ollama ، llama.cpp ، بالإضافة إلى التشغيل المحلي. وسيتم دعم المزيد من مزودي الخدمات في المستقبل. تعتمد تنفيذها على طلبات REST غير متزامنة، مما يجعلها كفءة من حيث الأداء ويسهل على مطوري UnrealEngine الوصول إلى هذه الخدمات ذات الصلة بالذكاء الاصطناعي.
 
-تتضمن UE.AIChatPlus أيضًا أداة محرر تسمح بالوصول المباشر إلى خدمات الدردشة الذكية هذه من خلال المحرر، مما يسمح بإنشاء نصوص وصور، وتحليل الصور، وما إلى ذلك.
+تتضمن UE.AIChatPlus أيضًا أداة محرر تمكّنك من استخدام خدمات الدردشة هذه مباشرة في المحرر، لإنشاء نصوص وصور، وتحليل الصور، وما إلى ذلك.
 
-##الرئيسيةية
+##الميزات الرئيسية
 
-**جديد!** ترقية ملف AI llama.cpp إلى الإصدار b4604 دون اتصال.
+**جديد تمامًا!** تم ترقية الملف AI llama.cpp غير المتصل إلى الإصدار b4604.
 
-**جديد تمامًا!** دعم GPU Cuda و Metal لـ llama.cpp AI غير متصل.
+**جديد تمامًا!** يدعم Llama.cpp للذكاء الاصطناعي والعمل دون اتصال GPU Cuda و Metal.
 
-**جديد تمامًا!** دعم تحويل الصوت إلى نص للجوال Gemini.
+**جديد!** يدعم تحويل الصوت إلى نص في Gemini.
 
-**API**: يدعم OpenAI و Azure OpenAI و Claude و Gemini و Ollama و llama.cpp و DeepSeek
+**API**: دعم OpenAI، Azure OpenAI، Claude، Gemini، Ollama، llama.cpp، DeepSeek
 
-**API في الوقت الفعلي دون اتصال**: يدعم تشغيل AI بدون اتصال عبر llama.cpp، بدعم لـ GPU Cuda وMetal.
+API الحية بدون اتصال: دعم تشغيل AI الخادم المزود llama.cpp بدون اتصال، ودعم GPU Cuda و Metal.
 
-نص إلى نص: يدعم جميع أنواع واجهات برمجة التطبيقات إنتاج النص.
 
-**تحويل النص إلى صورة**: OpenAI Dall-E
+ترجمة النص إلى النص: تدعم كافة واجهات برمجة التطبيقات إنتاج النصوص.
 
-الرفات الطيّبة: OpenAI Vision، Claude، Gemini، Ollama، llama.cpp
+**نص إلى صورة**: OpenAI DALL-E
 
-"تحويل الصورة إلى صورة": OpenAI Dall-E
+**تحويل الصور إلى نص**: OpenAI Vision، Claude، Gemini، Ollama، llama.cpp
 
-تحويل الصوت إلى نص: جيميني
+**تحويل الصورة إلى صورة**: OpenAI Dall-E
 
-الخطة: جميع وظائف وواجهات برمجة التطبيقات تدعم الخطة.
+**تحويل الصوت إلى نص**: Gemini
 
-أداة المحادثة الذكية Editor: أداة محادثة AI للمحرر مصممة بعناية وتحتوي على ميزات غنية
+**التصميم الأساسي**: جميع واجهات برمجة التطبيقات والميزات تدعم التصميم الأساسي
 
-الاستدعاء الغير متزامن: يمكن استدعاء جميع واجهات البرمجة الخاصة بالتطبيقات بشكل غير متزامن.
+أداة محادثة AI المحررة: أداة محادثة AI محررة ذات ميزات غنية ومصممة بعناية
 
-**أدوات عملية**: مجموعة متنوعة من أدوات الصور والصوت
+**الاستدعاء الغير متزامن**: يمكن الاستدعاء الغير متزامن لجميع واجهات برمجة التطبيقات (API).
 
-##الواجهة البرمجية القابلة للتطبيق المدعومة:
+**أدوات مفيدة**: مجموعة متنوعة من الأدوات للصور والصوت
+
+##API المدعومة:
 
 ترجمة النص إلى اللغة العربية:
 
-**llama.cpp خارطة ذهنية** : تكامل مع مكتبة llama.cpp لتشغيل نماذج الذكاء الاصطناعي حتى بدون اتصال بالإنترنت! ويدعم أيضا نماذج متعددة الوسائط (بشكل تجريبي). متوافق مع Win64/Mac/Android/IOS. ويدعم CUDA و METAL للـ GPU.
+ملف **Llama.cpp** في وضع عدم الاتصال: يتم دمجه مع مكتبة Llama.cpp ويمكن تشغيل نماذج الذكاء الاصطناعي دون اتصال! كما يدعم نماذج متعددة الوسائط (تجريبي). متوافق مع Win64/Mac/Android/IOS. يدعم GPU CUDA وMETAL.
 
-**OpenAI**：/chat/completions، /completions، /images/generations، /images/edits، /images/variations
+**OpenAI**：/الدردشة/اكتمالات،/اكتمالات،/الصور/أجيال،/الصور/تحريرات،/الصور/تنويعات
 
 Azure OpenAI: /chat/completions، /images/generations
 
-**كلود**: / الرسائل ، / الاكتمال
+**كلود**: /الرسائل، /اكتمال
 
-**جيميني**: :إنشاءالنص، :إنشاءالمحتوى، :توليفالمحتوى البثّي
+**الجوزاء** : generateText ،: generateContent ،: streamGenerateContent
 
 **Ollama**：/api/chat، /api/generate، /api/tags
 
-**DeepSeek**：/الدردشة/اكتمال
+**DeepSeek**：/chat/completions
 
-##الرجاء ترجمة النص إلى اللغة العربية:
+##تعليمات الاستخدام
 
-(ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+[**Blueprints Guide - Instructions for Use**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-(ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+Translate these text into Arabic language:
 
-الرجاء تحويل هذا النص إلى اللغة العربية:
+[**دليل الاستخدام - C++**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-[**تعليمات الاستخدام - جزء المحرر**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+ترجمة هذا النص إلى اللغة العربية:
 
-##تغيير سجل
+[**دليل الاستخدام - قسم المحرر**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+
+[**تعليمات الاستخدام - التعبئة**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
+
+##تعديل السجل
 
 (ue-插件-AIChatPlus-ChangeLogs.md)
 
-##الدعم التقني
+##الدعم الفني
 
-**التعليقات**: لا تتردد في ترك تعليق في الجزء أدناه إذا كان لديك أي استفسار
+**التعليقات**: إذا كانت لديك أي أسئلة، فلا تتردد في ترك تعليق في منطقة التعليقات أدناه.
 
-**البريد الإلكتروني**: يمكنك أيضًا مراسلتي عبر البريد الإلكتروني ( disenonec@gmail.com)
+**البريد الإلكتروني**: يمكنك أيضًا إرسال بريد إلكتروني لي عبر البريد الإلكتروني (disenonec@gmail.com)
 
-**discord**: قريبًا سيتم الإطلاق.
+**Discord**: سيتم الإطلاق قريبًا
 
 --8<-- "footer_ar.md"
 
 
-> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى تزويدنا بال[**تغذية راجعة**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي علتات. 
+> هذه المشاركة تم ترجمتها باستخدام ChatGPT، يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص. 

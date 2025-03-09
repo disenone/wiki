@@ -24,32 +24,31 @@ description: 機能ノード
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - 功能节点" />
 
-#設計図セクション - 機能ノード
+#ブループリントセクション - 機能ノード
 
-プラグインは、いくつかの便利なブループリント機能ノードを追加提供します。
+プラグインはいくつかの便利なブループリント機能ノードを追加しています。
 
 ##Cllama 関連
 
-"Cllama Is Valid"：判断 Cllama llama.cpp 是否正常初始化
+「Cllama Is Valid」：Cllama llama.cpp が適切に初期化されているかどうかを判断
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
 
-「Cllama Is Support Gpu」：現在の環境で llama.cpp が GPU バックエンドをサポートしているかどうかを判定します。
+"判断 llama.cpp 在当前环境下是否支持 GPU backend"：Check if llama.cpp supports GPU backend in the current environment.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
 
-"Cllama Get Support Backends": 現在の llama.cpp でサポートされているすべてのバックエンドを取得
-
+"取得サポートバックエンド llama.cpp がサポートするバックエンドを全て"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
 
-"Pakの中のモデルファイルを自動的にファイルシステムにコピーします。"
+「Cllama Prepare ModelFile In Pak」の場合は、「Pak内のモデルファイルを自動的にファイルシステムに準備する」になります。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
-###画像に関連する
+##イメージ関連
 
-「UTexture2D を Base64 に変換する」: UTexture2D の画像を PNG の base64 形式に変換
+"Convert UTexture2D to Base64": UTexture2D を Base64 に変換
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_5.png)
 
@@ -57,45 +56,45 @@ UTexture2D を .png ファイルに保存します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_6.png)
 
-「.png ファイルを UTexture2D に読み込む」
+UTexture2D へ .png ファイルを読み込む
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_7.png)
 
-UTexture2Dの複製
+"Duplicate UTexture2D": UTexture2D の複製
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_8.png)
 
-###オーディオ関連
+##オーディオに関連する
 
-USoundWave に .wav ファイルをロードします。
+"USoundWave に .wav ファイルを読み込む"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_9.png)
 
-".wav データを USoundWave に変換する": .wav データを USoundWave に変換する
+「.wav データを USoundWave に変換する」：.wav データを USoundWave に変換します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_10.png)
 
-USoundWave を.wav ファイルに保存します。
+USoundWave を .wav ファイルに保存します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_11.png)
 
-"Get USoundWave Raw PCM Data" : "USoundWaveの生のPCMデータを取得します"
+「Get USoundWave Raw PCM Data」を、USoundWaveの生のPCMデータに変換してください。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_12.png)
 
-"Convert USoundWave to Base64" を日本語にすると、「USoundWave を Base64 に変換する」になります。
+"Convert USoundWave to Base64": USoundWaveをBase64に変換します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_13.png)
 
-"Duplicate USoundWave": USoundWave の複製
+"Duplicate USoundWave": USoundWave を複製
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_14.png)
 
-"Convert Audio Capture Data to USoundWave": 音声キャプチャーデータをUSoundWaveに変換
+"Convert Audio Capture Data to USoundWave": オーディオキャプチャデータをUSoundWaveに変換します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_15.png)
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)どんな抜け漏れも指摘してください。 
+> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遺漏之處。 

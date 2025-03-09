@@ -26,29 +26,29 @@ description: Get Started
 
 #C++ Article - Get Started
 
-##Core Code Introduction
+##Introduction to core code
 
 Currently, the plugin is divided into the following modules:
 
-AIChatPlusCommon: Runtime module, responsible for handling various AI API interface requests and parsing response content.
+* **AIChatPlusCommon**: Runtime module responsible for handling various AI API interface requests and parsing response content.
 
-AIChatPlusEditor: Editor module, responsible for implementing the AI chat tool within the editor.
+* **AIChatPlusEditor**: Editor module responsible for implementing the AI chat tool within the editor.
 
-AIChatPlusCllama: Runtime module responsible for encapsulating the interface and parameters of llama.cpp, enabling offline execution of large models.
+* **AIChatPlusCllama**: The Runtime module is responsible for encapsulating the interface and parameters of llama.cpp, enabling the offline execution of large models.
 
-Thirdparty/LLAMACpp: Runtime third-party module integrating the dynamic library and header files of llama.cpp.
+* **Thirdparty/LLAMACpp**: Runtime third-party module that integrates the dynamic library and header files of llama.cpp.
 
-The UClass responsible for sending requests is FAIChatPlus_xxxChatRequest. Each API service has its own unique Request UClass. The replies to the requests are obtained through two UClass, UAIChatPlus_ChatHandlerBase and UAIChatPlus_ImageHandlerBase. All you need to do is register the corresponding callback delegates.
+The specific UClass responsible for sending requests is FAIChatPlus_xxxChatRequest. Each API service has its own unique Request UClass. The responses to requests are obtained through two types of UClass, UAIChatPlus_ChatHandlerBase and UAIChatPlus_ImageHandlerBase, and only require registering the corresponding callback delegates.
 
-Before sending a request, you need to set up the parameters and the message to be sent for the API. This is done by setting up with FAIChatPlus_xxxChatRequestBody. The specific response content is also parsed into FAIChatPlus_xxxChatResponseBody. When you receive the callback, you can retrieve the ResponseBody through a specific interface.
+Before sending a request, you need to set the API parameters and the message to be sent. This is done by setting up the FAIChatPlus_xxxChatRequestBody. The specific response content is also parsed into the FAIChatPlus_xxxChatResponseBody. When receiving a callback, you can retrieve the ResponseBody through a specific interface.
 
 ##The code uses the offline model Cllama (llama.cpp).
 
-The following instructions explain how to use the offline model llama.cpp in your code.
+The following explains how to use the offline model llama.cpp in the code.
 
-Firstly, you also need to download the model file to Content/LLAMA.
+First, you also need to download the model file to Content/LLAMA.
 
-Modify the code to add a new command, and send a message to the offline model within the command.
+Modify the code to add a command and send a message to the offline model within the command.
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -111,11 +111,11 @@ void AddTestCommand()
 }
 ```
 
-After recompiling, using the command in the Cmd editor will allow you to see the output results of the large model in the OutputLog.
+After recompiling, by using the command in the editor Cmd, you can see the output results of the large model in the log OutputLog.
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
 --8<-- "footer_en.md"
 
 
-> This post was translated using ChatGPT. Please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions 
+> This post has been translated using ChatGPT. Please provide feedback in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

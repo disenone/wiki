@@ -24,31 +24,33 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#C++ Chapter - Get Started
+#C++ Article - Commencer
 
 ##Présentation du code source principal
 
 Actuellement, le plugin est divisé en plusieurs modules suivants :
 
-AIChatPlusCommon: Le module d'exécution (Runtime) est chargé de gérer l'envoi des requêtes aux différentes interfaces API d'IA et d'analyser les réponses renvoyées.
+* **AIChatPlusCommon**: Le module d'exécution, chargé de traiter les demandes d'envoi d'API AI et de parser les réponses.
 
-AIChatPlusEditor: Module d'édition, responsable de la mise en œuvre de l'outil de chat AI de l'éditeur.
+* **AIChatPlusEditor**: Module d'édition, responsable de la mise en œuvre de l'outil de chat AI de l'éditeur.
 
-AIChatPlusCllama: Module d'exécution, responsable d'encapsuler les interfaces et les paramètres de llama.cpp, permettant d'exécuter hors ligne de grands modèles.
+* **AIChatPlusCllama**: Module d'exécution (Runtime) chargé d'encapsuler les interfaces et les paramètres de llama.cpp, permettant l'exécution hors ligne de modèles volumineux.
 
-Thirdparty/LLAMACpp: un module tiers en temps d'exécution, intégrant la bibliothèque dynamique et les fichiers d'en-tête de llama.cpp.
+* **Thirdparty/LLAMACpp**: Module tiers d'exécution (Runtime) intégrant la bibliothèque dynamique et les fichiers d'en-tête de llama.cpp.
 
-Le UClass responsable spécifique de l'envoi des demandes est FAIChatPlus_xxxChatRequest, chaque service API ayant son propre UClass de demande distinct. Les réponses des demandes sont obtenues via les UClass UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase, il suffit de s'inscrire aux délégués de rappel correspondants.
+Le UClass chargé spécifiquement d'envoyer la requête est FAIChatPlus_xxxChatRequest. Chaque service API a son propre UClass de requête indépendant. Les réponses des requêtes sont obtenues via deux UClass différents : UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase. Il suffit de s'inscrire aux délégués de retour appropriés.
 
-Avant d'envoyer une demande, il est nécessaire de configurer les paramètres de l'API et le message à envoyer, ceci est réalisé en utilisant FAIChatPlus_xxxChatRequestBody. Les détails de la réponse sont également analysés dans FAIChatPlus_xxxChatResponseBody, où vous pouvez obtenir le ResponseBody via une interface spécifique lors de la réception de l'appel de retour.
+Avant d'envoyer une demande, il est nécessaire de configurer les paramètres API et le message à envoyer. Cela se fait en définissant FAIChatPlus_xxxChatRequestBody. Les détails de la réponse sont également analysés dans FAIChatPlus_xxxChatResponseBody. Lors de la réception de l'appel, il est possible d'obtenir le ResponseBody via une interface spécifique.
 
-##Utilisation du code modèle hors ligne Cllama (llama.cpp)
+##Utilisation du code de modèle hors ligne Cllama(llama.cpp)
 
-Voici comment utiliser le modèle hors ligne llama.cpp dans le code.
+Le texte doit être traduit en français:
+
+Les instructions ci-dessous expliquent comment utiliser le modèle hors ligne llama.cpp dans le code.
 
 Tout d'abord, il est nécessaire de télécharger le fichier du modèle dans Content/LLAMA.
 
-Ajouter une instruction au code pour envoyer un message au modèle hors ligne à l'intérieur de cette instruction.
+Modifier le code pour ajouter une commande et envoyer un message au modèle hors ligne à l'intérieur de cette commande.
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -111,11 +113,11 @@ void AddTestCommand()
 }
 ```
 
-Une fois que vous avez recompilé, vous pouvez utiliser la commande dans l'éditeur Cmd pour afficher les résultats de sortie du grand modèle dans le journal OutputLog.
+Après avoir recompilé, en utilisant la commande dans l'éditeur Cmd, vous pourrez voir les résultats de la sortie du grand modèle dans le journal OutputLog.
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez fournir votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Veuillez signaler tout oubli éventuel. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**retour**](https://github.com/disenone/wiki_blog/issues/new)Identifier toute omission. 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: نقطة الوظيفة
+title: العقدة الوظيفية
 tags:
 - dev
 - game
@@ -24,78 +24,77 @@ description: نقطة الوظيفة
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - 功能节点" />
 
-#العنوان الأزرق - عقد الوظائف
+#الجزء العملي - نقاط الوظائف
 
-قدم الإضافة مجموعة إضافية من عقد الوظائف الهامة والمفيدة.
+قدمت الإضافة مجموعة من نقاط الوظائف السهلة الاستخدام بشكل إضافي.
 
 ##Cllama ذات الصلة
 
-"Cllama Is Valid"：قم بتقييم ما إذا كان ملف Cllama llama.cpp قد تمت مبادلته بشكل صحيح
+تحقق ما إذا كان Cllama llama.cpp مهيأ بشكل صحيح
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
 
-تحقق مما إذا كان ملف llama.cpp يدعم واجهة الـ GPU في البيئة الحالية.
+"يتم دعم GPU بواسطة Cllama": تحديد ما إذا كان ملف llama.cpp مدعومًا من قبل واجهة النظام المؤثر الخاصة بوحدة المعالجة الرسومية في البيئة الحالية.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
 
-"احصل على دعم الخلفيات المدعومة حاليًا في llama.cpp"
-
+احصل على العمليات الداعمة الخلفية المتاحة في llama.cpp الحالي
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
 
-قم بإعداد ملف النموذج في ملف Pak: يقوم تلقائيًا بنسخ ملفات النموذج من Pak إلى النظام الملفي
+قم بتجهيز ملف النموذج في حزمة Pak: يقوم بنسخ ملفات النموذج في Pak تلقائيًا إلى النظام الملفات
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
-###الصور والصور ذات الصلة
+##الصور المتعلقة
 
-تحويل UTexture2D إلى Base64: تحويل صورة UTexture2D إلى شكل png base64
+تحويل UTexture2D إلى Base64: تحويل صورة UTexture2D إلى تنسيق Base64 png
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_5.png)
 
-حفظ UTexture2D إلى ملف .png
+"حفظ UTexture2D إلى ملف .png"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_6.png)
 
-"تحميل ملف .png إلى UTexture2D": قراءة ملف png كـ UTexture2D
+"Load .png file to UTexture2D" --> "تحميل ملف .png إلى UTexture2D"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_7.png)
 
-"Duplicate UTexture2D": استنسخ UTexture2D
+"تكرار UTexture2D"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_8.png)
 
-###العنصر الصوتي
+##الصوتيات ذات الصلة
 
-"تحميل ملف .wav لـ USoundWave"
+تحميل ملف .wav إلى USoundWave
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_9.png)
 
-تحويل بيانات صوت .wav إلى USoundWave: 把 wav بيانات  ثنائية إلى USoundWave
+تحويل بيانات .wav إلى USoundWave: قم بتحويل البيانات الثنائية wav إلى USoundWave
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_10.png)
 
-"احفظ USoundWave في ملف .wav"
+حفظ USoundWave إلى ملف .wav
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_11.png)
 
-"احصل على بعض بيانات USoundWave Raw PCM": قم بتحويل USoundWave إلى بيانات صوتية ثنائيةية
+"احصل على بعض البيانات الخام لتدفق USoundWave": قم بتحويل USoundWave إلى بيانات صوتية ثنائية عشرية
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_12.png)
 
-تحويل USoundWave إلى Base64
+"تحويل USoundWave إلى Base64"
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_13.png)
 
-"ستُكرر الصوت USoundWave": 复制 USoundWave
+"Duplicate USoundWave": استنساخ USoundWave
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_14.png)
 
-تحويل بيانات تسجيل الصوت إلى USoundWave: 把 Audio Capture 录音数据转成 USoundWave
+تحويل بيانات التقاط الصوت إلى USoundWave: 把 Audio Capture 录音数据转成 USoundWave
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_15.png)
 
 --8<-- "footer_ar.md"
 
 
-> تمت ترجمة هذا المنشور باستخدام ChatGPT، الرجاء تقديم [**تعليقاتك**](https://github.com/disenone/wiki_blog/issues/new)الرجاء تحديد أي نقص. 
+> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يُرجى تقديم [**ردود**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص. 

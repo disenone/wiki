@@ -24,31 +24,31 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#C++の部分 - スタートを切る
+#C++ の部 - はじめに
 
-##コアコードの紹介
+##コアコードの説明
 
-現在のプラグインは以下のモジュールに分かれています：
+現在、プラグインは以下のモジュールに分かれています：
 
-AIChatPlusCommon: ランタイムモジュールは、さまざまなAI APIインタフェースのリクエスト処理と応答内容の解析を担当しています。
+**AIChatPlusCommon**: ランタイムモジュール（Runtime）は、さまざまなAI APIインターフェースのリクエスト送信と応答コンテンツの解析を担当しています。
 
-AIChatPlusEditor: エディターモジュール（Editor），エディターAIチャットツールを実装する責任があります。
+AIChatPlusEditor: エディターモジュール（Editor）、エディターAIチャットツールの実装を担当しています。
 
-AIChatPlusCllama: ランタイムモジュール（Runtime）は、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。
+AIChatPlusCllama：ランタイムモジュール（Runtime）は、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。
 
-Thirdparty/LLAMACpp: Runtimeサードパーティモジュールで、llama.cppのダイナミックライブラリとヘッダーファイルが統合されています。
+* **Thirdparty/LLAMACpp**: ランタイムにおけるサードパーティモジュールで、llama.cpp のダイナミックライブラリとヘッダーファイルが統合されています。
 
-具体責任を持つ UClass は FAIChatPlus_xxxChatRequest で、各種の API サービスにはそれぞれ独立した Request UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の２つの UClass を通じて取得し、適切なコールバックデリゲートを登録するだけです。
+UClass でリクエストを送信する責任を持つのは、FAIChatPlus_xxxChatRequest です。各種 API サービスごとに独立したリクエスト UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の 2 種類の UClass を通じて取得され、対応するコールバックデリゲートを登録する必要があります。
 
-リクエストを送信する前に、APIのパラメータと送信するメッセージを設定する必要があります。これは、FAIChatPlus_xxxChatRequestBodyを使用して設定されます。応答の具体的な内容も、FAIChatPlus_xxxChatResponseBodyに解析され、コールバックを受信した時には、特定のインタフェースを使用してResponseBodyを取得できます。
+API のパラメータと送信メッセージを設定する必要があります。FAIChatPlus_xxxChatRequestBody を使用して設定します。応答の具体的な内容はFAIChatPlus_xxxChatResponseBody に解析され、コールバックを受け取った際には、特定のインターフェースを介して ResponseBody を取得できます。
 
-##コードはオフラインモデルCllamaを使用します（llama.cpp）.
+##コードはオフラインモデルCllama(llama.cpp)を使用しています。
 
-「llama.cpp」というオフラインモデルをコードで使用する方法についての説明が以下にあります。
+こちらは、コード内でオフラインモデル llama.cpp を使用する方法についての説明です。
 
-ますます、Content/LLAMA にモデルファイルをダウンロードする必要があります。
+最初に、Content/LLAMA フォルダにモデルファイルをダウンロードする必要があります。
 
-コードを変更して、新しいコマンドを追加し、そのコマンドでオフラインモデルにメッセージを送信する。
+コードを修正して、1つのコマンドを追加し、そのコマンドでオフラインモデルにメッセージを送信します。
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -111,11 +111,11 @@ void AddTestCommand()
 }
 ```
 
-再コンパイルした後、エディタのCmdでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。
+再コンパイル後、Cmdエディターでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
 --8<-- "footer_ja.md"
 
 
-> この投稿は ChatGPT によって翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘された遺漏箇所を指摘してください。 
+> この投稿はChatGPTを使用して翻訳されています。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘された＠場云🈲なエリアを示してください。 

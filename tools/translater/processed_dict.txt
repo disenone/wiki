@@ -84,8 +84,8 @@
     "mtime": 1741283553.6749816
   },
   "ue-插件-AIChatPlus.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "68466f36",
+    "mtime": 1741535011.7451456
   },
   "ue-图片-读取外部图片.md": {
     "git_ref": "7b0a21d",
@@ -96,8 +96,8 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-ChangeLogs.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "68466f36",
+    "mtime": 1741535011.7441456
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Azure.md": {
     "git_ref": "f7774846",
@@ -132,15 +132,19 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Utils.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "f9449ea2",
+    "mtime": 1741535011.7441456
   },
   "ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "f9449ea2",
+    "mtime": 1741535011.7441456
   },
   "ue-插件-AIChatPlus-Usage-Source-GetStarted.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "f9449ea2",
+    "mtime": 1741535011.7451456
+  },
+  "ue-插件-AIChatPlus-Usage-Package-GetStarted.md": {
+    "git_ref": "f9449ea2",
+    "mtime": 1741535011.7441456
   }
 }

@@ -24,33 +24,31 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#المقالة عن C++ - البدء
+#البدء في C++
 
-##مقدمة للشيفرة الأساسية
+##تقديم شرح للكود الأساسي
 
-النص المُطلوب ترجمته هو: 
+حاليا، الإضافة مقسمة إلى الوحدات التالية:
 
-"目前插件分成以下几个模块："
+* **AIChatPlusCommon**: وحدة التشغيل (Runtime) ، المسؤولة عن معالجة طلبات إرسال وتحليل محتوى ردود الواجهة البرمجية لتطبيق الذكاء الاصطناعي المختلفة.
 
-AIChatPlusCommon: وحدة التشغيل (Runtime)، المسؤولة عن معالجة طلبات إرسال وتحليل محتوى ردود واجهات برمجة التطبيقات الذكية المختلفة.
+وظيفة AIChatPlusEditor هي تنفيذ وحدة التحرير (Editor)، التي تقوم بتنفيذ أداة الدردشة AI في القاعدة de données.
 
-AIChatPlusEditor: وحدة التحرير (Editor) ، المسؤولة عن تنفيذ أدوات دردشة الذكاء الاصطناعي.
+* **AIChatPlusCllama**: وحدة التشغيل (Runtime) المسؤولة عن تغليف واجهة ومعلمات llama.cpp، لتنفيذ نماذج كبيرة بشكل غير متصل عند التشغيل
 
-AIChatPlusCllama: وحدة التشغيل (Runtime) ، مسؤولة عن تغليف واجهة ومعلمات llama.cpp ، لتنفيذ نماذج كبيرة دون اتصال بالإنترنت
+Thirdparty/LLAMACpp: "Runtime" وحدة خارجية تجمع بين مكتبة الرموز الديناميكية llama.cpp وملفات الرأس.
 
-ثريد بارتي/إل إل أيه أم أي سي بي بي: الوحدة النمطية الطرفية للتشغيل (Runtime) ، تضمنت مكتبة llama.cpp الديناميكية والملفات الرأسية.
+الـ UClass المسؤولة عن إرسال الطلب هو FAIChatPlus_xxxChatRequest، كل خدمة API لها UClass طلب مستقل. يتم الحصول على رد الطلب عن طريق UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase اللذين ينبغي تسجيل التابع المناسب فقط.
 
-الـ UClass المسؤولة عن إرسال الطلب هو FAIChatPlus_xxxChatRequest، كل خدمة API لها UClass Request مستقل. يتم الحصول على رد الطلب من خلال UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase UClass، ما عليك سوى تسجيل الوفد المناسب.
+قبل إرسال الطلب، يجب تعيين معلمات API والرسالة المُرسَلة أولاً، يتم تعيين هذا باستخدام FAIChatPlus_xxxChatRequestBody. يتم تحليل محتوى الإجابة أيضاً إلى FAIChatPlus_xxxChatResponseBody، يمكن الحصول على ResponseBody من خلال واجهة معينة عند استقبال الاستدعاء.
 
-قبل إرسال الطلب، يجب تعيين معلمات API ورسالة الإرسال أولاً، يتم ذلك من خلال تعيين FAIChatPlus_xxxChatRequestBody. يتم تحليل المحتوى المحدد للرد في FAIChatPlus_xxxChatResponseBody، ويمكن الحصول على ResponseBody عند استقبال الاستدعاء عبر واجهة معينة.
+##الرمز يستخدم نموذجًا غير متصل بالإنترنت Cllama(llama.cpp)
 
-##يستخدم الكود نموذجًا غير متصل Cllama (llama.cpp)
+يوضح النص التالي كيفية استخدام النموذج الغير متصل llama.cpp في الشيفرة.
 
-يوضح النص التالي كيفية استخدام نموذج llama.cpp في البرنامج.
+أولاً، يجب تنزيل ملف النموذج إلى مجلد Content/LLAMA بنفس الطريقة.
 
-أولاً، يجب تنزيل ملف النموذج إلى المسار Content/LLAMA.
-
-قم بتعديل الشيفرة لإضافة أمر جديد، وارسل رسالة إلى النموذج الغير متصل في داخل الأمر.
+قم بتعديل الشيفرة لإضافة أمر جديد، وأرسل رسالة إلى النموذج الغير متصل به من داخل الأمر.
 
 ```c++
 #include "Common/AIChatPlus_Log.h"
@@ -113,11 +111,11 @@ void AddTestCommand()
 }
 ```
 
-بعد إعادة الترجمة، يمكن استخدام الأوامر في محرر Cmd لرؤية نتائج النموذج الكبير في سجل الإخراج OutputLog.
+بعد إعادة الترجمة، يمكنك رؤية نتائج إخراج النموذج الكبير في سجل OutputLog عند استخدام الأمر في محرر Cmd.
 
 ![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
 
 --8<-- "footer_ar.md"
 
 
-> هذه المشاركة تمت ترجمتها باستخدام ChatGPT، يرجى تقديم [**تعليقات**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص. 
+> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى إعطاء [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)وضع الإشارة إلى أية نقص أو غياب. 
