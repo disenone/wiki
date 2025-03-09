@@ -80,6 +80,8 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 [**使用说明 - 编辑器篇**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
+[**使用说明 - 打包**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
+
 ## 更改日志
 
 [**更改日志**](ue-插件-AIChatPlus-ChangeLogs.md)

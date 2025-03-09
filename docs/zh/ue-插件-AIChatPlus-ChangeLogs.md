@@ -8,6 +8,14 @@ description: 版本日志
 
 # UE 插件 AIChatPlus 版本日志
 
+## v1.6.1 - 2025.03.07
+
+### Bug Fix
+
+* OpenAI Image Chat 蓝图支持输入图片
+
+* Editor Tool Cllama mmproj 模型允许空
+
 ## v1.6.0 - 2025.03.02
 
 ### 新功能
