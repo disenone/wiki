@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#c-chapter-get-started" class="md-skip">
+        <a href="#c-article-commencer" class="md-skip">
           Aller au contenu
         </a>
       
@@ -1121,7 +1121,7 @@
         
   
   <span class="md-ellipsis">
-    Document d'explication
+    Document d'instructions
   </span>
   
 
@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -1426,7 +1428,7 @@
         
   
   <span class="md-ellipsis">
-    Document d'explication
+    Document d'instructions
   </span>
   
 
@@ -1815,9 +1817,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#utilisation-du-code-modele-hors-ligne-cllama-llamacpp" class="md-nav__link">
+  <a href="#utilisation-du-code-de-modele-hors-ligne-cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      Utilisation du code modèle hors ligne Cllama (llama.cpp)
+      Utilisation du code de modèle hors ligne Cllama(llama.cpp)
     </span>
   </a>
   
@@ -1949,7 +1951,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -1958,6 +1960,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Emballez
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2035,9 +2113,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#utilisation-du-code-modele-hors-ligne-cllama-llamacpp" class="md-nav__link">
+  <a href="#utilisation-du-code-de-modele-hors-ligne-cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      Utilisation du code modèle hors ligne Cllama (llama.cpp)
+      Utilisation du code de modèle hors ligne Cllama(llama.cpp)
     </span>
   </a>
   
@@ -2067,19 +2145,28 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started"></p>
-<h1 id="c-chapter-get-started">C++ Chapter - Get Started</h1>
+<h1 id="c-article-commencer">C++ Article - Commencer</h1>
 <h2 id="presentation-du-code-source-principal">Présentation du code source principal</h2>
 <p>Actuellement, le plugin est divisé en plusieurs modules suivants :</p>
-<p>AIChatPlusCommon: Le module d'exécution (Runtime) est chargé de gérer l'envoi des requêtes aux différentes interfaces API d'IA et d'analyser les réponses renvoyées.</p>
-<p>AIChatPlusEditor: Module d'édition, responsable de la mise en œuvre de l'outil de chat AI de l'éditeur.</p>
-<p>AIChatPlusCllama: Module d'exécution, responsable d'encapsuler les interfaces et les paramètres de llama.cpp, permettant d'exécuter hors ligne de grands modèles.</p>
-<p>Thirdparty/LLAMACpp: un module tiers en temps d'exécution, intégrant la bibliothèque dynamique et les fichiers d'en-tête de llama.cpp.</p>
-<p>Le UClass responsable spécifique de l'envoi des demandes est FAIChatPlus_xxxChatRequest, chaque service API ayant son propre UClass de demande distinct. Les réponses des demandes sont obtenues via les UClass UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase, il suffit de s'inscrire aux délégués de rappel correspondants.</p>
-<p>Avant d'envoyer une demande, il est nécessaire de configurer les paramètres de l'API et le message à envoyer, ceci est réalisé en utilisant FAIChatPlus_xxxChatRequestBody. Les détails de la réponse sont également analysés dans FAIChatPlus_xxxChatResponseBody, où vous pouvez obtenir le ResponseBody via une interface spécifique lors de la réception de l'appel de retour.</p>
-<h2 id="utilisation-du-code-modele-hors-ligne-cllama-llamacpp">Utilisation du code modèle hors ligne Cllama (llama.cpp)</h2>
-<p>Voici comment utiliser le modèle hors ligne llama.cpp dans le code.</p>
+<ul>
+<li><strong>AIChatPlusCommon</strong>: Le module d'exécution, chargé de traiter les demandes d'envoi d'API AI et de parser les réponses.</li>
+</ul>
+<ul>
+<li><strong>AIChatPlusEditor</strong>: Module d'édition, responsable de la mise en œuvre de l'outil de chat AI de l'éditeur.</li>
+</ul>
+<ul>
+<li><strong>AIChatPlusCllama</strong>: Module d'exécution (Runtime) chargé d'encapsuler les interfaces et les paramètres de llama.cpp, permettant l'exécution hors ligne de modèles volumineux.</li>
+</ul>
+<ul>
+<li><strong>Thirdparty/LLAMACpp</strong>: Module tiers d'exécution (Runtime) intégrant la bibliothèque dynamique et les fichiers d'en-tête de llama.cpp.</li>
+</ul>
+<p>Le UClass chargé spécifiquement d'envoyer la requête est FAIChatPlus_xxxChatRequest. Chaque service API a son propre UClass de requête indépendant. Les réponses des requêtes sont obtenues via deux UClass différents : UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase. Il suffit de s'inscrire aux délégués de retour appropriés.</p>
+<p>Avant d'envoyer une demande, il est nécessaire de configurer les paramètres API et le message à envoyer. Cela se fait en définissant FAIChatPlus_xxxChatRequestBody. Les détails de la réponse sont également analysés dans FAIChatPlus_xxxChatResponseBody. Lors de la réception de l'appel, il est possible d'obtenir le ResponseBody via une interface spécifique.</p>
+<h2 id="utilisation-du-code-de-modele-hors-ligne-cllamallamacpp">Utilisation du code de modèle hors ligne Cllama(llama.cpp)</h2>
+<p>Le texte doit être traduit en français:</p>
+<p>Les instructions ci-dessous expliquent comment utiliser le modèle hors ligne llama.cpp dans le code.</p>
 <p>Tout d'abord, il est nécessaire de télécharger le fichier du modèle dans Content/LLAMA.</p>
-<p>Ajouter une instruction au code pour envoyer un message au modèle hors ligne à l'intérieur de cette instruction.</p>
+<p>Modifier le code pour ajouter une commande et envoyer un message au modèle hors ligne à l'intérieur de cette commande.</p>
 <div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -2139,7 +2226,7 @@
 <a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="p">);</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="p">}</span>
 </code></pre></div>
-<p>Une fois que vous avez recompilé, vous pouvez utiliser la commande dans l'éditeur Cmd pour afficher les résultats de sortie du grand modèle dans le journal OutputLog.</p>
+<p>Après avoir recompilé, en utilisant la commande dans l'éditeur Cmd, vous pourrez voir les résultats de la sortie du grand modèle dans le journal OutputLog.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2166,7 +2253,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Ce message a été traduit en utilisant ChatGPT, veuillez fournir votre <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a>Veuillez signaler tout oubli éventuel. </p>
+<p>Ce message a été traduit en utilisant ChatGPT, veuillez donner votre <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>retour</strong></a>Identifier toute omission. </p>
 </blockquote></div>
 
 
@@ -2190,7 +2277,7 @@
     <span class="md-icon" title="Dernière mise à jour">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
   </span>
 
     

@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -1808,7 +1810,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      コアコードの紹介
+      コアコードの説明
     </span>
   </a>
   
@@ -1817,7 +1819,7 @@
         <li class="md-nav__item">
   <a href="#cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      コードはオフラインモデルCllamaを使用します（llama.cpp）.
+      コードはオフラインモデルCllama(llama.cpp)を使用しています。
     </span>
   </a>
   
@@ -1949,7 +1951,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -1958,6 +1960,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包みます
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2028,7 +2106,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      コアコードの紹介
+      コアコードの説明
     </span>
   </a>
   
@@ -2037,7 +2115,7 @@
         <li class="md-nav__item">
   <a href="#cllamallamacpp" class="md-nav__link">
     <span class="md-ellipsis">
-      コードはオフラインモデルCllamaを使用します（llama.cpp）.
+      コードはオフラインモデルCllama(llama.cpp)を使用しています。
     </span>
   </a>
   
@@ -2067,19 +2145,21 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started"></p>
-<h1 id="c-">C++の部分 - スタートを切る</h1>
-<h2 id="_1">コアコードの紹介</h2>
-<p>現在のプラグインは以下のモジュールに分かれています：</p>
-<p>AIChatPlusCommon: ランタイムモジュールは、さまざまなAI APIインタフェースのリクエスト処理と応答内容の解析を担当しています。</p>
-<p>AIChatPlusEditor: エディターモジュール（Editor），エディターAIチャットツールを実装する責任があります。</p>
-<p>AIChatPlusCllama: ランタイムモジュール（Runtime）は、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。</p>
-<p>Thirdparty/LLAMACpp: Runtimeサードパーティモジュールで、llama.cppのダイナミックライブラリとヘッダーファイルが統合されています。</p>
-<p>具体責任を持つ UClass は FAIChatPlus_xxxChatRequest で、各種の API サービスにはそれぞれ独立した Request UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の２つの UClass を通じて取得し、適切なコールバックデリゲートを登録するだけです。</p>
-<p>リクエストを送信する前に、APIのパラメータと送信するメッセージを設定する必要があります。これは、FAIChatPlus_xxxChatRequestBodyを使用して設定されます。応答の具体的な内容も、FAIChatPlus_xxxChatResponseBodyに解析され、コールバックを受信した時には、特定のインタフェースを使用してResponseBodyを取得できます。</p>
-<h2 id="cllamallamacpp">コードはオフラインモデルCllamaを使用します（llama.cpp）.</h2>
-<p>「llama.cpp」というオフラインモデルをコードで使用する方法についての説明が以下にあります。</p>
-<p>ますます、Content/LLAMA にモデルファイルをダウンロードする必要があります。</p>
-<p>コードを変更して、新しいコマンドを追加し、そのコマンドでオフラインモデルにメッセージを送信する。</p>
+<h1 id="c-">C++ の部 - はじめに</h1>
+<h2 id="_1">コアコードの説明</h2>
+<p>現在、プラグインは以下のモジュールに分かれています：</p>
+<p><strong>AIChatPlusCommon</strong>: ランタイムモジュール（Runtime）は、さまざまなAI APIインターフェースのリクエスト送信と応答コンテンツの解析を担当しています。</p>
+<p>AIChatPlusEditor: エディターモジュール（Editor）、エディターAIチャットツールの実装を担当しています。</p>
+<p>AIChatPlusCllama：ランタイムモジュール（Runtime）は、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。</p>
+<ul>
+<li><strong>Thirdparty/LLAMACpp</strong>: ランタイムにおけるサードパーティモジュールで、llama.cpp のダイナミックライブラリとヘッダーファイルが統合されています。</li>
+</ul>
+<p>UClass でリクエストを送信する責任を持つのは、FAIChatPlus_xxxChatRequest です。各種 API サービスごとに独立したリクエスト UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の 2 種類の UClass を通じて取得され、対応するコールバックデリゲートを登録する必要があります。</p>
+<p>API のパラメータと送信メッセージを設定する必要があります。FAIChatPlus_xxxChatRequestBody を使用して設定します。応答の具体的な内容はFAIChatPlus_xxxChatResponseBody に解析され、コールバックを受け取った際には、特定のインターフェースを介して ResponseBody を取得できます。</p>
+<h2 id="cllamallamacpp">コードはオフラインモデルCllama(llama.cpp)を使用しています。</h2>
+<p>こちらは、コード内でオフラインモデル llama.cpp を使用する方法についての説明です。</p>
+<p>最初に、Content/LLAMA フォルダにモデルファイルをダウンロードする必要があります。</p>
+<p>コードを修正して、1つのコマンドを追加し、そのコマンドでオフラインモデルにメッセージを送信します。</p>
 <div class="language-c++ highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common/AIChatPlus_Log.h"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"Common_Cllama/AIChatPlus_CllamaChatRequest.h"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -2139,7 +2219,7 @@
 <a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">    </span><span class="p">);</span>
 <a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="p">}</span>
 </code></pre></div>
-<p>再コンパイルした後、エディタのCmdでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。</p>
+<p>再コンパイル後、Cmdエディターでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_code_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide code" src="../../assets/img/2024-ue-aichatplus/guide_code_1.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2166,7 +2246,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>この投稿は ChatGPT によって翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>指摘された遺漏箇所を指摘してください。 </p>
+<p>この投稿はChatGPTを使用して翻訳されています。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>指摘された＠場云🈲なエリアを示してください。 </p>
 </blockquote></div>
 
 
@@ -2190,7 +2270,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
   </span>
 
     

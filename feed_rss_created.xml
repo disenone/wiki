@@ -13,8 +13,8 @@
     <language>ar</language>
 
     
-    <pubDate>Fri, 07 Mar 2025 05:00:03 -0000</pubDate>
-    <lastBuildDate>Fri, 07 Mar 2025 05:00:03 -0000</lastBuildDate>
+    <pubDate>Sun, 09 Mar 2025 16:37:02 -0000</pubDate>
+    <lastBuildDate>Sun, 09 Mar 2025 16:37:02 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ko/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 05:00:52 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:37:50 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ko/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ar/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 05:00:02 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:37:01 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ar/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/fr/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:53:28 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:30:20 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/fr/blog/</guid>
@@ -84,7 +84,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/de/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:49:48 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:26:36 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/de/blog/</guid>
@@ -99,7 +99,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ja/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:46:08 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:22:50 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ja/blog/</guid>
@@ -114,7 +114,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:42:21 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:18:58 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -129,7 +129,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:38:36 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:15:06 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -144,7 +144,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/zh-Hant/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:34:57 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:11:21 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/zh-Hant/blog/</guid>
@@ -159,10 +159,85 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Fri, 07 Mar 2025 04:34:06 +0000</pubDate>
+      <pubDate>Sun, 09 Mar 2025 16:10:31 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
+      
+    </item>
+    
+    <item>
+      <title>打包</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;_1&#34;&gt;打包&lt;/h1&gt;
+&lt;h2 id=&#34;_2&#34;&gt;插件打包&lt;/h2&gt;
+&lt;p&gt;Unreal 打包的时候，会自动把插件需要的动态库文件都打包好，只需要启用插件即可。&lt;/p&gt;
+&lt;p&gt;譬如对于 Windows，打包会自动把 llama.cpp, CUDA 相关的 dll 文件都放到打包后的目录中。对于其他平台 Android / Mac / IOS 也是同样的。&lt;/p&gt;
+&lt;p&gt;可以在打包后的 Development 版本游戏里面执行指令 &#34;AIChatPlus.PrintCllamaInfo&#34;，查看当前的 Cllama 环境状态，确认是否状态是否正常，是否支持 GPU backend。&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;模型打包&lt;/h2&gt;
+&lt;p&gt;加入项目的模型文件放在了目录 Content/LLAMA 下面，那么可以设置打包的时候包含此目录：&lt;/p&gt;
+&lt;p&gt;打开 &#34;Project Setting&#34;，选择 Packaging 页签，或者直接搜索 &#34;asset package&#34;，看到设置 &#34;Additional Non-Asset Directories to Package&#34;，添加目录 Content/LLAMA 即可：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;添加目录之后，Unreal 在打包的时候就会自动把目录的所有文件都打包好。&lt;/p&gt;
+&lt;h2 id=&#34;_4&#34;&gt;读取打包后的离线模型文件&lt;/h2&gt;
+&lt;p&gt;一般 Uneal 会把项目文件都打包到 .Pak 文件中，此时如果把 .Pak 中的文件路径传递给 Cllam 离线模型，是会执行失败的，因为 llama.cpp 无法直接读取 .Pak 中打包后的模型文件。&lt;/p&gt;
+&lt;p&gt;因此需要先把 .Pak 中的模型文件复制出来文件系统中，插件提供了一个方便的函数可以直接把 .Pak 的模型文件复制出来，并返回复制后的文件路径，让 Cllama 可以方便读取。&lt;/p&gt;
+&lt;p&gt;蓝图节点是 &#34;Cllama Prepare ModelFile In Pak&#34;: 自动把 Pak 中的模型文件复制到文件系统中&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;C++ 代码函数是：&lt;/p&gt;
+&lt;div class=&#34;language-text highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;#include &amp;lt;Cllama/AIChatPlusCllama_Util.h&amp;gt;
+&lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 转载声明 &amp;&amp; visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- 转载 --&gt;
+&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
+    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 评论 --&gt;
+&lt;script src=&#34;https://giscus.app/client.js&#34;
+        data-repo=&#34;disenone/wiki&#34;
+        data-repo-id=&#34;R_kgDOKz9PQg&#34;
+        data-category=&#34;Announcements&#34;
+        data-category-id=&#34;DIC_kwDOKz9PQs4Cbbvv&#34;
+        data-mapping=&#34;og:title&#34;
+        data-strict=&#34;1&#34;
+        data-reactions-enabled=&#34;1&#34;
+        data-emit-metadata=&#34;0&#34;
+        data-input-position=&#34;top&#34;
+        data-theme=&#34;preferred_color_scheme&#34;
+        data-lang=&#34;zh-CN&#34;
+        data-loading=&#34;lazy&#34;
+        crossorigin=&#34;anonymous&#34;
+        async&gt;
+&lt;/script&gt;
+
+&lt;!-- visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Sun, 09 Mar 2025 15:29:24 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_created.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/</guid>
       
     </item>
     
@@ -174,6 +249,14 @@
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 版本日志&#34; /&gt;&lt;/p&gt;
 &lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 版本日志&lt;/h1&gt;
+&lt;h2 id=&#34;v161-20250307&#34;&gt;v1.6.1 - 2025.03.07&lt;/h2&gt;
+&lt;h3 id=&#34;bug-fix&#34;&gt;Bug Fix&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;OpenAI Image Chat 蓝图支持输入图片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;Editor Tool Cllama mmproj 模型允许空&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;v160-20250302&#34;&gt;v1.6.0 - 2025.03.02&lt;/h2&gt;
 &lt;h3 id=&#34;_1&#34;&gt;新功能&lt;/h3&gt;
 &lt;ul&gt;
@@ -188,7 +271,7 @@
 &lt;ul&gt;
 &lt;li&gt;支持读取打包 Pak 中的模型文件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;bug-fix&#34;&gt;Bug Fix&lt;/h3&gt;
+&lt;h3 id=&#34;bug-fix_1&#34;&gt;Bug Fix&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;修复 Cllama 在推理的时候 reload 会崩溃的问题&lt;/li&gt;
 &lt;/ul&gt;
@@ -212,7 +295,7 @@
 &lt;ul&gt;
 &lt;li&gt;增加一些蓝图函数，方便转换 Wrapper 到实际类型，并且获取 Response Message 和 Error&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;bug-fix_1&#34;&gt;Bug Fix&lt;/h3&gt;
+&lt;h3 id=&#34;bug-fix_2&#34;&gt;Bug Fix&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;修复 Request Finish 多次调用问题&lt;/li&gt;
 &lt;/ul&gt;
@@ -224,7 +307,7 @@
 &lt;ul&gt;
 &lt;li&gt;编辑器工具支持发送音频和录音&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;bug-fix_2&#34;&gt;Bug Fix&lt;/h3&gt;
+&lt;h3 id=&#34;bug-fix_3&#34;&gt;Bug Fix&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;修复 Session copy 失败的 bug&lt;/li&gt;
 &lt;/ul&gt;
@@ -1093,7 +1176,7 @@
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_3.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&#34;Cllama Prepare ModelFile In Pak&#34;: 自动把 Pak 中的模型文件复制到文件系统中&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_4.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_1&#34;&gt;图像相关&lt;/h3&gt;
+&lt;h2 id=&#34;_1&#34;&gt;图像相关&lt;/h2&gt;
 &lt;p&gt;&#34;Convert UTexture2D to Base64&#34;: 把 UTexture2D 的图像转成 png base64 格式&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_5.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&#34;Save UTexture2D to .png file&#34;: 把 UTexture2D 保存成 png 文件&lt;/p&gt;
@@ -1102,7 +1185,7 @@
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_7.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&#34;Duplicate UTexture2D&#34;: 复制 UTexture2D&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_8.png&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;_2&#34;&gt;音频相关&lt;/h3&gt;
+&lt;h2 id=&#34;_2&#34;&gt;音频相关&lt;/h2&gt;
 &lt;p&gt;&#34;Load .wav file to USoundWave&#34;: 读取 wav 文件为 USoundWave&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_9.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&#34;Convert .wav data to USoundWave&#34;: 把 wav 二进制数据转成 USoundWave&lt;/p&gt;
@@ -1181,42 +1264,18 @@
 &lt;p&gt;&lt;img alt=&#34;text chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool2.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;image chat&#34; src=&#34;../assets/img/2024-ue-aichatplus/chat_tool.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_2&#34;&gt;主要功能&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;离线大模型&lt;/strong&gt;：整合了 llama.cpp 库，支持本地离线执行大模型&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;文本聊天&lt;/strong&gt;：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;图像生成&lt;/strong&gt;：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;图像分析&lt;/strong&gt;：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;音频处理&lt;/strong&gt;：工具提供读取音频文件 (.wav) 和 录音功能，可以使用获得的音频跟 AI 聊天。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;设置当前聊天角色&lt;/strong&gt;：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;清空会话&lt;/strong&gt;：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;对话模版&lt;/strong&gt;：内置几百种对话设置模版，方便处理常用的问题。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;全局设置&lt;/strong&gt;：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;会话设置&lt;/strong&gt;：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;聊天内容修改&lt;/strong&gt;：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;图像浏览&lt;/strong&gt;：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;离线大模型&lt;/strong&gt;：整合了 llama.cpp 库，支持本地离线执行大模型&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文本聊天&lt;/strong&gt;：点击左下角的 &lt;code&gt;New Chat&lt;/code&gt; 按钮，创建新的文本聊天会话。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;图像生成&lt;/strong&gt;：点击左下角的 &lt;code&gt;New Image Chat&lt;/code&gt; 按钮，创建新的图像生成会话。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;图像分析&lt;/strong&gt;：&lt;code&gt;New Chat&lt;/code&gt; 的部分聊天服务支持发送图像，例如 Claude, Google Gemini。点击输入框上方的 🖼️ 或 🎨 按钮即可加载需要发送的图像。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;音频处理&lt;/strong&gt;：工具提供读取音频文件 (.wav) 和 录音功能，可以使用获得的音频跟 AI 聊天。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;设置当前聊天角色&lt;/strong&gt;：聊天框上方的下拉框可以设置当前发送文本的角色，可以通过模拟不同的角色来调节 AI 聊天。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;清空会话&lt;/strong&gt;：聊天框上方的 ❌ 按可以清空当前会话的历史消息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对话模版&lt;/strong&gt;：内置几百种对话设置模版，方便处理常用的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;全局设置&lt;/strong&gt;：点击左下角的 &lt;code&gt;Setting&lt;/code&gt; 按钮，可以打开全局设置窗口。可以设置默认文本聊天，图像生成的 API 服务，并设置每种 API 服务的具体参数。设置会自动保存在项目的路径 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor&lt;/code&gt; 下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;会话设置&lt;/strong&gt;：点击聊天框上方的设置按钮，可以打开当前会话的设置窗口。支持修改会话名字，修改会话使用的 API 服务，支持独立设置每个会话使用 API 的具体参数。会话设置自动保存在 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;聊天内容修改&lt;/strong&gt;：鼠标悬停在聊天内容上，会出现当个聊天内容的设置按钮，支持重新生成内容、修改内容、复制内容、删除内容、在下方重新生成内容（对于角色是用户的内容）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;图像浏览&lt;/strong&gt;：对于图像生成，点击图像会打开图像查看窗口 (ImageViewer) ，支持图片另存为 PNG/UE Texture，Texture 可以直接在内容浏览器 (Content Browser) 查看，方便图片在编辑器内使用。另外还支持删除图片、重新生成图片、继续生成更多图片等功能。对于 Windows 下的编辑器，还支持复制图片，可以直接把图片复制到剪贴板，方便使用。会话生成的图片也会自动保存在每个会话文件夹下面，通常路径是 &lt;code&gt;$(ProjectFolder)/Saved/AIChatPlusEditor/Sessions/${GUID}/images&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;全局设置：&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;global settings&#34; src=&#34;../assets/img/2024-ue-aichatplus/global_setting.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;会话设置：&lt;/p&gt;
@@ -1231,133 +1290,75 @@
 &lt;p&gt;&lt;img alt=&#34;system template&#34; src=&#34;../assets/img/2024-ue-aichatplus/system_template.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;cllamallamacpp&#34;&gt;编辑器工具使用离线模型 Cllama(llama.cpp)&lt;/h2&gt;
 &lt;p&gt;以下说明如何在 AIChatPlus 编辑器工具中使用离线模型 llama.cpp&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;首先，从 HuggingFace 网站下载离线模型：&lt;a href=&#34;https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf&#34;&gt;Qwen1.5-1.8B-Chat-Q8_0.gguf&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;首先，从 HuggingFace 网站下载离线模型：&lt;a href=&#34;https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf&#34;&gt;Qwen1.5-1.8B-Chat-Q8_0.gguf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;把模型放在某个文件夹下面，譬如放在游戏项目的目录 Content/LLAMA 下&lt;/p&gt;
 &lt;div class=&#34;language-shell highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;E:/UE/projects/FP_Test1/Content/LLAMA
 &lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;&amp;gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;ls
 &lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;qwen1.5-1_8b-chat-q8_0.gguf*
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;打开 AIChatPlus 编辑器工具：Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat，新建聊天会话，并打开会话设置页面&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;打开 AIChatPlus 编辑器工具：Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat，新建聊天会话，并打开会话设置页面&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;设置 Api 为 Cllama，开启 Custom Api Settings， 并添加模型搜索路径，并选择模型&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_2.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天！！&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天！！&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_editor_3.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;cllamallamacpp_1&#34;&gt;编辑器工具使用离线模型 Cllama(llama.cpp) 处理图片&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;从 HuggingFace 网站下载离线模型 MobileVLM_V2-1.7B-GGUF 同样放到目录 Content/LLAMA 下：&lt;a href=&#34;https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf&#34;&gt;ggml-model-q4_k.gguf&lt;/a&gt; 和 &lt;a href=&#34;https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf&#34;&gt;mmproj-model-f16.gguf&lt;/a&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;设置会话的模型：&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;从 HuggingFace 网站下载离线模型 MobileVLM_V2-1.7B-GGUF 同样放到目录 Content/LLAMA 下：&lt;a href=&#34;https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/ggml-model-q4_k.gguf&#34;&gt;ggml-model-q4_k.gguf&lt;/a&gt; 和 &lt;a href=&#34;https://huggingface.co/ZiangWu/MobileVLM_V2-1.7B-GGUF/resolve/main/mmproj-model-f16.gguf&#34;&gt;mmproj-model-f16.gguf&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;设置会话的模型：&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_cllama_vision_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;发送图片开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;发送图片开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide editor&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_cllama_vision_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;openai&#34;&gt;编辑器使用 OpenAI 聊天&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;打开聊天工具 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置接口参数&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;打开聊天工具 Tools -&amp;gt; AIChatPlus -&amp;gt; AIChat，创建新的聊天会话 New Chat，设置会话 ChatApi 为 OpenAI, 设置接口参数&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天：&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天：&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;切换模型为 gpt-4o / gpt-4o-mini，可以使用 OpenAI 的视觉功能分析图片&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;切换模型为 gpt-4o / gpt-4o-mini，可以使用 OpenAI 的视觉功能分析图片&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_chat_3.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;openai_1&#34;&gt;编辑器使用 OpenAI 处理图片（创建/修改/变种）&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;在聊天工具中创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置参数&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;在聊天工具中创建新的图片会话 New Image Chat，修改会话设置为 OpenAI，并设置参数&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_image_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;创建图片&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;创建图片&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_image_2.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;修改图片，把会话 Image Chat Type 修改为 Edit，并上传两张图片，一张是原图片，一张是 mask 其中透明的位置（alpha 通道为 0）表示需要修改的地方&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;修改图片，把会话 Image Chat Type 修改为 Edit，并上传两张图片，一张是原图片，一张是 mask 其中透明的位置（alpha 通道为 0）表示需要修改的地方&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_image_3.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_image_4.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;图片变种，把会话 Image Chat Type 修改为 Variation，并上传一张图片，OpenAI 会返回一张原图片的变种&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;图片变种，把会话 Image Chat Type 修改为 Variation，并上传一张图片，OpenAI 会返回一张原图片的变种&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_openai_tool_image_5.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;azure&#34;&gt;编辑器使用 Azure&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 Azure，并设置 Azure 的 Api 参数&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建会话（New Chat），把 ChatApi 改为 Azure，并设置 Azure 的 Api 参数&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_azure_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;azure_1&#34;&gt;编辑器使用 Azure 创建图片&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;新建图片会话（New Image Chat），把 ChatApi 改为Azure，并设置 Azure 的 Api 参数，注意，如果是 dall-e-2 模型，需要把参数 Quality 和 Stype 设置成 not_use&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建图片会话（New Image Chat），把 ChatApi 改为Azure，并设置 Azure 的 Api 参数，注意，如果是 dall-e-2 模型，需要把参数 Quality 和 Stype 设置成 not_use&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_azure_tool_image_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天，让 Azure 创建图片&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天，让 Azure 创建图片&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_azure_tool_image_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;claude&#34;&gt;编辑器使用 Claude 聊天和分析图片&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 Claude，并设置 Claude 的 Api 参数&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建会话（New Chat），把 ChatApi 改为 Claude，并设置 Claude 的 Api 参数&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_claude_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;ollama&#34;&gt;编辑器使用 Ollama 聊天和分析图片&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 Ollama，并设置 Ollama 的 Api 参数。如果是文本聊天，则设置模型为文本模型，如 llama3.1；如果需要处理图片，则设置模型为支持 vision 的模型，例如 moondream。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建会话（New Chat），把 ChatApi 改为 Ollama，并设置 Ollama 的 Api 参数。如果是文本聊天，则设置模型为文本模型，如 llama3.1；如果需要处理图片，则设置模型为支持 vision 的模型，例如 moondream。&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_ollama_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h3 id=&#34;gemini&#34;&gt;编辑器使用 Gemini&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 Gemini，并设置 Gemini 的 Api 参数。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建会话（New Chat），把 ChatApi 改为 Gemini，并设置 Gemini 的 Api 参数。&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;gemini_1&#34;&gt;编辑器使用 Gemini 发送音频&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;选择 从文件读取音频 / 从 Asset 读取音频 / 从麦克风录取音频，生成需要发送的音频&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;选择 从文件读取音频 / 从 Asset 读取音频 / 从麦克风录取音频，生成需要发送的音频&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_gemini_tool_sound_2.png&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;deepseek&#34;&gt;編輯器使用 Deepseek&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;新建会话（New Chat），把 ChatApi 改为 OpenAi，并设置 Deepseek 的 Api 参数。新增 Candidate Models 叫做 deepseek-chat，并把 Model 设置为 deepseek-chat&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_1.png&#34; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开始聊天&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;开始聊天&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_deepseek_tool_chat_2.png&#34; /&gt;&lt;/p&gt;
 &lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
 
@@ -1418,27 +1419,23 @@
 &lt;h2 id=&#34;_1&#34;&gt;核心代码介绍&lt;/h2&gt;
 &lt;p&gt;目前插件分成以下几个模块：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;AIChatPlusCommon: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AIChatPlusCommon&lt;/strong&gt;: 运行时模块 (Runtime)，负责处理各种 AI API 接口发送请求和解析回复内容。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ul&gt;
-&lt;li&gt;AIChatPlusEditor: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AIChatPlusEditor&lt;/strong&gt;: 编辑器模块 (Editor)， 负责实现编辑器 AI 聊天工具。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ul&gt;
-&lt;li&gt;AIChatPlusCllama: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AIChatPlusCllama&lt;/strong&gt;: 运行时模块 (Runtime)，负责封装 llama.cpp 的接口和参数，实现离线执行大模型&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ul&gt;
-&lt;li&gt;Thirdparty/LLAMACpp: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Thirdparty/LLAMACpp&lt;/strong&gt;: 运行时第三方模块 (Runtime)，整合了 llama.cpp 的动态库和头文件。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;具体负责发送请求的 UClass 是 FAIChatPlus_xxxChatRequest，每种 API 服务都分别有独立的 Request UClass。请求的回复通过 UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase 两种 UClass 来获取，只需要注册相应的回调委托。&lt;/p&gt;
 &lt;p&gt;发送请求之前需要先设置好 API 的参数和发送的消息，这块是通过 FAIChatPlus_xxxChatRequestBody 来设置。回复的具体内容也解析到 FAIChatPlus_xxxChatResponseBody 中，收到回调的时候可以通过特定接口获取 ResponseBody。&lt;/p&gt;
 &lt;h2 id=&#34;cllamallamacpp&#34;&gt;代码使用离线模型 Cllama(llama.cpp)&lt;/h2&gt;
 &lt;p&gt;以下说明如何在代码中使用离线模型 llama.cpp&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;首先，同样需要下载模型文件到 Content/LLAMA 下&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;修改代码添加一条命令，并在命令里面给离线模型发送消息&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;首先，同样需要下载模型文件到 Content/LLAMA 下&lt;/p&gt;
+&lt;p&gt;修改代码添加一条命令，并在命令里面给离线模型发送消息&lt;/p&gt;
 &lt;div class=&#34;language-c++ highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;quot;Common/AIChatPlus_Log.h&amp;quot;&lt;/span&gt;
 &lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;quot;Common_Cllama/AIChatPlus_CllamaChatRequest.h&amp;quot;&lt;/span&gt;
 &lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;
@@ -1498,9 +1495,7 @@
 &lt;a id=&#34;__codelineno-0-57&#34; name=&#34;__codelineno-0-57&#34; href=&#34;#__codelineno-0-57&#34;&gt;&lt;/a&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;a id=&#34;__codelineno-0-58&#34; name=&#34;__codelineno-0-58&#34; href=&#34;#__codelineno-0-58&#34;&gt;&lt;/a&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;重新编译后，在编辑器 Cmd 中使用命令，便可在日志 OutputLog 看到大模型的输出结果&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;guide code&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_code_1.png&#34; /&gt;&lt;/p&gt;
 &lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
 
@@ -2333,6 +2328,7 @@
 &lt;p&gt;&lt;a href=&#34;../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-GetStarted/&#34;&gt;&lt;strong&gt;使用说明 - 蓝图篇&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/&#34;&gt;&lt;strong&gt;使用说明 - C++ 篇&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-EditorTool-GetStarted/&#34;&gt;&lt;strong&gt;使用说明 - 编辑器篇&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/&#34;&gt;&lt;strong&gt;使用说明 - 打包&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_6&#34;&gt;更改日志&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/&#34;&gt;&lt;strong&gt;更改日志&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;_7&#34;&gt;技术支持&lt;/h2&gt;

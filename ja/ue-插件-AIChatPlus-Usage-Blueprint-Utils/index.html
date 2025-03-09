@@ -1332,6 +1332,8 @@
       
         
       
+        
+      
     
     
       
@@ -1736,29 +1738,23 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Cllama 関連">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      画像に関連する
+      イメージ関連
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      オーディオ関連
+      オーディオに関連する
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1964,7 +1960,7 @@
             
   
   <span class="md-ellipsis">
-    Changes
+    Package
   </span>
   
 
@@ -1973,6 +1969,82 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Package
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包みます
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Changes
           </label>
@@ -2047,29 +2119,23 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Cllama 関連">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      画像に関連する
+      イメージ関連
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      オーディオ関連
+      オーディオに関連する
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2097,40 +2163,40 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - 功能节点"></p>
-<h1 id="-">設計図セクション - 機能ノード</h1>
-<p>プラグインは、いくつかの便利なブループリント機能ノードを追加提供します。</p>
+<h1 id="-">ブループリントセクション - 機能ノード</h1>
+<p>プラグインはいくつかの便利なブループリント機能ノードを追加しています。</p>
 <h2 id="cllama">Cllama 関連</h2>
-<p>"Cllama Is Valid"：判断 Cllama llama.cpp 是否正常初始化</p>
+<p>「Cllama Is Valid」：Cllama llama.cpp が適切に初期化されているかどうかを判断</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_1.png"></a></p>
-<p>「Cllama Is Support Gpu」：現在の環境で llama.cpp が GPU バックエンドをサポートしているかどうかを判定します。</p>
+<p>"判断 llama.cpp 在当前环境下是否支持 GPU backend"：Check if llama.cpp supports GPU backend in the current environment.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_2.png"></a></p>
-<p>"Cllama Get Support Backends": 現在の llama.cpp でサポートされているすべてのバックエンドを取得</p>
+<p>"取得サポートバックエンド llama.cpp がサポートするバックエンドを全て"</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_3.png"></a></p>
-<p>"Pakの中のモデルファイルを自動的にファイルシステムにコピーします。"</p>
+<p>「Cllama Prepare ModelFile In Pak」の場合は、「Pak内のモデルファイルを自動的にファイルシステムに準備する」になります。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<h3 id="_1">画像に関連する</h3>
-<p>「UTexture2D を Base64 に変換する」: UTexture2D の画像を PNG の base64 形式に変換</p>
+<h2 id="_1">イメージ関連</h2>
+<p>"Convert UTexture2D to Base64": UTexture2D を Base64 に変換</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_5.png"></a></p>
 <p>UTexture2D を .png ファイルに保存します。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_6.png"></a></p>
-<p>「.png ファイルを UTexture2D に読み込む」</p>
+<p>UTexture2D へ .png ファイルを読み込む</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_7.png"></a></p>
-<p>UTexture2Dの複製</p>
+<p>"Duplicate UTexture2D": UTexture2D の複製</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_8.png"></a></p>
-<h3 id="_2">オーディオ関連</h3>
-<p>USoundWave に .wav ファイルをロードします。</p>
+<h2 id="_2">オーディオに関連する</h2>
+<p>"USoundWave に .wav ファイルを読み込む"</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_9.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_9.png"></a></p>
-<p>".wav データを USoundWave に変換する": .wav データを USoundWave に変換する</p>
+<p>「.wav データを USoundWave に変換する」：.wav データを USoundWave に変換します</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_10.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_10.png"></a></p>
-<p>USoundWave を.wav ファイルに保存します。</p>
+<p>USoundWave を .wav ファイルに保存します。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_11.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_11.png"></a></p>
-<p>"Get USoundWave Raw PCM Data" : "USoundWaveの生のPCMデータを取得します"</p>
+<p>「Get USoundWave Raw PCM Data」を、USoundWaveの生のPCMデータに変換してください。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_12.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_12.png"></a></p>
-<p>"Convert USoundWave to Base64" を日本語にすると、「USoundWave を Base64 に変換する」になります。</p>
+<p>"Convert USoundWave to Base64": USoundWaveをBase64に変換します。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_13.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_13.png"></a></p>
-<p>"Duplicate USoundWave": USoundWave の複製</p>
+<p>"Duplicate USoundWave": USoundWave を複製</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_14.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_14.png"></a></p>
-<p>"Convert Audio Capture Data to USoundWave": 音声キャプチャーデータをUSoundWaveに変換</p>
+<p>"Convert Audio Capture Data to USoundWave": オーディオキャプチャデータをUSoundWaveに変換します。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_15.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_15.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2157,7 +2223,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>この投稿はChatGPTを使用して翻訳されましたので、<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>どんな抜け漏れも指摘してください。 </p>
+<p>この投稿はChatGPTを使用して翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
@@ -2181,7 +2247,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
   </span>
 
     
