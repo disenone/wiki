@@ -1033,5 +1033,35 @@
   },
   "https://wiki.disenone.site/ja/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Source-GetStarted/": {
     "time": 1741811059.8899574
+  },
+  "https://wiki.disenone.site/de/assets/ext/footer_ko/": {
+    "time": 1741897450.5713687
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/": {
+    "time": 1741897451.3245566
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Azure/": {
+    "time": 1741897452.1675677
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Claude/": {
+    "time": 1741897452.93345
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Cllama/": {
+    "time": 1741897454.2826202
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-DeepSeek/": {
+    "time": 1741897455.3502226
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Gemini/": {
+    "time": 1741897456.3561952
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-GetStarted/": {
+    "time": 1741897457.333861
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-Ollama/": {
+    "time": 1741897457.8815827
+  },
+  "https://wiki.disenone.site/de/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Blueprint-OpenAI/": {
+    "time": 1741897458.9704313
   }
 }
