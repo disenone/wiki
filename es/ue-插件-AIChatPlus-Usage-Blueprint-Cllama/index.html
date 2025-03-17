@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#seccion-blueprint-cllama-llamacpp" class="md-skip">
+        <a href="#documento-de-diseno-cllama-llamacpp" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -1624,9 +1624,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generador-de-texto-de-imagen" class="md-nav__link">
+  <a href="#generacion-de-texto-a-partir-de-imagenes" class="md-nav__link">
     <span class="md-ellipsis">
-      Generador de texto de imagen.
+      Generación de texto a partir de imágenes.
     </span>
   </a>
   
@@ -1642,18 +1642,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#manipular-archivos-de-modelos-en-el-archivo-pak-despues-de-empaquetar" class="md-nav__link">
+  <a href="#keepalive" class="md-nav__link">
     <span class="md-ellipsis">
-      Manipular archivos de modelos en el archivo .Pak después de empaquetar.
+      KeepAlive
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nodo-de-funcionalidad" class="md-nav__link">
+  <a href="#manejar-los-archivos-de-modelos-dentro-del-archivo-pak-despues-de-empacar" class="md-nav__link">
     <span class="md-ellipsis">
-      Nodo de funcionalidad.
+      Manejar los archivos de modelos dentro del archivo .Pak después de empacar.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nodo-de-funcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nodo de función
     </span>
   </a>
   
@@ -2158,9 +2167,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generador-de-texto-de-imagen" class="md-nav__link">
+  <a href="#generacion-de-texto-a-partir-de-imagenes" class="md-nav__link">
     <span class="md-ellipsis">
-      Generador de texto de imagen.
+      Generación de texto a partir de imágenes.
     </span>
   </a>
   
@@ -2176,18 +2185,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#manipular-archivos-de-modelos-en-el-archivo-pak-despues-de-empaquetar" class="md-nav__link">
+  <a href="#keepalive" class="md-nav__link">
     <span class="md-ellipsis">
-      Manipular archivos de modelos en el archivo .Pak después de empaquetar.
+      KeepAlive
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nodo-de-funcionalidad" class="md-nav__link">
+  <a href="#manejar-los-archivos-de-modelos-dentro-del-archivo-pak-despues-de-empacar" class="md-nav__link">
     <span class="md-ellipsis">
-      Nodo de funcionalidad.
+      Manejar los archivos de modelos dentro del archivo .Pak después de empacar.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nodo-de-funcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nodo de función
     </span>
   </a>
   
@@ -2217,61 +2235,63 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)"></p>
-<h1 id="seccion-blueprint-cllama-llamacpp">Sección Blueprint - Cllama (llama.cpp)</h1>
+<h1 id="documento-de-diseno-cllama-llamacpp">Documento de diseño - Cllama (llama.cpp)</h1>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="blueprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png"></a></p>
 <h2 id="modelo-sin-conexion">Modelo sin conexión</h2>
-<p>Cllama está implementado basado en llama.cpp y es compatible con el uso offline de modelos de inferencia de IA.</p>
-<p>Debido a que estamos trabajando sin conexión, es necesario preparar previamente los archivos del modelo, como descargar el modelo fuera de línea desde el sitio web de HuggingFace: <a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
+<p>Cllama está implementado basado en llama.cpp y admite el uso offline de modelos de inferencia de IA.</p>
+<p>Debido a que estamos sin conexión, necesitamos preparar primero el archivo del modelo, como por ejemplo, descargar el modelo sin conexión desde el sitio web de HuggingFace: <a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
 <p>Coloca el modelo en una carpeta específica, por ejemplo, en el directorio Content/LLAMA del proyecto de juego.</p>
 <div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA<span class="w"> </span>&gt;<span class="w"> </span>ls
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>qwen1.5-1_8b-chat-q8_0.gguf*
 </code></pre></div>
-<p>Una vez que tengamos el archivo del modelo sin conexión, podemos utilizar Cllama para realizar chats de inteligencia artificial.</p>
+<p>Una vez que tengamos el archivo del modelo sin conexión, podremos utilizar Cllama para llevar a cabo un chat de IA.</p>
 <h2 id="conversacion-de-texto">Conversación de texto</h2>
-<p>Utilice Cllama para chatear por texto.</p>
-<p>En el diagrama, haz clic derecho para crear un nodo llamado <code>Enviar solicitud de chat de Cllama</code>.</p>
+<p>Usa Cllama para chatear por texto.</p>
+<p>En el diagrama, haz clic derecho para crear un nodo llamado <code>Enviar solicitud de chat de Cllama</code></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png"></a></p>
-<p>Crear un nodo de Options y establecer <code>Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"</code></p>
+<p>Cree un nodo Options y establezca <code>Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"</code></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png"></a></p>
-<p>Crea mensajes, agrega un mensaje del sistema y un mensaje de usuario.</p>
+<p>Crear Messages, agregar un mensaje de Sistema y un mensaje de Usuario.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png"></a></p>
-<p>Crear un delegado que reciba la información de salida del modelo y la imprima en la pantalla.</p>
+<p>Crear un Delegado que acepte la información de salida del modelo y la imprima en la pantalla.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png"></a></p>
-<p>El diseño completo se ve así, ejecuta el diseño y podrás ver en la pantalla del juego el mensaje devuelto al imprimir el gran modelo.</p>
+<p>Un plano completo se vería así, ejecuta el plano para ver el mensaje que devuelve la pantalla del juego imprimiendo el modelo en gran escala.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png"></a></p>
-<h2 id="generador-de-texto-de-imagen">Generador de texto de imagen.</h2>
-<p>Cllama también experimentó apoyando la biblioteca llava, brindando la capacidad de Vision.</p>
-<p>Por favor, asegúrate de tener listo el archivo del modelo offline multimodal, como por ejemplo Moondream (<a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf">moondream2-text-model-f16.gguf</a>, <a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf">moondream2-mmproj-f16.gguf</a>）或者 Qwen2-VL（<a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf">Qwen2-VL-7B-Instruct-Q8_0.gguf</a>, <a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf">mmproj-Qwen2-VL-7B-Instruct-f16.gguf</a>O cualquier otro modelo multimodal compatible con llama.cpp.</p>
-<p>Crear un nodo de opciones, configurando los parámetros "Model Path" y "MMProject Model Path" con los archivos del modelo multimodal correspondiente.</p>
+<h2 id="generacion-de-texto-a-partir-de-imagenes">Generación de texto a partir de imágenes.</h2>
+<p>Cllama ha proporcionado soporte experimental para la biblioteca llava, ofreciendo capacidades de Vision.</p>
+<p>Primero, prepara el archivo del modelo offline multimodal, como por ejemplo Moondream (<a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf">moondream2-text-model-f16.gguf</a>, <a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf">moondream2-mmproj-f16.gguf</a>）o Qwen2-VL（<a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf">Qwen2-VL-7B-Instruct-Q8_0.gguf</a>, <a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf">mmproj-Qwen2-VL-7B-Instruct-f16.gguf</a>O cualquier otro modelo multimodal compatible con llama.cpp.</p>
+<p>Cree un nodo de opciones y configure los parámetros "Ruta del Modelo" y "Ruta del Modelo del Proyecto de MM" con los archivos de modelo Multimodal correspondientes.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png"></a></p>
-<p>Crear un nodo para leer el archivo de imagen flower.png y configurar los mensajes.</p>
+<p>Crear un nodo para leer el archivo de imagen flower.png y configurar mensajes.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png"></a></p>
-<p>Crear finalmente el nodo, recibir la información devuelta y mostrarla en pantalla, el diseño completo se vería así:</p>
+<p>Crear un nodo al final que reciba la información devuelta y la imprima en la pantalla. El aspecto completo del diagrama es el siguiente:</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png"></a></p>
-<p>Ejecutar el diagrama de flujo para visualizar el texto devuelto.</p>
+<p>Ejecutar el diagrama de flujo para ver el texto devuelto.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png"></a></p>
 <h2 id="el-archivo-llamacpp-utiliza-la-gpu">El archivo llama.cpp utiliza la GPU.</h2>
-<p>Añadir la opción de solicitud de chat "Cllama Chat Request Options" con el parámetro "Num Gpu Layer", que permite configurar la carga de GPU en llama.cpp, lo que controla el número de capas que se deben calcular en la GPU. Referirse a la imagen.</p>
+<p>"Opciones de solicitud de chat de Cllama". Se ha añadido el parámetro "Num Gpu Layer" para ajustar la carga de GPU en llama.cpp, lo que permite controlar el número de capas que deben calcularse en la GPU. Ver imagen.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png"></a></p>
-<h2 id="manipular-archivos-de-modelos-en-el-archivo-pak-despues-de-empaquetar">Manipular archivos de modelos en el archivo .Pak después de empaquetar.</h2>
-<p>Una vez que se inicia el empaquetado Pak, todos los archivos de recursos del proyecto se colocarán en el archivo .Pak, incluidos los archivos de modelo fuera de línea gguf.</p>
-<p>Debido a que llama.cpp no puede leer directamente los archivos .Pak, es necesario copiar los archivos de modelos sin conexión del archivo .Pak al sistema de archivos.</p>
-<p>AIChatPlus ofrece una función que automáticamente copia y procesa los archivos de modelos en .Pak, colocándolos en la carpeta Saved.</p>
+<h2 id="keepalive">KeepAlive</h2>
+<p>Añadir el parámetro "KeepAlive" a las "Opciones de solicitud de chat" puede mantener el archivo del modelo en la memoria después de la lectura, lo cual facilita su uso directo la próxima vez y reduce la cantidad de veces que se debe leer el modelo. KeepAlive indica cuánto tiempo se debe mantener el modelo en la memoria: 0 significa que no se guarda y se libera de inmediato después de usarlo; -1 significa que se mantiene de forma permanente. Cada vez que se realiza una solicitud, las Opciones pueden configurar un valor diferente de KeepAlive. El nuevo valor reemplazará al anterior; por ejemplo, las primeras solicitudes pueden establecer KeepAlive=-1 para mantener el modelo en memoria hasta que la última solicitud establezca KeepAlive=0 y libere el archivo del modelo.</p>
+<h2 id="manejar-los-archivos-de-modelos-dentro-del-archivo-pak-despues-de-empacar">Manejar los archivos de modelos dentro del archivo .Pak después de empacar.</h2>
+<p>Una vez que se inicia el proceso de empaquetado de archivos con Pak, todos los recursos del proyecto se almacenarán en el archivo .Pak, incluyendo los archivos de modelo offline gguf.</p>
+<p>Debido a que llama.cpp no puede leer directamente archivos .Pak, es necesario copiar los archivos de modelos offline del archivo .Pak al sistema de archivos.</p>
+<p>AIChatPlus ha proporcionado una función que automáticamente copia y procesa los archivos de modelos en .Pak, colocándolos en la carpeta Guardado.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png"></a></p>
-<p>O también puedes gestionar los archivos de modelo en .Pak tú mismo, la clave es copiar los archivos porque llama.cpp no puede leer correctamente .Pak.</p>
-<h2 id="nodo-de-funcionalidad">Nodo de funcionalidad.</h2>
-<p>Cllama proporciona algunos nodos funcionales para acceder fácilmente al estado actual del entorno.</p>
-<p>"Cllama Is Valid": Verificar si Cllama está correctamente inicializado en llama.cpp.</p>
+<p>O también puedes manejar los archivos de modelos en .Pak tú mismo, lo importante es copiar los archivos, ya que llama.cpp no puede leer correctamente los archivos .Pak.</p>
+<h2 id="nodo-de-funcion">Nodo de función</h2>
+<p>Cllama proporciona algunos nodos de función para facilitar la obtención del estado actual en el entorno.</p>
+<p>"La validez de Cllama": Comprueba si Cllama llama.cpp está inicializado correctamente.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_1.png"></a></p>
-<p>"Cllama Is Support Gpu"：Determinar si llama.cpp es compatible con el backend de GPU en el entorno actual.</p>
+<p>Determinar si llama.cpp es compatible con el backend de GPU en el entorno actual.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_2.png"></a></p>
-<p>"Obtener Soporte Backends de llamada": Obtener todos los backends compatibles con llama.cpp en uso actual.</p>
+<p>"Obtener Soporte Backends de Llama": Obtener todos los backends compatibles con llama.cpp actuales.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_3.png"></a></p>
-<p>"Cllama Prepare ModelFile In Pak": Copia automáticamente los archivos de modelo de Pak al sistema de archivos.</p>
+<p>"Preparar modelo de archivo en Pak": Automaticamente copia los archivos de modelo en Pak al sistema de archivos.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2298,7 +2318,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este mensaje ha sido traducido utilizando ChatGPT, por favor déjenos sus comentarios en <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Señale cualquier omisión. </p>
+<p>Este mensaje ha sido traducido utilizando ChatGPT, por favor, en<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反馈</strong></a>Señalar cualquier omisión. </p>
 </blockquote></div>
 
 
@@ -2322,7 +2342,7 @@
     <span class="md-icon" title="Última actualización">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-17</span>
   </span>
 
     
