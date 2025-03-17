@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blueprint-chapter-cllama-llamacpp" class="md-skip">
+        <a href="#blueprint-section-cllama-llamacpp" class="md-skip">
           Zum Inhalt
         </a>
       
@@ -1615,45 +1615,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#textnachrichten" class="md-nav__link">
+  <a href="#text-chat" class="md-nav__link">
     <span class="md-ellipsis">
-      Textnachrichten
+      Text-Chat
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#erzeugung-von-text-aus-bildern-llava" class="md-nav__link">
+  <a href="#erzeugen-von-text-aus-bildern-llava" class="md-nav__link">
     <span class="md-ellipsis">
-      Erzeugung von Text aus Bildern llava
+      Erzeugen von Text aus Bildern llava
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#llamacpp-verwendet-die-gpu" class="md-nav__link">
+  <a href="#llamacpp-verwendet-gpu" class="md-nav__link">
     <span class="md-ellipsis">
-      llama.cpp verwendet die GPU.
+      llama.cpp verwendet GPU
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#behandlung-von-modelldateien-in-einer-pak-datei-nach-dem-verpacken" class="md-nav__link">
+  <a href="#keepalive" class="md-nav__link">
     <span class="md-ellipsis">
-      Behandlung von Modelldateien in einer .Pak-Datei nach dem Verpacken.
+      KeepAlive
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#funktionsknoten" class="md-nav__link">
+  <a href="#verarbeitung-von-modelldateien-in-pak-nach-dem-verpacken" class="md-nav__link">
     <span class="md-ellipsis">
-      Funktionsknoten
+      Verarbeitung von Modelldateien in .Pak nach dem Verpacken.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funktionstoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      Funktionstoken
     </span>
   </a>
   
@@ -2149,45 +2158,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#textnachrichten" class="md-nav__link">
+  <a href="#text-chat" class="md-nav__link">
     <span class="md-ellipsis">
-      Textnachrichten
+      Text-Chat
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#erzeugung-von-text-aus-bildern-llava" class="md-nav__link">
+  <a href="#erzeugen-von-text-aus-bildern-llava" class="md-nav__link">
     <span class="md-ellipsis">
-      Erzeugung von Text aus Bildern llava
+      Erzeugen von Text aus Bildern llava
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#llamacpp-verwendet-die-gpu" class="md-nav__link">
+  <a href="#llamacpp-verwendet-gpu" class="md-nav__link">
     <span class="md-ellipsis">
-      llama.cpp verwendet die GPU.
+      llama.cpp verwendet GPU
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#behandlung-von-modelldateien-in-einer-pak-datei-nach-dem-verpacken" class="md-nav__link">
+  <a href="#keepalive" class="md-nav__link">
     <span class="md-ellipsis">
-      Behandlung von Modelldateien in einer .Pak-Datei nach dem Verpacken.
+      KeepAlive
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#funktionsknoten" class="md-nav__link">
+  <a href="#verarbeitung-von-modelldateien-in-pak-nach-dem-verpacken" class="md-nav__link">
     <span class="md-ellipsis">
-      Funktionsknoten
+      Verarbeitung von Modelldateien in .Pak nach dem Verpacken.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funktionstoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      Funktionstoken
     </span>
   </a>
   
@@ -2217,61 +2235,64 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)"></p>
-<h1 id="blueprint-chapter-cllama-llamacpp">Blueprint chapter - Cllama (llama.cpp)</h1>
+<h1 id="blueprint-section-cllama-llamacpp">Blueprint section - Cllama (llama.cpp)</h1>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="blueprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png"></a></p>
 <h2 id="offline-modell">Offline-Modell</h2>
-<p>Cllama wurde basierend auf llama.cpp entwickelt und unterstützt die Verwendung von KI-Inferenzmodellen offline.</p>
-<p>Da die Verbindung getrennt ist, müssen wir zunächst die Modelldateien vorbereiten, zum Beispiel ein Offline-Modell von der HuggingFace-Website herunterladen: <a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
-<p>Platzieren Sie das Modell in einem bestimmten Ordner, zum Beispiel im Verzeichnis Content/LLAMA des Spielprojekts.</p>
+<p>Cllama wurde basierend auf llama.cpp entwickelt und unterstützt die offline Verwendung von KI-Inferenzmodellen.</p>
+<p>Da es offline ist, müssen wir zuerst die Modelldatei vorbereiten, zum Beispiel das Offline-Modell von der HuggingFace-Website herunterladen: <a href="https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf">Qwen1.5-1.8B-Chat-Q8_0.gguf</a></p>
+<p>Platzieren Sie das Modell in einem bestimmten Ordner, beispielsweise im Verzeichnis Content/LLAMA des Spielprojekts.</p>
 <div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>E:/UE/projects/FP_Test1/Content/LLAMA<span class="w"> </span>&gt;<span class="w"> </span>ls
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>qwen1.5-1_8b-chat-q8_0.gguf*
 </code></pre></div>
-<p>Nachdem wir die Offline-Modelldatei haben, können wir mit Cllama AI-Chats durchführen.</p>
-<h2 id="textnachrichten">Textnachrichten</h2>
+<p>Nachdem wir die Offline-Modelldatei haben, können wir mit Cllama KI-Chats durchführen.</p>
+<h2 id="text-chat">Text-Chat</h2>
 <p>Verwenden Sie Cllama für Text-Chats.</p>
-<p>In der Blaupause mit der rechten Maustaste einen Knoten namens <code>Send Cllama Chat Request</code> erstellen.</p>
+<p>Erstellen Sie in der Blaupause einen Knoten namens "Send Cllama Chat Request" mit der rechten Maustaste.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_1.png"></a></p>
 <p>Erstellen Sie den Options-Knoten und legen Sie <code>Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"</code> fest.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_2.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_3.png"></a></p>
 <p>Erstellen Sie Nachrichten, fügen Sie jeweils eine Systemnachricht und eine Benutzernachricht hinzu.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_4.png"></a></p>
-<p>Erstellen Sie einen Delegierten, um die Ausgabedaten des Modells zu empfangen und auf dem Bildschirm anzuzeigen.</p>
+<p>Erstellen Sie einen Delegaten, der die Ausgabedaten des Modells empfängt und auf dem Bildschirm ausgibt.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_5.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_6.png"></a></p>
-<p>Die vollständige Blaupause sieht so aus. Wenn du die Blaupause ausführst, siehst du die Nachrichten, die das Spiel auf dem Bildschirm ausgibt.</p>
+<p>Das vollständige Blaupausenskript sieht so aus, führe das Skript aus und du wirst sehen, wie die Spielbildschirmanzeige die Nachricht zurückgibt.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_7.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_blueprint_8.png"></a></p>
-<h2 id="erzeugung-von-text-aus-bildern-llava">Erzeugung von Text aus Bildern llava</h2>
-<p>Cllama hat auch experimentelle Unterstützung für die llava-Bibliothek hinzugefügt, die die Fähigkeit von Vision bietet.</p>
-<p>Bereiten Sie zunächst die Multimodal Offline-Modelldatei vor, z. B. Moondream (<a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf">moondream2-text-model-f16.gguf</a>, <a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf">moondream2-mmproj-f16.gguf</a>）或者 Qwen2-VL（<a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf">Qwen2-VL-7B-Instruct-Q8_0.gguf</a>, <a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf">mmproj-Qwen2-VL-7B-Instruct-f16.gguf</a>）oder ein anderes von llama.cpp unterstütztes Multimodal-Modell.</p>
-<p>Erstellen Sie den Options-Knoten und setzen Sie die Parameter "Model Path" und "MMProject Model Path" auf die entsprechenden Multimodal-Modelldateien.</p>
+<h2 id="erzeugen-von-text-aus-bildern-llava">Erzeugen von Text aus Bildern llava</h2>
+<p>Cllama hat auch experimentelle Unterstützung für die llava-Bibliothek bereitgestellt, um die Fähigkeiten von Vision zu verbessern.</p>
+<p>Please prepare the Multimodal offline model file first, such as Moondream (<a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf">moondream2-text-model-f16.gguf</a>, <a href="https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf">moondream2-mmproj-f16.gguf</a>）oder Qwen2-VL（<a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf">Qwen2-VL-7B-Instruct-Q8_0.gguf</a>, <a href="https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf">mmproj-Qwen2-VL-7B-Instruct-f16.gguf</a>Bitte übersetzen Sie diesen Text ins Deutsche:</p>
+<p>）oder ein anderes Multimodal-Modell, das von llama.cpp unterstützt wird.</p>
+<p>Erstellen Sie einen Options-Knoten und setzen Sie die Parameter "Model Path" und "MMProject Model Path" auf die entsprechenden Multimodal-Modelldateien.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png"></a></p>
-<p>Erstellen Sie einen Knoten zum Lesen der Bilddatei flower.png und setzen Sie die Nachrichten.</p>
+<p>Erstellen Sie einen Knoten zum Lesen der Bilddatei flower.png und zum Setzen von Nachrichten.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png"></a></p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png"></a></p>
-<p>Schließlich wird die erstellte Node die zurückgegebenen Informationen empfangen und auf dem Bildschirm ausgeben. Das vollständige Blueprint sieht dann wie folgt aus:</p>
+<p>Abschließend wird die empfangene Informationen erstellende Knoten erstellt und auf dem Bildschirm ausgegeben. Das vollständige Schaubild sieht folgendermaßen aus:</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png"></a></p>
-<p>Führen Sie die Blaupause aus, um den zurückgegebenen Text anzuzeigen.</p>
+<p>Führen Sie die Blueprint aus, um den zurückgegebenen Text anzuzeigen.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png"></a></p>
-<h2 id="llamacpp-verwendet-die-gpu">llama.cpp verwendet die GPU.</h2>
-<p>"Füge dem Parameter 'Num Gpu Layer' in den 'Cllama Chat Request Options' hinzu, um das GPU-Payload in der 'llama.cpp' zu konfigurieren. Dadurch lässt sich die Anzahl der Ebenen festlegen, die auf der GPU berechnet werden sollen. Siehe Abbildung."</p>
+<h2 id="llamacpp-verwendet-gpu">llama.cpp verwendet GPU</h2>
+<p>"Cllama Chat Request Options" has added the parameter "Num Gpu Layer," which can set the GPU payload of llama.cpp, allowing control over the number of layers that need to be computed on the GPU. See the image.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png"></a></p>
-<h2 id="behandlung-von-modelldateien-in-einer-pak-datei-nach-dem-verpacken">Behandlung von Modelldateien in einer .Pak-Datei nach dem Verpacken.</h2>
-<p>Nachdem das Pak-Paket erstellt wurde, werden alle Ressourcen des Projekts in der .Pak-Datei gespeichert, einschließlich der Offline-Modelldatei gguf.</p>
-<p>Aufgrund der Unfähigkeit von llama.cpp, .Pak-Dateien direkt zu lesen, müssen die Offline-Modelldateien aus der .Pak-Datei ins Dateisystem kopiert werden.</p>
-<p>AIChatPlus bietet eine Funktion, die automatisch Modelldateien aus der .Pak kopiert und in den Ordner "Saved" platziert.</p>
+<h2 id="keepalive">KeepAlive</h2>
+<p>"Cllama Chat Request Options" haben jetzt die zusätzliche Option "KeepAlive", mit der das geladene Modell im Speicher gehalten werden kann, um es bei Bedarf direkt zu nutzen und die Anzahl der Ladevorgänge zu reduzieren. KeepAlive definiert die Dauer, für die das Modell im Speicher gehalten wird. Eine Einstellung von 0 bedeutet, dass das Modell nicht gespeichert wird und sofort freigegeben wird, während -1 für eine unbegrenzte Speicherung steht. Für jede Anfrage können individuelle KeepAlive-Werte festgelegt werden. Neue Werte überschreiben dabei die alten; zum Beispiel kann man zu Beginn KeepAlive auf -1 setzen, um das Modell im Speicher zu behalten, und am Ende auf 0, um es freizugeben.</p>
+<h2 id="verarbeitung-von-modelldateien-in-pak-nach-dem-verpacken">Verarbeitung von Modelldateien in .Pak nach dem Verpacken.</h2>
+<p>Nachdem das Pak-Paket aktiviert wurde, werden alle Ressourcendateien des Projekts in der .Pak-Datei gespeichert, einschließlich der Offline-Modell gguf-Datei.</p>
+<p>Da llama.cpp die direkte Leseunterstützung für .Pak-Dateien nicht unterstützt, müssen die Offline-Modelldateien aus der .Pak-Datei in das Dateisystem kopiert werden.</p>
+<p>AIChatPlus bietet eine Funktion, die automatisch Modelldateien aus der .Pak-Datei kopiert und in den Ordner "Saved" platziert:</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png"></a></p>
-<p>Alternativ kannst du die Modelldateien in der .Pak-Datei selbst bearbeiten, das Wichtige ist, die Dateien herauszukopieren, weil llama.cpp die .Pak-Datei nicht korrekt lesen kann.</p>
-<h2 id="funktionsknoten">Funktionsknoten</h2>
-<p>Cllama bietet einige Funktionen, um den aktuellen Status in der Umgebung abzurufen.</p>
-<p>"Cllama Is Valid"：Verify if Cllama llama.cpp is properly initialized.</p>
+<p>Du könntest auch die Modelldateien in der .Pak-Datei selbst bearbeiten, es ist wichtig, die Dateien zu kopieren, da llama.cpp die .Pak-Datei nicht richtig lesen kann.</p>
+<h2 id="funktionstoken">Funktionstoken</h2>
+<p>Cllama bietet einige Funktionsknoten an, um den aktuellen Status in der Umgebung abzurufen.</p>
+<p>"Cllama is valid" : Überprüfe Cllama llama.cpp, ob sie ordnungsgemäß initialisiert ist.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_1.png"></a></p>
-<p>"Cllama unterstützt GPU": Überprüfen, ob die Datei llama.cpp in der aktuellen Umgebung das GPU-Backend unterstützt.</p>
+<p>"Cllama is Support GPU": Überprüfen Sie, ob llama.cpp in der aktuellen Umgebung das GPU-Backend unterstützt.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_2.png"></a></p>
-<p>"Holen Sie sich Support-Backends von Llama": Fetch all backends supported by the current llama.cpp.</p>
+<p>"Holen Sie sich Support-Backends von Cllama": Holen Sie alle Backends ab, die von der aktuellen llama.cpp unterstützt werden.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_3.png"></a></p>
-<p>"Cllama Prepare ModelFile In Pak": Kopiert automatisch die Modelldatei(en) aus dem Pak in das Dateisystem.</p>
+<p>"Cllama Prepare ModelFile In Pak": Automatisch Modelldateien aus Pak in das Dateisystem kopieren.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -2298,7 +2319,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib uns dein <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Bitte weisen Sie auf etwaige Auslassungen hin. </p>
+<p>Dieser Beitrag wurde mit ChatGPT übersetzt, bitte bei <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Bitte identifizieren Sie jegliche ausgelassene Stellen. </p>
 </blockquote></div>
 
 
@@ -2322,7 +2343,7 @@
     <span class="md-icon" title="Letztes Update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-17</span>
   </span>
 
     
