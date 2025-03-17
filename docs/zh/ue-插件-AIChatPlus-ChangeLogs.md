@@ -8,6 +8,14 @@ description: 版本日志
 
 # UE 插件 AIChatPlus 版本日志
 
+## v1.6.2 - 2025.03.17
+
+### 新功能
+
+* Cllama 增加 KeepContext 参数，默认 false，Context 在 Chat 结束后自动销毁
+
+* Cllama 增加 KeepAlive 参数，可以减少 model 重复读取
+
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix

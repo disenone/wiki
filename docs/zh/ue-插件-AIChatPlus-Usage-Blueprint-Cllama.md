@@ -85,6 +85,10 @@ Cllama 还实验性支持了 llava 库，提供了 Vision 的能力
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
 
+## KeepAlive
+
+"Cllama Chat Request Options" 增加参数 "KeepAlive"，可以让读取后的模型文件保留在内存中，方便下次直接使用，减少读取模型的次数。KeepAlive 是模型保留的时间，0 表示不保留，使用后立即释放；-1 表示永久保留。每次请求设置的 Options 都可以设置不同的 KeepAlive，新的 KeepAlive 会替代旧的数值，譬如前几次的请求可以设置  KeepAlive=-1，让模型保留在内存中，直到最后一次的请求设置 KeepAlive=0，释放模型文件。
+
 ## 处理打包后 .Pak 中的模型文件
 
 开启 Pak 打包后，项目的所有资源文件都会放在 .Pak 文件中，当然也包含了离线模型 gguf 文件。
