@@ -25,30 +25,30 @@ description: Cllama (llama.cpp)
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)" />
 
-#Blueprint chapter - Cllama (llama.cpp)
+#Blueprint section - Cllama (llama.cpp)
 
 ![blueprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png)
 
 ##Offline-Modell
 
-Cllama wurde basierend auf llama.cpp entwickelt und unterstützt die Verwendung von KI-Inferenzmodellen offline.
+Cllama wurde basierend auf llama.cpp entwickelt und unterstützt die offline Verwendung von KI-Inferenzmodellen.
 
-Da die Verbindung getrennt ist, müssen wir zunächst die Modelldateien vorbereiten, zum Beispiel ein Offline-Modell von der HuggingFace-Website herunterladen: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+Da es offline ist, müssen wir zuerst die Modelldatei vorbereiten, zum Beispiel das Offline-Modell von der HuggingFace-Website herunterladen: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-Platzieren Sie das Modell in einem bestimmten Ordner, zum Beispiel im Verzeichnis Content/LLAMA des Spielprojekts.
+Platzieren Sie das Modell in einem bestimmten Ordner, beispielsweise im Verzeichnis Content/LLAMA des Spielprojekts.
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA > ls
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-Nachdem wir die Offline-Modelldatei haben, können wir mit Cllama AI-Chats durchführen.
+Nachdem wir die Offline-Modelldatei haben, können wir mit Cllama KI-Chats durchführen.
 
-##Textnachrichten
+##Text-Chat
 
 Verwenden Sie Cllama für Text-Chats.
 
-In der Blaupause mit der rechten Maustaste einen Knoten namens `Send Cllama Chat Request` erstellen.
+Erstellen Sie in der Blaupause einen Knoten namens "Send Cllama Chat Request" mit der rechten Maustaste.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
@@ -62,79 +62,85 @@ Erstellen Sie Nachrichten, fügen Sie jeweils eine Systemnachricht und eine Benu
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Erstellen Sie einen Delegierten, um die Ausgabedaten des Modells zu empfangen und auf dem Bildschirm anzuzeigen.
+Erstellen Sie einen Delegaten, der die Ausgabedaten des Modells empfängt und auf dem Bildschirm ausgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-Die vollständige Blaupause sieht so aus. Wenn du die Blaupause ausführst, siehst du die Nachrichten, die das Spiel auf dem Bildschirm ausgibt.
+Das vollständige Blaupausenskript sieht so aus, führe das Skript aus und du wirst sehen, wie die Spielbildschirmanzeige die Nachricht zurückgibt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
-##Erzeugung von Text aus Bildern llava
+##Erzeugen von Text aus Bildern llava
 
-Cllama hat auch experimentelle Unterstützung für die llava-Bibliothek hinzugefügt, die die Fähigkeit von Vision bietet.
+Cllama hat auch experimentelle Unterstützung für die llava-Bibliothek bereitgestellt, um die Fähigkeiten von Vision zu verbessern.
 
-Bereiten Sie zunächst die Multimodal Offline-Modelldatei vor, z. B. Moondream ([moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)）或者 Qwen2-VL（[Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)）oder ein anderes von llama.cpp unterstütztes Multimodal-Modell.
+Please prepare the Multimodal offline model file first, such as Moondream ([moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)）oder Qwen2-VL（[Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)Bitte übersetzen Sie diesen Text ins Deutsche:
 
-Erstellen Sie den Options-Knoten und setzen Sie die Parameter "Model Path" und "MMProject Model Path" auf die entsprechenden Multimodal-Modelldateien.
+）oder ein anderes Multimodal-Modell, das von llama.cpp unterstützt wird.
+
+Erstellen Sie einen Options-Knoten und setzen Sie die Parameter "Model Path" und "MMProject Model Path" auf die entsprechenden Multimodal-Modelldateien.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png)
 
-Erstellen Sie einen Knoten zum Lesen der Bilddatei flower.png und setzen Sie die Nachrichten.
+Erstellen Sie einen Knoten zum Lesen der Bilddatei flower.png und zum Setzen von Nachrichten.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png)
 
-Schließlich wird die erstellte Node die zurückgegebenen Informationen empfangen und auf dem Bildschirm ausgeben. Das vollständige Blueprint sieht dann wie folgt aus:
+Abschließend wird die empfangene Informationen erstellende Knoten erstellt und auf dem Bildschirm ausgegeben. Das vollständige Schaubild sieht folgendermaßen aus:
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png)
 
-Führen Sie die Blaupause aus, um den zurückgegebenen Text anzuzeigen.
+Führen Sie die Blueprint aus, um den zurückgegebenen Text anzuzeigen.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png)
 
-##llama.cpp verwendet die GPU.
+##llama.cpp verwendet GPU
 
-"Füge dem Parameter 'Num Gpu Layer' in den 'Cllama Chat Request Options' hinzu, um das GPU-Payload in der 'llama.cpp' zu konfigurieren. Dadurch lässt sich die Anzahl der Ebenen festlegen, die auf der GPU berechnet werden sollen. Siehe Abbildung."
+"Cllama Chat Request Options" has added the parameter "Num Gpu Layer," which can set the GPU payload of llama.cpp, allowing control over the number of layers that need to be computed on the GPU. See the image.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
 
-##Behandlung von Modelldateien in einer .Pak-Datei nach dem Verpacken.
+## KeepAlive
 
-Nachdem das Pak-Paket erstellt wurde, werden alle Ressourcen des Projekts in der .Pak-Datei gespeichert, einschließlich der Offline-Modelldatei gguf.
+"Cllama Chat Request Options" haben jetzt die zusätzliche Option "KeepAlive", mit der das geladene Modell im Speicher gehalten werden kann, um es bei Bedarf direkt zu nutzen und die Anzahl der Ladevorgänge zu reduzieren. KeepAlive definiert die Dauer, für die das Modell im Speicher gehalten wird. Eine Einstellung von 0 bedeutet, dass das Modell nicht gespeichert wird und sofort freigegeben wird, während -1 für eine unbegrenzte Speicherung steht. Für jede Anfrage können individuelle KeepAlive-Werte festgelegt werden. Neue Werte überschreiben dabei die alten; zum Beispiel kann man zu Beginn KeepAlive auf -1 setzen, um das Modell im Speicher zu behalten, und am Ende auf 0, um es freizugeben.
 
-Aufgrund der Unfähigkeit von llama.cpp, .Pak-Dateien direkt zu lesen, müssen die Offline-Modelldateien aus der .Pak-Datei ins Dateisystem kopiert werden.
+##Verarbeitung von Modelldateien in .Pak nach dem Verpacken.
 
-AIChatPlus bietet eine Funktion, die automatisch Modelldateien aus der .Pak kopiert und in den Ordner "Saved" platziert.
+Nachdem das Pak-Paket aktiviert wurde, werden alle Ressourcendateien des Projekts in der .Pak-Datei gespeichert, einschließlich der Offline-Modell gguf-Datei.
+
+Da llama.cpp die direkte Leseunterstützung für .Pak-Dateien nicht unterstützt, müssen die Offline-Modelldateien aus der .Pak-Datei in das Dateisystem kopiert werden.
+
+AIChatPlus bietet eine Funktion, die automatisch Modelldateien aus der .Pak-Datei kopiert und in den Ordner "Saved" platziert:
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png)
 
-Alternativ kannst du die Modelldateien in der .Pak-Datei selbst bearbeiten, das Wichtige ist, die Dateien herauszukopieren, weil llama.cpp die .Pak-Datei nicht korrekt lesen kann.
+Du könntest auch die Modelldateien in der .Pak-Datei selbst bearbeiten, es ist wichtig, die Dateien zu kopieren, da llama.cpp die .Pak-Datei nicht richtig lesen kann.
 
-##Funktionsknoten
+##Funktionstoken
 
-Cllama bietet einige Funktionen, um den aktuellen Status in der Umgebung abzurufen.
+Cllama bietet einige Funktionsknoten an, um den aktuellen Status in der Umgebung abzurufen.
 
 
-"Cllama Is Valid"：Verify if Cllama llama.cpp is properly initialized.
+"Cllama is valid" : Überprüfe Cllama llama.cpp, ob sie ordnungsgemäß initialisiert ist.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
 
-"Cllama unterstützt GPU": Überprüfen, ob die Datei llama.cpp in der aktuellen Umgebung das GPU-Backend unterstützt.
+"Cllama is Support GPU": Überprüfen Sie, ob llama.cpp in der aktuellen Umgebung das GPU-Backend unterstützt.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
 
-"Holen Sie sich Support-Backends von Llama": Fetch all backends supported by the current llama.cpp.
+"Holen Sie sich Support-Backends von Cllama": Holen Sie alle Backends ab, die von der aktuellen llama.cpp unterstützt werden.
 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
 
-"Cllama Prepare ModelFile In Pak": Kopiert automatisch die Modelldatei(en) aus dem Pak in das Dateisystem.
+"Cllama Prepare ModelFile In Pak": Automatisch Modelldateien aus Pak in das Dateisystem kopieren.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
@@ -142,4 +148,4 @@ Cllama bietet einige Funktionen, um den aktuellen Status in der Umgebung abzuruf
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib uns dein [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte weisen Sie auf etwaige Auslassungen hin. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte bei [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte identifizieren Sie jegliche ausgelassene Stellen. 

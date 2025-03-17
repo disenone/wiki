@@ -96,8 +96,8 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-ChangeLogs.md": {
-    "git_ref": "68466f36",
-    "mtime": 1741535011.7441456
+    "git_ref": "881994fb",
+    "mtime": 1742177241.019765
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Azure.md": {
     "git_ref": "f7774846",
@@ -108,8 +108,8 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Cllama.md": {
-    "git_ref": "f7774846",
-    "mtime": 1741283553.6739817
+    "git_ref": "881994fb",
+    "mtime": 1742177241.019765
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-DeepSeek.md": {
     "git_ref": "f7774846",

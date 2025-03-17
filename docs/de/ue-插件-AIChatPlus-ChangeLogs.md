@@ -19,158 +19,162 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: Versionsprotokoll
+description: Versionsprotokoll.
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#UE 插件 AIChatPlus 版本日志
+#UE Plugin AIChatPlus Version Log
 
-Translated to German:
+## v1.6.2 - 2025.03.17
 
-UE Plugin AIChatPlus Versionsprotokoll
+###Neue Funktion
+
+Cllama erhöht den KeepContext-Parameter standardmäßig auf false. Der Kontext wird nach Beendigung des Chats automatisch gelöscht.
+
+Cllama erhöht den KeepAlive-Parameter, um das wiederholte Lesen des Modells zu reduzieren.
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-OpenAI Image Chat Blueprint unterstützt die Eingabe von Bildern.
+OpenAI Image Chat blueprint supports input images.
 
-Editor-Tool Cllama mmproj model allows vacuum
+Editor-Tool Cllama mmproj 模型允许空
 
 ## v1.6.0 - 2025.03.02
 
 ###Neue Funktion
 
-llama.cpp upgraded to version b4604
+Upgrade der Datei llama.cpp auf Version b4604.
 
-Cllama unterstützt GPU-Backends: cuda und metal.
+Cllama supports GPU backends: cuda and metal.
 
 Das Chat-Tool Cllama unterstützt die Verwendung von GPU.
 
-Unterstützung zum Lesen von Modelldateien aus dem gepackten Pak。
+Unterstützung zum Lesen von Modelldateien aus einem gepackten Pak.
 
 ### Bug Fix
 
-Repariere das Problem mit dem Absturz von Cllama während des Nachladens in der Deduktion.
+Fixing the issue where Cllama crashes when reloading during deduction.
 
-Fix iOS compilation errors.
+Beheben Sie die Fehlermeldung beim Kompilieren von iOS.
 
 ## v1.5.1 - 2025.01.30
 
 ###Neue Funktion
 
-Erlauben Sie nur Gemini, Audio abzuspielen.
+Nur Gemini kann Audio abspielen.
 
 Optimiere die Methode zum Abrufen von PCM-Daten, um die Audiodaten erst beim Generieren von B64 zu dekomprimieren.
 
-Bitte füge zwei Callbacks OnMessageFinished und OnImagesFinished hinzu.
+Bitte hinzufügen von zwei Callbacks OnMessageFinished und OnImagesFinished.
 
-Optimiere die Gemini-Methode, um automatisch die Methode basierend auf bStream zu erhalten.
+Optimiere die Gemini-Methode, um automatisch die Methode basierend auf dem bStream zu erhalten.
 
-Fügen Sie einige Blueprint-Funktionen hinzu, um das Wrapper in tatsächliche Typen zu konvertieren und Response-Meldungen und Fehler abzurufen.
+Fügen Sie einige Blueprint-Funktionen hinzu, um das Wrapper in den tatsächlichen Typ umzuwandeln und die Response-Nachricht und Fehler abzurufen.
 
 ### Bug Fix
 
-Beheben des Problems mit mehrfachem Aufruf von Request Finish.
+Behebung des Problems mit wiederholten Aufrufen von "Request Finish".
 
 ## v1.5.0 - 2025.01.29
 
 ###Neue Funktion
 
-Unterstützung für Audio-Ausgabe an Gemini geben.
+Unterstützung für die Audioausgabe an Gemini.
 
-Die Editor-Tool-Unterstützung für den Versand von Audio und Aufnahmen.
+Die Editor-Tools unterstützen das Senden von Audio und Aufnahmen.
 
 ### Bug Fix
 
-Behebung des Fehlers beim Kopieren der Sitzung.
+Beheben Sie den Fehler beim Kopieren der Sitzung.
 
 ## v1.4.1 - 2025.01.04
 
-###Problembehebung
+###Fehlerbehebung
 
 Die Chat-Plattform ermöglicht das Versenden von Bildern ohne Text.
 
-Repariere den Fehler bei der Übermittlung von Bildern über die OpenAI-Schnittstelle.
+Reparatur des Problems beim Senden von Bildern über die OpenAI-Schnittstelle gescheitert.
 
-Behebe das Problem mit den fehlenden Parametern Quality, Style und ApiVersion in den Einstellungen von OpanAI und Azure-Chat-Tools.
+Repair of missing parameters Quality, Style, ApiVersion in OpanAI and Azure chat tool settings.
 
 ## v1.4.0 - 2024.12.30
 
 ###Neue Funktion
 
-* (Experimental feature) Cllama (llama.cpp) supports multimodal models and can handle images.
+* （Experimental feature）Cllama (llama.cpp) supports multimodal models and can handle images.
 
-Alle Blaupausen-Typenparameter wurden mit detaillierten Hinweisen versehen.
+Alle Blueprint-Typenparameter wurden mit ausführlichen Hinweisen versehen.
 
 ## v1.3.4 - 2024.12.05
 
 ###Neue Funktion
 
-OpenAI unterstützt Vision-API.
+OpenAI unterstützt die Vision-API.
 
 ###Problembehebung
 
-Fix the error when OpenAI stream=false.
+Fix the error when OpenAI stream=false
 
 ## v1.3.3 - 2024.11.25
 
 ###Neue Funktion
 
-Unterstützung für UE-5.5
+Unterstützt UE-5.5
 
-###Problembehebung
+###Fehlerbehebung
 
-Behebung des Problems mit nicht funktionierenden Teilen des Bauplans.
+Fixing some blueprints not working issue.
 
 ## v1.3.2 - 2024.10.10
 
 ###Problembehebung
 
-Behebung des Absturzes von cllama beim manuellen Stoppen des Requests.
+Beheben Sie das Problem, bei dem cllama abstürzt, wenn der manuelle Stop-Befehl ausgeführt wird.
 
-Behebung des Problems beim Laden der win-Paketversion im Store, bei dem die Dateien ggml.dll und llama.dll nicht gefunden werden konnten.
+Behebung des Problems mit fehlenden ggml.dll und llama.dll Dateien in der heruntergeladenen Win-Version des Shops.
 
-Prüfe beim Erstellen der Anfrage, ob sich der Vorgang im GameThread befindet.
+Beim Erstellen einer Anfrage wird überprüft, ob sich der Vorgang im GameThread befindet.
 
 ## v1.3.1 - 2024.9.30
 
 ###Neue Funktion
 
-Füge einen SystemTemplateViewer hinzu, um Hunderte von Systemeinstellungsvorlagen anzeigen und verwenden zu können.
+Fügen Sie einen SystemTemplateViewer hinzu, mit dem Sie Hunderte von Systemsatzvorlagen anzeigen und verwenden können.
 
-###Fehlerbehebung
+###Problembehebung
 
-Beheben Sie das Problem mit dem heruntergeladenen Plugin aus dem Shop, llama.cpp kann die Verknüpfungsbibliothek nicht finden.
+Fix plugin downloaded from Marketplace, llama.cpp cannot find link library.
 
-Behebung des Problems mit der zu langen Pfadlänge in LLAMACpp.
+Reparatur des Problems mit zu langen Pfaden in LLAMACpp.
 
-Beheben Sie den Fehler mit dem Link llama.dll nach dem Kompilieren von Windows.
+Behebe den Fehler mit der Verknüpfung der Llama.dll nach dem Windows-Paketieren.
 
-Fixing issues with reading file paths on iOS/Android.
+Beheben Sie das Problem mit dem Lesen von Dateipfaden in iOS/Android.
 
-Bitte reparieren Sie den Fehler beim Einstellen des Namens in Cllame.
+Fixing the Cllame setting name error.
 
 ## v1.3.0 - 2024.9.23
 
-###Bitte geben Sie mehr Kontext für diese Textübersetzung.
+###Wichtige neue Funktion.
 
-Integriert llama.cpp zur Unterstützung der lokalen Offline-Ausführung großer Modelle.
+Integrierte llama.cpp zur Unterstützung der lokalen Offline-Ausführung großer Modelle.
 
 ## v1.2.0 - 2024.08.20
 
 ###Neue Funktion
 
-Unterstützung für OpenAI Image Edit/Image Variation
+Unterstützung für OpenAI Image Edit/Image Variation.
 
-Unterstützung der Ollama-API, Unterstützung für die automatische Abrufung der Liste der von Ollama unterstützten Modelle.
+Unterstützt die Ollama API, um automatisch eine Liste der von Ollama unterstützten Modelle abzurufen.
 
 ## v1.1.0 - 2024.08.07
 
 ###Neue Funktion
 
-Unterstütze die Blaupause.
+Unterstützung der Blaupause
 
 ## v1.0.0 - 2024.08.05
 
@@ -178,11 +182,11 @@ Unterstütze die Blaupause.
 
 Grundlegende vollständige Funktion.
 
-Unterstützung für OpenAI, Azure, Claude, Gemini.
+Unnterstützung für OpenAI, Azure, Claude, Gemini.
 
-Mit integriertem, umfassendem Editor-Chat-Tool.
+Mit integriertem umfangreichen Editor für Chat-Funktionen.
 
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib dein [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Identify any omissions. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte geben Sie Ihr Feedback im [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte identifizieren Sie jegliche Übersehen. 

@@ -25,118 +25,120 @@ description: Cllama (llama.cpp)
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)" />
 
-#القسم الأزرق - Cllama (llama.cpp)
+#الفصل الأزرق - Cllama (llama.cpp)
 
 ![blueprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png)
 
-##النموذج غير متصل
+##النموذج الغير متصل
 
-Cllama تم تنفيذها بناءً على llama.cpp، وتدعم استخدام نماذج الذكاء الاصطناعي للتفكير دون اتصال بالإنترنت.
+تستند Cllama إلى llama.cpp وتدعم استخدام نماذج الذكاء الاصطناعي للتحليل دون اتصال بالإنترنت.
 
-نظرًا لأنها خارج الاتصال، نحتاج أولاً إلى تحضير ملف النموذج، على سبيل المثال، يمكن تنزيل نموذج الخطاب الخارج الاتصال من موقع HuggingFace: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+نظرًا لأنها خارج الاتصال، نحتاج أولاً إلى تجهيز ملفات النموذج، على سبيل المثال، يمكن تنزيل نموذج خارج الاتصال من موقع HuggingFace: [Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-ضع النموذج في مجلد معين، مثل وضعه في دليل المشروع للعبة Content/LLAMA
+ضع النموذج في مجلد معين، مثل وضعه في دليل مشروع اللعبة تحت المسار Content/LLAMA
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA > ls
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-بمجرد الحصول على ملف النموذج الغير متصل بالإنترنت، يمكننا استخدام Cllama للقيام بالدردشة الذكية.
+بعد الحصول على ملف النموذج غير المتصل، يمكننا استخدام Cllama لإجراء محادثات AI.
 
-##الرد على الأسئلة
+##الدردشة النصية
 
-استخدم Cllama للدردشة النصية
+استخدام Cllama لمحادثات النص
 
-في النموذج، انقر بزر الماوس الأيمن لإنشاء عقدة "Send Cllama Chat Request".
+أنشئ عقدًا باسم `Send Cllama Chat Request` باستخدام زر الماوس الأيمن في الرسم البياني.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
-أنشئُوا nOptions للعُقد، وقُوموا بتعيين "Stream=true, ModelPath=`E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf`"
+أنشئ `Options` العقد، وقم بتعيين `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
 
-إنشاء Messages ، قم بإضافة رسالة من نوع System Message و User Message بشكل منفصل
+أنشئ رسائل، وأضف رسالة نظام ورسالة مستخدم على التوالي.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-إنشاء نائب Delegate يقوم بتلقي مخرجات النموذج وطباعتها على الشاشة
+إنشاء الـ Delegate الذي يقبل مخرجات النموذج ويقوم بطباعتها على الشاشة
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-الترجمة إلى اللغة العربية:
-
-"النص الكامل يبدو كما يلي، قم بتشغيل النص لترى رسالة إرجاع شاشة اللعبة الكبيرة المطبوعة."
+النسخة الكاملة من المخطط تبدو كما هو موضح، عند تشغيل المخطط، سترى رسالة تعود بناء النموذج الكبير المطبوع على شاشة اللعبة
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
-##إنشاء نصوص الصور.
+##توليف الصور إلى نصوص llava
 
-Cllama دعمت تجريبيًا مكتبة llava ، مما يوفر قدرة Vision.
+Cllama اعطت دعمًا تجريبيًا أيضًا لمكتبة llava، مما يوفر إمكانية Vision
 
-قم بتحضير ملف النموذج اللاحق Multimodal، مثل Moondream ([moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)) أو Qwen2-VL([Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)أو نموذج Multimodal الذي يدعمه ملف llama.cpp أو غيره.
+أعد ملف نموذج Multimodal للعمل دون اتصال بالإنترنت، مثل Moondream ([moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)）أو Qwen2-VL（[Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)نموذج Multimodal المدعوم بواسطة llama.cpp أو غيرها.
 
-إنشاء عقدتي Options، وتعيين المعلمات "مسار النموذج" و"مسار نموذج MMProject" بملفات النموذج متعدد الوسائط المقابلة.
+إنشاء عقد Options، وتعيين المعلمات "Model Path" و "MMProject Model Path" بملفات النموذج متعددة الوسائط المقابلة.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png)
 
-إنشاء العقدة لقراءة ملف الصور flower.png، وتعيين الرسائل
+إنشاء ​​العقدة لقراءة ملف الصور flower.png وتعيين الرسائل
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png)
 
-أخيرًا، يتم إنشاء العقدة واستقبال المعلومات المُرجعة، ثم يتم طباعتها على الشاشة. الرسم البياني الكامل يبدو كما يلي:
+أنشئ العقدة النهائية لاستقبال المعلومات المرتجعة واطبعها على الشاشة. هكذا تبدو النسخة الكاملة من الخطة.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png)
 
-يمكنك رؤية النص المُرجع عند تشغيل الشكل الأزرق
+يمكنك رؤية النص الذي تم إرجاعه عند تشغيل المخطط الأزرق.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png)
 
 ##llama.cpp تستخدم وحدة المعالجة الرسومية (GPU)
 
-"خيارات طلب المحادثة Cllama" قامت بإضافة المعلمة "Num Gpu Layer" ، حيث يمكن تعيين حمولة الـ GPU في llama.cpp ، مما يمكّن من التحكم في عدد الطبقات التي يجب حسابها على وحدة المعالجة الرسومية. يرجى الرجوع إلى الصورة المرفقة.
+"خيارات طلب محادثة Cllama" تحتوي على معلمة "Num Gpu Layer" الجديدة، حيث يمكن تعيين حمولة ال GPU في ملف llama.cpp، والتحكم في عدد الطبقات التي يجب حسابها على وحدة المعالجة الرسومية. تفضلوا بالاطلاع على الصورة."
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
 
-##تعامل مع ملفات النموذج في ملف .Pak بعد التعبئة
+## KeepAlive
 
-عند فتح ملف الـ Pak بعد التعبئة، سيتم وضع جميع ملفات الموارد للمشروع في ملف .Pak، بما في ذلك ملفات نماذج الـ gguf الخارجية.
+"خيارات طلب الدردشة Cllama" تقوم بإضافة معلمة "KeepAlive"، والتي تسمح بالاحتفاظ بملف النموذج بالذاكرة بعد القراءة، لتسهيل الاستخدام المباشر في المرات القادمة وتقليل عدد مرات قراءة النموذج. يُعبر KeepAlive عن وقت احتفاظ النموذج، حيث 0 يعني عدم الاحتفاظ والإفراج فور الاستخدام؛ بينما -1 يعني الاحتفاظ الدائم. يمكن تعيين قيم مختلفة لـ KeepAlive لكل طلب بمرة، وسيحل القيمة الجديدة محل القيمة القديمة، مثلما يمكن تعيين KeepAlive=-1 في الطلبات السابقة للإبقاء على النموذج في الذاكرة حتى تحديد كيفية الإفراج عن ملف النموذج في الطلب الأخير بوضع KeepAlive=0.
 
-نظرًا لعدم دعم llama.cpp لقراءة ملفات .Pak مباشرة، فمن الضروري نسخ ملفات النماذج غير المتصلة من ملف .Pak ووضعها في نظام الملفات.
+##معالجة ملفات النموذج في ملف .Pak بعد الضغط
 
-AIChatPlus توفر وظيفة تقوم تلقائيًا بنسخ ومعالجة ملفات النموذج في .Pak ووضعها في مجلد Saved.
+عندما تقوم بتشغيل Pak بعد ضغطه، سيتم وضع جميع ملفات موارد المشروع في ملف .Pak، بما في ذلك ملفات نماذج الرسومات ثلاثية الأبعاد.
+
+نظرًا لعدم قدرة llama.cpp على قراءة ملف .Pak مباشرة ، فإنه من الضروري نسخ ملفات النماذج الغير متصلة من ملف .Pak ووضعها في نظام الملفات.
+
+AIChatPlus يوفر وظيفة تلقائية لنسخ ومعالجة ملفات النموذج في .Pak ووضعها في مجلد Saved.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png)
 
-أو يمكنك التعامل بنفسك مع ملفات النموذج في .Pak ، المهم هو نسخ الملفات لأنه لا يمكن لـ llama.cpp قراءة .Pak بشكل صحيح.
+يمكنك تولي معالجة ملفات النموذج في .Pak بنفسك، المهم هو نسخ الملفات لأنه لا يمكن لـ llama.cpp قراءة .Pak بشكل صحيح.
 
 ##نقطة الوظيفة
 
-Cllama قدم بعض عقد الوظائف لتسهيل الحصول على حالة البيئة الحالية.
+Cllama قدم بعضًا من العقد الوظيفية لتسهيل الحصول على حالة البيئة الحالية
 
 
-"Cllama Is Valid"：تقييم ما إذا كان الملف Cllama llama.cpp مُهيأ بشكل صحيح
+"Cllama Is Valid": تقييم ما إذا كان Cllama llama.cpp تم تهيئته بشكل صحيح
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
 
-"Llama هل لديها دعم لوحدة معالجة الرسوميات"：تحديد ما إذا كان ملف llama.cpp يدعم GPU backend في البيئة الحالية
+تحقق مما إذا كانت llama.cpp تدعم بيئة GPU الحالية.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
 
-"الحصول على العناصر الخلفية المعتمدة حاليًا بواسطة llama.cpp"
+"احصل على دعم الخلفيات الحالية من llama.cpp"
 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
 
-جهز ملف النموذج Cllama في Pak: قم بنسخ ملفات النموذج في Pak تلقائيًا إلى النظام الملفاتية
+قم بإعداد ملف النموذج في Pak: تقوم تلقائيًا بنسخ ملفات النموذج في Pak إلى النظام الملفاتية
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
@@ -144,4 +146,4 @@ Cllama قدم بعض عقد الوظائف لتسهيل الحصول على حا
 --8<-- "footer_ar.md"
 
 
-> هذه المشاركة تمت ترجمتها باستخدام ChatGPT، يُرجى تقديم [**ردود**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص. 
+> هذه المشاركة تمت ترجمتها باستخدام ChatGPT، يرجى تقديم [**تعليقات**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي عنصر ناقص. 

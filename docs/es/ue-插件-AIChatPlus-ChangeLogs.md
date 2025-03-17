@@ -24,161 +24,169 @@ description: Registro de versiones
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#Registro de versiones del complemento UE AIChatPlus.
+#Registro de versiones del complemento de UE AIChatPlus.
+
+## v1.6.2 - 2025.03.17
+
+###Nueva función
+
+Aumenta el parámetro KeepContext de Cllama a su valor predeterminado false. El Context se destruye automáticamente al finalizar el Chat.
+
+Agrega el parámetro KeepAlive a `Cllama`, puede ayudar a reducir la lectura repetida del modelo.
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-OpenAI Image Chat Blueprint supports inputting images.
+OpenAI Image Chat supports inputting images.
 
-Herramienta de edición llamada mmproj permite modelo en blanco.
+Herramienta de edición de mmproj que permite el modelo vacío.
 
 ## v1.6.0 - 2025.03.02
 
-###Nueva función
+###Nueva función.
 
-Actualiza el archivo llama.cpp a la versión b4604.
+Actualización de llama.cpp a la versión b4604.
 
-Cllama supports GPU backends: cuda and metal.
+* Cllama supports GPU backends: cuda and metal.
 
-La herramienta de chat Cllama es compatible con el uso de GPU.
+La herramienta de chat Cllama admite el uso de GPU.
 
-* Apoyar la lectura de archivos de modelos empaquetados en un archivo Pak.
+Soportar la lectura de archivos de modelo empaquetados en Pak.
 
 ### Bug Fix
 
-Reparar el problema de la caída de Cllama al recargar durante el razonamiento.
+Corregir el problema de Cllama que provoca un fallo al recargar durante la inferencia.
 
 Reparar error de compilación en iOS.
 
 ## v1.5.1 - 2025.01.30
 
-###Nueva función. 
+###Nuevas características.
 
-Solo se permite a Gemini enviar mensajes de audio.
+Solo se permite la transmisión de audio para Gemini.
 
 Optimizar el método para obtener PCMData, descomprimir los datos de audio al generar B64.
 
-Solicitar agregar dos devoluciones de llamada OnMessageFinished y OnImagesFinished.
+Solicitar añadir dos callbacks OnMessageFinished y OnImagesFinished.
 
-Optimizar el Método Gemini para obtener automáticamente el Método basándose en bStream.
+Optimiza el Método Gemini, obteniendo automáticamente el Método según bStream.
 
-Agregar algunas funciones de Blueprint para facilitar la conversión de Wrapper a tipos reales, y obtener el mensaje de respuesta y el error.
+Agregar algunas funciones de blueprint para facilitar la conversión de Wrapper a tipos reales, y para obtener el mensaje de respuesta y los errores.
 
 ### Bug Fix
 
-Corregir el problema de múltiples llamadas a "Request Finish".
+Corregido el problema de múltiples llamadas a Request Finish.
 
 ## v1.5.0 - 2025.01.29
 
-###Nueva funcionalidad
+###Nueva función.
 
 Apoyar el envío de archivos de audio a Gemini.
 
-Las herramientas del editor admiten el envío de archivos de audio y grabaciones.
+Las herramientas del editor admiten el envío de audio y grabaciones.
 
 ### Bug Fix
 
-Corregir el error que provoca que falle la copia de la sesión.
+Corregir el error de copia de sesión fallido.
 
 ## v1.4.1 - 2025.01.04
 
 ###Reparación de problemas
 
-La herramienta de chat admite enviar solo imágenes sin texto.
+Apoyo para enviar solo fotos sin mensajes en la herramienta de chat.
 
-Reparar la falla al enviar imágenes a través de la interfaz de OpenAI.
+Reparar fallo al enviar imágenes a través de la interfaz de OpenAI.
 
-Reparar el problema de configuración omitida de los parámetros Calidad, Estilo, ApiVersion en OpanAI y en las herramientas de chat de Azure.
+Corregir la omisión de los parámetros Quality, Style y ApiVersion en la configuración de las herramientas de chat OpanAI y Azure.
 
 ## v1.4.0 - 2024.12.30
 
 ###Nueva función
 
-* (Característica experimental) Cllama (llama.cpp) admite modelos multimodales y puede procesar imágenes.
+* (Función experimental) Cllama (llama.cpp) admite modelos multimodales y puede procesar imágenes.
 
-Todos los parámetros de tipo de plano se les ha añadido una descripción detallada.
+Todos los parámetros de tipo blueprint ahora tienen instrucciones detalladas agregadas.
 
 ## v1.3.4 - 2024.12.05
 
-###Nueva función.
+###Nueva funcionalidad
 
-OpenAI ofrece una API de visión.
+OpenAI admite la API de visión.
 
 ###Reparación de problemas
 
-Corregir el error al establecer OpenAI stream=false
+Corregir el error al establecer OpenAI stream=false.
 
 ## v1.3.3 - 2024.11.25
 
 ###Nueva función
 
-Soporte para UE-5.5
-
-###Reparación de problemas.
-
-Corregir el problema de algunas plantillas que no funcionan.
-
-## v1.3.2 - 2024.10.10
+Compatible con UE-5.5.
 
 ###Reparación de problemas
 
-Reparar el fallo de cierre inesperado al detener manualmente la solicitud de cllama.
+Corregir el problema de ciertos planos que no funcionan.
 
-Reparar el problema de no encontrar los archivos ggml.dll y llama.dll al empaquetar la versión de descarga win de la tienda.
-
-Revisar si se está en el hilo de juego al crear la solicitud.
-
-## v1.3.1 - 2024.9.30
-
-###Nueva función
-
-Agregar un SystemTemplateViewer que permita visualizar y utilizar cientos de plantillas de configuración del sistema.
+## v1.3.2 - 2024.10.10
 
 ###Reparación de problemas.
 
-Reparar el complemento descargado desde la tienda, llama.cpp no encuentra la biblioteca de enlace.
+Reparar el fallo de cllama al detener manualmente la solicitud.
 
-Corregir el problema de la longitud excesiva de la ruta de LLAMACpp.
+Corregir el problema en la versión de descarga de Win del centro comercial donde no se encuentra el archivo ggml.dll o llama.dll.
 
-Corregir el error de enlace de llama.dll después de empaquetar Windows.
+Crear solicitud y verificar en el hilo del juego si CreateRequest está activo.
 
-Reparar el problema de la ruta del archivo al leer en iOS/Android.
+## v1.3.1 - 2024.9.30
 
-Corregir error al establecer nombre en Cllame.
+###Nueva característica
+
+Agregar un SystemTemplateViewer que permita ver y utilizar cientos de plantillas de configuración del sistema.
+
+###Reparación de problemas
+
+Reparar el plugin descargado de la tienda, no se encuentra la biblioteca de vínculos llama.cpp.
+
+Corregir el problema de la ruta demasiado larga en LLAMACpp
+
+Reparar el error del archivo de enlace llama.dll después de empaquetar Windows.
+
+Corregir problema de lectura de ruta de archivos en iOS/Android.
+
+Reparar el error en la configuración del nombre de Cllame.
 
 ## v1.3.0 - 2024.9.23
 
-###Importante nueva función.
+###Important new feature
 
-Integrado llama.cpp para admitir la ejecución de grandes modelos de forma local sin conexión a Internet.
+Integración de llama.cpp para admitir la ejecución local sin conexión de grandes modelos.
 
 ## v1.2.0 - 2024.08.20
 
-###Nuevas características.
+###Nueva función
 
-Apoyo para OpenAI Image Edit/Image Variation.
+Apoyo a OpenAI Image Edit/Image Variation.
 
-Admite la API de Ollama y la obtención automática de la lista de modelos admitidos por Ollama.
+Admite la API de Ollama, admite la obtención automática de la lista de modelos admitidos por Ollama.
 
 ## v1.1.0 - 2024.08.07
 
-###Nueva funcionalidad
+###Nueva función.
 
-Apoyo a la propuesta.
+Apoyar el plan estratégico.
 
 ## v1.0.0 - 2024.08.05
 
-###Nueva función.
+###Nueva función
 
-Funcionalidad básica completa.
+Funcionalidad básica completa
 
-Apoyo a OpenAI, Azure, Claude, Gemini.
+Apoyo a OpenAI, Azure, Claude y Gemini.
 
-Herramienta de chat con editor integrado.
+Herramienta de chat con editor incorporado y funciones completas.
 
 --8<-- "footer_es.md"
 
 
-> Este post ha sido traducido utilizando ChatGPT, por favor [**反馈**](https://github.com/disenone/wiki_blog/issues/new)Señale cualquier omisión. 
+> Este mensaje ha sido traducido utilizando ChatGPT, por favor en [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Señalar cualquier omisión. 
