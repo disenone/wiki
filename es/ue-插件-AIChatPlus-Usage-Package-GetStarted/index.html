@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Embalaje">
+        <meta name="description" content="Empaquetar">
       
       
         <meta name="author" content="Disenone">
@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#empaque" class="md-skip">
+        <a href="#empaquetar" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -1971,16 +1971,16 @@
         <li class="md-nav__item">
   <a href="#empaquetar-el-modelo" class="md-nav__link">
     <span class="md-ellipsis">
-      Empaquetar el modelo.
+      Empaquetar el modelo
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#leer-el-archivo-de-modelo-sin-conexion-empaquetado" class="md-nav__link">
+  <a href="#leer-el-archivo-del-modelo-fuera-de-linea-empaquetado" class="md-nav__link">
     <span class="md-ellipsis">
-      Leer el archivo de modelo sin conexión empaquetado.
+      Leer el archivo del modelo fuera de línea empaquetado.
     </span>
   </a>
   
@@ -2124,16 +2124,16 @@
         <li class="md-nav__item">
   <a href="#empaquetar-el-modelo" class="md-nav__link">
     <span class="md-ellipsis">
-      Empaquetar el modelo.
+      Empaquetar el modelo
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#leer-el-archivo-de-modelo-sin-conexion-empaquetado" class="md-nav__link">
+  <a href="#leer-el-archivo-del-modelo-fuera-de-linea-empaquetado" class="md-nav__link">
     <span class="md-ellipsis">
-      Leer el archivo de modelo sin conexión empaquetado.
+      Leer el archivo del modelo fuera de línea empaquetado.
     </span>
   </a>
   
@@ -2163,22 +2163,22 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started"></p>
-<h1 id="empaque">Empaque</h1>
+<h1 id="empaquetar">Empaquetar</h1>
 <h2 id="empaquetado-de-complementos">Empaquetado de complementos</h2>
-<p>Cuando se realiza el empaquetado en Unreal, automáticamente se incluyen todos los archivos de biblioteca dinámica necesarios para el complemento, solo es necesario habilitar el complemento.</p>
-<p>Por ejemplo, para Windows, el empaquetado automáticamente colocará los archivos llama.cpp y las DLL relacionadas con CUDA en el directorio empaquetado. Lo mismo se aplica para otras plataformas como Android, Mac e iOS.</p>
-<p>Puedes ejecutar el comando "AIChatPlus.PrintCllamaInfo" en la versión de desarrollo del juego empaquetado para ver el estado actual del entorno Cllama, y confirmar si todo está en orden y si se admite la aceleración de GPU.</p>
-<h2 id="empaquetar-el-modelo">Empaquetar el modelo.</h2>
-<p>Los archivos de modelo para unirse al proyecto están ubicados en el directorio Content/LLAMA. Así que puedes configurar para incluir este directorio al empaquetar.</p>
-<p>Abre "Configuración del proyecto", selecciona la pestaña de Empaquetado, o busca directamente "paquete de activos", localiza la configuración "Directorios adicionales no pertenecientes a activos para empaquetar", y añade el directorio Content/LLAMA.</p>
-<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png"></a></p>
-<p>Una vez que se ha añadido el índice, Unreal automáticamente empacará todos los archivos del índice al empaquetarlos.</p>
-<h2 id="leer-el-archivo-de-modelo-sin-conexion-empaquetado">Leer el archivo de modelo sin conexión empaquetado.</h2>
-<p>Unreal generalmente empaqueta todos los archivos del proyecto en un archivo .Pak. En este caso, si se intenta pasar la ruta del archivo en el .Pak al modelo offline de Cllam, la ejecución fallará ya que llama.cpp no puede leer directamente los archivos del modelo empaquetados en el .Pak.</p>
-<p>Por lo tanto, es necesario copiar los archivos de modelo del archivo .Pak al sistema de archivos primero. El complemento proporciona una función conveniente que permite copiar directamente los archivos de modelo del archivo .Pak y devolver la ruta del archivo copiado, para que Cllama pueda leerlos fácilmente.</p>
-<p>Los nodos de blueprint son llamados "Cllama Prepare ModelFile In Pak": automáticamente copian los archivos de modelo en Pak al sistema de archivos.</p>
+<p>Cuando se empaqueta Unreal, automáticamente se incluyen los archivos de biblioteca dinámica necesarios para los complementos, simplemente activa el complemento.</p>
+<p>Por ejemplo, para Windows, al empaquetar automáticamente se incluirán los archivos llama.cpp y las dll relacionadas con CUDA en el directorio empaquetado. Lo mismo ocurre para otras plataformas como Android, Mac e iOS.</p>
+<p>Puedes ejecutar el comando "AIChatPlus.PrintCllamaInfo" en el juego de la versión de desarrollo empaquetado para verificar el estado del entorno Cllama actual, para confirmar si el estado es normal y si es compatible con el backend de GPU.</p>
+<h2 id="empaquetar-el-modelo">Empaquetar el modelo</h2>
+<p>Si los archivos del modelo se encuentran en la carpeta Content/LLAMA dentro del proyecto, se puede configurar para que esta carpeta se incluya en el paquete durante el empaquetado.</p>
+<p>Abre "Configuración del Proyecto", selecciona la pestaña "Empaquetado", o busca directamente "paquete de activos", y localiza la configuración "Directorios Adicionales No de Activos a Empaquetar". Añade el directorio Content/LLAMA.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png"></a></p>
+<p>Una vez añadido el directorio, Unreal automáticamente empaquetará todos los archivos del directorio al momento de empaquetar.</p>
+<h2 id="leer-el-archivo-del-modelo-fuera-de-linea-empaquetado">Leer el archivo del modelo fuera de línea empaquetado.</h2>
+<p>Generalmente, Uneal empaqueta todos los archivos del proyecto en un archivo .Pak. En este caso, si se pasa la ruta del archivo .Pak al modelo fuera de línea Cllam, la ejecución fallará porque llama.cpp no puede leer directamente el archivo del modelo empaquetado en el archivo .Pak.</p>
+<p>Por lo tanto, es necesario copiar los archivos de modelo del archivo .Pak al sistema de archivos primero. El complemento proporciona una función conveniente que permite copiar directamente los archivos de modelo del archivo .Pak y devuelve la ruta de archivo copiada, para que Cllama pueda leerlos fácilmente.</p>
+<p>Los nodos de blueprint son "Cllama Prepare ModelFile In Pak": copia automáticamente los archivos de modelo en el sistema de archivos desde el Pak.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<p>La función del código C++ es:</p>
+<p>La función del código en C++ es:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#include &lt;Cllama/AIChatPlusCllama_Util.h&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
@@ -2208,7 +2208,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Este mensaje ha sido traducido utilizando ChatGPT, por favor <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>proporcione retroalimentación</strong></a>Señalar cualquier omisión. </p>
+<p>Este mensaje ha sido traducido usando ChatGPT, por favor, <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>feedback</strong></a>Señala cualquier omisión. </p>
 </blockquote></div>
 
 
@@ -2232,7 +2232,7 @@
     <span class="md-icon" title="Última actualización">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-09-04</span>
   </span>
 
     

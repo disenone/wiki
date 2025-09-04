@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Verpacken">
+        <meta name="description" content="Einpacken">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Verpacken - Disenone's Wiki</title>
+        <title>Packen - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Verpacken
+              Packen
             
           </span>
         </div>
@@ -1927,7 +1927,7 @@
           
   
   <span class="md-ellipsis">
-    Verpacken
+    Packen
   </span>
   
 
@@ -1938,7 +1938,7 @@
         
   
   <span class="md-ellipsis">
-    Verpacken
+    Packen
   </span>
   
 
@@ -1960,9 +1960,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#plugin-verpacken" class="md-nav__link">
+  <a href="#pluginverpackung" class="md-nav__link">
     <span class="md-ellipsis">
-      Plugin verpacken
+      Pluginverpackung
     </span>
   </a>
   
@@ -1978,9 +1978,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#laden-sie-die-verpackte-offline-modelldatei" class="md-nav__link">
+  <a href="#lesen-sie-die-verpackte-offline-modelldatei" class="md-nav__link">
     <span class="md-ellipsis">
-      Laden Sie die verpackte Offline-Modelldatei.
+      Lesen Sie die verpackte Offline-Modelldatei.
     </span>
   </a>
   
@@ -2113,9 +2113,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#plugin-verpacken" class="md-nav__link">
+  <a href="#pluginverpackung" class="md-nav__link">
     <span class="md-ellipsis">
-      Plugin verpacken
+      Pluginverpackung
     </span>
   </a>
   
@@ -2131,9 +2131,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#laden-sie-die-verpackte-offline-modelldatei" class="md-nav__link">
+  <a href="#lesen-sie-die-verpackte-offline-modelldatei" class="md-nav__link">
     <span class="md-ellipsis">
-      Laden Sie die verpackte Offline-Modelldatei.
+      Lesen Sie die verpackte Offline-Modelldatei.
     </span>
   </a>
   
@@ -2163,22 +2163,22 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started"></p>
-<h1 id="verpacken">Verpacken.</h1>
-<h2 id="plugin-verpacken">Plugin verpacken</h2>
-<p>Bei der Verpackung von Unreal werden automatisch alle erforderlichen dynamischen Bibliotheksdateien des Plugins mitverpackt, sodass das Plugin nur noch aktiviert werden muss.</p>
-<p>Für Windows zum Beispiel werden bei der Verpackung automatisch die Dateien llama.cpp und die CUDA-bezogenen DLL-Dateien in das Verzeichnis nach dem Verpacken kopiert. Das gilt auch für andere Plattformen wie Android/Mac/iOS.</p>
-<p>In der verpackten Entwicklerversion des Spiels können Sie den Befehl "AIChatPlus.PrintCllamaInfo" ausführen, um den aktuellen Zustand der Cllama-Umgebung zu überprüfen und zu bestätigen, ob der Zustand normal ist und ob die GPU-Backend-Unterstützung gegeben ist.</p>
+<h1 id="verpacken">Verpacken</h1>
+<h2 id="pluginverpackung">Pluginverpackung</h2>
+<p>Beim Verpacken von Unreal werden automatisch die erforderlichen DLL-Dateien für die Plugins gepackt. Du musst nur das Plugin aktivieren.</p>
+<p>Beispielsweise für Windows werden beim Packen automatisch die Dateien llama.cpp und die entsprechenden CUDA-DLL-Dateien in das Verzeichnis nach dem Packen kopiert. Für andere Plattformen wie Android, Mac und IOS gilt dasselbe.</p>
+<p>In der gepackten Entwicklerversion des Spiels können Sie den Befehl "AIChatPlus.PrintCllamaInfo" ausführen, um den aktuellen Cllama-Umgebungszustand zu überprüfen und zu bestätigen, ob alles normal ist und ob die GPU-Backend-Unterstützung aktiviert ist.</p>
 <h2 id="modellverpackung">Modellverpackung</h2>
-<p>Die Modelldateien für das Projekt befinden sich im Verzeichnis "Content/LLAMA". Sie können dieses Verzeichnis beim Packen des Projekts einschließen:</p>
-<p>Öffnen Sie die "Projekteinstellungen", wählen Sie die Registerkarte "Verpackung" oder suchen Sie direkt nach "Asset-Paket", um die Einstellung "Zusätzliche Nicht-Asset-Verzeichnisse zum Verpacken" zu finden. Fügen Sie das Verzeichnis "Content/LLAMA" hinzu.</p>
-<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png"></a></p>
-<p>Nachdem du das Inhaltsverzeichnis hinzugefügt hast, packt Unreal beim Erstellen automatisch alle Dateien aus dem Verzeichnis mit ein.</p>
-<h2 id="laden-sie-die-verpackte-offline-modelldatei">Laden Sie die verpackte Offline-Modelldatei.</h2>
-<p>Normalerweise packt Uneal alle Projektdateien in eine .Pak-Datei. Wenn Sie den Dateipfad der Dateien im .Pak an das Offline-Modell Cllam weitergeben, schlägt dies fehl, da llama.cpp die verpackte Modelldatei im .Pak nicht direkt lesen kann.</p>
-<p>Daher ist es erforderlich, die Modelldateien aus der .Pak-Datei zuerst ins Dateisystem zu kopieren. Das Plugin bietet eine praktische Funktion, um die Modelldateien direkt aus der .Pak-Datei zu kopieren und den Pfad der kopierten Datei zurückzugeben, damit Cllama einfach darauf zugreifen kann.</p>
-<p>Die Blueprint-Node lautet "Cllama Prepare ModelFile in Pak": Kopiert automatisch Modelldateien aus dem Pak in das Dateisystem.</p>
+<p>Angenommen, die Modelldateien für das Projekt sind im Verzeichnis Content/LLAMA gespeichert, dann kann man beim Packen des Projekts dieses Verzeichnis einbeziehen:</p>
+<p>Öffnen Sie die "Projekteinstellungen", wählen Sie den Reiter "Verpackung" aus, oder suchen Sie direkt nach "asset package". Suchen Sie nach der Einstellung "Zusätzliche Nicht-Asset-Verzeichnisse zum Verpacken" und fügen Sie das Verzeichnis "Content/LLAMA" hinzu.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png"></a></p>
+<p>Nachdem ein Inhaltsverzeichnis hinzugefügt wurde, packt Unreal automatisch alle Dateien im Verzeichnis während des Verpackungsvorgangs.</p>
+<h2 id="lesen-sie-die-verpackte-offline-modelldatei">Lesen Sie die verpackte Offline-Modelldatei.</h2>
+<p>Unreal packt normalerweise Projektdateien in eine .Pak-Datei. Wenn du dann den Dateipfad der Datei aus dem .Pak an das Offline-Modell Cllam übergibst, wird es fehlschlagen, da llama.cpp die verpackte Modelldatei in .Pak nicht direkt lesen kann.</p>
+<p>Deshalb ist es erforderlich, zuerst die Modelldateien aus der .Pak-Datei ins Dateisystem zu kopieren. Das Plugin bietet eine praktische Funktion, um die Modelldateien direkt aus der .Pak-Datei zu kopieren und den Pfad der kopierten Dateien zurückzugeben, damit Cllama sie leicht lesen kann.</p>
+<p>Die Blueprint-Node lautet "Cllama Prepare ModelFile In Pak": Sie kopiert automatisch Modelldateien aus dem Pak in das Dateisystem.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<p>Der C++ Code lautet:</p>
+<p>Die Funktion des C++-Codes lautet:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#include &lt;Cllama/AIChatPlusCllama_Util.h&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
@@ -2208,7 +2208,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Dieser Beitrag wurde mit ChatGPT übersetzt, bitte gib dein <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Der Text lautet auf Deutsch: "Auf alle Übersehenen hinweisen." </p>
+<p>Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib dein <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Zeigen Sie alle übersehenen Stellen an. </p>
 </blockquote></div>
 
 
@@ -2232,7 +2232,7 @@
     <span class="md-icon" title="Letztes Update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-09-04</span>
   </span>
 
     
