@@ -2482,7 +2482,7 @@ KCP 구조 (코드 펼치기 클릭)
 <h3 id="_1">전송</h3>
 <p>전송 과정은 <code>ikcp_send</code> -&gt; <code>ikcp_update</code> -&gt; <code>ikcp_output</code>이 되며, 상위 레벨에서는 <code>ikcp_send</code>를 호출하여 데이터를 KCP에 전달하고, KCP는 <code>ikcp_update</code>에서 데이터 전송을 처리합니다.</p>
 <details>
-&lt;요약&gt; ikcp_send (코드 펼치기를 클릭하십시오) 요약&gt;
+&lt;요약&gt; ikcp_send (코드 펼치기를 클릭하십시오) <!--요약-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">//---------------------------------------------------------------------</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">데이터를</span><span class="w"> </span><span class="n">전송하는</span><span class="w"> </span><span class="n">인터페이스로</span><span class="p">,</span><span class="w"> </span><span class="n">사용자는</span><span class="w"> </span><span class="n">ikcp_send를</span><span class="w"> </span><span class="n">호출하여</span><span class="w"> </span><span class="n">kcp가</span><span class="w"> </span><span class="n">데이터를</span><span class="w"> </span><span class="n">전송하도록</span><span class="w"> </span><span class="n">합니다</span><span class="p">.</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// user/upper level send, returns below zero for error</span>
@@ -2585,7 +2585,7 @@ KCP 구조 (코드 펼치기 클릭)
 
 <p><code>ikcp_update</code> 하는 일은 굉장히 간단해. <code>ts_flush</code> 시간을 체크하고, 조건에 맞으면 <code>ikcp_flush</code>를 호출해. 주요 처리 로직은 모두 <code>ikcp_flush</code>에 있어. <code>ikcp_flush</code>는 조금 복잡하기 때문에 현재는 ARQ 전송과 관련된 부분에만 집중하고 있어:</p>
 <details>
-&lt;요약&gt; 데이터 전송(코드 펼치기 클릭) 요약&gt;
+&lt;요약&gt; 데이터 전송(코드 펼치기 클릭) <!--요약-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">//---------------------------------------------------------------------</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">// ikcp_flush</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">//---------------------------------------------------------------------</span>
@@ -2841,7 +2841,7 @@ KCP 구조 (코드 펼치기 클릭)
 
 <p><code>ikcp_input</code>는 각 <code>SEG</code> 패킷을 순환하며 처리합니다. 먼저 패킷의 유효성과 종류를 확인합니다. 각 데이터 패킷에는 발신 측이 수신을 기다리는 패킷 번호가 포함되어 있는데, 이 번호보다 작아야 하는 패킷은 상대방이 이미 성공적으로 수신했다는 뜻입니다. 따라서 <code>una</code>보다 작은 패킷은 <code>snd_buff</code>에서 삭제하고 <code>snd_nxt</code>를 업데이트해야 합니다. 이 작업은 <code>ikcp_parse_una</code>와 <code>ikcp_shrink_buf</code>에서 처리됩니다. 각 받은 데이터 패킷은 ACK 패킷을 응답해야 하며, 이 정보는 <code>ikcp_ack_push</code>에 기록됩니다. 마지막으로 <code>ikcp_parse_data</code>를 호출하여 데이터를 처리합니다.</p>
 <details>
-&lt;요약&gt; 데이터 분석하기 (코드 펼치기 클릭) 요약&gt;
+&lt;요약&gt; 데이터 분석하기 (코드 펼치기 클릭) <!--요약-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ikcp_parse_data</span><span class="p">(</span><span class="n">ikcpcb</span><span class="w"> </span><span class="o">*</span><span class="n">kcp</span><span class="p">,</span><span class="w"> </span><span class="n">IKCPSEG</span><span class="w"> </span><span class="o">*</span><span class="n">newseg</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">IQUEUEHEAD</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">;</span>
@@ -3064,7 +3064,7 @@ KCP 구조 (코드 펼치기 클릭)
 <p>앞서 설명한 것은 KCP에서 구현된 ARQ의 확인 수신기 메커니즘이었습니다. ARQ는 신뢰성을 보장하기 위해 타임아웃 재전송이 필요합니다. 이제 KCP가 타임아웃 재전송을 어떻게 수행하는지 살펴보겠습니다.</p>
 <p><code>ikcp_flush</code> 함수로 돌아가 봅시다:</p>
 <details>
-&lt;요약&gt; 타임 아웃 재전송(코드 펼치기를 클릭하세요) 요약&gt;
+&lt;요약&gt; 타임 아웃 재전송(코드 펼치기를 클릭하세요) <!--요약-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ikcp_flush</span><span class="p">(</span><span class="n">ikcpcb</span><span class="w"> </span><span class="o">*</span><span class="n">kcp</span><span class="p">)</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="c1">// ...</span>
@@ -3115,7 +3115,7 @@ KCP 구조 (코드 펼치기 클릭)
 <p>발신자가 'sn'과 'sn + 1' 두 데이터 패킷을 보냈어. 'sn + 1'의 ACK 패킷만 받았다면, 'sn'의 ACK 패킷이 네트워크에 도착하기 전이거나 ACK 패킷이 누락되었거나, 'sn' 데이터 패킷이 누락된 걸지도 몰라. 이때 아직 재전송 시간이 아니거나 네트워크가 혼잡하지 않다면, 갑자기 패킷이 누락된 이유 때문이었을 걸; 발신자가 'sn' 데이터 패킷을 미리 보내면 수신측이 더 빨리 데이터를 받을 수 있게 해주고 흐름을 향상시켜 줄 수 있어.</p>
 <p>KCP 내부에는 빠른 재전송 메커니즘이 구현되었고, <code>ikcp_flush</code> 함수에서도 그 역할을 합니다.</p>
 <details>
-&lt;요약&gt; 빠른 재전송 (코드 펼치기를 클릭하십시오) 요약&gt;
+&lt;요약&gt; 빠른 재전송 (코드 펼치기를 클릭하십시오) <!--요약-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ikcp_flush</span><span class="p">(</span><span class="n">ikcpcb</span><span class="w"> </span><span class="o">*</span><span class="n">kcp</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="c1">// ...</span>

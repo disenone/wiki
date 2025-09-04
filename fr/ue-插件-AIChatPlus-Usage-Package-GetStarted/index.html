@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Emballez">
+        <meta name="description" content="Emballer">
       
       
         <meta name="author" content="Disenone">
@@ -1960,9 +1960,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#emballage-de-plug-ins" class="md-nav__link">
+  <a href="#empaquetage-du-plugiciel" class="md-nav__link">
     <span class="md-ellipsis">
-      Emballage de plug-ins
+      Empaquetage du plugiciel
     </span>
   </a>
   
@@ -1971,16 +1971,16 @@
         <li class="md-nav__item">
   <a href="#emballage-du-modele" class="md-nav__link">
     <span class="md-ellipsis">
-      Emballage du modèle
+      Emballage du modèle.
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lire-le-fichier-du-modele-hors-ligne-empaquete" class="md-nav__link">
+  <a href="#lire-le-fichier-du-modele-hors-ligne-apres-emballe" class="md-nav__link">
     <span class="md-ellipsis">
-      Lire le fichier du modèle hors ligne empaqueté.
+      Lire le fichier du modèle hors ligne après emballé.
     </span>
   </a>
   
@@ -2113,9 +2113,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#emballage-de-plug-ins" class="md-nav__link">
+  <a href="#empaquetage-du-plugiciel" class="md-nav__link">
     <span class="md-ellipsis">
-      Emballage de plug-ins
+      Empaquetage du plugiciel
     </span>
   </a>
   
@@ -2124,16 +2124,16 @@
         <li class="md-nav__item">
   <a href="#emballage-du-modele" class="md-nav__link">
     <span class="md-ellipsis">
-      Emballage du modèle
+      Emballage du modèle.
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lire-le-fichier-du-modele-hors-ligne-empaquete" class="md-nav__link">
+  <a href="#lire-le-fichier-du-modele-hors-ligne-apres-emballe" class="md-nav__link">
     <span class="md-ellipsis">
-      Lire le fichier du modèle hors ligne empaqueté.
+      Lire le fichier du modèle hors ligne après emballé.
     </span>
   </a>
   
@@ -2164,21 +2164,21 @@
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started"></p>
 <h1 id="emballer">Emballer</h1>
-<h2 id="emballage-de-plug-ins">Emballage de plug-ins</h2>
-<p>Lorsque vous effectuez le packaging dans Unreal Engine, les fichiers de bibliothèques dynamiques requis par les plugins sont automatiquement inclus dans le package, il vous suffit simplement d'activer le plugin.</p>
-<p>Pour Windows, lors du packaging, les fichiers llama.cpp, ainsi que les fichiers DLL liés à CUDA, seront automatiquement placés dans le répertoire de destination. Il en va de même pour les autres plateformes telles qu'Android, Mac et iOS.</p>
-<p>Vous pouvez exécuter la commande "AIChatPlus.PrintCllamaInfo" dans le jeu version Development après l'avoir packagé, pour vérifier l'état actuel de l'environnement Cllama, confirmer si l'état est normal et s'il prend en charge le backend GPU.</p>
-<h2 id="emballage-du-modele">Emballage du modèle</h2>
-<p>Les fichiers de modèle pour le projet sont situés dans le répertoire Content/LLAMA. Ainsi, vous pouvez définir d'inclure ce répertoire lors de l'emballage.</p>
-<p>Ouvrez les "Paramètres du projet", sélectionnez l'onglet Packaging, ou recherchez directement "asset package", puis repérez l'option "Répertoires supplémentaires à inclure dans le package" et ajoutez le répertoire Content/LLAMA.</p>
-<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png"></a></p>
-<p>Après avoir ajouté la table des matières, Unreal va automatiquement empaqueter tous les fichiers du répertoire lors du processus de compilation.</p>
-<h2 id="lire-le-fichier-du-modele-hors-ligne-empaquete">Lire le fichier du modèle hors ligne empaqueté.</h2>
-<p>En général, Uneal packagera tous les fichiers de projet dans un fichier .Pak. Si vous transmettez le chemin du fichier dans le .Pak au modèle hors ligne Cllam, l'exécution échouera car le fichier empaqueté du modèle ne peut pas être lu directement par llama.cpp.</p>
-<p>Il est donc nécessaire de copier les fichiers de modèle du .Pak dans le système de fichiers avant tout, le plugin offre une fonction pratique qui permet de copier directement les fichiers de modèle du .Pak et de renvoyer le chemin du fichier copié, pour que Cllama puisse les lire facilement.</p>
-<p>Les Blueprints Nodes sont "Cllama Prepare ModelFile In Pak": ils copient automatiquement les fichiers de modèle du Pak dans le système de fichiers.</p>
+<h2 id="empaquetage-du-plugiciel">Empaquetage du plugiciel</h2>
+<p>Lorsque vous compilez avec Unreal Engine, les fichiers de bibliothèque dynamique nécessaires aux plug-ins sont automatiquement inclus dans le package, il vous suffit simplement d'activer le plug-in.</p>
+<p>Pour Windows, le processus de packaging placera automatiquement les fichiers llama.cpp et les DLL liés à CUDA dans le répertoire de destination. Il en va de même pour les autres plates-formes telles qu'Android, Mac et iOS.</p>
+<p>Vous pouvez exécuter la commande "AIChatPlus.PrintCllamaInfo" dans le jeu en version Development après l'avoir packagé pour vérifier l'état actuel de l'environnement Cllama, confirmer si l'état est normal et s'il prend en charge le backend GPU.</p>
+<h2 id="emballage-du-modele">Emballage du modèle.</h2>
+<p>Supposons que les fichiers du modèle ajoutés au projet soient situés dans le dossier Content/LLAMA, alors vous pouvez inclure ce répertoire lors de l'emballage :</p>
+<p>Ouvrez les "Paramètres du projet", sélectionnez l'onglet Packaging, ou recherchez directement "paquet d'actifs", repérez le paramètre "Répertoires supplémentaires à inclure dans le paquet" et ajoutez le dossier Content/LLAMA.</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png"></a></p>
+<p>Une fois que le répertoire est ajouté, Unreal packagera automatiquement tous les fichiers du répertoire lors de la construction.</p>
+<h2 id="lire-le-fichier-du-modele-hors-ligne-apres-emballe">Lire le fichier du modèle hors ligne après emballé.</h2>
+<p>Généralement, Uneal va regrouper tous les fichiers de projet dans un fichier .Pak. Si vous transmettez le chemin du fichier dans le .Pak au modèle hors ligne Cllam, cela échouera car llama.cpp ne peut pas lire directement le fichier de modèle regroupé dans le .Pak.</p>
+<p>Il est donc nécessaire de copier les fichiers de modèle du fichier .Pak dans le système de fichiers, le plugin propose une fonction pratique pour copier directement les fichiers de modèle du fichier .Pak, et renvoie le chemin du fichier copié, ce qui permet à Cllama de les lire facilement.</p>
+<p>Les nœuds de la feuille de route sont "Cllama Prepare ModelFile In Pak": ils copient automatiquement les fichiers de modèles du Pak dans le système de fichiers.</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<p>Le code de la fonction C++ est :</p>
+<p>Le code de la fonction en C++ est : </p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#include &lt;Cllama/AIChatPlusCllama_Util.h&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
@@ -2208,7 +2208,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>Ce message a été traduit en utilisant ChatGPT, veuillez donner votre <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>Feedback</strong></a>Identifier toute omission. </p>
+<p>Ce message a été traduit en utilisant ChatGPT, veuillez laisser vos <a href="https://github.com/disenone/wiki_blog/issues/new"><strong>commentaires</strong></a>Faites remarquer tout oubli. </p>
 </blockquote></div>
 
 
@@ -2232,7 +2232,7 @@
     <span class="md-icon" title="Dernière mise à jour">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-09-04</span>
   </span>
 
     

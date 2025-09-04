@@ -2480,7 +2480,7 @@
 <h3 id="_1">發送</h3>
 <p>資料傳送的流程是 <code>ikcp_send</code> -&gt; <code>ikcp_update</code> -&gt; <code>ikcp_output</code>。上層呼叫 <code>ikcp_send</code> 將資料傳送給 KCP，KCP 在 <code>ikcp_update</code> 中處理資料的傳送。</p>
 <details>
-&lt;總結&gt;ikcp_send（點擊展開代碼）總結&gt;
+&lt;總結&gt;ikcp_send（點擊展開代碼）<!--總結-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">//---------------------------------------------------------------------</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// 發送數據接口，用戶調用 ikcp_send 來讓 kcp 發送數據</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// user/upper level send, returns below zero for error</span>

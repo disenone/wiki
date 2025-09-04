@@ -2059,7 +2059,7 @@
         
   
   <span class="md-ellipsis">
-    حزمة
+    حزم
   </span>
   
 
@@ -3121,7 +3121,7 @@
 <p>أرسل المرسل حزمتي بيانات برقم تسلسلي <code>sn</code> و <code>sn + 1</code>، وإذا تلقى فقط حزمة ACK لـ <code>sn + 1</code>، فقد يكون ذلك لأن حزمة ACK لـ <code>sn</code> لم تصل بعد عبر الشبكة، أو أن حزمة ACK قد فقدت، أو أن حزمة البيانات <code>sn</code> قد فقدت. إذا لم يحِن بعد وقت المهلة لإعادة الإرسال، وكانت الشبكة ليست مزدحمة بشكل كبير، فقد يكون فقدان الحزم بسبب بعض الأسباب المؤقتة. في هذه الحالة، يمكن للمرسل أن يختار إرسال حزمة البيانات <code>sn</code> بشكل مبكر، مما يساعد المستقبل على استلام البيانات بشكل أسرع وزيادة سرعة التدفق.</p>
 <p>KCP في داخله يحقق أيضًا آلية الإعادة السريعة، وذلك أيضًا في <code>ikcp_flush</code>:</p>
 <details>
-&lt;ملخص&gt; إعادة النقل السريع (انقر لعرض الشيفرة) ملخص&gt;
+&lt;ملخص&gt; إعادة النقل السريع (انقر لعرض الشيفرة) <!--ملخص-->
 <div class="language-cpp highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ikcp_flush</span><span class="p">(</span><span class="n">ikcpcb</span><span class="w"> </span><span class="o">*</span><span class="n">kcp</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="c1">// ...</span>

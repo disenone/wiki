@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="包装">
+        <meta name="description" content="パッケージング">
       
       
         <meta name="author" content="Disenone">
@@ -29,7 +29,7 @@
     
     
       
-        <title>包みます - Disenone's Wiki</title>
+        <title>包む - Disenone's Wiki</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              包みます
+              包む
             
           </span>
         </div>
@@ -1927,7 +1927,7 @@
           
   
   <span class="md-ellipsis">
-    包みます
+    包む
   </span>
   
 
@@ -1938,7 +1938,7 @@
         
   
   <span class="md-ellipsis">
-    包みます
+    包む
   </span>
   
 
@@ -1962,7 +1962,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      プラグインをパッケージ化
+      プラグインのパッケージング
     </span>
   </a>
   
@@ -1971,7 +1971,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      モデルを梱包
+      モデルパッケージング
     </span>
   </a>
   
@@ -2115,7 +2115,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      プラグインをパッケージ化
+      プラグインのパッケージング
     </span>
   </a>
   
@@ -2124,7 +2124,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      モデルを梱包
+      モデルパッケージング
     </span>
   </a>
   
@@ -2163,22 +2163,22 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started"></p>
-<h1 id="_1">包装</h1>
-<h2 id="_2">プラグインをパッケージ化</h2>
-<p>Unrealのパッケージング時には、プラグインに必要なダイナミックライブラリファイルが自動的にパッケージされるため、プラグインを有効にするだけで済みます。</p>
-<p>Windowsでは、例えば、llama.cppやCUDA関連のdllファイルが、自動的にパッケージングされたディレクトリに配置されます。Android / Mac / IOSなど、他のプラットフォームでも同様です。</p>
-<p>Development版のゲームがパッケージ化された後、「AIChatPlus.PrintCllamaInfo」というコマンドを実行して、現在のCllama環境の状態を確認し、状態が正常かどうか、GPUバックエンドをサポートしているかを確認してください。</p>
-<h2 id="_3">モデルを梱包</h2>
-<p>プロジェクトに参加しているモデルファイルは、Content/LLAMAディレクトリに配置されています。したがって、このディレクトリをパッケージ化する設定が可能です：</p>
-<p>「Project Setting」を開いて、Packagingタブを選択するか、「asset package」を検索して、「Additional Non-Asset Directories to Package」という設定を見つけて、ディレクトリ「Content/LLAMA」を追加すればOKです。</p>
-<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png"></a></p>
-<p>目次を追加すると、Unreal はパッケージング時に自動的にそのディレクトリ内のすべてのファイルをパッケージ化します。</p>
+<h1 id="_1">梱包</h1>
+<h2 id="_2">プラグインのパッケージング</h2>
+<p>Unreal Engine は、パッケージング時に、プラグインに必要なダイナミック ライブラリ ファイルを自動的にパッケージングしてくれるため、プラグインを有効にするだけで使用できます。</p>
+<p>Windowsに関しては、パッケージング時にはlama.cppやCUDA関連のdllファイルが自動的にパッケージングされたディレクトリに配置されます。Android/Mac/iOSなど他のプラットフォームでも同様です。</p>
+<p>開発版ゲームのパッケージング後に "AIChatPlus.PrintCllamaInfo" コマンドを実行して、現在の Cllama 環境の状態を確認し、ステータスが正常かどうか、GPU バックエンドがサポートされているかどうかを確認してください。</p>
+<h2 id="_3">モデルパッケージング</h2>
+<p>仮にプロジェクトに組み込むモデルファイルがディレクトリ Content/LLAMA に置かれているとしたら、パッケージングする際にこのディレクトリを含めるように設定できます：</p>
+<p>"Project Setting"を開き、Packagingタブを選択するか、「asset package」と検索してください。「Additional Non-Asset Directories to Package」の設定を見つけ、ディレクトリ Content/LLAMA を追加してください。</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png"></a></p>
+<p>目次を追加すると、Unreal はパッケージングの際に自動的に目次内のすべてのファイルをパッケージングします。</p>
 <h2 id="_4">パッケージ化されたオフラインモデルファイルを読み込む</h2>
-<p>一般の場合、Unealはプロジェクトファイルを.Pakファイルにパッケージングします。この時、.Pak内のファイルパスをCllamオフラインモデルに渡すと、実行に失敗します。なぜなら、llama.cppは直接.Pak内のパッケージ化されたモデルファイルを読むことができないからです。</p>
-<p>したがって、最初に .Pak ファイル内のモデルファイルをファイルシステムにコピーする必要があります。プラグインには、.Pak のモデルファイルを直接コピーし、コピー後のファイルパスを返す便利な関数が提供されています。これにより、Cllama が簡単に読み取れるようになります。</p>
-<p>ブループリントノードは "Cllama Prepare ModelFile In Pak" です："Pak"内のモデルファイルを自動的にファイルシステムにコピーします。</p>
+<p>一般Uneal会将项目文件打包至.Pak文件中，若将.Pak内的文件路径传递给Cllam离线模型，会导致执行失败，因为llama.cpp无法直接读取.Pak文件中打包后的模型文件。</p>
+<p>したがって、まずは .Pak ファイル内のモデルファイルをファイルシステムにコピーする必要があります。プラグインには、.Pak のモデルファイルを直接コピーしてコピー後のファイルパスを返す便利な関数が用意されており、Cllama が簡単に読み取れるようにしています。</p>
+<p>ブループリントノード "Cllama Prepare ModelFile In Pak" は、Pak内のモデルファイルを自動的にファイルシステムにコピーします。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<p>C++のコード関数は：</p>
+<p>C ++ コードの関数は：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#include &lt;Cllama/AIChatPlusCllama_Util.h&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
@@ -2208,7 +2208,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>この投稿はChatGPTを使用して翻訳されました。<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遗漏之处。 </p>
+<p>この投稿はChatGPTを使用して翻訳されましたので、<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>フィードバック</strong></a>中指出任何遗漏之处。 - どこか見落としのある点を指摘してください。 </p>
 </blockquote></div>
 
 
@@ -2232,7 +2232,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-03-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-custom">2025-09-04</span>
   </span>
 
     

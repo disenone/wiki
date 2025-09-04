@@ -2163,22 +2163,22 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started"></p>
-<h1 id="_1">打包</h1>
+<h1 id="_1">包裝</h1>
 <h2 id="_2">插件打包</h2>
-<p>在 Unreal 打包的過程中，將自動打包所需插件的動態庫文件，只需啟用插件即可。</p>
-<p>對於 Windows 而言，打包程序會自動將 llama.cpp 和相關的 CUDA dll 檔案都放入打包後的資料夾中。對於其他平台 Android / Mac / IOS 也是同樣的。</p>
-<p>在已經打包好的開發版本遊戲中，執行指令 "AIChatPlus.PrintCllamaInfo"，檢視目前的 Cllama 環境狀態，確認其運作是否正常，以及是否支援 GPU 後端。</p>
+<p>在 Unreal 打包的過程中，系統會自動將插件所需的動態庫檔案一併打包好，只需啟用插件即可。</p>
+<p>例如對於 Windows，打包程序會自動將 llama.cpp 和 CUDA 相關的 dll 檔案都放入打包後的目錄中。而對於其他平台 Android / Mac / IOS 也是同樣的方式。</p>
+<p>你可以在打包後的 Development 版本遊戲裡執行指令 "AIChatPlus.PrintCllamaInfo"，查看目前的 Cllama 環境狀態，確認狀態是否正常，以及是否支援 GPU 後端。</p>
 <h2 id="_3">模型打包</h2>
-<p>將加入專案的模型檔案放置在 Content/LLAMA 目錄下，您可以在打包時設定包含此目錄：</p>
-<p>打開「專案設置」，選擇「打包」頁籤，或直接搜尋「資產套件」，找到「要打包的其他非資產目錄」設置，新增目錄「Content/LLAMA」即可：</p>
-<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png"></a></p>
-<p>添加目录後，Unreal 在打包的時候就會自動將該目錄中的所有檔案一併打包。</p>
+<p>假設加入專案的模型文件放在了目錄 Content/LLAMA 下面，那麼可以設定打包的時候包含此目錄：</p>
+<p>打開 "專案設定"，選擇封裝頁籤，或直接搜尋 " asset package"，找到 "要封裝的其他非資產目錄" 設定，加入目錄 Content/LLAMA 即可：</p>
+<p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png"></a></p>
+<p>在添加目錄後，Unreal 在打包的時候就會自動將目錄中的所有檔案一併打包。</p>
 <h2 id="_4">讀取打包後的離線模型文件</h2>
-<p>一般情況下，Uneal 會將專案檔案打包成 .Pak 檔案。若此時將 .Pak 檔案的路徑傳遞給 Cllam 離線模型，執行將失敗，因為 llama.cpp 無法直接讀取打包後的模型檔案。</p>
-<p>因此需要先將 .Pak 中的模型文件複製出來到文件系統中，插件提供了一個方便的函數可以直接將 .Pak 的模型文件複製出來，並返回複製後的文件路徑，讓 Cllama 可以方便讀取。</p>
-<p>藍圖節點是"Cllama Prepare ModelFile In Pak"：自動將 Pak 中的模型文件複製到檔案系統中</p>
+<p>通常 Uneal 會將專案檔案打包成 .Pak 檔案，若將 .Pak 中的檔案路徑傳遞給 Cllam 離線模型，將會執行失敗，因為 llama.cpp 無法直接讀取 .Pak 中打包後的模型檔案。</p>
+<p>因此需要先將 .Pak 中的模型文件複製到文件系統中，插件提供了一個方便的函數，可以直接將 .Pak 的模型文件複製出來並返回複製後的文件路徑，以方便Cllama進行讀取。</p>
+<p>藍圖節點是 "Cllama Prepare ModelFile In Pak": 自動將 Pak 中的模型文件複製到檔案系統中。</p>
 <p><a class="glightbox" href="../../assets/img/2024-ue-aichatplus/guide_util_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="guide bludprint" src="../../assets/img/2024-ue-aichatplus/guide_util_4.png"></a></p>
-<p>C++ 代碼函數是：</p>
+<p>C++ code function is:</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#include &lt;Cllama/AIChatPlusCllama_Util.h&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
@@ -2208,7 +2208,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此貼文是用ChatGPT翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
+<p>此貼文是由 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>請指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
