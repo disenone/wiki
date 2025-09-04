@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Verpacken
+title: Packen
 tags:
 - dev
 - game
@@ -19,44 +19,42 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: Verpacken
+description: Einpacken
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started" />
 
-#Verpacken.
+#Verpacken
 
-##Plugin verpacken
+##Pluginverpackung
 
-Bei der Verpackung von Unreal werden automatisch alle erforderlichen dynamischen Bibliotheksdateien des Plugins mitverpackt, sodass das Plugin nur noch aktiviert werden muss.
+Beim Verpacken von Unreal werden automatisch die erforderlichen DLL-Dateien für die Plugins gepackt. Du musst nur das Plugin aktivieren.
 
-Für Windows zum Beispiel werden bei der Verpackung automatisch die Dateien llama.cpp und die CUDA-bezogenen DLL-Dateien in das Verzeichnis nach dem Verpacken kopiert. Das gilt auch für andere Plattformen wie Android/Mac/iOS.
+Beispielsweise für Windows werden beim Packen automatisch die Dateien llama.cpp und die entsprechenden CUDA-DLL-Dateien in das Verzeichnis nach dem Packen kopiert. Für andere Plattformen wie Android, Mac und IOS gilt dasselbe.
 
-In der verpackten Entwicklerversion des Spiels können Sie den Befehl "AIChatPlus.PrintCllamaInfo" ausführen, um den aktuellen Zustand der Cllama-Umgebung zu überprüfen und zu bestätigen, ob der Zustand normal ist und ob die GPU-Backend-Unterstützung gegeben ist.
+In der gepackten Entwicklerversion des Spiels können Sie den Befehl "AIChatPlus.PrintCllamaInfo" ausführen, um den aktuellen Cllama-Umgebungszustand zu überprüfen und zu bestätigen, ob alles normal ist und ob die GPU-Backend-Unterstützung aktiviert ist.
 
-##Modellverpackung  
+##Modellverpackung
 
+Angenommen, die Modelldateien für das Projekt sind im Verzeichnis Content/LLAMA gespeichert, dann kann man beim Packen des Projekts dieses Verzeichnis einbeziehen:
 
-Die Modelldateien für das Projekt befinden sich im Verzeichnis "Content/LLAMA". Sie können dieses Verzeichnis beim Packen des Projekts einschließen:
+Öffnen Sie die "Projekteinstellungen", wählen Sie den Reiter "Verpackung" aus, oder suchen Sie direkt nach "asset package". Suchen Sie nach der Einstellung "Zusätzliche Nicht-Asset-Verzeichnisse zum Verpacken" und fügen Sie das Verzeichnis "Content/LLAMA" hinzu.
 
-Öffnen Sie die "Projekteinstellungen", wählen Sie die Registerkarte "Verpackung" oder suchen Sie direkt nach "Asset-Paket", um die Einstellung "Zusätzliche Nicht-Asset-Verzeichnisse zum Verpacken" zu finden. Fügen Sie das Verzeichnis "Content/LLAMA" hinzu.
+![](assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png)
 
-![](assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png)
+Nachdem ein Inhaltsverzeichnis hinzugefügt wurde, packt Unreal automatisch alle Dateien im Verzeichnis während des Verpackungsvorgangs.
 
-Nachdem du das Inhaltsverzeichnis hinzugefügt hast, packt Unreal beim Erstellen automatisch alle Dateien aus dem Verzeichnis mit ein.
+##Lesen Sie die verpackte Offline-Modelldatei.
 
+Unreal packt normalerweise Projektdateien in eine .Pak-Datei. Wenn du dann den Dateipfad der Datei aus dem .Pak an das Offline-Modell Cllam übergibst, wird es fehlschlagen, da llama.cpp die verpackte Modelldatei in .Pak nicht direkt lesen kann.
 
-##Laden Sie die verpackte Offline-Modelldatei.
+Deshalb ist es erforderlich, zuerst die Modelldateien aus der .Pak-Datei ins Dateisystem zu kopieren. Das Plugin bietet eine praktische Funktion, um die Modelldateien direkt aus der .Pak-Datei zu kopieren und den Pfad der kopierten Dateien zurückzugeben, damit Cllama sie leicht lesen kann.
 
-Normalerweise packt Uneal alle Projektdateien in eine .Pak-Datei. Wenn Sie den Dateipfad der Dateien im .Pak an das Offline-Modell Cllam weitergeben, schlägt dies fehl, da llama.cpp die verpackte Modelldatei im .Pak nicht direkt lesen kann.
-
-Daher ist es erforderlich, die Modelldateien aus der .Pak-Datei zuerst ins Dateisystem zu kopieren. Das Plugin bietet eine praktische Funktion, um die Modelldateien direkt aus der .Pak-Datei zu kopieren und den Pfad der kopierten Datei zurückzugeben, damit Cllama einfach darauf zugreifen kann.
-
-Die Blueprint-Node lautet "Cllama Prepare ModelFile in Pak": Kopiert automatisch Modelldateien aus dem Pak in das Dateisystem.
+Die Blueprint-Node lautet "Cllama Prepare ModelFile In Pak": Sie kopiert automatisch Modelldateien aus dem Pak in das Dateisystem.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
-Der C++ Code lautet:
+Die Funktion des C++-Codes lautet:
 
 ```
 #include <Cllama/AIChatPlusCllama_Util.h>
@@ -67,4 +65,4 @@ auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
 --8<-- "footer_de.md"
 
 
-> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte gib dein [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Der Text lautet auf Deutsch: "Auf alle Übersehenen hinweisen." 
+> Dieser Beitrag wurde mit ChatGPT übersetzt. Bitte gib dein [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Zeigen Sie alle übersehenen Stellen an. 

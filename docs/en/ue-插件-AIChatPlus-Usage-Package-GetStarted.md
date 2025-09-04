@@ -28,30 +28,29 @@ description: Packaging
 
 ##Plugin packaging
 
-During Unreal packaging, the necessary dynamic library files for the plugins are automatically packaged, so you just need to enable the plugin.
+During the packaging process of Unreal, the necessary dynamic library files for the plugins will be automatically packaged, only requiring the activation of the plugin.
 
-For example, when it comes to Windows, packaging will automatically place the llama.cpp, CUDA-related DLL files into the packaged directory. The same applies to other platforms like Android, Mac, and IOS.
+For instance, with Windows, packaging automatically places llama.cpp and the CUDA-related DLL files into the packaged directory. The same applies to other platforms such as Android, Mac, and iOS.
 
-In the packaged Development version of the game, you can execute the command "AIChatPlus.PrintCllamaInfo" to check the current Cllama environment status, confirm if the state is normal, and verify GPU backend support.
+You can execute the command "AIChatPlus.PrintCllamaInfo" in the packaged Development version of the game to check the current Cllama environment status, confirm if the status is normal, and if it supports GPU backend.
 
-##Model packaging
+##Model Packaging
 
-The model files for the project are placed in the directory Content/LLAMA. You can then include this directory when setting up the packaging process.
+Assuming that the model files for the project are located in the directory Content/LLAMA, you can include this directory when setting up the packaging process.
 
-Open "Project Settings", select the Packaging tab, or simply search for "asset package". Once you see the setting "Additional Non-Asset Directories to Package", add the directory Content/LLAMA.
+Open "Project Setting", select the Packaging tab, or simply search for "asset package". Locate the setting "Additional Non-Asset Directories to Package", and add the directory Content/LLAMA.
 
-![](assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png)
+![](assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png)
 
-After adding a content directory, Unreal will automatically package all the files in the directory when packaging.
-
+After adding a directory, Unreal will automatically package all files in the directory during the packaging process.
 
 ##Read the packaged offline model file.
 
-Normally, Uneal packages project files into .Pak files. If the file path from the .Pak is passed to the Cllam offline model, it will fail to execute. This is because llama.cpp cannot directly read the packaged model file from the .Pak.
+Usually, Uneal will package project files into .Pak files. At this point, if you pass the file path in the .Pak to the Cllam offline model, it will fail to execute because llama.cpp cannot directly read the model files packaged in the .Pak.
 
-Therefore, it is necessary to first copy the model files from the .Pak to the file system. The plugin provides a convenient function that can directly copy the model files from the .Pak and return the path of the copied files, enabling Cllama to read them easily.
+Therefore, it is necessary to first copy the model files in the .Pak to the file system. The plugin provides a convenient function that can directly copy the model files from the .Pak and return the copied file path, allowing Cllama to read them easily.
 
-The blueprint node is "Cllama Prepare ModelFile In Pak": it automatically copies model files from the Pak to the file system.
+Blueprint node "Cllama Prepare ModelFile In Pak" automatically copies model files from the Pak to the file system.
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
@@ -66,4 +65,4 @@ auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
 --8<-- "footer_en.md"
 
 
-> This post was translated using ChatGPT. Please provide feedback [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 
+> This post was translated using ChatGPT, please provide feedback in [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 

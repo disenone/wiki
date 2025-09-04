@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 包みます
+title: 包む
 tags:
 - dev
 - game
@@ -19,43 +19,42 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: 包装
+description: パッケージング
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started" />
 
-#包装
+#梱包
 
-##プラグインをパッケージ化
+##プラグインのパッケージング
 
-Unrealのパッケージング時には、プラグインに必要なダイナミックライブラリファイルが自動的にパッケージされるため、プラグインを有効にするだけで済みます。
+Unreal Engine は、パッケージング時に、プラグインに必要なダイナミック ライブラリ ファイルを自動的にパッケージングしてくれるため、プラグインを有効にするだけで使用できます。
 
-Windowsでは、例えば、llama.cppやCUDA関連のdllファイルが、自動的にパッケージングされたディレクトリに配置されます。Android / Mac / IOSなど、他のプラットフォームでも同様です。
+Windowsに関しては、パッケージング時にはlama.cppやCUDA関連のdllファイルが自動的にパッケージングされたディレクトリに配置されます。Android/Mac/iOSなど他のプラットフォームでも同様です。
 
-Development版のゲームがパッケージ化された後、「AIChatPlus.PrintCllamaInfo」というコマンドを実行して、現在のCllama環境の状態を確認し、状態が正常かどうか、GPUバックエンドをサポートしているかを確認してください。
+開発版ゲームのパッケージング後に "AIChatPlus.PrintCllamaInfo" コマンドを実行して、現在の Cllama 環境の状態を確認し、ステータスが正常かどうか、GPU バックエンドがサポートされているかどうかを確認してください。
 
-##モデルを梱包
+##モデルパッケージング
 
-プロジェクトに参加しているモデルファイルは、Content/LLAMAディレクトリに配置されています。したがって、このディレクトリをパッケージ化する設定が可能です：
+仮にプロジェクトに組み込むモデルファイルがディレクトリ Content/LLAMA に置かれているとしたら、パッケージングする際にこのディレクトリを含めるように設定できます：
 
-「Project Setting」を開いて、Packagingタブを選択するか、「asset package」を検索して、「Additional Non-Asset Directories to Package」という設定を見つけて、ディレクトリ「Content/LLAMA」を追加すればOKです。
+"Project Setting"を開き、Packagingタブを選択するか、「asset package」と検索してください。「Additional Non-Asset Directories to Package」の設定を見つけ、ディレクトリ Content/LLAMA を追加してください。
 
-![](assets/img/2024-ue-aichatplus/usage/blueprint/openai_image_edit_6.png)
+![](assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png)
 
-目次を追加すると、Unreal はパッケージング時に自動的にそのディレクトリ内のすべてのファイルをパッケージ化します。
-
+目次を追加すると、Unreal はパッケージングの際に自動的に目次内のすべてのファイルをパッケージングします。
 
 ##パッケージ化されたオフラインモデルファイルを読み込む
 
-一般の場合、Unealはプロジェクトファイルを.Pakファイルにパッケージングします。この時、.Pak内のファイルパスをCllamオフラインモデルに渡すと、実行に失敗します。なぜなら、llama.cppは直接.Pak内のパッケージ化されたモデルファイルを読むことができないからです。
+一般Uneal会将项目文件打包至.Pak文件中，若将.Pak内的文件路径传递给Cllam离线模型，会导致执行失败，因为llama.cpp无法直接读取.Pak文件中打包后的模型文件。
 
-したがって、最初に .Pak ファイル内のモデルファイルをファイルシステムにコピーする必要があります。プラグインには、.Pak のモデルファイルを直接コピーし、コピー後のファイルパスを返す便利な関数が提供されています。これにより、Cllama が簡単に読み取れるようになります。
+したがって、まずは .Pak ファイル内のモデルファイルをファイルシステムにコピーする必要があります。プラグインには、.Pak のモデルファイルを直接コピーしてコピー後のファイルパスを返す便利な関数が用意されており、Cllama が簡単に読み取れるようにしています。
 
-ブループリントノードは "Cllama Prepare ModelFile In Pak" です："Pak"内のモデルファイルを自動的にファイルシステムにコピーします。
+ブループリントノード "Cllama Prepare ModelFile In Pak" は、Pak内のモデルファイルを自動的にファイルシステムにコピーします。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
-C++のコード関数は：
+C ++ コードの関数は：
 
 ```
 #include <Cllama/AIChatPlusCllama_Util.h>
@@ -66,4 +65,4 @@ auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 
+> この投稿はChatGPTを使用して翻訳されましたので、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 - どこか見落としのある点を指摘してください。 
