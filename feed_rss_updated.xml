@@ -13,8 +13,8 @@
     <language>ar</language>
 
     
-    <pubDate>Thu, 04 Sep 2025 14:02:28 -0000</pubDate>
-    <lastBuildDate>Thu, 04 Sep 2025 14:02:28 -0000</lastBuildDate>
+    <pubDate>Mon, 03 Nov 2025 13:34:16 -0000</pubDate>
+    <lastBuildDate>Mon, 03 Nov 2025 13:34:16 -0000</lastBuildDate>
     <ttl>1440</ttl>
 
     
@@ -39,7 +39,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ko/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 14:03:13 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:34:53 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ko/blog/</guid>
@@ -54,7 +54,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ar/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 14:02:27 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:34:15 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ar/blog/</guid>
@@ -69,7 +69,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/fr/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:55:01 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:27:56 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/fr/blog/</guid>
@@ -84,7 +84,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/de/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:50:56 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:24:28 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/de/blog/</guid>
@@ -99,7 +99,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/ja/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:46:49 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:21:00 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ja/blog/</guid>
@@ -114,7 +114,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/es/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:42:44 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:17:31 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/es/blog/</guid>
@@ -129,7 +129,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/en/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:41:40 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:16:36 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/en/blog/</guid>
@@ -144,7 +144,7 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/zh-Hant/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:37:35 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:13:09 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/zh-Hant/blog/</guid>
@@ -159,67 +159,10 @@
       
       <description>&lt;h1 id=&#34;blog&#34;&gt;Blog&lt;/h1&gt;</description>
       <link>https://wiki.disenone.site/blog/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 13:36:31 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 13:12:14 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/blog/</guid>
-      
-    </item>
-    
-    <item>
-      <title>打包</title>
-      
-      
-      
-      
-      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started&#34; /&gt;&lt;/p&gt;
-&lt;h1 id=&#34;_1&#34;&gt;打包&lt;/h1&gt;
-&lt;h2 id=&#34;_2&#34;&gt;插件打包&lt;/h2&gt;
-&lt;p&gt;Unreal 打包的时候，会自动把插件需要的动态库文件都打包好，只需要启用插件即可。&lt;/p&gt;
-&lt;p&gt;譬如对于 Windows，打包会自动把 llama.cpp, CUDA 相关的 dll 文件都放到打包后的目录中。对于其他平台 Android / Mac / IOS 也是同样的。&lt;/p&gt;
-&lt;p&gt;可以在打包后的 Development 版本游戏里面执行指令 &#34;AIChatPlus.PrintCllamaInfo&#34;，查看当前的 Cllama 环境状态，确认是否状态是否正常，是否支持 GPU backend。&lt;/p&gt;
-&lt;h2 id=&#34;_3&#34;&gt;模型打包&lt;/h2&gt;
-&lt;p&gt;假设加入项目的模型文件放在了目录 Content/LLAMA 下面，那么可以设置打包的时候包含此目录：&lt;/p&gt;
-&lt;p&gt;打开 &#34;Project Setting&#34;，选择 Packaging 页签，或者直接搜索 &#34;asset package&#34;，看到设置 &#34;Additional Non-Asset Directories to Package&#34;，添加目录 Content/LLAMA 即可：&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;添加目录之后，Unreal 在打包的时候就会自动把目录的所有文件都打包好。&lt;/p&gt;
-&lt;h2 id=&#34;_4&#34;&gt;读取打包后的离线模型文件&lt;/h2&gt;
-&lt;p&gt;一般 Uneal 会把项目文件都打包到 .Pak 文件中，此时如果把 .Pak 中的文件路径传递给 Cllam 离线模型，是会执行失败的，因为 llama.cpp 无法直接读取 .Pak 中打包后的模型文件。&lt;/p&gt;
-&lt;p&gt;因此需要先把 .Pak 中的模型文件复制出来文件系统中，插件提供了一个方便的函数可以直接把 .Pak 的模型文件复制出来，并返回复制后的文件路径，让 Cllama 可以方便读取。&lt;/p&gt;
-&lt;p&gt;蓝图节点是 &#34;Cllama Prepare ModelFile In Pak&#34;: 自动把 Pak 中的模型文件复制到文件系统中&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_4.png&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;C++ 代码函数是：&lt;/p&gt;
-&lt;div class=&#34;language-text highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;#include &amp;lt;Cllama/AIChatPlusCllama_Util.h&amp;gt;
-&lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;
-&lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
-
-&lt;!-- 转载声明 &amp;&amp; visit --&gt;
-&lt;blockquote&gt;
-&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;!-- 转载 --&gt;
-&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
-    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
-    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
-
-&lt;!-- visit --&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Thu, 04 Sep 2025 12:21:29 +0000</pubDate>
-      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
-      
-      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/</guid>
       
     </item>
     
@@ -231,6 +174,20 @@
       
       <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 版本日志&#34; /&gt;&lt;/p&gt;
 &lt;h1 id=&#34;ue-aichatplus&#34;&gt;UE 插件 AIChatPlus 版本日志&lt;/h1&gt;
+&lt;h2 id=&#34;v180-20251103&#34;&gt;v1.8.0 - 2025.11.03&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;升级 llama.cpp b6792&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;v170-20250706&#34;&gt;v1.7.0 - 2025.07.06&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;升级 llama.cpp b5536&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;支持 UE5.6&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;Android 发布 shipping 会 crash，禁用掉 llama.cpp&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;v162-20250317&#34;&gt;v1.6.2 - 2025.03.17&lt;/h2&gt;
 &lt;h3 id=&#34;_1&#34;&gt;新功能&lt;/h3&gt;
 &lt;ul&gt;
@@ -422,10 +379,67 @@
 &lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
-      <pubDate>Mon, 17 Mar 2025 02:06:16 +0000</pubDate>
+      <pubDate>Mon, 03 Nov 2025 12:31:28 +0000</pubDate>
       <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
       
       <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-ChangeLogs/</guid>
+      
+    </item>
+    
+    <item>
+      <title>打包</title>
+      
+      
+      
+      
+      <description>&lt;p&gt;&lt;meta property=&#34;og:title&#34; content=&#34;UE 插件 AIChatPlus 使用说明 - Package 篇 - Get Started&#34; /&gt;&lt;/p&gt;
+&lt;h1 id=&#34;_1&#34;&gt;打包&lt;/h1&gt;
+&lt;h2 id=&#34;_2&#34;&gt;插件打包&lt;/h2&gt;
+&lt;p&gt;Unreal 打包的时候，会自动把插件需要的动态库文件都打包好，只需要启用插件即可。&lt;/p&gt;
+&lt;p&gt;譬如对于 Windows，打包会自动把 llama.cpp, CUDA 相关的 dll 文件都放到打包后的目录中。对于其他平台 Android / Mac / IOS 也是同样的。&lt;/p&gt;
+&lt;p&gt;可以在打包后的 Development 版本游戏里面执行指令 &#34;AIChatPlus.PrintCllamaInfo&#34;，查看当前的 Cllama 环境状态，确认是否状态是否正常，是否支持 GPU backend。&lt;/p&gt;
+&lt;h2 id=&#34;_3&#34;&gt;模型打包&lt;/h2&gt;
+&lt;p&gt;假设加入项目的模型文件放在了目录 Content/LLAMA 下面，那么可以设置打包的时候包含此目录：&lt;/p&gt;
+&lt;p&gt;打开 &#34;Project Setting&#34;，选择 Packaging 页签，或者直接搜索 &#34;asset package&#34;，看到设置 &#34;Additional Non-Asset Directories to Package&#34;，添加目录 Content/LLAMA 即可：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;&#34; src=&#34;../assets/img/2024-ue-aichatplus/usage/package/getstarted_1.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;添加目录之后，Unreal 在打包的时候就会自动把目录的所有文件都打包好。&lt;/p&gt;
+&lt;h2 id=&#34;_4&#34;&gt;读取打包后的离线模型文件&lt;/h2&gt;
+&lt;p&gt;一般 Uneal 会把项目文件都打包到 .Pak 文件中，此时如果把 .Pak 中的文件路径传递给 Cllam 离线模型，是会执行失败的，因为 llama.cpp 无法直接读取 .Pak 中打包后的模型文件。&lt;/p&gt;
+&lt;p&gt;因此需要先把 .Pak 中的模型文件复制出来文件系统中，插件提供了一个方便的函数可以直接把 .Pak 的模型文件复制出来，并返回复制后的文件路径，让 Cllama 可以方便读取。&lt;/p&gt;
+&lt;p&gt;蓝图节点是 &#34;Cllama Prepare ModelFile In Pak&#34;: 自动把 Pak 中的模型文件复制到文件系统中&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;guide bludprint&#34; src=&#34;../assets/img/2024-ue-aichatplus/guide_util_4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;C++ 代码函数是：&lt;/p&gt;
+&lt;div class=&#34;language-text highlight&#34;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;a id=&#34;__codelineno-0-1&#34; name=&#34;__codelineno-0-1&#34; href=&#34;#__codelineno-0-1&#34;&gt;&lt;/a&gt;#include &amp;lt;Cllama/AIChatPlusCllama_Util.h&amp;gt;
+&lt;a id=&#34;__codelineno-0-2&#34; name=&#34;__codelineno-0-2&#34; href=&#34;#__codelineno-0-2&#34;&gt;&lt;/a&gt;
+&lt;a id=&#34;__codelineno-0-3&#34; name=&#34;__codelineno-0-3&#34; href=&#34;#__codelineno-0-3&#34;&gt;&lt;/a&gt;auto ModelPath = FAIChatPlusCllama_Util::PrepareModelFileInPak(InContentPath);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;script async src=&#34;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- 转载声明 &amp;&amp; visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://wiki.disenone.site&#34;&gt;https://wiki.disenone.site&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章受 &lt;a href=&#34;https://creativecommons.org/licenses/by/4.0/deed.zh&#34;&gt;CC BY-NC-SA 4.0&lt;/a&gt; 协议保护，转载请注明出处。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- 转载 --&gt;
+&lt;div class=&#34;a2a_kit a2a_kit_size_32 a2a_default_style&#34; data-a2a-icon-color=&#34;#4051b5&#34;&gt;
+    &lt;a class=&#34;a2a_dd&#34; href=&#34;https://www.addtoany.com/share&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_copy_link&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_wechat&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_reddit&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_google_gmail&#34;&gt;&lt;/a&gt;
+    &lt;a class=&#34;a2a_button_pocket&#34;&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;script async src=&#34;https://static.addtoany.com/menu/page.js&#34;&gt;&lt;/script&gt;
+
+&lt;!-- visit --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;p class=&#34;copyright text-muted&#34;&gt;&lt;span id=&#34;busuanzi_container_site_uv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; Visitors. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_site_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; Total Visits. &lt;/span&gt; &lt;span id=&#34;busuanzi_container_page_pv&#34;&gt; &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; Page Visits. &lt;/span&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/?utm_source=documentation&amp;utm_medium=RSS&amp;utm_campaign=feed-syndication</link>
+      <pubDate>Thu, 04 Sep 2025 12:21:29 +0000</pubDate>
+      <source url="https://wiki.disenone.site/feed_rss_updated.xml">Disenone's Wiki</source>
+      
+      <guid isPermaLink="true">https://wiki.disenone.site/ue-%E6%8F%92%E4%BB%B6-AIChatPlus-Usage-Package-GetStarted/</guid>
       
     </item>
     
