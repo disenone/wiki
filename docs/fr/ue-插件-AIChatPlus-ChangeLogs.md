@@ -24,23 +24,37 @@ description: Journal des versions
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#Journal des versions du plugin AIChatPlus de l'UE
+#Journal des versions du plugin UE AIChatPlus
+
+## v1.8.0 - 2025.11.03
+
+Mettre à jour llama.cpp b6792
+
+## v1.7.0 - 2025.07.06
+
+Mettre à jour llama.cpp b5536
+
+Prend en charge l'UE5.6.
+
+Android发布后会导致崩溃，禁用llama.cpp。
 
 ## v1.6.2 - 2025.03.17
 
 ###Nouvelle fonctionnalité
 
-Cllama a augmenté le paramètre KeepContext par défaut à false, le contexte est automatiquement détruit après la fin du chat.
+Cllama a augmenté le paramètre KeepContext par défaut à false, le Contexte est automatiquement détruit à la fin du Chat.
 
-Cllama a ajouté le paramètre KeepAlive, ce qui peut réduire la lecture répétée du modèle.
+The translation into French is:
+
+* Cllama a ajouté le paramètre KeepAlive, ce qui peut réduire la lecture répétée du modèle.
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-Le plan OpenAI Image Chat prend désormais en charge l'entrée d'images.
+OpenAI Image Chat supporte l'entrée d'images selon le plan.
 
-Outil d'édition Cllama mmproj modèle autorise vide
+Outil d'édition Cllama mmproj permettant le modèle vide.
 
 ## v1.6.0 - 2025.03.02
 
@@ -48,47 +62,47 @@ Outil d'édition Cllama mmproj modèle autorise vide
 
 Mettre à jour llama.cpp vers la version b4604.
 
-Cllama supporte les GPU backends : cuda et metal
+Cllama supporte les backends GPU : cuda et metal
 
 L'outil de discussion Cllama prend en charge l'utilisation du GPU.
 
-Prend en charge la lecture des fichiers de modèle emballés dans un Pak.
+Prend en charge la lecture des fichiers de modèles empaquetés dans Pak.
 
 ### Bug Fix
 
-Réparation du problème de plantage de Cllama lors du rechargement lors de l'inférence
+Réparer le problème de plantage de Cllama lors du rechargement pendant le raisonnement.
 
-Réparer l'erreur de compilation iOS
+Répare les erreurs de compilation iOS.
 
 ## v1.5.1 - 2025.01.30
 
 ###Nouvelle fonctionnalité
 
-Seuls les Gémeaux peuvent envoyer des fichiers audio.
+Autoriser uniquement les appareils Gemini à diffuser des fichiers audio.
 
-Optimisation de la méthode d'extraction des données PCM pour décompresser les données audio lors de la génération du B64.
+Optimisez la méthode d'obtention des données PCM pour décompresser les données audio lors de la génération de B64.
 
-Demande d'ajouter deux rappels OnMessageFinished et OnImagesFinished.
+Demander d'ajouter deux rappels OnMessageFinished et OnImagesFinished.
 
-Optimisez la méthode Gemini pour automatiquement obtenir la méthode en fonction de bStream.
+Optimiser la méthode Gemini, obtenir automatiquement le méthode en fonction de bStream.
 
-Ajoutez quelques fonctions de blueprint pour faciliter la conversion du Wrapper en type réel, et obtenir le message de réponse et l'erreur.
+Ajouter quelques fonctions de blueprint pour faciliter la conversion du Wrapper en type réel, ainsi que pour obtenir le message de réponse et l'erreur.
 
 ### Bug Fix
 
-Corriger le problème des appels répétés à la fin de la requête.
+Réparer le problème d'appels multiples de la fin de la demande.
 
 ## v1.5.0 - 2025.01.29
 
 ###Nouvelle fonctionnalité
 
-S'il vous plaît supporter l'audio pour Gemini.
+Soutenir l'envoi audio à Gemini.
 
 Les outils de l'éditeur prennent en charge l'envoi d'audio et d'enregistrements.
 
 ### Bug Fix
 
-Corrige le bug qui empêche la copie de session.
+Corriger le bug de l'échec de la copie de session.
 
 ## v1.4.1 - 2025.01.04
 
@@ -96,25 +110,25 @@ Corrige le bug qui empêche la copie de session.
 
 L'outil de messagerie prend en charge l'envoi d'images sans message.
 
-Réparer l'échec de l'envoi d'images à l'API OpenAI.
+Résolution de l'échec de la résolution du problème de l'envoi d'images de l'interface OpenAI.
 
-Réparez les paramètres manquants Quality, Style et ApiVersion dans les configurations des outils de messagerie OpanAI et Azure.
+Réparer les paramètres manquants Quality, Style et ApiVersion des outils de chat OpenAI et Azure.
 
 ## v1.4.0 - 2024.12.30
 
 ###Nouvelle fonctionnalité
 
-Fonction expérimentale Cllama (llama.cpp) prenant en charge des modèles multimodaux pour le traitement d'images.
+* （機能試験中）Cllama (llama.cpp) prend en charge les modèles multimodaux et peut traiter les images
 
-Tous les paramètres de type blueprint ont été accompagnés de directives détaillées.
+Tous les paramètres de type Blueprint ont été dotés de descriptions détaillées.
 
 ## v1.3.4 - 2024.12.05
 
-###Nouvelle fonctionnalité
+###Nouvelle fonctionnalité.
 
-OpenAI supporte l'API de vision.
+OpenAI prend en charge l'API de vision.
 
-###Résolution du Problème
+###Résolution du problème
 
 Réparer l'erreur lorsqu'OpenAI stream=false.
 
@@ -122,71 +136,71 @@ Réparer l'erreur lorsqu'OpenAI stream=false.
 
 ###Nouvelle fonctionnalité
 
-Prend en charge UE-5.5
+Prend en charge l'UE-5.5
 
-###Correction de problèmes
+###Résolution du problème
 
-Réparer le problème de certains plans qui ne fonctionnent pas.
+Réparer le problème de certaines Blueprints qui ne fonctionnent pas.
 
 ## v1.3.2 - 2024.10.10
 
-###Réparation du problème
+###Réparation de problèmes
 
-Réparer le crash de cllama lors de l'arrêt manuel de la demande.
+Réparer le plantage de cllama lors de l'arrêt manuel de la demande.
 
-Réparer le problème de l'impossibilité de trouver les fichiers ggml.dll et llama.dll lors de l'emballage de la version de téléchargement de la boutique Win.
+Résoudre le problème de non-localisation des fichiers ggml.dll llama.dll dans la version téléchargeable de Win d'une application de magasin.
 
-Vérifiez lors de la création de la requête si vous êtes dans GameThread.
+Vérifier dans le GameThread lors de la création de la requête, CreateRequest.
 
 ## v1.3.1 - 2024.9.30
 
 ###Nouvelle fonctionnalité
 
-Ajouter un SystemTemplateViewer permettant de visualiser et d'utiliser des centaines de modèles de paramètres système.
+Ajouter un SystemTemplateViewer pour visualiser et utiliser des centaines de modèles de paramètres système.
 
-###Correction de problème
+###Résolution de problèmes
 
-Réparez le plug-in téléchargé depuis le magasin, llama.cpp ne trouve pas la bibliothèque de liens.
+Réparez le plugin téléchargé depuis le magasin, llama.cpp ne trouve pas la bibliothèque de liens.
 
-Réparer le problème de chemin trop long de LLAMACpp.
+Réparer le problème de chemin trop long dans LLAMACpp
 
-Réparez l'erreur de lien llama.dll après avoir empaqueté Windows.
+Réparer l'erreur de lien llama.dll après l'emballage de Windows
 
-Répare le problème de lecture du chemin du fichier sur iOS/Android.
+Réparer le problème de chemin d'accès aux fichiers sur iOS/Android.
 
-Réparer le nom incorrect des paramètres de Cllame
+Réparer l'erreur de nom de configuration de Cllame
 
 ## v1.3.0 - 2024.9.23
 
 ###Nouvelle fonctionnalité majeure
 
-Intégré llama.cpp, pris en charge de l'exécution hors ligne de grands modèles locaux.
+Intégration de llama.cpp pour prendre en charge l'exécution hors ligne locale de modèles volumineux.
 
 ## v1.2.0 - 2024.08.20
 
-###Nouvelle fonctionnalité.
+###Nouvelle fonctionnalité
 
-Soutenir la fonction OpenAI Image Edit/Image Variation.
+Soutenir OpenAI Image Edit/Image Variation.
 
-Prend en charge l'API Ollama, permet d'obtenir automatiquement la liste des modèles pris en charge par Ollama.
+Prend en charge l'API Ollama, permettant d'obtenir automatiquement la liste des modèles pris en charge par Ollama.
 
 ## v1.1.0 - 2024.08.07
 
 ###Nouvelle fonctionnalité
 
-Soutenir le plan d'action.
+Soutenir le plan d'action
 
 ## v1.0.0 - 2024.08.05
 
-###Nouvelles fonctionnalités
+###Nouvelle fonctionnalité
 
 Fonctionnalité de base complète
 
-Soutenir OpenAI, Azure, Claude, Gemini.
+Supporter OpenAI, Azure, Claude, Gemini
 
-Un outil de messagerie avec un éditeur intégré complet.
+Apporter un outil de messagerie doté d'un éditeur complet intégré
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT. Veuillez laisser vos [**commentaires**](https://github.com/disenone/wiki_blog/issues/new)Veuillez identifier tout élément omis. 
+> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifier tout oubli. 
