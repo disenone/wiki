@@ -8,6 +8,18 @@ description: 版本日志
 
 # UE 插件 AIChatPlus 版本日志
 
+## v1.8.0 - 2025.11.03
+
+* 升级 llama.cpp b6792
+
+## v1.7.0 - 2025.07.06
+
+* 升级 llama.cpp b5536
+
+* 支持 UE5.6
+
+* Android 发布 shipping 会 crash，禁用掉 llama.cpp
+
 ## v1.6.2 - 2025.03.17
 
 ### 新功能
