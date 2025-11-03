@@ -27,7 +27,7 @@
     
     
       
-        <title>版本日誌 - Disenone's Wiki</title>
+        <title>版本紀錄 - Disenone's Wiki</title>
       
     
     
@@ -124,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              版本日誌
+              版本紀錄
             
           </span>
         </div>
@@ -2001,7 +2001,7 @@
           
   
   <span class="md-ellipsis">
-    版本日誌
+    版本紀錄
   </span>
   
 
@@ -2012,7 +2012,7 @@
         
   
   <span class="md-ellipsis">
-    版本日誌
+    版本紀錄
   </span>
   
 
@@ -2032,6 +2032,24 @@
       目錄
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#v180-20251103" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.8.0 - 2025.11.03
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v170-20250706" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.7.0 - 2025.07.06
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#v162-20250317" class="md-nav__link">
@@ -2364,7 +2382,7 @@
           <li class="md-nav__item">
   <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
-      重要的新功能
+      重大新功能
     </span>
   </a>
   
@@ -2498,6 +2516,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#v180-20251103" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.8.0 - 2025.11.03
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v170-20250706" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.7.0 - 2025.07.06
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#v162-20250317" class="md-nav__link">
     <span class="md-ellipsis">
       v1.6.2 - 2025.03.17
@@ -2828,7 +2864,7 @@
           <li class="md-nav__item">
   <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
-      重要的新功能
+      重大新功能
     </span>
   </a>
   
@@ -2935,81 +2971,89 @@
 
 
 <div><p><meta property="og:title" content="UE 插件 AIChatPlus 版本日志"></p>
-<h1 id="ue-aichatplus">以下是 UE 插件 AIChatPlus 的版本紀錄。</h1>
+<h1 id="ue-aichatplus">UE 插件 AIChatPlus 版本日誌</h1>
+<h2 id="v180-20251103">v1.8.0 - 2025.11.03</h2>
+<p>更新 llama.cpp 至版本 b6792</p>
+<h2 id="v170-20250706">v1.7.0 - 2025.07.06</h2>
+<p>升級 llama.cpp 到版本 b5536</p>
+<p>支援 UE5.6</p>
+<p>Android 發布 shipping 會 crash，禁用掉 llama.cpp</p>
 <h2 id="v162-20250317">v1.6.2 - 2025.03.17</h2>
 <h3 id="_1">新功能</h3>
-<p>將 Cllama 增加 KeepContext 參數，預設為 false，Context 在 Chat 結束後自動銷毀。</p>
-<p>Cllama增加KeepAlive參數，可以減少model重複讀取。</p>
+<p>Cllama 增加 KeepContext 參數，預設為 false，Context 在 Chat 結束後自動銷毀。</p>
+<p>Cllama 增加 KeepAlive 參數，可以減少 model 重複讀取</p>
 <h2 id="v161-20250307">v1.6.1 - 2025.03.07</h2>
 <h3 id="bug-fix">Bug Fix</h3>
-<p>OpenAI Image Chat 藍圖支援輸入圖片</p>
-<ul>
-<li>編輯器工具 Cllama mmproj 模型允許空</li>
-</ul>
+<p>OpenAI Image Chat 的藍圖支援輸入圖片。</p>
+<p>編輯工具 Cllama mmproj 模型允許空</p>
 <h2 id="v160-20250302">v1.6.0 - 2025.03.02</h2>
 <h3 id="_2">新功能</h3>
 <p>將 llama.cpp 升級至 b4604 版本</p>
-<p>Cllama支援GPU後端：cuda和metal</p>
+<p>Cllama 支援 GPU 後端: cuda 和 metal</p>
 <p>聊天工具 Cllama 支援 GPU 使用</p>
-<p>支援讀取打包 Pak 中的模型檔案</p>
+<p>支援讀取打包在 Pak 中的模型檔案</p>
 <h3 id="bug-fix_1">Bug Fix</h3>
-<p>修復 Cllama 在推理時重新加載時崩潰的問題</p>
+<p>修復 Cllama 在推理時重新加載會崩潰的問題</p>
 <p>修復 iOS 編譯錯誤</p>
 <h2 id="v151-20250130">v1.5.1 - 2025.01.30</h2>
 <h3 id="_3">新功能</h3>
-<p>只允許 Gemini 發音頻</p>
+<p>僅允許雙子座發送音频。</p>
 <p>優化獲取 PCMData 的方法，生成 B64 的時候再解壓縮音頻數據</p>
-<p>要求增加兩個回調 OnMessageFinished 和 OnImagesFinished。</p>
-<p>優化 Gemini 方法，自動根據 bStream 獲取 Method</p>
-<p>增加一些藍圖函數，方便轉換 Wrapper 到實際類型，並且獲取 Response Message 和 Error。</p>
+<p>請求添加兩個回調函數 OnMessageFinished 和 OnImagesFinished</p>
+<p>優化 Gemini Method，自動根據 bStream 獲取 Method</p>
+<p>新增一些藍圖函數，便於將 Wrapper 轉換為實際類型，並獲取回應訊息和錯誤。</p>
 <h3 id="bug-fix_2">Bug Fix</h3>
-<p>修復 Request Finish 多次呼叫問題</p>
+<p>修復請求完成時多次調用的問題</p>
 <h2 id="v150-20250129">v1.5.0 - 2025.01.29</h2>
 <h3 id="_4">新功能</h3>
-<p>支持給Gemini發送音頻。</p>
-<p>編輯器工具支援傳送音訊和錄音。</p>
+<p>支援傳送音訊給 Gemini</p>
+<p>編輯器工具支援傳送音頻和錄音。</p>
 <h3 id="bug-fix_3">Bug Fix</h3>
 <p>修復 Session copy 失敗的 bug</p>
 <h2 id="v141-20250104">v1.4.1 - 2025.01.04</h2>
 <h3 id="_5">問題修復</h3>
-<p>聊天工具支援僅傳送圖片而不發送訊息。</p>
-<p>修復 OpenAI 介面發送圖片問題失敗文件圖。</p>
-<p>修復 OpanAI、Azure 聊天工具設置遺漏了參數 Quality、Style、ApiVersion 問題。</p>
+<p>聊天工具支援只發圖片不發訊息。</p>
+<p>修復 OpenAI 介面傳送圖片問題失敗文件。</p>
+<p>修復 OpanAI、Azure 聊天工具設定遺漏了參數 Quality、Style、ApiVersion 問題=</p>
 <h2 id="v140-20241230">v1.4.0 - 2024.12.30</h2>
 <h3 id="_6">新功能</h3>
 <p>（實驗性功能）Cllama（llama.cpp）支持多模態模型，可以處理圖片</p>
-<p>所有的藍圖類型參數都加上了詳細提示。</p>
+<p>所有藍圖類型參數都添加了詳細提示。</p>
 <h2 id="v134-20241205">v1.3.4 - 2024.12.05</h2>
 <h3 id="_7">新功能</h3>
-<p>OpenAI 支援視覺 API。</p>
+<ul>
+<li>OpenAI 支援影像 API</li>
+</ul>
 <h3 id="_8">問題修復</h3>
-<p>修復 OpenAI stream=false 時的錯誤</p>
+<p>修復OpenAI stream=false時的錯誤</p>
 <h2 id="v133-20241125">v1.3.3 - 2024.11.25</h2>
 <h3 id="_9">新功能</h3>
 <p>支援 UE-5.5</p>
 <h3 id="_10">問題修復</h3>
-<p>修復部分藍圖不生效問題</p>
+<p>修復部分藍圖無效問題</p>
 <h2 id="v132-20241010">v1.3.2 - 2024.10.10</h2>
 <h3 id="_11">問題修復</h3>
 <p>修復手動停止 request 的時候 cllama 崩潰</p>
 <p>修復商城下載版本 win 打包找不到 ggml.dll llama.dll 檔案的問題</p>
-<p>在创建请求时检查是否在游戏线程中。</p>
+<ul>
+<li>在建立請求時，檢查是否在遊戲執行緒中，CreateRequest check in game thread</li>
+</ul>
 <h2 id="v131-2024930">v1.3.1 - 2024.9.30</h2>
 <h3 id="_12">新功能</h3>
 <p>新增一個 SystemTemplateViewer，可查看和使用數百個系統設定模板。</p>
 <h3 id="_13">問題修復</h3>
-<p>修復從商城下載的插件，llama.cpp 找不到鏈接庫。</p>
+<p>修復自商城下載的插件，llama.cpp 找不到連結庫</p>
 <p>修復 LLAMACpp 路徑過長問題</p>
 <p>修復 Windows 打包後的連結 llama.dll 錯誤</p>
-<p>修復 iOS / Android 讀取文件路徑問題</p>
+<p>修復 iOS/Android 讀取檔案路徑問題</p>
 <p>修復 Cllame 設置名字錯誤</p>
 <h2 id="v130-2024923">v1.3.0 - 2024.9.23</h2>
-<h3 id="_14">重要的新功能</h3>
-<p>整合了 llama.cpp，支援本地離線執行大型模型。</p>
+<h3 id="_14">重大新功能</h3>
+<p>集成了 llama.cpp 檔案，支援本機離線執行大型模型。</p>
 <h2 id="v120-20240820">v1.2.0 - 2024.08.20</h2>
 <h3 id="_15">新功能</h3>
-<p>支援 OpenAI 圖片編輯/圖片變化</p>
-<p>支援Ollama API，可自動獲取Ollama支援的模型清單。</p>
+<p>支持 OpenAI Image Edit/Image Variation</p>
+<p>支援 Ollama API，可自動獲取 Ollama 支援的模型列表。</p>
 <h2 id="v110-20240807">v1.1.0 - 2024.08.07</h2>
 <h3 id="_16">新功能</h3>
 <p>支持藍圖</p>
@@ -3018,7 +3062,7 @@
 <p>基礎完整功能</p>
 <p>支持 OpenAI，Azure，Claude，Gemini</p>
 <ul>
-<li>具備完善編輯功能的聊天工具</li>
+<li>具備自家優良編輯器的聊天工具</li>
 </ul>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
@@ -3045,7 +3089,7 @@
 <!-- visit -->
 <blockquote>
 <p></p><p class="copyright text-muted"><span id="busuanzi_container_site_uv"> <span id="busuanzi_value_site_uv"></span> Visitors. </span> <span id="busuanzi_container_site_pv"> <span id="busuanzi_value_site_pv"></span> Total Visits. </span> <span id="busuanzi_container_page_pv"> <span id="busuanzi_value_page_pv"></span> Page Visits. </span></p>
-<p>此帖文係由 ChatGPT 翻譯嘅，如果有任何<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>請指出任何遺漏之處。 </p>
+<p>此貼文是由 ChatGPT 翻譯的，請在<a href="https://github.com/disenone/wiki_blog/issues/new"><strong>反饋</strong></a>指出任何遺漏之處。 </p>
 </blockquote></div>
 
 
