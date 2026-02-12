@@ -8,6 +8,13 @@ description: 版本日志
 
 # UE 插件 AIChatPlus 版本日志
 
+## v2.0.0 - 2026.02.14
+
+* **Tool Calling 多平台支持**: 新增 OpenAI、Claude、Gemini、Ollama、CllamaServer 五大平台的工具调用/函数调用功能
+* **Cllama Server 集成**: 完整支持本地 llama.cpp Server，包括创建、管理、Speech-to-Text，并提供编辑器可视化管理界面
+* **JSON 蓝图库**: 新增 JsonObject/JsonArray 蓝图操作类，支持 JSON 与 USTRUCT 互转
+* **OpenAI Audio**: 支持 OpenAI 音频输入输出，编辑器可预览音频响应
+
 ## v1.8.0 - 2025.11.03
 
 * 升级 llama.cpp b6792
