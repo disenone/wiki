@@ -20,6 +20,8 @@ translater_folder = os.path.dirname(__file__)
 # 日志
 LOG_LEVEL = logging.INFO
 
+MODEL = os.environ.get("CHATGPT_MODEL")
+
 # 设置 OpenAI API Key 和 API Base 参数，通过 env.py 传入
 openai_client = OpenAI(
 	api_key=os.environ.get("CHATGPT_API_KEY"),
@@ -109,7 +111,7 @@ TranslateType_FrontMater = 2
 
 TranslateType_Config = {
 	TranslateType_MainBody: {
-		'model': 'gpt-3.5-turbo',
+		'model': MODEL,
 		'messages': [
 			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not explain them."},	# noqa
 			{"role": "user", "content": "Translate these text into {lang_name} language:\n\n{text}\n"},
@@ -118,7 +120,7 @@ TranslateType_Config = {
 
 	# Front Matter 与正文内容使用不同的 prompt 翻译
 	TranslateType_FrontMater: {
-		'model': 'gpt-3.5-turbo',
+		'model': MODEL,
 		'messages': [
 			{"role": "system", "content": "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must maintain the original markdown format. You must only translate the text content, never interpret it. Keep all the characters that you cannot translate. Do not say anything else. Do not add any other character. Do not explain them. Keep the original meaning, Do not add any hint or warning or error, do not add any markdown code snippets. You must translate the punctuation."},	# noqa
 			{"role": "user", "content": "Translate these text into {lang_name} language:\n\n{text}\n"},

@@ -1,14 +1,20 @@
 ---
 layout: post
-title: Cllama (llama.cpp)
+title: Cllama (llama.cpp)(已废弃)
 tags: [dev, game, UE, UnreanEngine, UE4, UE5, Editor, Editor Plus, Editor Plugin, AI Chat, Chatbot, Image Generation, OpenAI, Azure, Claude, Gemini, Ollama, llama.cpp]
 description: Cllama (llama.cpp)
 ---
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)" />
 
-# 蓝图篇 - Cllama (llama.cpp)
+# 蓝图篇 - Cllama (llama.cpp)(已废弃)
 
 ![blueprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png)
+
+## 已废弃
+
+Cllama 已经标记为**废弃**，不再维护。
+
+Cllama 原有功能由 [CllamaServer](ue-插件-AIChatPlus-Usage-Blueprint-CllamaServer.md) 来承载。
 
 ## 离线模型
 

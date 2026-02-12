@@ -265,15 +265,25 @@ nav:
     - Blueprint:
       - ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md
       - ue-插件-AIChatPlus-Usage-Blueprint-OpenAI.md
-      - ue-插件-AIChatPlus-Usage-Blueprint-Cllama.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-CllamaServer.md
       - ue-插件-AIChatPlus-Usage-Blueprint-DeepSeek.md
       - ue-插件-AIChatPlus-Usage-Blueprint-Azure.md
       - ue-插件-AIChatPlus-Usage-Blueprint-Ollama.md
       - ue-插件-AIChatPlus-Usage-Blueprint-Claude.md
       - ue-插件-AIChatPlus-Usage-Blueprint-Gemini.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-ToolCall.md
       - ue-插件-AIChatPlus-Usage-Blueprint-Utils.md
+      - ue-插件-AIChatPlus-Usage-Blueprint-Cllama.md
     - C++:
       - ue-插件-AIChatPlus-Usage-Source-GetStarted.md
+      - ue-插件-AIChatPlus-Usage-Source-OpenAI.md
+      - ue-插件-AIChatPlus-Usage-Source-Claude.md
+      - ue-插件-AIChatPlus-Usage-Source-Gemini.md
+      - ue-插件-AIChatPlus-Usage-Source-Ollama.md
+      - ue-插件-AIChatPlus-Usage-Source-CllamaServer.md
+      - ue-插件-AIChatPlus-Usage-Source-Utils.md
+      - ue-插件-AIChatPlus-Usage-Source-Reference.md
+      - ue-插件-AIChatPlus-Usage-Source-Cllama.md
     - EditorTool:
       - ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md
     - Package:
