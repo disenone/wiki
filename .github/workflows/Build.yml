@@ -36,6 +36,8 @@ jobs:
           CHATGPT_API_BASE: ${{ secrets.CHATGPT_API_BASE }}
           ### API KEY:
           CHATGPT_API_KEY: ${{ secrets.CHATGPT_API_KEY }} #x
+          ### API MODEL:
+          CHATGPT_MODEL: ${{ secrets.CHATGPT_MODEL }}
         run: |
           pip install -r tools/translater/requirements.txt
           python tools/translater/auto_translater.py || true
