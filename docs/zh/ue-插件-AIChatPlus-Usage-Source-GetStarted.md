@@ -234,12 +234,12 @@ void CreateRequestByProvider(EAIChatPlus_ChatApiProvider Provider)
 
 更多详细用法请参考各 API Provider 的专题文档：
 
-* [OpenAI / Azure 使用](Source-OpenAI.md)
-* [Claude 使用](Source-Claude.md)
-* [Gemini 使用](Source-Gemini.md)
-* [Ollama 使用](Source-Ollama.md)
-* [Cllama 离线模型](Source-Cllama.md)
-* [CllamaServer 本地服务器](Source-CllamaServer.md)
-* [工具类](Source-Utils.md)
+* [OpenAI / Azure 使用](ue-插件-AIChatPlus-Usage-Source-OpenAI.md)
+* [Claude 使用](ue-插件-AIChatPlus-Usage-Source-Claude.md)
+* [Gemini 使用](ue-插件-AIChatPlus-Usage-Source-Gemini.md)
+* [Ollama 使用](ue-插件-AIChatPlus-Usage-Source-Ollama.md)
+* [Cllama 离线模型](ue-插件-AIChatPlus-Usage-Source-Cllama.md)
+* [CllamaServer 本地服务器](ue-插件-AIChatPlus-Usage-Source-CllamaServer.md)
+* [工具类](ue-插件-AIChatPlus-Usage-Source-Utils.md)
 
 --8<-- "footer.md"

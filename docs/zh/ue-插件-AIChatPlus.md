@@ -18,9 +18,9 @@ description: 说明文档
 
 ## 插件简介
 
-最新版本 v1.6.0。
+最新版本 v2.0.0。
 
-本插件支持 UE5.2 - UE5.5。
+本插件支持 UE5.2 - UE5.7。
 
 UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI 聊天服务进行通信，目前支持的服务有 OpenAI (ChatGPT, DALL-E)，Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, llama.cpp 本地离线。未来还会继续支持更多服务提供商。它的实现基于异步 REST 请求，性能高效，方便 UE 开发人员接入这些 AI 聊天服务。
 
@@ -28,7 +28,13 @@ UE.AIChatPlus 是一个 UnrealEngine 插件，该插件实现了与各种 GPT AI
 
 ## 主要功能
 
-**全新！**离线 AI llama.cpp 升级至版本 b4604。
+**全新！**所有 API 支持 ToolCall。
+
+**全新！**OpenAI/Azure 支持 speech-to-text 和 text-to-speech。
+
+**全新！**蓝图支持 Json。
+
+**全新！**离线 AI llama.cpp 升级至版本 b6792。
 
 **全新！**离线 AI llama.cpp 支持 GPU Cuda 和 Metal。
 
