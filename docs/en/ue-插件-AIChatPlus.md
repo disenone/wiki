@@ -24,95 +24,101 @@ description: Documentation
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#UE Plugin AIChatPlus User Manual
+#UE Plugin AIChatPlus Documentation
 
-##Plugin Marketplace
+##Plugin Store
 
 [AIChatPlus](https://www.fab.com/zh-cn/listings/0e49d138-10e1-452e-ba07-9a4bea578ace)
 
-##Public warehouse
+##Public Repository
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
 ##Plugin Introduction
 
-The latest version is v1.6.0.
+Latest version v2.0.0.
 
-This plugin supports UE5.2 - UE5.5.
+This plugin supports UE5.2 - UE5.7.
 
-UE.AIChatPlus is a plugin for UnrealEngine that enables communication with various GPT AI chat services. Currently, it supports services such as OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, and local offline support for llama.cpp. In the future, it will continue to expand support for more service providers. Its implementation is based on asynchronous REST requests, ensuring high efficiency performance and making it convenient for Unreal Engine developers to integrate these AI chat services.
+UE.AIChatPlus is an UnrealEngine plugin that enables communication with various GPT AI chat services. Currently supported services include OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, and llama.cpp for local offline use. Support for additional service providers will be added in the future. Built on asynchronous REST requests, it delivers high performance and offers UnrealEngine developers seamless integration with these AI chat services.
 
-UE.AIChatPlus also includes an editor tool, which allows users to directly utilize these AI chat services within the editor to generate text and images, analyze images, and more.
+Meanwhile, UE.AIChatPlus also includes an editor tool, allowing users to utilize these AI chat services directly within the editor—generating text and images, analyzing images, and more.
 
-##Main functions
+##Main Features
 
-**Brand new!** Offline AI llama.cpp upgraded to version b4604.
+**Brand new!** All APIs now support ToolCall.
 
-**Brand new!** Offline AI llama.cpp supports GPU Cuda and Metal.
+**New!** OpenAI/Azure supports speech-to-text and text-to-speech.
 
-**Brand new!** Support for Gemini speech-to-text.
+**New!** Blueprint now supports Json.
 
-**API**: Supports OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek.
+**New!** Offline AI llama.cpp upgraded to version b6792.
 
-Offline Real-time API: Supports running AI offline with llama.cpp, and is compatible with GPU Cuda and Metal.
+**New!** Offline AI llama.cpp supports GPU Cuda and Metal.
+
+**New!** Supports Gemini Speech-to-Text.
+
+**APIs**: Supports OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek
+
+**Offline Real-time API**: Supports offline operation of AI with llama.cpp, compatible with GPU Cuda and Metal.
 
 **Text-to-Text**: Various APIs support text generation.
 
-Image-to-Text: OpenAI Dall-E
+**Text-to-Image**: OpenAI Dall-E
 
-**Convert Image to Text**: OpenAI Vision, Claude, Gemini, Ollama, llama.cpp
+**Image to Text**: OpenAI Vision, Claude, Gemini, Ollama, llama.cpp
 
-**Image to Image Transformation**: OpenAI DALL-E
+**Image-to-Image**: OpenAI Dall-E
 
-**Speech to Text**: Gemini
+**Speech-to-Text**: Gemini
 
-**Blueprint**: All APIs and features are supported by blueprints. 
+**Blueprint**: All APIs and functionalities support blueprints
 
-Editor Chat Tool: A feature-rich, meticulously crafted editor AI chat tool.
+**Editor Chat Tool**: A feature-rich, meticulously crafted editor AI chat tool
 
-Asynchronous calling: All APIs can be called asynchronously.
+**Asynchronous Invocation**: All APIs can be called asynchronously.
 
-**Practical Tools**: Various image and audio tools
+**Practical Tools**: Various image and audio utilities
 
-##Supported API:
+##Supported APIs:
 
-**Offline llama.cpp**: Integrated with the llama.cpp library, it enables offline execution of AI models! Also, it supports multi-modal models (experimental). Compatible with Win64/Mac/Android/IOS. Supports GPU CUDA and METAL.
+**Offline llama.cpp**: Integrates with the llama.cpp library to run AI models offline! Also supports multimodal models (experimental). Compatible with Win64/Mac/Android/iOS. Features GPU CUDA and METAL support.
 
-OpenAI: /chat/completions, /completions, /images/generations, /images/edits, /images/variations
+**OpenAI**: /chat/completions, /completions, /images/generations, /images/edits, /images/variations
 
 **Azure OpenAI**: /chat/completions, /images/generations
 
 **Claude**: /messages, /complete
 
-**Gemini**: :generateText, :generateContent, :streamGenerateContent
+**Gemini**: :generateText、:generateContent、:streamGenerateContent
 
 **Ollama**: /api/chat, /api/generate, /api/tags
 
-**DeepSeek**：/chat/completions
+**DeepSeek**: /chat/completions
 
-##Instructions for use
+##Instructions for Use
 
-[**Instructions for use - Blueprint section**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+[**Instructions - Blueprint Edition**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-[**Instructions for Use - C++ Section**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+[**Usage Instructions - C++ Edition**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-[User Manual - Editor Section](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+[**User Guide - Editor Section**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
 [**Instructions - Packaging**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
 
-##Change Log
+##Changelog
 
-[**Change Log**](ue-插件-AIChatPlus-ChangeLogs.md)
+[**Changelog**](ue-插件-AIChatPlus-ChangeLogs.md)
 
-##Technical support
+##Technical Support
 
-**Comment**: Feel free to leave a message in the comment section below if you have any questions.
+**Comment**: Feel free to leave any questions in the comment section below.
 
-**Email**: You can also email me at disenonec@gmail.com
+**Email**: You can also send me an email at disenonec@gmail.com
 
 **discord**: Coming soon
 
 --8<-- "footer_en.md"
 
 
-> This post was translated using ChatGPT. Please leave your [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 
+> This post was translated using ChatGPT. Please provide feedback at [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions therein. 

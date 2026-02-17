@@ -84,8 +84,8 @@
     "mtime": 1741283553.6749816
   },
   "ue-插件-AIChatPlus.md": {
-    "git_ref": "68466f36",
-    "mtime": 1741535011.7451456
+    "git_ref": "c7425069",
+    "mtime": 1771255026.6076095
   },
   "ue-图片-读取外部图片.md": {
     "git_ref": "7b0a21d",
@@ -96,8 +96,8 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-ChangeLogs.md": {
-    "git_ref": "c7800562",
-    "mtime": 1762173112.6527581
+    "git_ref": "ff190760",
+    "mtime": 1771250212.7721272
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Azure.md": {
     "git_ref": "f7774846",
@@ -108,8 +108,8 @@
     "mtime": 1741283553.6739817
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-Cllama.md": {
-    "git_ref": "881994fb",
-    "mtime": 1742177241.019765
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.6994796
   },
   "ue-插件-AIChatPlus-Usage-Blueprint-DeepSeek.md": {
     "git_ref": "f7774846",
@@ -140,11 +140,55 @@
     "mtime": 1741535011.7441456
   },
   "ue-插件-AIChatPlus-Usage-Source-GetStarted.md": {
-    "git_ref": "f9449ea2",
-    "mtime": 1741535011.7451456
+    "git_ref": "c7425069",
+    "mtime": 1771251998.095349
   },
   "ue-插件-AIChatPlus-Usage-Package-GetStarted.md": {
     "git_ref": "64cd637f",
     "mtime": 1756990454.1590166
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Claude.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.708488
+  },
+  "ue-插件-AIChatPlus-Usage-Blueprint-CllamaServer.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7014918
+  },
+  "ue-插件-AIChatPlus-Usage-Blueprint-Json.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7034798
+  },
+  "ue-插件-AIChatPlus-Usage-Blueprint-ToolCall.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.705486
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Cllama.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7104876
+  },
+  "ue-插件-AIChatPlus-Usage-Source-CllamaServer.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.712487
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Gemini.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7154865
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Ollama.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7204885
+  },
+  "ue-插件-AIChatPlus-Usage-Source-OpenAI.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7234879
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Reference.md": {
+    "git_ref": "c7425069",
+    "mtime": 1771252454.842337
+  },
+  "ue-插件-AIChatPlus-Usage-Source-Utils.md": {
+    "git_ref": "0e95ffe5",
+    "mtime": 1770883433.7294939
   }
 }

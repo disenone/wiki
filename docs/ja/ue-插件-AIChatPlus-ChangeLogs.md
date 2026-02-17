@@ -1,6 +1,6 @@
 ---
 layout: post
-title: バージョン履歴
+title: バージョンログ
 tags:
 - dev
 - game
@@ -19,186 +19,193 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: バージョン履歴
+description: バージョンログ
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#UEプラグインAIChatPlusのバージョンログ
+#UEプラグイン「AIChatPlus」バージョン変更ログ
+
+## v2.0.0 - 2026.02.14
+
+* **Tool Calling マルチプラットフォームサポート**: OpenAI、Claude、Gemini、Ollama、CllamaServerの5大プラットフォーム向けにツールコール/関数コール機能を新たに追加
+* **Cllama Server 統合**: ローカル llama.cpp Server を完全サポート。作成、管理、音声認識機能を含み、編集画面からの視覚的な管理インターフェースを提供します
+* **JSON ブループリントライブラリ**: JsonObject/JsonArray のブループリント操作クラスを新たに追加。JSON と USTRUCT の相互変換をサポート
+* **OpenAI Audio**: OpenAIオーディオの入出力をサポート、エディタでオーディオレスポンスをプレビュー可能
 
 ## v1.8.0 - 2025.11.03
 
-llama.cpp b6792のアップグレード
+* llama.cpp b6792へのアップグレード
 
 ## v1.7.0 - 2025.07.06
 
-llama.cppをb5536にアップグレード
+* llama.cpp b5536 にアップグレード
 
-* Support UE5.6
+* UE5.6に対応
 
-Androidのリリースバージョンがクラッシュする問題が発生していますので、llama.cppを無効にしてください。
+* Androidのリリース時にcrashが発生するため、llama.cppを無効化しました
 
 ## v1.6.2 - 2025.03.17
 
 ###新機能
 
-Cllamaは、KeepContextパラメータをデフォルトでfalseに設定し、チャット終了後にContextが自動的に破棄されるように増加しました。
+* CllamaにKeepContextパラメータを追加、デフォルトはfalse、Chat終了後にContextは自動的に破棄されます
 
-Cllamaは、KeepAliveパラメータを追加しました。これにより、モデルの繰り返し読み込みが減少します。
+* Cllama は KeepAlive パラメータを追加し、モデルの繰り返し読み込みを減らすことができます
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-OpenAI Image Chatの設計図は画像の入力をサポートしています。
+* OpenAI Image Chat のブループリントは画像の入力をサポートします
 
-エディターツールCllama mmprojは、モデルが空であることを許可します。
+* Editor Tool Cllama mmproj モデルは空を許可します
 
 ## v1.6.0 - 2025.03.02
 
 ###新機能
 
-llama.cpp を b4604 バージョンにアップグレードします。
+* llama.cpp を b4604 バージョンにアップグレード
 
-Cllama supports GPU backends: cuda and metal.
+* Cllama は GPU バックエンドとして cuda と metal をサポートしています
 
-チャットツール Cllama は GPU を利用することができます。
+* チャットツール「Cllama」はGPUの使用をサポートしています
 
-Pak 中のモデルファイルを読み込むサポート
+* Pak にパックされたモデルファイルの読み取りをサポート
 
 ### Bug Fix
 
-推論中にリロードすると、Cllamaがクラッシュする問題を修正します。
+* Cllamaが推論中にreloadするとクラッシュする問題を修正
 
-iOSのコンパイルエラーを修正します。
+* iOSのコンパイルエラーを修正
 
 ## v1.5.1 - 2025.01.30
 
 ###新機能
 
-Gemini だけが音声を送信できます。
+* Geminiだけがオーディオを送信することが許可されています
 
-PCMDataの取得方法を最適化し、音声データをB64に変換する際に解凍するように修正します。
+* PCMData の取得方法を最適化し、B64 を生成する際にオーディオデータを解凍する
 
-リクエスト: OnMessageFinishedとOnImagesFinishedの2つのコールバックを追加してください。
+* リクエスト 2つのコールバックを追加 OnMessageFinished OnImagesFinished
 
-* Gemini Method を最適化し、bStream に基づいて Method を自動的に取得します。
+* Gemini Methodを最適化し、bStreamに基づいて自動的にMethodを取得する
 
-実際のタイプに Wrapper を変換し、Response メッセージとエラーを取得できるように、いくつかのブループリント関数を追加しました。
+* Wrapperを実際の型に変換するため、およびResponse MessageとErrorを取得するためのブループリント関数をいくつか追加します
 
 ### Bug Fix
 
-修正要求完成时多次调用的问题。
+* Request Finish の多重呼び出し問題を修正
 
 ## v1.5.0 - 2025.01.29
 
 ###新機能
 
-ジェミニに音声ファイルを送信
+* Geminiにオーディオを送信する機能をサポート
 
-エディターツールは、音声や録音の送信をサポートしています。
+* エディターツールは音声と録音の送信をサポートします
 
 ### Bug Fix
 
-セッションのコピーに失敗するバグを修正します。
+* Sessionコピー失敗のバグを修正
 
 ## v1.4.1 - 2025.01.04
 
-###問題修復
+###問題修正
 
-チャットツールは画像のみを送信できますが、テキストは送信できません。
+* チャットツールは画像のみを送信し、メッセージを送らない機能をサポートしています
 
-OpenAI のインターフェースで画像送信の問題の修正に失敗しました文の図。
+* OpenAIインターフェースでの画像送信の問題を修正
 
-OpanAI、Azure 聊天工具の設定で Quality、Style、ApiVersion パラメータが抜けている問題を修正しました。
+* OpenAI、Azureチャットツールの設定においてパラメータQuality、Style、ApiVersionが抜けていた問題を修正=
 
 ## v1.4.0 - 2024.12.30
 
 ###新機能
 
-（実験的な機能）Cllama(llama.cpp) は、マルチモードモデルをサポートし、画像を処理できます。
+* （実験的機能）Cllama(llama.cpp) がマルチモーダルモデルをサポートし、画像を処理可能
 
-すべての設計図のタイプパラメータに詳細なヒントが追加されました。
+* 全てのブループリント型パラメータに詳細なツールチップを追加しました
 
 ## v1.3.4 - 2024.12.05
 
 ###新機能
 
-OpenAIはVision APIをサポートしています。
+* OpenAIがvision APIをサポート
 
-###問題修復
+###問題修正
 
-OpenAI stream=false でのエラーの修正
+* OpenAI stream=false 時のエラーを修正
 
 ## v1.3.3 - 2024.11.25
 
 ###新機能
 
-* Support UE-5.5
+* UE-5.5をサポート
 
 ###問題修正
 
-一部分の設計図が機能しない問題を修正します。
+* 一部のブループリントが有効にならない問題を修正
 
 ## v1.3.2 - 2024.10.10
 
-###問題修正
+###不具合修正
 
-手動停止リクエスト時のcllamaのクラッシュを修正しました。
+* 手動停止リクエスト時に cllama がクラッシュする問題を修正
 
-商店のダウンロード版の修復で、winパッケージでggml.dll llama.dllファイルが見つからない問題を修正します。
+* ショップダウンロード版 win パッケージで ggml.dll と llama.dll ファイルが見つからない問題を修正
 
-ゲームスレッド内でCreateRequestをチェックします。
+* リクエスト作成時にGameThread内にあるかをチェック、CreateRequestはゲームスレッドで確認
 
 ## v1.3.1 - 2024.9.30
 
 ###新機能
 
-システムテンプレートビューアが追加され、数百のシステム設定テンプレートを表示して使用できるようになりました。
+* SystemTemplateViewerを追加し、数百のシステム設定テンプレートを閲覧・使用できるようにしました
 
-###問題修復
+###問題修正
 
-商城からダウンロードしたプラグインの修正を行いましたが、llama.cpp のリンクライブラリが見つかりません。
+* マーケットプレイスからダウンロードしたプラグインを修正、llama.cppがリンクライブラリを見つけられない問題を解決
 
-LLAMACppのパスが長すぎる問題を修正
+* LLAMACpp のパスが長すぎる問題を修正
 
-Windows パッケージング後の llama.dll のリンクエラーを修正します。
+* Windowsパッケージ化後のリンクllama.dllエラーを修正
 
-iOSおよびAndroidでのファイルパスの読み取りの問題を修正します。
+* iOS/Androidにおけるファイルパスの読み取り問題を修正
 
-Cllameの設定名の修正。
+* Cllameの名前設定エラーを修正
 
 ## v1.3.0 - 2024.9.23
 
-###重要な新機能
+###重大新機能
 
-llama.cppが統合され、大規模モデルのオフライン実行をサポートしています。
+* llama.cppを統合し、ローカルでの大規模モデルのオフライン実行をサポートしました
 
 ## v1.2.0 - 2024.08.20
 
 ###新機能
 
-OpenAI Image Edit/Image Variation のサポート
+* OpenAIの画像編集/画像バリエーションをサポート
 
-Ollama APIに対応し、Ollamaがサポートするモデルのリストを自動的に取得します。
+* Ollama APIをサポートし、Ollamaがサポートするモデルリストの自動取得をサポート
 
 ## v1.1.0 - 2024.08.07
 
-###新しい機能
+###新機能
 
-サポートプラン
+* ブループリントのサポート
 
 ## v1.0.0 - 2024.08.05
 
 ###新機能
 
-基礎完備機能
+* 基本の完全な機能
 
-OpenAI、Azure、Claude、Gemini をサポートします。
+* OpenAI、Azure、Claude、Geminiをサポート
 
-組み込まれた機能が充実したエディタ付きチャットツール
+* 機能が充実したエディターを内蔵したチャットツール
 
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されたものです。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出遺漏處。 
+> この投稿はChatGPTを使用して翻訳されています。ご意見・ご感想は[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘すべき抜け目があればご指摘ください。 

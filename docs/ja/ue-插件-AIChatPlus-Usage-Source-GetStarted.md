@@ -24,98 +24,242 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#C++ の部 - はじめに
+#C++ 編 - 始めよう
 
-##コアコードの説明
+##モジュール紹介
 
-現在、プラグインは以下のモジュールに分かれています：
+プラグインは以下のモジュールに分かれています：
 
-**AIChatPlusCommon**: ランタイムモジュール（Runtime）は、さまざまなAI APIインターフェースのリクエスト送信と応答コンテンツの解析を担当しています。
+* **AIChatPlusCommon**: ランタイムモジュール（Runtime）。さまざまなAI APIインターフェースへのリクエスト送信と返信内容の解析を担当します。
+* **AIChatPlusEditor**: エディタモジュール（Editor）、エディタ用AIチャットツールの実装を担当します。
+* **AIChatPlusCllama**: ランタイムモジュール（Runtime）、llama.cppのインターフェースとパラメータをカプセル化し、オフラインでの巨大モデルの実行を実現する役割を担います。
+* **Thirdparty/LLAMACpp**: ランタイムサードパーティモジュール (Runtime)、llama.cppの動的ライブラリとヘッダーファイルを統合しました。
 
-AIChatPlusEditor: エディターモジュール（Editor）、エディターAIチャットツールの実装を担当しています。
+##核心理念
 
-AIChatPlusCllama：ランタイムモジュール（Runtime）は、llama.cppのインターフェースとパラメータをカプセル化し、大規模モデルのオフライン実行を実現します。
+ソースコードを使用する前に、いくつかのコアクラスとそれらの関係を理解する必要があります：
 
-* **Thirdparty/LLAMACpp**: ランタイムにおけるサードパーティモジュールで、llama.cpp のダイナミックライブラリとヘッダーファイルが統合されています。
+###Request（リクエスト）
 
-UClass でリクエストを送信する責任を持つのは、FAIChatPlus_xxxChatRequest です。各種 API サービスごとに独立したリクエスト UClass があります。応答は UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase の 2 種類の UClass を通じて取得され、対応するコールバックデリゲートを登録する必要があります。
+`UAIChatPlus_ChatRequestBase` はすべてのチャットリクエストの基底クラスです。各APIプロバイダーには対応するサブクラスがあります：
 
-API のパラメータと送信メッセージを設定する必要があります。FAIChatPlus_xxxChatRequestBody を使用して設定します。応答の具体的な内容はFAIChatPlus_xxxChatResponseBody に解析され、コールバックを受け取った際には、特定のインターフェースを介して ResponseBody を取得できます。
+* `UAIChatPlus_OpenAIChatRequest` - OpenAIチャットリクエスト
+* `UAIChatPlus_AzureChatRequest` - Azureチャットリクエスト
+* `UAIChatPlus_ClaudeChatRequest` - Claudeチャットリクエスト
+* `UAIChatPlus_GeminiChatRequest` - Gemini チャットリクエスト
+* `UAIChatPlus_OllamaChatRequest` - Ollama チャットリクエスト
+* `UAIChatPlus_CllamaChatRequest` - Cllama オフラインモデルリクエスト
+* `UAIChatPlus_CllamaServerChatRequest` - CllamaServer ローカルサーバーリクエスト
 
-##コードはオフラインモデルCllama(llama.cpp)を使用しています。
+Requestオブジェクトは、リクエストパラメータの設定、リクエストの送信、コールバックの受信を担当します。
 
-こちらは、コード内でオフラインモデル llama.cpp を使用する方法についての説明です。
+###ハンドラー（処理器）
 
-最初に、Content/LLAMA フォルダにモデルファイルをダウンロードする必要があります。
+`UAIChatPlus_ChatHandlerBase` は、リクエストのコールバックを統一管理するためのオプショナルなハンドラークラスです。
 
-コードを修正して、1つのコマンドを追加し、そのコマンドでオフラインモデルにメッセージを送信します。
+Handlerは以下の委譲を提供します：
 
-```c++
-#include "Common/AIChatPlus_Log.h"
-#include "Common_Cllama/AIChatPlus_CllamaChatRequest.h"
+* `OnStarted` - リクエスト開始時にトリガーされる
+* `OnMessage` - ストリーミングメッセージを受信したときにトリガーされます（ストリーミング出力）
+* `OnUpdated` - 更新を受信したときにトリガーされます
+* `OnFinished` - リクエスト完了時にトリガーされます
+* `OnFailed` - リクエストが失敗したときにトリガーされます
 
-void AddTestCommand()
+**ハンドラを使用するタイミングは？**
+
+* 複数のリクエストのコールバックロジックを一元管理する必要がある場合
+* ブループリントとC++間でコールバックロジックを共有する必要がある場合
+* `OnStartedListeners` のような Request のデリゲートを直接使用しても、コールバックの監視を実現できます
+
+###オプション（選択肢）
+
+各APIプロバイダーには、対応するOptions構造体があり、APIパラメータを設定するために使用されます：
+
+* `FAIChatPlus_OpenAIChatRequestOptions` - OpenAIオプション（ApiKey、Model、Temperatureなど）
+* `FAIChatPlus_ClaudeChatRequestOptions` - Claudeオプション
+* `FAIChatPlus_GeminiChatRequestOptions` - Gemini オプション
+* などなど...
+
+Optionsには、APIキー、エンドポイントURL、モデル名、生成パラメータなど、API接続に必要なすべての設定が含まれています。
+
+###メッセージ（メッセージ）
+
+`FAIChatPlus_ChatRequestMessage`はAIに送信されるメッセージ構造体であり、以下の内容を含みます：
+
+* `コンテンツ` - テキスト内容
+* `ロール` - メッセージの役割（System/User/Assistant/Developer/Tool）
+* `Images` - 画像配列（Vision機能）
+* `Audios` - オーディオ配列（Audio 機能）
+* `ToolCallUses` - ツールコールリクエスト
+* `ToolCallResults` - ツールコール結果
+
+###レスポンス
+
+各APIプロバイダーにはそれぞれ対応するResponseBody構造体があります：
+
+* `FAIChatPlus_OpenAIChatResponseBody`
+* `FAIChatPlus_ClaudeChatResponseBody`
+* 待って...
+
+ResponseBodyには、AIから返されるすべての情報が含まれています。これには、メッセージテキスト、トークン使用量、ツール呼び出し、オーディオ出力などが該当します。
+
+##基本使用フロー（5ステップモデル）
+
+AIChatPlusを使用してリクエストを送信する基本的な流れは以下の通りです：
+
+```cpp
+#include "Common_OpenAI/AIChatPlus_OpenAIChatRequest.h"
+
+void SendChatRequest()
 {
-	IConsoleManager::Get().RegisterConsoleCommand(
-		TEXT("AIChatPlus.TestChat"),
-		TEXT("Test Chat."),
-		FConsoleCommandDelegate::CreateLambda([]()
-		{
-			if (!FModuleManager::GetModulePtr<FAIChatPlusCommon>(TEXT("AIChatPlusCommon"))) return;
+    // ===== ステップ 1: ハンドラの作成（オプション） =====
+    // Handlerはコールバックを一元管理するために使用され、Requestのデリゲートを直接使用することもできます
+    TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> Handler = UAIChatPlus_ChatHandlerBase::New();
 
-			TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> HandlerObject = UAIChatPlus_ChatHandlerBase::New();
-			// Cllama
+// ===== ステップ 2: Optionsの設定 =====
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+Options.bStream = true;  // ストリーミング出力を有効にする
 
-			FAIChatPlus_CllamaChatRequestOptions Options;
+// ===== ステップ 3: リクエストの作成 =====
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System});
+    Messages.Add({TEXT("Hello, who are you?"), EAIChatPlus_ChatRole::User});
 
-			Options.ModelPath.FilePath = FPaths::ProjectContentDir() / "LLAMA" / "qwen1.5-1_8b-chat-q8_0.gguf";
-			Options.NumPredict = 400;
-			Options.bStream = true;
-			// Options.StopSequences.Emplace(TEXT("json"));
-			auto RequestPtr = UAIChatPlus_CllamaChatRequest::CreateWithOptionsAndMessages(
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(Options, Messages);
 
-				Options,
-				{
-					{"You are a chat bot", EAIChatPlus_ChatRole::System},
-					{"who are you", EAIChatPlus_ChatRole::User}
-				});
+// ===== ステップ 4: コールバックのバインド =====
+// 方法 A: Handlerを使用する
+    Handler->BindChatRequest(Request);
+    Handler->OnMessage.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Stream Message: %s"), *Message);
+    });
+    Handler->OnFinished.AddLambda([](const FAIChatPlus_ChatResponseBodyBase& Response)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Request Finished"));
+    });
+    Handler->OnFailed.AddLambda([](const FAIChatPlus_ResponseErrorBase& Error)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Request Failed: %s"), *Error.GetDescription());
+    });
 
-			HandlerObject->BindChatRequest(RequestPtr);
-			const FName ApiName = TEnumTraits<EAIChatPlus_ChatApiProvider>::ToName(RequestPtr->GetApiProvider());
+// 方式 B: リクエストの委譲を直接使用（ハンドラーは不要）
+    // Request->OnMessageListeners.AddDynamic(this, &UMyClass::OnMessageReceived);
+    // Request->OnFinishedListeners.AddDynamic(this, &UMyClass::OnRequestFinished);
 
-			HandlerObject->OnMessage.AddLambda([ApiName](const FString& Message)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] Message: [%s]"), *ApiName.ToString(), *Message);
-			});
-			HandlerObject->OnStarted.AddLambda([ApiName]()
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestStarted"), *ApiName.ToString());
-			});
-			HandlerObject->OnFailed.AddLambda([ApiName](const FAIChatPlus_ResponseErrorBase& InError)
-			{
-				UE_LOG(AIChatPlus_Internal, Error, TEXT("TestChat[%s] RequestFailed: %s "), *ApiName.ToString(), *InError.GetDescription());
-			});
-			HandlerObject->OnUpdated.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestUpdated"), *ApiName.ToString());
-			});
-			HandlerObject->OnFinished.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestFinished"), *ApiName.ToString());
-			});
-
-			RequestPtr->SendRequest();
-		}),
-		ECVF_Default
-	);
+    // ===== 手順 5: リクエストを送信する =====
+    Request->SendRequest();
 }
 ```
 
-再コンパイル後、Cmdエディターでコマンドを使用すると、OutputLogで大規模モデルの出力結果を確認できます。
+##簡略表記
 
-![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
+精度の高いコールバック制御が必要なければ、より簡潔な記述が可能です：
+
+```cpp
+void SendSimpleChatRequest()
+{
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+    Options.bStream = true;
+
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(
+        Options,
+        {
+            {TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System},
+            {TEXT("Hello!"), EAIChatPlus_ChatRole::User}
+        });
+
+    // Request に直接 Lambda をバインド
+    Request->OnMessageListeners.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Message: %s"), *Message);
+    });
+
+    Request->OnFinishedListeners.AddLambda([](const FAIChatPlus_PointerWrapper& ResponseWrapper)
+    {
+        auto& Response = UAIChatPlus_OpenAIChatRequest::CastWrapperToResponse(ResponseWrapper);
+        UE_LOG(LogTemp, Display, TEXT("Final Message: %s"), *Response.GetMessage());
+    });
+
+    Request->SendRequest();
+}
+```
+
+##APIプロバイダーの列挙を使用してリクエストを作成する
+
+設定に基づいてAPIプロバイダーを動的に選択する必要がある場合、ファクトリメソッドを使用できます：
+
+```cpp
+void CreateRequestByProvider(EAIChatPlus_ChatApiProvider Provider)
+{
+// 列挙型に基づいて対応するリクエストを作成する
+    auto Request = UAIChatPlus_ChatRequestBase::CreateByApi(Provider);
+
+// 実際のタイプに基づいてOptionsを設定する
+    switch (Provider)
+    {
+    case EAIChatPlus_ChatApiProvider::OpenAI:
+        {
+            auto OpenAIRequest = Cast<UAIChatPlus_OpenAIChatRequest>(Request);
+            FAIChatPlus_OpenAIChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            OpenAIRequest->SetOptions(Options);
+        }
+        break;
+
+    case EAIChatPlus_ChatApiProvider::Claude:
+        {
+            auto ClaudeRequest = Cast<UAIChatPlus_ClaudeChatRequest>(Request);
+            FAIChatPlus_ClaudeChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            ClaudeRequest->SetOptions(Options);
+        }
+        break;
+    // ... その他の Provider
+    }
+
+// メッセージを設定して送信
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("Hello!"), EAIChatPlus_ChatRole::User});
+    Request->SetMessages(Messages);
+    Request->SendRequest();
+}
+```
+
+##コールバック説明
+
+###主なコールバック委託
+
+| 委託 | トリガータイミング | パラメーター |
+|------|----------|------|
+| `OnStarted` | リクエストの送信開始時 | なし |
+| `OnMessage` | ストリーミングメッセージを受信した時（各トークンごと） | `const FString& Message` - 累積されたメッセージ内容 |
+| `OnUpdated` | レスポンスの更新を受け取った時 | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFinished` | リクエストが正常に完了した時 | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFailed` | リクエストが失敗した時 | `const FAIChatPlus_ResponseErrorBase& Error` |
+| `OnMessageFinished` | メッセージ受信完了時 | `const FAIChatPlus_MessageFinishedPayload& Payload` |
+
+###ストリーミング出力 vs 非ストリーミング出力
+
+* **ストリーミング出力** (`bStream = true`): `OnMessage` が複数回トリガーされ、毎回蓄積されたメッセージ内容を返します
+* **非ストリーミング出力** (`bStream = false`)：`OnMessage` は完了時に一度だけトリガーされ、完全なメッセージを返します
+
+##次へ
+
+各APIプロバイダーの詳細なドキュメントを参照してください：
+
+* [OpenAI / Azure 利用](ue-插件-AIChatPlus-Usage-Source-OpenAI.md)
+* [Claude 使用](ue-插件-AIChatPlus-Usage-Source-Claude.md)
+* [ジェミニ 使用](ue-插件-AIChatPlus-Usage-Source-Gemini.md)
+* [Ollama 使用](ue-插件-AIChatPlus-Usage-Source-Ollama.md)
+* [Cllama オフラインモデル](ue-插件-AIChatPlus-Usage-Source-Cllama.md)
+* [CllamaServer ローカルサーバー](ue-插件-AIChatPlus-Usage-Source-CllamaServer.md)
+* [ツール類](ue-插件-AIChatPlus-Usage-Source-Utils.md)
 
 --8<-- "footer_ja.md"
 
-
-> この投稿はChatGPTを使用して翻訳されています。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)指摘された＠場云🈲なエリアを示してください。 
+> (https://github.com/disenone/wiki_blog/issues/new)どこか抜けている箇所を指摘してください。 

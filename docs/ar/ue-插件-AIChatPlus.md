@@ -1,6 +1,6 @@
 ---
 layout: post
-title: الوثيقة الشرحية
+title: وثائق التوضيحية
 tags:
 - dev
 - game
@@ -19,16 +19,14 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: وثيقة توضيحية
+description: '# وثائق التوضيحية'
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#ترجمة هذه النص إلى اللغة العربية: 
+#وثائق شرح إضافة UE AIChatPlus
 
-وثيقة شرح UE إضافة AIChatPlus
-
-##متجر الإضافات
+##سوق الملحقات
 
 [AIChatPlus](https://www.fab.com/zh-cn/listings/0e49d138-10e1-452e-ba07-9a4bea578ace)
 
@@ -36,92 +34,91 @@ description: وثيقة توضيحية
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##مقدمة حول الإضافة
+##وصف الملحق
 
-أحدث إصدار v1.6.0.
+أحدث إصدار v2.0.0.
 
-هذا الإضافة تدعم UE5.2 - UE5.5.
+يدعم هذا الإضافة إصدارات UE5.2 إلى UE5.7.
 
-UE.AIChatPlus هو إضافة لـ UnrealEngine تمكن التواصل مع مختلف خدمات GPT AI ، والتي تدعم حاليًا خدمات مثل OpenAI (ChatGPT، DALL-E) ،و Azure OpenAI (ChatGPT، DALL-E) ، Claude ، Google Gemini ، Ollama ، llama.cpp ، بالإضافة إلى التشغيل المحلي. وسيتم دعم المزيد من مزودي الخدمات في المستقبل. تعتمد تنفيذها على طلبات REST غير متزامنة، مما يجعلها كفءة من حيث الأداء ويسهل على مطوري UnrealEngine الوصول إلى هذه الخدمات ذات الصلة بالذكاء الاصطناعي.
+UE.AIChatPlus هو ملحق لـ UnrealEngine يُنفّذ التواصل مع مختلف خدمات الدردشة بالذكاء الاصطناعي من نوع GPT. الخدمات المدعومة حالياً تشمل OpenAI (ChatGPT, DALL-E)، Azure OpenAI (ChatGPT, DALL-E)، Claude، Google Gemini، Ollama، و llama.cpp للعمل المحلي دون اتصال. ومن المخطط دعم المزيد من مزودي الخدمات في المستقبل. يعتمد هذا الملحق على طلبات REST غير المتزامنة لتحقيق كفاءة عالية في الأداء، مما يسهّل على مطوّري UE دمج هذه الخدمات الذكية في مشاريعهم.
 
-تتضمن UE.AIChatPlus أيضًا أداة محرر تمكّنك من استخدام خدمات الدردشة هذه مباشرة في المحرر، لإنشاء نصوص وصور، وتحليل الصور، وما إلى ذلك.
+في الوقت نفسه، يتضمن UE.AIChatPlus أيضًا أداة محرر تتيح لك استخدام خدمات الدردشة بالذكاء الاصطناعي مباشرةً داخل المحرر، وإنشاء نصوص وصور، وتحليل الصور وما إلى ذلك.
 
-##الميزات الرئيسية
+##الوظائف الرئيسية
 
-**جديد تمامًا!** تم ترقية الملف AI llama.cpp غير المتصل إلى الإصدار b4604.
+**جديد!** جميع واجهات برمجة التطبيقات تدعم استدعاء الأداة ToolCall.
 
-**جديد تمامًا!** يدعم Llama.cpp للذكاء الاصطناعي والعمل دون اتصال GPU Cuda و Metal.
+**جديد!** دعم OpenAI/Azure للتحويل من الكلام إلى النص ومن النص إلى الكلام.
 
-**جديد!** يدعم تحويل الصوت إلى نص في Gemini.
+**جديد!** Blueprint تدعم Json الآن.
 
-**API**: دعم OpenAI، Azure OpenAI، Claude، Gemini، Ollama، llama.cpp، DeepSeek
+**جديد!** تم تحديث الذكاء الاصطناعي دون اتصال llama.cpp إلى الإصدار b6792.
 
-API الحية بدون اتصال: دعم تشغيل AI الخادم المزود llama.cpp بدون اتصال، ودعم GPU Cuda و Metal.
+**جديد!** دعم AI llama.cpp للعمل بدون اتصال مع تقنيتي GPU Cuda و Metal.
 
+**جديد!** يدعم جيميني تحويل الصوت إلى نص.
 
-ترجمة النص إلى النص: تدعم كافة واجهات برمجة التطبيقات إنتاج النصوص.
+**API** : يدعم OpenAI و Azure OpenAI و Claude و Gemini و Ollama و llama.cpp و DeepSeek
 
-**نص إلى صورة**: OpenAI DALL-E
+**واجهة برمجة التطبيقات (API) المباشرة دون اتصال بالإنترنت**: تدعم تشغيل الذكاء الاصطناعي من خلال llama.cpp دون اتصال، مع دعم وحدات معالجة الرسومات Cuda وMetal.
+
+**نص إلى نص**: تدعم واجهات برمجة التطبيقات المختلفة توليد النص.
+
+**تحويل النص إلى صورة**: OpenAI Dall-E
 
 **تحويل الصور إلى نص**: OpenAI Vision، Claude، Gemini، Ollama، llama.cpp
 
-**تحويل الصورة إلى صورة**: OpenAI Dall-E
+**صورة إلى صورة**: أوپن إي آي دال-إي
 
-**تحويل الصوت إلى نص**: Gemini
+تحويل الكلام إلى نص: جيمناي
 
-**التصميم الأساسي**: جميع واجهات برمجة التطبيقات والميزات تدعم التصميم الأساسي
+**المخطط الزرقاء** : جميع واجهات برمجة التطبيقات والميزات تدعم المخطط الزرقاء
 
-أداة محادثة AI المحررة: أداة محادثة AI محررة ذات ميزات غنية ومصممة بعناية
+**أداة الدردشة للمحرر**: أداة ذكاء اصطناعي للمحرر غنية بالميزات ومصممة بعناية
 
-**الاستدعاء الغير متزامن**: يمكن الاستدعاء الغير متزامن لجميع واجهات برمجة التطبيقات (API).
+**استدعاء غير متزامن**: يمكن استدعاء جميع APIs بشكل غير متزامن
 
-**أدوات مفيدة**: مجموعة متنوعة من الأدوات للصور والصوت
+**أدوات عملية**: مجموعة متنوعة من أدوات الصور والصوت
 
-##API المدعومة:
+##واجهات برمجة التطبيقات المدعومة:
 
-ترجمة النص إلى اللغة العربية:
+**Llama.cpp بدون اتصال**: مُتكامل مع مكتبة llama.cpp، يُمكن تشغيل نماذج الذكاء الاصطناعي دون اتصال بالإنترنت! كما يدعم النماذج متعددة الوسائط (بشكل تجريبي). يدعم أنظمة التشغيل ويندوز 64 بت/ماك/أندرويد/آي أو إس. بالإضافة إلى دعم وحدات معالجة الرسومات CUDA و METAL.
 
-ملف **Llama.cpp** في وضع عدم الاتصال: يتم دمجه مع مكتبة Llama.cpp ويمكن تشغيل نماذج الذكاء الاصطناعي دون اتصال! كما يدعم نماذج متعددة الوسائط (تجريبي). متوافق مع Win64/Mac/Android/IOS. يدعم GPU CUDA وMETAL.
+**OpenAI**: /chat/completions، /completions، /images/generations، /images/edits، /images/variations
 
-**OpenAI**：/الدردشة/اكتمالات،/اكتمالات،/الصور/أجيال،/الصور/تحريرات،/الصور/تنويعات
+**Azure OpenAI**: /chat/completions، /images/generations
 
-Azure OpenAI: /chat/completions، /images/generations
+**كلود**: /messages، /complete
 
-**كلود**: /الرسائل، /اكتمال
+**جيميني**: generateText، generateContent، streamGenerateContent
 
-**الجوزاء** : generateText ،: generateContent ،: streamGenerateContent
+**أولاما**: /api/chat، /api/generate، /api/tags
 
-**Ollama**：/api/chat، /api/generate، /api/tags
+**DeepSeek**: /chat/completions
 
-**DeepSeek**：/chat/completions
+##دليل الاستخدام
 
-##تعليمات الاستخدام
+[**دليل الاستخدام - قسم المخططات**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-[**Blueprints Guide - Instructions for Use**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+[**دليل الاستخدام - لغة C++**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-Translate these text into Arabic language:
+**[تعليمات الاستخدام - قسم المحرر](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
-[**دليل الاستخدام - C++**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+[**تعليمات الاستخدام - التغليف**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
 
-ترجمة هذا النص إلى اللغة العربية:
+##سجل التغييرات
 
-[**دليل الاستخدام - قسم المحرر**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+[**سجل التغييرات**](ue-插件-AIChatPlus-ChangeLogs.md)
 
-[**تعليمات الاستخدام - التعبئة**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
+##دعم فني
 
-##تعديل السجل
+**تعليق**: لأي استفسارات، يرجى ترك تعليق أدناه في قسم التعليقات
 
-(ue-插件-AIChatPlus-ChangeLogs.md)
+**بريد إلكتروني**: يمكنك أيضًا مراسلتي عبر البريد الإلكتروني (disenonec@gmail.com)
 
-##الدعم الفني
-
-**التعليقات**: إذا كانت لديك أي أسئلة، فلا تتردد في ترك تعليق في منطقة التعليقات أدناه.
-
-**البريد الإلكتروني**: يمكنك أيضًا إرسال بريد إلكتروني لي عبر البريد الإلكتروني (disenonec@gmail.com)
-
-**Discord**: سيتم الإطلاق قريبًا
+**ديскор드**: قريباً سيتم إطلاقه
 
 --8<-- "footer_ar.md"
 
 
-> هذه المشاركة تم ترجمتها باستخدام ChatGPT، يرجى تقديم [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)يرجى تحديد أي نقص. 
+> هذا المنشور مترجم باستخدام ChatGPT، يُرجى تقديم [**تقييمك**](https://github.com/disenone/wiki_blog/issues/new)الإشارة إلى أي إغفالات. 

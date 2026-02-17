@@ -24,98 +24,242 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#البدء في C++
+#++C قسم - ابدأ الآن
 
-##تقديم شرح للكود الأساسي
+##مقدمة الوحدة
 
-حاليا، الإضافة مقسمة إلى الوحدات التالية:
+ينقسم الملحق إلى الوحدات التالية:
 
-* **AIChatPlusCommon**: وحدة التشغيل (Runtime) ، المسؤولة عن معالجة طلبات إرسال وتحليل محتوى ردود الواجهة البرمجية لتطبيق الذكاء الاصطناعي المختلفة.
+* **AIChatPlusCommon**: وحدة وقت التشغيل (Runtime)، مسؤولة عن معالجة طلبات إرسال واجهات برمجة التطبيقات المختلفة للذكاء الاصطناعي وتحليل محتوى الردود.
+* **AIChatPlusEditor**: وحدة المحرر (Editor)، المسؤولة عن تنفيذ أداة الدردشة بالذكاء الاصطناعي في المحرر.
+* **AIChatPlusCllama**: وحدة وقت التشغيل (Runtime)، مسؤولة عن تغليف واجهة وخصائص llama.cpp، لتنفيذ نموذج ذكاء اصطناعي كبير بدون اتصال بالإنترنت.
+* **طرف ثالث/إل إل إم أي سي بي بي**: وحدة وقت التشغيل (Runtime)، تجمع بين المكتبة الديناميكية وملفات الرأس الخاصة بـ llama.cpp.
 
-وظيفة AIChatPlusEditor هي تنفيذ وحدة التحرير (Editor)، التي تقوم بتنفيذ أداة الدردشة AI في القاعدة de données.
+##المفاهيم الأساسية
 
-* **AIChatPlusCllama**: وحدة التشغيل (Runtime) المسؤولة عن تغليف واجهة ومعلمات llama.cpp، لتنفيذ نماذج كبيرة بشكل غير متصل عند التشغيل
+قبل استخدام الكود المصدري، يجب فهم بعض الفئات الرئيسية وعلاقاتها فيما بينها:
 
-Thirdparty/LLAMACpp: "Runtime" وحدة خارجية تجمع بين مكتبة الرموز الديناميكية llama.cpp وملفات الرأس.
+###طلب (طلب)
 
-الـ UClass المسؤولة عن إرسال الطلب هو FAIChatPlus_xxxChatRequest، كل خدمة API لها UClass طلب مستقل. يتم الحصول على رد الطلب عن طريق UAIChatPlus_ChatHandlerBase / UAIChatPlus_ImageHandlerBase اللذين ينبغي تسجيل التابع المناسب فقط.
+`UAIChatPlus_ChatRequestBase` هي الفئة الأساسية لجميع طلبات الدردشة. كل موفر API لديه فئة فرعية مقابلة:
 
-قبل إرسال الطلب، يجب تعيين معلمات API والرسالة المُرسَلة أولاً، يتم تعيين هذا باستخدام FAIChatPlus_xxxChatRequestBody. يتم تحليل محتوى الإجابة أيضاً إلى FAIChatPlus_xxxChatResponseBody، يمكن الحصول على ResponseBody من خلال واجهة معينة عند استقبال الاستدعاء.
+* `UAIChatPlus_OpenAIChatRequest` - طلب دردشة OpenAI
+* `UAIChatPlus_AzureChatRequest` - طلب دردشة Azure
+* `UAIChatPlus_ClaudeChatRequest` - طلب دردشة كلود
+* `UAIChatPlus_GeminiChatRequest` - طلب محادثة Gemini
+* `UAIChatPlus_OllamaChatRequest` - طلب دردشة أولاما
+* `UAIChatPlus_CllamaChatRequest` - طلب نموذج Cllama دون اتصال
+* `UAIChatPlus_CllamaServerChatRequest` - طلب خادم CllamaServer المحلي
 
-##الرمز يستخدم نموذجًا غير متصل بالإنترنت Cllama(llama.cpp)
+كائن Request مسؤول عن تكوين معلمات الطلب وإرسال الطلب واستقبال ردود النداء.
 
-يوضح النص التالي كيفية استخدام النموذج الغير متصل llama.cpp في الشيفرة.
+###المعَالِج
 
-أولاً، يجب تنزيل ملف النموذج إلى مجلد Content/LLAMA بنفس الطريقة.
+`UAIChatPlus_ChatHandlerBase` هي فئة مُعالج اختيارية تستخدم لإدارة موحدة لاستدعاءات الطلبات.
 
-قم بتعديل الشيفرة لإضافة أمر جديد، وأرسل رسالة إلى النموذج الغير متصل به من داخل الأمر.
+‏يقدم Handler التفويضات التالية:
 
-```c++
-#include "Common/AIChatPlus_Log.h"
-#include "Common_Cllama/AIChatPlus_CllamaChatRequest.h"
+* `OnStarted` - يتم تشغيله عند بدء الطلب
+* `OnMessage` - يتم تشغيله عند استقبال رسالة تدفقية (إخراج تدفقي)
+* `OnUpdated` - يتم تشغيله عند استلام تحديث
+* `OnFinished` - يتم تشغيله عند اكتمال الطلب
+* `OnFailed` - يتم تشغيله عند فشل الطلب
 
-void AddTestCommand()
+**متى نستخدم Handler؟**
+
+* عند الحاجة إلى إدارة منطق الاستدعاءات المتعددة بشكل موحد
+* عند الحاجة إلى مشاركة منطق رد الاتصال بين المخططات البرمجية (بلوبرينت) و++C
+* يمكن أيضًا تحقيق استماع رد الاتصال باستخدام تفويض Request مباشرةً (مثل `OnStartedListeners`)
+
+###خيارات
+
+كل موفر API لديه بنية Options المقابلة، المستخدمة لتكوين معلمات API:
+
+* `FAIChatPlus_OpenAIChatRequestOptions` - خيارات OpenAI (مفتاح API، النموذج، درجة الحرارة، إلخ)
+* `FAIChatPlus_ClaudeChatRequestOptions` - خيارات كلود
+* `FAIChatPlus_GeminiChatRequestOptions` - خيارات Gemini
+* انتظر...
+
+يشمل "Options" جميع التكوينات اللازمة لاتصال واجهة برمجة التطبيقات، مثل مفتاح API وعنوان URL للنقطة الطرفية واسم النموذج ومعلمات الإنشاء وغير ذلك.
+
+###الرسائل
+
+`FAIChatPlus_ChatRequestMessage` هو بنية الرسالة المرسلة إلى الذكاء الاصطناعي، وتحتوي على:
+
+* `المحتوى` - نَصّ المُحْتَوَى
+* `الدور` - دور الرسالة (النظام/المستخدم/المساعد/المطور/الأداة)
+* `Images` - مصفوفة الصور (خاصية الرؤية)
+* `Audios` - مجموعة الصوتيات (ميزة Audio)
+* `ToolCallUses` - طلب استدعاء الأداة
+* `ToolCallResults` - نتائج استدعاء الأداة
+
+###الاستجابة
+
+كل مزود لواجهة برمجة التطبيقات (API Provider) لديه هيكل ResponseBody خاص به:
+
+* `FAIChatPlus_OpenAIChatResponseBody`
+* `FAIChatPlus_ClaudeChatResponseBody`
+* انتظر...
+
+يتضمن ResponseBody جميع المعلومات التي تم إرجاعها من الذكاء الاصطناعي، بما في ذلك: نص الرسالة، واستهلاك الرموز المميزة (Token)، واستدعاء الأدوات، وإخراج الصوت، وما إلى ذلك.
+
+##سير العمل الأساسي للاستخدام (نمط الخطوات الخمس)
+
+الخطوات الأساسية لإرسال طلب باستخدام AIChatPlus هي كما يلي:
+
+```cpp
+#include "Common_OpenAI/AIChatPlus_OpenAIChatRequest.h"
+
+void SendChatRequest()
 {
-	IConsoleManager::Get().RegisterConsoleCommand(
-		TEXT("AIChatPlus.TestChat"),
-		TEXT("Test Chat."),
-		FConsoleCommandDelegate::CreateLambda([]()
-		{
-			if (!FModuleManager::GetModulePtr<FAIChatPlusCommon>(TEXT("AIChatPlusCommon"))) return;
+// ===== الخطوة 1: إنشاء معالج (اختياري) =====
+يستخدم Handler لإدارة ردود النداء بشكل موحد، ويمكن أيضًا استخدام تفويض Request مباشرةً
+    TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> Handler = UAIChatPlus_ChatHandlerBase::New();
 
-			TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> HandlerObject = UAIChatPlus_ChatHandlerBase::New();
-			// Cllama
+    // ===== الخطوة 2: تهيئة الخيارات =====
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+    Options.bStream = true;  // تمكين الإخراج عبر التدفق
 
-			FAIChatPlus_CllamaChatRequestOptions Options;
+// ===== الخطوة 3: إنشاء الطلب =====
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System});
+    Messages.Add({TEXT("Hello, who are you?"), EAIChatPlus_ChatRole::User});
 
-			Options.ModelPath.FilePath = FPaths::ProjectContentDir() / "LLAMA" / "qwen1.5-1_8b-chat-q8_0.gguf";
-			Options.NumPredict = 400;
-			Options.bStream = true;
-			// Options.StopSequences.Emplace(TEXT("json"));
-			auto RequestPtr = UAIChatPlus_CllamaChatRequest::CreateWithOptionsAndMessages(
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(Options, Messages);
 
-				Options,
-				{
-					{"You are a chat bot", EAIChatPlus_ChatRole::System},
-					{"who are you", EAIChatPlus_ChatRole::User}
-				});
+// ===== الخطوة 4: ربط رد النداء =====
+    // الطريقة أ: استخدام Handler
+    Handler->BindChatRequest(Request);
+    Handler->OnMessage.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Stream Message: %s"), *Message);
+    });
+    Handler->OnFinished.AddLambda([](const FAIChatPlus_ChatResponseBodyBase& Response)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Request Finished"));
+    });
+    Handler->OnFailed.AddLambda([](const FAIChatPlus_ResponseErrorBase& Error)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Request Failed: %s"), *Error.GetDescription());
+    });
 
-			HandlerObject->BindChatRequest(RequestPtr);
-			const FName ApiName = TEnumTraits<EAIChatPlus_ChatApiProvider>::ToName(RequestPtr->GetApiProvider());
+// الطريقة ب: الاستخدام المباشر لتفويض الطلب (بدون الحاجة إلى المُعالج)
+    // Request->OnMessageListeners.AddDynamic(this, &UMyClass::OnMessageReceived);
+    // Request->OnFinishedListeners.AddDynamic(this, &UMyClass::OnRequestFinished);
 
-			HandlerObject->OnMessage.AddLambda([ApiName](const FString& Message)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] Message: [%s]"), *ApiName.ToString(), *Message);
-			});
-			HandlerObject->OnStarted.AddLambda([ApiName]()
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestStarted"), *ApiName.ToString());
-			});
-			HandlerObject->OnFailed.AddLambda([ApiName](const FAIChatPlus_ResponseErrorBase& InError)
-			{
-				UE_LOG(AIChatPlus_Internal, Error, TEXT("TestChat[%s] RequestFailed: %s "), *ApiName.ToString(), *InError.GetDescription());
-			});
-			HandlerObject->OnUpdated.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestUpdated"), *ApiName.ToString());
-			});
-			HandlerObject->OnFinished.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestFinished"), *ApiName.ToString());
-			});
-
-			RequestPtr->SendRequest();
-		}),
-		ECVF_Default
-	);
+// ===== الخطوة 5: إرسال الطلب =====
+    Request->SendRequest();
 }
 ```
 
-بعد إعادة الترجمة، يمكنك رؤية نتائج إخراج النموذج الكبير في سجل OutputLog عند استخدام الأمر في محرر Cmd.
+##الكتابة المبسَّطة
 
-![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
+إذا لم تكن بحاجة إلى تحكم دقيق في الاستدعاء، يمكنك استخدام صيغة أكثر إيجازًا:
+
+```cpp
+void SendSimpleChatRequest()
+{
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+    Options.bStream = true;
+
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(
+        Options,
+        {
+            {TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System},
+            {TEXT("Hello!"), EAIChatPlus_ChatRole::User}
+        });
+
+// ربط Lambda مباشرةً على Request
+    Request->OnMessageListeners.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Message: %s"), *Message);
+    });
+
+    Request->OnFinishedListeners.AddLambda([](const FAIChatPlus_PointerWrapper& ResponseWrapper)
+    {
+        auto& Response = UAIChatPlus_OpenAIChatRequest::CastWrapperToResponse(ResponseWrapper);
+        UE_LOG(LogTemp, Display, TEXT("Final Message: %s"), *Response.GetMessage());
+    });
+
+    Request->SendRequest();
+}
+```
+
+##إنشاء طلب عبر تعداد موفر واجهة برمجة التطبيقات (API)
+
+إذا كنت تحتاج إلى تحديد موفر واجهة برمجة التطبيقات (API Provider) ديناميكيًا بناءً على التكوين، فيمكنك استخدام طريقة المصنع (Factory Method):
+
+```cpp
+void CreateRequestByProvider(EAIChatPlus_ChatApiProvider Provider)
+{
+// إنشاء Request المقابل وفقًا للتعداد
+    auto Request = UAIChatPlus_ChatRequestBase::CreateByApi(Provider);
+
+    // تعيين الخيارات بناءً على النوع الفعلي
+    switch (Provider)
+    {
+    case EAIChatPlus_ChatApiProvider::OpenAI:
+        {
+            auto OpenAIRequest = Cast<UAIChatPlus_OpenAIChatRequest>(Request);
+            FAIChatPlus_OpenAIChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            OpenAIRequest->SetOptions(Options);
+        }
+        break;
+
+    case EAIChatPlus_ChatApiProvider::Claude:
+        {
+            auto ClaudeRequest = Cast<UAIChatPlus_ClaudeChatRequest>(Request);
+            FAIChatPlus_ClaudeChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            ClaudeRequest->SetOptions(Options);
+        }
+        break;
+    // ... مزودون آخرون
+    }
+
+// تعيين الرسالة وإرسالها
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("Hello!"), EAIChatPlus_ChatRole::User});
+    Request->SetMessages(Messages);
+    Request->SendRequest();
+}
+```
+
+##تعليمات الاسترجاع
+
+###المندوبون الأساسيون للاستدعاء الخلفي (الراجع)
+
+| التفويض | توقيت التشغيل | المعاملات |
+|------|----------|------|
+| `OnStarted` | عند بدء إرسال الطلب | لا شيء |
+| `OnMessage` | عند استقبال رسالة متدفقة (كل رمز) | `const FString& Message` - المحتوى المتراكم للرسالة |
+| `OnUpdated` | عند تلقي تحديث للاستجابة | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFinished` | عند اكتمال الطلب بنجاح | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFailed` | عند فشل الطلب | `const FAIChatPlus_ResponseErrorBase& Error` |
+| `OnMessageFinished` | عند اكتمال استلام الرسالة | `const FAIChatPlus_MessageFinishedPayload& Payload` |
+
+###الإخراج المتدفق مقابل الإخراج غير المتدفق
+
+* **الإخراج المتدفق** (`bStream = true`): سيتم تشغيل `OnMessage` عدة مرات، حيث يُرجع في كل مرة المحتوى المتراكم للرسائل
+* **الإخراج غير المتدفق** (`bStream = false`): يتم تشغيل `OnMessage` مرة واحدة فقط عند الانتهاء، ويعيد الرسالة كاملة.
+
+##التالي
+
+لمزيد من الاستخدامات التفصيلية، يُرجى الرجوع إلى الوثائق المتخصصة لمقدمي واجهة برمجة التطبيقات (API Providers):
+
+* [استخدام OpenAI / Azure](ue-插件-AIChatPlus-Usage-Source-OpenAI.md)
+* [استخدام كلود](ue-插件-AIChatPlus-Usage-Source-Claude.md)
+* [استخدام جيميني](ue-插件-AIChatPlus-Usage-Source-Gemini.md)
+* [استخدام أولاما](ue-插件-AIChatPlus-Usage-Source-Ollama.md)
+* [نموذج Cllama دون اتصال](ue-插件-AIChatPlus-Usage-Source-Cllama.md)
+* [خادم CllamaServer المحلي](ue-插件-AIChatPlus-Usage-Source-CllamaServer.md)
+* [فئة الأدوات](ue-插件-AIChatPlus-Usage-Source-Utils.md)
 
 --8<-- "footer_ar.md"
 
-
-> تمت ترجمة هذه المشاركة باستخدام ChatGPT، يرجى إعطاء [**ردود فعل**](https://github.com/disenone/wiki_blog/issues/new)وضع الإشارة إلى أية نقص أو غياب. 
+> هذا المنشور مترجم باستخدام ChatGPT، يُرجى تقديم الملاحظات في [**التغذية الراجعة**](https://github.com/disenone/wiki_blog/issues/new)أشر إلى أي نقص محتمل في النص. 

@@ -24,98 +24,242 @@ description: Get Started
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - C++ 篇 - Get Started" />
 
-#C++ Artikel - Erste Schritte
+#C++ Einführung - Erste Schritte
 
-##Einführung in den Kerncode
+##Modulvorstellung
 
-Derzeit ist das Plugin in die folgenden Module unterteilt:
+Das Plugin ist in die folgenden Module unterteilt:
 
-* **AIChatPlusCommon**: Runtime-Modul, das für die Verarbeitung von verschiedenen AI-API-Anfragen und die Analyse von Antwortinhalten zuständig ist.
+* **AIChatPlusCommon**: Laufzeitmodul (Runtime), zuständig für die Bearbeitung von Anfragen an verschiedene KI-API-Schnittstellen und die Analyse der Antwortinhalte.
+* **AIChatPlusEditor**: Das Editormodul (Editor), verantwortlich für die Implementierung des Editor-AI-Chat-Tools.
+* **AIChatPlusCllama**: Laufzeitmodul (Runtime), verantwortlich für die Kapselung der llama.cpp-Schnittstelle und Parameter, ermöglicht die Offline-Ausführung des großen Modells.
+* **Thirdparty/LLAMACpp**: Laufzeit-Drittanbietermodul (Runtime), das die dynamischen Bibliotheken und Header-Dateien von llama.cpp integriert.
 
-* **AIChatPlusEditor**: Editor-Modul, das verantwortlich ist für die Implementierung des AI-Chat-Tools im Editor.
+##Kerngedanke
 
-* **AIChatPlusCllama**: Laufzeitmodul, das die Schnittstelle und Parameter von llama.cpp kapselt und die Offline-Ausführung großer Modelle ermöglicht.
+Bevor Sie den Quellcode verwenden, müssen Sie einige Kernklassen und deren Beziehungen verstehen:
 
-* **Thirdparty/LLAMACpp**: Ein Laufzeit-Drittanbietermodul (Runtime), das die dynamische Bibliothek und Header-Dateien von llama.cpp integriert.
+###Anfrage（请求）
 
-Der UClass, der für das Senden von Anfragen verantwortlich ist, ist FAIChatPlus_xxxChatRequest. Jeder API-Dienst hat seinen eigenen separaten Request-UClass. Die Antworten auf Anfragen werden über die UClass UAIChatPlus_ChatHandlerBase/UAIChatPlus_ImageHandlerBase abgerufen. Es ist lediglich erforderlich, den entsprechenden Rückruf-Delegaten zu registrieren.
+`UAIChatPlus_ChatRequestBase` ist die Basisklasse für alle Chat-Anfragen. Jeder API-Provider hat entsprechende Unterklassen:
 
-Bevor Sie eine Anfrage senden, müssen Sie zunächst die Parameter der API und die zu sendende Nachricht einstellen. Dies wird durch FAIChatPlus_xxxChatRequestBody festgelegt. Die spezifischen Inhalte der Antwort werden ebenfalls in FAIChatPlus_xxxChatResponseBody analysiert. Wenn Sie Rückmeldungen erhalten, können Sie über eine spezifische Schnittstelle auf den ResponseBody zugreifen.
+* `UAIChatPlus_OpenAIChatRequest` - OpenAI Chat-Anfrage
+* `UAIChatPlus_AzureChatRequest` - Azure Chat-Anfrage
+* `UAIChatPlus_ClaudeChatRequest` - Claude-Chat-Anfrage
+* `UAIChatPlus_GeminiChatRequest` - Gemini-Chatanfrage
+* `UAIChatPlus_OllamaChatRequest` - Ollama-Chat-Anfrage
+* `UAIChatPlus_CllamaChatRequest` - Cllama Offline-Modellanfrage
+* `UAIChatPlus_CllamaServerChatRequest` - CllamaServer Lokaler Server-Anfrage
 
-##Der Code nutzt das Offline-Modell Cllama (llama.cpp).
+Das Request-Objekt ist verantwortlich für die Konfiguration der Anfrageparameter, das Absenden der Anfrage und den Empfang von Rückrufen.
 
-Bitte verwende das Offline-Modell llama.cpp gemäß den folgenden Anweisungen im Code.
+###Handler (Handler)
 
-Zunächst müssen Sie die Modelldatei auch in den Ordner Content/LLAMA herunterladen.
+`UAIChatPlus_ChatHandlerBase` ist eine optionale Handler-Klasse zur einheitlichen Verwaltung von Anforderungsrückrufen.
 
-Bearbeiten Sie den Code, fügen Sie einen Befehl hinzu und senden Sie eine Nachricht an das Offline-Modell im Befehl.
+Der Handler bietet die folgenden Delegaten an:
 
-```c++
-#include "Common/AIChatPlus_Log.h"
-#include "Common_Cllama/AIChatPlus_CllamaChatRequest.h"
+* `OnStarted` - Wird ausgelöst, wenn die Anforderung beginnt
+* `OnMessage` - Wird ausgelöst, wenn eine Streaming-Nachricht empfangen wird (Streaming-Ausgabe)
+* `OnUpdated` - Wird ausgelöst, wenn ein Update empfangen wird
+* `OnFinished` – Wird ausgelöst, wenn die Anfrage abgeschlossen ist
+* `OnFailed` - Wird ausgelöst, wenn die Anfrage fehlschlägt
 
-void AddTestCommand()
+**Wann sollte man Handler verwenden?**
+
+* Wenn mehrere Rückruflogiken für Anfragen einheitlich verwaltet werden müssen
+* Wenn Callback-Logik zwischen Blueprint und C++ gemeinsam genutzt werden muss
+* Direkte Verwendung von Delegaten wie `OnStartedListeners` mit Request ermöglicht ebenfalls die Implementierung von Callback-Überwachung
+
+###Optionen (选项)
+
+Jeder API-Provider hat eine entsprechende Options-Struktur zur Konfiguration der API-Parameter:
+
+* `FAIChatPlus_OpenAIChatRequestOptions` - OpenAI-Optionen (ApiKey, Model, Temperature usw.)
+* `FAIChatPlus_ClaudeChatRequestOptions` - Claude-Optionen
+* `FAIChatPlus_GeminiChatRequestOptions` - Gemini-Optionen
+* Warte mal...
+
+Options enthält alle für die API-Verbindung erforderlichen Konfigurationen wie API-Schlüssel, Endpunkt-URL, Modellname und Erzeugungsparameter.
+
+###Nachrichten
+
+`FAIChatPlus_ChatRequestMessage` ist die Nachrichtenstruktur, die an die KI gesendet wird, und enthält:
+
+* `Inhalt` - Textinhalt
+* `Rolle` - Nachrichtenrolle (System/Benutzer/Assistent/Entwickler/Werkzeug)
+* `Bilder` - Bilderarray (Vision-Funktion)
+* `Audios` - Audiodateien-Array (Audio-Funktion)
+* `ToolCallUses` - Werkzeugaufrufanfrage
+* `ToolCallResults` - Werkzeugaufrufergebnisse
+
+###Antwort
+
+Für jeden API-Anbieter gibt es eine entsprechende ResponseBody-Struktur:
+
+* `FAIChatPlus_OpenAIChatResponseBody`
+* `FAIChatPlus_ClaudeChatResponseBody`
+* Warte mal...
+
+Die ResponseBody enthält alle vom KI zurückgegebenen Informationen, einschließlich: Nachrichtentext, Token-Verbrauch, Werkzeugaufrufe, Audioausgabe usw.
+
+##Grundlegende Nutzungsablauf (5-Schritte-Modell)
+
+Der grundlegende Ablauf zum Senden einer Anfrage mit AIChatPlus ist wie folgt:
+
+```cpp
+#include "Common_OpenAI/AIChatPlus_OpenAIChatRequest.h"
+
+void SendChatRequest()
 {
-	IConsoleManager::Get().RegisterConsoleCommand(
-		TEXT("AIChatPlus.TestChat"),
-		TEXT("Test Chat."),
-		FConsoleCommandDelegate::CreateLambda([]()
-		{
-			if (!FModuleManager::GetModulePtr<FAIChatPlusCommon>(TEXT("AIChatPlusCommon"))) return;
+    // ===== Schritt 1: Handler erstellen (optional) =====
+    // Handler dient der einheitlichen Verwaltung von Rückrufen, oder es können auch direkt die Delegierten von Request verwendet werden
+    TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> Handler = UAIChatPlus_ChatHandlerBase::New();
 
-			TWeakObjectPtr<UAIChatPlus_ChatHandlerBase> HandlerObject = UAIChatPlus_ChatHandlerBase::New();
-			// Cllama
+    // ===== Schritt 2: Optionen konfigurieren =====
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+Options.bStream = true;  // Streamausgabe aktivieren
 
-			FAIChatPlus_CllamaChatRequestOptions Options;
+// ===== Schritt 3: Request erstellen =====
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System});
+    Messages.Add({TEXT("Hello, who are you?"), EAIChatPlus_ChatRole::User});
 
-			Options.ModelPath.FilePath = FPaths::ProjectContentDir() / "LLAMA" / "qwen1.5-1_8b-chat-q8_0.gguf";
-			Options.NumPredict = 400;
-			Options.bStream = true;
-			// Options.StopSequences.Emplace(TEXT("json"));
-			auto RequestPtr = UAIChatPlus_CllamaChatRequest::CreateWithOptionsAndMessages(
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(Options, Messages);
 
-				Options,
-				{
-					{"You are a chat bot", EAIChatPlus_ChatRole::System},
-					{"who are you", EAIChatPlus_ChatRole::User}
-				});
+// ===== Schritt 4: Rückruf binden =====
+// Methode A: Mit einem Handler arbeiten
+    Handler->BindChatRequest(Request);
+    Handler->OnMessage.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Stream Message: %s"), *Message);
+    });
+    Handler->OnFinished.AddLambda([](const FAIChatPlus_ChatResponseBodyBase& Response)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Request Finished"));
+    });
+    Handler->OnFailed.AddLambda([](const FAIChatPlus_ResponseErrorBase& Error)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Request Failed: %s"), *Error.GetDescription());
+    });
 
-			HandlerObject->BindChatRequest(RequestPtr);
-			const FName ApiName = TEnumTraits<EAIChatPlus_ChatApiProvider>::ToName(RequestPtr->GetApiProvider());
+// Methode B: Direkte Verwendung der Delegation des Requests (ohne Handler notwendig)
+    // Request->OnMessageListeners.AddDynamic(this, &UMyClass::OnMessageReceived);
+    // Request->OnFinishedListeners.AddDynamic(this, &UMyClass::OnRequestFinished);
 
-			HandlerObject->OnMessage.AddLambda([ApiName](const FString& Message)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] Message: [%s]"), *ApiName.ToString(), *Message);
-			});
-			HandlerObject->OnStarted.AddLambda([ApiName]()
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestStarted"), *ApiName.ToString());
-			});
-			HandlerObject->OnFailed.AddLambda([ApiName](const FAIChatPlus_ResponseErrorBase& InError)
-			{
-				UE_LOG(AIChatPlus_Internal, Error, TEXT("TestChat[%s] RequestFailed: %s "), *ApiName.ToString(), *InError.GetDescription());
-			});
-			HandlerObject->OnUpdated.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestUpdated"), *ApiName.ToString());
-			});
-			HandlerObject->OnFinished.AddLambda([ApiName](const FAIChatPlus_ResponseBodyBase& ResponseBody)
-			{
-				UE_LOG(AIChatPlus_Internal, Display, TEXT("TestChat[%s] RequestFinished"), *ApiName.ToString());
-			});
-
-			RequestPtr->SendRequest();
-		}),
-		ECVF_Default
-	);
+// ===== Schritt 5: Anfrage senden =====
+    Request->SendRequest();
 }
 ```
 
-Nach dem Neukompilieren können Sie im Editor Cmd Befehle verwenden, um die Ausgabenergebnisse des großen Modells im Protokoll OutputLog zu sehen.
+##Vereinfachte Schreibweise
 
-![guide code](assets/img/2024-ue-aichatplus/guide_code_1.png)
+Falls keine fein abgestimmte Rückruffunktion benötigt wird, kann folgende kompaktere Schreibweise verwendet werden:
+
+```cpp
+void SendSimpleChatRequest()
+{
+    FAIChatPlus_OpenAIChatRequestOptions Options;
+    Options.ApiKey = TEXT("your-api-key");
+    Options.Model = TEXT("gpt-4o-mini");
+    Options.bStream = true;
+
+    auto Request = UAIChatPlus_OpenAIChatRequest::CreateWithOptionsAndMessages(
+        Options,
+        {
+            {TEXT("You are a helpful assistant."), EAIChatPlus_ChatRole::System},
+            {TEXT("Hello!"), EAIChatPlus_ChatRole::User}
+        });
+
+// Lambda direkt an Request binden
+    Request->OnMessageListeners.AddLambda([](const FString& Message)
+    {
+        UE_LOG(LogTemp, Display, TEXT("Message: %s"), *Message);
+    });
+
+    Request->OnFinishedListeners.AddLambda([](const FAIChatPlus_PointerWrapper& ResponseWrapper)
+    {
+        auto& Response = UAIChatPlus_OpenAIChatRequest::CastWrapperToResponse(ResponseWrapper);
+        UE_LOG(LogTemp, Display, TEXT("Final Message: %s"), *Response.GetMessage());
+    });
+
+    Request->SendRequest();
+}
+```
+
+##Erstellen einer Anfrage über die API-Provider-Aufzählung
+
+Wenn Sie den API-Anbieter dynamisch basierend auf der Konfiguration auswählen müssen, können Sie die Fabrikmethode verwenden:
+
+```cpp
+void CreateRequestByProvider(EAIChatPlus_ChatApiProvider Provider)
+{
+// Erstelle entsprechenden Request basierend auf der Enumeration
+    auto Request = UAIChatPlus_ChatRequestBase::CreateByApi(Provider);
+
+    // Optionen entsprechend des tatsächlichen Typs festlegen
+    switch (Provider)
+    {
+    case EAIChatPlus_ChatApiProvider::OpenAI:
+        {
+            auto OpenAIRequest = Cast<UAIChatPlus_OpenAIChatRequest>(Request);
+            FAIChatPlus_OpenAIChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            OpenAIRequest->SetOptions(Options);
+        }
+        break;
+
+    case EAIChatPlus_ChatApiProvider::Claude:
+        {
+            auto ClaudeRequest = Cast<UAIChatPlus_ClaudeChatRequest>(Request);
+            FAIChatPlus_ClaudeChatRequestOptions Options;
+            Options.ApiKey = TEXT("your-api-key");
+            ClaudeRequest->SetOptions(Options);
+        }
+        break;
+// ... andere Provider
+    }
+
+// Nachricht einstellen und senden
+    TArray<FAIChatPlus_ChatRequestMessage> Messages;
+    Messages.Add({TEXT("Hello!"), EAIChatPlus_ChatRole::User});
+    Request->SetMessages(Messages);
+    Request->SendRequest();
+}
+```
+
+##Rückrufanweisung
+
+###Haupt-Rückrufdelegat
+
+| Delegat | Auslösezeitpunkt | Parameter |
+|------|----------|------|
+| `OnStarted` | Wird ausgelöst, wenn der Versand der Anfrage beginnt | Keine |
+| `OnMessage` | Wird bei Empfang einer Stream-Nachricht (jedes Token) aufgerufen | `const FString& Message` - Der akkumulierte Nachrichteninhalt |
+| `OnUpdated` | Empfangen bei der Aktualisierung der Antwort | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFinished` | Wenn die Anfrage erfolgreich abgeschlossen wurde | `const FAIChatPlus_ResponseBodyBase& Response` |
+| `OnFailed` | Bei fehlgeschlagener Anfrage | `const FAIChatPlus_ResponseErrorBase& Error` |
+| `OnMessageFinished` | Nachrichtenempfang abgeschlossen | `const FAIChatPlus_MessageFinishedPayload& Payload` |
+
+###Streaming-Ausgabe vs. Nicht-Streaming-Ausgabe
+
+* **Streaming-Ausgabe** (`bStream = true`): `OnMessage` wird mehrfach ausgelöst und gibt jedes Mal die kumulierten Nachrichteninhalte zurück
+* **Nicht-Streaming-Ausgabe** (`bStream = false`): `OnMessage` wird nur einmal bei Fertigstellung ausgelöst und gibt die vollständige Nachricht zurück
+
+##Weiter
+
+Weitere detaillierte Verwendungsmöglichkeiten finden Sie in den speziellen Dokumentationen der jeweiligen API-Anbieter:
+
+* [Nutzen von OpenAI / Azure](ue-插件-AIChatPlus-Usage-Source-OpenAI.md)
+* [Claude-Nutzung](ue-插件-AIChatPlus-Usage-Source-Claude.md)
+* [Verwendung von Gemini](ue-插件-AIChatPlus-Usage-Source-Gemini.md)
+* [Ollama Nutzung](ue-插件-AIChatPlus-Usage-Source-Ollama.md)
+* [Cllama Offline-Modell](ue-插件-AIChatPlus-Usage-Source-Cllama.md)
+* [CllamaServer lokaler Server](ue-插件-AIChatPlus-Usage-Source-CllamaServer.md)
+* [Werkzeugklasse](ue-插件-AIChatPlus-Usage-Source-Utils.md)
 
 --8<-- "footer_de.md"
 
-
-> Dieser Beitrag wurde von ChatGPT übersetzt. Bitte gib dein Feedback unter [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Bitte zeigen Sie alle Auslassungen an. 
+> Dieser Beitrag wurde mit ChatGPT übersetzt, bitte geben Sie Ihr Feedback unter [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Weist auf etwaige Auslassungen hin. 

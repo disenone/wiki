@@ -10,6 +10,8 @@ import logging
 import functools
 import argparse
 import copy
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor, as_completed
 try:
 	import env	# noqa
 except:
@@ -371,8 +373,18 @@ def translate_front_matter(front_matter, lang):
 	return translated_front_matter
 
 
+# 并行翻译段落任务
+def translate_paragraph_task(args):
+	"""翻译单个段落的任务函数，用于线程池并行执行"""
+	idx, paragraph, lang, translate_type = args
+	if is_skip_line(paragraph):
+		return idx, paragraph
+	else:
+		return idx, translate_text(paragraph, lang, translate_type)
+
+
 # 定义翻译文件的函数
-def translate_file(working_folder, input_file, lang):
+def translate_file(working_folder, input_file, lang, concurrency=8):
 	if lang not in Translate_Into:
 		return
 	filename = os.path.basename(input_file)
@@ -410,6 +422,7 @@ def translate_file(working_folder, input_file, lang):
 
 	# 使用正则表达式来匹配 Front Matter
 	front_matter_match = re.search(r'---\n(.*?)\n---', input_text, re.DOTALL)
+	front_matter_text_processed = None
 	if front_matter_match:
 		front_matter_text = front_matter_match.group(1)
 		# 使用PyYAML加载YAML格式的数据
@@ -424,43 +437,32 @@ def translate_file(working_folder, input_file, lang):
 
 		# 暂时删除未处理的 Front Matter
 		input_text = input_text.replace("---\n" + front_matter_text + "\n---\n", "")
-	else:
-		# log("没有找到front matter，不进行处理。")
-		pass
 
 	# log(input_text) # debug 用，看看输入的是什么
 
 	# 拆分文章
 	paragraphs = input_text.split("\n")
 
-	input_text = ""
-	output_paragraphs = []
-	current_paragraph = ""
+	# 使用线程池并行翻译段落
+	output_paragraphs = [None] * len(paragraphs)
+	tasks = [(idx, paragraph, lang, TranslateType_MainBody) for idx, paragraph in enumerate(paragraphs)]
 
+	completed_count = 0
+	total_count = len(paragraphs)
 	next_percent = 10
-	for idx, paragraph in enumerate(paragraphs):
-		if is_skip_line(paragraph):
-			output_paragraphs.append(paragraph)
-		else:
-			output_paragraphs.append(translate_text(paragraph, lang, TranslateType_MainBody))
 
-		percent = float(idx) / len(paragraphs) * 100
-		if percent >= next_percent:
-			log('progress: %.1f%%' % percent)
-			next_percent = int(percent) - int(percent) % 10 + 10
+	with ThreadPoolExecutor(max_workers=concurrency) as executor:
+		future_to_task = {executor.submit(translate_paragraph_task, task): task for task in tasks}
 
-	# 处理最后一个段落
-	if current_paragraph:
-		if input_text and len(current_paragraph) + len(input_text) <= max_length:
-			# 如果当前段落加上之前的文本长度不超过最大长度，就将它们合并
-			input_text += "\n" + current_paragraph
-		else:
-			# 否则翻译当前段落，并将翻译结果添加到输出列表中
-			output_paragraphs.append(translate_text(current_paragraph, lang, TranslateType_MainBody))
+		for future in as_completed(future_to_task):
+			idx, translated_text = future.result()
+			output_paragraphs[idx] = translated_text
+			completed_count += 1
 
-	# 如果还有未翻译的文本，就将它们添加到输出列表中
-	if input_text:
-		output_paragraphs.append(translate_text(input_text, lang, TranslateType_MainBody))
+			percent = float(completed_count) / total_count * 100
+			if percent >= next_percent:
+				log('progress: %.1f%%' % percent)
+				next_percent = int(percent) - int(percent) % 10 + 10
 
 	log('progress: 100%%')
 	# 将输出段落合并为字符串
@@ -572,6 +574,7 @@ def run(working_folder):
 	parser.add_argument('--list', action='store_true', default=False, help='only list files, not translate')
 	parser.add_argument('--files', type=str, nargs='+', help='translate specific multi files')
 	parser.add_argument('--langs', type=str, nargs='+', help='translate files into specific langs', choices=Translate_Into.keys())	# noqa
+	parser.add_argument('--concurrency', type=int, default=8, help='number of concurrent translation requests (default: 8)')
 	args = parser.parse_args()
 
 	# 按文件名称顺序排序
@@ -621,7 +624,7 @@ def run(working_folder):
 				new_info = CreateProcessInfo(input_file)
 				log('new processed_info: %s' % (new_info, ))
 				if not args.list:
-					translate_file(working_folder, input_file, lang)
+					translate_file(working_folder, input_file, lang, concurrency=args.concurrency)
 					has_translated = True
 
 			# 强制将缓冲区中的数据刷新到终端中，使用 GitHub Action 时方便实时查看过程

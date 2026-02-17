@@ -24,183 +24,188 @@ description: Journal des versions
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#Journal des versions du plugin UE AIChatPlus
+#Journal des modifications de l'extension UE AIChatPlus
+
+## v2.0.0 - 2026.02.14
+
+* **Prise en charge multi-plateformes de Tool Calling** : Ajout des fonctionnalités d'appel d'outils/appel de fonctions pour cinq grandes plateformes : OpenAI, Claude, Gemini, Ollama et CllamaServer.
+* **Intégration de Cllama Server**: Prise en charge complète du serveur local llama.cpp, incluant la création, la gestion, la fonction Speech-to-Text et une interface de gestion visuelle dans l'éditeur.
+* **Bibliothèque de plans JSON**: Ajoute des classes d'opérations de plans JsonObject/JsonArray, prenant en charge la conversion mutuelle entre JSON et USTRUCT.
+* **Audio OpenAI** : Prend en charge l'entrée et la sortie audio d'OpenAI, l'éditeur permet de prévisualiser les réponses audio
 
 ## v1.8.0 - 2025.11.03
 
-Mettre à jour llama.cpp b6792
+* Mise à niveau de llama.cpp b6792
 
 ## v1.7.0 - 2025.07.06
 
-Mettre à jour llama.cpp b5536
+* Mise à jour de llama.cpp vers la version b5536
 
-Prend en charge l'UE5.6.
+* Prise en charge d'UE5.6
 
-Android发布后会导致崩溃，禁用llama.cpp。
+* Android publie un problème où le shipping provoque un crash, désactivez llama.cpp
 
 ## v1.6.2 - 2025.03.17
 
-###Nouvelle fonctionnalité
+###Nouvelles fonctionnalités
 
-Cllama a augmenté le paramètre KeepContext par défaut à false, le Contexte est automatiquement détruit à la fin du Chat.
+* Cllama ajoute le paramètre KeepContext, par défaut false, le Context est automatiquement détruit à la fin du Chat
 
-The translation into French is:
-
-* Cllama a ajouté le paramètre KeepAlive, ce qui peut réduire la lecture répétée du modèle.
+* Cllama ajoute le paramètre KeepAlive pour réduire la lecture répétée du modèle
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-OpenAI Image Chat supporte l'entrée d'images selon le plan.
+* Le modèle OpenAI Image Chat prend en charge la saisie d'images
 
-Outil d'édition Cllama mmproj permettant le modèle vide.
+* L'outil Editor Tool Cllama mmproj modèle autorise le vide
 
 ## v1.6.0 - 2025.03.02
 
 ###Nouvelle fonctionnalité
 
-Mettre à jour llama.cpp vers la version b4604.
+* llama.cpp mis à jour vers la version b4604
 
-Cllama supporte les backends GPU : cuda et metal
+* Cllama prend en charge les backends GPU : cuda et metal
 
-L'outil de discussion Cllama prend en charge l'utilisation du GPU.
+* L'outil de discussion Cllama prend en charge l'utilisation du GPU
 
-Prend en charge la lecture des fichiers de modèles empaquetés dans Pak.
+* Prise en charge de la lecture des fichiers de modèles dans les packs Pak
 
 ### Bug Fix
 
-Réparer le problème de plantage de Cllama lors du rechargement pendant le raisonnement.
+* Correction du problème de crash lors du rechargement pendant l'inférence avec Cllama
 
-Répare les erreurs de compilation iOS.
+* Correction des erreurs de compilation sous iOS
 
 ## v1.5.1 - 2025.01.30
 
 ###Nouvelle fonctionnalité
 
-Autoriser uniquement les appareils Gemini à diffuser des fichiers audio.
+* Seul Gemini est autorisé à envoyer des fichiers audio
 
-Optimisez la méthode d'obtention des données PCM pour décompresser les données audio lors de la génération de B64.
+* Optimiser la méthode d'obtention des données PCM, décompresser les données audio lors de la génération du B64
 
-Demander d'ajouter deux rappels OnMessageFinished et OnImagesFinished.
+* demande ajouter deux rappels OnMessageFinished OnImagesFinished
 
-Optimiser la méthode Gemini, obtenir automatiquement le méthode en fonction de bStream.
+* Optimiser la méthode Gemini pour obtenir automatiquement la méthode en fonction du bStream
 
-Ajouter quelques fonctions de blueprint pour faciliter la conversion du Wrapper en type réel, ainsi que pour obtenir le message de réponse et l'erreur.
+* Ajouter quelques fonctions de blueprint pour faciliter la conversion des Wrapper en types réels, ainsi que pour récupérer les Response Message et Error.
 
 ### Bug Fix
 
-Réparer le problème d'appels multiples de la fin de la demande.
+* Correction du problème d'appels multiples de Request Finish
 
 ## v1.5.0 - 2025.01.29
 
 ###Nouvelle fonctionnalité
 
-Soutenir l'envoi audio à Gemini.
+* Prise en charge de l'envoi d'audio à Gemini
 
-Les outils de l'éditeur prennent en charge l'envoi d'audio et d'enregistrements.
+* L'outil éditeur prend en charge l'envoi d'audio et d'enregistrements
 
 ### Bug Fix
 
-Corriger le bug de l'échec de la copie de session.
+* Correction du bug d'échec de copie de Session
 
 ## v1.4.1 - 2025.01.04
 
-###Correction de problème
+###Correction des problèmes
 
-L'outil de messagerie prend en charge l'envoi d'images sans message.
+* L'outil de chat permet d'envoyer uniquement des images sans message
 
-Résolution de l'échec de la résolution du problème de l'envoi d'images de l'interface OpenAI.
+* Correction de l'échec de l'envoi d'images via l'interface OpenAI
 
-Réparer les paramètres manquants Quality, Style et ApiVersion des outils de chat OpenAI et Azure.
+* Correction du problème où les paramètres Quality, Style et ApiVersion étaient omis dans les paramètres des outils de chat OpanAI et Azure=
 
 ## v1.4.0 - 2024.12.30
 
 ###Nouvelle fonctionnalité
 
-* （機能試験中）Cllama (llama.cpp) prend en charge les modèles multimodaux et peut traiter les images
+* (Fonction expérimentale) Cllama(llama.cpp) prend en charge les modèles multimodaux et peut traiter des images
 
-Tous les paramètres de type Blueprint ont été dotés de descriptions détaillées.
+* Des conseils détaillés ont été ajoutés à tous les paramètres des types de plans.
 
 ## v1.3.4 - 2024.12.05
 
-###Nouvelle fonctionnalité.
+###Nouvelle fonctionnalité
 
-OpenAI prend en charge l'API de vision.
+* OpenAI prend en charge l'API vision
 
-###Résolution du problème
+###Correction de problème
 
-Réparer l'erreur lorsqu'OpenAI stream=false.
+* Correction de l'erreur lorsque OpenAI stream=false
 
 ## v1.3.3 - 2024.11.25
 
 ###Nouvelle fonctionnalité
 
-Prend en charge l'UE-5.5
+* Prise en charge d'UE-5.5
 
-###Résolution du problème
+###Correction de problèmes
 
-Réparer le problème de certaines Blueprints qui ne fonctionnent pas.
+* Correction du problème où certains schémas ne prenaient pas effet
 
 ## v1.3.2 - 2024.10.10
 
-###Réparation de problèmes
+###Correction de problèmes
 
-Réparer le plantage de cllama lors de l'arrêt manuel de la demande.
+* Correction d'un plantage de cllama lors de l'arrêt manuel d'une requête
 
-Résoudre le problème de non-localisation des fichiers ggml.dll llama.dll dans la version téléchargeable de Win d'une application de magasin.
+* Correction du problème lors de l'empaquetage de la version téléchargée sur la boutique Windows où les fichiers ggml.dll et llama.dll étaient introuvables.
 
-Vérifier dans le GameThread lors de la création de la requête, CreateRequest.
+* Vérifier si c'est dans le GameThread lors de la création de la requête, CréerRequête vérifie dans le fil de jeu
 
 ## v1.3.1 - 2024.9.30
 
 ###Nouvelle fonctionnalité
 
-Ajouter un SystemTemplateViewer pour visualiser et utiliser des centaines de modèles de paramètres système.
+* Ajouter un SystemTemplateViewer permettant de consulter et d'utiliser des centaines de modèles de paramètres système
 
-###Résolution de problèmes
+###Correction des problèmes
 
-Réparez le plugin téléchargé depuis le magasin, llama.cpp ne trouve pas la bibliothèque de liens.
+* Correction d'un problème où les plugins téléchargés depuis la boutique ne trouvaient pas la bibliothèque de liens llama.cpp
 
-Réparer le problème de chemin trop long dans LLAMACpp
+* Correction du problème de chemin trop long avec LLAMACpp
 
-Réparer l'erreur de lien llama.dll après l'emballage de Windows
+* Correction des erreurs de liaison de llama.dll après l'empaquetage sous Windows
 
-Réparer le problème de chemin d'accès aux fichiers sur iOS/Android.
+* Correction des problèmes de lecture des chemins de fichiers sur iOS/Android
 
-Réparer l'erreur de nom de configuration de Cllame
+* Correction de l'erreur de configuration du nom dans Cllame
 
 ## v1.3.0 - 2024.9.23
 
-###Nouvelle fonctionnalité majeure
+###Nouvelles fonctionnalités majeures
 
-Intégration de llama.cpp pour prendre en charge l'exécution hors ligne locale de modèles volumineux.
+* Intégré llama.cpp, prenant en charge l'exécution locale hors ligne de grands modèles
 
 ## v1.2.0 - 2024.08.20
 
 ###Nouvelle fonctionnalité
 
-Soutenir OpenAI Image Edit/Image Variation.
+* Prise en charge de OpenAI Édition d'image/Variation d'image
 
-Prend en charge l'API Ollama, permettant d'obtenir automatiquement la liste des modèles pris en charge par Ollama.
+* Prise en charge de l'API Ollama, avec récupération automatique de la liste des modèles pris en charge par Ollama
 
 ## v1.1.0 - 2024.08.07
 
 ###Nouvelle fonctionnalité
 
-Soutenir le plan d'action
+* Prise en charge des plans directeurs
 
 ## v1.0.0 - 2024.08.05
 
 ###Nouvelle fonctionnalité
 
-Fonctionnalité de base complète
+* Fonctions de base complètes
 
-Supporter OpenAI, Azure, Claude, Gemini
+* Compatible avec OpenAI, Azure, Claude, Gemini
 
-Apporter un outil de messagerie doté d'un éditeur complet intégré
+* Outil de chat avec éditeur intégré complet
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifier tout oubli. 
+> Ce message a été traduit avec ChatGPT, veuillez envoyer vos commentaires sur [**Feedback**](https://github.com/disenone/wiki_blog/issues/new)Signaler toute omission dans le texte. 

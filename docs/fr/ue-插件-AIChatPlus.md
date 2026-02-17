@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Document d'instructions
+title: Documentation d'utilisation
 tags:
 - dev
 - game
@@ -19,104 +19,110 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: Document d'explication
+description: Documentation d'utilisation
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 说明文档" />
 
-#Document d'instructions de l'extension AIChatPlus de l'UE
+#Documentation du plugin UE AIChatPlus
 
-##Boutique de modules complémentaires
+##Boutique d'extensions
 
 [AIChatPlus](https://www.fab.com/zh-cn/listings/0e49d138-10e1-452e-ba07-9a4bea578ace)
 
-##Entrepôt public.
+##Entrepôt public
 
 [UE.AIChatPlus.Public](https://github.com/disenone/UE.AIChatPlus.Public)
 
-##Présentation du module complémentaire
+##Présentation du plugin
 
-La dernière version v1.6.0.
+Dernière version v2.0.0.
 
-Ce plugin est compatible avec UE5.2 - UE5.5.
+Ce plugin prend en charge les versions UE5.2 à UE5.7.
 
-UE.AIChatPlus est un plug-in pour UnrealEngine qui permet de communiquer avec divers services de discussion AI GPT. Les services actuellement pris en charge sont OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama et une version locale hors ligne de llama.cpp. À l'avenir, il prendra également en charge d'autres fournisseurs de services. Son implémentation repose sur des requêtes REST asynchrones, offrant ainsi des performances élevées et permettant aux développeurs d'Unreal Engine de se connecter facilement à ces services de discussion AI.
+UE.AIChatPlus est un plugin UnrealEngine qui permet de communiquer avec divers services de chat GPT AI. Les services actuellement pris en charge incluent OpenAI (ChatGPT, DALL-E), Azure OpenAI (ChatGPT, DALL-E), Claude, Google Gemini, Ollama, et llama.cpp en mode local hors ligne. À l'avenir, davantage de fournisseurs de services seront ajoutés. Son implémentation repose sur des requêtes REST asynchrones, offrant des performances élevées et facilitant l'intégration de ces services de chat AI pour les développeurs UE.
 
-Le UE.AIChatPlus comprend également un outil d'édition qui permet d'utiliser directement ces services de discussion IA dans l'éditeur, pour générer du texte et des images, analyser des images, etc.
+En outre, UE.AIChatPlus inclut également un outil éditeur qui permet d'utiliser directement ces services de chat IA dans l'éditeur pour générer du texte et des images, analyser des images, etc.
 
-##Les caractéristiques principales
+##Fonctionnalités principales
 
-**Nouveau!** Le fichier AI llama.cpp hors ligne a été mis à jour vers la version b4604.
+**Nouveau !** Toutes les API prennent en charge ToolCall.
 
-**Nouveau !** Prise en charge GPU Cuda et Metal pour AI llama.cpp hors ligne.
+**Nouveau !** OpenAI/Azure prend en charge la reconnaissance vocale et la synthèse vocale.
 
-**Nouveau !** Prise en charge du service de transcription vocale en texte Gemini.
+**Nouveau !** Les schémas prennent désormais en charge Json.
 
-**API**：Prise en charge d'OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek
+**Nouveau !** La mise à jour hors ligne de AI llama.cpp est maintenant disponible en version b6792.
 
-**API en temps réel hors ligne** : prend en charge l'exécution hors ligne de l'IA avec llama.cpp, compatible avec les technologies GPU Cuda et Metal.
+**Nouveau !** Prise en charge hors ligne de l'IA llama.cpp avec GPU Cuda et Metal.
 
-Traduisez ce texte en français :
+**Nouveau !** Prise en charge de la synthèse vocale Gemini.
 
-**文本转文本** : Plusieurs API prennent en charge la génération de texte.
+**API** : Prend en charge OpenAI, Azure OpenAI, Claude, Gemini, Ollama, llama.cpp, DeepSeek
 
-**Translation**: **Transformation de texte en image** : OpenAI Dall-E
+**API en temps réel hors ligne** : Prend en charge l'exécution hors ligne de l'IA avec llama.cpp, compatible avec GPU Cuda et Metal.
+
+**Texte vers texte** : Diverses API prennent en charge la génération de texte.
+
+**Texte en image** : OpenAI Dall-E
 
 **Conversion d'image en texte** : OpenAI Vision, Claude, Gemini, Ollama, llama.cpp
 
-**Image to Image**: OpenAI Dall-E
+**Image à Image** : OpenAI Dall-E
 
-**Transcription vocale** : Gemini
+**Reconnaissance vocale** : Gemini
 
-**Blueprint** : toutes les API et fonctionnalités prennent en charge le blueprint
+**Blueprint** : Toutes les API et fonctionnalités prennent en charge les blueprints
 
-Outil de discussion de l'éditeur : un outil de chat AI sophistiqué et riche en fonctionnalités, spécialement conçu.
+**Éditeur ChatTool** : Un outil de chat AI éditeur riche en fonctionnalités et soigneusement conçu
 
-**Appel asynchrone** : Toutes les API peuvent être appelées de manière asynchrone
+**Appel asynchrone** : Toutes les API peuvent être appelées de manière asynchrone.
 
-**Outils pratiques** : divers outils d'image et audio
+**Outils pratiques** : Divers outils pour les images et l'audio
 
-##API supportée :
+##API pris en charge :
 
-**llama.cpp hors ligne**: Intégrez la bibliothèque llama.cpp pour exécuter hors ligne des modèles d'IA ! Prend également en charge les modèles multi-modaux (expérimental). Compatible avec Win64/Mac/Android/IOS. Prise en charge des GPU CUDA et METAL.
+**llama.cpp hors ligne** : Intégré avec la bibliothèque llama.cpp, permet d'exécuter des modèles d'IA hors ligne ! Prend également en charge les modèles multimodaux (expérimental). Compatible avec Win64/Mac/Android/iOS. Supporte CUDA pour GPU et METAL.
 
-OpenAI: /chat/completions, /completions, /images/generations, /images/edits, /images/variations
+**OpenAI** : /chat/completions, /completions, /images/generations, /images/edits, /images/variations  
 
-Azure OpenAI : /chat/completions, /images/generations
+*Note: The original text consists of API endpoint paths which remain the same in French, hence the unchanged translation.*
 
-Claude：/messages、/complete
+**Azure OpenAI** : /chat/completions, /images/generations
 
-**Gémeaux** : generateText, generateContent, streamGenerateContent
+**Claude**：/messages、/complete
 
-**Ollama**：/api/chat、/api/generate、/api/tags
+**Gemini** : :generateText、:generateContent、:streamGenerateContent  
 
-**Ollama**：/api/chat、/api/generate、/api/tags
+Remarque : Les termes techniques comme ":generateText", ":generateContent", et ":streamGenerateContent" sont conservés tels quels, car ils font probablement référence à des méthodes ou fonctions spécifiques dans un contexte de programmation et n'ont pas d'équivalent standard en français.
 
-**DeepSeek**：/chat/completions
+**Ollama** : /api/chat, /api/generate, /api/tags
 
-##Instructions d'utilisation
+**DeepSeek** : /chat/complétions
 
-[**Instructions d'utilisation - chapitre sur la feuille de route**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
+##Mode d'emploi
 
-(ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
+[**Mode d'emploi - Plans techniques**](ue-插件-AIChatPlus-Usage-Blueprint-GetStarted.md)
 
-(ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
+[**Mode d'emploi - C++**](ue-插件-AIChatPlus-Usage-Source-GetStarted.md)
 
-(ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
+[**Mode d'emploi - Éditeur**](ue-插件-AIChatPlus-Usage-EditorTool-GetStarted.md)
 
-##Changer le journal
+[**Mode d'emploi - Emballage**](ue-插件-AIChatPlus-Usage-Package-GetStarted.md)
 
-[**Changelog**](ue-插件-AIChatPlus-ChangeLogs.md)
+##Journal des modifications
 
-##Support technique
+[**Journal des modifications**](ue-插件-AIChatPlus-ChangeLogs.md)
 
-**Commentaire** : N'hésitez pas à laisser un message dans la section des commentaires ci-dessous si vous avez des questions.
+##Assistance technique
 
-**Email**: Vous pouvez également m'envoyer un email à l'adresse suivante : disenonec@gmail.com
+**Commentaire** : N'hésitez pas à poser vos questions dans la section des commentaires ci-dessous.
+
+**Courriel** : Vous pouvez également m'envoyer un email à cette adresse ( disenonec@gmail.com )
 
 **discord**: Bientôt disponible
 
 --8<-- "footer_fr.md"
 
 
-> Ce message a été traduit en utilisant ChatGPT, veuillez donner votre [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Identifier toute omission possible. 
+> Ce message a été traduit à l'aide de ChatGPT. Veuillez laisser vos commentaires [**ici**](https://github.com/disenone/wiki_blog/issues/new)Signaler toute omission. 

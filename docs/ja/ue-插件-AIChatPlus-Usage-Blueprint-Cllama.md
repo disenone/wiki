@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Cllama (llama.cpp)
+title: "Cllama (llama.cpp)（非推奨）  \n\n注: \"已废弃\" 在日语中通常翻译为「非推奨」（ひすいしょう）, 表示该功能或软件不再建议使用。"
 tags:
 - dev
 - game
@@ -25,120 +25,126 @@ description: Cllama (llama.cpp)
 
 <meta property="og:title" content="UE 插件 AIChatPlus 使用说明 - 蓝图篇 - Cllama (llama.cpp)" />
 
-#設計図 - Cllama（llama.cpp）
+#ブループリント編 - Cllama (llama.cpp) (廃止済み)
 
 ![blueprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_all.png)
 
+##廃止済み
+
+Cllama は**廃止**としてマークされ、もはやメンテナンスされません。
+
+Cllamaの既存機能は[CllamaServer](ue-插件-AIChatPlus-Usage-Blueprint-CllamaServer.md)来るべきものを受け入れるために。
+
 ##オフラインモデル
 
-Cllama is implemented based on llama.cpp and supports offline use of AI inference models.
+Cllamaはllama.cppをベースに実装されており、オフラインでのAI推論モデルの使用をサポートしています。
 
-オフラインですので、まずモデルファイルを準備する必要があります。たとえば、HuggingFaceウェブサイトからオフラインモデルをダウンロードすることができます：[Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
+オフラインであるため、あらかじめモデルファイルを準備する必要があります。例えば、HuggingFaceのウェブサイトからオフラインモデルをダウンロードします：[Qwen1.5-1.8B-Chat-Q8_0.gguf](https://huggingface.co/second-state/Qwen1.5-1.8B-Chat-GGUF/resolve/main/Qwen1.5-1.8B-Chat-Q8_0.gguf)
 
-特定のフォルダーにモデルを配置してください。たとえば、ゲームプロジェクトのディレクトリ Content/LLAMA の下に配置します。
+モデルを特定のフォルダに配置します。例えば、ゲームプロジェクトのディレクトリ Content/LLAMA の下に置いてください。
 
 ```shell
 E:/UE/projects/FP_Test1/Content/LLAMA > ls
 qwen1.5-1_8b-chat-q8_0.gguf*
 ```
 
-オフラインモデルファイルがあると、Cllama を使用して AI チャットを行うことができます。
+オフラインモデルファイルを手に入れたら、Cllamaを使ってAIとチャットできるようになります。
 
 ##テキストチャット
 
-Cllamaを使用してテキストチャットを行います。
+Cllamaを使用してテキストチャットを行う
 
-青写真でノードを作成するために右クリックして、「Send Cllama Chat Request」を選択してください。
+ブループリントで右クリックしてノード「Send Cllama Chat Request」を作成する
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_1.png)
 
-Options ノードを作成し、`Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"` を設定してください。
+Optionsノードを作成し、以下の設定を行います： `Stream=true, ModelPath="E:\UE\projects\FP_Test1\Content\LLAMA\qwen1.5-1_8b-chat-q8_0.gguf"`
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_3.png)
 
-Messages を作成し、System Message と User Message のそれぞれを追加してください。
+Messagesを作成し、それぞれSystem MessageとUser Messageを1つずつ追加する
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_4.png)
 
-Delegateを作成し、モデルの出力情報を受け取り、画面に表示します。
+Delegate を作成し、モデルの出力情報を受け取り、画面に表示します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_5.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_6.png)
 
-詳細な設計図はこのようになります。設計図を実行すると、ゲーム画面に大規模なモデルが印刷されたメッセージが表示されます。
+完成された設計図は次のようになります。設計図を実行すると、ゲーム画面で大規模モデルから返されたメッセージが表示されるのが確認できます。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_7.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_blueprint_8.png)
 
-##画像を生成します llava
+##画像からテキストを生成 llava
 
-Cllamaはllavaライブラリを実験的にサポートし、Visionの機能を提供しました。
+Cllamaは実験的にllavaライブラリをサポートしており、Vision機能を提供しています。
 
-最初に、Multimodal オフラインモデルファイルを用意してください。例えば、Moondream（[moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)）または Qwen2-VL（[Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)）または llama.cpp がサポートする他の Multimodal モデル。
+まずはMultimodalオフラインモデルファイルを準備します。例えばMoondream（[moondream2-text-model-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-text-model-f16.gguf), [moondream2-mmproj-f16.gguf](https://huggingface.co/vikhyatk/moondream2/blob/main/moondream2-mmproj-f16.gguf)）または Qwen2-VL（[Qwen2-VL-7B-Instruct-Q8_0.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/Qwen2-VL-7B-Instruct-Q8_0.gguf), [mmproj-Qwen2-VL-7B-Instruct-f16.gguf](https://huggingface.co/bartowski/Qwen2-VL-7B-Instruct-GGUF/resolve/main/mmproj-Qwen2-VL-7B-Instruct-f16.gguf)）またはその他の llama.cpp がサポートするマルチモーダルモデル。
 
-Options ノードを作成し、"Model Path" と "MMProject Model Path" のパラメータをそれぞれ対応するマルチモーダルモデルファイルに設定してください。
+Optionsノードを作成し、"Model Path"と"MMProject Model Path"のパラメータをそれぞれ対応するマルチモーダルモデルファイルに設定します。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_1.png)
 
-ノードを作成して、画像ファイル flower.png を読み込み、Messages を設定します。
+ノードを作成して画像ファイル flower.png を読み取り、Messages を設定します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_2.png)
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_3.png)
 
-最終的にノードを作成し、返された情報を受け取って画面に表示し、完全な設計図は次のようになります。
+最後に作成されたノードは返された情報を受け取り、画面に表示します。完全なブループリントはこのようになります
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_4.png)
 
-実行ブループリントを表示して、返されたテキストを確認できます。
+実行中のブループリントにより返されるテキストが表示されます
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/usage/blueprint/cllama_vision_5.png)
 
-##lama.cppをGPUで使用
+##llama.cppでのGPU活用
 
-"Cllama Chat Request Options" に追加された "Num Gpu Layer" パラメーターは、llama.cpp の GPU ペイロードを設定でき、GPU で計算する必要のある層数を制御できます。画像を参照してください。
+「Cllama Chat Request Options」にパラメータ「Num Gpu Layer」を追加しました。これにより、llama.cppのGPUペイロードを設定でき、GPU上で計算する必要のある層数を制御できます。図の通りです。
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_1.png)
 
 ## KeepAlive
 
-「Cllama Chat リクエストオプション」に "KeepAlive" パラメータが追加されました。これにより、読み込んだモデルファイルをメモリに保持し、次回に簡単に使用できるようになり、モデル読み込みの回数が減ります。KeepAlive はモデルを保持する時間を表し、0 は保持しないことを意味し、使用後すぐに解放されます。-1 は永久に保持します。各リクエストごとに異なる KeepAlive を設定でき、新しい KeepAlive は古い値を置き換えます。例えば、初めの数回のリクエストでは KeepAlive=-1 を設定してモデルをメモリに保持し、最後のリクエストで KeepAlive=0 を設定してモデルファイルを解放します。
+「Cllama Chat Request Options」にパラメータ「KeepAlive」を追加すると、読み込んだモデルファイルをメモリに保持し、次回の使用時にすぐに再利用できるようになります。これにより、モデルの読み込み回数を減らすことができます。KeepAliveはモデルを保持する時間を表し、0は保持せず使用後すぐに解放することを意味し、-1は永続的に保持することを意味します。各リクエストで設定するOptionsごとに異なるKeepAliveを設定でき、新しいKeepAlive値は古い値を上書きします。たとえば、最初の数回のリクエストでKeepAlive=-1と設定してモデルをメモリに保持し、最後のリクエストでKeepAlive=0と設定することでモデルファイルを解放することができます。
 
-##.Pak ファイル内のモデルファイルを処理します。
+##.Pak 内のモデルファイルを処理する
 
-Pak パッケージングを開始すると、プロジェクトのすべてのリソースファイルが .Pak ファイルに保存され、オフラインモデルの gguf ファイルも含まれています。
+Pak パッケージングを有効にすると、プロジェクトのすべてのリソースファイルが .Pak ファイル内に格納されます。これには、オフラインモデルの gguf ファイルも当然含まれます。
 
-llama.cpp では .Pak ファイルを直接読み込めないため、オフラインモデルファイルを .Pak ファイルからファイルシステムにコピーする必要があります。
+llama.cpp は直接 .Pak ファイルを読み込むことができないため、.Pak ファイル内のオフラインモデルファイルをファイルシステムにコピーする必要があります。
 
-AIChatPlusは、.Pakファイルの中のモデルファイルを自動的にコピーしてSavedフォルダに配置する機能関数を提供しています：
+AIChatPlusは、自動的に.Pakファイル内のモデルファイルをコピーして処理し、Savedフォルダに配置する機能を提供しています：
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_cllama_gpu_3.png)
 
-たとえば、あなた自身で .Pak 内のモデルファイルを処理することもできます。肝心なのは、ファイルをコピーして取り出す必要があることです。なぜなら、llama.cpp が .Pak を正しく読み取れないからです。
+あるいは、.pakファイル中のモデルファイルを自分で処理することもできます。重要なのは、ファイルをコピーして取り出すことです。なぜなら、llama.cppは.pakを正しく読み込むことができないからです。
 
 ##機能ノード
 
-Cllamaは、現在の状況を簡単に取得するためのいくつかの機能ノードを提供しています。
+Cllamaは、現在の環境状態を簡単に取得するためのいくつかの機能ノードを提供しています。
 
 
-「Cllama Is Valid」：Cllama llama.cpp の正当性を確認します。
+「CllamaはValidです」：Cllama llama.cppが正常に初期化されているかどうかを判断します
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_1.png)
 
-"Cllama Is Support Gpu"：Check if llama.cpp supports GPU backend in the current environment
+「Cllama Is Support Gpu」：llama.cppが現在の環境でGPUバックエンドをサポートしているかどうかを確認する
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_2.png)
 
-"取得サポートされているバックエンドのリストを取得します": llama.cpp がサポートしているすべてのバックエンドを取得します.
+「Cllama Get Support Backends」: 現在の llama.cpp でサポートされている全てのバックエンドを取得する
 
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_3.png)
 
-“Cllama Prepare ModelFile In Pak”を日本語に訳すと、「Pak内のモデルファイルを自動的にファイルシステムに準備する」です。
+「Cllama Prepare ModelFile In Pak」: Pak内のモデルファイルを自動的にファイルシステムにコピーする
 
 ![guide bludprint](assets/img/2024-ue-aichatplus/guide_util_4.png)
 
@@ -146,4 +152,4 @@ Cllamaは、現在の状況を簡単に取得するためのいくつかの機�
 --8<-- "footer_ja.md"
 
 
-> この投稿はChatGPTを使用して翻訳されました。[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)中指出任何遗漏之处。 -> どんな抜け漏れがあるか指摘してください。 
+> この投稿はChatGPTを使用して翻訳されています。不備がありましたら、[**フィードバック**](https://github.com/disenone/wiki_blog/issues/new)いずれかの見落としを指摘してください。 

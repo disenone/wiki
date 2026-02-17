@@ -40,7 +40,7 @@ jobs:
           CHATGPT_MODEL: ${{ secrets.CHATGPT_MODEL }}
         run: |
           pip install -r tools/translater/requirements.txt
-          python tools/translater/auto_translater.py || true
+          python tools/translater/auto_translater.py --concurrency=16|| true
       - name: Commit translated
         run: |
           git config user.name ${{ github.actor }}

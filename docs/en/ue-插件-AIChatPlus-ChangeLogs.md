@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Version Log
+title: Changelog
 tags:
 - dev
 - game
@@ -19,186 +19,193 @@ tags:
 - Claude
 - Gemini
 - Ollama
-description: Version Log
+description: Changelog
 ---
 
 <meta property="og:title" content="UE 插件 AIChatPlus 版本日志" />
 
-#UE plugin AIChatPlus version log
+#UE Plugin AIChatPlus Version Log
+
+## v2.0.0 - 2026.02.14
+
+* **Multi-Platform Support for Tool Calling**: Added tool calling/function calling capabilities for five major platforms: OpenAI, Claude, Gemini, Ollama, and CllamaServer.
+* **Cllama Server Integration**: Full support for local llama.cpp Server, including creation, management, and Speech-to-Text capabilities, with a visual management interface provided by the editor.
+* **JSON Blueprint Library**: Added JsonObject/JsonArray blueprint operation classes, supporting JSON and USTRUCT interconversion.
+* **OpenAI Audio**: Supports OpenAI audio input and output, allowing editors to preview audio responses.
 
 ## v1.8.0 - 2025.11.03
 
-Upgrade llama.cpp to version b6792
+* Updated llama.cpp to b6792
 
 ## v1.7.0 - 2025.07.06
 
-Upgrade llama.cpp to version b5536
+* Updated llama.cpp to b5536
 
-Support UE5.6
+* Supports UE5.6
 
-The Android release is crashing during shipping, disable llama.cpp.
+* Android release shipping crashes, disable llama.cpp
 
 ## v1.6.2 - 2025.03.17
 
-###New feature
+###New Feature
 
-Cllama increases the KeepContext parameter by default to false, where the context is automatically destroyed after the chat ends.
+* Cllama adds the KeepContext parameter, defaulting to false, where Context is automatically destroyed after Chat ends
 
-Cllama increased the KeepAlive parameter to reduce redundant model reads.
+* Cllama adds KeepAlive parameter to reduce repeated model loading
 
 ## v1.6.1 - 2025.03.07
 
 ### Bug Fix
 
-OpenAI Image Chat blueprint supports inputting images.
+* The OpenAI Image Chat Blueprint supports image input.
 
-The Editor Tool Cllama mmproj model allows space.
+* Editor Tool Cllama mmproj model allows empty
 
 ## v1.6.0 - 2025.03.02
 
-###New feature
+###New Feature
 
-Upgrade llama.cpp to version b4604.
+* llama.cpp upgraded to version b4604
 
-Cllama supports GPU backends: cuda and metal.
+* Cllama supports GPU backends: cuda and metal
 
-The chat tool Cllama supports GPU utilization.
+* Chat tool Cllama supports GPU usage
 
-Support reading model files packaged in a Pak.
+* Supports reading model files packaged in Pak archives
 
 ### Bug Fix
 
-Fix the issue of Cllama crashing when reloading during reasoning.
+* Fixed an issue where Cllama would crash when reloading during inference.
 
-Fix iOS compilation error
+* Fixed iOS compilation errors
 
 ## v1.5.1 - 2025.01.30
 
-###New feature.
+###New Features
 
-Only Gemini is allowed to send voice messages.
+* Only allow Gemini to send audio
 
-Optimize the method for obtaining PCMData, decompress the audio data when generating B64.
+* Optimize the method of obtaining PCMData by decompressing audio data only when generating Base64
 
-* request to add two callbacks OnMessageFinished and OnImagesFinished
+* Request adding two callbacks: OnMessageFinished and OnImagesFinished.
 
-Optimize the Gemini Method to automatically retrieve the Method based on bStream.
+* Optimize the Gemini Method to automatically retrieve methods based on bStream.
 
-Add some blueprint functions to facilitate the conversion of the Wrapper to actual types, as well as to retrieve Response Message and Error.
+* Add some blueprint functions to facilitate the conversion from Wrapper to actual types, and to retrieve Response Message and Error.
 
 ### Bug Fix
 
-Fix the issue of multiple calls to "Request Finish."
+* Fixed the issue of multiple calls to Request Finish
 
 ## v1.5.0 - 2025.01.29
 
-###New feature
+###New Features
 
-Support sending audio to Gemini.
+* Supports sending audio messages to Gemini
 
-The editing tools support sending audio and recordings.
+* The editor tool supports sending audio and recordings.
 
 ### Bug Fix
 
-Fix the bug causing Session copy failure.
+* Fixed the bug where Session copy failed
 
 ## v1.4.1 - 2025.01.04
 
-###Problem solving
+###Bug fixes
 
-Chat tool supports sending only pictures without text messages.
+* Chat tools support sending images without accompanying messages.
 
-Fix OpenAI interface failed to send image issue and document the picture.
+* Fixed the issue with images failing to send via the OpenAI API
 
-Fix the issue where parameters Quality, Style, and ApiVersion were missing in OpanAI and Azure chat tool settings.
+* Fixed the issue where the OpenAI and Azure chat tools settings missed the parameters Quality, Style, and ApiVersion.
 
 ## v1.4.0 - 2024.12.30
 
-###New features
+###New Features
 
-*(Experimental feature) Cllama(llama.cpp) supports multi-modal models, capable of processing images.
+*(Experimental feature) Cllama (llama.cpp) supports multimodal models capable of handling images.*
 
-All blueprint type parameters have been added with detailed hints.
+* Detailed hints have been added to all blueprint parameter types.
 
 ## v1.3.4 - 2024.12.05
 
-###New feature.
+###New Feature
 
-OpenAI supports Vision API.
+* OpenAI supports vision API
 
-###Problem fixed.
+###Bug fixes
 
-Fix the error when OpenAI stream=false.
+* Fixed the issue with OpenAI when stream=false
 
 ## v1.3.3 - 2024.11.25
 
-###New feature
+###New Features
 
-Supports UE-5.5
+* Supports UE-5.5
 
-###Problem resolved.
+###Bug fixes
 
-Fixing an issue where some blueprints were not working as intended.
+* Fixed an issue where some blueprints were not taking effect
 
 ## v1.3.2 - 2024.10.10
 
-###Problem fixed
+###Bug fixes
 
-Repair the crash when cllama crashes during manual stop request.
+* Fixed a crash in cllama when manually stopping requests
 
-Fix the issue of not finding the ggml.dll and llama.dll files when packaging the Win download version of the mall.
+* Fixed issue where the Win-packaged download version from the store couldn't locate ggml.dll and llama.dll files.
 
-Verify whether the request is being created on the GameThread.
+* Check if in GameThread when creating a request, CreateRequest check in game thread
 
 ## v1.3.1 - 2024.9.30
 
-###New feature
+###New Features
 
-Add a SystemTemplateViewer for viewing and using hundreds of system setting templates.
+* Add a SystemTemplateViewer to browse and utilize hundreds of system configuration templates
 
-###Problem resolution
+###Bug Fixes
 
-Fix the plugin downloaded from the store. Llama.cpp cannot find the link library.
+* Fixed issue where llama.cpp couldn't find the linked library for plugins downloaded from the store
 
-Fix LLAMACpp long path issue.
+* Fixed the issue of excessively long paths in LLAMACpp
 
-Fix the llama.dll error in the Windows package.
+* Fixed an error with the llama.dll link after Windows packaging
 
-Fixing the file path reading issue on iOS/Android.
+* Fixed file path reading issues on iOS/Android
 
-Fix Cllame setting name error
+* Fixed the incorrect name setting in Cllame
 
 ## v1.3.0 - 2024.9.23
 
-###Significant new feature
+###Major New Features
 
-Integrated llama.cpp, supporting local offline execution of large models.
+* Integrated llama.cpp to support local offline execution of large models
 
 ## v1.2.0 - 2024.08.20
 
-###New Feature
+###New features
 
-Support OpenAI Image Edit/Image Variation
+* Support OpenAI Image Edit/Image Variation
 
-Support Ollama API, support automatically obtaining the list of models supported by Ollama.
+* Supports Ollama API, automatically retrieves the list of models supported by Ollama
 
 ## v1.1.0 - 2024.08.07
 
-###New Feature
+###New Features
 
-Support blueprint
+* Blueprint Support
 
 ## v1.0.0 - 2024.08.05
 
 ###New Feature
 
-Comprehensive foundational features
+* Basic complete functionality
 
-Support OpenAI, Azure, Claude, Gemini
+* Supports OpenAI, Azure, Claude, Gemini
 
-Comes with a well-equipped editor chat tool.
+* Built-in fully-featured chat tool with editor functionality
 
 --8<-- "footer_en.md"
 
 
-> This post was translated using ChatGPT, please provide [**feedback**](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions. 
+> This post was translated using ChatGPT. Please provide feedback **[here](https://github.com/disenone/wiki_blog/issues/new)Point out any omissions herein. 
